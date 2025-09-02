@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nick Young — Portfolio (Placeholder)</title>
+  <meta name="description" content="Placeholder portfolio for Nick Young. Simple, fast, and Cloudflare Pages-ready." />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --panel: #12141a;
+      --soft: #1a1d26;
+      --fg: #e6e8ee;
+      --muted: #a1a6b3;
+      --accent: #7c5cff;
+      --accent-2: #00e5ff;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#f7f7fb; --panel:#ffffff; --soft:#f1f3f9; --fg:#0c0e12; --muted:#5c6472; --shadow:0 10px 25px rgba(7,12,24,.10); }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,.15), transparent 60%),
+                  radial-gradient(800px 500px at -10% 20%, rgba(0,229,255,.10), transparent 60%),
+                  var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap { width: min(1100px, 92vw); margin: 0 auto; }
+
+    /* ------- Header / Hero ------- */
+    header {
+      position: sticky; top: 0; z-index: 20; backdrop-filter: saturate(120%) blur(6px);
+      background: color-mix(in oklab, var(--bg), transparent 25%);
+      border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { font-weight: 700; letter-spacing: 0.2px; }
+    .nav a { color: var(--muted); text-decoration: none; margin-left: 16px; font-size: 14px; }
+    .nav a:hover { color: var(--fg); }
+
+    .hero { padding: clamp(56px, 6vw, 100px) 0 32px; }
+    .hero h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.02em; }
+    .hero h1 .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); }
+    .hero .cta { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); text-decoration: none; color: var(--fg); }
+    .hero .cta:hover { border-color: color-mix(in oklab, var(--muted), transparent 40%); }
+
+    /* ------- Sections ------- */
+    section { padding: 42px 0; }
+    .section-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 18px; }
+    .section-head h2 { font-size: clamp(22px, 3.2vw, 32px); margin: 0; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* ------- Cards / Projects ------- */
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+
+    .card { grid-column: span 12; background: linear-gradient(180deg, color-mix(in oklab, var(--panel), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%));
+            border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: var(--radius); box-shadow: var(--shadow);
+            overflow: hidden; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .card:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--muted), transparent 55%); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+
+    @media (min-width: 680px) { .card { grid-column: span 6; } }
+    @media (min-width: 980px) { .card { grid-column: span 4; } }
+
+    .frame { aspect-ratio: 16/9; background:
+        linear-gradient(100deg, rgba(255,255,255,.08), rgba(255,255,255,.18) 20%, rgba(255,255,255,.08) 40%)
+        ,linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
+      background-size: 220% 100%, 100% 100%; border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+      animation: shimmer 2.2s infinite; }
+    @keyframes shimmer { from { background-position: 200% 0, 0 0; } to { background-position: -20% 0, 0 0; } }
+
+    .card-body { padding: 14px 14px 16px; }
+    .card h3 { margin: 4px 0 6px; font-size: 18px; letter-spacing: -.01em; }
+    .card p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; }
+    .tag { font-size: 12px; padding: 6px 10px; border:1px solid color-mix(in oklab, var(--muted), transparent 60%); border-radius: 999px; color: var(--muted); }
+
+    /* ------- Footer ------- */
+    footer { padding: 44px 0 64px; color: var(--muted); font-size: 14px; }
+    footer .links { display:flex; gap:14px; flex-wrap:wrap; }
+    footer a { color: var(--muted); text-decoration: none; border-bottom: 1px dashed color-mix(in oklab, var(--muted), transparent 40%); }
+    footer a:hover { color: var(--fg); border-bottom-color: currentColor; }
+
+    /* ------- Enter animations (subtle) ------- */
+    .reveal { opacity: 0; transform: translateY(8px); }
+    .reveal.show { opacity: 1; transform: none; transition: opacity .5s ease, transform .5s ease; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav" aria-label="Primary">
+      <div class="brand">nickyoungci.dev</div>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1><span class="accent">Nick Young</span>.</h1>
+      <p>This is a simple placeholder portfolio so I can test hosting, domains, and QR codes later. Content is intentionally minimal.</p>
+      <a class="cta" href="#projects" aria-label="Skip to projects">↓ Scroll to projects</a>
+    </section>
+
+    <section id="projects">
+      <div class="section-head">
+        <h2>Projects (placeholder)</h2>
+        <p>These cards are just empty frames + filler text — swap in real content anytime.</p>
+      </div>
+
+      <div class="grid">
+        <!-- Card 1 -->
+        <article class="card reveal">
+          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
+          <div class="card-body">
+            <h3>Demo Project One</h3>
+            <p>A short, vibe-y sentence about something cool you might ship here.</p>
+            <div class="tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">UI</span>
+              <span class="tag">Placeholder</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card reveal">
+          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
+          <div class="card-body">
+            <h3>Demo Project Two</h3>
+            <p>Room for a sentence about an AI experiment or interactive toy.</p>
+            <div class="tags">
+              <span class="tag">AI</span>
+              <span class="tag">Prototype</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card reveal">
+          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
+          <div class="card-body">
+            <h3>Demo Project Three</h3>
+            <p>Drop in a GIF or screenshot later — for now this shimmers.</p>
+            <div class="tags">
+              <span class="tag">Performance</span>
+              <span class="tag">Accessibility</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="card reveal">
+          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
+          <div class="card-body">
+            <h3>Demo Project Four</h3>
+            <p>Another slot for whatever: datasets, viz, write-up, etc.</p>
+            <div class="tags">
+              <span class="tag">Data</span>
+              <span class="tag">Viz</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <p>Swap this out with real details later.</p>
+      </div>
+      <div class="card reveal" style="padding: 18px;">
+        <div class="card-body">
+          <p>Say hi: <a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
+          <p>Or find me on the socials you actually use.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="links">
+        <a href="#">Résumé (soon)</a>
+        <a href="#">Blog (maybe)</a>
+        <a href="#">Now</a>
+      </div>
+      <p style="margin-top:12px;">© <span id="y"></span> Nick Young. Built with plain HTML/CSS. Deployed on Cloudflare Pages.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Subtle scroll-reveal for cards
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) e.target.classList.add('show');
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
+
