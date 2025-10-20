@@ -354,36 +354,22 @@
       const SPEED_MULTIPLIER = 3;
       const scale = (value = 0) => Math.round(value * SPEED_MULTIPLIER);
 
-      const sequences = [
-        [
-          {
-            role: 'ai',
-            text: 'Seven.',
-            delayBefore: 2000,
-            loadingIndicator: 'dots',
-            loadingDuration: 900,
-            onTypedComplete: () => {
-              title.textContent = headingStates.contrast;
-            }
-          }
-        ],
-        [
-          {
-            role: 'you',
-            text: "How many R's are there in strawberry?",
-            delayBefore: 600,
-            type: true,
-            loadingIndicator: 'cursor',
-            loadingDuration: 1200
-          },
-          {
-            role: 'ai',
-            text: 'Seven.',
-            delayBefore: 500,
-            loadingIndicator: 'dots',
-            loadingDuration: 900
-          }
-        ]
+      const conversation = [
+        {
+          role: 'you',
+          text: "How many R's are there in strawberry?",
+          delayBefore: 0,
+          type: true,
+          loadingIndicator: 'cursor',
+          loadingDuration: 1200
+        },
+        {
+          role: 'ai',
+          text: 'Seven.',
+          delayBefore: 500,
+          loadingIndicator: 'dots',
+          loadingDuration: 900
+        }
       ];
 
       const cls = { you: 'msg you', ai: 'msg ai' };
@@ -500,15 +486,7 @@
         messages.innerHTML = '';
         title.textContent = headingStates.intro;
 
-        runConversation(sequences[0], {
-          onFinished: () => {
-            queue(() => {
-              clearTimers();
-              messages.innerHTML = '';
-              runConversation(sequences[1]);
-            }, scale(800));
-          }
-        });
+        runConversation(conversation);
       };
 
       start();
