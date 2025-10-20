@@ -240,7 +240,7 @@
       <div class="intro-card" id="ai-intro" aria-labelledby="ai-intro-title" aria-describedby="ai-intro-desc">
         <div class="intro-pane">
           <h2 id="ai-intro-title">AI can be very smart…</h2>
-          <p id="ai-intro-desc" class="subtitle">…and sometimes spectacularly not. Tiny demo below, then my current work.</p>
+          <p id="ai-intro-desc" class="subtitle">Tiny demo below, then my current work.</p>
           <div class="divider" aria-hidden="true"></div>
           <div class="headline">Thesis</div>
           <p class="subtitle">Make AI practical with small, testable tools. <span class="label">— <span class="byline">Nick Young</span></span></p>
@@ -248,18 +248,11 @@
           <p class="caption">Caption: Exhibit A (smart) and Exhibit B (…counting ‘r’s).</p>
         </div>
         <div class="ai-chat" aria-live="off">
-          <header><span class="dot" aria-hidden="true"></span><span>Demo Chat</span><span class="tag">simulated</span></header>
-          <div class="messages" id="ai-intro-messages">
-            <div class="msg you">What’s the derivative of x^2?</div>
-            <div class="msg ai">The derivative of x^2 is 2x.</div>
-            <div class="meta">But also…</div>
-            <div class="msg you">How many “r”s are in “strawberry”?</div>
-            <div class="msg ai">Seven.</div>
-          </div>
-          <div class="controls">
-            <button id="ai-intro-replay" type="button" aria-label="Replay intro">Replay</button>
-            <span class="label">Autoplays once, then stays still.</span>
-          </div>
+          <header aria-label="Simulated chat window">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="sr-only">Simulated chat window</span>
+          </header>
+          <div class="messages" id="ai-intro-messages"></div>
         </div>
       </div>
       <div>
@@ -333,18 +326,35 @@
 
     (() => {
       const messages = document.getElementById('ai-intro-messages');
-      const replayButton = document.getElementById('ai-intro-replay');
-      if (!messages || !replayButton) return;
 
-      const sequence = [
-        { role: 'you', text: 'What’s the derivative of x^2?', delayBefore: 2000, type: true },
-        { role: 'ai', text: 'The derivative of x^2 is 2x.', delayBefore: 600 },
-        { role: 'system', text: 'But also…', delayBefore: 900 },
-        { role: 'you', text: 'How many “r”s are in “strawberry”?', delayBefore: 600, type: true },
-        { role: 'ai', text: 'Seven.', delayBefore: 500 }
+      const title = document.getElementById('ai-intro-title');
+      if (!messages || !title) return;
+
+      const headingStates = {
+        intro: 'AI can be very smart…',
+        contrast: 'But also…'
+      };
+
+      const sequences = [
+        [
+          {
+            role: 'you',
+            text: 'What’s the derivative of x^2?',
+            delayBefore: 2000,
+            type: true,
+            onTypedComplete: () => {
+              title.textContent = headingStates.contrast;
+            }
+          },
+          { role: 'ai', text: 'The derivative of x^2 is 2x.', delayBefore: 600 }
+        ],
+        [
+          { role: 'you', text: 'How many “r”s are in “strawberry”?', delayBefore: 600, type: true },
+          { role: 'ai', text: 'Seven.', delayBefore: 500 }
+        ]
       ];
 
-      const cls = { you: 'msg you', ai: 'msg ai', system: 'meta' };
+      const cls = { you: 'msg you', ai: 'msg ai' };
       let timers = [];
 
       const createEl = (tag, className, text) => {
@@ -373,7 +383,8 @@
         return wrap;
       };
 
-      const addMessage = (role, text, typed = false) => {
+      const addMessage = (role, text, options = {}) => {
+        const { typed = false, onTypedComplete } = options;
         const bubble = createEl('div', cls[role] || 'msg');
         if (typed) {
           const sr = createEl('span', 'sr-only', text);
@@ -386,43 +397,22 @@
           const step = () => {
             visible.textContent = text.slice(0, ++i);
             if (i < text.length) queue(step, 18);
+            else if (typeof onTypedComplete === 'function') onTypedComplete();
           };
           step();
         } else {
           bubble.textContent = text;
+          if (typeof onTypedComplete === 'function') onTypedComplete();
         }
         messages.appendChild(bubble);
         messages.scrollTop = messages.scrollHeight;
       };
 
-      const addSystemLine = (text) => {
-        const line = createEl('div', cls.system, text);
-        messages.appendChild(line);
-      };
-
-      const renderStaticEndState = () => {
-        messages.innerHTML = '';
-        sequence.forEach((item) => {
-          if (item.role === 'system') {
-            addSystemLine(item.text);
-          } else {
-            addMessage(item.role, item.text, false);
-          }
-        });
-      };
-
-      const runSequence = () => {
-        clearTimers();
-        messages.innerHTML = '';
+      const runConversation = (items, { onFinished } = {}) => {
         let elapsed = 0;
 
-        sequence.forEach((item) => {
+        items.forEach((item) => {
           elapsed += item.delayBefore || 0;
-
-          if (item.role === 'system') {
-            queue(() => addSystemLine(item.text), elapsed);
-            return;
-          }
 
           if (item.type) {
             queue(() => {
@@ -433,22 +423,38 @@
 
               queue(() => {
                 placeholder.remove();
-                addMessage(item.role, item.text, true);
+                addMessage(item.role, item.text, { typed: true, onTypedComplete: item.onTypedComplete });
               }, 1200);
             }, elapsed);
           } else {
-            queue(() => addMessage(item.role, item.text), elapsed);
+            queue(() => {
+              addMessage(item.role, item.text, { onTypedComplete: item.onTypedComplete });
+            }, elapsed);
           }
         });
 
-        queue(() => {
-          clearTimers();
-          renderStaticEndState();
-        }, elapsed + 3200);
+        if (typeof onFinished === 'function') {
+          queue(onFinished, elapsed + 1600);
+        }
       };
 
-      runSequence();
-      replayButton.addEventListener('click', runSequence);
+      const start = () => {
+        clearTimers();
+        messages.innerHTML = '';
+        title.textContent = headingStates.intro;
+
+        runConversation(sequences[0], {
+          onFinished: () => {
+            queue(() => {
+              clearTimers();
+              messages.innerHTML = '';
+              runConversation(sequences[1]);
+            }, 800);
+          }
+        });
+      };
+
+      start();
     })();
 
     const timelineObserver = new IntersectionObserver((entries) => {
