@@ -357,22 +357,14 @@
       const sequences = [
         [
           {
-            role: 'you',
-            text: "How many R's are there in strawberry?",
+            role: 'ai',
+            text: 'Seven.',
             delayBefore: 2000,
-            type: true,
-            loadingIndicator: 'cursor',
-            loadingDuration: 1200,
+            loadingIndicator: 'dots',
+            loadingDuration: 900,
             onTypedComplete: () => {
               title.textContent = headingStates.contrast;
             }
-          },
-          {
-            role: 'ai',
-            text: 'Seven.',
-            delayBefore: 600,
-            loadingIndicator: 'dots',
-            loadingDuration: 900
           }
         ],
         [
