@@ -12,7 +12,7 @@
   },
   {
     "slug": "portfolio-website",
-    "title": "Portfolio Website Refresh",
+    "title": "TEMP1",
     "summary": "Designing and building this fast, framework-free portfolio with a fully automated project feed.",
     "tags": ["Design System", "Frontend"],
     "url": "projects/portfolio-website/",
@@ -22,7 +22,7 @@
   },
   {
     "slug": "ai-evaluation-project-proposal",
-    "title": "AI Evaluation Platform Proposal",
+    "title": "TEMP2",
     "summary": "Strategic plan outlining milestones, budgets, and staffing for the AI model evaluation initiative.",
     "tags": ["Strategy", "Research"],
     "url": "projects/ai-evaluation-project-proposal/",
@@ -32,7 +32,7 @@
   },
   {
     "slug": "analytics-onboarding-sprint",
-    "title": "Analytics Onboarding Sprint",
+    "title": "TEMP3",
     "summary": "Concept UI sprint exploring onboarding and data summarization flows for an analytics app.",
     "tags": ["Product Design", "Prototype"],
     "url": "projects/analytics-onboarding-sprint/",

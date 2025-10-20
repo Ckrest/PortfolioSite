@@ -46,7 +46,7 @@
     .nav a { color: var(--muted); text-decoration: none; margin-left: 16px; font-size: 14px; }
     .nav a:hover { color: var(--fg); }
 
-    .intro { padding: clamp(52px, 5.5vw, 92px) 0 clamp(14px, 3vh, 24px); display: grid; gap: clamp(30px, 4.5vw, 44px); }
+    .intro { padding: clamp(52px, 5.5vw, 92px) 0 clamp(18px, 4vw, 28px); display: grid; gap: clamp(30px, 4.5vw, 44px); }
     .intro h1 { font-size: clamp(36px, 6.5vw, 64px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.02em; }
     .intro h1 .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .intro p { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); max-width: 560px; }
@@ -86,6 +86,7 @@
 
     /* ------- Shared Section Styles ------- */
     section { padding: clamp(48px, 6vw, 72px) 0; }
+    #featured { padding-top: clamp(36px, 5vw, 56px); scroll-margin-top: 120px; }
     .section-head { display:flex; align-items:flex-start; justify-content:space-between; gap: 16px; margin-bottom: 24px; }
     .section-head h2 { font-size: clamp(24px, 3.2vw, 34px); margin: 0; }
     .section-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 420px; }
@@ -122,6 +123,10 @@
     .featured-body h3 { margin: 0; font-size: clamp(24px, 3vw, 32px); letter-spacing: -0.01em; }
     .featured-body p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
     .featured-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+
+    @media (min-width: 900px) {
+      #featured { margin-top: clamp(-60px, -7vw, -36px); }
+    }
 
     /* ------- Timeline ------- */
     .timeline { position: relative; padding-left: calc(var(--timeline-track) + 24px); }
@@ -265,7 +270,7 @@
       </div>
       <div>
         <h1><span class="accent">Nick Young</span></h1>
-        <p>I’m building practical AI tools to learn real-world integration.</p>
+        <p>I’m creating ideas to learn: where AI helps, where it fails, and how the useful parts can plug into current systems.</p>
       </div>
     </section>
 
