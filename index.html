@@ -49,8 +49,6 @@
     .intro h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.02em; }
     .intro h1 .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .intro p { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); max-width: 560px; }
-    .intro .cta { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); text-decoration: none; color: var(--fg); }
-    .intro .cta:hover { border-color: color-mix(in oklab, var(--muted), transparent 40%); }
     .intro-card { background: linear-gradient(160deg, color-mix(in oklab, var(--soft), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%)); border-radius: calc(var(--radius) + 2px); border: 1px solid color-mix(in oklab, var(--muted), transparent 55%); box-shadow: var(--shadow); padding: clamp(18px, 3vw, 26px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: clamp(18px, 3vw, 28px); }
     .intro-pane { background: color-mix(in oklab, var(--soft), transparent 0%); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: calc(var(--radius) - 4px); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
     .intro-pane h2 { margin: 0; font-size: 18px; letter-spacing: -0.01em; }
@@ -192,13 +190,28 @@
       background: color-mix(in oklab, var(--accent-2), transparent 0%);
     }
 
-    .projects-status, .projects-hint { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+    .projects-status { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
 
     /* ------- Footer ------- */
     footer { padding: 44px 0 64px; color: var(--muted); font-size: 14px; }
-    footer .links { display:flex; gap:14px; flex-wrap:wrap; }
-    footer a { color: var(--muted); text-decoration: none; border-bottom: 1px dashed color-mix(in oklab, var(--muted), transparent 40%); }
-    footer a:hover { color: var(--fg); border-bottom-color: currentColor; }
+    footer .footer-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .back-to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 13px;
+      background: color-mix(in oklab, var(--panel), transparent 0%);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .back-to-top:hover {
+      border-color: color-mix(in oklab, var(--muted), transparent 35%);
+      transform: translateY(-1px);
+    }
 
     /* ------- Animations & Media Queries ------- */
     .reveal { opacity: 0; transform: translateY(8px); }
@@ -264,15 +277,14 @@
       </div>
       <div>
         <h1><span class="accent">Nick Young</span>.</h1>
-        <p>This is a simple placeholder portfolio so I can test hosting, domains, and QR codes later. Content is intentionally minimal.</p>
-        <a class="cta" href="#featured" aria-label="Skip to featured project">↓ Scroll to featured</a>
+        <p>Designing practical AI tools that connect research breakthroughs to the teams shipping real products.</p>
       </div>
     </section>
 
     <section id="featured">
       <div class="section-head">
         <h2>Featured Project</h2>
-        <p>Highlight one project directly from <code>projects/projects.json</code> by setting <code>"featured": true</code>.</p>
+        <p>A spotlight on the project I’m most excited about right now.</p>
       </div>
       <div id="featured-project" aria-live="polite" aria-busy="true"></div>
       <p id="featured-status" class="projects-status" role="status">Loading featured project…</p>
@@ -281,40 +293,32 @@
     <section id="projects">
       <div class="section-head">
         <h2>Project Timeline</h2>
-        <p>Newest work appears first. Each entry expands as it comes into focus while you scroll.</p>
+        <p>Selected work in reverse-chronological order, with details revealing as you explore.</p>
       </div>
       <div id="project-timeline" class="timeline" aria-live="polite" aria-busy="true"></div>
       <p id="projects-status" class="projects-status" role="status">Loading projects…</p>
-      <p class="projects-hint">Manage entries in <code>projects/projects.json</code>. Ensure every project has a <code>date</code> field for ordering.</p>
     </section>
 
     <section id="contact">
       <div class="section-head">
         <h2>Contact</h2>
-        <p>Swap this out with real details later.</p>
       </div>
       <div class="timeline-card reveal contact-card">
-        <p>Say hi: <a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
-        <p>Or find me on the socials you actually use.</p>
+        <p><a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="wrap">
-      <div class="links">
-        <a href="#">Résumé (soon)</a>
-        <a href="#">Blog (maybe)</a>
-        <a href="#">Now</a>
+      <div class="footer-row">
+        <p style="margin:0;">© 2025 Nick Young. Built with plain HTML/CSS. Deployed on Cloudflare Pages.</p>
+        <a class="back-to-top" href="#intro" aria-label="Back to top">↑ Back to top</a>
       </div>
-      <p style="margin-top:12px;">© <span id="y"></span> Nick Young. Built with plain HTML/CSS. Deployed on Cloudflare Pages.</p>
     </div>
   </footer>
 
   <script>
-    const yearEl = document.getElementById('y');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
     const io = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) entry.target.classList.add('show');
@@ -483,7 +487,7 @@
       if (!project) {
         featuredContainer.innerHTML = '';
         if (featuredStatus) {
-          featuredStatus.textContent = 'No featured project set. Add "featured": true to an entry in projects/projects.json.';
+          featuredStatus.textContent = 'Featured project coming soon.';
           featuredStatus.hidden = false;
         }
         featuredContainer.setAttribute('aria-busy', 'false');
@@ -564,7 +568,7 @@
 
         if (!sortedProjects.length) {
           if (projectsStatus) {
-            projectsStatus.textContent = 'No projects yet. Add entries to projects/projects.json to populate the timeline.';
+            projectsStatus.textContent = 'No projects to show yet. Check back soon.';
             projectsStatus.hidden = false;
           }
         } else if (projectsStatus) {
@@ -573,11 +577,11 @@
       } catch (err) {
         timelineContainer.innerHTML = '';
         if (projectsStatus) {
-          projectsStatus.textContent = 'Unable to load projects. Double-check projects/projects.json.';
+          projectsStatus.textContent = 'Unable to load projects right now.';
           projectsStatus.hidden = false;
         }
         if (featuredStatus) {
-          featuredStatus.textContent = 'Unable to load featured project. Check the data file and try again.';
+          featuredStatus.textContent = 'Unable to load the featured project right now.';
           featuredStatus.hidden = false;
         }
       } finally {
