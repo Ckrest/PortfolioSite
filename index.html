@@ -45,12 +45,45 @@
     .nav a { color: var(--muted); text-decoration: none; margin-left: 16px; font-size: 14px; }
     .nav a:hover { color: var(--fg); }
 
-    .intro { padding: clamp(56px, 6vw, 100px) 0 32px; }
+    .intro { padding: clamp(56px, 6vw, 100px) 0 32px; display: grid; gap: clamp(32px, 5vw, 48px); }
     .intro h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.02em; }
     .intro h1 .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .intro p { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); max-width: 560px; }
     .intro .cta { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); text-decoration: none; color: var(--fg); }
     .intro .cta:hover { border-color: color-mix(in oklab, var(--muted), transparent 40%); }
+    .intro-card { background: linear-gradient(160deg, color-mix(in oklab, var(--soft), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%)); border-radius: calc(var(--radius) + 2px); border: 1px solid color-mix(in oklab, var(--muted), transparent 55%); box-shadow: var(--shadow); padding: clamp(18px, 3vw, 26px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: clamp(18px, 3vw, 28px); }
+    .intro-pane { background: color-mix(in oklab, var(--soft), transparent 0%); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: calc(var(--radius) - 4px); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .intro-pane h2 { margin: 0; font-size: 18px; letter-spacing: -0.01em; }
+    .intro-pane .subtitle { color: var(--muted); margin: 0; font-size: 14px; }
+    .intro-pane .divider { height: 1px; background: color-mix(in oklab, var(--muted), transparent 72%); margin: 10px 0; border-radius: 999px; }
+    .intro-pane .headline { font-weight: 600; margin-bottom: 6px; }
+    .intro-pane .label { color: var(--muted); font-size: 12px; }
+    .intro-pane .stamp { color: var(--muted); font-size: 12px; display: block; margin-top: 6px; }
+    .intro-pane .caption { color: var(--muted); font-size: 12px; margin: 6px 0 0; }
+    .ai-chat { border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); border-radius: calc(var(--radius) - 4px); background: color-mix(in oklab, var(--panel), transparent 0%); overflow: hidden; display: flex; flex-direction: column; }
+    .ai-chat header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 75%); color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .ai-chat .dot { width: 8px; height: 8px; border-radius: 999px; background: #f87171; box-shadow: 14px 0 0 #fbbf24, 28px 0 0 #34d399; }
+    .ai-chat .tag { border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: 999px; padding: 2px 6px; font-size: 11px; color: var(--muted); }
+    .ai-chat .messages { padding: 16px; display: flex; flex-direction: column; gap: 10px; min-height: 160px; }
+    .ai-chat .msg { max-width: 90%; padding: 10px 12px; border-radius: 12px; border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); background: color-mix(in oklab, var(--soft), transparent 0%); font-size: 14px; line-height: 1.5; position: relative; }
+    .ai-chat .msg.you { align-self: flex-end; background: color-mix(in oklab, var(--panel), transparent 0%); }
+    .ai-chat .msg.ai { align-self: flex-start; }
+    .ai-chat .meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .ai-chat .controls { display: flex; align-items: center; gap: 10px; padding: 12px 16px 16px; border-top: 1px solid color-mix(in oklab, var(--muted), transparent 75%); }
+    .ai-chat button { border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); background: color-mix(in oklab, var(--panel), transparent 0%); color: var(--fg); border-radius: 10px; padding: 6px 12px; font-size: 14px; cursor: pointer; }
+    .ai-chat button:hover { border-color: color-mix(in oklab, var(--muted), transparent 45%); }
+    .ai-chat button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+    .ai-chat .label { color: var(--muted); font-size: 12px; }
+    .ai-typing { display: inline-flex; align-items: center; gap: 6px; }
+    .ai-typing .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--muted); opacity: .5; box-shadow: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @keyframes ai-dot-blink { 0% { opacity: .2; } 50% { opacity: 1; } 100% { opacity: .2; } }
+    .ai-typing .dot:nth-child(1) { animation: ai-dot-blink 1s linear infinite; }
+    .ai-typing .dot:nth-child(2) { animation: ai-dot-blink 1s linear infinite .2s; }
+    .ai-typing .dot:nth-child(3) { animation: ai-dot-blink 1s linear infinite .4s; }
+    @media (max-width: 900px) {
+      .intro-card { grid-template-columns: 1fr; }
+    }
 
     /* ------- Shared Section Styles ------- */
     section { padding: clamp(48px, 6vw, 72px) 0; }
@@ -204,9 +237,36 @@
 
   <main class="wrap">
     <section class="intro" id="intro">
-      <h1><span class="accent">Nick Young</span>.</h1>
-      <p>This is a simple placeholder portfolio so I can test hosting, domains, and QR codes later. Content is intentionally minimal.</p>
-      <a class="cta" href="#featured" aria-label="Skip to featured project">↓ Scroll to featured</a>
+      <div class="intro-card" id="ai-intro" aria-labelledby="ai-intro-title" aria-describedby="ai-intro-desc">
+        <div class="intro-pane">
+          <h2 id="ai-intro-title">AI can be very smart…</h2>
+          <p id="ai-intro-desc" class="subtitle">…and sometimes spectacularly not. Tiny demo below, then my current work.</p>
+          <div class="divider" aria-hidden="true"></div>
+          <div class="headline">Thesis</div>
+          <p class="subtitle">Make AI practical with small, testable tools. <span class="label">— <span class="byline">Nick Young</span></span></p>
+          <span class="stamp">From the lab of Nick Young</span>
+          <p class="caption">Caption: Exhibit A (smart) and Exhibit B (…counting ‘r’s).</p>
+        </div>
+        <div class="ai-chat" aria-live="off">
+          <header><span class="dot" aria-hidden="true"></span><span>Demo Chat</span><span class="tag">simulated</span></header>
+          <div class="messages" id="ai-intro-messages">
+            <div class="msg you">What’s the derivative of x^2?</div>
+            <div class="msg ai">The derivative of x^2 is 2x.</div>
+            <div class="meta">But also…</div>
+            <div class="msg you">How many “r”s are in “strawberry”?</div>
+            <div class="msg ai">Seven.</div>
+          </div>
+          <div class="controls">
+            <button id="ai-intro-replay" type="button" aria-label="Replay intro">Replay</button>
+            <span class="label">Autoplays once, then stays still.</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1><span class="accent">Nick Young</span>.</h1>
+        <p>This is a simple placeholder portfolio so I can test hosting, domains, and QR codes later. Content is intentionally minimal.</p>
+        <a class="cta" href="#featured" aria-label="Skip to featured project">↓ Scroll to featured</a>
+      </div>
     </section>
 
     <section id="featured">
@@ -270,6 +330,126 @@
       }
     }
     observeReveals();
+
+    (() => {
+      const messages = document.getElementById('ai-intro-messages');
+      const replayButton = document.getElementById('ai-intro-replay');
+      if (!messages || !replayButton) return;
+
+      const sequence = [
+        { role: 'you', text: 'What’s the derivative of x^2?', delayBefore: 2000, type: true },
+        { role: 'ai', text: 'The derivative of x^2 is 2x.', delayBefore: 600 },
+        { role: 'system', text: 'But also…', delayBefore: 900 },
+        { role: 'you', text: 'How many “r”s are in “strawberry”?', delayBefore: 600, type: true },
+        { role: 'ai', text: 'Seven.', delayBefore: 500 }
+      ];
+
+      const cls = { you: 'msg you', ai: 'msg ai', system: 'meta' };
+      let timers = [];
+
+      const createEl = (tag, className, text) => {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        if (text != null) el.textContent = text;
+        return el;
+      };
+
+      const clearTimers = () => {
+        timers.forEach((id) => window.clearTimeout(id));
+        timers = [];
+      };
+
+      const queue = (fn, delay) => {
+        const id = window.setTimeout(fn, delay);
+        timers.push(id);
+      };
+
+      const typingIndicator = () => {
+        const wrap = createEl('span', 'ai-typing');
+        wrap.setAttribute('aria-hidden', 'true');
+        wrap.appendChild(createEl('span', 'dot'));
+        wrap.appendChild(createEl('span', 'dot'));
+        wrap.appendChild(createEl('span', 'dot'));
+        return wrap;
+      };
+
+      const addMessage = (role, text, typed = false) => {
+        const bubble = createEl('div', cls[role] || 'msg');
+        if (typed) {
+          const sr = createEl('span', 'sr-only', text);
+          bubble.appendChild(sr);
+
+          const visible = createEl('span');
+          bubble.appendChild(visible);
+
+          let i = 0;
+          const step = () => {
+            visible.textContent = text.slice(0, ++i);
+            if (i < text.length) queue(step, 18);
+          };
+          step();
+        } else {
+          bubble.textContent = text;
+        }
+        messages.appendChild(bubble);
+        messages.scrollTop = messages.scrollHeight;
+      };
+
+      const addSystemLine = (text) => {
+        const line = createEl('div', cls.system, text);
+        messages.appendChild(line);
+      };
+
+      const renderStaticEndState = () => {
+        messages.innerHTML = '';
+        sequence.forEach((item) => {
+          if (item.role === 'system') {
+            addSystemLine(item.text);
+          } else {
+            addMessage(item.role, item.text, false);
+          }
+        });
+      };
+
+      const runSequence = () => {
+        clearTimers();
+        messages.innerHTML = '';
+        let elapsed = 0;
+
+        sequence.forEach((item) => {
+          elapsed += item.delayBefore || 0;
+
+          if (item.role === 'system') {
+            queue(() => addSystemLine(item.text), elapsed);
+            return;
+          }
+
+          if (item.type) {
+            queue(() => {
+              const placeholder = createEl('div', cls[item.role] || 'msg');
+              placeholder.appendChild(typingIndicator());
+              messages.appendChild(placeholder);
+              messages.scrollTop = messages.scrollHeight;
+
+              queue(() => {
+                placeholder.remove();
+                addMessage(item.role, item.text, true);
+              }, 1200);
+            }, elapsed);
+          } else {
+            queue(() => addMessage(item.role, item.text), elapsed);
+          }
+        });
+
+        queue(() => {
+          clearTimers();
+          renderStaticEndState();
+        }, elapsed + 3200);
+      };
+
+      runSequence();
+      replayButton.addEventListener('click', runSequence);
+    })();
 
     const timelineObserver = new IntersectionObserver((entries) => {
       for (const entry of entries) {
