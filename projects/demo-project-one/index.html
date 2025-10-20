@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demo Project One — Nick Young</title>
+  <meta name="description" content="Placeholder case study describing a concept UI prototype." />
+  <link rel="stylesheet" href="../project.css" />
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">← Back to projects</a>
+    <span> / Demo Project One</span>
+  </nav>
+
+  <header>
+    <div class="hero" role="presentation">
+      <h1>Demo Project One</h1>
+      <p>
+        A concept UI sprint exploring onboarding flows for a data-heavy analytics platform. This placeholder write-up gives you
+        a sense of how project pages can be structured.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <figure>
+        <img src="preview.svg" alt="Concept UI mock preview" loading="lazy" />
+      </figure>
+      <div class="tag-row">
+        <span class="tag">Product Design</span>
+        <span class="tag">Prototype</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Quick summary</h2>
+      <p>
+        Swap this content with your own notes, release metrics, or feature call-outs. Each project page can host its own assets
+        (images, downloads, embeds) inside the folder without touching the homepage layout.
+      </p>
+      <p>
+        Keep the tone brief but informative, highlight the problem you solved, and link out to live demos or GitHub repos as
+        needed.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Nick Young. This is placeholder text for a future case study.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

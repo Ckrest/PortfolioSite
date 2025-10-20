@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Data storytelling preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1c2216" />
+      <stop offset="100%" stop-color="#233d1c" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="24" fill="url(#bg)" />
+  <polyline points="60,260 160,200 240,230 320,150 420,200 520,120 580,150" fill="none" stroke="#9be26d" stroke-width="6" stroke-linejoin="round" />
+  <rect x="420" y="60" width="160" height="90" rx="16" fill="#2f4d25" stroke="#4f7e3d" stroke-width="3" />
+  <text x="440" y="110" fill="#c8ffc3" font-family="Inter, sans-serif" font-size="20" font-weight="600">Story beat</text>
+  <text x="60" y="320" fill="#cfe8b8" font-family="Inter, sans-serif" font-size="18" font-weight="600">Data narrative</text>
+</svg>

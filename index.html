@@ -68,19 +68,28 @@
     @media (min-width: 680px) { .card { grid-column: span 6; } }
     @media (min-width: 980px) { .card { grid-column: span 4; } }
 
-    .frame { aspect-ratio: 16/9; background:
-        linear-gradient(100deg, rgba(255,255,255,.08), rgba(255,255,255,.18) 20%, rgba(255,255,255,.08) 40%)
+    .card-link { display: flex; flex-direction: column; text-decoration: none; color: inherit; height: 100%; }
+    .card-link:focus-visible { outline: 2px solid color-mix(in oklab, var(--accent), transparent 20%); outline-offset: 4px; }
+    .frame { position: relative; aspect-ratio: 16/9; background:
+        linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.16) 30%, rgba(255,255,255,.05) 60%)
         ,linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
-      background-size: 220% 100%, 100% 100%; border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
-      animation: shimmer 2.2s infinite; }
+      border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%); overflow: hidden; }
+    .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .frame-placeholder { position: absolute; inset: 0; background:
+        linear-gradient(100deg, rgba(255,255,255,.12), rgba(255,255,255,.22) 35%, rgba(255,255,255,.10) 70%)
+        ,linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
+      background-size: 220% 100%, 100% 100%; animation: shimmer 2.2s infinite; }
     @keyframes shimmer { from { background-position: 200% 0, 0 0; } to { background-position: -20% 0, 0 0; } }
 
-    .card-body { padding: 14px 14px 16px; }
-    .card h3 { margin: 4px 0 6px; font-size: 18px; letter-spacing: -.01em; }
-    .card p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+    .card-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .card-body h3 { margin: 4px 0 0; font-size: 18px; letter-spacing: -.01em; }
+    .card-body p { margin: 0; color: var(--muted); font-size: 14px; }
     .tags { display:flex; flex-wrap:wrap; gap:8px; }
     .tag { font-size: 12px; padding: 6px 10px; border:1px solid color-mix(in oklab, var(--muted), transparent 60%); border-radius: 999px; color: var(--muted); }
 
+    #projects-grid { min-height: 180px; }
+    .projects-status { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+    .projects-hint { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
     /* ------- Footer ------- */
     footer { padding: 44px 0 64px; color: var(--muted); font-size: 14px; }
     footer .links { display:flex; gap:14px; flex-wrap:wrap; }
@@ -112,64 +121,13 @@
 
     <section id="projects">
       <div class="section-head">
-        <h2>Projects (placeholder)</h2>
-        <p>These cards are just empty frames + filler text — swap in real content anytime.</p>
+        <h2>Projects</h2>
+        <p>Manage cards from <code>projects/projects.json</code> and each entry will link to its own page.</p>
       </div>
 
-      <div class="grid">
-        <!-- Card 1 -->
-        <article class="card reveal">
-          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
-          <div class="card-body">
-            <h3>Demo Project One</h3>
-            <p>A short, vibe-y sentence about something cool you might ship here.</p>
-            <div class="tags">
-              <span class="tag">JavaScript</span>
-              <span class="tag">UI</span>
-              <span class="tag">Placeholder</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="card reveal">
-          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
-          <div class="card-body">
-            <h3>Demo Project Two</h3>
-            <p>Room for a sentence about an AI experiment or interactive toy.</p>
-            <div class="tags">
-              <span class="tag">AI</span>
-              <span class="tag">Prototype</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="card reveal">
-          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
-          <div class="card-body">
-            <h3>Demo Project Three</h3>
-            <p>Drop in a GIF or screenshot later — for now this shimmers.</p>
-            <div class="tags">
-              <span class="tag">Performance</span>
-              <span class="tag">Accessibility</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 4 -->
-        <article class="card reveal">
-          <div class="frame" role="img" aria-label="Placeholder image frame"></div>
-          <div class="card-body">
-            <h3>Demo Project Four</h3>
-            <p>Another slot for whatever: datasets, viz, write-up, etc.</p>
-            <div class="tags">
-              <span class="tag">Data</span>
-              <span class="tag">Viz</span>
-            </div>
-          </div>
-        </article>
-      </div>
+      <div id="projects-grid" class="grid" aria-live="polite" aria-busy="true"></div>
+      <p id="projects-status" class="projects-status" role="status">Loading projects…</p>
+      <p class="projects-hint">Manage cards via <code>projects/projects.json</code>. Each entry links to its own standalone page.</p>
     </section>
 
     <section id="contact">
@@ -198,14 +156,76 @@
   </footer>
 
   <script>
-    // Year
-    document.getElementById('y').textContent = new Date().getFullYear();
+    const yearEl = document.getElementById('y');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Subtle scroll-reveal for cards
     const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) e.target.classList.add('show');
+      for (const entry of entries) {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      }
     }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    function observeReveals(root = document) {
+      root.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    }
+    observeReveals();
+
+    async function loadProjects() {
+      const grid = document.getElementById('projects-grid');
+      const status = document.getElementById('projects-status');
+      if (!grid) return;
+      grid.setAttribute('aria-busy', 'true');
+      if (status) {
+        status.textContent = 'Loading projects…';
+        status.hidden = false;
+      }
+
+      try {
+        const res = await fetch('projects/projects.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('Request failed');
+        const projects = await res.json();
+        grid.innerHTML = '';
+
+        projects.forEach((project) => {
+          const article = document.createElement('article');
+          article.className = 'card reveal';
+          const tags = (project.tags || []).map((tag) => `<span class="tag">${tag}</span>`).join('');
+          article.innerHTML = `
+            <a class="card-link" href="${project.url || '#'}">
+              <div class="frame">
+                ${project.previewImage ? `<img src="${project.previewImage}" alt="${project.previewAlt || project.title}" loading="lazy">` : '<span class="frame-placeholder" aria-hidden="true"></span>'}
+              </div>
+              <div class="card-body">
+                <h3>${project.title}</h3>
+                <p>${project.summary || ''}</p>
+                <div class="tags">${tags}</div>
+              </div>
+            </a>
+          `;
+          grid.appendChild(article);
+          io.observe(article);
+        });
+
+        if (!grid.children.length) {
+          if (status) {
+            status.textContent = 'No projects yet. Add entries to projects/projects.json to populate this grid.';
+            status.hidden = false;
+          }
+        } else if (status) {
+          status.hidden = true;
+        }
+      } catch (err) {
+        grid.innerHTML = '';
+        if (status) {
+          status.textContent = 'Unable to load projects. Double-check projects/projects.json.';
+          status.hidden = false;
+        }
+      } finally {
+        grid.setAttribute('aria-busy', 'false');
+      }
+    }
+
+    loadProjects();
   </script>
 </body>
 </html>

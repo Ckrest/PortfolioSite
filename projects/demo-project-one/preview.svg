@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="UI prototype preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2b163d" />
+      <stop offset="100%" stop-color="#1c1f5b" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="24" fill="url(#bg)" />
+  <g fill="#ffffff" opacity="0.1">
+    <rect x="80" y="72" width="160" height="64" rx="14" />
+    <rect x="264" y="72" width="120" height="64" rx="14" />
+    <rect x="408" y="72" width="152" height="64" rx="14" />
+    <rect x="80" y="160" width="200" height="160" rx="18" />
+    <rect x="304" y="160" width="256" height="72" rx="18" />
+    <rect x="304" y="252" width="256" height="68" rx="18" />
+  </g>
+  <text x="80" y="320" fill="#f6e9ff" font-family="Inter, sans-serif" font-size="18" font-weight="600">Concept UI mock</text>
+</svg>
