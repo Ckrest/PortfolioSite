@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Model Evaluation Systems Diagram — Nick Young</title>
+  <meta name="description" content="Interactive React component that visualizes an AI model evaluation workflow with tooltips and simulation states." />
+  <link rel="stylesheet" href="../project.css" />
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">← Back to projects</a>
+    <span> / AI Model Evaluation Systems Diagram</span>
+  </nav>
+
+  <header>
+    <div class="hero" role="presentation">
+      <h1>AI Model Evaluation Systems Diagram</h1>
+      <p>
+        A single-file React component that renders an interactive SVG flowchart for comparing and auditing model evaluation
+        pipelines. Tooltips, simulation highlights, and responsive layout are all included with zero external UI dependencies.
+      </p>
+      <div class="button-row">
+        <a class="button" href="../../ai_model_evaluation_systems_diagram" download>Download component</a>
+        <a class="button" href="#code">Jump to source</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <figure>
+        <img src="preview.svg" alt="Stylized preview of the AI evaluation system diagram" loading="lazy" />
+      </figure>
+      <div class="tag-row">
+        <span class="tag">React</span>
+        <span class="tag">SVG</span>
+        <span class="tag">Tooling</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>What&apos;s inside</h2>
+      <p>
+        The component organizes evaluation stages into reusable node definitions and wiring logic, then renders an SVG with
+        animated highlights. It exposes a lightweight simulation runner for demos and leans on CSS utilities instead of
+        external frameworks, keeping bundle size low.
+      </p>
+      <p>
+        Drop it into any React setup (Vite, Next.js, Create React App) and it will render a polished diagram immediately. The
+        component is intentionally self-contained, so you can adapt node definitions, colors, or tooltip copy without chasing
+        extra files.
+      </p>
+    </section>
+
+    <section id="code">
+      <h2>Source</h2>
+      <p>
+        The latest version lives alongside this page. Copy it straight from the snippet below or download it if you prefer to
+        wire it into your build pipeline manually.
+      </p>
+      <pre><code id="code-block">Loading component…</code></pre>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Nick Young. Crafted for rapid prototyping and demos.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    async function loadSource() {
+      const el = document.getElementById('code-block');
+      try {
+        const res = await fetch('../../ai_model_evaluation_systems_diagram');
+        if (!res.ok) throw new Error('Request failed');
+        const text = await res.text();
+        el.textContent = text;
+      } catch (err) {
+        el.textContent = 'Unable to load source. Try downloading the file instead.';
+      }
+    }
+    loadSource();
+  </script>
+</body>
+</html>

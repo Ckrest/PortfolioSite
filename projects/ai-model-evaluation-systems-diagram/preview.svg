@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Stylized AI evaluation system diagram">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#131622" />
+      <stop offset="100%" stop-color="#1b233a" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c5cff" />
+      <stop offset="100%" stop-color="#00e5ff" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="24" fill="url(#bg)" />
+  <g fill="#1f2a4a" stroke="#334064" stroke-width="2" stroke-linejoin="round">
+    <rect x="48" y="48" width="140" height="64" rx="14" />
+    <rect x="220" y="48" width="170" height="64" rx="14" />
+    <rect x="420" y="48" width="170" height="64" rx="14" />
+    <rect x="120" y="156" width="120" height="56" rx="12" />
+    <rect x="264" y="156" width="120" height="56" rx="12" />
+    <rect x="408" y="156" width="120" height="56" rx="12" />
+    <rect x="552" y="156" width="120" height="56" rx="12" />
+    <rect x="300" y="248" width="180" height="60" rx="16" />
+  </g>
+  <g stroke="url(#accent)" stroke-width="4" stroke-linecap="round" opacity="0.9">
+    <path d="M188 80h24" />
+    <path d="M390 80h24" />
+    <path d="M505 112v36" />
+    <path d="M180 212l120 36" />
+    <path d="M324 212l90 36" />
+    <path d="M468 212l-24 36" />
+  </g>
+  <text x="68" y="88" fill="#8aa0ff" font-family="Inter, sans-serif" font-size="18" font-weight="600">Inputs</text>
+  <text x="235" y="88" fill="#8aa0ff" font-family="Inter, sans-serif" font-size="18" font-weight="600">Preprocess</text>
+  <text x="441" y="88" fill="#8aa0ff" font-family="Inter, sans-serif" font-size="18" font-weight="600">Distributor</text>
+  <text x="138" y="190" fill="#9bb6ff" font-family="Inter, sans-serif" font-size="14">Model A</text>
+  <text x="284" y="190" fill="#9bb6ff" font-family="Inter, sans-serif" font-size="14">Model B</text>
+  <text x="428" y="190" fill="#9bb6ff" font-family="Inter, sans-serif" font-size="14">Model C</text>
+  <text x="572" y="190" fill="#9bb6ff" font-family="Inter, sans-serif" font-size="14">Model D</text>
+  <text x="332" y="284" fill="#9bb6ff" font-family="Inter, sans-serif" font-size="16">Overseer &amp; Metrics</text>
+  <text x="48" y="320" fill="#7c8ba6" font-family="Inter, sans-serif" font-size="16">Flowchart preview</text>
+</svg>

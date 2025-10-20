@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demo Project Three — Nick Young</title>
+  <meta name="description" content="Placeholder project page for a data storytelling experiment." />
+  <link rel="stylesheet" href="../project.css" />
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">← Back to projects</a>
+    <span> / Demo Project Three</span>
+  </nav>
+
+  <header>
+    <div class="hero" role="presentation">
+      <h1>Demo Project Three</h1>
+      <p>
+        A data storytelling exploration that pairs motion with lightweight editorial copy. Replace this text with a real
+        narrative once you are ready.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <figure>
+        <img src="preview.svg" alt="Data narrative preview" loading="lazy" />
+      </figure>
+      <div class="tag-row">
+        <span class="tag">Storytelling</span>
+        <span class="tag">Data Viz</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Next steps</h2>
+      <p>
+        Create as many pages like this as you need. The homepage cards will automatically link to the files listed in the JSON
+        definition, so the portfolio stays organized even as it grows.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Nick Young. Placeholder narrative coming soon.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
