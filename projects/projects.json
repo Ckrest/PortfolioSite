@@ -7,37 +7,37 @@
     "url": "projects/ai-model-evaluation-systems-diagram/",
     "previewImage": "projects/ai-model-evaluation-systems-diagram/preview.svg",
     "previewAlt": "Stylized AI evaluation system diagram",
-    "date": "2024-07-18",
+    "date": "2025-10-20",
     "featured": true
   },
   {
-    "slug": "demo-project-three",
-    "title": "Demo Project Three",
-    "summary": "Data storytelling exercise combining light motion with an editorial narrative.",
-    "tags": ["Storytelling", "Data Viz"],
-    "url": "projects/demo-project-three/",
-    "previewImage": "projects/demo-project-three/preview.svg",
-    "previewAlt": "Data narrative illustration",
-    "date": "2024-02-02"
+    "slug": "portfolio-website",
+    "title": "Portfolio Website Refresh",
+    "summary": "Designing and building this fast, framework-free portfolio with a fully automated project feed.",
+    "tags": ["Design System", "Frontend"],
+    "url": "projects/portfolio-website/",
+    "previewImage": "projects/portfolio-website/preview.svg",
+    "previewAlt": "Screenshot of the portfolio website layout",
+    "date": "2025-10-01"
   },
   {
-    "slug": "demo-project-two",
-    "title": "Demo Project Two",
-    "summary": "Placeholder AI experimentation hub for testing prompts across several language models.",
-    "tags": ["AI", "Tooling"],
-    "url": "projects/demo-project-two/",
-    "previewImage": "projects/demo-project-two/preview.svg",
-    "previewAlt": "Abstract AI experiment art",
-    "date": "2023-08-21"
+    "slug": "ai-evaluation-project-proposal",
+    "title": "AI Evaluation Platform Proposal",
+    "summary": "Strategic plan outlining milestones, budgets, and staffing for the AI model evaluation initiative.",
+    "tags": ["Strategy", "Research"],
+    "url": "projects/ai-evaluation-project-proposal/",
+    "previewImage": "projects/ai-evaluation-project-proposal/preview.svg",
+    "previewAlt": "Presentation slides summarizing an AI evaluation proposal",
+    "date": "2025-09-01"
   },
   {
-    "slug": "demo-project-one",
-    "title": "Demo Project One",
+    "slug": "analytics-onboarding-sprint",
+    "title": "Analytics Onboarding Sprint",
     "summary": "Concept UI sprint exploring onboarding and data summarization flows for an analytics app.",
     "tags": ["Product Design", "Prototype"],
-    "url": "projects/demo-project-one/",
-    "previewImage": "projects/demo-project-one/preview.svg",
-    "previewAlt": "Concept UI mock",
+    "url": "projects/analytics-onboarding-sprint/",
+    "previewImage": "projects/analytics-onboarding-sprint/preview.svg",
+    "previewAlt": "Concept UI mock showing analytics onboarding screens",
     "date": "2023-02-10"
   }
 ]

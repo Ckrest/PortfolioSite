@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio Website Refresh — Nick Young</title>
+  <meta name="description" content="Case study for the 2025 refresh of this portfolio website, covering design system decisions and the data-driven project feed." />
+  <link rel="stylesheet" href="../project.css" />
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">← Back to projects</a>
+    <span> / Portfolio Website Refresh</span>
+  </nav>
+
+  <header>
+    <div class="hero" role="presentation">
+      <h1>Portfolio Website Refresh</h1>
+      <p>
+        Launched on <strong>October 1, 2025</strong>, this rebuild focuses on delivering a lightweight, framework-free experience
+        with an automated project pipeline. Every card on the homepage is driven by structured data, making future updates frictionless.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <figure>
+        <img src="preview.svg" alt="Mockup of the refreshed portfolio website" loading="lazy" />
+      </figure>
+      <div class="tag-row">
+        <span class="tag">Design System</span>
+        <span class="tag">Frontend</span>
+        <span class="tag">Content Strategy</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>What changed</h2>
+      <p>
+        The refresh ships a cohesive typographic scale, new color tokens, and a responsive layout tuned for both desktop and
+        mobile storytelling. Inline CSS and JavaScript keep the bundle tiny while still enabling interactive sections like the
+        featured project callout.
+      </p>
+      <p>
+        Projects now live in a single JSON file, letting the build process and the live site share the same source of truth. The
+        detail pages inherit a consistent template and accessibility improvements, including explicit alt text and keyboard-friendly
+        navigation.
+      </p>
+    </section>
+
+    <section>
+      <h2>Impact</h2>
+      <ul>
+        <li>Sub-30KB initial payload and perfect Lighthouse performance scores.</li>
+        <li>CMS-free publishing flow: update <code>projects.json</code> and drop in a new detail page.</li>
+        <li>Improved SEO metadata, including automated descriptions and structured dates.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Nick Young. A living site engineered for clarity and speed.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
