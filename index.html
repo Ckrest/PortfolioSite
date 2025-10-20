@@ -80,6 +80,20 @@
     .ai-typing .dot:nth-child(1) { animation: ai-dot-blink 1s linear infinite; }
     .ai-typing .dot:nth-child(2) { animation: ai-dot-blink 1s linear infinite .2s; }
     .ai-typing .dot:nth-child(3) { animation: ai-dot-blink 1s linear infinite .4s; }
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: currentColor;
+      margin: 0 2px;
+      border-radius: 1px;
+      animation: cursor-blink 1s steps(1, end) infinite;
+      vertical-align: middle;
+    }
+    @keyframes cursor-blink {
+      0%, 45% { opacity: 1; }
+      55%, 100% { opacity: 0; }
+    }
     @media (max-width: 900px) {
       .intro-card { grid-template-columns: 1fr; }
     }
@@ -337,22 +351,46 @@
         contrast: 'AI can be smart, but also…'
       };
 
+      const SPEED_MULTIPLIER = 3;
+      const scale = (value = 0) => Math.round(value * SPEED_MULTIPLIER);
+
       const sequences = [
         [
           {
             role: 'you',
-            text: 'What’s the derivative of x^2?',
+            text: "How many R's are there in strawberry?",
             delayBefore: 2000,
             type: true,
+            loadingIndicator: 'cursor',
+            loadingDuration: 1200,
             onTypedComplete: () => {
               title.textContent = headingStates.contrast;
             }
           },
-          { role: 'ai', text: 'The derivative of x^2 is 2x.', delayBefore: 600 }
+          {
+            role: 'ai',
+            text: 'Seven.',
+            delayBefore: 600,
+            loadingIndicator: 'dots',
+            loadingDuration: 900
+          }
         ],
         [
-          { role: 'you', text: 'How many “r”s are in “strawberry”?', delayBefore: 600, type: true },
-          { role: 'ai', text: 'Seven.', delayBefore: 500 }
+          {
+            role: 'you',
+            text: "How many R's are there in strawberry?",
+            delayBefore: 600,
+            type: true,
+            loadingIndicator: 'cursor',
+            loadingDuration: 1200
+          },
+          {
+            role: 'ai',
+            text: 'Seven.',
+            delayBefore: 500,
+            loadingIndicator: 'dots',
+            loadingDuration: 900
+          }
         ]
       ];
 
@@ -385,6 +423,17 @@
         return wrap;
       };
 
+      const cursorIndicator = () => {
+        const cursor = createEl('span', 'typing-cursor');
+        cursor.setAttribute('aria-hidden', 'true');
+        return cursor;
+      };
+
+      const indicatorFactories = {
+        dots: typingIndicator,
+        cursor: cursorIndicator
+      };
+
       const addMessage = (role, text, options = {}) => {
         const { typed = false, onTypedComplete } = options;
         const bubble = createEl('div', cls[role] || 'msg');
@@ -398,7 +447,7 @@
           let i = 0;
           const step = () => {
             visible.textContent = text.slice(0, ++i);
-            if (i < text.length) queue(step, 18);
+            if (i < text.length) queue(step, scale(18));
             else if (typeof onTypedComplete === 'function') onTypedComplete();
           };
           step();
@@ -410,33 +459,47 @@
         messages.scrollTop = messages.scrollHeight;
       };
 
+      const createPlaceholder = (item) => {
+        const factory = indicatorFactories[item.loadingIndicator];
+        if (!factory) return null;
+        const bubble = createEl('div', cls[item.role] || 'msg');
+        const indicator = factory();
+        if (indicator) bubble.appendChild(indicator);
+        bubble.appendChild(createEl('span', 'sr-only', 'Loading…'));
+        messages.appendChild(bubble);
+        messages.scrollTop = messages.scrollHeight;
+        return bubble;
+      };
+
       const runConversation = (items, { onFinished } = {}) => {
         let elapsed = 0;
 
         items.forEach((item) => {
-          elapsed += item.delayBefore || 0;
+          const delay = scale(item.delayBefore || 0);
+          const indicatorWait = item.loadingIndicator ? scale(item.loadingDuration ?? (item.type ? 1200 : 900)) : 0;
+          const typedWait = item.type ? scale((item.text?.length || 0) * 18) : 0;
 
-          if (item.type) {
-            queue(() => {
-              const placeholder = createEl('div', cls[item.role] || 'msg');
-              placeholder.appendChild(typingIndicator());
-              messages.appendChild(placeholder);
-              messages.scrollTop = messages.scrollHeight;
+          elapsed += delay;
 
-              queue(() => {
-                placeholder.remove();
-                addMessage(item.role, item.text, { typed: true, onTypedComplete: item.onTypedComplete });
-              }, 1200);
-            }, elapsed);
-          } else {
-            queue(() => {
-              addMessage(item.role, item.text, { onTypedComplete: item.onTypedComplete });
-            }, elapsed);
-          }
+          queue(() => {
+            const placeholder = createPlaceholder(item);
+            const reveal = () => {
+              if (placeholder) placeholder.remove();
+              addMessage(item.role, item.text, { typed: Boolean(item.type), onTypedComplete: item.onTypedComplete });
+            };
+
+            if (indicatorWait) {
+              queue(reveal, indicatorWait);
+            } else {
+              reveal();
+            }
+          }, elapsed);
+
+          elapsed += indicatorWait + typedWait;
         });
 
         if (typeof onFinished === 'function') {
-          queue(onFinished, elapsed + 1600);
+          queue(onFinished, elapsed + scale(1600));
         }
       };
 
@@ -451,7 +514,7 @@
               clearTimers();
               messages.innerHTML = '';
               runConversation(sequences[1]);
-            }, 800);
+            }, scale(800));
           }
         });
       };
