@@ -36,7 +36,8 @@
 
     /* ------- Header / Intro ------- */
     header {
-      position: sticky; top: 0; z-index: 20; backdrop-filter: saturate(120%) blur(6px);
+      position: sticky; top: 0; left: 0; right: 0; z-index: 20; width: 100%;
+      backdrop-filter: saturate(120%) blur(6px);
       background: color-mix(in oklab, var(--bg), transparent 25%);
       border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
     }
@@ -226,7 +227,7 @@
 <body>
   <header>
     <div class="wrap nav" aria-label="Primary">
-      <div class="brand">nickyoungci.dev</div>
+      <div class="brand">NickYoungCI.dev</div>
       <nav>
         <a href="#featured">Featured</a>
         <a href="#projects">Timeline</a>
