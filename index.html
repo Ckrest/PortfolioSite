@@ -251,15 +251,9 @@
 
   <main class="wrap">
     <section class="intro" id="intro">
-      <div class="intro-card" id="ai-intro" aria-labelledby="ai-intro-title" aria-describedby="ai-intro-desc">
+      <div class="intro-card" id="ai-intro" aria-labelledby="ai-intro-title">
         <div class="intro-pane">
-          <h2 id="ai-intro-title">AI can be very smart…</h2>
-          <p id="ai-intro-desc" class="subtitle">Tiny demo below, then my current work.</p>
-          <div class="divider" aria-hidden="true"></div>
-          <div class="headline">Thesis</div>
-          <p class="subtitle">Make AI practical with small, testable tools. <span class="label">— <span class="byline">Nick Young</span></span></p>
-          <span class="stamp">From the lab of Nick Young</span>
-          <p class="caption">Caption: Exhibit A (smart) and Exhibit B (…counting ‘r’s).</p>
+          <h2 id="ai-intro-title">AI can be smart, but also…</h2>
         </div>
         <div class="ai-chat" aria-live="off">
           <header aria-label="Simulated chat window">
@@ -270,15 +264,14 @@
         </div>
       </div>
       <div>
-        <h1><span class="accent">Nick Young</span>.</h1>
-        <p>Designing practical AI tools that connect research breakthroughs to the teams shipping real products.</p>
+        <h1><span class="accent">Nick Young</span></h1>
+        <p>I’m building practical AI tools to learn real-world integration.</p>
       </div>
     </section>
 
     <section id="featured">
       <div class="section-head">
         <h2>Featured Project</h2>
-        <p>A spotlight on the project I’m most excited about right now.</p>
       </div>
       <div id="featured-project" aria-live="polite" aria-busy="true"></div>
       <p id="featured-status" class="projects-status" role="status">Loading featured project…</p>
@@ -287,7 +280,6 @@
     <section id="projects">
       <div class="section-head">
         <h2>Project Timeline</h2>
-        <p>Selected work in reverse-chronological order, with details revealing as you explore.</p>
       </div>
       <div id="project-timeline" class="timeline" aria-live="polite" aria-busy="true"></div>
       <p id="projects-status" class="projects-status" role="status">Loading projects…</p>
@@ -306,7 +298,7 @@
   <footer>
     <div class="wrap">
       <div class="footer-row">
-        <p style="margin:0;">© 2025 Nick Young. Built with plain HTML/CSS. Deployed on Cloudflare Pages.</p>
+        <p style="margin:0;">© 2025 Nick Young.</p>
         <a class="back-to-top" href="#intro" aria-label="Back to top">↑ Back to top</a>
       </div>
     </div>
@@ -336,8 +328,8 @@
       if (!messages || !title) return;
 
       const headingStates = {
-        intro: 'AI can be very smart…',
-        contrast: 'But also…'
+        intro: 'AI can be smart, but also…',
+        contrast: 'AI can be smart, but also…'
       };
 
       const sequences = [
