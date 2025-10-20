@@ -6,25 +6,9 @@
     "tags": ["React", "SVG", "Tooling"],
     "url": "projects/ai-model-evaluation-systems-diagram/",
     "previewImage": "projects/ai-model-evaluation-systems-diagram/preview.svg",
-    "previewAlt": "Stylized AI evaluation system diagram"
-  },
-  {
-    "slug": "demo-project-one",
-    "title": "Demo Project One",
-    "summary": "Concept UI sprint exploring onboarding and data summarization flows for an analytics app.",
-    "tags": ["Product Design", "Prototype"],
-    "url": "projects/demo-project-one/",
-    "previewImage": "projects/demo-project-one/preview.svg",
-    "previewAlt": "Concept UI mock"
-  },
-  {
-    "slug": "demo-project-two",
-    "title": "Demo Project Two",
-    "summary": "Placeholder AI experimentation hub for testing prompts across several language models.",
-    "tags": ["AI", "Tooling"],
-    "url": "projects/demo-project-two/",
-    "previewImage": "projects/demo-project-two/preview.svg",
-    "previewAlt": "Abstract AI experiment art"
+    "previewAlt": "Stylized AI evaluation system diagram",
+    "date": "2024-07-18",
+    "featured": true
   },
   {
     "slug": "demo-project-three",
@@ -33,6 +17,27 @@
     "tags": ["Storytelling", "Data Viz"],
     "url": "projects/demo-project-three/",
     "previewImage": "projects/demo-project-three/preview.svg",
-    "previewAlt": "Data narrative illustration"
+    "previewAlt": "Data narrative illustration",
+    "date": "2024-02-02"
+  },
+  {
+    "slug": "demo-project-two",
+    "title": "Demo Project Two",
+    "summary": "Placeholder AI experimentation hub for testing prompts across several language models.",
+    "tags": ["AI", "Tooling"],
+    "url": "projects/demo-project-two/",
+    "previewImage": "projects/demo-project-two/preview.svg",
+    "previewAlt": "Abstract AI experiment art",
+    "date": "2023-08-21"
+  },
+  {
+    "slug": "demo-project-one",
+    "title": "Demo Project One",
+    "summary": "Concept UI sprint exploring onboarding and data summarization flows for an analytics app.",
+    "tags": ["Product Design", "Prototype"],
+    "url": "projects/demo-project-one/",
+    "previewImage": "projects/demo-project-one/preview.svg",
+    "previewAlt": "Concept UI mock",
+    "date": "2023-02-10"
   }
 ]

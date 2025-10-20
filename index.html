@@ -17,6 +17,7 @@
       --accent-2: #00e5ff;
       --radius: 18px;
       --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --timeline-track: clamp(100px, 22vw, 180px);
     }
     @media (prefers-color-scheme: light) {
       :root { --bg:#f7f7fb; --panel:#ffffff; --soft:#f1f3f9; --fg:#0c0e12; --muted:#5c6472; --shadow:0 10px 25px rgba(7,12,24,.10); }
@@ -33,7 +34,7 @@
     }
     .wrap { width: min(1100px, 92vw); margin: 0 auto; }
 
-    /* ------- Header / Hero ------- */
+    /* ------- Header / Intro ------- */
     header {
       position: sticky; top: 0; z-index: 20; backdrop-filter: saturate(120%) blur(6px);
       background: color-mix(in oklab, var(--bg), transparent 25%);
@@ -44,61 +45,149 @@
     .nav a { color: var(--muted); text-decoration: none; margin-left: 16px; font-size: 14px; }
     .nav a:hover { color: var(--fg); }
 
-    .hero { padding: clamp(56px, 6vw, 100px) 0 32px; }
-    .hero h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.02em; }
-    .hero h1 .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .hero p { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); }
-    .hero .cta { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); text-decoration: none; color: var(--fg); }
-    .hero .cta:hover { border-color: color-mix(in oklab, var(--muted), transparent 40%); }
+    .intro { padding: clamp(56px, 6vw, 100px) 0 32px; }
+    .intro h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin: 0 0 14px; letter-spacing: -0.02em; }
+    .intro h1 .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .intro p { margin: 0; color: var(--muted); font-size: clamp(16px, 2vw, 18px); max-width: 560px; }
+    .intro .cta { margin-top: 22px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--muted), transparent 60%); text-decoration: none; color: var(--fg); }
+    .intro .cta:hover { border-color: color-mix(in oklab, var(--muted), transparent 40%); }
 
-    /* ------- Sections ------- */
-    section { padding: 42px 0; }
-    .section-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 18px; }
-    .section-head h2 { font-size: clamp(22px, 3.2vw, 32px); margin: 0; }
-    .section-head p { margin: 0; color: var(--muted); font-size: 14px; }
+    /* ------- Shared Section Styles ------- */
+    section { padding: clamp(48px, 6vw, 72px) 0; }
+    .section-head { display:flex; align-items:flex-start; justify-content:space-between; gap: 16px; margin-bottom: 24px; }
+    .section-head h2 { font-size: clamp(24px, 3.2vw, 34px); margin: 0; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 420px; }
 
-    /* ------- Cards / Projects ------- */
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
-
-    .card { grid-column: span 12; background: linear-gradient(180deg, color-mix(in oklab, var(--panel), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%));
-            border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: var(--radius); box-shadow: var(--shadow);
-            overflow: hidden; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .card:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--muted), transparent 55%); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
-
-    @media (min-width: 680px) { .card { grid-column: span 6; } }
-    @media (min-width: 980px) { .card { grid-column: span 4; } }
-
-    .card-link { display: flex; flex-direction: column; text-decoration: none; color: inherit; height: 100%; }
-    .card-link:focus-visible { outline: 2px solid color-mix(in oklab, var(--accent), transparent 20%); outline-offset: 4px; }
-    .frame { position: relative; aspect-ratio: 16/9; background:
-        linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.16) 30%, rgba(255,255,255,.05) 60%)
-        ,linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
-      border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%); overflow: hidden; }
-    .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .frame-placeholder { position: absolute; inset: 0; background:
-        linear-gradient(100deg, rgba(255,255,255,.12), rgba(255,255,255,.22) 35%, rgba(255,255,255,.10) 70%)
-        ,linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
-      background-size: 220% 100%, 100% 100%; animation: shimmer 2.2s infinite; }
-    @keyframes shimmer { from { background-position: 200% 0, 0 0; } to { background-position: -20% 0, 0 0; } }
-
-    .card-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-    .card-body h3 { margin: 4px 0 0; font-size: 18px; letter-spacing: -.01em; }
-    .card-body p { margin: 0; color: var(--muted); font-size: 14px; }
-    .tags { display:flex; flex-wrap:wrap; gap:8px; }
+    .tag-list { display:flex; flex-wrap:wrap; gap:8px; }
     .tag { font-size: 12px; padding: 6px 10px; border:1px solid color-mix(in oklab, var(--muted), transparent 60%); border-radius: 999px; color: var(--muted); }
 
-    #projects-grid { min-height: 180px; }
-    .projects-status { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
-    .projects-hint { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+    /* ------- Featured Project ------- */
+    .featured-card {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      padding: 24px;
+      border-radius: calc(var(--radius) + 4px);
+      background: linear-gradient(160deg, color-mix(in oklab, var(--panel), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%));
+      border: 1px solid color-mix(in oklab, var(--muted), transparent 65%);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .featured-card:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--muted), transparent 45%); box-shadow: 0 18px 45px rgba(0,0,0,.28); }
+    .featured-media {
+      position: relative;
+      border-radius: calc(var(--radius) - 4px);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.16) 30%, rgba(255,255,255,.05) 60%),
+                  linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
+      border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+    }
+    .featured-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .featured-body { display: flex; flex-direction: column; gap: 16px; }
+    .featured-body h3 { margin: 0; font-size: clamp(24px, 3vw, 32px); letter-spacing: -0.01em; }
+    .featured-body p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .featured-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+
+    /* ------- Timeline ------- */
+    .timeline { position: relative; padding-left: calc(var(--timeline-track) + 24px); }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: calc(var(--timeline-track) + 9px);
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: color-mix(in oklab, var(--muted), transparent 55%);
+    }
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--timeline-track) minmax(0, 1fr);
+      gap: 24px;
+      margin-bottom: 42px;
+      padding-left: 0;
+      align-items: start;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-marker {
+      position: relative;
+      padding-top: 6px;
+    }
+    .timeline-marker::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      right: -15px;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--accent), transparent 15%);
+      border: 2px solid color-mix(in oklab, var(--accent), transparent 0%);
+      box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 75%);
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .timeline-date { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+    .timeline-card {
+      position: relative;
+      background: linear-gradient(180deg, color-mix(in oklab, var(--panel), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%));
+      border-radius: var(--radius);
+      border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+      box-shadow: var(--shadow);
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, opacity .24s ease;
+      opacity: .88;
+      transform: translateY(6px) scale(.98);
+    }
+    .contact-card { max-width: 420px; }
+    .timeline-card h3 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
+    .timeline-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .timeline-item.active .timeline-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      border-color: color-mix(in oklab, var(--accent), transparent 40%);
+      box-shadow: 0 16px 40px rgba(0,0,0,.32);
+    }
+    .timeline-item.active .timeline-marker::before {
+      transform: scale(1.15);
+      box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent), transparent 68%);
+      background: color-mix(in oklab, var(--accent-2), transparent 0%);
+    }
+
+    .projects-status, .projects-hint { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+
     /* ------- Footer ------- */
     footer { padding: 44px 0 64px; color: var(--muted); font-size: 14px; }
     footer .links { display:flex; gap:14px; flex-wrap:wrap; }
     footer a { color: var(--muted); text-decoration: none; border-bottom: 1px dashed color-mix(in oklab, var(--muted), transparent 40%); }
     footer a:hover { color: var(--fg); border-bottom-color: currentColor; }
 
-    /* ------- Enter animations (subtle) ------- */
+    /* ------- Animations & Media Queries ------- */
     .reveal { opacity: 0; transform: translateY(8px); }
     .reveal.show { opacity: 1; transform: none; transition: opacity .5s ease, transform .5s ease; }
+
+    @media (max-width: 720px) {
+      .timeline {
+        padding-left: 0;
+        margin-left: 8px;
+      }
+      .timeline::before { display: none; }
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding-left: 18px;
+      }
+      .timeline-marker::before {
+        left: -18px;
+        right: auto;
+        top: 2px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -106,28 +195,37 @@
     <div class="wrap nav" aria-label="Primary">
       <div class="brand">nickyoungci.dev</div>
       <nav>
-        <a href="#projects">Projects</a>
+        <a href="#featured">Featured</a>
+        <a href="#projects">Timeline</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <section class="hero">
+    <section class="intro" id="intro">
       <h1><span class="accent">Nick Young</span>.</h1>
       <p>This is a simple placeholder portfolio so I can test hosting, domains, and QR codes later. Content is intentionally minimal.</p>
-      <a class="cta" href="#projects" aria-label="Skip to projects">↓ Scroll to projects</a>
+      <a class="cta" href="#featured" aria-label="Skip to featured project">↓ Scroll to featured</a>
+    </section>
+
+    <section id="featured">
+      <div class="section-head">
+        <h2>Featured Project</h2>
+        <p>Highlight one project directly from <code>projects/projects.json</code> by setting <code>"featured": true</code>.</p>
+      </div>
+      <div id="featured-project" aria-live="polite" aria-busy="true"></div>
+      <p id="featured-status" class="projects-status" role="status">Loading featured project…</p>
     </section>
 
     <section id="projects">
       <div class="section-head">
-        <h2>Projects</h2>
-        <p>Manage cards from <code>projects/projects.json</code> and each entry will link to its own page.</p>
+        <h2>Project Timeline</h2>
+        <p>Newest work appears first. Each entry expands as it comes into focus while you scroll.</p>
       </div>
-
-      <div id="projects-grid" class="grid" aria-live="polite" aria-busy="true"></div>
+      <div id="project-timeline" class="timeline" aria-live="polite" aria-busy="true"></div>
       <p id="projects-status" class="projects-status" role="status">Loading projects…</p>
-      <p class="projects-hint">Manage cards via <code>projects/projects.json</code>. Each entry links to its own standalone page.</p>
+      <p class="projects-hint">Manage entries in <code>projects/projects.json</code>. Ensure every project has a <code>date</code> field for ordering.</p>
     </section>
 
     <section id="contact">
@@ -135,11 +233,9 @@
         <h2>Contact</h2>
         <p>Swap this out with real details later.</p>
       </div>
-      <div class="card reveal" style="padding: 18px;">
-        <div class="card-body">
-          <p>Say hi: <a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
-          <p>Or find me on the socials you actually use.</p>
-        </div>
+      <div class="timeline-card reveal contact-card">
+        <p>Say hi: <a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
+        <p>Or find me on the socials you actually use.</p>
       </div>
     </section>
   </main>
@@ -166,62 +262,147 @@
     }, { threshold: 0.12 });
 
     function observeReveals(root = document) {
-      root.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      if (root && root.classList && root.classList.contains('reveal')) {
+        io.observe(root);
+      }
+      if (root && root.querySelectorAll) {
+        root.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      }
     }
     observeReveals();
 
+    const timelineObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        } else {
+          entry.target.classList.remove('active');
+        }
+      }
+    }, { threshold: 0.55, rootMargin: '-10% 0px -10% 0px' });
+
+    const featuredContainer = document.getElementById('featured-project');
+    const featuredStatus = document.getElementById('featured-status');
+    const timelineContainer = document.getElementById('project-timeline');
+    const projectsStatus = document.getElementById('projects-status');
+
+    function formatProjectDate(value) {
+      if (!value) return '';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '';
+      return new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' }).format(date);
+    }
+
+    function createTagList(tags = []) {
+      if (!tags.length) return '';
+      return `<div class="tag-list">${tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}</div>`;
+    }
+
+    function renderFeatured(project) {
+      if (!featuredContainer) return;
+      if (!project) {
+        featuredContainer.innerHTML = '';
+        if (featuredStatus) {
+          featuredStatus.textContent = 'No featured project set. Add "featured": true to an entry in projects/projects.json.';
+          featuredStatus.hidden = false;
+        }
+        featuredContainer.setAttribute('aria-busy', 'false');
+        return;
+      }
+
+      const card = document.createElement('a');
+      card.className = 'featured-card reveal';
+      card.href = project.url || '#';
+      card.innerHTML = `
+        <div class="featured-media">
+          ${project.previewImage ? `<img src="${project.previewImage}" alt="${project.previewAlt || project.title}" loading="lazy">` : ''}
+        </div>
+        <div class="featured-body">
+          <div class="featured-meta">${formatProjectDate(project.date) || 'Undated project'}</div>
+          <h3>${project.title}</h3>
+          <p>${project.summary || ''}</p>
+          ${createTagList(project.tags)}
+        </div>
+      `;
+      featuredContainer.innerHTML = '';
+      featuredContainer.appendChild(card);
+      featuredContainer.setAttribute('aria-busy', 'false');
+      if (featuredStatus) featuredStatus.hidden = true;
+      observeReveals(featuredContainer);
+    }
+
+    function createTimelineItem(project) {
+      const article = document.createElement('article');
+      article.className = 'timeline-item reveal';
+      article.innerHTML = `
+        <div class="timeline-marker">
+          <div class="timeline-date">${formatProjectDate(project.date) || 'Undated'}</div>
+        </div>
+        <a class="timeline-card" href="${project.url || '#'}">
+          <h3>${project.title}</h3>
+          <p>${project.summary || ''}</p>
+          ${createTagList(project.tags)}
+        </a>
+      `;
+      return article;
+    }
+
     async function loadProjects() {
-      const grid = document.getElementById('projects-grid');
-      const status = document.getElementById('projects-status');
-      if (!grid) return;
-      grid.setAttribute('aria-busy', 'true');
-      if (status) {
-        status.textContent = 'Loading projects…';
-        status.hidden = false;
+      if (!timelineContainer) return;
+      timelineContainer.setAttribute('aria-busy', 'true');
+      if (projectsStatus) {
+        projectsStatus.textContent = 'Loading projects…';
+        projectsStatus.hidden = false;
+      }
+      if (featuredContainer) featuredContainer.setAttribute('aria-busy', 'true');
+      if (featuredStatus) {
+        featuredStatus.textContent = 'Loading featured project…';
+        featuredStatus.hidden = false;
       }
 
       try {
         const res = await fetch('projects/projects.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('Request failed');
         const projects = await res.json();
-        grid.innerHTML = '';
 
-        projects.forEach((project) => {
-          const article = document.createElement('article');
-          article.className = 'card reveal';
-          const tags = (project.tags || []).map((tag) => `<span class="tag">${tag}</span>`).join('');
-          article.innerHTML = `
-            <a class="card-link" href="${project.url || '#'}">
-              <div class="frame">
-                ${project.previewImage ? `<img src="${project.previewImage}" alt="${project.previewAlt || project.title}" loading="lazy">` : '<span class="frame-placeholder" aria-hidden="true"></span>'}
-              </div>
-              <div class="card-body">
-                <h3>${project.title}</h3>
-                <p>${project.summary || ''}</p>
-                <div class="tags">${tags}</div>
-              </div>
-            </a>
-          `;
-          grid.appendChild(article);
-          io.observe(article);
+        const featuredProject = projects.find((project) => project.featured);
+        renderFeatured(featuredProject);
+
+        const sortedProjects = [...projects].sort((a, b) => {
+          const dateA = new Date(a.date || 0).getTime();
+          const dateB = new Date(b.date || 0).getTime();
+          return dateB - dateA;
         });
 
-        if (!grid.children.length) {
-          if (status) {
-            status.textContent = 'No projects yet. Add entries to projects/projects.json to populate this grid.';
-            status.hidden = false;
+        timelineContainer.innerHTML = '';
+        sortedProjects.forEach((project) => {
+          const item = createTimelineItem(project);
+          timelineContainer.appendChild(item);
+          observeReveals(item);
+          timelineObserver.observe(item);
+        });
+
+        if (!sortedProjects.length) {
+          if (projectsStatus) {
+            projectsStatus.textContent = 'No projects yet. Add entries to projects/projects.json to populate the timeline.';
+            projectsStatus.hidden = false;
           }
-        } else if (status) {
-          status.hidden = true;
+        } else if (projectsStatus) {
+          projectsStatus.hidden = true;
         }
       } catch (err) {
-        grid.innerHTML = '';
-        if (status) {
-          status.textContent = 'Unable to load projects. Double-check projects/projects.json.';
-          status.hidden = false;
+        timelineContainer.innerHTML = '';
+        if (projectsStatus) {
+          projectsStatus.textContent = 'Unable to load projects. Double-check projects/projects.json.';
+          projectsStatus.hidden = false;
+        }
+        if (featuredStatus) {
+          featuredStatus.textContent = 'Unable to load featured project. Check the data file and try again.';
+          featuredStatus.hidden = false;
         }
       } finally {
-        grid.setAttribute('aria-busy', 'false');
+        timelineContainer.setAttribute('aria-busy', 'false');
+        if (featuredContainer) featuredContainer.setAttribute('aria-busy', 'false');
       }
     }
 
@@ -229,4 +410,3 @@
   </script>
 </body>
 </html>
-
