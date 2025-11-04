@@ -251,7 +251,7 @@
       padding: clamp(18px, 2.2vw, 24px);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: clamp(14px, 2vw, 18px);
       opacity: 0;
       transform: translateY(14px) scale(.97);
       transition: opacity .32s ease, transform .32s ease;
@@ -271,6 +271,27 @@
       opacity: 1;
       transform: translateY(0) scale(1);
       pointer-events: auto;
+    }
+    .timeline-preview-media {
+      position: relative;
+      border-radius: calc(var(--radius) - 6px);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+      background: linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.16) 30%, rgba(255,255,255,.05) 60%),
+                  linear-gradient(180deg, var(--soft), color-mix(in oklab, var(--panel), transparent 12%));
+    }
+    .timeline-preview-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .timeline-preview-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
     }
     .timeline-preview h3 {
       margin: 0;
@@ -776,18 +797,24 @@
         <div class="timeline-window">
           <a class="timeline-card" href="${project.url || '#'}">
             <div class="timeline-preview timeline-preview-small" data-preview="small" aria-hidden="false">
-              <h3>${project.title}</h3>
-              <p>${project.summary || ''}</p>
+              ${project.previewImage ? `<div class="timeline-preview-media"><img src="${project.previewImage}" alt="${project.previewAlt || project.title}" loading="lazy"></div>` : ''}
+              <div class="timeline-preview-content">
+                <h3>${project.title}</h3>
+                <p>${project.summary || ''}</p>
+              </div>
             </div>
             <div class="timeline-preview timeline-preview-large" data-preview="large" aria-hidden="true">
-              <div class="timeline-preview-meta">
-                <span>${tagSummary}</span>
-                <span>${formattedDate}</span>
+              ${project.previewImage ? `<div class="timeline-preview-media"><img src="${project.previewImage}" alt="${project.previewAlt || project.title}" loading="lazy"></div>` : ''}
+              <div class="timeline-preview-content">
+                <div class="timeline-preview-meta">
+                  <span>${tagSummary}</span>
+                  <span>${formattedDate}</span>
+                </div>
+                <h3>${project.title}</h3>
+                <p>${project.summary || ''}</p>
+                ${createTagList(project.tags)}
+                <span class="timeline-cta">View project</span>
               </div>
-              <h3>${project.title}</h3>
-              <p>${project.summary || ''}</p>
-              ${createTagList(project.tags)}
-              <span class="timeline-cta">View project</span>
             </div>
           </a>
         </div>
