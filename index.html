@@ -17,7 +17,6 @@
       --accent-2: #00e5ff;
       --radius: 18px;
       --shadow: 0 10px 30px rgba(0,0,0,.25);
-      --timeline-track: clamp(100px, 22vw, 180px);
     }
     @media (prefers-color-scheme: light) {
       :root { --bg:#f7f7fb; --panel:#ffffff; --soft:#f1f3f9; --fg:#0c0e12; --muted:#5c6472; --shadow:0 10px 25px rgba(7,12,24,.10); }
@@ -143,72 +142,196 @@
     }
 
     /* ------- Timeline ------- */
-    .timeline { position: relative; padding-left: calc(var(--timeline-track) + 24px); }
+    .timeline {
+      --timeline-preview-small: clamp(160px, 24vh, 220px);
+      --timeline-track-x: clamp(110px, 32%, 220px);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(28px, 4vw, 38px);
+      padding-left: clamp(18px, 3vw, 24px);
+    }
     .timeline::before {
       content: "";
       position: absolute;
-      left: calc(var(--timeline-track) + 9px);
+      left: var(--timeline-track-x);
       top: 0;
       bottom: 0;
       width: 2px;
       background: color-mix(in oklab, var(--muted), transparent 55%);
+      pointer-events: none;
     }
-    .timeline-item {
+    .timeline-entry {
       position: relative;
       display: grid;
-      grid-template-columns: var(--timeline-track) minmax(0, 1fr);
-      gap: 24px;
-      margin-bottom: 42px;
-      padding-left: 0;
-      align-items: start;
+      grid-template-columns: minmax(120px, 0.34fr) minmax(0, 0.66fr);
+      gap: clamp(16px, 3vw, 30px);
+      align-items: stretch;
+      isolation: isolate;
     }
-    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-entry::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--timeline-track-x);
+      width: 2px;
+      background: color-mix(in oklab, var(--muted), transparent 55%);
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .timeline-entry.is-expanded::before { opacity: 1; }
+    .timeline-date-bucket {
+      position: relative;
+      padding-right: clamp(12px, 2vw, 20px);
+      display: flex;
+      justify-content: flex-end;
+    }
     .timeline-marker {
       position: relative;
-      padding-top: 6px;
+      padding-right: clamp(12px, 2vw, 18px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
     }
     .timeline-marker::before {
       content: "";
       position: absolute;
-      top: 16px;
-      right: -15px;
-      width: 14px;
-      height: 14px;
+      top: 6px;
+      right: -9px;
+      width: 16px;
+      height: 16px;
       border-radius: 999px;
-      background: color-mix(in oklab, var(--accent), transparent 15%);
+      background: color-mix(in oklab, var(--accent), transparent 20%);
       border: 2px solid color-mix(in oklab, var(--accent), transparent 0%);
-      box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 75%);
-      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+      box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent), transparent 78%);
+      transition: transform .28s ease, box-shadow .28s ease, background .28s ease;
     }
-    .timeline-date { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
-    .timeline-card {
+    .timeline-entry.is-expanded .timeline-marker::before {
+      transform: scale(1.12);
+      box-shadow: 0 0 0 8px color-mix(in oklab, var(--accent-2), transparent 74%);
+      background: color-mix(in oklab, var(--accent-2), transparent 0%);
+    }
+    .timeline-date {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+    }
+    .timeline-window {
       position: relative;
+      min-height: var(--timeline-preview-small);
+      transition: min-height .32s ease;
+    }
+    .timeline-entry.is-expanded .timeline-window {
+      min-height: calc(var(--timeline-preview-small) * 2);
+    }
+    .timeline-card {
+      position: absolute;
+      inset: 0;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid color-mix(in oklab, var(--muted), transparent 72%);
+      background: linear-gradient(180deg, color-mix(in oklab, var(--panel), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%));
+      box-shadow: var(--shadow);
+      transition: border-color .28s ease, box-shadow .28s ease;
+    }
+    .timeline-entry.is-expanded .timeline-card {
+      border-color: color-mix(in oklab, var(--accent), transparent 42%);
+      box-shadow: 0 20px 48px rgba(0,0,0,.38);
+    }
+    .timeline-preview {
+      position: absolute;
+      inset: 0;
+      padding: clamp(18px, 2.2vw, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(14px) scale(.97);
+      transition: opacity .32s ease, transform .32s ease;
+      pointer-events: none;
+    }
+    .timeline-preview-small {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .timeline-entry.is-expanded .timeline-preview-small {
+      opacity: 0;
+      transform: translateY(-10px) scale(.97);
+      pointer-events: none;
+    }
+    .timeline-entry.is-expanded .timeline-preview-large {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .timeline-preview h3 {
+      margin: 0;
+      font-size: clamp(20px, 2.5vw, 26px);
+      letter-spacing: -0.01em;
+    }
+    .timeline-preview p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .timeline-preview-small p {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .timeline-preview-large .timeline-preview-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .timeline-preview-large .timeline-preview-meta span:last-child {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+    }
+    .timeline-preview-large .timeline-cta {
+      margin-top: auto;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .timeline-preview-large .timeline-cta::after {
+      content: "→";
+      font-size: 12px;
+      transform: translateY(-1px);
+    }
+    .contact-card {
+      max-width: 420px;
       background: linear-gradient(180deg, color-mix(in oklab, var(--panel), transparent 0%), color-mix(in oklab, var(--panel), transparent 0%));
       border-radius: var(--radius);
       border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
       box-shadow: var(--shadow);
-      padding: 18px 20px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, opacity .24s ease;
-      opacity: .88;
-      transform: translateY(6px) scale(.98);
+      padding: 20px 24px;
     }
-    .contact-card { max-width: 420px; }
-    .timeline-card h3 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
-    .timeline-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
-    .timeline-item.active .timeline-card {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-      border-color: color-mix(in oklab, var(--accent), transparent 40%);
-      box-shadow: 0 16px 40px rgba(0,0,0,.32);
+    .contact-card a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
     }
-    .timeline-item.active .timeline-marker::before {
-      transform: scale(1.15);
-      box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent), transparent 68%);
-      background: color-mix(in oklab, var(--accent-2), transparent 0%);
-    }
+    .contact-card a:hover { color: var(--accent-2); }
 
     .projects-status { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
 
@@ -240,18 +363,31 @@
     @media (max-width: 720px) {
       .timeline {
         padding-left: 0;
-        margin-left: 8px;
+        margin-left: 4px;
       }
       .timeline::before { display: none; }
-      .timeline-item {
+      .timeline-entry {
         grid-template-columns: 1fr;
-        gap: 16px;
-        padding-left: 18px;
+        gap: 18px;
+      }
+      .timeline-entry::before { display: none; }
+      .timeline-date-bucket {
+        justify-content: flex-start;
+      }
+      .timeline-marker {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding-right: 0;
       }
       .timeline-marker::before {
-        left: -18px;
-        right: auto;
-        top: 2px;
+        position: static;
+        order: -1;
+        margin-right: 6px;
+      }
+      .timeline-date { text-align: left; }
+      .timeline-window {
+        min-height: clamp(180px, 40vh, 260px);
       }
     }
   </style>
@@ -308,7 +444,7 @@
       <div class="section-head">
         <h2>Contact</h2>
       </div>
-      <div class="timeline-card reveal contact-card">
+      <div class="contact-card reveal">
         <p><a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
       </div>
     </section>
@@ -492,20 +628,92 @@
       start();
     })();
 
-    const timelineObserver = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        } else {
-          entry.target.classList.remove('active');
-        }
-      }
-    }, { threshold: 0.55, rootMargin: '-10% 0px -10% 0px' });
-
     const featuredContainer = document.getElementById('featured-project');
     const featuredStatus = document.getElementById('featured-status');
     const timelineContainer = document.getElementById('project-timeline');
     const projectsStatus = document.getElementById('projects-status');
+    const projectsSection = document.getElementById('projects');
+
+    let timelineEntries = [];
+    let expandedTimelineEntry = null;
+    let timelineInView = false;
+    let timelineUpdateQueued = false;
+
+    const setEntryExpanded = (entry, expanded) => {
+      if (!entry) return;
+      entry.classList.toggle('is-expanded', expanded);
+      const small = entry.querySelector('[data-preview="small"]');
+      const large = entry.querySelector('[data-preview="large"]');
+      if (small) small.setAttribute('aria-hidden', expanded ? 'true' : 'false');
+      if (large) large.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+    };
+
+    const evaluateTimelineFocus = () => {
+      if (!timelineEntries.length || !timelineInView) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      let closest = null;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      timelineEntries.forEach((entry) => {
+        const rect = entry.getBoundingClientRect();
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+        const entryCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(entryCenter - viewportCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closest = entry;
+        }
+      });
+
+      if (!closest) closest = timelineEntries[0];
+      if (closest && closest !== expandedTimelineEntry) {
+        if (expandedTimelineEntry) setEntryExpanded(expandedTimelineEntry, false);
+        setEntryExpanded(closest, true);
+        expandedTimelineEntry = closest;
+      }
+    };
+
+    const scheduleTimelineUpdate = () => {
+      if (!timelineEntries.length || timelineUpdateQueued) return;
+      timelineUpdateQueued = true;
+      window.requestAnimationFrame(() => {
+        timelineUpdateQueued = false;
+        evaluateTimelineFocus();
+      });
+    };
+
+    const handleTimelineScroll = () => {
+      if (!timelineInView) return;
+      scheduleTimelineUpdate();
+    };
+
+    if (projectsSection) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        timelineInView = entries.some((entry) => entry.isIntersecting);
+        if (!timelineInView && expandedTimelineEntry) {
+          setEntryExpanded(expandedTimelineEntry, false);
+          expandedTimelineEntry = null;
+        } else if (timelineInView) {
+          scheduleTimelineUpdate();
+        }
+      }, { threshold: 0.35 });
+      sectionObserver.observe(projectsSection);
+    }
+
+    if (timelineContainer) {
+      window.addEventListener('scroll', handleTimelineScroll, { passive: true });
+      window.addEventListener('resize', scheduleTimelineUpdate);
+      timelineContainer.addEventListener('focusin', (event) => {
+        const entry = event.target.closest('.timeline-entry');
+        if (!entry) return;
+        if (expandedTimelineEntry && expandedTimelineEntry !== entry) {
+          setEntryExpanded(expandedTimelineEntry, false);
+        }
+        setEntryExpanded(entry, true);
+        expandedTimelineEntry = entry;
+      });
+    }
 
     function formatProjectDate(value) {
       if (!value) return '';
@@ -554,16 +762,35 @@
 
     function createTimelineItem(project) {
       const article = document.createElement('article');
-      article.className = 'timeline-item reveal';
+      article.className = 'timeline-entry reveal';
+      const formattedDate = formatProjectDate(project.date) || 'Undated';
+      const tagSummary = (project.tags && project.tags.length)
+        ? project.tags.slice(0, 2).join(' · ')
+        : 'Project highlight';
       article.innerHTML = `
-        <div class="timeline-marker">
-          <div class="timeline-date">${formatProjectDate(project.date) || 'Undated'}</div>
+        <div class="timeline-date-bucket">
+          <div class="timeline-marker">
+            <div class="timeline-date">${formattedDate}</div>
+          </div>
         </div>
-        <a class="timeline-card" href="${project.url || '#'}">
-          <h3>${project.title}</h3>
-          <p>${project.summary || ''}</p>
-          ${createTagList(project.tags)}
-        </a>
+        <div class="timeline-window">
+          <a class="timeline-card" href="${project.url || '#'}">
+            <div class="timeline-preview timeline-preview-small" data-preview="small" aria-hidden="false">
+              <h3>${project.title}</h3>
+              <p>${project.summary || ''}</p>
+            </div>
+            <div class="timeline-preview timeline-preview-large" data-preview="large" aria-hidden="true">
+              <div class="timeline-preview-meta">
+                <span>${tagSummary}</span>
+                <span>${formattedDate}</span>
+              </div>
+              <h3>${project.title}</h3>
+              <p>${project.summary || ''}</p>
+              ${createTagList(project.tags)}
+              <span class="timeline-cta">View project</span>
+            </div>
+          </a>
+        </div>
       `;
       return article;
     }
@@ -596,12 +823,25 @@
         });
 
         timelineContainer.innerHTML = '';
+        timelineEntries = [];
         sortedProjects.forEach((project) => {
           const item = createTimelineItem(project);
           timelineContainer.appendChild(item);
           observeReveals(item);
-          timelineObserver.observe(item);
         });
+
+        timelineEntries = Array.from(timelineContainer.querySelectorAll('.timeline-entry'));
+        if (timelineEntries.length) {
+          if (timelineInView) {
+            scheduleTimelineUpdate();
+          } else if (expandedTimelineEntry) {
+            setEntryExpanded(expandedTimelineEntry, false);
+            expandedTimelineEntry = null;
+          }
+        } else if (expandedTimelineEntry) {
+          setEntryExpanded(expandedTimelineEntry, false);
+          expandedTimelineEntry = null;
+        }
 
         if (!sortedProjects.length) {
           if (projectsStatus) {
@@ -613,6 +853,11 @@
         }
       } catch (err) {
         timelineContainer.innerHTML = '';
+        timelineEntries = [];
+        if (expandedTimelineEntry) {
+          setEntryExpanded(expandedTimelineEntry, false);
+          expandedTimelineEntry = null;
+        }
         if (projectsStatus) {
           projectsStatus.textContent = 'Unable to load projects right now.';
           projectsStatus.hidden = false;
