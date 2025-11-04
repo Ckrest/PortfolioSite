@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Read Aloud Button for ChatGPT — Nick Young</title>
+  <meta name="description" content="Chrome extension that adds a persistent Read Aloud button to ChatGPT's bottom toolbar for easy access to text-to-speech functionality." />
+  <link rel="stylesheet" href="../project.css" />
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">← Back to projects</a>
+    <span> / Read Aloud Button for ChatGPT</span>
+  </nav>
+
+  <header>
+    <div class="hero" role="presentation">
+      <h1>Read Aloud Button for ChatGPT</h1>
+      <p>
+        A Chrome extension that adds a persistent "Read Aloud" button to ChatGPT's bottom toolbar, making it easy to start audio playback without scrolling to the bottom or opening context menus.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <figure>
+        <img src="preview.svg" alt="Chrome extension icon showing speaker icon in ChatGPT interface" loading="lazy" />
+      </figure>
+      <div class="tag-row">
+        <span class="tag">Chrome Extension</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">UX Design</span>
+      </div>
+      <div class="button-row">
+        <a href="https://chromewebstore.google.com/detail/read-aloud-button-to-pers/ckghaldnakeeodncopgaahdenljcjcbb?hl=en" class="button" target="_blank" rel="noopener noreferrer">
+          View on Chrome Web Store →
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Problem</h2>
+      <p>
+        ChatGPT's native "Read Aloud" feature is buried in a context menu, requiring users to scroll to the bottom of long messages and click through menus. This creates friction when users want to quickly listen to responses, especially during longer conversations.
+      </p>
+    </section>
+
+    <section>
+      <h2>Solution</h2>
+      <p>
+        The extension adds a persistent speaker icon button directly to ChatGPT's bottom toolbar. The button:
+      </p>
+      <ul>
+        <li>Stays visible while scrolling through long conversations</li>
+        <li>Automatically triggers ChatGPT's native Read Aloud feature without showing menus</li>
+        <li>Updates its icon to show play/stop states based on audio playback</li>
+        <li>Uses event-driven architecture with audio element listeners for minimal performance impact</li>
+        <li>Matches ChatGPT's native design language for seamless integration</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Technical Implementation</h2>
+      <p>
+        Built with vanilla JavaScript and Chrome Extension Manifest V3, the extension:
+      </p>
+      <ul>
+        <li>Injects a custom button into ChatGPT's DOM structure</li>
+        <li>Programmatically opens and interacts with ChatGPT's "More actions" menu invisibly</li>
+        <li>Uses MutationObserver to detect audio elements and attach event listeners</li>
+        <li>Implements retry logic to handle ChatGPT's async menu rendering</li>
+        <li>Provides visual feedback through icon state changes (play ↔ stop)</li>
+      </ul>
+      <p>
+        The extension is lightweight, requires no background processes, and works entirely client-side with event-driven architecture.
+      </p>
+    </section>
+
+    <section>
+      <h2>Impact</h2>
+      <ul>
+        <li>Published on Chrome Web Store with positive user feedback</li>
+        <li>Eliminates the need to scroll and navigate menus for audio playback</li>
+        <li>Improves accessibility by making Read Aloud functionality more discoverable</li>
+        <li>Zero performance overhead with event-driven design</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Nick Young. A living site engineered for clarity and speed.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+

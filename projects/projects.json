@@ -1,5 +1,46 @@
 [
   {
+    "slug": "convenient-audio-controls-chatgpt",
+    "title": "Convenient Audio Controls for ChatGPT",
+    "summary": "Enhanced audio controls and playback management for ChatGPT conversations, providing convenient access to text-to-speech functionality.",
+    "tags": ["Chrome Extension", "JavaScript", "Accessibility"],
+    "url": "projects/convenient-audio-controls-chatgpt/",
+    "previewImage": "projects/convenient-audio-controls-chatgpt/preview.svg",
+    "previewAlt": "Audio controls interface for ChatGPT showing playback controls",
+    "date": "2025-11-04",
+    "featured": true
+  },
+  {
+    "slug": "read-aloud-button-chatgpt",
+    "title": "Read Aloud Button for ChatGPT",
+    "summary": "Chrome extension that adds a persistent Read Aloud button to ChatGPT's bottom toolbar for easy access to text-to-speech functionality.",
+    "tags": ["Chrome Extension", "JavaScript", "UX Design"],
+    "url": "projects/read-aloud-button-chatgpt/",
+    "previewImage": "projects/read-aloud-button-chatgpt/preview.svg",
+    "previewAlt": "Chrome extension icon showing speaker icon in ChatGPT interface",
+    "date": "2025-10-31"
+  },
+  {
+    "slug": "ai-evaluation-system",
+    "title": "The AI Evaluation System",
+    "summary": "Modular system for comparing different AI models, prompts, and settings against each other to enable systematic evaluation and optimization.",
+    "tags": ["AI/ML", "Python", "Framework", "Evaluation"],
+    "url": "projects/ai-evaluation-system/",
+    "previewImage": "projects/ai-evaluation-system/preview.svg",
+    "previewAlt": "AI evaluation system architecture diagram showing model comparison workflow",
+    "date": "2025-10-24"
+  },
+  {
+    "slug": "ai-integration-project-proposal",
+    "title": "Independent AI Integration Engineering Project Proposal",
+    "summary": "Strategic project proposal outlining an independent AI integration engineering initiative with milestones, budgets, and staffing requirements.",
+    "tags": ["Strategy", "Project Planning", "Research"],
+    "url": "projects/ai-integration-project-proposal/",
+    "previewImage": "projects/ai-integration-project-proposal/preview.svg",
+    "previewAlt": "Project proposal document preview showing strategic planning elements",
+    "date": "2025-09-15"
+  },
+  {
     "slug": "ai-model-evaluation-systems-diagram",
     "title": "AI Model Evaluation Systems Diagram",
     "summary": "Interactive React flowchart that visualizes an AI evaluation pipeline with tooltips and a mini simulation.",
@@ -7,37 +48,6 @@
     "url": "projects/ai-model-evaluation-systems-diagram/",
     "previewImage": "projects/ai-model-evaluation-systems-diagram/preview.svg",
     "previewAlt": "Stylized AI evaluation system diagram",
-    "date": "2025-10-20",
-    "featured": true
-  },
-  {
-    "slug": "portfolio-website",
-    "title": "TEMP1",
-    "summary": "Designing and building this fast, framework-free portfolio with a fully automated project feed.",
-    "tags": ["Design System", "Frontend"],
-    "url": "projects/portfolio-website/",
-    "previewImage": "projects/portfolio-website/preview.svg",
-    "previewAlt": "Screenshot of the portfolio website layout",
-    "date": "2025-10-01"
-  },
-  {
-    "slug": "ai-evaluation-project-proposal",
-    "title": "TEMP2",
-    "summary": "Strategic plan outlining milestones, budgets, and staffing for the AI model evaluation initiative.",
-    "tags": ["Strategy", "Research"],
-    "url": "projects/ai-evaluation-project-proposal/",
-    "previewImage": "projects/ai-evaluation-project-proposal/preview.svg",
-    "previewAlt": "Presentation slides summarizing an AI evaluation proposal",
-    "date": "2025-09-01"
-  },
-  {
-    "slug": "analytics-onboarding-sprint",
-    "title": "TEMP3",
-    "summary": "Concept UI sprint exploring onboarding and data summarization flows for an analytics app.",
-    "tags": ["Product Design", "Prototype"],
-    "url": "projects/analytics-onboarding-sprint/",
-    "previewImage": "projects/analytics-onboarding-sprint/preview.svg",
-    "previewAlt": "Concept UI mock showing analytics onboarding screens",
-    "date": "2023-02-10"
+    "date": "2025-10-20"
   }
 ]
