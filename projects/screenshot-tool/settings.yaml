@@ -1,0 +1,17 @@
+# Screenshot Tool
+
+title: "Screenshot Tool"
+summary: "Placeholder summary for Screenshot Tool. Update with actual project description."
+date: 2025-11-23
+
+level: 3
+phase: 1
+status: in-progress
+
+tags:
+  - Desktop Utility
+  - Python
+
+# github: https://github.com/Ckrest/screenshot-tool
+
+preview: preview.svg

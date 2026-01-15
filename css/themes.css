@@ -1,0 +1,226 @@
+/*
+ * Theme System
+ * ============
+ * Switch themes by setting data-theme attribute on <html>:
+ *   <html data-theme="soft-dark">
+ *   <html data-theme="warm-earth">
+ *   <html data-theme="paper-ink">
+ *   <html data-theme="botanical">
+ *
+ * Or remove the attribute entirely for the default dark theme.
+ *
+ * Quick switch in browser console:
+ *   document.documentElement.dataset.theme = 'warm-earth'
+ *   delete document.documentElement.dataset.theme  // back to default
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SOFT DARK
+   Warmer dark theme - charcoal instead of black, peach/coral accents
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="soft-dark"] {
+  /* Warmer, softer darks */
+  --color-bg: #1a1816;
+  --color-panel: #242220;
+  --color-soft: #2e2a28;
+  --color-fg: #f5f0eb;
+  --color-muted: #b8a99a;
+
+  /* Warm coral/peach accents */
+  --color-accent: #e07a5f;
+  --color-accent-2: #f4a261;
+
+  /* Phase colors - warmer palette */
+  --color-phase-1: #e07a5f;  /* Coral */
+  --color-phase-2: #f4a261;  /* Amber */
+  --color-phase-3: #81b29a;  /* Sage */
+
+  /* Softer shadows with warm tint */
+  --shadow-sm: 0 4px 12px rgba(20, 15, 10, 0.25);
+  --shadow-md: 0 10px 30px rgba(20, 15, 10, 0.35);
+  --shadow-lg: 0 20px 50px rgba(20, 15, 10, 0.45);
+  --shadow-xl: 0 25px 60px rgba(20, 15, 10, 0.55);
+}
+
+/* Gradient for soft-dark */
+[data-theme="soft-dark"] body.with-gradient {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(224, 122, 95, 0.12), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(244, 162, 97, 0.08), transparent 60%),
+    var(--color-bg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WARM EARTH
+   Light theme with cream/sand backgrounds, terracotta & amber accents
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="warm-earth"] {
+  /* Warm cream and sand tones */
+  --color-bg: #faf6f1;
+  --color-panel: #ffffff;
+  --color-soft: #f5ede4;
+  --color-fg: #2d2926;
+  --color-muted: #7a6f65;
+
+  /* Terracotta and amber */
+  --color-accent: #c75b39;
+  --color-accent-2: #d4913d;
+
+  /* Phase colors - earthy palette */
+  --color-phase-1: #c75b39;  /* Terracotta */
+  --color-phase-2: #d4913d;  /* Amber */
+  --color-phase-3: #5e8c61;  /* Forest */
+
+  /* Warm shadows */
+  --shadow-sm: 0 4px 12px rgba(45, 35, 25, 0.08);
+  --shadow-md: 0 10px 25px rgba(45, 35, 25, 0.12);
+  --shadow-lg: 0 20px 40px rgba(45, 35, 25, 0.15);
+  --shadow-xl: 0 25px 50px rgba(45, 35, 25, 0.18);
+}
+
+/* Gradient for warm-earth */
+[data-theme="warm-earth"] body.with-gradient {
+  background:
+    radial-gradient(1000px 500px at 90% 0%, rgba(199, 91, 57, 0.06), transparent 60%),
+    radial-gradient(800px 400px at 0% 30%, rgba(212, 145, 61, 0.05), transparent 60%),
+    var(--color-bg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAPER & INK
+   Light editorial style - clean whites, deep ink colors, classic feel
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="paper-ink"] {
+  /* Clean paper whites with subtle warmth */
+  --color-bg: #fcfbf9;
+  --color-panel: #ffffff;
+  --color-soft: #f7f5f2;
+  --color-fg: #1a1a1a;
+  --color-muted: #6b6b6b;
+
+  /* Deep ink blue and warm accent */
+  --color-accent: #2c4a7c;
+  --color-accent-2: #8b5a2b;
+
+  /* Phase colors - editorial palette */
+  --color-phase-1: #2c4a7c;  /* Ink blue */
+  --color-phase-2: #8b5a2b;  /* Sepia */
+  --color-phase-3: #4a6741;  /* Hunter green */
+
+  /* Subtle shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 35px rgba(0, 0, 0, 0.10);
+  --shadow-xl: 0 20px 45px rgba(0, 0, 0, 0.12);
+
+  /* Slightly tighter letter spacing for editorial feel */
+  --tracking-tight: -0.025em;
+}
+
+/* No gradient for paper-ink - clean editorial look */
+[data-theme="paper-ink"] body.with-gradient {
+  background: var(--color-bg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOTANICAL
+   Natural greens, warm neutrals, organic and grounded feel
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="botanical"] {
+  /* Soft natural tones */
+  --color-bg: #f4f7f4;
+  --color-panel: #ffffff;
+  --color-soft: #e8efe8;
+  --color-fg: #1f2d1f;
+  --color-muted: #5a6b5a;
+
+  /* Natural greens and warm brown */
+  --color-accent: #4a7c59;
+  --color-accent-2: #a67c52;
+
+  /* Phase colors - botanical palette */
+  --color-phase-1: #4a7c59;  /* Fern */
+  --color-phase-2: #a67c52;  /* Bark */
+  --color-phase-3: #7c9a6e;  /* Moss */
+
+  /* Soft organic shadows */
+  --shadow-sm: 0 4px 12px rgba(31, 45, 31, 0.08);
+  --shadow-md: 0 10px 25px rgba(31, 45, 31, 0.10);
+  --shadow-lg: 0 20px 40px rgba(31, 45, 31, 0.12);
+  --shadow-xl: 0 25px 50px rgba(31, 45, 31, 0.14);
+}
+
+/* Subtle green gradient for botanical */
+[data-theme="botanical"] body.with-gradient {
+  background:
+    radial-gradient(1200px 600px at 100% -20%, rgba(74, 124, 89, 0.08), transparent 60%),
+    radial-gradient(600px 400px at -5% 50%, rgba(166, 124, 82, 0.05), transparent 60%),
+    var(--color-bg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   For themes that should look different in system dark mode
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Warm Earth - dark variant */
+@media (prefers-color-scheme: dark) {
+  [data-theme="warm-earth"] {
+    --color-bg: #1f1c19;
+    --color-panel: #2a2622;
+    --color-soft: #35302b;
+    --color-fg: #f5ede4;
+    --color-muted: #a69a8e;
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.30);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.40);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.50);
+    --shadow-xl: 0 25px 60px rgba(0, 0, 0, 0.60);
+  }
+}
+
+/* Paper & Ink - dark variant */
+@media (prefers-color-scheme: dark) {
+  [data-theme="paper-ink"] {
+    --color-bg: #151618;
+    --color-panel: #1e1f22;
+    --color-soft: #26272b;
+    --color-fg: #e8e8e8;
+    --color-muted: #9a9a9a;
+
+    --color-accent: #6b8fc7;
+    --color-accent-2: #c9a066;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 16px 35px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 20px 45px rgba(0, 0, 0, 0.65);
+  }
+}
+
+/* Botanical - dark variant */
+@media (prefers-color-scheme: dark) {
+  [data-theme="botanical"] {
+    --color-bg: #141a14;
+    --color-panel: #1c241c;
+    --color-soft: #243024;
+    --color-fg: #e4efe4;
+    --color-muted: #8fa88f;
+
+    --color-accent: #6a9c79;
+    --color-accent-2: #c69c72;
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.65);
+  }
+}

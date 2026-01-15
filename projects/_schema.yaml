@@ -1,0 +1,91 @@
+# Portfolio Project Settings Schema
+# Each project folder should contain a settings.yaml following this schema
+
+# ==============================================================================
+# REQUIRED FIELDS
+# ==============================================================================
+
+title: string                    # Display title
+summary: string                  # 1-2 sentence description for cards
+date: string                     # ISO 8601 date (YYYY-MM-DD)
+
+# ==============================================================================
+# DISPLAY LEVEL
+# ==============================================================================
+
+level: 1 | 2 | 3                 # Default: 2
+  # 1 = Large:  Full card with preview image, description, tags, prominent CTA
+  # 2 = Medium: Compact card with title, brief summary, hover expansion
+  # 3 = Small:  Icon only, title on hover, links directly to GitHub
+
+# ==============================================================================
+# CATEGORIZATION
+# ==============================================================================
+
+phase: 1 | 2 | 3                 # Portfolio phase. Default: 1
+  # 1 = AI & Software
+  # 2 = Robotics & Manufacturing
+  # 3 = AI-Powered Robotics
+
+tags:                            # Array of skill/category strings
+  - string
+
+builtWith:                       # Technologies/tools used
+  - string
+
+status: complete | in-progress | archived    # Default: complete
+
+# ==============================================================================
+# LINKING
+# ==============================================================================
+
+github: string                   # GitHub repo URL (required for level 3)
+externalUrl: string              # Alternative external link
+hasDetailPage: boolean           # Default: true for level 1-2, false for level 3
+
+# ==============================================================================
+# ASSETS (paths relative to project folder)
+# ==============================================================================
+
+icon: string                     # Icon for level 3 display. Default: icon.svg
+preview: string                  # Preview image for level 1-2. Default: preview.svg
+
+# ==============================================================================
+# DETAIL PAGE CONTENT (only for hasDetailPage: true)
+# ==============================================================================
+
+content:
+  mode: minimal | structured | readme    # Default: minimal
+
+  description: string            # Extended description for hero section
+
+  # --- For mode: structured ---
+  sections:
+    - type: overview | features | installation | usage | technical | gallery | custom
+      title: string              # Optional custom title
+      content: string            # Markdown content
+      items:                     # For bullet lists (features, etc.)
+        - string
+
+  # --- For mode: readme ---
+  readmePath: string             # Default: README.md (relative to project folder)
+
+  # --- Optional for any mode ---
+  screenshots:
+    - src: string                # Path relative to project folder
+      alt: string
+      caption: string
+
+  links:                         # Additional action buttons
+    - label: string
+      url: string
+      icon: github | external | demo | docs
+
+featured: boolean                # Show in featured section. Default: false
+
+# ==============================================================================
+# AUTO-GENERATED (do not set manually)
+# ==============================================================================
+
+slug: string                     # Auto-derived from folder name if omitted
+folder: string                   # Set by build script to folder name

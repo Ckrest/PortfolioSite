@@ -1,0 +1,314 @@
+/**
+ * Project Card Component Styles
+ *
+ * Three display levels with shared base styles.
+ * Uses design tokens from tokens.css - never hardcode values.
+ */
+
+/* =============================================================================
+   BASE CARD STYLES
+   ============================================================================= */
+
+.project-card {
+  --card-bg: var(--color-surface);
+  --card-bg-hover: var(--color-surface-soft);
+  --card-radius: var(--radius-lg);
+  --card-padding: var(--space-4);
+
+  position: relative;
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  transition: background var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.project-card:hover {
+  background: var(--card-bg-hover);
+}
+
+.project-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card__title {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+}
+
+.project-card__summary {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.project-card__tags .tag {
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface-soft);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.project-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.project-card__cta::after {
+  content: "→";
+  transition: transform var(--transition-fast);
+}
+
+.project-card:hover .project-card__cta::after {
+  transform: translateX(4px);
+}
+
+.project-card__external {
+  display: inline-block;
+  margin-left: var(--space-1);
+  font-size: 0.75em;
+  opacity: 0.5;
+  vertical-align: super;
+}
+
+.project-card:hover .project-card__external {
+  opacity: 1;
+}
+
+.project-card__media {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+.project-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-base);
+}
+
+.project-card:hover .project-card__media img {
+  transform: scale(1.02);
+}
+
+/* =============================================================================
+   LEVEL 1: LARGE CARD
+   ============================================================================= */
+
+.project-card--large {
+  --card-padding: var(--space-6);
+}
+
+.project-card--large .project-card__link {
+  padding: var(--card-padding);
+}
+
+.project-card--large .project-card__media {
+  aspect-ratio: 16 / 9;
+  margin-bottom: var(--space-4);
+}
+
+.project-card--large .project-card__title {
+  font-size: var(--text-2xl);
+}
+
+.project-card--large .project-card__summary {
+  font-size: var(--text-base);
+  max-width: 60ch;
+}
+
+/* =============================================================================
+   LEVEL 2: MEDIUM CARD
+   ============================================================================= */
+
+.project-card--medium {
+  --card-padding: var(--space-4);
+}
+
+.project-card--medium .project-card__link {
+  display: flex;
+  flex-direction: column;
+  padding: var(--card-padding);
+}
+
+.project-card--medium .project-card__title {
+  font-size: var(--text-lg);
+}
+
+.project-card--medium .project-card__summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Expanded content (shown on hover/focus) */
+.project-card--medium .project-card__expanded {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--transition-base);
+  overflow: hidden;
+}
+
+.project-card--medium .project-card__expanded > * {
+  overflow: hidden;
+}
+
+.project-card--medium:hover .project-card__expanded,
+.project-card--medium:focus-within .project-card__expanded {
+  grid-template-rows: 1fr;
+}
+
+.project-card--medium .project-card__media {
+  aspect-ratio: 16 / 9;
+  margin-top: var(--space-4);
+  max-height: 200px;
+}
+
+/* =============================================================================
+   LEVEL 3: SMALL (ICON ONLY)
+   ============================================================================= */
+
+.project-icon {
+  --icon-size: 48px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-fast),
+              background var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.project-icon:hover {
+  transform: scale(1.1);
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.project-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Tooltip */
+.project-icon__tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.project-icon:hover .project-icon__tooltip,
+.project-icon:focus .project-icon__tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* =============================================================================
+   ICON GRID
+   ============================================================================= */
+
+.project-icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+}
+
+/* =============================================================================
+   CARD GROUPS
+   ============================================================================= */
+
+.project-card-group {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.project-card-group--level-1 {
+  gap: var(--space-6);
+}
+
+.project-card-group--level-2 {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 720px) {
+  .project-card--large {
+    --card-padding: var(--space-4);
+  }
+
+  .project-card--large .project-card__title {
+    font-size: var(--text-xl);
+  }
+
+  .project-card--medium .project-card__expanded {
+    /* Always show expanded on mobile */
+    grid-template-rows: 1fr;
+  }
+
+  .project-icon {
+    --icon-size: 40px;
+  }
+}
+
+/* =============================================================================
+   REVEAL ANIMATION
+   ============================================================================= */
+
+.project-card.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-slow),
+              transform var(--transition-slow),
+              background var(--transition-fast);
+}
+
+.project-card.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

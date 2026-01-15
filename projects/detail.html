@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="page-title">Project — Nick Young</title>
+  <meta name="description" id="page-description" content="" />
+  <link rel="stylesheet" href="project.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">← Back to projects</a>
+    <span id="breadcrumb-title"> / Loading...</span>
+  </nav>
+
+  <header>
+    <div class="hero" role="presentation">
+      <h1 id="project-title">Loading...</h1>
+      <p id="project-summary"></p>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Content loaded dynamically -->
+    <section id="loading-section">
+      <p style="color: var(--muted); text-align: center;">Loading project...</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="y"></span> Nick Young. A living site engineered for clarity and speed.</p>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+  <script src="detail.js" type="module"></script>
+</body>
+</html>

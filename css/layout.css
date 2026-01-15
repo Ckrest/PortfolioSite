@@ -1,0 +1,89 @@
+/*
+ * Layout
+ * Page shell structure - where sections get placed.
+ * Header slot, main content area, footer slot.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE STRUCTURE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header slot - for sticky/fixed header */
+#header-slot {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* Main content area - sections get injected here */
+main {
+  flex: 1;
+}
+
+/* Footer slot */
+#footer-slot {
+  margin-top: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION DEFAULTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* All sections get consistent vertical padding */
+section[data-section] {
+  padding: var(--section-padding-y) 0;
+}
+
+/* Section header pattern */
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.section-head h2 {
+  margin: 0;
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  max-width: 420px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOADING STATE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Show while sections are loading */
+.loading-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+/* Hide once sections have loaded */
+body.loaded .loading-placeholder {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLL MARGIN FOR ANCHOR LINKS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Account for sticky header when jumping to sections */
+section[id] {
+  scroll-margin-top: 80px;
+}

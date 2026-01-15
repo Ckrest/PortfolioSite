@@ -1,0 +1,17 @@
+# Extension Dev Connector
+
+title: "Extension Dev Connector"
+summary: "Placeholder summary for Extension Dev Connector. Update with actual project description."
+date: 2026-01-15
+
+level: 3
+phase: 1
+status: in-progress
+
+tags:
+  - Browser Extension
+  - JavaScript
+
+# github: https://github.com/Ckrest/extension-dev-connector
+
+preview: preview.svg

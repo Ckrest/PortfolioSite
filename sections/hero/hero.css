@@ -1,0 +1,24 @@
+/*
+ * Hero Section
+ * Clean, minimal intro
+ */
+
+[data-section="hero"] {
+  padding: clamp(80px, 12vw, 140px) 0 clamp(60px, 8vw, 100px);
+
+  h1 {
+    font-size: clamp(42px, 8vw, 72px);
+    font-weight: 700;
+    line-height: 1;
+    margin: 0 0 var(--space-6);
+    letter-spacing: -0.03em;
+  }
+
+  .hero-tagline {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: 520px;
+    line-height: var(--leading-relaxed);
+  }
+}

@@ -1,0 +1,20 @@
+# Independent AI Integration Engineering Project Proposal
+
+title: Independent AI Integration Engineering Project Proposal
+summary: Strategic project proposal outlining an independent AI integration engineering initiative with milestones, budgets, and staffing requirements.
+date: 2025-09-15
+
+level: 2
+phase: 1
+
+tags:
+  - Strategy
+  - Project Planning
+  - Research
+
+preview: preview.png
+
+content:
+  mode: pdf
+  pdfPath: "proposal.pdf"
+  description: "A comprehensive strategic plan outlining milestones, budgets, and staffing for an independent AI integration engineering initiative focused on building evaluation frameworks and integration tooling."

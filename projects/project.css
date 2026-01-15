@@ -33,6 +33,8 @@ body {
   flex-direction: column;
 }
 header {
+  width: min(1100px, 94vw);
+  margin: 0 auto;
   padding: 28px 0 10px;
 }
 main {
@@ -159,8 +161,9 @@ figure img {
   color: var(--muted);
 }
 .breadcrumb {
-  width: min(900px, 92vw);
+  width: min(1100px, 94vw);
   margin: 0 auto;
+  padding-top: 24px;
   font-size: 14px;
   color: var(--muted);
 }
@@ -343,4 +346,186 @@ figure img {
 .shadow-xl circle,
 .shadow-xl rect {
   transition: inherit;
+}
+
+/* ==========================================================================
+   Markdown Content Styles
+   ========================================================================== */
+
+.markdown-content {
+  line-height: 1.7;
+}
+
+.markdown-content h1 {
+  font-size: clamp(28px, 5vw, 36px);
+  margin: 2em 0 0.75em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+}
+
+.markdown-content h1:first-child {
+  margin-top: 0;
+}
+
+.markdown-content h2 {
+  font-size: clamp(22px, 4vw, 28px);
+  margin: 1.75em 0 0.6em;
+  color: var(--fg);
+}
+
+.markdown-content h3 {
+  font-size: clamp(18px, 3vw, 22px);
+  margin: 1.5em 0 0.5em;
+  color: var(--fg);
+}
+
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  margin: 1.25em 0 0.5em;
+  color: var(--fg);
+}
+
+.markdown-content p {
+  margin: 0 0 1em;
+  color: var(--muted);
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 1.5em;
+  margin: 0 0 1em;
+  color: var(--muted);
+}
+
+.markdown-content li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.markdown-content li > ul,
+.markdown-content li > ol {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+.markdown-content a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.markdown-content a:hover {
+  text-decoration: underline;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin: 1em 0;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.markdown-content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 0.5em 0 0.5em 1.25em;
+  margin: 1em 0;
+  background: color-mix(in oklab, var(--soft), transparent 50%);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--muted);
+}
+
+.markdown-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content code {
+  background: color-mix(in oklab, var(--soft), transparent 30%);
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-size: 0.9em;
+  color: var(--accent-2);
+}
+
+.markdown-content pre {
+  background: color-mix(in oklab, var(--panel), #000 20%);
+  padding: 1.25em;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  margin: 1em 0;
+}
+
+.markdown-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875em;
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.75em 1em;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  text-align: left;
+}
+
+.markdown-content th {
+  background: color-mix(in oklab, var(--soft), transparent 50%);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.markdown-content td {
+  color: var(--muted);
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  margin: 2em 0;
+}
+
+/* ==========================================================================
+   PDF Embed Styles
+   ========================================================================== */
+
+.pdf-embed {
+  width: 100%;
+  height: 80vh;
+  min-height: 500px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  background: var(--panel);
+}
+
+.pdf-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: 16px;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Tag Row Standalone (for dynamic pages)
+   ========================================================================== */
+
+.tag-row.standalone {
+  background: none;
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }

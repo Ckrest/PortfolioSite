@@ -1,0 +1,17 @@
+# Settings Hub
+
+title: "Settings Hub"
+summary: "Placeholder summary for Settings Hub. Update with actual project description."
+date: 2025-11-26
+
+level: 2
+phase: 1
+status: in-progress
+
+tags:
+  - Desktop Utility
+  - Python
+
+github: https://github.com/Ckrest/settings-hub
+
+preview: preview.svg

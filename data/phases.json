@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "AI & Software",
+    "dates": "Oct 2025 – Jan 2026",
+    "accent": "var(--color-phase-1)",
+    "description": "Building foundational AI tools, automation systems, and software infrastructure."
+  },
+  {
+    "id": 2,
+    "name": "Robotics & Manufacturing",
+    "dates": "Feb – May 2026",
+    "accent": "var(--color-phase-2)",
+    "description": "Exploring physical systems, robotics platforms, and manufacturing processes."
+  },
+  {
+    "id": 3,
+    "name": "AI-Powered Robotics",
+    "dates": "Jun – Sep 2026",
+    "accent": "var(--color-phase-3)",
+    "description": "Integrating AI intelligence with robotic systems for autonomous applications."
+  }
+]

@@ -1,0 +1,80 @@
+/*
+ * Roadmap Section
+ * Phase progress indicator - standalone, placeable anywhere
+ */
+
+[data-section="roadmap"] {
+  .phase-roadmap {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-surface-soft);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .phase-indicator {
+    --phase-accent: var(--color-accent);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast), opacity var(--transition-fast);
+    opacity: 0.5;
+  }
+
+  .phase-indicator.is-active {
+    background: color-mix(in oklab, var(--phase-accent), transparent 85%);
+    opacity: 1;
+  }
+
+  .phase-indicator-name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .phase-indicator.is-active .phase-indicator-name {
+    color: var(--phase-accent);
+  }
+
+  .phase-indicator-dates {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+  }
+
+  .phase-indicator-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-top: var(--space-1);
+  }
+
+  .phase-indicator-status {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-2);
+  }
+
+  .phase-indicator.is-active .phase-indicator-status {
+    color: var(--phase-accent);
+  }
+
+  .phase-indicator-subtitle {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+  }
+}
+
+/* Mobile: Stack roadmap vertically */
+@media (max-width: 600px) {
+  [data-section="roadmap"] {
+    .phase-roadmap {
+      flex-direction: column;
+    }
+  }
+}

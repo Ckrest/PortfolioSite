@@ -1,0 +1,22 @@
+# Diagram Tool
+
+title: "Diagram Tool"
+summary: "A Figma-like tool for creating flowcharts and system diagrams. Single-user, local-first with JSON file storage."
+date: 2025-11-23
+
+level: 1
+phase: 1
+status: complete
+featured: true
+
+tags:
+  - Python
+  - Desktop Utility
+  - MCP
+
+github: https://github.com/Ckrest/diagram-tool
+
+preview: preview.png
+
+content:
+  mode: readme

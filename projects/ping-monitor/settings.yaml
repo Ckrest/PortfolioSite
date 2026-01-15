@@ -1,0 +1,17 @@
+# Ping Monitor
+
+title: "Ping Monitor"
+summary: "Placeholder summary for Ping Monitor. Update with actual project description."
+date: 2026-01-13
+
+level: 3
+phase: 1
+status: in-progress
+
+tags:
+  - Desktop Utility
+  - Python
+
+# github: https://github.com/Ckrest/ping-monitor
+
+preview: preview.svg

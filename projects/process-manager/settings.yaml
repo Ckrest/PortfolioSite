@@ -1,0 +1,21 @@
+# Process Manager
+
+title: "Process Manager"
+summary: "GTK GUI for managing systemd user services with status monitoring, start/stop controls, and real-time log streaming."
+date: 2025-10-18
+
+level: 2
+phase: 1
+status: complete
+
+tags:
+  - Desktop Utility
+  - Python
+  - GTK
+
+github: https://github.com/Ckrest/process-manager
+
+preview: preview.svg
+
+content:
+  mode: readme

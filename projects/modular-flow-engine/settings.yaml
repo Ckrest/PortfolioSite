@@ -1,0 +1,21 @@
+# Modular Flow Engine
+
+title: "Modular Flow Engine"
+summary: "A declarative dataflow engine for orchestrating multi-step AI evaluation pipelines with JSON-defined workflows, checkpointing, and error recovery."
+date: 2025-12-19
+
+level: 1
+phase: 1
+status: complete
+
+tags:
+  - Python
+  - AI/ML
+  - Framework
+
+github: https://github.com/Ckrest/modular-flow-engine
+
+preview: preview.svg
+
+content:
+  mode: readme

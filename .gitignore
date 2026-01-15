@@ -1,0 +1,17 @@
+# Development & Testing
+_temp/
+_deprecated/
+*.backup
+
+# Build/generation scripts (keep locally, not in repo)
+_generate*.py
+_generate*.js
+_build.js
+
+# Editor & OS
+.DS_Store
+*.swp
+*~
+
+# Node (if ever used)
+node_modules/

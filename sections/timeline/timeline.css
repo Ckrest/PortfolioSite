@@ -1,0 +1,452 @@
+/*
+ * Timeline Section
+ * Cards integrated into phase sections
+ * Fluid responsive design - adapts to any viewport
+ */
+
+[data-section="timeline"] {
+
+  /* ═══════════════════════════════════════════════════════════════
+     CONFIG - Fluid values that scale with viewport
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Max width: cards fill their container */
+  --tl-max-width: 100%;
+
+  /* Entry gap: 12px mobile → 16px desktop */
+  --tl-entry-gap: clamp(0.75rem, 1vw + 0.5rem, 1rem);
+
+  /* Card padding: scales smoothly */
+  --tl-pad-sm: clamp(0.75rem, 2vw, 1rem);      /* 12px → 16px */
+  --tl-pad-md: clamp(1rem, 2.5vw, 1.25rem);    /* 16px → 20px */
+  --tl-pad-lg: clamp(1.25rem, 3vw, 1.5rem);    /* 20px → 24px */
+
+  /* Typography: fluid scaling */
+  --tl-text-xs: clamp(0.65rem, 1.5vw, 0.7rem);   /* 10px → 11px */
+  --tl-text-sm: clamp(0.8rem, 1.8vw, 0.875rem);  /* 13px → 14px */
+  --tl-text-base: clamp(0.9rem, 2vw, 1rem);      /* 14px → 16px */
+  --tl-text-lg: clamp(1rem, 2.2vw, 1.125rem);    /* 16px → 18px */
+  --tl-text-xl: clamp(1.125rem, 2.5vw, 1.375rem); /* 18px → 22px */
+
+  /* Touch-friendly minimum heights */
+  --tl-touch-min: 44px;
+
+  /* ═══════════════════════════════════════════════════════════════
+     PHASE SECTIONS
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-phase {
+    --phase-accent: var(--color-accent);
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .timeline-phase:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-phase-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+    margin-bottom: var(--tl-pad-md);
+  }
+
+  .timeline-phase-title {
+    font-size: var(--tl-text-base);
+    font-weight: 600;
+    color: var(--phase-accent);
+    margin: 0;
+  }
+
+  .timeline-phase-dates {
+    font-size: var(--tl-text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRIES CONTAINER
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-entries {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tl-entry-gap);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     BASE ENTRY - Card with phase accent
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-entry {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--phase-accent);
+    max-width: var(--tl-max-width);
+    transition: background var(--transition-fast);
+  }
+
+  .timeline-entry:hover {
+    background: var(--color-surface-soft);
+  }
+
+  /* Date */
+  .timeline-date {
+    font-size: var(--tl-text-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  /* Title */
+  .timeline-title {
+    font-size: var(--tl-text-base);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    line-height: var(--leading-snug);
+  }
+
+  /* Summary */
+  .timeline-summary {
+    font-size: var(--tl-text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* External indicator */
+  .external-icon {
+    font-size: 0.75em;
+    opacity: 0.5;
+    margin-left: var(--space-1);
+  }
+
+  .timeline-entry:hover .external-icon {
+    opacity: 0.8;
+  }
+
+  /* Image */
+  .timeline-media {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .timeline-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Icon for small items */
+  .timeline-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: var(--space-2);
+    border-radius: 3px;
+    opacity: 0.8;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     LEVEL 1: LARGE
+     Featured, prominent - image sandwich layout
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-entry--large {
+    border-left-width: 4px;
+    overflow: hidden;
+  }
+
+  .timeline-entry--large .timeline-header {
+    padding: var(--tl-pad-md) var(--tl-pad-lg) var(--tl-pad-sm);
+  }
+
+  .timeline-entry--large .timeline-date {
+    margin-bottom: var(--space-1);
+  }
+
+  .timeline-entry--large .timeline-title {
+    font-size: var(--tl-text-xl);
+  }
+
+  .timeline-entry--large .timeline-media {
+    margin: 0;
+  }
+
+  .timeline-entry--large .timeline-media img {
+    /* Fluid aspect ratio: taller on mobile, wider on desktop */
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .timeline-entry--large .timeline-summary {
+    padding: var(--tl-pad-md) var(--tl-pad-lg) var(--tl-pad-lg);
+    font-size: var(--tl-text-base);
+    margin: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     LEVEL 2: MEDIUM
+     Side-by-side on desktop, stacks like large on mobile
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-entry--medium {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "header media"
+      "summary media";
+    gap: 0 var(--tl-pad-md);
+    padding: var(--tl-pad-md);
+    overflow: hidden;
+  }
+
+  .timeline-entry--medium .timeline-header {
+    grid-area: header;
+    padding: 0;
+  }
+
+  .timeline-entry--medium .timeline-date {
+    margin-bottom: var(--space-1);
+  }
+
+  .timeline-entry--medium .timeline-title {
+    font-size: var(--tl-text-lg);
+  }
+
+  .timeline-entry--medium .timeline-media {
+    grid-area: media;
+    width: clamp(100px, 18vw, 140px);
+    height: clamp(70px, 12vw, 95px);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg);
+    align-self: center;
+  }
+
+  .timeline-entry--medium .timeline-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .timeline-entry--medium .timeline-summary {
+    grid-area: summary;
+    margin: var(--space-2) 0 0 0;
+    padding: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     LEVEL 3: SMALL
+     Icon + title, touch-friendly height
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-entry--small {
+    padding: var(--tl-pad-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--tl-pad-sm);
+    min-height: var(--tl-touch-min);
+  }
+
+  .timeline-entry--small .timeline-date {
+    flex-shrink: 0;
+    width: clamp(55px, 12vw, 70px);
+  }
+
+  .timeline-entry--small .timeline-icon {
+    /* Fluid icon: 28px mobile → 32px desktop */
+    width: clamp(28px, 5vw, 32px);
+    height: clamp(28px, 5vw, 32px);
+    border-radius: var(--radius-sm);
+    opacity: 1;
+    flex-shrink: 0;
+    margin-right: 0;
+  }
+
+  .timeline-entry--small .timeline-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--tl-pad-sm);
+  }
+
+  .timeline-entry--small .timeline-title {
+    font-size: var(--tl-text-sm);
+    font-weight: 500;
+    /* Truncate long titles on narrow screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .timeline-entry--small .timeline-summary {
+    display: none;
+  }
+
+  .timeline-entry--small .timeline-media {
+    display: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     BUNDLE - Group of small items
+     ═══════════════════════════════════════════════════════════════ */
+
+  .timeline-bundle {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--phase-accent);
+    padding: var(--tl-pad-md);
+    max-width: var(--tl-max-width);
+  }
+
+  .timeline-bundle .timeline-date {
+    font-size: var(--tl-text-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-2);
+  }
+
+  .bundle-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font: inherit;
+    font-size: var(--tl-text-base);
+    font-weight: 500;
+    cursor: pointer;
+    min-height: var(--tl-touch-min);
+    transition: color var(--transition-fast);
+  }
+
+  .bundle-header:hover {
+    color: var(--phase-accent);
+  }
+
+  .bundle-toggle {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    transition: transform var(--transition-fast);
+  }
+
+  .timeline-bundle.is-expanded .bundle-toggle {
+    transform: rotate(90deg);
+  }
+
+  .bundle-expanded {
+    display: none;
+    margin-top: var(--tl-pad-md);
+    padding-top: var(--tl-pad-sm);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .timeline-bundle.is-expanded .bundle-expanded {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  /* Entries inside bundle - simpler treatment */
+  .bundle-expanded .timeline-entry {
+    padding: var(--tl-pad-sm);
+    background: var(--color-surface-soft);
+    border-left-width: 2px;
+  }
+
+  .bundle-expanded .timeline-entry:hover {
+    background: color-mix(in oklab, var(--color-surface-soft), var(--phase-accent) 5%);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     RESPONSIVE ADJUSTMENTS
+     Most sizing is fluid via clamp(), these handle layout changes
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Narrow screens */
+  @media (max-width: 480px) {
+    /* Medium: collapse to sandwich layout like large */
+    .timeline-entry--medium {
+      display: block;
+      padding: 0;
+    }
+
+    .timeline-entry--medium .timeline-header {
+      padding: var(--tl-pad-sm) var(--tl-pad-md);
+    }
+
+    .timeline-entry--medium .timeline-media {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+    }
+
+    .timeline-entry--medium .timeline-media img {
+      /* Wider ratio crops top/bottom ~20% compared to 16:9 */
+      aspect-ratio: 3 / 1;
+    }
+
+    .timeline-entry--medium .timeline-summary {
+      padding: var(--tl-pad-sm) var(--tl-pad-md) var(--tl-pad-md);
+      margin: 0;
+    }
+
+    /* Small: stack to 2 lines - date on top, icon+title below */
+    .timeline-entry--small {
+      flex-wrap: wrap;
+    }
+
+    .timeline-entry--small .timeline-date {
+      width: 100%;
+      margin-bottom: calc(-1 * var(--tl-pad-sm) + 4px);
+    }
+
+    .timeline-entry--small .timeline-content {
+      width: 100%;
+    }
+
+    .timeline-entry--small .timeline-title {
+      white-space: normal;
+    }
+  }
+
+  /* Wide screens: allow small cards to wrap titles */
+  @media (min-width: 600px) {
+    .timeline-entry--small .timeline-title {
+      white-space: normal;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     REVEAL ANIMATION
+     ═══════════════════════════════════════════════════════════════ */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .reveal.is-visible,
+  .reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger animation for entries */
+  .timeline-entries .reveal:nth-child(1) { transition-delay: 0s; }
+  .timeline-entries .reveal:nth-child(2) { transition-delay: 0.05s; }
+  .timeline-entries .reveal:nth-child(3) { transition-delay: 0.1s; }
+  .timeline-entries .reveal:nth-child(4) { transition-delay: 0.15s; }
+  .timeline-entries .reveal:nth-child(5) { transition-delay: 0.2s; }
+}

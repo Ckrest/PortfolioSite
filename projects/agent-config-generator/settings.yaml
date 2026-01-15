@@ -1,0 +1,17 @@
+# Agent Config Generator
+
+title: "Agent Config Generator"
+summary: "Placeholder summary for Agent Config Generator. Update with actual project description."
+date: 2026-01-08
+
+level: 3
+phase: 1
+status: in-progress
+
+tags:
+  - Python
+  - Tool
+
+# github: https://github.com/Ckrest/agent-config-generator
+
+preview: preview.svg

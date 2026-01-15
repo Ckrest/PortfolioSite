@@ -1,0 +1,17 @@
+# ComfyUI Ollama Nodes
+
+title: "ComfyUI Ollama Nodes"
+summary: "Placeholder summary for ComfyUI Ollama Nodes. Update with actual project description."
+date: 2025-12-19
+
+level: 3
+phase: 1
+status: in-progress
+
+tags:
+  - ComfyUI
+  - Python
+
+# github: https://github.com/Ckrest/comfyui-ollama-nodes
+
+preview: preview.svg

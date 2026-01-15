@@ -1,0 +1,17 @@
+# Wallpaper Service
+
+title: "Wallpaper Service"
+summary: "Placeholder summary for Wallpaper Service. Update with actual project description."
+date: 2025-12-22
+
+level: 3
+phase: 1
+status: in-progress
+
+tags:
+  - Desktop Utility
+  - Python
+
+# github: https://github.com/Ckrest/wallpaper-service
+
+preview: preview.svg

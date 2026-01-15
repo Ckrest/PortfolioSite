@@ -1,0 +1,147 @@
+/*
+ * Design Tokens
+ * All visual properties in one place. Sections reference these - never hardcode values.
+ * To redesign the site: update these tokens only.
+ */
+
+:root {
+  /* ═══════════════════════════════════════════════════════════════════════════
+     COLOR PALETTE
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* Base colors (dark mode default) */
+  --color-bg: #0b0c10;
+  --color-panel: #12141a;
+  --color-soft: #1a1d26;
+  --color-fg: #e6e8ee;
+  --color-muted: #a1a6b3;
+  --color-accent: #7c5cff;
+  --color-accent-2: #00e5ff;
+
+  /* Phase accent colors */
+  --color-phase-1: #7c5cff;  /* Purple - AI & Software */
+  --color-phase-2: #ff6b4a;  /* Orange - Robotics & Manufacturing */
+  --color-phase-3: #00e5a0;  /* Teal - AI-Powered Robotics */
+
+  /* Semantic aliases - use these in components */
+  --color-text: var(--color-fg);
+  --color-text-secondary: var(--color-muted);
+  --color-surface: var(--color-panel);
+  --color-surface-soft: var(--color-soft);
+  --color-border: color-mix(in oklab, var(--color-muted), transparent 70%);
+  --color-border-subtle: color-mix(in oklab, var(--color-muted), transparent 80%);
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     TYPOGRAPHY
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  /* Font families */
+  --font-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  /* Font sizes - fluid with clamp() */
+  --text-xs: clamp(11px, 1.5vw, 12px);
+  --text-sm: clamp(13px, 1.8vw, 14px);
+  --text-base: clamp(15px, 2vw, 16px);
+  --text-lg: clamp(17px, 2.2vw, 18px);
+  --text-xl: clamp(20px, 2.5vw, 22px);
+  --text-2xl: clamp(24px, 3vw, 28px);
+  --text-3xl: clamp(28px, 3.5vw, 34px);
+  --text-4xl: clamp(36px, 5vw, 48px);
+  --text-5xl: clamp(42px, 6.5vw, 64px);
+
+  /* Line heights */
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.12em;
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SPACING
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Section padding - fluid */
+  --section-padding-y: clamp(48px, 6vw, 72px);
+  --section-gap: clamp(30px, 4.5vw, 44px);
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     BORDERS & RADII
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SHADOWS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 25px 60px rgba(0, 0, 0, 0.45);
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     TRANSITIONS
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.22s ease;
+  --transition-slow: 0.32s ease;
+  --transition-slower: 0.5s ease;
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     LAYOUT
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  --content-width: min(1100px, 92vw);
+  --content-width-narrow: min(720px, 92vw);
+  --content-width-wide: min(1400px, 96vw);
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT MODE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f7f7fb;
+    --color-panel: #ffffff;
+    --color-soft: #f1f3f9;
+    --color-fg: #0c0e12;
+    --color-muted: #5c6472;
+
+    /* Lighter shadows for light mode */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 10px 25px rgba(7, 12, 24, 0.10);
+    --shadow-lg: 0 20px 40px rgba(7, 12, 24, 0.12);
+    --shadow-xl: 0 25px 50px rgba(7, 12, 24, 0.15);
+  }
+}
