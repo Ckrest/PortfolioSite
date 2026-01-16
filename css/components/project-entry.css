@@ -1,0 +1,410 @@
+/**
+ * Project Entry Component
+ *
+ * Base styles for project entries used across timeline, featured, and other contexts.
+ * Uses BEM naming: .project-entry, .project-entry__element, .project-entry--modifier
+ *
+ * Contexts can customize via CSS custom properties:
+ *   --entry-accent: Accent color for stripe (default: --color-accent)
+ *   --entry-bg: Background color (default: --color-surface)
+ *   --entry-bg-hover: Hover background (default: --color-surface-soft)
+ *   --entry-stripe-width: Left border width (default: 3px, set to 0 to hide)
+ */
+
+/* =============================================================================
+   CSS CUSTOM PROPERTIES - Fluid typography and spacing
+   ============================================================================= */
+
+:root {
+  /* Fluid typography */
+  --entry-text-xs: clamp(0.65rem, 1.5vw, 0.7rem);
+  --entry-text-sm: clamp(0.8rem, 1.8vw, 0.875rem);
+  --entry-text-base: clamp(0.9rem, 2vw, 1rem);
+  --entry-text-lg: clamp(1rem, 2.2vw, 1.125rem);
+  --entry-text-xl: clamp(1.125rem, 2.5vw, 1.375rem);
+
+  /* Fluid spacing */
+  --entry-pad-sm: clamp(0.75rem, 2vw, 1rem);
+  --entry-pad-md: clamp(1rem, 2.5vw, 1.25rem);
+  --entry-pad-lg: clamp(1.25rem, 3vw, 1.5rem);
+
+  /* Touch target */
+  --entry-touch-min: 44px;
+}
+
+/* =============================================================================
+   BASE ENTRY STYLES
+   ============================================================================= */
+
+.project-entry {
+  /* Customizable properties with defaults */
+  --entry-accent: var(--color-accent);
+  --entry-bg: var(--color-surface);
+  --entry-bg-hover: var(--color-surface-soft);
+  --entry-stripe-width: 3px;
+
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--entry-bg);
+  border-radius: var(--radius-md);
+  border-left: var(--entry-stripe-width) solid var(--entry-accent);
+  transition: background var(--transition-fast);
+}
+
+.project-entry:hover {
+  background: var(--entry-bg-hover);
+}
+
+/* Date */
+.project-entry__date {
+  font-size: var(--entry-text-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* Title */
+.project-entry__title {
+  font-size: var(--entry-text-base);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  line-height: var(--leading-snug);
+}
+
+/* Summary */
+.project-entry__summary {
+  font-size: var(--entry-text-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--leading-relaxed);
+}
+
+/* External link indicator */
+.project-entry__external {
+  font-size: 0.75em;
+  opacity: 0.5;
+  margin-left: var(--space-1);
+}
+
+.project-entry:hover .project-entry__external {
+  opacity: 0.8;
+}
+
+/* Media container */
+.project-entry__media {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.project-entry__media img,
+.project-entry__media video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Video-specific styles */
+.project-entry__video {
+  background: var(--color-bg);
+}
+
+/* Fallback image (shown when media fails to load) */
+.project-entry__media-fallback {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Hide broken image icon while loading */
+.project-entry__image:not(.loaded):not(.fallback) {
+  background: var(--color-bg);
+}
+
+/* Icon (for small entries) */
+.project-entry__icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: var(--space-2);
+  border-radius: 3px;
+  opacity: 0.8;
+}
+
+/* Tags */
+.project-entry__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.project-entry__tags .tag {
+  font-size: var(--entry-text-xs);
+  padding: 2px 8px;
+  background: var(--color-surface-soft);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* CTA link */
+.project-entry__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--entry-text-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-3);
+}
+
+.project-entry__cta::after {
+  content: "→";
+  transition: transform var(--transition-fast);
+}
+
+.project-entry:hover .project-entry__cta::after {
+  transform: translateX(4px);
+}
+
+/* Body container */
+.project-entry__body {
+  padding: var(--entry-pad-md) var(--entry-pad-lg) var(--entry-pad-lg);
+}
+
+/* =============================================================================
+   LEVEL 1: LARGE - Image sandwich layout
+   ============================================================================= */
+
+.project-entry--large {
+  --entry-stripe-width: 4px;
+  overflow: hidden;
+}
+
+.project-entry--large .project-entry__header {
+  padding: var(--entry-pad-md) var(--entry-pad-lg) var(--entry-pad-sm);
+}
+
+.project-entry--large .project-entry__date {
+  margin-bottom: var(--space-1);
+}
+
+.project-entry--large .project-entry__title {
+  font-size: var(--entry-text-xl);
+}
+
+.project-entry--large .project-entry__media {
+  margin: 0;
+  border-radius: 0;
+}
+
+.project-entry--large .project-entry__media img,
+.project-entry--large .project-entry__media video {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.project-entry--large .project-entry__body {
+  padding: var(--entry-pad-md) var(--entry-pad-lg) var(--entry-pad-sm);
+}
+
+.project-entry--large .project-entry__summary {
+  font-size: var(--entry-text-base);
+}
+
+/* Large card tags at bottom edge */
+.project-entry--large .project-entry__tags {
+  padding: 0 var(--entry-pad-lg) var(--entry-pad-lg);
+}
+
+/* =============================================================================
+   LEVEL 2: MEDIUM - Side-by-side grid
+   ============================================================================= */
+
+.project-entry--medium {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "header media"
+    "body media"
+    "tags tags";
+  gap: 0 var(--entry-pad-md);
+  padding: var(--entry-pad-md);
+  overflow: hidden;
+}
+
+.project-entry--medium .project-entry__header {
+  grid-area: header;
+  padding: 0;
+}
+
+.project-entry--medium .project-entry__date {
+  margin-bottom: var(--space-1);
+}
+
+.project-entry--medium .project-entry__title {
+  font-size: var(--entry-text-lg);
+}
+
+.project-entry--medium .project-entry__media {
+  grid-area: media;
+  width: clamp(100px, 18vw, 140px);
+  height: clamp(70px, 12vw, 95px);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-bg);
+  align-self: center;
+}
+
+.project-entry--medium .project-entry__media img,
+.project-entry--medium .project-entry__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-entry--medium .project-entry__body {
+  grid-area: body;
+  margin: var(--space-2) 0 0 0;
+  padding: 0;
+}
+
+/* Medium card tags at bottom edge */
+.project-entry--medium .project-entry__tags {
+  grid-area: tags;
+  margin-top: var(--space-2);
+}
+
+/* =============================================================================
+   LEVEL 3: SMALL - Inline with icon
+   ============================================================================= */
+
+.project-entry--small {
+  padding: var(--entry-pad-sm);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--entry-pad-sm);
+  min-height: var(--entry-touch-min);
+}
+
+.project-entry--small .project-entry__date {
+  flex-shrink: 0;
+  width: clamp(55px, 12vw, 70px);
+}
+
+.project-entry--small .project-entry__icon {
+  width: clamp(28px, 5vw, 32px);
+  height: clamp(28px, 5vw, 32px);
+  border-radius: var(--radius-sm);
+  opacity: 1;
+  flex-shrink: 0;
+  margin-right: 0;
+}
+
+.project-entry--small .project-entry__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--entry-pad-sm);
+}
+
+.project-entry--small .project-entry__title {
+  font-size: var(--entry-text-sm);
+  font-weight: 500;
+}
+
+.project-entry--small .project-entry__body,
+.project-entry--small .project-entry__media {
+  display: none;
+}
+
+/* Small card tags at bottom - full width */
+.project-entry--small .project-entry__tags {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.project-entry--small .project-entry__tags .tag {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+/* Narrow screens */
+@media (max-width: 480px) {
+  /* Medium: collapse to sandwich layout */
+  .project-entry--medium {
+    display: block;
+    padding: 0;
+  }
+
+  .project-entry--medium .project-entry__header {
+    padding: var(--entry-pad-sm) var(--entry-pad-md);
+  }
+
+  .project-entry--medium .project-entry__media {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .project-entry--medium .project-entry__media img {
+    aspect-ratio: 3 / 1;
+  }
+
+  .project-entry--medium .project-entry__body {
+    padding: var(--entry-pad-sm) var(--entry-pad-md);
+    margin: 0;
+  }
+
+  .project-entry--medium .project-entry__tags {
+    padding: 0 var(--entry-pad-md) var(--entry-pad-md);
+    margin: 0;
+  }
+
+  /* Small: stack date above content */
+  .project-entry--small {
+    flex-wrap: wrap;
+  }
+
+  .project-entry--small .project-entry__date {
+    width: 100%;
+    margin-bottom: calc(-1 * var(--entry-pad-sm) + 4px);
+  }
+
+  .project-entry--small .project-entry__content {
+    width: 100%;
+  }
+
+  .project-entry--small .project-entry__title {
+    white-space: normal;
+  }
+}
+
+/* Small items: allow titles to wrap on all screen sizes */
+.project-entry--small .project-entry__title {
+  white-space: normal;
+}
+
+/* =============================================================================
+   REVEAL ANIMATION
+   ============================================================================= */
+
+.project-entry.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.project-entry.reveal.is-visible,
+.project-entry.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -4,6 +4,7 @@
  */
 
 import config from '../site.config.js';
+import { setActiveSection } from './url-state.js';
 
 /**
  * Load a section's CSS file
@@ -125,6 +126,82 @@ export async function loadSite() {
 
   // Initialize reveal animations
   initRevealAnimations();
+
+  // Handle hash-based navigation (scroll to section)
+  scrollToHashSection();
+
+  // Listen for hash changes (in-page navigation)
+  window.addEventListener('hashchange', scrollToHashSection);
+
+  // Update URL as user scrolls through sections
+  initScrollSpy();
+}
+
+/**
+ * Scroll to section specified in URL hash
+ * Handles URLs like #timeline, #featured, #timeline?tags=AI
+ */
+function scrollToHashSection() {
+  const hash = location.hash.slice(1); // Remove '#'
+  if (!hash) return;
+
+  // Extract section name (before any query params)
+  const sectionName = hash.split('?')[0];
+  if (!sectionName) return;
+
+  // Find the section element
+  const section = document.querySelector(`[data-section="${sectionName}"]`);
+  if (!section) return;
+
+  console.log('[SectionLoader] Scrolling to section:', sectionName);
+
+  // Longer delay to ensure async content (like timeline data) has loaded
+  setTimeout(() => {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+/**
+ * Track which section is visible and update URL accordingly
+ * Uses centralized URL state manager to prevent flickering.
+ */
+function initScrollSpy() {
+  const sections = document.querySelectorAll('[data-section]');
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      // Find the most visible section
+      let mostVisible = null;
+      let maxRatio = 0;
+
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+          maxRatio = entry.intersectionRatio;
+          mostVisible = entry.target;
+        }
+      });
+
+      if (!mostVisible) return;
+
+      const sectionName = mostVisible.dataset.section;
+
+      // Skip header/footer for URL updates
+      if (!sectionName || sectionName === 'header' || sectionName === 'footer') return;
+
+      // Delegate to centralized manager (handles debouncing and change detection)
+      setActiveSection(sectionName);
+    },
+    {
+      // threshold 0 = fires when any pixel enters detection zone
+      // Manager handles debouncing so multiple fires are fine
+      threshold: [0, 0.2],
+      // Detection zone: top 45% of viewport
+      rootMargin: '-5% 0px -50% 0px',
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
 }
 
 /**

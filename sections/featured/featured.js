@@ -1,9 +1,14 @@
 /**
  * Featured Section
- * Clean, minimal featured project display
+ * Displays selected projects using the same card styling as timeline
+ *
+ * Configuration is in site.config.js under `featured`:
+ *   items: ['slug1', 'slug2', ...]  - Project slugs to feature
+ *   maxItems: 3                      - Maximum items to display
+ *   showDate, showTags, showSummary  - Display options
  */
 
-import { formatDate } from '../../js/section-loader.js';
+import { renderEntry } from '../../js/components/project-entry.js';
 
 export async function init(sectionEl, config) {
   const container = sectionEl.querySelector('#featured-project');
@@ -11,81 +16,68 @@ export async function init(sectionEl, config) {
 
   if (!container) return;
 
+  // Get featured config
+  const featuredConfig = config.featured || {};
+  const featuredSlugs = featuredConfig.items || [];
+  const maxItems = featuredConfig.maxItems ?? 3;
+
+  if (featuredSlugs.length === 0) {
+    if (status) {
+      status.textContent = 'Featured projects coming soon.';
+      status.hidden = false;
+    }
+    container.setAttribute('aria-busy', 'false');
+    return;
+  }
+
   try {
     const res = await fetch(config.data.projects, { cache: 'no-cache' });
     if (!res.ok) throw new Error('Request failed');
 
-    const projects = await res.json();
-    const featured = projects.find((p) => p.featured);
+    const manifest = await res.json();
+    const projects = manifest.projects;
 
-    if (featured) {
-      renderFeatured(container, featured);
-      if (status) status.hidden = true;
-    } else {
+    // Find featured projects by slug, maintaining config order
+    const featuredProjects = featuredSlugs
+      .slice(0, maxItems)
+      .map(slug => projects.find(p => p.slug === slug))
+      .filter(Boolean); // Remove any not found
+
+    if (featuredProjects.length === 0) {
       if (status) {
-        status.textContent = 'Featured project coming soon.';
+        status.textContent = 'Featured projects coming soon.';
         status.hidden = false;
       }
+      container.setAttribute('aria-busy', 'false');
+      return;
     }
 
+    // Render each featured project using timeline-entry styling
+    const html = featuredProjects.map(project => {
+      return renderEntry(project, {
+        variant: 'timeline',  // Use timeline styling
+        level: project.level ?? 1,  // Respect project level, default to large
+        showDate: featuredConfig.showDate ?? true,
+        showTags: featuredConfig.showTags ?? true,
+        showCta: false,
+      });
+    }).join('');
+
+    container.innerHTML = `<div class="featured-entries">${html}</div>`;
+
+    if (status) status.hidden = true;
     container.setAttribute('aria-busy', 'false');
+
+    if (window.observeReveals) {
+      window.observeReveals(container);
+    }
+
   } catch (err) {
+    console.error('Featured section error:', err);
     if (status) {
-      status.textContent = 'Unable to load featured project.';
+      status.textContent = 'Unable to load featured projects.';
       status.hidden = false;
     }
     container.setAttribute('aria-busy', 'false');
-  }
-}
-
-function renderFeatured(container, project) {
-  const tagsHtml = project.tags?.length
-    ? `<div class="featured-tags">${project.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`
-    : '';
-
-  // Compute URL: new format uses folder, old format uses url directly
-  const isExternal = project.level === 3 || project.hasDetailPage === false;
-  const linkUrl = project.url || (
-    isExternal
-      ? (project.github || project.externalUrl || '#')
-      : `projects/detail.html?project=${project.folder}`
-  );
-
-  // Compute preview path: new format uses folder/preview, old format uses previewImage
-  const previewPath = project.previewImage || (
-    project.preview ? `projects/${project.folder}/${project.preview}` : null
-  );
-
-  const ctaText = isExternal ? 'View on GitHub' : 'View project';
-
-  const card = document.createElement('a');
-  card.className = 'featured-card reveal';
-  card.href = linkUrl;
-
-  if (isExternal) {
-    card.target = '_blank';
-    card.rel = 'noopener';
-  }
-
-  card.innerHTML = `
-    <div class="featured-inner">
-      <div class="featured-media">
-        ${previewPath ? `<img src="${previewPath}" alt="${project.previewAlt || project.title}" loading="lazy">` : ''}
-      </div>
-      <div class="featured-content">
-        <div class="featured-meta">${formatDate(project.date) || ''}</div>
-        <h3>${project.title}</h3>
-        ${project.summary ? `<p>${project.summary}</p>` : ''}
-        ${tagsHtml}
-        <span class="featured-cta">${ctaText}</span>
-      </div>
-    </div>
-  `;
-
-  container.innerHTML = '';
-  container.appendChild(card);
-
-  if (window.observeReveals) {
-    window.observeReveals(container);
   }
 }

@@ -49,6 +49,28 @@ export default {
   activePhase: 1,
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // FEATURED SECTION
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Control which projects appear in the featured section
+  // Projects are identified by slug (from manifest.json)
+
+  featured: {
+    // List of project slugs to feature (in display order)
+    // Leave empty or comment out items to show "coming soon" message
+    items: [
+      'diagram-tool',
+    ],
+
+    // How many items to show (will show up to this many from the list)
+    maxItems: 3,
+
+    // Display options
+    showDate: true,
+    showTags: true,
+    showSummary: true,
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // TIMELINE SETTINGS
   // ═══════════════════════════════════════════════════════════════════════════
 
@@ -61,6 +83,29 @@ export default {
     // Set to a date string like '2026-03-01' to test how timeline looks at that point
     // Remove or set to null to use actual current date
     // currentDate: '2026-07-01',
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // TAG DISPLAY
+    // ─────────────────────────────────────────────────────────────────────────
+    // Control how tags are displayed alongside timeline entries
+
+    tagDisplay: {
+      // Master toggle: set to false to hide all tag UI
+      enabled: true,
+
+      // Where to show tags on wide screens: 'inline' (on card) or 'margin' (sidecar)
+      wideMode: 'inline',
+
+      // Show aggregated tag strip (narrow: top, wide: in margin slot)
+      showTagStrip: true,
+
+      // Tags to highlight or filter (empty = show all)
+      // Future: this will control filtering behavior
+      activeTags: [],
+
+      // Tags to always hide from display
+      hiddenTags: [],
+    },
   },
 
   // ═══════════════════════════════════════════════════════════════════════════

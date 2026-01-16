@@ -7,6 +7,8 @@
  * - minimal: Shows hero with title/summary only
  */
 
+import { escapeHtml, generatePlaceholderDataUri } from '../js/utils.js';
+
 // Get project slug from URL params
 const params = new URLSearchParams(window.location.search);
 const projectSlug = params.get('project');
@@ -23,9 +25,10 @@ async function loadProject(slug) {
     const manifestRes = await fetch('manifest.json');
     if (!manifestRes.ok) throw new Error('Failed to load manifest');
     const manifest = await manifestRes.json();
+    const projects = manifest.projects;
 
     // Find project in manifest
-    const project = manifest.find(p => p.folder === slug || p.slug === slug);
+    const project = projects.find(p => p.folder === slug || p.slug === slug);
     if (!project) {
       showError(`Project "${slug}" not found.`);
       return;
@@ -216,15 +219,21 @@ function renderMinimal(project, settings, message = null) {
 }
 
 function renderPreviewSection(project) {
-  if (!project.preview) return '';
+  const previewPath = project.preview
+    ? `${project.folder}/${project.preview}`
+    : null;
+  const placeholderDataUri = generatePlaceholderDataUri(project.title);
+  const imageSrc = previewPath || placeholderDataUri;
 
   return `
     <section>
       <figure>
         <img
-          src="${project.folder}/${project.preview}"
-          alt="${project.previewAlt || project.title}"
+          src="${imageSrc}"
+          alt="${escapeHtml(project.previewAlt || project.title)}"
           loading="lazy"
+          data-placeholder="${placeholderDataUri}"
+          onerror="this.onerror=null; this.src=this.dataset.placeholder;"
         />
       </figure>
     </section>

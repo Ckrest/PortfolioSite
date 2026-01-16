@@ -1,9 +1,18 @@
-/*
+/**
  * Featured Section
- * Clean, minimal featured project highlight
+ *
+ * Featured-specific styles that extend the base project-entry component.
+ * Removes background and stripe for a cleaner, prominent display.
+ *
+ * Base entry styles are in: css/components/project-entry.css
  */
 
 [data-section="featured"] {
+
+  /* ═══════════════════════════════════════════════════════════════
+     SECTION HEADER
+     ═══════════════════════════════════════════════════════════════ */
+
   .featured-header {
     margin-bottom: var(--space-8);
   }
@@ -17,112 +26,44 @@
     margin: 0;
   }
 
-  .featured-card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    padding: var(--space-6);
-    margin: 0 calc(var(--space-6) * -1);
-    border-radius: var(--radius-lg);
-    transition: background var(--transition-fast);
-  }
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRIES CONTAINER
+     ═══════════════════════════════════════════════════════════════ */
 
-  .featured-card:hover {
-    background: color-mix(in oklab, var(--color-surface-soft), transparent 50%);
-  }
-
-  .featured-inner {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: var(--space-8);
-    align-items: start;
-  }
-
-  .featured-media {
-    aspect-ratio: 16/10;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-surface-soft);
-    border: 1px solid var(--color-border-subtle);
-  }
-
-  .featured-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .featured-content {
+  .featured-entries {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
-    padding-top: var(--space-2);
+    gap: var(--space-6);
   }
 
-  .featured-meta {
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRY OVERRIDES - No background, no stripe
+     ═══════════════════════════════════════════════════════════════ */
+
+  .project-entry {
+    /* Remove background and stripe */
+    --entry-bg: transparent;
+    --entry-bg-hover: color-mix(in oklab, var(--color-surface-soft), transparent 60%);
+    --entry-stripe-width: 0;
+
+    /* Add left padding where stripe would be */
+    padding-left: var(--entry-pad-md);
   }
 
-  .featured-content h3 {
-    font-size: var(--text-2xl);
-    font-weight: 600;
-    margin: 0;
-    line-height: var(--leading-snug);
+  /* Large entries need internal padding adjustment */
+  .project-entry--large .project-entry__header {
+    padding-left: 0;
   }
 
-  .featured-content p {
-    font-size: var(--text-base);
-    color: var(--color-text-secondary);
-    margin: 0;
-    line-height: var(--leading-relaxed);
-    max-width: 480px;
+  .project-entry--large .project-entry__body {
+    padding-left: 0;
   }
 
-  .featured-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
+  /* ═══════════════════════════════════════════════════════════════
+     REVEAL ANIMATION - Staggered for featured
+     ═══════════════════════════════════════════════════════════════ */
 
-  .featured-tags .tag {
-    background: transparent;
-  }
-
-  .featured-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
-    margin-top: var(--space-2);
-  }
-
-  .featured-cta::after {
-    content: "→";
-    transition: transform var(--transition-fast);
-  }
-
-  .featured-card:hover .featured-cta::after {
-    transform: translateX(4px);
-  }
-}
-
-/* Mobile: Stack layout */
-@media (max-width: 720px) {
-  [data-section="featured"] {
-    .featured-card {
-      margin: 0;
-      padding: 0;
-    }
-
-    .featured-card:hover {
-      background: transparent;
-    }
-
-    .featured-inner {
-      grid-template-columns: 1fr;
-      gap: var(--space-5);
-    }
-  }
+  .featured-entries .reveal:nth-child(1) { transition-delay: 0s; }
+  .featured-entries .reveal:nth-child(2) { transition-delay: 0.1s; }
+  .featured-entries .reveal:nth-child(3) { transition-delay: 0.2s; }
 }

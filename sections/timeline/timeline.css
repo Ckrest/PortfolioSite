@@ -1,35 +1,156 @@
-/*
+/**
  * Timeline Section
- * Cards integrated into phase sections
- * Fluid responsive design - adapts to any viewport
+ *
+ * Timeline-specific styles that extend the base project-entry component.
+ * Sets phase accent colors and provides layout for phase sections.
+ *
+ * Base entry styles are in: css/components/project-entry.css
  */
 
 [data-section="timeline"] {
 
   /* ═══════════════════════════════════════════════════════════════
-     CONFIG - Fluid values that scale with viewport
+     TIMELINE CONFIGURATION
+     Sets CSS custom properties that project-entry.css uses
      ═══════════════════════════════════════════════════════════════ */
 
-  /* Max width: cards fill their container */
-  --tl-max-width: 100%;
+  /* Override entry accent to use phase color */
+  .project-entry {
+    --entry-accent: var(--phase-accent, var(--color-accent));
+  }
 
-  /* Entry gap: 12px mobile → 16px desktop */
-  --tl-entry-gap: clamp(0.75rem, 1vw + 0.5rem, 1rem);
+  /* ═══════════════════════════════════════════════════════════════
+     TEMPORARILY HIDDEN - Connection rail/dots disabled for initial launch
+     Code is preserved, just hidden via CSS
+     ═══════════════════════════════════════════════════════════════ */
 
-  /* Card padding: scales smoothly */
-  --tl-pad-sm: clamp(0.75rem, 2vw, 1rem);      /* 12px → 16px */
-  --tl-pad-md: clamp(1rem, 2.5vw, 1.25rem);    /* 16px → 20px */
-  --tl-pad-lg: clamp(1.25rem, 3vw, 1.5rem);    /* 20px → 24px */
+  .connection-controls {
+    display: none !important;
+  }
 
-  /* Typography: fluid scaling */
-  --tl-text-xs: clamp(0.65rem, 1.5vw, 0.7rem);   /* 10px → 11px */
-  --tl-text-sm: clamp(0.8rem, 1.8vw, 0.875rem);  /* 13px → 14px */
-  --tl-text-base: clamp(0.9rem, 2vw, 1rem);      /* 14px → 16px */
-  --tl-text-lg: clamp(1rem, 2.2vw, 1.125rem);    /* 16px → 18px */
-  --tl-text-xl: clamp(1.125rem, 2.5vw, 1.375rem); /* 18px → 22px */
+  /* ═══════════════════════════════════════════════════════════════
+     TAG CONTROLS - Visibility toggle + filter cloud
+     ═══════════════════════════════════════════════════════════════ */
 
-  /* Touch-friendly minimum heights */
-  --tl-touch-min: 44px;
+  .tag-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--entry-pad-lg);
+    padding: var(--entry-pad-sm);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+  }
+
+  /* Visibility toggle */
+  .tag-visibility {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .tag-visibility__label {
+    font-size: var(--entry-text-sm);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .tag-visibility__buttons {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .tag-visibility__btn {
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: var(--entry-text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .tag-visibility__btn:hover {
+    background: var(--color-surface-soft);
+    color: var(--color-text);
+  }
+
+  .tag-visibility__btn.is-active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+  }
+
+  /* Tag cloud filter */
+  .tag-cloud {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .tag-cloud__label {
+    font-size: var(--entry-text-sm);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .tag-cloud__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tag-cloud__tag {
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-full);
+    font-size: var(--entry-text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .tag-cloud__tag:hover {
+    background: var(--color-surface-soft);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .tag-cloud__tag.is-active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     FILTERED STATES - Hide non-matching entries
+     ═══════════════════════════════════════════════════════════════ */
+
+  .project-entry.is-filtered-out,
+  .timeline-bundle.is-filtered-out {
+    display: none;
+  }
+
+  /* Highlight matching tags on visible entries */
+  .project-entry__tags .tag.tag--selected {
+    background: var(--color-accent);
+    color: white;
+  }
+}
+
+/* =============================================================================
+   TAGS HIDDEN STATE
+   When .tags-hidden is on the section, hide cloud and all card tags
+   ============================================================================= */
+
+[data-section="timeline"].tags-hidden .tag-cloud,
+[data-section="timeline"].tags-hidden .project-entry__tags {
+  display: none;
+}
+
+[data-section="timeline"] {
 
   /* ═══════════════════════════════════════════════════════════════
      PHASE SECTIONS
@@ -49,18 +170,18 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: var(--space-2) var(--space-3);
-    margin-bottom: var(--tl-pad-md);
+    margin-bottom: var(--entry-pad-md);
   }
 
   .timeline-phase-title {
-    font-size: var(--tl-text-base);
+    font-size: clamp(1.25rem, 2.8vw, 1.4rem);  /* ~40% larger than base */
     font-weight: 600;
     color: var(--phase-accent);
     margin: 0;
   }
 
   .timeline-phase-dates {
-    font-size: var(--tl-text-sm);
+    font-size: var(--entry-text-base);
     color: var(--color-text-secondary);
   }
 
@@ -71,243 +192,30 @@
   .timeline-entries {
     display: flex;
     flex-direction: column;
-    gap: var(--tl-entry-gap);
+    gap: clamp(0.75rem, 1vw + 0.5rem, 1rem);
+    /* Reserve space for connection rail on left (no transition to avoid measurement issues) */
+    padding-left: var(--rail-space, 0);
+  }
+
+  /* When connections are active, add space for the rail */
+  .timeline-entries.has-connections {
+    --rail-space: 26px;
+    --dot-x: 8px;  /* Dot center position from left edge of container */
   }
 
   /* ═══════════════════════════════════════════════════════════════
-     BASE ENTRY - Card with phase accent
-     ═══════════════════════════════════════════════════════════════ */
-
-  .timeline-entry {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    background: var(--color-surface);
-    border-radius: var(--radius-md);
-    border-left: 3px solid var(--phase-accent);
-    max-width: var(--tl-max-width);
-    transition: background var(--transition-fast);
-  }
-
-  .timeline-entry:hover {
-    background: var(--color-surface-soft);
-  }
-
-  /* Date */
-  .timeline-date {
-    font-size: var(--tl-text-xs);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-  }
-
-  /* Title */
-  .timeline-title {
-    font-size: var(--tl-text-base);
-    font-weight: 600;
-    color: var(--color-text);
-    margin: 0;
-    line-height: var(--leading-snug);
-  }
-
-  /* Summary */
-  .timeline-summary {
-    font-size: var(--tl-text-sm);
-    color: var(--color-text-secondary);
-    margin: 0;
-    line-height: var(--leading-relaxed);
-  }
-
-  /* External indicator */
-  .external-icon {
-    font-size: 0.75em;
-    opacity: 0.5;
-    margin-left: var(--space-1);
-  }
-
-  .timeline-entry:hover .external-icon {
-    opacity: 0.8;
-  }
-
-  /* Image */
-  .timeline-media {
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-
-  .timeline-media img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  /* Icon for small items */
-  .timeline-icon {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-    margin-right: var(--space-2);
-    border-radius: 3px;
-    opacity: 0.8;
-  }
-
-  /* ═══════════════════════════════════════════════════════════════
-     LEVEL 1: LARGE
-     Featured, prominent - image sandwich layout
-     ═══════════════════════════════════════════════════════════════ */
-
-  .timeline-entry--large {
-    border-left-width: 4px;
-    overflow: hidden;
-  }
-
-  .timeline-entry--large .timeline-header {
-    padding: var(--tl-pad-md) var(--tl-pad-lg) var(--tl-pad-sm);
-  }
-
-  .timeline-entry--large .timeline-date {
-    margin-bottom: var(--space-1);
-  }
-
-  .timeline-entry--large .timeline-title {
-    font-size: var(--tl-text-xl);
-  }
-
-  .timeline-entry--large .timeline-media {
-    margin: 0;
-  }
-
-  .timeline-entry--large .timeline-media img {
-    /* Fluid aspect ratio: taller on mobile, wider on desktop */
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
-
-  .timeline-entry--large .timeline-summary {
-    padding: var(--tl-pad-md) var(--tl-pad-lg) var(--tl-pad-lg);
-    font-size: var(--tl-text-base);
-    margin: 0;
-  }
-
-  /* ═══════════════════════════════════════════════════════════════
-     LEVEL 2: MEDIUM
-     Side-by-side on desktop, stacks like large on mobile
-     ═══════════════════════════════════════════════════════════════ */
-
-  .timeline-entry--medium {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "header media"
-      "summary media";
-    gap: 0 var(--tl-pad-md);
-    padding: var(--tl-pad-md);
-    overflow: hidden;
-  }
-
-  .timeline-entry--medium .timeline-header {
-    grid-area: header;
-    padding: 0;
-  }
-
-  .timeline-entry--medium .timeline-date {
-    margin-bottom: var(--space-1);
-  }
-
-  .timeline-entry--medium .timeline-title {
-    font-size: var(--tl-text-lg);
-  }
-
-  .timeline-entry--medium .timeline-media {
-    grid-area: media;
-    width: clamp(100px, 18vw, 140px);
-    height: clamp(70px, 12vw, 95px);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    background: var(--color-bg);
-    align-self: center;
-  }
-
-  .timeline-entry--medium .timeline-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .timeline-entry--medium .timeline-summary {
-    grid-area: summary;
-    margin: var(--space-2) 0 0 0;
-    padding: 0;
-  }
-
-  /* ═══════════════════════════════════════════════════════════════
-     LEVEL 3: SMALL
-     Icon + title, touch-friendly height
-     ═══════════════════════════════════════════════════════════════ */
-
-  .timeline-entry--small {
-    padding: var(--tl-pad-sm);
-    display: flex;
-    align-items: center;
-    gap: var(--tl-pad-sm);
-    min-height: var(--tl-touch-min);
-  }
-
-  .timeline-entry--small .timeline-date {
-    flex-shrink: 0;
-    width: clamp(55px, 12vw, 70px);
-  }
-
-  .timeline-entry--small .timeline-icon {
-    /* Fluid icon: 28px mobile → 32px desktop */
-    width: clamp(28px, 5vw, 32px);
-    height: clamp(28px, 5vw, 32px);
-    border-radius: var(--radius-sm);
-    opacity: 1;
-    flex-shrink: 0;
-    margin-right: 0;
-  }
-
-  .timeline-entry--small .timeline-content {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--tl-pad-sm);
-  }
-
-  .timeline-entry--small .timeline-title {
-    font-size: var(--tl-text-sm);
-    font-weight: 500;
-    /* Truncate long titles on narrow screens */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .timeline-entry--small .timeline-summary {
-    display: none;
-  }
-
-  .timeline-entry--small .timeline-media {
-    display: none;
-  }
-
-  /* ═══════════════════════════════════════════════════════════════
-     BUNDLE - Group of small items
+     BUNDLE - Collapsible group of small items
      ═══════════════════════════════════════════════════════════════ */
 
   .timeline-bundle {
     background: var(--color-surface);
     border-radius: var(--radius-md);
     border-left: 3px solid var(--phase-accent);
-    padding: var(--tl-pad-md);
-    max-width: var(--tl-max-width);
+    padding: var(--entry-pad-md);
   }
 
-  .timeline-bundle .timeline-date {
-    font-size: var(--tl-text-xs);
+  .timeline-bundle .project-entry__date {
+    font-size: var(--entry-text-xs);
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
@@ -323,10 +231,10 @@
     border: none;
     color: var(--color-text);
     font: inherit;
-    font-size: var(--tl-text-base);
+    font-size: var(--entry-text-base);
     font-weight: 500;
     cursor: pointer;
-    min-height: var(--tl-touch-min);
+    min-height: var(--entry-touch-min);
     transition: color var(--transition-fast);
   }
 
@@ -344,10 +252,37 @@
     transform: rotate(90deg);
   }
 
+  /* Icon row preview */
+  .bundle-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .bundle-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-soft);
+    object-fit: contain;
+    padding: 4px;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  .bundle-icon:hover {
+    transform: scale(1.1);
+  }
+
+  /* Hide icons when expanded (full entries shown instead) */
+  .timeline-bundle.is-expanded .bundle-icons {
+    display: none;
+  }
+
   .bundle-expanded {
     display: none;
-    margin-top: var(--tl-pad-md);
-    padding-top: var(--tl-pad-sm);
+    margin-top: var(--entry-pad-md);
+    padding-top: var(--entry-pad-sm);
     border-top: 1px solid var(--color-border-subtle);
   }
 
@@ -358,95 +293,156 @@
   }
 
   /* Entries inside bundle - simpler treatment */
-  .bundle-expanded .timeline-entry {
-    padding: var(--tl-pad-sm);
+  .bundle-expanded .project-entry {
+    padding: var(--entry-pad-sm);
     background: var(--color-surface-soft);
-    border-left-width: 2px;
+    --entry-stripe-width: 2px;
   }
 
-  .bundle-expanded .timeline-entry:hover {
+  .bundle-expanded .project-entry:hover {
     background: color-mix(in oklab, var(--color-surface-soft), var(--phase-accent) 5%);
   }
 
   /* ═══════════════════════════════════════════════════════════════
-     RESPONSIVE ADJUSTMENTS
-     Most sizing is fluid via clamp(), these handle layout changes
+     REVEAL ANIMATION - Staggered for timeline
      ═══════════════════════════════════════════════════════════════ */
 
-  /* Narrow screens */
-  @media (max-width: 480px) {
-    /* Medium: collapse to sandwich layout like large */
-    .timeline-entry--medium {
-      display: block;
-      padding: 0;
-    }
-
-    .timeline-entry--medium .timeline-header {
-      padding: var(--tl-pad-sm) var(--tl-pad-md);
-    }
-
-    .timeline-entry--medium .timeline-media {
-      width: 100%;
-      height: auto;
-      border-radius: 0;
-    }
-
-    .timeline-entry--medium .timeline-media img {
-      /* Wider ratio crops top/bottom ~20% compared to 16:9 */
-      aspect-ratio: 3 / 1;
-    }
-
-    .timeline-entry--medium .timeline-summary {
-      padding: var(--tl-pad-sm) var(--tl-pad-md) var(--tl-pad-md);
-      margin: 0;
-    }
-
-    /* Small: stack to 2 lines - date on top, icon+title below */
-    .timeline-entry--small {
-      flex-wrap: wrap;
-    }
-
-    .timeline-entry--small .timeline-date {
-      width: 100%;
-      margin-bottom: calc(-1 * var(--tl-pad-sm) + 4px);
-    }
-
-    .timeline-entry--small .timeline-content {
-      width: 100%;
-    }
-
-    .timeline-entry--small .timeline-title {
-      white-space: normal;
-    }
-  }
-
-  /* Wide screens: allow small cards to wrap titles */
-  @media (min-width: 600px) {
-    .timeline-entry--small .timeline-title {
-      white-space: normal;
-    }
-  }
-
-  /* ═══════════════════════════════════════════════════════════════
-     REVEAL ANIMATION
-     ═══════════════════════════════════════════════════════════════ */
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.35s ease, transform 0.35s ease;
-  }
-
-  .reveal.is-visible,
-  .reveal.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Stagger animation for entries */
   .timeline-entries .reveal:nth-child(1) { transition-delay: 0s; }
   .timeline-entries .reveal:nth-child(2) { transition-delay: 0.05s; }
   .timeline-entries .reveal:nth-child(3) { transition-delay: 0.1s; }
   .timeline-entries .reveal:nth-child(4) { transition-delay: 0.15s; }
   .timeline-entries .reveal:nth-child(5) { transition-delay: 0.2s; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     HIGHLIGHT ANIMATION - Deep link scroll target
+     ═══════════════════════════════════════════════════════════════ */
+
+  .project-entry.is-highlighted,
+  .timeline-bundle.is-highlighted {
+    animation: highlight-pulse 2s ease-out;
+  }
+
+  @keyframes highlight-pulse {
+    0%, 100% { box-shadow: none; }
+    20% { box-shadow: 0 0 0 4px var(--phase-accent, var(--color-accent)); }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     CONNECTION CONTROLS - Mode selector
+     ═══════════════════════════════════════════════════════════════ */
+
+  .connection-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .connection-mode {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .connection-mode__label {
+    font-size: var(--entry-text-sm);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .connection-mode__buttons {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .connection-mode__btn {
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: var(--entry-text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .connection-mode__btn:hover {
+    background: var(--color-surface-soft);
+    color: var(--color-text);
+  }
+
+  .connection-mode__btn.is-active {
+    background: var(--color-accent-2, var(--color-accent));
+    border-color: var(--color-accent-2, var(--color-accent));
+    color: white;
+  }
+
+  /* Group selector (shown when "By Group" mode is active) */
+  .group-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-left: var(--space-3);
+    padding-left: var(--space-3);
+    border-left: 1px solid var(--color-border-subtle);
+  }
+
+  .group-selector[hidden] {
+    display: none;
+  }
+
+  .group-selector__btn {
+    padding: var(--space-1) var(--space-2);
+    background: transparent;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-full);
+    font-size: var(--entry-text-xs);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .group-selector__btn:hover {
+    background: var(--color-surface-soft);
+  }
+
+  .group-selector__btn.is-active {
+    background: var(--color-accent-2, var(--color-accent));
+    border-color: var(--color-accent-2, var(--color-accent));
+    color: white;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     CONNECTION VISUALS - Dots and lines drawn by JS at container level
+
+     Both dots and lines are created dynamically by drawConnectionLines()
+     in timeline-items.js. This consolidates all connection drawing logic
+     in one place, eliminating previous sync issues between CSS and JS.
+     ═══════════════════════════════════════════════════════════════ */
+
+  .connection-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent-2, var(--color-accent));
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .connection-line {
+    position: absolute;
+    width: 2px;
+    background: var(--color-accent-2, var(--color-accent));
+    opacity: 0.6;
+    transform: translateX(-50%);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 1px;
+  }
+
 }
+

@@ -5,19 +5,77 @@
  * Levels:
  *   1 = Large (card with image)
  *   2 = Medium (standard entry)
- *   3 = Small (compact) - bundles when old
+ *   3 = Small (compact) - bundles when old AND multiple visible
+ *
+ * Tag Filtering:
+ *   Click tags in the cloud to filter entries. Selected tags highlight
+ *   on matching entries. Multiple tags use OR logic (show if any match).
+ *
+ * Dynamic Bundling:
+ *   Bundles are computed AFTER filtering, so only visible small/old items
+ *   are grouped. If filtering leaves just 1 bundleable item, it shows as
+ *   a regular entry, not a "1 of N" bundle.
+ *
+ * State Flow:
+ *   1. applyFilter(tags) → updates isVisible on registry items
+ *   2. renderTimeline() → calls computeDisplayStructure() per phase
+ *   3. refreshConnections() → computes connections from currentDisplayStructure
+ *
+ *   IMPORTANT: Always call applyFilter() before renderTimeline() if filter changed.
  */
 
 import { formatDate } from '../../js/section-loader.js';
+import { renderEntry, collectAllTags } from '../../js/components/project-entry.js';
+import {
+  createItemsForPhase,
+  initRegistry,
+  attachElements,
+  applyFilter,
+  computeDisplayStructure,
+  computeConnectionsByTag,
+  computeConnectionsByGroup,
+  syncConnectionsToDOM,
+  drawConnectionLines,
+  collectAllGroups,
+} from '../../js/timeline-items.js';
+import {
+  registerSection,
+  updateSectionState,
+  initFromUrl,
+} from '../../js/url-state.js';
 
-let entries = [];
+// Stored data for re-rendering
 let phases = [];
+let projectsByPhase = {};
 
-export async function init(sectionEl, config) {
+// UI state
+let tagConfig = {};
+let sectionEl = null;
+let allTags = [];
+let selectedTags = new Set();
+let tagsVisible = false;
+
+// Connection system state
+let connectionMode = 'none';
+let selectedGroup = null;
+let allGroups = [];
+
+// Current display structure (for connections)
+let currentDisplayStructure = [];
+
+// Scroll spy for tracking visible project
+let projectScrollObserver = null;
+let currentVisibleProject = null;
+
+export async function init(section, config) {
+  sectionEl = section;
   const container = sectionEl.querySelector('#project-timeline');
   const status = sectionEl.querySelector('#timeline-status');
 
   if (!container) return;
+
+  // Apply initial tags-hidden state (tags default to hidden)
+  sectionEl.classList.add('tags-hidden');
 
   // Config: bundling threshold and simulated "current date" for testing
   const thresholdDays = config.timeline?.recentThresholdDays ?? 14;
@@ -25,6 +83,11 @@ export async function init(sectionEl, config) {
   const currentDate = config.timeline?.currentDate
     ? new Date(config.timeline.currentDate).getTime()
     : Date.now();
+
+  // Tag display config
+  tagConfig = {
+    hiddenTags: config.timeline?.tagDisplay?.hiddenTags ?? [],
+  };
 
   try {
     const [phasesRes, projectsRes] = await Promise.all([
@@ -36,10 +99,20 @@ export async function init(sectionEl, config) {
     if (!phasesRes.ok) throw new Error('Phases request failed');
 
     phases = await phasesRes.json();
-    const projects = await projectsRes.json();
+    const manifest = await projectsRes.json();
+    const projects = manifest.projects;
 
-    // Group by phase
-    const projectsByPhase = {};
+    // Collect all unique tags (for tag cloud)
+    allTags = collectAllTags(projects, tagConfig.hiddenTags);
+    selectedTags.clear();
+
+    // Collect all unique groups (for connection controls)
+    allGroups = collectAllGroups(projects);
+    connectionMode = 'none';
+    selectedGroup = null;
+
+    // Group by phase and store for re-rendering
+    projectsByPhase = {};
     for (const project of projects) {
       const phaseId = project.phase || 1;
       if (!projectsByPhase[phaseId]) projectsByPhase[phaseId] = [];
@@ -51,50 +124,56 @@ export async function init(sectionEl, config) {
       projectsByPhase[phaseId].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
     }
 
-    // Render phases in reverse order (newest phase first)
-    container.innerHTML = '';
-    entries = [];
-
-    const phasesReversed = [...phases].reverse();
-
-    const html = phasesReversed.map(phase => {
+    // Build registry with ALL items (no bundling yet)
+    const allItems = [];
+    for (const phase of phases) {
       const phaseProjects = projectsByPhase[phase.id] || [];
-      if (phaseProjects.length === 0) return '';
+      const phaseItems = createItemsForPhase(phaseProjects, phase.id);
+      allItems.push(...phaseItems);
+    }
 
-      const processed = processWithBundling(phaseProjects, thresholdMs, currentDate);
+    // Initialize registry with bundling config
+    initRegistry(allItems, { thresholdMs, currentDate });
 
-      const entriesHtml = processed.map(item => {
-        if (item.type === 'bundle') {
-          return renderBundle(item);
-        }
-        return renderEntry(item.project);
-      }).join('');
+    // Initial render
+    container.innerHTML = '';
 
-      return `
-        <div class="timeline-phase" data-phase="${phase.id}" style="--phase-accent: ${phase.accent}">
-          <div class="timeline-phase-header reveal">
-            <h3 class="timeline-phase-title">${phase.name}</h3>
-            <span class="timeline-phase-dates">${phase.dates}</span>
-          </div>
-          <div class="timeline-entries">${entriesHtml}</div>
-        </div>
-      `;
-    }).join('');
+    // Build tag controls (visibility toggle + filter cloud + connection controls)
+    const tagControlsHtml = renderTagControls(allTags, allGroups);
+    container.innerHTML = tagControlsHtml;
 
-    container.innerHTML = html;
+    // Render phases (bundling computed dynamically)
+    renderTimeline(container);
 
-    // Collect for animations
-    container.querySelectorAll('.timeline-entry, .timeline-bundle, .timeline-phase-header').forEach(el => {
-      entries.push(el);
+    // Setup interactions
+    setupTagVisibilityToggle(container);
+    setupTagCloud(container);
+    setupConnectionControls(container);
+
+    // Register section with URL state manager (must be before initFromUrl)
+    registerSection('timeline', {
+      defaults: { project: null, tags: [], mode: 'none', group: null },
+      onRestore: (state) => restoreTimelineState(container, state),
     });
 
-    setupBundleInteractions(container);
+    // Apply URL state (deep linking) after registration
+    const urlState = initFromUrl();
+    if (urlState.section === 'timeline') {
+      // State was restored via onRestore callback, no additional action needed
+    }
+
+    // Track visible project for URL updates
+    initProjectScrollSpy(container);
+
+    // Event delegation for bundle expand/collapse (handles all current and future bundles)
+    container.addEventListener('click', handleTimelineClick);
 
     if (window.observeReveals) {
       window.observeReveals(container);
     }
 
-    if (status) status.hidden = entries.length > 0;
+    const hasContent = container.querySelectorAll('.project-entry, .timeline-bundle').length > 0;
+    if (status) status.hidden = hasContent;
     container.setAttribute('aria-busy', 'false');
 
   } catch (err) {
@@ -108,137 +187,353 @@ export async function init(sectionEl, config) {
 }
 
 /**
- * Bundle consecutive old small items
- * @param {Array} projects - Projects to process
- * @param {number} thresholdMs - Age threshold in milliseconds
- * @param {number} currentDate - Simulated "now" timestamp for testing
+ * Render the timeline phases based on current filter state
+ * Computes bundles dynamically from visible items
  */
-function processWithBundling(projects, thresholdMs, currentDate = Date.now()) {
-  const result = [];
-  let pending = [];
+function renderTimeline(container) {
+  // Remove existing phase elements (keep tag controls)
+  container.querySelectorAll('.timeline-phase').forEach(el => el.remove());
 
-  function flush() {
-    if (pending.length === 0) return;
-    if (pending.length === 1) {
-      result.push({ type: 'single', project: pending[0] });
-    } else {
-      const dates = pending.map(p => new Date(p.date));
-      result.push({
-        type: 'bundle',
-        projects: [...pending],
-        dateRange: {
-          oldest: new Date(Math.min(...dates)),
-          newest: new Date(Math.max(...dates)),
-        },
-      });
-    }
-    pending = [];
+  // Reset display structure
+  currentDisplayStructure = [];
+
+  // Render phases in reverse order (newest phase first, creating reverse chronology)
+  const phasesReversed = [...phases].reverse();
+
+  for (const phase of phasesReversed) {
+    const phaseProjects = projectsByPhase[phase.id] || [];
+    if (phaseProjects.length === 0) continue;
+
+    // Compute display structure (bundles from visible items)
+    const displayItems = computeDisplayStructure(phase.id);
+
+    // Skip phase if nothing visible
+    if (displayItems.length === 0) continue;
+
+    // Add to global structure for connections
+    currentDisplayStructure.push(...displayItems);
+
+    // Render entries/bundles
+    const entriesHtml = displayItems.map(displayItem => {
+      if (displayItem.type === 'bundle') {
+        return renderBundle(displayItem);
+      }
+      return renderTimelineEntry(displayItem.item.project, displayItem.id);
+    }).join('');
+
+    const phaseHtml = `
+      <div class="timeline-phase" data-phase="${phase.id}" style="--phase-accent: ${phase.accent}">
+        <div class="timeline-phase-header reveal">
+          <h3 class="timeline-phase-title">${phase.name}</h3>
+          <span class="timeline-phase-dates">${phase.dates}</span>
+        </div>
+        <div class="timeline-entries">${entriesHtml}</div>
+      </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', phaseHtml);
   }
 
-  for (const project of projects) {
-    const age = currentDate - new Date(project.date || 0).getTime();
-    const isOld = age > thresholdMs;
-    const isSmall = (project.level || 2) === 3;
+  // Re-attach DOM elements to registry
+  attachElements(container);
 
-    if (isSmall && isOld) {
-      pending.push(project);
-    } else {
-      flush();
-      result.push({ type: 'single', project });
-    }
+  // Highlight selected tags on visible entries
+  highlightSelectedTags(container);
+
+  // Apply reveal animations to new elements
+  if (window.observeReveals) {
+    window.observeReveals(container);
   }
-  flush();
 
-  return result;
+  // Refresh connections
+  refreshConnections(container);
+
+  // Re-observe projects for scroll spy (if initialized)
+  if (projectScrollObserver) {
+    refreshProjectScrollSpy(container);
+  }
 }
 
 /**
- * Render a single timeline entry
+ * Highlight selected tags on all visible entries
  */
-function renderEntry(project) {
-  const level = project.level || 2;
-  const date = formatDate(project.date) || '';
-  const levelClass = level === 1 ? 'large' : level === 3 ? 'small' : 'medium';
+function highlightSelectedTags(container) {
+  container.querySelectorAll('.project-entry .tag').forEach(tagEl => {
+    const tagText = tagEl.textContent.trim();
+    tagEl.classList.toggle('tag--selected', selectedTags.has(tagText));
+  });
+}
 
-  // Link handling
-  const isExternal = level === 3 || project.hasDetailPage === false;
-  const url = project.url || (isExternal
-    ? (project.github || project.externalUrl || '#')
-    : `projects/detail.html?project=${project.folder}`);
-  const attrs = isExternal ? 'target="_blank" rel="noopener"' : '';
-  const extIcon = isExternal ? '<span class="external-icon">↗</span>' : '';
+/**
+ * Render the tag controls - visibility toggle + filter cloud + connection controls
+ */
+function renderTagControls(tags, groups) {
+  if (!tags?.length) return '';
 
-  // CTA text
-  const cta = isExternal ? 'View' : 'View';
+  const tagsHtml = tags.map(tag =>
+    `<button class="tag-cloud__tag" data-tag="${tag}">${tag}</button>`
+  ).join('');
 
-  // Preview image path
-  const previewPath = project.preview
-    ? `projects/${project.folder}/${project.preview}`
-    : null;
+  // Connection mode buttons - static HTML (None, By Tag, By Group)
+  const modeButtons = `
+    <button class="connection-mode__btn is-active" data-mode="none">None</button>
+    <button class="connection-mode__btn" data-mode="tag">By Tag</button>
+    <button class="connection-mode__btn" data-mode="group">By Group</button>
+  `;
 
-  // Icon path (for small items)
-  const iconPath = `projects/${project.folder}/${project.icon || 'icon.svg'}`;
+  // Group selector buttons (hidden by default)
+  const groupButtons = groups.length > 0
+    ? groups.map(g => `<button class="group-selector__btn" data-group="${g}">${g}</button>`).join('')
+    : '<span class="group-selector__empty">No groups defined</span>';
 
-  // Build HTML based on level
-  if (level === 1) {
-    // Large: title first, image middle, summary below
-    return `
-      <a class="timeline-entry timeline-entry--large reveal" href="${url}" ${attrs}>
-        <div class="timeline-header">
-          <div class="timeline-date">${date}</div>
-          <h4 class="timeline-title">${project.title}${extIcon}</h4>
+  return `
+    <div class="tag-controls">
+      <div class="tag-visibility">
+        <span class="tag-visibility__label">Tags:</span>
+        <div class="tag-visibility__buttons">
+          <button class="tag-visibility__btn" data-visible="true">Show</button>
+          <button class="tag-visibility__btn is-active" data-visible="false">Hide</button>
         </div>
-        ${previewPath ? `<div class="timeline-media"><img src="${previewPath}" alt="${project.previewAlt || project.title}" loading="lazy"></div>` : ''}
-        ${project.summary ? `<p class="timeline-summary">${project.summary}</p>` : ''}
-      </a>
-    `;
-  } else if (level === 2) {
-    // Medium: same sandwich structure as large, but styled smaller
-    return `
-      <a class="timeline-entry timeline-entry--medium reveal" href="${url}" ${attrs}>
-        <div class="timeline-header">
-          <div class="timeline-date">${date}</div>
-          <h4 class="timeline-title">${project.title}${extIcon}</h4>
+      </div>
+      <div class="tag-cloud">
+        <span class="tag-cloud__label">Filter by tag:</span>
+        <div class="tag-cloud__tags">${tagsHtml}</div>
+      </div>
+      <div class="connection-controls">
+        <div class="connection-mode">
+          <span class="connection-mode__label">Connect:</span>
+          <div class="connection-mode__buttons">${modeButtons}</div>
         </div>
-        ${previewPath ? `<div class="timeline-media"><img src="${previewPath}" alt="${project.previewAlt || project.title}" loading="lazy"></div>` : ''}
-        ${project.summary ? `<p class="timeline-summary">${project.summary}</p>` : ''}
-      </a>
-    `;
-  } else {
-    // Small: icon + title
-    return `
-      <a class="timeline-entry timeline-entry--small reveal" href="${url}" ${attrs}>
-        <div class="timeline-date">${date}</div>
-        <div class="timeline-content">
-          <img src="${iconPath}" alt="" class="timeline-icon" onerror="this.style.display='none'">
-          <h4 class="timeline-title">${project.title}${extIcon}</h4>
-        </div>
-      </a>
-    `;
+        <div class="group-selector" hidden>${groupButtons}</div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Setup tag visibility toggle
+ */
+function setupTagVisibilityToggle(container) {
+  const buttons = container.querySelectorAll('.tag-visibility__btn');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const visible = btn.dataset.visible === 'true';
+
+      // Update active button
+      buttons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      // Update state
+      tagsVisible = visible;
+
+      // Toggle visibility class on section
+      if (sectionEl) {
+        sectionEl.classList.toggle('tags-hidden', !visible);
+      }
+
+      // Clear tag filters when hiding
+      if (!visible && selectedTags.size > 0) {
+        selectedTags.clear();
+        container.querySelectorAll('.tag-cloud__tag').forEach(t => t.classList.remove('is-active'));
+        applyTagFilter(container);
+      }
+    });
+  });
+}
+
+/**
+ * Setup tag cloud click handlers for filtering
+ */
+function setupTagCloud(container) {
+  const buttons = container.querySelectorAll('.tag-cloud__tag');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag;
+
+      // Toggle tag in/out of selectedTags set
+      if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+        btn.classList.remove('is-active');
+      } else {
+        selectedTags.add(tag);
+        btn.classList.add('is-active');
+      }
+
+      // Apply filter (re-renders timeline)
+      applyTagFilter(container);
+
+      // Sync to URL
+      syncUrlState();
+    });
+  });
+}
+
+/**
+ * Apply tag filter by re-rendering the timeline
+ * Bundles are computed from visible items only
+ */
+function applyTagFilter(container) {
+  // Update visibility in registry
+  applyFilter(selectedTags);
+
+  // Re-render timeline (computes bundles from visible items)
+  renderTimeline(container);
+}
+
+/**
+ * Setup connection mode controls
+ */
+function setupConnectionControls(container) {
+  const modeButtons = container.querySelectorAll('.connection-mode__btn');
+  const groupSelector = container.querySelector('.group-selector');
+  const groupButtons = container.querySelectorAll('.group-selector__btn');
+
+  // Mode switching
+  modeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+
+      // Update active button
+      modeButtons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      // Update state
+      connectionMode = mode;
+
+      // Show/hide group selector
+      if (groupSelector) {
+        groupSelector.hidden = mode !== 'group';
+      }
+
+      // Clear group selection if not in group mode
+      if (mode !== 'group') {
+        selectedGroup = null;
+        groupButtons.forEach(b => b.classList.remove('is-active'));
+      }
+
+      // Refresh connections
+      refreshConnections(container);
+
+      // Sync to URL
+      syncUrlState();
+    });
+  });
+
+  // Group selection
+  groupButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group;
+
+      // Toggle selection
+      if (selectedGroup === group) {
+        selectedGroup = null;
+        btn.classList.remove('is-active');
+      } else {
+        groupButtons.forEach(b => b.classList.remove('is-active'));
+        selectedGroup = group;
+        btn.classList.add('is-active');
+      }
+
+      // Refresh connections
+      refreshConnections(container);
+
+      // Sync to URL
+      syncUrlState();
+    });
+  });
+}
+
+/**
+ * Compute and apply connection classes based on current mode
+ */
+function refreshConnections(container) {
+  let connections;
+
+  switch (connectionMode) {
+    case 'tag':
+      connections = computeConnectionsByTag(selectedTags, currentDisplayStructure);
+      break;
+    case 'group':
+      connections = computeConnectionsByGroup(selectedGroup, currentDisplayStructure);
+      break;
+    case 'none':
+    default:
+      connections = new Map();
+      break;
   }
+
+  // Sync to DOM
+  syncConnectionsToDOM(container, connections);
+
+  // Toggle has-connections class on all timeline-entries containers
+  const hasActiveConnections = connections.size > 0;
+  container.querySelectorAll('.timeline-entries').forEach(entriesEl => {
+    entriesEl.classList.toggle('has-connections', hasActiveConnections);
+  });
+
+  // Draw connection visuals after layout settles
+  requestAnimationFrame(() => {
+    drawConnectionLines(container, connections);
+  });
+}
+
+/**
+ * Render a timeline entry using the shared component
+ */
+function renderTimelineEntry(project, itemId) {
+  return renderEntry(project, {
+    variant: 'timeline',
+    showDate: true,
+    showTags: true,
+    showCta: false,
+    tagConfig: {
+      hiddenTags: tagConfig.hiddenTags,
+    },
+    itemId,
+  });
 }
 
 /**
  * Render a bundle of small items
+ * @param {Object} displayItem - Display item with type='bundle', items array, and id
  */
-function renderBundle(bundle) {
-  const { projects, dateRange } = bundle;
-  const count = projects.length;
+function renderBundle(displayItem) {
+  const { items, id } = displayItem;
+  const count = items.length;
 
-  const oldestStr = formatDate(dateRange.oldest.toISOString().split('T')[0]) || '';
-  const newestStr = formatDate(dateRange.newest.toISOString().split('T')[0]) || '';
+  // Compute date range from items
+  const dates = items.map(item => item.date).filter(Boolean);
+  const oldest = new Date(Math.min(...dates));
+  const newest = new Date(Math.max(...dates));
+
+  const oldestStr = formatDate(oldest.toISOString().split('T')[0]) || '';
+  const newestStr = formatDate(newest.toISOString().split('T')[0]) || '';
   const dateStr = oldestStr === newestStr ? oldestStr : `${oldestStr} – ${newestStr}`;
 
-  const itemsHtml = projects.map(p => renderEntry(p)).join('');
+  // Render icon row preview
+  const iconsHtml = items.map(item => {
+    const icon = item.project.icon || 'icon.svg';
+    const iconPath = `projects/${item.project.folder}/${icon}`;
+    const title = item.project.title || '';
+    return `<img src="${iconPath}" alt="${title}" title="${title}" class="bundle-icon" onerror="this.style.opacity='0.2'; this.onerror=null;">`;
+  }).join('');
+
+  // Render child entries (for expanded view)
+  const itemsHtml = items.map(item =>
+    renderTimelineEntry(item.project, item.id)
+  ).join('');
 
   return `
-    <div class="timeline-bundle reveal">
-      <div class="timeline-date">${dateStr}</div>
-      <div class="timeline-content">
+    <div class="timeline-bundle reveal" data-item-id="${id}">
+      <div class="project-entry__date">${dateStr}</div>
+      <div class="timeline-bundle__content">
         <button class="bundle-header" aria-expanded="false">
           <span class="bundle-toggle">▶</span>
-          <span class="bundle-label">${count} smaller projects</span>
+          <span class="bundle-label">${count} projects</span>
         </button>
+        <div class="bundle-icons">${iconsHtml}</div>
         <div class="bundle-expanded">${itemsHtml}</div>
       </div>
     </div>
@@ -246,16 +541,203 @@ function renderBundle(bundle) {
 }
 
 /**
- * Setup expand/collapse for bundles
+ * Delegated click handler for timeline container
+ * Handles bundle expand/collapse without per-element listeners
  */
-function setupBundleInteractions(container) {
-  container.querySelectorAll('.bundle-header').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      const bundle = btn.closest('.timeline-bundle');
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', !isOpen);
-      bundle.classList.toggle('is-expanded', !isOpen);
+function handleTimelineClick(e) {
+  const bundleHeader = e.target.closest('.bundle-header');
+  if (bundleHeader) {
+    e.preventDefault();
+    const bundle = bundleHeader.closest('.timeline-bundle');
+    const isOpen = bundleHeader.getAttribute('aria-expanded') === 'true';
+    bundleHeader.setAttribute('aria-expanded', !isOpen);
+    bundle.classList.toggle('is-expanded', !isOpen);
+  }
+}
+
+// =============================================================================
+// URL STATE (Deep Linking)
+// =============================================================================
+
+/**
+ * Restore timeline state from URL (called by URL state manager)
+ * Restores tags, connection mode, group selection, and scrolls to project
+ */
+function restoreTimelineState(container, state) {
+  // Apply tags
+  if (state.tags?.length) {
+    state.tags.forEach(tag => {
+      if (allTags.includes(tag)) {
+        selectedTags.add(tag);
+      }
     });
+
+    if (selectedTags.size > 0) {
+      // Show tags panel when tags are in URL
+      tagsVisible = true;
+      if (sectionEl) {
+        sectionEl.classList.remove('tags-hidden');
+      }
+
+      updateTagCloudUI(container);
+      updateTagVisibilityUI(container);
+      applyTagFilter(container);
+    }
+  }
+
+  // Apply connection mode
+  if (state.mode && state.mode !== 'none') {
+    connectionMode = state.mode;
+
+    if (state.mode === 'group' && state.group && allGroups.includes(state.group)) {
+      selectedGroup = state.group;
+    }
+
+    updateConnectionModeUI(container);
+    refreshConnections(container);
+  }
+
+  // Scroll to project (after filters applied so element is visible)
+  if (state.project) {
+    // Small delay to ensure DOM is settled after filter changes
+    requestAnimationFrame(() => {
+      scrollToProject(container, state.project);
+    });
+  }
+}
+
+/**
+ * Scroll to and highlight a project by slug
+ */
+function scrollToProject(container, slug) {
+  const el = container.querySelector(`[data-slug="${slug}"]`);
+  if (!el) return;
+
+  // If inside collapsed bundle, expand it first
+  const bundle = el.closest('.timeline-bundle:not(.is-expanded)');
+  if (bundle) {
+    const header = bundle.querySelector('.bundle-header');
+    header.setAttribute('aria-expanded', 'true');
+    bundle.classList.add('is-expanded');
+  }
+
+  // Scroll and highlight
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.classList.add('is-highlighted');
+  setTimeout(() => el.classList.remove('is-highlighted'), 2000);
+}
+
+/**
+ * Sync current UI state to URL (immediate - for user interactions)
+ */
+function syncUrlState() {
+  updateSectionState('timeline', {
+    tags: Array.from(selectedTags),
+    mode: connectionMode,
+    group: selectedGroup,
+  }, { immediate: true });
+}
+
+/**
+ * Update tag cloud button states to match selectedTags
+ */
+function updateTagCloudUI(container) {
+  container.querySelectorAll('.tag-cloud__tag').forEach(btn => {
+    btn.classList.toggle('is-active', selectedTags.has(btn.dataset.tag));
   });
+}
+
+/**
+ * Update tag visibility toggle to match tagsVisible state
+ */
+function updateTagVisibilityUI(container) {
+  container.querySelectorAll('.tag-visibility__btn').forEach(btn => {
+    btn.classList.toggle('is-active', (btn.dataset.visible === 'true') === tagsVisible);
+  });
+}
+
+/**
+ * Update connection mode buttons and group selector to match current state
+ */
+function updateConnectionModeUI(container) {
+  // Update mode buttons
+  container.querySelectorAll('.connection-mode__btn').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.mode === connectionMode);
+  });
+
+  // Show/hide group selector
+  const groupSelector = container.querySelector('.group-selector');
+  if (groupSelector) {
+    groupSelector.hidden = connectionMode !== 'group';
+
+    // Update group buttons
+    groupSelector.querySelectorAll('.group-selector__btn').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.group === selectedGroup);
+    });
+  }
+}
+
+/**
+ * Initialize scroll spy to track which project is currently visible
+ * Updates URL with ?project=slug as user scrolls (batched via URL state manager)
+ */
+function initProjectScrollSpy(container) {
+  // Clean up existing observer
+  if (projectScrollObserver) {
+    projectScrollObserver.disconnect();
+  }
+
+  projectScrollObserver = new IntersectionObserver(
+    (entries) => {
+      // Find the entry closest to center of viewport
+      let bestEntry = null;
+      let bestScore = Infinity;
+
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        // Calculate how centered this entry is (lower = more centered)
+        const rect = entry.boundingClientRect;
+        const viewportCenter = window.innerHeight / 2;
+        const entryCenter = rect.top + rect.height / 2;
+        const distanceFromCenter = Math.abs(viewportCenter - entryCenter);
+
+        if (distanceFromCenter < bestScore) {
+          bestScore = distanceFromCenter;
+          bestEntry = entry;
+        }
+      });
+
+      if (!bestEntry) return;
+
+      const slug = bestEntry.target.dataset.slug;
+      if (!slug || slug === currentVisibleProject) return;
+
+      currentVisibleProject = slug;
+
+      // Update URL with current project (batched - manager handles debouncing)
+      updateSectionState('timeline', { project: slug });
+    },
+    {
+      // threshold 0 catches initial entry, 0.5 catches when well-centered
+      // Manager handles debouncing so multiple fires are fine
+      threshold: [0, 0.5],
+      // Detection zone: middle 40% of viewport
+      rootMargin: '-30% 0px -30% 0px',
+    }
+  );
+
+  // Observe all project entries (not bundles - observe the entries inside)
+  container.querySelectorAll('.project-entry[data-slug]').forEach((entry) => {
+    projectScrollObserver.observe(entry);
+  });
+}
+
+/**
+ * Re-initialize project scroll spy after re-render
+ * Called after filtering changes the visible entries
+ */
+function refreshProjectScrollSpy(container) {
+  currentVisibleProject = null;
+  initProjectScrollSpy(container);
 }

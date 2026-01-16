@@ -101,7 +101,8 @@
   background: var(--color-bg);
 }
 
-.project-card__media img {
+.project-card__media img,
+.project-card__media video {
   display: block;
   width: 100%;
   height: 100%;
@@ -109,8 +110,26 @@
   transition: transform var(--transition-base);
 }
 
-.project-card:hover .project-card__media img {
+.project-card:hover .project-card__media img,
+.project-card:hover .project-card__media video {
   transform: scale(1.02);
+}
+
+/* Video-specific styles */
+.project-card__video {
+  background: var(--color-bg);
+}
+
+/* Fallback image (shown when media fails to load) */
+.project-card__media-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hide broken image icon while loading */
+.project-card__image:not(.loaded):not(.fallback) {
+  background: var(--color-bg);
 }
 
 /* =============================================================================

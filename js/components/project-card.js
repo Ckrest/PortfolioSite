@@ -7,6 +7,8 @@
  *   Level 3 (Small):  Icon only, title on hover
  */
 
+import { escapeHtml, generatePlaceholderDataUri, getMediaType } from '../utils.js';
+
 /**
  * Create a project card HTML string
  * @param {Object} project - Project data from manifest
@@ -72,19 +74,8 @@ function renderTags(tags, className = 'project-card__tags') {
 }
 
 /**
- * Escape HTML special characters
- */
-function escapeHtml(str) {
-  if (!str) return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-/**
  * Get preview image path
+ * Returns the project's preview if specified, otherwise null (will use fallback)
  */
 function getPreviewPath(project) {
   if (!project.preview) return null;
@@ -99,6 +90,49 @@ function getIconPath(project) {
   return `projects/${project.folder}/${icon}`;
 }
 
+/**
+ * Render media element (image or video) with graceful fallback
+ */
+function renderMedia(src, alt, placeholder) {
+  const mediaType = getMediaType(src);
+
+  // No valid media - show placeholder
+  if (!src || !mediaType) {
+    return `
+      <img src="${placeholder}"
+           alt="${alt}"
+           class="project-card__media-fallback">
+    `;
+  }
+
+  if (mediaType === 'video') {
+    // Video: autoplay loop with poster fallback
+    return `
+      <video autoplay loop muted playsinline
+             poster="${placeholder}"
+             class="project-card__video"
+             oncanplay="this.classList.add('loaded')"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <source src="${src}" type="video/${src.split('.').pop()}">
+      </video>
+      <img src="${placeholder}"
+           alt="${alt}"
+           class="project-card__media-fallback"
+           style="display: none;">
+    `;
+  }
+
+  // Image (including GIF): standard img with fallback
+  return `
+    <img src="${src}"
+         alt="${alt}"
+         loading="lazy"
+         class="project-card__image"
+         onload="this.classList.add('loaded')"
+         onerror="this.onerror=null; this.src='${placeholder}'; this.classList.add('fallback');">
+  `;
+}
+
 // =============================================================================
 // LEVEL 1: LARGE CARD
 // =============================================================================
@@ -107,15 +141,9 @@ function renderLargeCard(project, options) {
   const linkUrl = getLinkUrl(project);
   const linkAttrs = getLinkAttrs(project);
   const previewPath = getPreviewPath(project);
+  const placeholderDataUri = generatePlaceholderDataUri(project.title);
+  const altText = escapeHtml(project.title);
   const ctaText = getCTAText(project);
-
-  const mediaHtml = previewPath ? `
-    <div class="project-card__media">
-      <img src="${previewPath}"
-           alt="${escapeHtml(project.title)}"
-           loading="lazy">
-    </div>
-  ` : '';
 
   const externalIcon = (!project.hasDetailPage && project.github) ? `
     <span class="project-card__external" aria-hidden="true">↗</span>
@@ -124,7 +152,9 @@ function renderLargeCard(project, options) {
   return `
     <article class="project-card project-card--large" data-slug="${project.slug}" data-level="1">
       <a class="project-card__link" href="${linkUrl}" ${linkAttrs}>
-        ${mediaHtml}
+        <div class="project-card__media">
+          ${renderMedia(previewPath, altText, placeholderDataUri)}
+        </div>
         <div class="project-card__content">
           <h3 class="project-card__title">${escapeHtml(project.title)}${externalIcon}</h3>
           <p class="project-card__summary">${escapeHtml(project.summary)}</p>
@@ -144,15 +174,9 @@ function renderMediumCard(project, options) {
   const linkUrl = getLinkUrl(project);
   const linkAttrs = getLinkAttrs(project);
   const previewPath = getPreviewPath(project);
+  const placeholderDataUri = generatePlaceholderDataUri(project.title);
+  const altText = escapeHtml(project.title);
   const ctaText = getCTAText(project);
-
-  const mediaHtml = previewPath ? `
-    <div class="project-card__media">
-      <img src="${previewPath}"
-           alt="${escapeHtml(project.title)}"
-           loading="lazy">
-    </div>
-  ` : '';
 
   const externalIcon = (!project.hasDetailPage && project.github) ? `
     <span class="project-card__external" aria-hidden="true">↗</span>
@@ -167,7 +191,9 @@ function renderMediumCard(project, options) {
           ${renderTags(project.tags)}
         </div>
         <div class="project-card__expanded">
-          ${mediaHtml}
+          <div class="project-card__media">
+            ${renderMedia(previewPath, altText, placeholderDataUri)}
+          </div>
           <span class="project-card__cta">${ctaText}</span>
         </div>
       </a>
@@ -182,17 +208,20 @@ function renderMediumCard(project, options) {
 function renderSmallCard(project, options) {
   const linkUrl = project.github || project.externalUrl || '#';
   const iconPath = getIconPath(project);
+  const altText = escapeHtml(project.title);
 
   return `
     <a class="project-icon"
        href="${linkUrl}"
        target="_blank"
        rel="noopener noreferrer"
-       title="${escapeHtml(project.title)}"
+       title="${altText}"
        data-slug="${project.slug}"
        data-level="3">
-      <img src="${iconPath}" alt="${escapeHtml(project.title)}">
-      <span class="project-icon__tooltip">${escapeHtml(project.title)}</span>
+      <img src="${iconPath}"
+           alt="${altText}"
+           onerror="this.style.opacity='0.3'; this.onerror=null;">
+      <span class="project-icon__tooltip">${altText}</span>
     </a>
   `;
 }
