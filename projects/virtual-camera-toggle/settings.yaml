@@ -11,6 +11,6 @@ status: in-progress
 tags:
   - Desktop Utility
 
-# github: https://github.com/Ckrest/virtual-camera-toggle
+github: https://github.com/Ckrest/virtual-camera-toggle
 
 preview: preview.svg

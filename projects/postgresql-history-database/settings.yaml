@@ -12,6 +12,6 @@ tags:
   - PostgreSQL
   - Database
 
-# github: https://github.com/Ckrest/postgresql-history-database
+github: https://github.com/Ckrest/postgresql-history-database
 
 preview: preview.svg

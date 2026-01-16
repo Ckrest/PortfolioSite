@@ -13,6 +13,6 @@ tags:
   - C++
   - Wayland
 
-# github: https://github.com/Ckrest/wayfire-screen-freeze
+github: https://github.com/Ckrest/wayfire-screen-freeze
 
 preview: preview.svg

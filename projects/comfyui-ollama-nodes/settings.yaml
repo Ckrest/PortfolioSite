@@ -12,6 +12,6 @@ tags:
   - ComfyUI
   - Python
 
-# github: https://github.com/Ckrest/comfyui-ollama-nodes
+github: https://github.com/Ckrest/comfyui-ollama-nodes
 
 preview: preview.svg
