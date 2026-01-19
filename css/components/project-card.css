@@ -284,11 +284,11 @@
   gap: var(--space-4);
 }
 
-.project-card-group--level-1 {
+.project-card-group--size-large {
   gap: var(--space-6);
 }
 
-.project-card-group--level-2 {
+.project-card-group--size-medium {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 

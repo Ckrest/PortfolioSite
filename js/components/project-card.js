@@ -1,10 +1,15 @@
 /**
  * Project Card Component
  *
- * Renders project cards at 3 different display levels:
- *   Level 1 (Large):  Full card with preview, description, tags, CTA
- *   Level 2 (Medium): Compact card with title, summary, hover expansion
- *   Level 3 (Small):  Icon only, title on hover
+ * Renders project cards at 3 different display sizes:
+ *   Large:  Full card with preview, description, tags, CTA
+ *   Medium: Compact card with title, summary, hover expansion
+ *   Small:  Icon only, title on hover
+ *
+ * Link destinations (linkTo):
+ *   detail = Links to project detail page
+ *   github = Links to GitHub repo
+ *   external = Links to externalUrl (falls back to GitHub)
  */
 
 import { escapeHtml, generatePlaceholderDataUri, getMediaType } from '../utils.js';
@@ -13,52 +18,73 @@ import { escapeHtml, generatePlaceholderDataUri, getMediaType } from '../utils.j
  * Create a project card HTML string
  * @param {Object} project - Project data from manifest
  * @param {Object} options - Rendering options
- * @param {number} options.levelOverride - Force a specific level
+ * @param {string} options.sizeOverride - Force a specific size ('large', 'medium', 'small')
  * @returns {string} HTML string
  */
 export function createProjectCard(project, options = {}) {
-  const level = options.levelOverride ?? project.level ?? 2;
+  const size = options.sizeOverride ?? project.size ?? 'medium';
 
   const renderers = {
-    1: renderLargeCard,
-    2: renderMediumCard,
-    3: renderSmallCard,
+    large: renderLargeCard,
+    medium: renderMediumCard,
+    small: renderSmallCard,
   };
 
-  const renderer = renderers[level] || renderers[2];
+  const renderer = renderers[size] || renderers.medium;
   return renderer(project, options);
 }
 
 /**
- * Get the appropriate link URL for a project
+ * Get the appropriate link URL for a project based on linkTo field
  */
 function getLinkUrl(project) {
-  // Level 3 or no detail page: link externally
-  if (project.level === 3 || !project.hasDetailPage) {
-    return project.github || project.externalUrl || '#';
+  const linkTo = project.linkTo ?? 'detail';
+
+  switch (linkTo) {
+    case 'github':
+      return project.github || '#';
+    case 'external':
+      return project.externalUrl || project.github || '#';
+    case 'detail':
+    default:
+      return `projects/detail.html?project=${project.folder}`;
   }
-  // Has detail page: link to dynamic detail viewer
-  return `projects/detail.html?project=${project.folder}`;
 }
 
 /**
- * Get link attributes (target, rel) based on project type
+ * Get link attributes (target, rel) based on link destination
  */
 function getLinkAttrs(project) {
-  if (project.level === 3 || !project.hasDetailPage) {
+  const linkTo = project.linkTo ?? 'detail';
+  if (linkTo === 'github' || linkTo === 'external') {
     return 'target="_blank" rel="noopener noreferrer"';
   }
   return '';
 }
 
 /**
- * Get the CTA button text
+ * Check if link is external
+ */
+function isExternalLink(project) {
+  const linkTo = project.linkTo ?? 'detail';
+  return linkTo === 'github' || linkTo === 'external';
+}
+
+/**
+ * Get the CTA button text based on link destination
  */
 function getCTAText(project) {
-  if (!project.hasDetailPage) {
-    return project.github ? 'View on GitHub' : 'View project';
+  const linkTo = project.linkTo ?? 'detail';
+
+  switch (linkTo) {
+    case 'github':
+      return 'View on GitHub';
+    case 'external':
+      return project.externalUrl ? 'View project' : 'View on GitHub';
+    case 'detail':
+    default:
+      return 'View project';
   }
-  return 'View project';
 }
 
 /**
@@ -134,7 +160,7 @@ function renderMedia(src, alt, placeholder) {
 }
 
 // =============================================================================
-// LEVEL 1: LARGE CARD
+// SIZE: LARGE CARD
 // =============================================================================
 
 function renderLargeCard(project, options) {
@@ -145,12 +171,12 @@ function renderLargeCard(project, options) {
   const altText = escapeHtml(project.title);
   const ctaText = getCTAText(project);
 
-  const externalIcon = (!project.hasDetailPage && project.github) ? `
+  const externalIcon = isExternalLink(project) ? `
     <span class="project-card__external" aria-hidden="true">↗</span>
   ` : '';
 
   return `
-    <article class="project-card project-card--large" data-slug="${project.slug}" data-level="1">
+    <article class="project-card project-card--large" data-slug="${project.slug}" data-size="large">
       <a class="project-card__link" href="${linkUrl}" ${linkAttrs}>
         <div class="project-card__media">
           ${renderMedia(previewPath, altText, placeholderDataUri)}
@@ -167,7 +193,7 @@ function renderLargeCard(project, options) {
 }
 
 // =============================================================================
-// LEVEL 2: MEDIUM CARD
+// SIZE: MEDIUM CARD
 // =============================================================================
 
 function renderMediumCard(project, options) {
@@ -178,12 +204,12 @@ function renderMediumCard(project, options) {
   const altText = escapeHtml(project.title);
   const ctaText = getCTAText(project);
 
-  const externalIcon = (!project.hasDetailPage && project.github) ? `
+  const externalIcon = isExternalLink(project) ? `
     <span class="project-card__external" aria-hidden="true">↗</span>
   ` : '';
 
   return `
-    <article class="project-card project-card--medium" data-slug="${project.slug}" data-level="2">
+    <article class="project-card project-card--medium" data-slug="${project.slug}" data-size="medium">
       <a class="project-card__link" href="${linkUrl}" ${linkAttrs}>
         <div class="project-card__content">
           <h4 class="project-card__title">${escapeHtml(project.title)}${externalIcon}</h4>
@@ -202,22 +228,22 @@ function renderMediumCard(project, options) {
 }
 
 // =============================================================================
-// LEVEL 3: SMALL (ICON ONLY)
+// SIZE: SMALL (ICON ONLY)
 // =============================================================================
 
 function renderSmallCard(project, options) {
-  const linkUrl = project.github || project.externalUrl || '#';
+  const linkUrl = getLinkUrl(project);
+  const linkAttrs = getLinkAttrs(project);
   const iconPath = getIconPath(project);
   const altText = escapeHtml(project.title);
 
   return `
     <a class="project-icon"
        href="${linkUrl}"
-       target="_blank"
-       rel="noopener noreferrer"
+       ${linkAttrs}
        title="${altText}"
        data-slug="${project.slug}"
-       data-level="3">
+       data-size="small">
       <img src="${iconPath}"
            alt="${altText}"
            onerror="this.style.opacity='0.3'; this.onerror=null;">
@@ -231,13 +257,13 @@ function renderSmallCard(project, options) {
 // =============================================================================
 
 /**
- * Render a grid of icon-only projects (level 3)
+ * Render a grid of icon-only projects (small size)
  */
 export function renderIconGrid(projects, options = {}) {
   if (!projects?.length) return '';
 
   const icons = projects
-    .filter(p => p.level === 3 || options.forceLevel === 3)
+    .filter(p => p.size === 'small' || options.forceSize === 'small')
     .map(p => renderSmallCard(p, options))
     .join('');
 
@@ -249,16 +275,16 @@ export function renderIconGrid(projects, options = {}) {
 }
 
 /**
- * Render a group of cards at a specific level
+ * Render a group of cards at a specific size
  */
-export function renderCardGroup(projects, level, options = {}) {
+export function renderCardGroup(projects, size, options = {}) {
   if (!projects?.length) return '';
 
   const cards = projects
-    .map(p => createProjectCard(p, { ...options, levelOverride: level }))
+    .map(p => createProjectCard(p, { ...options, sizeOverride: size }))
     .join('');
 
-  const className = `project-card-group project-card-group--level-${level}`;
+  const className = `project-card-group project-card-group--size-${size}`;
 
   return `
     <div class="${className}">

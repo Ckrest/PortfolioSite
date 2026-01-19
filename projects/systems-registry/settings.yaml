@@ -4,7 +4,8 @@ title: "Systems Registry"
 summary: "Placeholder summary for Systems Registry. Update with actual project description."
 date: 2026-01-08
 
-level: 3
+size: small
+linkTo: github
 phase: 1
 status: in-progress
 

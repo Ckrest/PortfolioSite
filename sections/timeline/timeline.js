@@ -1,11 +1,11 @@
 /**
  * Timeline Section
- * Minimal list-style timeline with phase grouping and level-based sizing
+ * Minimal list-style timeline with phase grouping and size-based rendering
  *
- * Levels:
- *   1 = Large (card with image)
- *   2 = Medium (standard entry)
- *   3 = Small (compact) - bundles when old AND multiple visible
+ * Sizes:
+ *   large = Full card with image
+ *   medium = Standard entry
+ *   small = Compact (bundles when old AND multiple visible)
  *
  * Tag Filtering:
  *   Click tags in the cloud to filter entries. Selected tags highlight

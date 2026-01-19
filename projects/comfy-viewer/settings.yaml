@@ -4,7 +4,7 @@ title: "ComfyUI Viewer"
 summary: "A web-based image viewer and workflow manager for ComfyUI with thumbnail generation and organization features."
 date: 2026-01-10
 
-level: 2
+size: medium
 phase: 1
 status: complete
 

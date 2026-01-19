@@ -40,7 +40,7 @@ function createEntryItem(project, phaseId) {
     // Properties from project
     tags: project.tags || [],
     group: project.group || null,
-    level: project.level || 2,
+    size: project.size || 'medium',
     date: project.date ? new Date(project.date) : null,
 
     // State
@@ -51,12 +51,12 @@ function createEntryItem(project, phaseId) {
 }
 
 /**
- * Check if an item should be bundleable (small + old)
+ * Check if an item should be bundleable (small size + old)
  * @param {Object} item - Registry item
  * @returns {boolean}
  */
 function isBundleable(item) {
-  if (item.level !== 3) return false;
+  if (item.size !== 'small') return false;
   if (!item.date) return false;
   const age = bundleConfig.currentDate - item.date.getTime();
   return age > bundleConfig.thresholdMs;

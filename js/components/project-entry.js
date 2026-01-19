@@ -9,10 +9,15 @@
  *   - 'featured': For featured section (prominent display, CTA)
  *   - 'card': For standalone cards (hover effects)
  *
- * Levels:
- *   1 = Large (full card with image, summary)
- *   2 = Medium (compact with side image)
- *   3 = Small (icon + title only)
+ * Sizes (visual display):
+ *   large = Full card with image, summary
+ *   medium = Compact with side image
+ *   small = Icon + title only
+ *
+ * Link destinations (linkTo):
+ *   detail = Links to project detail page
+ *   github = Links to GitHub repo
+ *   external = Links to externalUrl (falls back to GitHub)
  */
 
 import { escapeHtml, generatePlaceholderDataUri, getMediaType } from '../utils.js';
@@ -47,7 +52,7 @@ const VARIANT_DEFAULTS = {
  * @param {Object} project - Project data from manifest
  * @param {Object} options - Rendering options
  * @param {string} options.variant - 'timeline' | 'featured' | 'card'
- * @param {number} options.level - Force a specific level (1, 2, 3)
+ * @param {string} options.size - Force a specific size ('large', 'medium', 'small')
  * @param {boolean} options.showDate - Show date
  * @param {boolean} options.showTags - Show tags inline
  * @param {boolean} options.showCta - Show call-to-action text
@@ -65,13 +70,13 @@ export function renderEntry(project, options = {}) {
     tagConfig: options.tagConfig || {},
   };
 
-  const level = opts.level ?? project.level ?? 2;
+  const size = opts.size ?? project.size ?? 'medium';
 
-  // Route to level-specific renderer
-  switch (level) {
-    case 1:
+  // Route to size-specific renderer
+  switch (size) {
+    case 'large':
       return renderLarge(project, opts);
-    case 3:
+    case 'small':
       return renderSmall(project, opts);
     default:
       return renderMedium(project, opts);
@@ -79,20 +84,28 @@ export function renderEntry(project, options = {}) {
 }
 
 /**
- * Get link URL for a project
+ * Get link URL for a project based on linkTo field
  */
 function getLinkUrl(project) {
-  if (project.level === 3 || project.hasDetailPage === false) {
-    return project.github || project.externalUrl || '#';
+  const linkTo = project.linkTo ?? 'detail';
+
+  switch (linkTo) {
+    case 'github':
+      return project.github || '#';
+    case 'external':
+      return project.externalUrl || project.github || '#';
+    case 'detail':
+    default:
+      return `projects/detail.html?project=${project.folder}`;
   }
-  return `projects/detail.html?project=${project.folder}`;
 }
 
 /**
  * Get link attributes (target, rel) for external links
  */
 function getLinkAttrs(project) {
-  if (project.level === 3 || project.hasDetailPage === false) {
+  const linkTo = project.linkTo ?? 'detail';
+  if (linkTo === 'github' || linkTo === 'external') {
     return 'target="_blank" rel="noopener noreferrer"';
   }
   return '';
@@ -102,17 +115,25 @@ function getLinkAttrs(project) {
  * Check if link is external
  */
 function isExternalLink(project) {
-  return project.level === 3 || project.hasDetailPage === false;
+  const linkTo = project.linkTo ?? 'detail';
+  return linkTo === 'github' || linkTo === 'external';
 }
 
 /**
- * Get CTA text
+ * Get CTA text based on link destination
  */
 function getCTAText(project) {
-  if (project.hasDetailPage === false) {
-    return project.github ? 'View on GitHub' : 'View project';
+  const linkTo = project.linkTo ?? 'detail';
+
+  switch (linkTo) {
+    case 'github':
+      return 'View on GitHub';
+    case 'external':
+      return project.externalUrl ? 'View project' : 'View on GitHub';
+    case 'detail':
+    default:
+      return 'View project';
   }
-  return 'View project';
 }
 
 /**
@@ -226,7 +247,7 @@ function renderExternalIcon(project, opts) {
 }
 
 // =============================================================================
-// LEVEL 1: LARGE
+// SIZE: LARGE
 // =============================================================================
 
 function renderLarge(project, opts) {
@@ -239,7 +260,7 @@ function renderLarge(project, opts) {
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
 
   return `
-    <a class="${classPrefix} ${classPrefix}--large reveal" href="${linkUrl}" ${linkAttrs} data-slug="${project.slug}" data-level="1" data-group="${project.group || ''}"${itemIdAttr}>
+    <a class="${classPrefix} ${classPrefix}--large reveal" href="${linkUrl}" ${linkAttrs} data-slug="${project.slug}" data-size="large" data-group="${project.group || ''}"${itemIdAttr}>
       <div class="${classPrefix}__header">
         ${renderDate(project, opts)}
         <h4 class="${classPrefix}__title">${escapeHtml(project.title)}${renderExternalIcon(project, opts)}</h4>
@@ -257,7 +278,7 @@ function renderLarge(project, opts) {
 }
 
 // =============================================================================
-// LEVEL 2: MEDIUM
+// SIZE: MEDIUM
 // =============================================================================
 
 function renderMedium(project, opts) {
@@ -270,7 +291,7 @@ function renderMedium(project, opts) {
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
 
   return `
-    <a class="${classPrefix} ${classPrefix}--medium reveal" href="${linkUrl}" ${linkAttrs} data-slug="${project.slug}" data-level="2" data-group="${project.group || ''}"${itemIdAttr}>
+    <a class="${classPrefix} ${classPrefix}--medium reveal" href="${linkUrl}" ${linkAttrs} data-slug="${project.slug}" data-size="medium" data-group="${project.group || ''}"${itemIdAttr}>
       <div class="${classPrefix}__header">
         ${renderDate(project, opts)}
         <h4 class="${classPrefix}__title">${escapeHtml(project.title)}${renderExternalIcon(project, opts)}</h4>
@@ -288,7 +309,7 @@ function renderMedium(project, opts) {
 }
 
 // =============================================================================
-// LEVEL 3: SMALL
+// SIZE: SMALL
 // =============================================================================
 
 function renderSmall(project, opts) {
@@ -299,7 +320,7 @@ function renderSmall(project, opts) {
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
 
   return `
-    <a class="${classPrefix} ${classPrefix}--small reveal" href="${linkUrl}" ${linkAttrs} data-slug="${project.slug}" data-level="3" data-group="${project.group || ''}"${itemIdAttr}>
+    <a class="${classPrefix} ${classPrefix}--small reveal" href="${linkUrl}" ${linkAttrs} data-slug="${project.slug}" data-size="small" data-group="${project.group || ''}"${itemIdAttr}>
       ${renderDate(project, opts)}
       <div class="${classPrefix}__content">
         <img src="${iconPath}" alt="" class="${classPrefix}__icon" onerror="this.style.opacity='0.3'; this.onerror=null;">

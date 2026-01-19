@@ -4,7 +4,8 @@ title: "Night Mode"
 summary: "Placeholder summary for Night Mode. Update with actual project description."
 date: 2026-01-02
 
-level: 3
+size: small
+linkTo: github
 phase: 1
 status: in-progress
 

@@ -4,7 +4,8 @@ title: "PostgreSQL History Database"
 summary: "Placeholder summary for PostgreSQL History Database. Update with actual project description."
 date: 2025-11-16
 
-level: 3
+size: small
+linkTo: github
 phase: 1
 status: in-progress
 

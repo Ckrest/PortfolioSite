@@ -4,7 +4,7 @@ title: "Modular Flow Engine"
 summary: "A declarative dataflow engine for orchestrating multi-step AI evaluation pipelines with JSON-defined workflows, checkpointing, and error recovery."
 date: 2025-12-19
 
-level: 1
+size: large
 phase: 1
 status: complete
 
