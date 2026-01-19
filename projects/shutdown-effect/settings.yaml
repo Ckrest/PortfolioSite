@@ -1,15 +1,17 @@
 # Shutdown Effect
 
 title: "Shutdown Effect"
-summary: "Placeholder summary for Shutdown Effect. Update with actual project description."
-date: 2025-12-28
+summary: "Visual shutdown animations with extensible hook system for power transitions on Wayland."
+date: 2026-01-18
 
 level: 3
 phase: 1
-status: in-progress
+status: complete
 
 tags:
   - Desktop Utility
+  - Wayland
+  - Python
 
 github: https://github.com/Ckrest/shutdown-effect
 
