@@ -13,5 +13,17 @@ _build.js
 *.swp
 *~
 
-# Node (if ever used)
+# Node
 node_modules/
+
+# Systems integration files (not part of the distributed site)
+manifest.yaml
+NOTES.md
+package.json
+package-lock.json
+_watch.js
+launch-site.sh
+push-update.sh
+Launch Site.desktop
+.claude/
+_test/
