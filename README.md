@@ -71,8 +71,6 @@ Pages share a consistent layout and theming via `projects/project.css`. When bui
 4. Add or replace preview assets in the same folder.
 5. Ensure the entry exists in `projects/projects.json` with matching `slug`, `url`, and `previewImage` paths.
 
-The AI Model Evaluation Systems Diagram page additionally loads React + Babel from CDNs for the embedded demo. That setup is self-contained—no build steps are required.
-
 ## Styling tokens
 
 The homepage relies on CSS custom properties defined in the `:root` block inside `index.html`. Project detail pages consume a similar palette via `projects/project.css`. Introduce new tokens sparingly, keep naming descriptive, and document their purpose when added.
