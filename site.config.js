@@ -23,10 +23,9 @@ export default {
     { name: 'featured', navLabel: 'Featured' },
     { name: 'roadmap', navLabel: null },        // Phase progress indicator
     { name: 'timeline', navLabel: 'Work' },
-    { name: 'contact', navLabel: 'Contact' },
 
-    // Footer always last
-    { name: 'footer', fixed: true },
+    // Footer always last (includes contact)
+    { name: 'footer', fixed: true, navLabel: 'Contact' },
   ],
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -38,7 +37,6 @@ export default {
     // 'hero',      // Uncomment to hide hero
     // 'featured',  // Uncomment to hide featured
     // 'timeline',  // Uncomment to hide timeline
-    // 'contact',   // Uncomment to hide contact
   ],
 
   // ═══════════════════════════════════════════════════════════════════════════

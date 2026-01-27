@@ -43,11 +43,65 @@ main {
   flex: 1;
   padding-bottom: 64px;
 }
-.footer {
-  width: min(900px, 92vw);
-  margin: 0 auto 48px;
-  color: var(--muted);
+[data-section="footer"] {
+  padding: 64px 0;
+}
+
+[data-section="footer"] .wrap {
+  width: min(1100px, 94vw);
+  margin: 0 auto;
+}
+
+[data-section="footer"] .footer-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+[data-section="footer"] .footer-contact h2 {
   font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+[data-section="footer"] .contact-email {
+  margin: 0;
+}
+
+[data-section="footer"] .contact-email a {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--fg);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+[data-section="footer"] .contact-email a:hover {
+  color: var(--accent-2);
+}
+
+[data-section="footer"] .back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+  background: var(--panel);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+[data-section="footer"] .back-to-top:hover {
+  border-color: var(--muted);
+  transform: translateY(-1px);
 }
 nav a,
 .breadcrumb a {
@@ -528,4 +582,87 @@ figure img {
   padding: 0;
   border: none;
   box-shadow: none;
+}
+
+/* ==========================================================================
+   Block Content System
+   ========================================================================== */
+
+/* --- Group block: children flow inside one card without card styling --- */
+.block-group > .block-text,
+.block-group > .block-image,
+.block-group > .block-video,
+.block-group > .block-gallery,
+.block-group > .block-pdf,
+.block-group > .block-readme {
+  margin-top: 24px;
+}
+
+.block-group > :first-child {
+  margin-top: 0;
+}
+
+/* --- Video embed: responsive 16:9 --- */
+.video-embed-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+}
+
+.video-embed-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* --- Gallery grid --- */
+.gallery-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.gallery-cols-1 { grid-template-columns: 1fr; }
+.gallery-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.gallery-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.gallery-grid figure {
+  margin: 0;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 640px) {
+  .gallery-cols-2,
+  .gallery-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Block captions --- */
+.block-image figcaption,
+.block-video figcaption,
+.block-gallery figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* --- Block image: full width --- */
+.block-image figure img {
+  width: 100%;
+  height: auto;
 }

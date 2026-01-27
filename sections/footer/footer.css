@@ -1,23 +1,42 @@
 /*
  * Footer Section
- * Copyright and back-to-top link
+ * Contact info and back-to-top link
  */
 
 [data-section="footer"] {
-  padding: var(--space-12) 0 var(--space-16);
-  color: var(--color-text-secondary);
-  font-size: var(--text-sm);
+  padding: var(--space-16) 0;
 
   .footer-row {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: var(--space-4);
+    gap: var(--space-8);
   }
 
-  .copyright {
+  .footer-contact h2 {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .contact-email {
     margin: 0;
+  }
+
+  .contact-email a {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .contact-email a:hover {
+    color: var(--color-accent-2);
   }
 
   .back-to-top {

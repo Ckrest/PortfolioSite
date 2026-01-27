@@ -1,6 +1,6 @@
 /**
  * Footer Section
- * Populates copyright from site data
+ * Populates contact email from site data
  */
 
 export async function init(sectionEl, config) {
@@ -10,9 +10,10 @@ export async function init(sectionEl, config) {
 
     const siteData = await res.json();
 
-    const copyrightEl = sectionEl.querySelector('.copyright');
-    if (copyrightEl && siteData.copyright) {
-      copyrightEl.innerHTML = `&copy; ${siteData.copyright}`;
+    const emailLink = sectionEl.querySelector('.contact-email a');
+    if (emailLink && siteData.email) {
+      emailLink.href = `mailto:${siteData.email}`;
+      emailLink.textContent = siteData.email;
     }
   } catch (err) {
     // Keep default content if fetch fails

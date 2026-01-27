@@ -51,8 +51,7 @@ The homepage sorts projects by `date` (newest first) and gracefully handles miss
 - **Header / Intro**: Sticky navigation with anchors to page sections. Branding text can be edited inline.
 - **Featured Project Section**: Empty container populated by `renderFeatured` after fetching `projects.json`.
 - **Project Timeline**: `<article>` cards are created via `createTimelineItem` with reveal + active animations managed by an `IntersectionObserver` (`timelineObserver`).
-- **Contact Section**: Static placeholder content using the same card styling as timeline items.
-- **Footer**: Static links and copyright text. The current year is injected via the script (`yearEl`).
+- **Footer**: Contact info and back-to-top link. Email is populated from site data.
 
 All motion hooks (`observeReveals` + `timelineObserver`) gracefully no-op if JavaScript is unavailable. Status elements (`aria-busy` + `role="status"`) provide loading/error messaging for screen readers.
 

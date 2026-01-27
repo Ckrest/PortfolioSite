@@ -84,6 +84,7 @@ body.loaded .loading-placeholder {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Account for sticky header when jumping to sections */
-section[id] {
+section[id],
+footer[id] {
   scroll-margin-top: 80px;
 }

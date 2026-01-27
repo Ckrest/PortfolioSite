@@ -7,7 +7,6 @@
   <meta name="description" id="page-description" content="" />
   <link rel="stylesheet" href="project.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
 </head>
 <body>
   <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -29,13 +28,26 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <p>© <span id="y"></span> Nick Young. A living site engineered for clarity and speed.</p>
-  </footer>
+  <div id="footer-slot"></div>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
   <script src="detail.js" type="module"></script>
+  <script type="module">
+    // Load shared footer section
+    const res = await fetch('../sections/footer/footer.html');
+    if (res.ok) {
+      const slot = document.getElementById('footer-slot');
+      slot.innerHTML = await res.text();
+
+      const siteRes = await fetch('../data/site.json', { cache: 'no-cache' });
+      if (siteRes.ok) {
+        const siteData = await siteRes.json();
+        const emailLink = slot.querySelector('.contact-email a');
+        if (emailLink && siteData.email) {
+          emailLink.href = `mailto:${siteData.email}`;
+          emailLink.textContent = siteData.email;
+        }
+      }
+    }
+  </script>
 </body>
 </html>
