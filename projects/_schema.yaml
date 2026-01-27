@@ -30,7 +30,7 @@ phase: 1 | 2 | 3                 # Portfolio phase. Default: 1
 tags:                            # Array of skill/category strings
   - string
 
-builtWith:                       # Technologies/tools used
+technologies:                    # Technologies/tools used (credits)
   - string
 
 status: complete | in-progress | archived    # Default: complete

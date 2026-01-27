@@ -11,7 +11,8 @@ status: in-progress
 
 tags:
   - Python
-  - Tool
+  - CLI
+  - Hexagonal Architecture
 
 github: https://github.com/Ckrest/agent-config-generator
 

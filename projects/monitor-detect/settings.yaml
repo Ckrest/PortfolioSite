@@ -10,7 +10,7 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
+  - Desktop Environment
   - Python
 
 github: https://github.com/Ckrest/monitor-detect

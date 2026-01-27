@@ -10,7 +10,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
+  - Desktop Environment
+  - Python
+  - Event-Driven Architecture
 
 github: https://github.com/Ckrest/night-mode
 

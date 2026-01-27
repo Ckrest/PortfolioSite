@@ -10,7 +10,8 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
+  - Bash
+  - CLI
 
 github: https://github.com/Ckrest/virtual-camera-toggle
 

@@ -10,7 +10,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
+  - Desktop Environment
+  - Wayfire
+  - Python
 
 github: https://github.com/Ckrest/desktop-layer
 

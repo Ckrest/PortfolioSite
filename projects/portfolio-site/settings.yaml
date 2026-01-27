@@ -9,8 +9,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Python
-  - Tool
+  - JavaScript
+  - Frontend
+  - CSS
 
 github: https://github.com/Ckrest/PortfolioSite
 

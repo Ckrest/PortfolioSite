@@ -11,7 +11,7 @@ status: in-progress
 
 tags:
   - PostgreSQL
-  - Database
+  - Infrastructure
 
 github: https://github.com/Ckrest/postgresql-history-database
 

@@ -10,9 +10,10 @@ phase: 1
 status: complete
 
 tags:
-  - Desktop Utility
   - Wayland
-  - Python
+  - C
+  - Wayfire
+  - Hook System
 
 github: https://github.com/Ckrest/shutdown-effect
 

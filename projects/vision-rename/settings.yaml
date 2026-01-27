@@ -10,7 +10,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
+  - AI
+  - Python
+  - CLI
 
 github: https://github.com/Ckrest/vision-rename
 

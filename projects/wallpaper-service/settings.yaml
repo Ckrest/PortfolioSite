@@ -10,8 +10,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
   - Python
+  - Desktop Environment
+  - Wayland
 
 github: https://github.com/Ckrest/wallpaper-service
 

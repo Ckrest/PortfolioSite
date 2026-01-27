@@ -10,8 +10,8 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
   - Python
+  - Infrastructure
 
 github: https://github.com/Ckrest/ping-monitor
 

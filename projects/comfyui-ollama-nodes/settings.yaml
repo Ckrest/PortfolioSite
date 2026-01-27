@@ -12,6 +12,8 @@ status: in-progress
 tags:
   - ComfyUI
   - Python
+  - AI
+  - Ollama
 
 github: https://github.com/Ckrest/comfyui-ollama-nodes
 

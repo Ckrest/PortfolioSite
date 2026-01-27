@@ -10,8 +10,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
   - Python
+  - Wayland
+  - Image Capture
 
 github: https://github.com/Ckrest/screenshot-tool
 

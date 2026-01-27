@@ -9,9 +9,9 @@ phase: 1
 status: complete
 
 tags:
-  - Desktop Utility
   - Python
   - GTK
+  - Systemd
 
 github: https://github.com/Ckrest/process-manager
 

@@ -9,8 +9,9 @@ phase: 1
 status: in-progress
 
 tags:
-  - Desktop Utility
   - Python
+  - GTK
+  - Desktop Environment
 
 github: https://github.com/Ckrest/settings-hub
 
