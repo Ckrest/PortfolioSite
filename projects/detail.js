@@ -1,10 +1,8 @@
 /**
  * Dynamic Detail Page Loader
  *
- * Loads project content based on URL params and renders based on content mode:
- * - readme: Renders README.md with marked.js
- * - pdf: Embeds PDF with fallback download link
- * - minimal: Shows hero with title/summary only
+ * Loads project content from manifest.json and renders using the block system.
+ * All content is represented as blocks (text, image, video, gallery, readme, pdf, group).
  */
 
 import { escapeHtml, generatePlaceholderDataUri } from '../js/utils.js';
@@ -21,61 +19,21 @@ if (!projectSlug) {
 
 async function loadProject(slug) {
   try {
-    // Fetch manifest to get project metadata
     const manifestRes = await fetch('manifest.json');
     if (!manifestRes.ok) throw new Error('Failed to load manifest');
     const manifest = await manifestRes.json();
-    const projects = manifest.projects;
 
-    // Find project in manifest
-    const project = projects.find(p => p.folder === slug || p.slug === slug);
+    const project = manifest.projects.find(p => p.folder === slug || p.slug === slug);
     if (!project) {
       showError(`Project "${slug}" not found.`);
       return;
     }
 
-    // Update page metadata
     updatePageMeta(project);
 
-    // Content config is now in manifest (from build script)
-    // Fall back to loading settings.yaml only if content not in manifest
-    let contentConfig = project.content || null;
-
-    if (!contentConfig) {
-      try {
-        const settingsRes = await fetch(`${project.folder}/settings.yaml`);
-        if (settingsRes.ok) {
-          const yamlText = await settingsRes.text();
-          const settings = jsyaml.load(yamlText);
-          contentConfig = settings?.content || null;
-        }
-      } catch (e) {
-        console.log('No settings.yaml found, using minimal mode');
-      }
-    }
-
-    // Determine content mode
-    const contentMode = contentConfig?.mode || 'minimal';
-
-    // Create a settings-like object for render functions
-    const settings = { content: contentConfig };
-
-    // Render based on content mode
-    switch (contentMode) {
-      case 'readme':
-        await renderReadme(project, settings);
-        break;
-      case 'pdf':
-        renderPdf(project, settings);
-        break;
-      case 'structured':
-        renderStructured(project, settings);
-        break;
-      case 'minimal':
-      default:
-        renderMinimal(project, settings);
-        break;
-    }
+    const blocks = project.content?.blocks || [];
+    const settings = { content: { blocks } };
+    await renderBlocks(project, settings);
 
   } catch (error) {
     console.error('Error loading project:', error);
@@ -84,139 +42,14 @@ async function loadProject(slug) {
 }
 
 function updatePageMeta(project) {
-  // Update page title
   document.getElementById('page-title').textContent = `${project.title} — Nick Young`;
   document.getElementById('page-description').content = project.summary;
-
-  // Update visible elements
   document.getElementById('breadcrumb-title').textContent = ` / ${project.title}`;
   document.getElementById('project-title').textContent = project.title;
   document.getElementById('project-summary').textContent = project.summary;
 }
 
-async function renderReadme(project, settings) {
-  const main = document.getElementById('main-content');
-  const readmePath = settings?.content?.readmePath || 'README.md';
-
-  try {
-    const readmeRes = await fetch(`${project.folder}/${readmePath}`);
-    if (!readmeRes.ok) throw new Error('README not found');
-    const readmeText = await readmeRes.text();
-
-    // Configure marked for GFM
-    marked.setOptions({
-      gfm: true,
-      breaks: true
-    });
-
-    // Parse markdown
-    const htmlContent = marked.parse(readmeText);
-
-    // Build content sections
-    main.innerHTML = `
-      ${renderPreviewSection(project)}
-      ${renderTagsSection(project)}
-      ${renderLinksSection(project, settings)}
-      <section class="markdown-content">
-        ${htmlContent}
-      </section>
-    `;
-
-  } catch (error) {
-    console.error('Error loading README:', error);
-    // Fallback to minimal mode
-    renderMinimal(project, settings, 'README not available for this project.');
-  }
-}
-
-function renderPdf(project, settings) {
-  const main = document.getElementById('main-content');
-  const pdfPath = settings?.content?.pdfPath;
-
-  if (!pdfPath) {
-    renderMinimal(project, settings, 'PDF path not configured.');
-    return;
-  }
-
-  const fullPdfPath = `${project.folder}/${pdfPath}`;
-  const description = settings?.content?.description || project.summary;
-
-  main.innerHTML = `
-    ${renderPreviewSection(project)}
-    ${renderTagsSection(project)}
-    <section>
-      <h2>Document</h2>
-      <p style="color: var(--muted); margin-bottom: 20px;">${description}</p>
-      <object
-        data="${fullPdfPath}"
-        type="application/pdf"
-        class="pdf-embed"
-        aria-label="${project.title} PDF document"
-      >
-        <div class="pdf-fallback">
-          <p>Your browser doesn't support embedded PDFs.</p>
-          <a href="${fullPdfPath}" class="button" target="_blank" rel="noopener noreferrer">
-            Download PDF →
-          </a>
-        </div>
-      </object>
-    </section>
-    ${renderLinksSection(project, settings)}
-  `;
-}
-
-function renderStructured(project, settings) {
-  const main = document.getElementById('main-content');
-  const sections = settings?.content?.sections || [];
-
-  let sectionsHtml = '';
-  for (const section of sections) {
-    const title = section.title || formatSectionType(section.type);
-    let content = '';
-
-    if (section.items && section.items.length > 0) {
-      content = `<ul>${section.items.map(item => `<li>${item}</li>`).join('')}</ul>`;
-    } else if (section.content) {
-      content = marked.parse(section.content);
-    }
-
-    sectionsHtml += `
-      <section>
-        <h2>${title}</h2>
-        ${content}
-      </section>
-    `;
-  }
-
-  main.innerHTML = `
-    ${renderPreviewSection(project)}
-    ${renderTagsSection(project)}
-    ${renderLinksSection(project, settings)}
-    ${sectionsHtml}
-  `;
-}
-
-function renderMinimal(project, settings, message = null) {
-  const main = document.getElementById('main-content');
-  const description = settings?.content?.description || '';
-
-  main.innerHTML = `
-    ${renderPreviewSection(project)}
-    ${renderTagsSection(project)}
-    ${renderLinksSection(project, settings)}
-    ${description ? `
-      <section>
-        <h2>Overview</h2>
-        <p>${description}</p>
-      </section>
-    ` : ''}
-    ${message ? `
-      <section>
-        <p style="color: var(--muted); text-align: center;">${message}</p>
-      </section>
-    ` : ''}
-  `;
-}
+// ── Shared Sections ─────────────────────────────────────────────────────
 
 function renderPreviewSection(project) {
   const previewPath = project.preview
@@ -247,10 +80,9 @@ function renderTagsSection(project) {
   return `<div class="tag-row" style="margin: 20px 0;">${tagsHtml}</div>`;
 }
 
-function renderLinksSection(project, settings) {
+function renderLinksSection(project) {
   const links = [];
 
-  // GitHub link
   if (project.github) {
     links.push(`
       <a href="${project.github}" class="button" target="_blank" rel="noopener noreferrer">
@@ -262,21 +94,10 @@ function renderLinksSection(project, settings) {
     `);
   }
 
-  // External URL
   if (project.externalUrl) {
     links.push(`
       <a href="${project.externalUrl}" class="button" target="_blank" rel="noopener noreferrer">
         View Live →
-      </a>
-    `);
-  }
-
-  // Custom links from settings
-  const customLinks = settings?.content?.links || [];
-  for (const link of customLinks) {
-    links.push(`
-      <a href="${link.url}" class="button" target="_blank" rel="noopener noreferrer">
-        ${link.label}
       </a>
     `);
   }
@@ -286,18 +107,141 @@ function renderLinksSection(project, settings) {
   return `<div class="button-row">${links.join('')}</div>`;
 }
 
-function formatSectionType(type) {
-  const titles = {
-    overview: 'Overview',
-    features: 'Features',
-    installation: 'Installation',
-    usage: 'Usage',
-    technical: 'Technical Details',
-    gallery: 'Gallery',
-    custom: 'Details'
-  };
-  return titles[type] || type;
+// ── Block Rendering ─────────────────────────────────────────────────────
+
+async function renderBlocks(project, settings) {
+  const main = document.getElementById('main-content');
+  const blocks = settings.content.blocks;
+
+  let html = '';
+  html += renderPreviewSection(project);
+  html += renderTagsSection(project);
+  html += renderLinksSection(project);
+
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    if (block.type === 'readme') {
+      html += `<section class="block-readme" data-block-index="${i}" id="readme-block-${i}">
+        <p style="color:var(--muted);text-align:center;">Loading README...</p>
+      </section>`;
+    } else {
+      html += renderBlock(block, project, { isGroupChild: false, index: i });
+    }
+  }
+
+  main.innerHTML = html;
+
+  // Async-load readme blocks after DOM is set
+  for (let i = 0; i < blocks.length; i++) {
+    if (blocks[i].type === 'readme') {
+      await loadReadmeBlock(blocks[i], project, i);
+    }
+  }
 }
+
+function renderBlock(block, project, options) {
+  const isGroupChild = options?.isGroupChild || false;
+  const index = options?.index;
+  const tag = isGroupChild ? 'div' : 'section';
+  const cssClass = `block-${block.type}`;
+  const indexAttr = index != null ? ` data-block-index="${index}"` : '';
+
+  let inner = '';
+  switch (block.type) {
+    case 'text':    inner = renderBlockText(block); break;
+    case 'image':   inner = renderBlockImage(block, project); break;
+    case 'video':   inner = renderBlockVideo(block); break;
+    case 'gallery': inner = renderBlockGallery(block, project); break;
+    case 'pdf':     inner = renderBlockPdf(block, project); break;
+    case 'group':   return renderBlockGroup(block, project, index);
+    default:        inner = `<p style="color:var(--muted);">Unknown block type: ${block.type}</p>`;
+  }
+
+  return `<${tag} class="${cssClass}"${indexAttr}>${inner}</${tag}>`;
+}
+
+function renderBlockText(block) {
+  const html = marked.parse(block.body || '');
+  return `<div class="markdown-content">${html}</div>`;
+}
+
+function renderBlockImage(block, project) {
+  const src = block.src?.startsWith('http') ? block.src : `${project.folder}/${block.src}`;
+  const alt = escapeHtml(block.alt || '');
+  const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+  return `<figure><img src="${src}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+}
+
+function renderBlockVideo(block) {
+  const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+  return `
+    <figure>
+      <div class="video-embed-wrapper">
+        <iframe src="${block.embed}" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy"></iframe>
+      </div>
+      ${caption}
+    </figure>
+  `;
+}
+
+function renderBlockGallery(block, project) {
+  const images = block.images || [];
+  const cols = images.length <= 2 ? images.length : (images.length <= 4 ? 2 : 3);
+  const items = images.map(img => {
+    const src = img.src?.startsWith('http') ? img.src : `${project.folder}/${img.src}`;
+    return `<figure><img src="${src}" alt="${escapeHtml(img.alt || '')}" loading="lazy" /></figure>`;
+  }).join('');
+  const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+  return `<div class="gallery-grid gallery-cols-${cols}">${items}</div>${caption}`;
+}
+
+function renderBlockPdf(block, project) {
+  const src = block.src?.startsWith('http') ? block.src : `${project.folder}/${block.src}`;
+  return `
+    <object data="${src}" type="application/pdf" class="pdf-embed"
+      aria-label="Embedded PDF document">
+      <div class="pdf-fallback">
+        <p>Your browser doesn't support embedded PDFs.</p>
+        <a href="${src}" class="button" target="_blank" rel="noopener noreferrer">Download PDF →</a>
+      </div>
+    </object>
+  `;
+}
+
+function renderBlockGroup(block, project, index) {
+  const indexAttr = index != null ? ` data-block-index="${index}"` : '';
+  const children = (block.blocks || [])
+    .map(child => renderBlock(child, project, { isGroupChild: true }))
+    .join('');
+  return `<section class="block-group"${indexAttr}>${children}</section>`;
+}
+
+async function loadReadmeBlock(block, project, index) {
+  const path = block.path || 'README.md';
+  const el = document.getElementById(`readme-block-${index}`);
+  try {
+    const res = await fetch(`${project.folder}/${path}`);
+    if (!res.ok) throw new Error('README not found');
+    const text = await res.text();
+    marked.setOptions({ gfm: true, breaks: true });
+    el.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
+  } catch (e) {
+    el.innerHTML = `<p style="color:var(--muted);text-align:center;">Could not load README.</p>`;
+  }
+}
+
+// ── Live Preview API ─────────────────────────────────────────────────────
+
+window.__renderProjectPreview = async function(project) {
+  updatePageMeta(project);
+  const blocks = project.content?.blocks || [];
+  const settings = { content: { blocks } };
+  await renderBlocks(project, settings);
+};
+
+// ── Error Display ────────────────────────────────────────────────────────
 
 function showError(message) {
   document.getElementById('project-title').textContent = 'Error';

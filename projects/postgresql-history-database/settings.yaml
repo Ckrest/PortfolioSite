@@ -6,7 +6,6 @@ date: 2025-11-16
 
 size: small
 linkTo: github
-phase: 1
 status: in-progress
 
 tags:
@@ -15,4 +14,3 @@ tags:
 
 github: https://github.com/Ckrest/postgresql-history-database
 
-preview: preview.svg

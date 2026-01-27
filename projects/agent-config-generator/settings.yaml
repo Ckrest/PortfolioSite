@@ -6,7 +6,6 @@ date: 2026-01-08
 
 size: small
 linkTo: github
-phase: 1
 status: in-progress
 
 tags:
@@ -16,4 +15,3 @@ tags:
 
 github: https://github.com/Ckrest/agent-config-generator
 
-preview: preview.svg

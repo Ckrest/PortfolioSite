@@ -4,25 +4,24 @@ Quick reference for creating portfolio project items.
 
 ---
 
-## Required Fields (All Levels)
+## Required Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `title` | string | Project name |
 | `summary` | string | One-line description |
-| `date` | string | `YYYY-MM-DD` format |
-| `level` | number | `1` (large), `2` (medium), `3` (small) |
-| `phase` | number | `1`, `2`, or `3` |
+| `date` | string | `YYYY-MM-DD` format (also determines phase) |
+| `size` | string | `large`, `medium`, `small` (default: `medium`) |
 
 ---
 
-## Assets by Level
+## Assets by Size
 
-| Level | Display | Required Assets | Notes |
-|-------|---------|-----------------|-------|
-| **1 (Large)** | Full card with hero image | `preview.png` or `preview.svg` | 16:9 aspect ratio recommended |
-| **2 (Medium)** | Card with thumbnail | `preview.png` or `preview.svg` | 16:9 aspect ratio, shown smaller |
-| **3 (Small)** | Compact row with icon | `icon.svg` | Square, 32×32 display size |
+| Size | Display | Required Assets | Notes |
+|------|---------|-----------------|-------|
+| **large** | Full card with hero image | `preview.png` or `preview.svg` | 16:9 aspect ratio recommended |
+| **medium** | Card with thumbnail | `preview.png` or `preview.svg` | 16:9 aspect ratio, shown smaller |
+| **small** | Compact row with icon | `icon.svg` | Square, 32×32 display size |
 
 ### Accessibility
 
@@ -43,13 +42,13 @@ tags:
   - CLI Tool
   - Automation
 
-# Links (for external projects)
+# Description (extended project narrative)
+description: "Built a visual editor with real-time node manipulation..."
+
+# Links
 github: https://github.com/user/repo
 externalUrl: https://example.com
-
-# Display options
-hasDetailPage: true      # false = links to github/externalUrl instead
-featured: false          # true = also shows in Featured section
+linkTo: detail           # detail | github | external (default: detail)
 
 # Accessibility
 previewAlt: Description of what the preview image shows
@@ -66,8 +65,8 @@ status: complete         # complete | in-progress | archived
 site/projects/
 ├── my-project/
 │   ├── settings.yaml    ← Required config
-│   ├── icon.svg         ← For level 3 (small) items
-│   ├── preview.png      ← For level 1-2 items (or .svg)
+│   ├── icon.svg         ← For small items
+│   ├── preview.png      ← For large/medium items (or .svg)
 │   └── assets/          ← Optional additional files
 │       └── screenshot.png
 ```
@@ -76,42 +75,91 @@ site/projects/
 
 ## Example settings.yaml
 
-### Level 1 (Large)
+### Large
 ```yaml
 title: My Featured Project
 summary: A comprehensive tool that does amazing things.
 date: 2026-01-15
-level: 1
-phase: 1
+size: large
 tags:
   - Python
   - AI/ML
 github: https://github.com/user/project
-featured: true
 ```
 
-### Level 2 (Medium)
+### Medium
 ```yaml
 title: Useful Tool
 summary: Solves a specific problem efficiently.
 date: 2026-01-10
-level: 2
-phase: 1
+size: medium
 tags:
   - JavaScript
   - Utility
 ```
 
-### Level 3 (Small)
+### Small
 ```yaml
 title: Quick Script
 summary: Simple automation helper.
 date: 2026-01-05
-level: 3
-phase: 1
-hasDetailPage: false
+size: small
+linkTo: github
 github: https://github.com/user/script
 ```
+
+---
+
+## Detail Page Content (Blocks)
+
+Compose detail pages from typed content blocks. Each block renders as its own card.
+
+### Block Types
+
+| Type | Fields | Renders as |
+|------|--------|-----------|
+| `text` | `body` (markdown) | Rendered markdown section |
+| `image` | `src`, `alt`, `caption` | Full-width figure with caption |
+| `video` | `embed` (URL), `caption` | Responsive 16:9 iframe |
+| `gallery` | `images[]` (src, alt), `caption` | Image grid (auto 1-3 columns) |
+| `readme` | `path` (default: README.md) | Full README rendered as markdown |
+| `pdf` | `src` | Embedded PDF viewer |
+| `group` | `blocks[]` | Merges child blocks into one card |
+
+### Example
+
+```yaml
+content:
+  blocks:
+    - type: text
+      body: |
+        ## Overview
+        This project provides...
+    - type: image
+      src: assets/screenshot.png
+      alt: Main interface
+      caption: The primary dashboard
+    - type: group
+      blocks:
+        - type: text
+          body: "## Before & After"
+        - type: gallery
+          images:
+            - src: assets/before.png
+              alt: Before
+            - src: assets/after.png
+              alt: After
+    - type: video
+      embed: "https://www.youtube.com/embed/abc123"
+      caption: Demo walkthrough
+    - type: readme
+```
+
+### Notes
+
+- `src` paths are relative to the project folder (or absolute URLs starting with `http`)
+- Groups cannot be nested inside other groups
+- Legacy `content.mode` (readme, pdf, minimal) still works for existing projects
 
 ---
 
@@ -127,17 +175,21 @@ node site/projects/_build.js
 
 ## Phase Reference
 
+Phase is **auto-derived from the project date** at build time using ranges defined in `data/phases.json`. No need to set it manually.
+
 | Phase | Name | Date Range | Color |
 |-------|------|------------|-------|
 | 1 | AI & Software | Oct 2025 – Jan 2026 | Purple |
 | 2 | Robotics & Manufacturing | Feb – May 2026 | Orange |
 | 3 | AI-Powered Robotics | Jun – Sep 2026 | Teal |
 
+Projects with dates outside all phase ranges default to phase 1.
+
 ---
 
 ## Bundling Behavior
 
-- Level 3 items older than `recentThresholdDays` (default: 14) get bundled
+- Small items older than `recentThresholdDays` (default: 14) get bundled
 - Bundled items show as expandable "X smaller projects" card
 - Configure in `site.config.js` under `timeline.recentThresholdDays`
 - Test with different dates using `timeline.currentDate`

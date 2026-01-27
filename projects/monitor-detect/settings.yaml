@@ -1,18 +1,13 @@
 # Monitor Detect
 
-title: "Monitor Detect"
-summary: "Placeholder summary for Monitor Detect. Update with actual project description."
-date: 2026-01-15
-
+title: Monitor Detect
+summary: Placeholder summary for Monitor Detect. Update with actual project description.
+date: '2026-01-15'
+status: in-progress
 size: small
 linkTo: github
-phase: 1
-status: in-progress
-
-tags:
-  - Desktop Environment
-  - Python
-
 github: https://github.com/Ckrest/monitor-detect
-
-preview: preview.svg
+tags:
+- Desktop Environment
+- Python
+technologies: []

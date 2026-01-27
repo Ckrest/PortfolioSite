@@ -6,13 +6,10 @@ date: 2026-01-16
 
 size: small
 linkTo: github
-phase: 1
 status: complete
-
-icon: icon.svg
-
-github: https://github.com/Ckrest/PortfolioSite
 
 tags:
   - Frontend
   - JavaScript
+
+github: https://github.com/Ckrest/PortfolioSite

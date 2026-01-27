@@ -6,7 +6,6 @@ date: 2026-01-18
 
 size: small
 linkTo: github
-phase: 1
 status: complete
 
 tags:
@@ -17,4 +16,3 @@ tags:
 
 github: https://github.com/Ckrest/shutdown-effect
 
-preview: preview.svg

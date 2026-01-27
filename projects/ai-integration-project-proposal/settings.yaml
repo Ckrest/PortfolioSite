@@ -5,7 +5,7 @@ summary: Strategic project proposal outlining an independent AI integration engi
 date: 2025-09-15
 
 size: medium
-phase: 1
+status: complete
 
 tags:
   - AI
@@ -13,7 +13,9 @@ tags:
 
 preview: preview.png
 
+description: "A comprehensive strategic plan outlining milestones, budgets, and staffing for an independent AI integration engineering initiative focused on building evaluation frameworks and integration tooling."
+
 content:
-  mode: pdf
-  pdfPath: "proposal.pdf"
-  description: "A comprehensive strategic plan outlining milestones, budgets, and staffing for an independent AI integration engineering initiative focused on building evaluation frameworks and integration tooling."
+  blocks:
+    - type: pdf
+      src: "proposal.pdf"

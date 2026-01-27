@@ -5,7 +5,6 @@ summary: "GTK GUI for managing systemd user services with status monitoring, sta
 date: 2025-10-18
 
 size: medium
-phase: 1
 status: complete
 
 tags:
@@ -15,7 +14,7 @@ tags:
 
 github: https://github.com/Ckrest/process-manager
 
-preview: preview.svg
-
 content:
-  mode: readme
+  blocks:
+    - type: readme
+      path: README.md

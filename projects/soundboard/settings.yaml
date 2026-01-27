@@ -1,17 +1,24 @@
 # Soundboard
 
-title: "Soundboard"
-summary: "Placeholder summary for Soundboard. Update with actual project description."
-date: 2026-01-13
-
-size: medium
-phase: 1
+title: Soundboard
+summary: Placeholder summary for Soundboard. Update with actual project description.
+date: '2026-01-13'
 status: in-progress
-
-tags:
-  - Python
-  - CLI
-
+size: medium
+linkTo: detail
 github: https://github.com/Ckrest/soundboard
-
 preview: preview.png
+tags:
+- Python
+- CLI
+technologies: []
+content:
+  blocks:
+  - type: text
+    body: Test
+  - type: readme
+    path: README.md
+  - type: pdf
+    src: ''
+  - type: readme
+    path: README.md

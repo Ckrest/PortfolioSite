@@ -5,7 +5,6 @@ summary: "A web-based image viewer and workflow manager for ComfyUI with thumbna
 date: 2026-01-10
 
 size: medium
-phase: 1
 status: complete
 
 tags:
@@ -15,7 +14,7 @@ tags:
 
 github: https://github.com/Ckrest/comfy-viewer
 
-preview: preview.svg
-
 content:
-  mode: readme
+  blocks:
+    - type: readme
+      path: README.md

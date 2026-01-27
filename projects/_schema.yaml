@@ -10,22 +10,17 @@ summary: string                  # 1-2 sentence description for cards
 date: string                     # ISO 8601 date (YYYY-MM-DD)
 
 # ==============================================================================
-# DISPLAY LEVEL
+# DISPLAY SIZE
 # ==============================================================================
 
-level: 1 | 2 | 3                 # Default: 2
-  # 1 = Large:  Full card with preview image, description, tags, prominent CTA
-  # 2 = Medium: Compact card with title, brief summary, hover expansion
-  # 3 = Small:  Icon only, title on hover, links directly to GitHub
+size: large | medium | small     # Default: medium
+  # large:  Full card with preview image, description, tags, prominent CTA
+  # medium: Compact card with title, brief summary, hover expansion
+  # small:  Icon only, title on hover, links directly to GitHub
 
 # ==============================================================================
 # CATEGORIZATION
 # ==============================================================================
-
-phase: 1 | 2 | 3                 # Portfolio phase. Default: 1
-  # 1 = AI & Software
-  # 2 = Robotics & Manufacturing
-  # 3 = AI-Powered Robotics
 
 tags:                            # Array of skill/category strings
   - string
@@ -35,53 +30,56 @@ technologies:                    # Technologies/tools used (credits)
 
 status: complete | in-progress | archived    # Default: complete
 
+description: string                  # Extended project narrative (optional)
+
 # ==============================================================================
 # LINKING
 # ==============================================================================
 
-github: string                   # GitHub repo URL (required for level 3)
+linkTo: detail | github | external   # Default: detail
+  # detail:   Links to a detail page on this site
+  # github:   Links directly to the GitHub repo
+  # external: Links directly to externalUrl
+
+github: string                   # GitHub repo URL
 externalUrl: string              # Alternative external link
-hasDetailPage: boolean           # Default: true for level 1-2, false for level 3
 
 # ==============================================================================
 # ASSETS (paths relative to project folder)
 # ==============================================================================
 
-icon: string                     # Icon for level 3 display. Default: icon.svg
-preview: string                  # Preview image for level 1-2. Default: preview.svg
+icon: string                     # Icon for small display. Default: icon.svg
+preview: string                  # Preview image for large/medium. Default: preview.svg
+previewAlt: string               # Alt text for preview image. Default: title
 
 # ==============================================================================
-# DETAIL PAGE CONTENT (only for hasDetailPage: true)
+# DETAIL PAGE CONTENT (only for linkTo: detail)
 # ==============================================================================
 
 content:
-  mode: minimal | structured | readme    # Default: minimal
 
-  description: string            # Extended description for hero section
+  # --- Blocks (recommended) ---
+  # Ordered list of typed content blocks. Each block renders as its own card.
+  # Use group blocks to merge multiple blocks into a single card.
+  blocks:
+    - type: text | image | video | gallery | readme | pdf | group
 
-  # --- For mode: structured ---
-  sections:
-    - type: overview | features | installation | usage | technical | gallery | custom
-      title: string              # Optional custom title
-      content: string            # Markdown content
-      items:                     # For bullet lists (features, etc.)
-        - string
+      # text:    body (markdown string)
+      # image:   src, alt, caption
+      # video:   embed (iframe URL), caption
+      # gallery: images[] (src, alt), caption
+      # readme:  path (default: README.md)
+      # pdf:     src
+      # group:   blocks[] (array of child blocks, rendered in one card)
 
-  # --- For mode: readme ---
-  readmePath: string             # Default: README.md (relative to project folder)
+  # --- Legacy modes (still supported) ---
+  mode: minimal | structured | readme | pdf
 
-  # --- Optional for any mode ---
-  screenshots:
-    - src: string                # Path relative to project folder
-      alt: string
-      caption: string
-
+  # --- Optional for any content type ---
   links:                         # Additional action buttons
     - label: string
       url: string
       icon: github | external | demo | docs
-
-featured: boolean                # Show in featured section. Default: false
 
 # ==============================================================================
 # AUTO-GENERATED (do not set manually)
@@ -89,3 +87,5 @@ featured: boolean                # Show in featured section. Default: false
 
 slug: string                     # Auto-derived from folder name if omitted
 folder: string                   # Set by build script to folder name
+phase: number                    # Derived from date using data/phases.json ranges
+hasDetailPage: boolean           # Computed from linkTo === 'detail'

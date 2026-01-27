@@ -5,7 +5,6 @@ summary: "Queue and job management system for concurrent Ollama inference across
 date: 2026-01-08
 
 size: medium
-phase: 1
 status: complete
 
 tags:
@@ -15,7 +14,7 @@ tags:
 
 github: https://github.com/Ckrest/model-manager
 
-preview: preview.svg
-
 content:
-  mode: readme
+  blocks:
+    - type: readme
+      path: README.md

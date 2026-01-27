@@ -5,7 +5,6 @@ summary: "Placeholder summary for Settings Hub. Update with actual project descr
 date: 2025-11-26
 
 size: medium
-phase: 1
 status: in-progress
 
 tags:
@@ -15,4 +14,3 @@ tags:
 
 github: https://github.com/Ckrest/settings-hub
 
-preview: preview.svg
