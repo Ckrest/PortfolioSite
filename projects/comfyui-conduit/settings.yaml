@@ -12,8 +12,78 @@ tags:
 - ComfyUI
 - Python
 - API Design
-technologies: []
 content:
   blocks:
-  - type: readme
-    path: README.md
+  - type: text
+    body: 'End-to-end test of copy-at-capture for all artifact types: image, code, terminal, video, doc, data.'
+  - type: text
+    body: 'Verifying Phase 4 implementation: every artifact type should produce a file in the per-report artifacts folder.'
+  - type: image
+    src: media/preview.png
+    alt: Diagram tool preview screenshot
+    caption: Diagram tool preview screenshot
+  - type: terminal
+    commands:
+    - prompt: '$ '
+      command: work_report.py recent --limit 3
+      output: "Recent Work Reports (3):\n\n  # 31  2026-01-27 14:30  a1b2c3d4  [portfolio-site] Detail page defaults and build\
+        \ validation\n        Feature, Frontend, JavaScript\n  # 30  2026-01-26 11:15  e5f6a7b8  [portfolio-editor] Group\
+        \ block UX improvements\n        Feature, Frontend, JavaScript\n  # 29  2026-01-25 09:00  c9d0e1f2  [portfolio-editor]\
+        \ V1 portfolio editor\n        Feature, Frontend, Python"
+    - prompt: '$ '
+      command: work_report.py show 31
+      output: '======================================================================
+
+        Work Report #31
+
+        ======================================================================
+
+        Date:    2026-01-27 14:30
+
+        Project: portfolio-site
+
+        Title: Detail page defaults and build validation
+
+        '
+    caption: Sample terminal session
+    src: media/terminal.txt
+  - type: video
+    embed: /home/nick/.local/share/work-reports/artifacts/34/bikes.mp4
+    caption: Sample video clip
+  - type: pdf
+    src: media/proposal.pdf
+    caption: Project proposal document
+  - type: graph
+    chartType: bar
+    labels:
+    - Phase 1
+    - Phase 2
+    - Phase 3
+    datasets:
+    - data:
+      - 12
+      - 7
+      - 5
+      label: Files Changed
+    - data:
+      - 490
+      - 280
+      - 160
+      label: Lines Added
+    caption: Performance metrics data
+    src: media/chart.json
+  - type: code
+    language: python
+    code: "def parse_artifact(spec: str) -> dict:\n    \"\"\"Parse an artifact specification string.\n\n    Formats:\n   \
+      \     image:/path/to/file.png:\"Optional caption\"\n        code:src/file.py:10-25:\"Caption\"\n        terminal:/path/to/session.txt:\"\
+      Caption\"\n        video:/path/to/demo.mp4:\"Caption\"\n        doc:/path/to/spec.pdf:\"Caption\"\n        data:/path/to/metrics.json:\"\
+      Caption\"\n\n    For code artifacts, lines are extracted at capture time and stored\n    in the 'content' field. Line\
+      \ numbers become metadata for provenance.\n    \"\"\"\n    # Split on first colon to get type\n    parts = spec.split(\"\
+      :\", 1)\n    if len(parts) < 2:\n        raise ValueError(f\"Invalid artifact spec (missing type): {spec}\")\n\n   \
+      \ art_type = parts[0].strip()\n    if art_type not in ARTIFACT_TYPES:\n        raise ValueError(f\"Unknown artifact\
+      \ type '{art_type}'. Valid: {', '.join(sorted(ARTIFACT_TYPES))}\")\n"
+    filename: work_report.py
+    caption: parse_artifact function
+    src: media/work_report.py
+  - path: README.md
+    type: readme

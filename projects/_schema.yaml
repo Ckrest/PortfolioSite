@@ -22,11 +22,12 @@ size: large | medium | small     # Default: medium
 # CATEGORIZATION
 # ==============================================================================
 
-tags:                            # Array of skill/category strings
-  - string
+tags:                           # List of tags (Skills, Domains, Work Types)
+  - Tag1
+  - Tag2
 
-technologies:                    # Technologies/tools used (credits)
-  - string
+group: "Group Name"             # Optional: Grouping key for the homepage
+
 
 status: complete | in-progress | archived    # Default: complete
 
@@ -62,15 +63,20 @@ content:
   # Ordered list of typed content blocks. Each block renders as its own card.
   # Use group blocks to merge multiple blocks into a single card.
   blocks:
-    - type: text | image | video | gallery | readme | pdf | group
+    - type: text | image | video | gallery | readme | pdf | group | code | terminal | comparison | graph
 
-      # text:    body (markdown string)
-      # image:   src, alt, caption
-      # video:   embed (iframe URL), caption
-      # gallery: images[] (src, alt), caption
-      # readme:  path (default: README.md)
-      # pdf:     src
-      # group:   blocks[] (array of child blocks, rendered in one card)
+      # text:       body (markdown string)
+      # image:      src, alt, caption
+      # video:      embed (iframe URL), caption
+      # gallery:    images[] (src, alt), caption
+      # readme:     path (default: README.md)
+      # pdf:        src
+      # group:      blocks[] (array of child blocks, rendered in one card)
+      # code:       language, code, filename, caption
+      # terminal:   commands[] (prompt, command, output), caption
+      # comparison: before (src, label), after (src, label), caption
+      # graph:      chartType (bar|line|pie|doughnut|radar|polarArea),
+      #             labels[], datasets[] (label, data[]), caption
 
   # --- Legacy modes (still supported) ---
   mode: minimal | structured | readme | pdf

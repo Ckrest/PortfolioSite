@@ -9,9 +9,11 @@ linkTo: detail
 github: https://github.com/Ckrest/soundboard
 preview: preview.png
 tags:
-- Python
-- CLI
-technologies: []
+  - Python
+  - GTK
+  - Audio
+
+
 content:
   blocks:
   - type: readme
