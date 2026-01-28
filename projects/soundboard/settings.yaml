@@ -14,11 +14,5 @@ tags:
 technologies: []
 content:
   blocks:
-  - type: text
-    body: Test
-  - type: readme
-    path: README.md
-  - type: pdf
-    src: ''
   - type: readme
     path: README.md

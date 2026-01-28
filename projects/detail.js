@@ -113,10 +113,13 @@ async function renderBlocks(project, settings) {
   const main = document.getElementById('main-content');
   const blocks = settings.content.blocks;
 
-  let html = '';
-  html += renderPreviewSection(project);
-  html += renderTagsSection(project);
-  html += renderLinksSection(project);
+  // Header metadata: preview, tags, links — wrapped for consistent spacing
+  let metaHtml = '';
+  metaHtml += renderPreviewSection(project);
+  metaHtml += renderTagsSection(project);
+  metaHtml += renderLinksSection(project);
+
+  let html = `<div class="detail-meta">${metaHtml}</div>`;
 
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
@@ -135,6 +138,23 @@ async function renderBlocks(project, settings) {
   for (let i = 0; i < blocks.length; i++) {
     if (blocks[i].type === 'readme') {
       await loadReadmeBlock(blocks[i], project, i);
+    }
+  }
+
+  // Auto-README fallback: if no content blocks, try loading README.md
+  if (blocks.length === 0) {
+    try {
+      const res = await fetch(`${project.folder}/README.md`);
+      if (res.ok) {
+        const text = await res.text();
+        marked.setOptions({ gfm: true, breaks: true });
+        const readmeSection = document.createElement('section');
+        readmeSection.className = 'block-readme';
+        readmeSection.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
+        main.appendChild(readmeSection);
+      }
+    } catch (e) {
+      // No README available — header-only page is fine
     }
   }
 }

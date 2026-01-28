@@ -162,6 +162,9 @@ section p {
 .diagram-stage .diagram-root {
   width: 100%;
 }
+.detail-meta {
+  margin-bottom: 12px;
+}
 .button-row {
   display: flex;
   flex-wrap: wrap;
