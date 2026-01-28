@@ -42,6 +42,8 @@ main {
   margin: 0 auto;
   flex: 1;
   padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
 }
 [data-section="footer"] {
   padding: 64px 0;
@@ -129,7 +131,7 @@ nav a:hover,
   font-size: clamp(16px, 2.4vw, 18px);
 }
 section {
-  margin-top: 42px;
+  margin: 21px 0;
   background: color-mix(in oklab, var(--panel), transparent 20%);
   padding: clamp(20px, 4vw, 36px);
   border-radius: var(--radius);
@@ -589,17 +591,18 @@ figure img {
    ========================================================================== */
 
 /* --- Group block: children flow inside one card without card styling --- */
+.block-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .block-group > .block-text,
 .block-group > .block-image,
 .block-group > .block-video,
 .block-group > .block-gallery,
 .block-group > .block-pdf,
 .block-group > .block-readme {
-  margin-top: 24px;
-}
-
-.block-group > :first-child {
-  margin-top: 0;
+  margin: 12px 0;
 }
 
 /* --- Video embed: responsive 16:9 --- */

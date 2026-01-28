@@ -139,12 +139,55 @@ async function renderBlocks(project, settings) {
   }
 }
 
+// ── Empty Block Detection (editor preview only) ────────────────────────
+
+function isBlockEmpty(block) {
+  switch (block.type) {
+    case 'text':    return !block.body?.trim();
+    case 'image':   return !block.src?.trim();
+    case 'video':   return !block.embed?.trim();
+    case 'gallery': return !block.images?.length;
+    case 'pdf':     return !block.src?.trim();
+    case 'group':   return false;
+    case 'readme':  return false;
+    default:        return true;
+  }
+}
+
+function renderEmptyPlaceholder(block) {
+  const icons = { text: '¶', image: '🖼', video: '▶', gallery: '⊞', pdf: '📋', group: '☰' };
+  const labels = { text: 'Text', image: 'Image', video: 'Video', gallery: 'Gallery', pdf: 'PDF', group: 'Group' };
+  const hints = {
+    text: 'Click to add text content',
+    image: 'Click to set image source',
+    video: 'Click to add video URL',
+    gallery: 'Click to add images',
+    pdf: 'Click to set PDF source',
+    group: 'Click to add sub-blocks',
+  };
+  return `
+    <div class="block-empty-placeholder">
+      <span class="block-empty-icon">${icons[block.type] || '?'}</span>
+      <span class="block-empty-label">${labels[block.type] || 'Block'}</span>
+      <span class="block-empty-hint">${hints[block.type] || 'Click to edit'}</span>
+    </div>
+  `;
+}
+
 function renderBlock(block, project, options) {
   const isGroupChild = options?.isGroupChild || false;
   const index = options?.index;
   const tag = isGroupChild ? 'div' : 'section';
   const cssClass = `block-${block.type}`;
   const indexAttr = index != null ? ` data-block-index="${index}"` : '';
+
+  // Show placeholder for empty blocks in editor preview mode
+  if (window.__portfolioBridge && isBlockEmpty(block)) {
+    return `<${tag} class="${cssClass}"${indexAttr}>${renderEmptyPlaceholder(block)}</${tag}>`;
+  }
+
+  // Group renders its own wrapper
+  if (block.type === 'group') return renderBlockGroup(block, project, index);
 
   let inner = '';
   switch (block.type) {
@@ -153,7 +196,6 @@ function renderBlock(block, project, options) {
     case 'video':   inner = renderBlockVideo(block); break;
     case 'gallery': inner = renderBlockGallery(block, project); break;
     case 'pdf':     inner = renderBlockPdf(block, project); break;
-    case 'group':   return renderBlockGroup(block, project, index);
     default:        inner = `<p style="color:var(--muted);">Unknown block type: ${block.type}</p>`;
   }
 
