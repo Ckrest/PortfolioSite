@@ -1,0 +1,16 @@
+$ work_report.py recent --limit 3
+Recent Work Reports (3):
+
+  # 31  2026-01-27 14:30  a1b2c3d4  [portfolio-site] Detail page defaults and build validation
+        Feature, Frontend, JavaScript
+  # 30  2026-01-26 11:15  e5f6a7b8  [portfolio-editor] Group block UX improvements
+        Feature, Frontend, JavaScript
+  # 29  2026-01-25 09:00  c9d0e1f2  [portfolio-editor] V1 portfolio editor
+        Feature, Frontend, Python
+$ work_report.py show 31
+======================================================================
+Work Report #31
+======================================================================
+Date:    2026-01-27 14:30
+Project: portfolio-site
+Title: Detail page defaults and build validation
