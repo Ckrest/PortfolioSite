@@ -627,6 +627,12 @@ figure img {
   border: 0;
 }
 
+.block-video video {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+}
+
 /* --- Gallery grid --- */
 .gallery-grid {
   display: grid;

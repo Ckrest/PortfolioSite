@@ -43,15 +43,25 @@ const BLOCKS = {
   video: {
     icon: '▶', label: 'Video', hint: 'Click to add video URL',
     isEmpty(b) { return !b.embed?.trim(); },
-    render(b) {
+    render(b, project) {
       const caption = b.caption ? `<figcaption>${escapeHtml(b.caption)}</figcaption>` : '';
+      const embed = b.embed || '';
+      if (embed.startsWith('http')) {
+        return `
+          <figure>
+            <div class="video-embed-wrapper">
+              <iframe src="${embed}" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen loading="lazy"></iframe>
+            </div>
+            ${caption}
+          </figure>
+        `;
+      }
+      const src = resolvePath(embed, project);
       return `
         <figure>
-          <div class="video-embed-wrapper">
-            <iframe src="${b.embed}" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
-          </div>
+          <video controls preload="metadata" src="${src}"></video>
           ${caption}
         </figure>
       `;
@@ -261,7 +271,12 @@ const BLOCKS = {
 
 function resolvePath(src, project) {
   if (!src) return '';
-  return src.startsWith('http') ? src : `${project.folder}/${src}`;
+  if (src.startsWith('http')) return src;
+  // Editor preview: proxy absolute paths through the artifact preview API
+  if (src.startsWith('/') && window.__portfolioBridge) {
+    return `/api/artifact-preview?path=${encodeURIComponent(src)}`;
+  }
+  return `${project.folder}/${src}`;
 }
 
 // ── Page Init ───────────────────────────────────────────────────────────────
