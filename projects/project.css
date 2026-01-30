@@ -162,8 +162,9 @@ section p {
 .diagram-stage .diagram-root {
   width: 100%;
 }
-.detail-meta {
-  margin-bottom: 12px;
+/* Header wrapper — invisible container for editor targeting, with internal bottom spacing */
+[data-block-id="header"] {
+  padding-bottom: 12px;
 }
 .button-row {
   display: flex;

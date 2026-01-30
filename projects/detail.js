@@ -8,6 +8,29 @@
 
 import { escapeHtml, generatePlaceholderDataUri } from '../js/utils.js';
 
+// ── Block ID Utilities ───────────────────────────────────────────────────────
+//
+// Ensures blocks have stable IDs for editor preview targeting.
+// IDs are generated client-side if missing (for projects saved before ID system).
+
+function generateBlockId() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'blk-' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+}
+
+function ensureAllBlockIds(blocks) {
+  if (!Array.isArray(blocks)) return blocks;
+  return blocks.map(block => {
+    if (!block.id) block.id = generateBlockId();
+    if (block.type === 'group' && Array.isArray(block.blocks)) {
+      block.blocks = ensureAllBlockIds(block.blocks);
+    }
+    return block;
+  });
+}
+
 // ── Block Registry ──────────────────────────────────────────────────────────
 //
 // Each entry defines everything about one block type:
@@ -23,6 +46,9 @@ const BLOCKS = {
     icon: '¶', label: 'Text', hint: 'Click to add text content',
     isEmpty(b) { return !b.body?.trim(); },
     render(b) {
+      if (typeof marked === 'undefined') {
+        return `<div class="markdown-content"><p style="color:var(--color-text-secondary);">Markdown renderer not loaded. Please refresh the page.</p></div>`;
+      }
       return `<div class="markdown-content">${marked.parse(b.body || '')}</div>`;
     },
   },
@@ -89,7 +115,7 @@ const BLOCKS = {
     icon: '📄', label: 'README', hint: 'Set path to README',
     isEmpty() { return false; },
     render() {
-      return `<p style="color:var(--muted);text-align:center;">Loading README...</p>`;
+      return `<p style="color:var(--color-text-secondary);text-align:center;">Loading README...</p>`;
     },
     async postRender(el, b, project) {
       const path = b.path || 'README.md';
@@ -97,10 +123,16 @@ const BLOCKS = {
         const res = await fetch(`${project.folder}/${path}`);
         if (!res.ok) throw new Error('README not found');
         const text = await res.text();
+
+        if (typeof marked === 'undefined') {
+          el.innerHTML = `<p style="color:var(--color-text-secondary);">Markdown renderer not loaded.</p>`;
+          return;
+        }
+
         marked.setOptions({ gfm: true, breaks: true });
         el.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
       } catch {
-        el.innerHTML = `<p style="color:var(--muted);text-align:center;">Could not load README.</p>`;
+        el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">Could not load README.</p>`;
       }
     },
   },
@@ -130,6 +162,7 @@ const BLOCKS = {
     // Group renders its own wrapper — see renderBlockGroup()
     render() { return null; },
   },
+
 
   // ── Code ────────────────────────────────────────────────────────────────
   code: {
@@ -292,7 +325,7 @@ if (!projectSlug) {
 
 async function loadProject(slug) {
   try {
-    const manifestRes = await fetch('manifest.json');
+    const manifestRes = await fetch('../projects/manifest.json');
     if (!manifestRes.ok) throw new Error('Failed to load manifest');
     const manifest = await manifestRes.json();
 
@@ -304,7 +337,8 @@ async function loadProject(slug) {
 
     updatePageMeta(project);
 
-    const blocks = project.content?.blocks || [];
+    // Ensure blocks have stable IDs (for projects saved before ID system)
+    const blocks = ensureAllBlockIds(project.content?.blocks || []);
     const settings = { content: { blocks } };
     await renderBlocks(project, settings);
 
@@ -322,7 +356,11 @@ function updatePageMeta(project) {
   document.getElementById('project-summary').textContent = project.summary;
 }
 
-// ── Shared Sections ─────────────────────────────────────────────────────────
+// ── Header Rendering ─────────────────────────────────────────────────────────
+//
+// Header elements (preview, tags, links) are wrapped in an invisible container
+// with data-block-id="header". The editor sees this as ONE block — it doesn't
+// care about the internal structure.
 
 function renderPreviewSection(project) {
   const previewPath = project.preview
@@ -350,7 +388,7 @@ function renderTagsSection(project) {
   if (!project.tags || project.tags.length === 0) return '';
 
   const tagsHtml = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-  return `<div class="tag-row" style="margin: 20px 0;">${tagsHtml}</div>`;
+  return `<div class="tag-row">${tagsHtml}</div>`;
 }
 
 function renderLinksSection(project) {
@@ -386,15 +424,14 @@ async function renderBlocks(project, settings) {
   const main = document.getElementById('main-content');
   const blocks = settings.content.blocks;
 
-  // Header metadata: preview, tags, links
-  let metaHtml = '';
-  metaHtml += renderPreviewSection(project);
-  metaHtml += renderTagsSection(project);
-  metaHtml += renderLinksSection(project);
+  // Render header in invisible wrapper (editor sees this as ONE block)
+  let headerHtml = renderPreviewSection(project);
+  headerHtml += renderTagsSection(project);
+  headerHtml += renderLinksSection(project);
 
-  let html = `<div class="detail-meta">${metaHtml}</div>`;
+  let html = `<div data-block-id="header">${headerHtml}</div>`;
 
-  // Render all blocks to HTML
+  // Render content blocks
   for (let i = 0; i < blocks.length; i++) {
     html += renderBlock(blocks[i], project, { isGroupChild: false, index: i });
   }
@@ -416,6 +453,15 @@ async function renderBlocks(project, settings) {
       const res = await fetch(`${project.folder}/README.md`);
       if (res.ok) {
         const text = await res.text();
+
+        if (typeof marked === 'undefined') {
+          const readmeSection = document.createElement('section');
+          readmeSection.className = 'block-readme';
+          readmeSection.innerHTML = `<p style="color:var(--color-text-secondary);">Markdown renderer not loaded. Cannot display README.</p>`;
+          main.appendChild(readmeSection);
+          return;
+        }
+
         marked.setOptions({ gfm: true, breaks: true });
         const readmeSection = document.createElement('section');
         readmeSection.className = 'block-readme';
@@ -451,11 +497,13 @@ function renderBlock(block, project, options) {
   const index = options?.index;
   const tag = isGroupChild ? 'div' : 'section';
   const cssClass = `block-${block.type}`;
+  // Include both index (legacy) and id (stable) attributes for block identification
   const indexAttr = index != null ? ` data-block-index="${index}"` : '';
+  const idAttr = block.id ? ` data-block-id="${block.id}"` : '';
 
   // Show placeholder for empty blocks in editor preview mode
   if (window.__portfolioBridge && isBlockEmpty(block)) {
-    return `<${tag} class="${cssClass}"${indexAttr}>${renderEmptyPlaceholder(block)}</${tag}>`;
+    return `<${tag} class="${cssClass}"${indexAttr}${idAttr}>${renderEmptyPlaceholder(block)}</${tag}>`;
   }
 
   // Group renders its own wrapper
@@ -465,26 +513,82 @@ function renderBlock(block, project, options) {
   const def = BLOCKS[block.type];
   const inner = def
     ? def.render(block, project, index)
-    : `<p style="color:var(--muted);">Unknown block type: ${block.type}</p>`;
+    : `<p style="color:var(--color-text-secondary);">Unknown block type: ${block.type}</p>`;
 
-  return `<${tag} class="${cssClass}"${indexAttr}>${inner}</${tag}>`;
+  return `<${tag} class="${cssClass}"${indexAttr}${idAttr}>${inner}</${tag}>`;
 }
 
 function renderBlockGroup(block, project, index) {
   const indexAttr = index != null ? ` data-block-index="${index}"` : '';
+  const idAttr = block.id ? ` data-block-id="${block.id}"` : '';
   const children = (block.blocks || [])
-    .map(child => renderBlock(child, project, { isGroupChild: true }))
+    .map((child) => renderBlock(child, project, { isGroupChild: true }))
     .join('');
-  return `<section class="block-group"${indexAttr}>${children}</section>`;
+  return `<section class="block-group"${indexAttr}${idAttr}>${children}</section>`;
 }
 
 // ── Live Preview API ────────────────────────────────────────────────────────
 
+// Store current project reference for blocks-only rerender
+window.__currentProject = null;
+
 window.__renderProjectPreview = async function(project) {
+  window.__currentProject = project;
   updatePageMeta(project);
-  const blocks = project.content?.blocks || [];
+  // Ensure blocks have IDs (defense-in-depth, editor should already send them)
+  const blocks = ensureAllBlockIds(project.content?.blocks || []);
   const settings = { content: { blocks } };
   await renderBlocks(project, settings);
+};
+
+/**
+ * Render only blocks, preserving header wrapper.
+ * Used when block order/content changes but header stays the same.
+ *
+ * @param {Array} blocks - The blocks array to render
+ * @returns {Object} - { success: boolean, reason?: string }
+ */
+window.__renderBlocksOnly = async function(blocks) {
+  const main = document.getElementById('main-content');
+  const headerWrapper = main?.querySelector('[data-block-id="header"]');
+  const project = window.__currentProject;
+
+  if (!main) {
+    return { success: false, reason: 'main-not-found' };
+  }
+
+  if (!headerWrapper) {
+    return { success: false, reason: 'header-not-found' };
+  }
+
+  if (!project) {
+    return { success: false, reason: 'no-current-project' };
+  }
+
+  // Ensure blocks have IDs
+  blocks = ensureAllBlockIds(blocks);
+
+  // Remove old blocks (everything after header wrapper)
+  while (headerWrapper.nextElementSibling) {
+    headerWrapper.nextElementSibling.remove();
+  }
+
+  // Render blocks in correct order by appending to main
+  for (let i = 0; i < blocks.length; i++) {
+    const html = renderBlock(blocks[i], project, { isGroupChild: false, index: i });
+    main.insertAdjacentHTML('beforeend', html);
+  }
+
+  // Post-render pass for blocks that need DOM access (readme, graph, etc.)
+  for (let i = 0; i < blocks.length; i++) {
+    const def = BLOCKS[blocks[i].type];
+    if (def?.postRender) {
+      const el = main.querySelector(`[data-block-index="${i}"]`);
+      if (el) await def.postRender(el, blocks[i], project);
+    }
+  }
+
+  return { success: true };
 };
 
 // ── Error Display ───────────────────────────────────────────────────────────
@@ -495,7 +599,7 @@ function showError(message) {
   document.getElementById('breadcrumb-title').textContent = ' / Error';
   document.getElementById('main-content').innerHTML = `
     <section>
-      <p style="color: var(--muted); text-align: center;">${message}</p>
+      <p style="color: var(--color-text-secondary); text-align: center;">${message}</p>
       <div class="button-row" style="justify-content: center;">
         <a href="../index.html" class="button">← Back to Projects</a>
       </div>
