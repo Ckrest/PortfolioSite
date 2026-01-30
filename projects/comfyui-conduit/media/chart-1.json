@@ -1,0 +1,10 @@
+{
+  "chartType": "bar",
+  "labels": [],
+  "datasets": [
+    {
+      "label": "Series 1",
+      "data": []
+    }
+  ]
+}

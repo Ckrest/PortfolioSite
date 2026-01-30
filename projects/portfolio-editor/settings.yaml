@@ -1,0 +1,22 @@
+# Editor v2 Architecture + Schema Cleanup
+
+title: Editor v2 Architecture + Schema Cleanup
+summary: Major refactor of portfolio editor to v2 modular architecture with observer-based state management. Also cleaned
+  up data model to properly separate metadata (project settings) from content (what visit
+date: '2026-01-30'
+tags:
+- Refactoring
+- Architecture
+- Frontend
+status: in-progress
+size: medium
+linkTo: detail
+description: Major refactor of portfolio editor to v2 modular architecture with observer-based state management. Also cleaned
+  up data model to properly separate metadata (project settings) from content (what visitors read). Description and reasoning
+  are now content blocks, not metadata fields. Added group field for homepage organization and source section for work report
+  provenance tracking.
+source:
+  report_id: 51
+  duration_hours: 4.0
+  effort: high
+  commit: 1fd5879
