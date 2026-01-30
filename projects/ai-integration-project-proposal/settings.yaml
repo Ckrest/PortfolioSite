@@ -13,8 +13,6 @@ tags:
 
 preview: preview.png
 
-description: "A comprehensive strategic plan outlining milestones, budgets, and staffing for an independent AI integration engineering initiative focused on building evaluation frameworks and integration tooling."
-
 content:
   blocks:
     - type: pdf

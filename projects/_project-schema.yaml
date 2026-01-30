@@ -1,0 +1,175 @@
+# Portfolio Project Schema (Machine-Readable)
+# Single source of truth for project field definitions
+# Used by: editor frontend, editor backend validation, build script
+#
+# See _schema.yaml for human documentation of the full settings structure.
+#
+# Field Types:
+#   - text: single-line text input
+#   - textarea: multi-line text input
+#   - date: date picker (YYYY-MM-DD format)
+#   - url: URL input with validation
+#   - enum: dropdown select with predefined values
+#   - tags: tag input with autocomplete from vocabulary
+#   - asset: file selector with thumbnail preview (for images in project folder)
+
+# Field rendering sections (for editor UI)
+sections:
+  - id: metadata
+    label: Metadata
+    collapsed: false
+    fields: [title, summary, date, status, size, group]
+
+  - id: links
+    label: Links
+    collapsed: false
+    fields: [linkTo, github, externalUrl]
+
+  - id: media
+    label: Media
+    collapsed: true
+    fields: [preview, previewAlt, icon]
+
+  - id: tags
+    label: Tags
+    collapsed: false
+    fields: [tags]
+
+  - id: source
+    label: Source
+    collapsed: true
+    fields: [duration_hours, effort, report_id, commit]
+
+# Field definitions
+fields:
+  # ─── Required Metadata ────────────────────────────────────────────────────
+  title:
+    type: text
+    label: Title
+    required: true
+
+  summary:
+    type: textarea
+    label: Summary
+    required: true
+
+  date:
+    type: date
+    label: Date
+    required: true
+    layout: half
+
+  # ─── Enumerated Fields (Dropdowns) ────────────────────────────────────────
+  status:
+    type: enum
+    label: Status
+    values: [complete, in-progress, archived]
+    default: complete
+    layout: half
+
+  size:
+    type: enum
+    label: Size
+    values: [large, medium, small]
+    default: medium
+    layout: half
+
+  group:
+    type: text
+    label: Group
+    placeholder: "e.g., Desktop Tools"
+    layout: half
+
+  linkTo:
+    type: enum
+    label: Link To
+    values: [detail, github, external]
+    default: detail
+
+  # ─── URL Fields ───────────────────────────────────────────────────────────
+  github:
+    type: url
+    label: GitHub URL
+    placeholder: "https://github.com/username/repo"
+
+  externalUrl:
+    type: url
+    label: External URL
+    placeholder: "https://example.com"
+    showWhen:
+      field: linkTo
+      is: [external]
+
+  # ─── Media Fields ─────────────────────────────────────────────────────────
+  preview:
+    type: asset
+    label: Preview Image
+    placeholder: preview.svg
+    default: preview.svg
+    assetType: image
+
+  previewAlt:
+    type: text
+    label: Preview Alt Text
+
+  icon:
+    type: asset
+    label: Icon
+    placeholder: icon.svg
+    default: icon.svg
+    assetType: image
+
+  # ─── Tags ─────────────────────────────────────────────────────────────────
+  tags:
+    type: tags
+    label: Tags
+
+  # ─── Source (Provenance from work reports) ──────────────────────────────────
+  duration_hours:
+    type: number
+    label: Duration (hours)
+    layout: half
+
+  effort:
+    type: enum
+    label: Effort
+    values: [low, medium, high]
+    layout: half
+
+  report_id:
+    type: readonly
+    label: Source Report
+
+  commit:
+    type: readonly
+    label: Commit
+
+# ─── Contextual Warnings ──────────────────────────────────────────────────────
+# These don't block save but inform the user of potential configuration issues
+warnings:
+  - id: github-without-url
+    message: "linkTo is 'github' but no GitHub URL provided"
+    when:
+      field: linkTo
+      is: github
+    check:
+      field: github
+      condition: empty
+
+  - id: external-without-url
+    message: "linkTo is 'external' but no external URL provided"
+    when:
+      field: linkTo
+      is: external
+    check:
+      field: externalUrl
+      condition: empty
+
+  - id: detail-without-content
+    message: "Detail page has no content blocks"
+    when:
+      field: linkTo
+      is: detail
+    check:
+      field: _blocks
+      condition: empty-array

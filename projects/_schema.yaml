@@ -31,7 +31,8 @@ group: "Group Name"             # Optional: Grouping key for the homepage
 
 status: complete | in-progress | archived    # Default: complete
 
-description: string                  # Extended project narrative (optional)
+# Note: description and reasoning are NOT metadata fields.
+# They should be added as text blocks in content.blocks when importing from work reports.
 
 # ==============================================================================
 # LINKING
@@ -96,7 +97,6 @@ content:
 
 source:
   report_id: number              # ID of the source work report
-  reasoning: string              # Why decisions were made during development
   duration_hours: number         # Time spent on the work
   effort: low | medium | high    # Effort level estimate
   commit: string                 # Git commit hash associated with the work
