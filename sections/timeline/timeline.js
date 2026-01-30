@@ -552,6 +552,11 @@ function handleTimelineClick(e) {
     const isOpen = bundleHeader.getAttribute('aria-expanded') === 'true';
     bundleHeader.setAttribute('aria-expanded', !isOpen);
     bundle.classList.toggle('is-expanded', !isOpen);
+
+    // Trigger reveal animations for newly visible entries
+    if (!isOpen && window.observeReveals) {
+      window.observeReveals(bundle);
+    }
   }
 }
 

@@ -20,8 +20,18 @@
  *   external = Links to externalUrl (falls back to GitHub)
  */
 
-import { escapeHtml, generatePlaceholderDataUri, getMediaType } from '../utils.js';
+import { escapeHtml, generatePlaceholderDataUri } from '../utils.js';
 import { formatDate } from '../section-loader.js';
+import {
+  getLinkUrl,
+  getLinkAttrs,
+  isExternalLink,
+  getCTAText,
+  getPreviewPath,
+  getIconPath,
+  renderMedia,
+  renderTags as renderTagsHelper
+} from './project-helpers.js';
 
 /**
  * Default options per variant
@@ -84,140 +94,14 @@ export function renderEntry(project, options = {}) {
 }
 
 /**
- * Get link URL for a project based on linkTo field
- */
-function getLinkUrl(project) {
-  const linkTo = project.linkTo ?? 'detail';
-
-  switch (linkTo) {
-    case 'github':
-      return project.github || '#';
-    case 'external':
-      return project.externalUrl || project.github || '#';
-    case 'detail':
-    default:
-      return `projects/detail.html?project=${project.folder}`;
-  }
-}
-
-/**
- * Get link attributes (target, rel) for external links
- */
-function getLinkAttrs(project) {
-  const linkTo = project.linkTo ?? 'detail';
-  if (linkTo === 'github' || linkTo === 'external') {
-    return 'target="_blank" rel="noopener noreferrer"';
-  }
-  return '';
-}
-
-/**
- * Check if link is external
- */
-function isExternalLink(project) {
-  const linkTo = project.linkTo ?? 'detail';
-  return linkTo === 'github' || linkTo === 'external';
-}
-
-/**
- * Get CTA text based on link destination
- */
-function getCTAText(project) {
-  const linkTo = project.linkTo ?? 'detail';
-
-  switch (linkTo) {
-    case 'github':
-      return 'View on GitHub';
-    case 'external':
-      return project.externalUrl ? 'View project' : 'View on GitHub';
-    case 'detail':
-    default:
-      return 'View project';
-  }
-}
-
-/**
- * Get preview image path
- */
-function getPreviewPath(project) {
-  if (!project.preview) return null;
-  return `projects/${project.folder}/${project.preview}`;
-}
-
-/**
- * Get icon path (for small entries)
- */
-function getIconPath(project) {
-  const icon = project.icon || 'icon.svg';
-  return `projects/${project.folder}/${icon}`;
-}
-
-/**
- * Render media element (image or video) with graceful fallback
- * Handles: jpg, png, gif, svg, webp, avif, mp4, webm
- *
- * @param {string} src - Media source path
- * @param {string} alt - Alt text for images
- * @param {string} placeholder - Fallback placeholder data URI
- * @param {string} classPrefix - CSS class prefix (e.g., 'project-entry')
- * @returns {string} HTML string
- */
-function renderMedia(src, alt, placeholder, classPrefix) {
-  const mediaType = getMediaType(src);
-
-  // No valid media - show placeholder
-  if (!src || !mediaType) {
-    return `
-      <img src="${placeholder}"
-           alt="${alt}"
-           class="${classPrefix}__media-fallback">
-    `;
-  }
-
-  if (mediaType === 'video') {
-    // Video: autoplay loop with poster fallback
-    return `
-      <video autoplay loop muted playsinline
-             poster="${placeholder}"
-             class="${classPrefix}__video"
-             oncanplay="this.classList.add('loaded')"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <source src="${src}" type="video/${src.split('.').pop()}">
-      </video>
-      <img src="${placeholder}"
-           alt="${alt}"
-           class="${classPrefix}__media-fallback"
-           style="display: none;">
-    `;
-  }
-
-  // Image (including GIF): standard img with fallback
-  return `
-    <img src="${src}"
-         alt="${alt}"
-         loading="lazy"
-         class="${classPrefix}__image"
-         onload="this.classList.add('loaded')"
-         onerror="this.onerror=null; this.src='${placeholder}'; this.classList.add('fallback');">
-  `;
-}
-
-/**
  * Render tags HTML
+ * Wrapper that uses helper and adds opts.showTags check
  */
 function renderTags(tags, opts) {
   if (!opts.showTags || !tags?.length) return '';
 
   const { hiddenTags = [] } = opts.tagConfig;
-  const visibleTags = tags.filter(t => !hiddenTags.includes(t));
-
-  if (!visibleTags.length) return '';
-
-  return `
-    <div class="${opts.classPrefix}__tags">
-      ${visibleTags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
-    </div>
-  `;
+  return renderTagsHelper(tags, opts.classPrefix + '__tags', hiddenTags);
 }
 
 /**

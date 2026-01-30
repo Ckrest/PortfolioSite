@@ -298,6 +298,41 @@ const BLOCKS = {
       });
     },
   },
+
+  // ── Git Stats ──────────────────────────────────────────────────────────
+  'git-stats': {
+    icon: '±', label: 'Git Stats', hint: 'Click to add git statistics',
+    isEmpty(b) { return !b.files_changed && !b.lines_added && !b.lines_removed; },
+    render(b) {
+      const files = b.files_changed || 0;
+      const added = b.lines_added || 0;
+      const removed = b.lines_removed || 0;
+      const caption = b.caption ? `<figcaption>${escapeHtml(b.caption)}</figcaption>` : '';
+
+      return `
+        <figure>
+          <div class="git-stats-container">
+            <div class="git-stats-row">
+              <span class="git-stats-icon">📁</span>
+              <span class="git-stats-value">${files}</span>
+              <span class="git-stats-label">file${files !== 1 ? 's' : ''} changed</span>
+            </div>
+            <div class="git-stats-row git-stats-additions">
+              <span class="git-stats-icon">+</span>
+              <span class="git-stats-value">${added}</span>
+              <span class="git-stats-label">addition${added !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="git-stats-row git-stats-deletions">
+              <span class="git-stats-icon">−</span>
+              <span class="git-stats-value">${removed}</span>
+              <span class="git-stats-label">deletion${removed !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+          ${caption}
+        </figure>
+      `;
+    },
+  },
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -358,9 +393,10 @@ function updatePageMeta(project) {
 
 // ── Header Rendering ─────────────────────────────────────────────────────────
 //
-// Header elements (preview, tags, links) are wrapped in an invisible container
-// with data-block-id="header". The editor sees this as ONE block — it doesn't
-// care about the internal structure.
+// Normal site: Title/summary in static <header>, wrapper has preview/tags/links
+// Editor preview: Static header removed, wrapper has ALL elements as ONE block
+//
+// The wrapper has data-block-id="header" so the editor treats it as one unit.
 
 function renderPreviewSection(project) {
   const previewPath = project.preview
@@ -423,13 +459,35 @@ function renderLinksSection(project) {
 async function renderBlocks(project, settings) {
   const main = document.getElementById('main-content');
   const blocks = settings.content.blocks;
+  const isEditorPreview = !!window.__portfolioBridge;
 
-  // Render header in invisible wrapper (editor sees this as ONE block)
-  let headerHtml = renderPreviewSection(project);
-  headerHtml += renderTagsSection(project);
-  headerHtml += renderLinksSection(project);
+  let html = '';
 
-  let html = `<div data-block-id="header">${headerHtml}</div>`;
+  if (isEditorPreview) {
+    // Editor preview: ALL header elements in ONE wrapper (one selection border)
+    // Static header is removed; title/summary rendered inside wrapper
+    const staticHeader = document.querySelector('header');
+    if (staticHeader) staticHeader.remove();
+
+    let headerHtml = `
+      <div class="hero">
+        <h1 id="project-title">${escapeHtml(project.title)}</h1>
+        <p id="project-summary">${escapeHtml(project.summary || '')}</p>
+      </div>
+    `;
+    headerHtml += renderPreviewSection(project);
+    headerHtml += renderTagsSection(project);
+    headerHtml += renderLinksSection(project);
+
+    html = `<div data-block-id="header">${headerHtml}</div>`;
+  } else {
+    // Normal site: wrapper only has preview/tags/links (title/summary in static header)
+    let headerHtml = renderPreviewSection(project);
+    headerHtml += renderTagsSection(project);
+    headerHtml += renderLinksSection(project);
+
+    html = `<div data-block-id="header">${headerHtml}</div>`;
+  }
 
   // Render content blocks
   for (let i = 0; i < blocks.length; i++) {

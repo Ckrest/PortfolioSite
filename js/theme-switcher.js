@@ -29,15 +29,15 @@ let currentBgIndex = 0;
 
 // Initialize from current HTML attribute and localStorage
 function initTheme() {
-  // Theme
-  const currentTheme = document.documentElement.dataset.theme || 'default';
-  currentThemeIndex = THEMES.indexOf(currentTheme);
-  if (currentThemeIndex === -1) currentThemeIndex = 0;
-
+  // Priority: localStorage > HTML attribute > default
   const savedTheme = localStorage.getItem('portfolio-theme');
-  if (savedTheme && THEMES.includes(savedTheme)) {
-    setTheme(savedTheme);
-  }
+  const htmlTheme = document.documentElement.dataset.theme;
+  const initialTheme = (savedTheme && THEMES.includes(savedTheme))
+    ? savedTheme
+    : (htmlTheme && THEMES.includes(htmlTheme) ? htmlTheme : 'default');
+
+  // Set theme (this handles index and DOM)
+  setTheme(initialTheme, false);  // Don't save to localStorage on init
 
   // Background
   const currentBg = getCurrentBg();
@@ -46,7 +46,7 @@ function initTheme() {
 
   const savedBg = localStorage.getItem('portfolio-bg');
   if (savedBg && BACKGROUNDS.includes(savedBg)) {
-    setBg(savedBg);
+    setBg(savedBg, false);  // Don't save on init
   }
 }
 
@@ -59,7 +59,7 @@ function getCurrentBg() {
 }
 
 // Set theme by name
-function setTheme(themeName) {
+function setTheme(themeName, save = true) {
   if (themeName === 'default') {
     delete document.documentElement.dataset.theme;
   } else if (THEMES.includes(themeName)) {
@@ -70,7 +70,9 @@ function setTheme(themeName) {
   }
 
   currentThemeIndex = THEMES.indexOf(themeName);
-  localStorage.setItem('portfolio-theme', themeName);
+  if (save) {
+    localStorage.setItem('portfolio-theme', themeName);
+  }
   console.log(`🎨 Theme: ${themeName}`);
 }
 
@@ -81,7 +83,7 @@ function nextTheme() {
 }
 
 // Set background by name
-function setBg(bgName) {
+function setBg(bgName, save = true) {
   if (!BACKGROUNDS.includes(bgName)) {
     console.warn(`Unknown background: ${bgName}. Available: ${BACKGROUNDS.join(', ')}`);
     return;
@@ -93,7 +95,9 @@ function setBg(bgName) {
   // Add new one
   document.body.classList.add(`bg-${bgName}`);
   currentBgIndex = BACKGROUNDS.indexOf(bgName);
-  localStorage.setItem('portfolio-bg', bgName);
+  if (save) {
+    localStorage.setItem('portfolio-bg', bgName);
+  }
   console.log(`🖼️ Background: ${bgName}`);
 }
 

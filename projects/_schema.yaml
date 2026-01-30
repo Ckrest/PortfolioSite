@@ -63,7 +63,7 @@ content:
   # Ordered list of typed content blocks. Each block renders as its own card.
   # Use group blocks to merge multiple blocks into a single card.
   blocks:
-    - type: text | image | video | gallery | readme | pdf | group | code | terminal | comparison | graph
+    - type: text | image | video | gallery | readme | pdf | group | code | terminal | comparison | graph | git-stats
 
       # text:       body (markdown string)
       # image:      src, alt, caption
@@ -77,6 +77,7 @@ content:
       # comparison: before (src, label), after (src, label), caption
       # graph:      chartType (bar|line|pie|doughnut|radar|polarArea),
       #             labels[], datasets[] (label, data[]), caption
+      # git-stats:  files_changed, lines_added, lines_removed, diff_stat (optional)
 
   # --- Legacy modes (still supported) ---
   mode: minimal | structured | readme | pdf
@@ -86,6 +87,19 @@ content:
     - label: string
       url: string
       icon: github | external | demo | docs
+
+# ==============================================================================
+# SOURCE METADATA (preserved from work reports)
+# ==============================================================================
+# This section links a project back to its source work report and preserves
+# process metadata that's useful for tracking but not displayed on the site.
+
+source:
+  report_id: number              # ID of the source work report
+  reasoning: string              # Why decisions were made during development
+  duration_hours: number         # Time spent on the work
+  effort: low | medium | high    # Effort level estimate
+  commit: string                 # Git commit hash associated with the work
 
 # ==============================================================================
 # AUTO-GENERATED (do not set manually)

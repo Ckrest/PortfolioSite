@@ -57,7 +57,8 @@ function createEntryItem(project, phaseId) {
  */
 function isBundleable(item) {
   if (item.size !== 'small') return false;
-  if (!item.date) return false;
+  // Validate date exists and is valid before calling getTime()
+  if (!item.date || !(item.date instanceof Date) || isNaN(item.date.getTime())) return false;
   const age = bundleConfig.currentDate - item.date.getTime();
   return age > bundleConfig.thresholdMs;
 }

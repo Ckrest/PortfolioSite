@@ -56,7 +56,7 @@ export async function init(sectionEl, config) {
     const html = featuredProjects.map(project => {
       return renderEntry(project, {
         variant: 'timeline',  // Use timeline styling
-        level: project.level ?? 1,  // Respect project level, default to large
+        size: project.size ?? 'medium',  // Use project size, default to medium
         showDate: featuredConfig.showDate ?? true,
         showTags: featuredConfig.showTags ?? true,
         showCta: false,
