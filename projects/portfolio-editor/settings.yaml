@@ -1,22 +1,88 @@
-# Editor v2 Architecture + Schema Cleanup
+# Portfolio Editor Architecture and Feature Completeness
 
-title: Editor v2 Architecture + Schema Cleanup
-summary: Major refactor of portfolio editor to v2 modular architecture with observer-based state management. Also cleaned
-  up data model to properly separate metadata (project settings) from content (what visit
+title: Portfolio Editor Architecture and Feature Completeness
+summary: Full-featured web GUI for composing portfolio project pages from work reports with live preview, drag-drop, and controlled
+  vocabulary integration.
 date: '2026-01-30'
 tags:
-- Refactoring
-- Architecture
+- Python
+- Flask
+- JavaScript
+- CSS
+- PostgreSQL
 - Frontend
+- Feature
+- Bug Fix
+- Refactoring
 status: in-progress
 size: medium
 linkTo: detail
-description: Major refactor of portfolio editor to v2 modular architecture with observer-based state management. Also cleaned
-  up data model to properly separate metadata (project settings) from content (what visitors read). Description and reasoning
-  are now content blocks, not metadata fields. Added group field for homepage organization and source section for work report
-  provenance tracking.
+description: 'Web-based split-pane GUI for building portfolio project pages from work reports. Flask backend (port 9750) with
+  vanilla JS frontend. Features: report browser with archive/unarchive, project CRUD with settings/content separation, block-based
+  content editor, drag-drop from reports, live preview with click-to-edit overlays, tag autocomplete from controlled vocabulary,
+  import report as project, deploy staging/production workflow.'
 source:
-  report_id: 51
-  duration_hours: 4.0
+  report_id: 52
+  duration_hours: 14.0
   effort: high
-  commit: 1fd5879
+content:
+  blocks:
+  - id: blk_52e15f09
+    type: text
+    body: '## Description:
+
+
+      Web-based split-pane GUI for building portfolio project pages from work reports. Flask backend (port 9750) with vanilla
+      JS frontend. Features: report browser with archive/unarchive, project CRUD with settings/content separation, block-based
+      content editor, drag-drop from reports, live preview with click-to-edit overlays, tag autocomplete from controlled vocabulary,
+      import report as project, deploy staging/production workflow.'
+  - id: blk_1adb90f7
+    type: text
+    body: '## Reasoning:
+
+
+      Built to replace manual YAML editing for portfolio project pages. The tool integrates work reports (stored in PostgreSQL)
+      with portfolio projects (stored as YAML files). The modular architecture replaced the legacy 6-file JS layout using
+      observer pattern to break circular dependencies. Event delegation eliminates memory leaks. Connection pooling prevents
+      database exhaustion. Archive feature keeps reports panel uncluttered. Import feature provides one-click project creation
+      from reports.'
+  - id: blk_db36d7c6
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-14-54.png
+    alt: ''
+    caption: ''
+  - id: blk_bfdd6412
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-15-24.png
+    alt: ''
+    caption: ''
+  - id: blk_ad2769a6
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-15-44.png
+    alt: ''
+    caption: ''
+  - id: blk_7af60436
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-16-07.png
+    alt: ''
+    caption: ''
+  - id: blk_e3dd30c1
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-16-28.png
+    alt: ''
+    caption: ''
+  - id: blk_8581ab4e
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-17-26.png
+    alt: ''
+    caption: ''
+  - id: blk_f86dcd4f
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-18-51.png
+    alt: ''
+    caption: ''
+  - id: blk_68a421f1
+    type: image
+    src: /home/nick/.local/share/work-reports/artifacts/52/screenshot_2026-01-30_18-19-41.png
+    alt: ''
+    caption: ''

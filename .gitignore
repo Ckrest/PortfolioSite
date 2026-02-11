@@ -16,7 +16,7 @@ _build.js
 # Node
 node_modules/
 
-# Systems integration files (not part of the distributed site)
+# Registry metadata (not part of the distributed site)
 manifest.yaml
 NOTES.md
 package.json
@@ -27,3 +27,17 @@ push-update.sh
 Launch Site.desktop
 .claude/
 _test/
+
+# Published package requirements
+.env
+__pycache__/
+venv/
+.idea/
+.vscode/
+build/
+dist/
+*.log
+*.db
+*.sqlite3
+*.pkl
+*.pt

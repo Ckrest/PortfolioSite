@@ -1,8 +1,9 @@
 # Repository Guidelines
 
-- Keep this project framework-free with inline `<style>` and `<script>` blocks inside `index.html` unless a change explicitly calls for new files.
-- Favor semantic HTML sectioning (`<section>`, `<header>`, `<article>`) and keep accessibility attributes (ARIA labels, `aria-live`, etc.) intact or improved when updating markup.
-- Prefer CSS custom properties already defined in `:root`; introduce new tokens sparingly and document their purpose with descriptive names.
-- Write JavaScript in modern ES modules style (const/let, arrow functions where appropriate) without external dependencies. Keep data-fetching logic resilient with clear status messaging.
-- When editing timelines or interaction logic, make sure IntersectionObserver hooks degrade gracefully if JavaScript is disabled.
-- Update documentation or data contracts in lock-step with UI changes so the site remains easy to maintain.
+- Keep the current modular structure (`sections/`, `js/`, `css/`) rather than collapsing logic into `index.html`.
+- Preserve semantic HTML and accessibility behavior (`aria-*`, status regions, keyboard navigation) when changing section markup or timeline behavior.
+- Treat `projects/manifest.json` as generated output; source edits belong in `projects/<slug>/settings.yaml`.
+- Keep schema and build contracts aligned: if project fields change, update both `projects/_project-schema.yaml` and any runtime/build consumers.
+- Write JavaScript as ES modules with no framework assumptions; keep failure states explicit when data fetches fail.
+- Keep timeline interactions robust under partial/missing data and ensure changes still render on narrow and wide layouts.
+- Update docs and runbooks when contracts or workflows change.

@@ -1,100 +1,83 @@
-# PortfolioSite architecture & maintenance guide
+# Portfolio Site Architecture
 
-This document maps the portfolio to help contributors (and automation) locate the right files quickly. Every section is self-contained so content can be swapped or reorganized without disturbing the rest of the site.
+## Overview
 
-## High-level flow
+The site is static at runtime and manifest-driven at build time.
 
-1. A visitor loads `index.html`.
-2. Inline JavaScript fetches `projects/projects.json` to gather project metadata.
-3. The script renders:
-   - A featured card for the single `featured: true` entry (if present).
-   - A chronological timeline of projects sorted by `date`.
-4. IntersectionObservers animate the timeline as items enter the viewport.
-5. Detail pages under `projects/<slug>/` deliver long-form content or demos.
+- Source of truth: `projects/<slug>/settings.yaml`
+- Build step: `projects/_build.js`
+- Runtime input: `projects/manifest.json`
 
-Everything ships as static assets—no runtime build step is required.
+## Build-Time Architecture
 
-## Homepage modules (`index.html`)
+### 1) Project Metadata Inputs
 
-`index.html` is organized into clearly separated blocks:
+Each project folder under `projects/` contains `settings.yaml` with fields defined in `projects/_project-schema.yaml`.
 
-| Block | Selector/ID | Purpose | Dependencies |
-| --- | --- | --- | --- |
-| Header & navigation | `<header>` / `.nav` | Sticky navigation with in-page anchors. | None. |
-| Intro | `#intro` | Hero headline + CTA linking to featured section. | None. |
-| Featured project | `#featured` with `#featured-project` container | Filled by `renderFeatured(project)` once JSON loads. | Requires one entry with `featured: true`. |
-| Timeline | `#projects` with `#project-timeline` container | Populated by `createTimelineItem(project)` for each project. | Needs `projects/projects.json`. |
-| Contact | `#contact` | Static card, styled like timeline entries. | None. |
-| Footer | `<footer>` | Static resource links and dynamic year. | Script updates `#y`. |
+### 2) Validation + Normalization
 
-### Script structure
+`projects/_build.js`:
 
-The script at the bottom of `index.html` is broken into small, reusable functions:
+- Reads all project folders (excluding underscore-prefixed folders).
+- Validates required fields (`title`, `summary`, `date`) and enum values.
+- Normalizes legacy values (for example size mappings).
+- Computes convenience fields:
+- `slug`, `folder`
+- `phase` (derived from `data/phases.json`)
+- `hasDetailPage` (from `linkTo`)
+- Validates block types and emits warnings/errors.
 
-- `observeReveals(root)` wires up `.reveal` elements to a generic IntersectionObserver for fade-in effects. It accepts any DOM node so you can reuse it when injecting new markup.
-- `timelineObserver` toggles `.active` on timeline items, powering the expand/contract animation.
-- `formatProjectDate(value)` centralizes date formatting; it already guards against invalid input.
-- `createTagList(tags)` converts an array of tag strings into badge markup.
-- `renderFeatured(project)` handles empty state messaging, ARIA attributes, and the DOM structure for the featured card.
-- `createTimelineItem(project)` returns a fully wired timeline `<article>` with reveal classes.
-- `loadProjects()` orchestrates fetch, error handling, DOM updates, and accessibility status flags.
+### 3) Manifest Generation
 
-When adding new sections, use the same pattern: create a dedicated container, a `render*` function that only touches that container, and keep error/status messaging separate.
+Build writes `projects/manifest.json`:
 
-### Accessibility contracts
+- Header metadata (`_generated` block, timestamp, warnings)
+- `projects` array consumed by timeline/featured/detail pages
 
-- Loading messages live inside elements with `role="status"` (`#featured-status`, `#projects-status`). Update these strings if you rename sections.
-- `aria-busy` is applied before/after fetches. Maintain this contract if you change the data flow.
-- Decorative animations rely on `IntersectionObserver`; the layout still renders cleanly without JavaScript.
+If validation errors exist, build exits non-zero.
 
-## Project metadata (`projects/projects.json`)
+## Runtime Architecture
 
-- Sorted newest-to-oldest by `date`. Keep the file ordered manually.
-- Only one project should have `"featured": true`. The script picks the first match if multiple exist.
-- Optional keys may be added, but document them in `projects/AGENTS.md` and update this section.
-- The homepage treats missing fields gracefully, but incomplete entries will show blank spaces. Validate before publishing.
+### Configuration
 
-### Adding a project
+`site.config.js` controls:
 
-1. Create `projects/<slug>/` and copy an existing `index.html` as a starting point.
-2. Add assets (preview SVGs, downloads) alongside the HTML.
-3. Update `projects/projects.json` with the new entry—ensure `url` points to `projects/<slug>/` and `previewImage` references a file inside the folder.
-4. Set `featured: true` if the project should appear in the featured slot (and remove that flag from any other entry).
-5. Load the site locally to confirm the featured card, timeline ordering, and alt text all look correct.
+- section order/enabled state
+- featured project slugs
+- timeline behavior
+- data paths (including `projects/manifest.json`)
 
-## Project detail templates (`projects/*/index.html`)
+### Homepage
 
-All project pages:
+- Sections loaded from `sections/*`
+- Timeline module consumes manifest entries and renders grouped phases
+- Tag filtering and connection overlays operate on manifest-derived in-memory registry
 
-- Link to the shared stylesheet `../project.css` for consistent styling.
-- Start with a breadcrumb navigation pointing back to the homepage.
-- Contain a `.hero` section describing the work and linking to resources.
-- Use `<section>` blocks for modular content areas (demo, screenshots, write-up, etc.).
-- Conclude with the shared footer markup, which reuses the dynamic year script from the homepage.
+### Detail Pages
 
-Project folders are independent. You can replace one folder entirely without affecting the rest of the site as long as `projects.json` references remain valid.
+- `projects/detail.js` fetches `projects/manifest.json`
+- Locates project by slug
+- Renders `content.blocks` through block renderers
 
-## Shared stylesheet (`projects/project.css`)
+## Contracts
 
-Defines the color palette, layout helpers, and button styles for project pages. If you need new utility classes:
+### Project Schema Contract
 
-1. Add them here with descriptive names.
-2. Ensure they degrade gracefully in light/dark modes.
-3. Document the addition (update this section or the README).
+`projects/_project-schema.yaml` is the canonical field definition for:
 
-Avoid duplicating styles inside individual project pages unless a component is truly unique.
+- editor form generation
+- backend validation (portfolio-editor)
+- site build-time validation
 
-## Deployment
+### Manifest Contract
 
-- **Cloudflare Pages**: Use `wrangler pages deploy` or connect the GitHub repository directly. `wrangler.json` already points to the repo root as the asset directory.
-- **Other static hosts**: Upload the repository contents as-is; no build step is required.
-- **Local verification**: `npx serve .` or `python -m http.server 8787` from the repo root serves the site for sanity checks.
+Consumers must treat `projects/manifest.json` as generated output.  
+Manual edits will be overwritten on next build.
 
-## Maintenance checklist
+## Operational Checklist
 
-- [ ] Confirm `projects/projects.json` remains sorted by descending date.
-- [ ] Verify only one project is flagged as `featured`.
-- [ ] Ensure new project folders include a preview asset referenced in JSON.
-- [ ] Review ARIA/status text when editing sections to keep assistive messaging accurate.
-- [ ] Update documentation if you introduce new sections, tokens, or data fields.
-
+1. Edit `settings.yaml` only.
+2. Run `npm run build`.
+3. Fix any build errors.
+4. Verify timeline + detail pages.
+5. Deploy.

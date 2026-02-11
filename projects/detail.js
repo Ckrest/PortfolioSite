@@ -505,8 +505,8 @@ async function renderBlocks(project, settings) {
     }
   }
 
-  // Auto-README fallback: if no content blocks, try loading README.md
-  if (blocks.length === 0) {
+  // Auto-README fallback: if no content blocks and project has GitHub, try loading README.md
+  if (blocks.length === 0 && project.github) {
     try {
       const res = await fetch(`${project.folder}/README.md`);
       if (res.ok) {

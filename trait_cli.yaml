@@ -1,0 +1,4 @@
+# portfolio-site - cli trait configuration
+
+entry_point: ./launch-site.sh
+runtime: shell

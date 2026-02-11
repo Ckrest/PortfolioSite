@@ -14,7 +14,6 @@ tags:
 - API Design
 content:
   blocks:
-  - type: text
-    body: ''
   - path: README.md
     type: readme
+    id: 8303e2d6-efbf-43fa-bb15-ef1cd61da4a7

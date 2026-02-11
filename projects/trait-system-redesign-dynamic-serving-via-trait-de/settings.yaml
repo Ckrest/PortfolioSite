@@ -1,0 +1,36 @@
+# Trait system redesign: dynamic serving via trait-defined APIs
+
+title: 'Trait system redesign: dynamic serving via trait-defined APIs'
+summary: Major architecture change enabling traits to define their own API behavior for dynamic data serving without hardcoded
+  transforms.
+date: '2026-02-04'
+status: in-progress
+size: medium
+linkTo: detail
+tags:
+- Architecture
+- Refactoring
+source:
+  duration_hours: 5
+  effort: medium
+  report_id: 55
+  commit: 831d217
+content:
+  blocks:
+  - body: '## Description:
+
+
+      Moved trait data from manifests to separate trait_<name>.yaml files. Enhanced trait definitions with schema, resolve,
+      output, aggregations, queries sections. Added trait-api-schema.yaml, trait-template.yaml, and registry/handlers/. New
+      traits: forked-from, path-dependencies, published, standalone-git, untracked. Deleted: git-submodules, mcp-tools, own-git-repo,
+      upstream. 174 files changed across 50+ packages.'
+    id: blk_1f8b625b
+    type: text
+  - body: '## Reasoning:
+
+
+      Previous system embedded trait data in manifests requiring hardcoded transforms. New design follows declarative-over-imperative:
+      traits define their own schema and API behavior, packages provide data in separate files, API serves dynamically without
+      code changes.'
+    id: blk_8785d3ae
+    type: text
