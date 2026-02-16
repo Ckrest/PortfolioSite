@@ -1,4 +1,0 @@
-# portfolio-site - build-required trait configuration
-
-system: npm
-command: npm run build
