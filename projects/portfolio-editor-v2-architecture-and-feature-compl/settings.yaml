@@ -1,0 +1,85 @@
+# Portfolio Editor: v2 Architecture and Feature Completeness
+
+title: 'Portfolio Editor: v2 Architecture and Feature Completeness'
+summary: Full-featured web GUI for composing portfolio project pages from work reports with live preview, drag-drop, and controlled
+  vocabulary integration.
+date: '2026-01-30'
+status: in-progress
+size: medium
+linkTo: detail
+tags:
+- Python
+- Flask
+- JavaScript
+- CSS
+- PostgreSQL
+- Frontend
+- Feature
+- Bug Fix
+- Refactoring
+- portfolio-editor
+source:
+  duration_hours: 14
+  effort: high
+  report_id: 52
+content:
+  blocks:
+  - body: '## Description:
+
+
+      Web-based split-pane GUI for building portfolio project pages from work reports. Flask backend (port 9750) with vanilla
+      JS frontend. Features: report browser with archive/unarchive, project CRUD with settings/content separation, block-based
+      content editor, drag-drop from reports, live preview with click-to-edit overlays, tag autocomplete from controlled vocabulary,
+      import report as project, deploy staging/production workflow.'
+    id: blk_c2d91bcb
+    type: text
+  - body: '## Reasoning:
+
+
+      Built to replace manual YAML editing for portfolio project pages. The tool integrates work reports (stored in PostgreSQL)
+      with portfolio projects (stored as YAML files). v2 architecture replaced legacy 6-file JS with modular ES modules using
+      observer pattern to break circular dependencies. Event delegation eliminates memory leaks. Connection pooling prevents
+      database exhaustion. Archive feature keeps reports panel uncluttered. Import feature provides one-click project creation
+      from reports. I like cats'
+    id: blk_cfd62933
+    type: text
+  - alt: ''
+    caption: ''
+    id: blk_c93036d7
+    src: media/screenshot_2026-01-30_18-14-54.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_2c6410cd
+    src: media/screenshot_2026-01-30_18-15-24.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_8eea86bf
+    src: media/screenshot_2026-01-30_18-15-44.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_f0a91930
+    src: media/screenshot_2026-01-30_18-16-07.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_d5698443
+    src: media/screenshot_2026-01-30_18-16-28.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_9c5d1342
+    src: media/screenshot_2026-01-30_18-17-26.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_1547a8f6
+    src: media/screenshot_2026-01-30_18-18-51.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: blk_f60cc16f
+    src: media/screenshot_2026-01-30_18-19-41.png
+    type: image

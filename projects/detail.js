@@ -400,7 +400,7 @@ function updatePageMeta(project) {
 
 function renderPreviewSection(project) {
   const previewPath = project.preview
-    ? `${project.folder}/${project.preview}`
+    ? resolvePath(project.preview, project)
     : null;
   const placeholderDataUri = generatePlaceholderDataUri(project.title);
   const imageSrc = previewPath || placeholderDataUri;
