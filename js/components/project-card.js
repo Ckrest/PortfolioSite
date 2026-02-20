@@ -6,10 +6,6 @@
  *   Medium: Compact card with title, summary, hover expansion
  *   Small:  Icon only, title on hover
  *
- * Link destinations (linkTo):
- *   detail = Links to project detail page
- *   github = Links to GitHub repo
- *   external = Links to externalUrl (falls back to GitHub)
  */
 
 import { escapeHtml, generatePlaceholderDataUri } from '../utils.js';

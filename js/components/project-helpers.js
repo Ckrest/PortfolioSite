@@ -13,64 +13,39 @@ import { escapeHtml, getMediaType } from '../utils.js';
 // =============================================================================
 
 /**
- * Get the appropriate link URL for a project based on linkTo field
+ * Get the link URL for a project (always the detail page)
  * @param {Object} project - Project data from manifest
  * @returns {string} URL to link to
  */
 export function getLinkUrl(project) {
-  const linkTo = project.linkTo ?? 'detail';
-
-  switch (linkTo) {
-    case 'github':
-      return project.github || '#';
-    case 'external':
-      return project.externalUrl || project.github || '#';
-    case 'detail':
-    default:
-      return `projects/detail.html?project=${project.folder}`;
-  }
+  return `projects/detail.html?project=${project.folder}`;
 }
 
 /**
- * Get link attributes (target, rel) for external links
+ * Get link attributes for project links (always internal)
  * @param {Object} project - Project data from manifest
  * @returns {string} HTML attributes string
  */
 export function getLinkAttrs(project) {
-  const linkTo = project.linkTo ?? 'detail';
-  if (linkTo === 'github' || linkTo === 'external') {
-    return 'target="_blank" rel="noopener noreferrer"';
-  }
   return '';
 }
 
 /**
- * Check if link is external (opens in new tab)
+ * Check if link is external (always false — all projects have detail pages)
  * @param {Object} project - Project data from manifest
- * @returns {boolean} True if external link
+ * @returns {boolean} Always false
  */
 export function isExternalLink(project) {
-  const linkTo = project.linkTo ?? 'detail';
-  return linkTo === 'github' || linkTo === 'external';
+  return false;
 }
 
 /**
- * Get the CTA button text based on link destination
+ * Get the CTA button text (always "View project")
  * @param {Object} project - Project data from manifest
  * @returns {string} CTA text
  */
 export function getCTAText(project) {
-  const linkTo = project.linkTo ?? 'detail';
-
-  switch (linkTo) {
-    case 'github':
-      return 'View on GitHub';
-    case 'external':
-      return project.externalUrl ? 'View project' : 'View on GitHub';
-    case 'detail':
-    default:
-      return 'View project';
-  }
+  return 'View project';
 }
 
 // =============================================================================

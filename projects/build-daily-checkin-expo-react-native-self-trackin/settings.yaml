@@ -9,8 +9,7 @@ summary: 'Built a complete Expo React Native mobile app for daily self-tracking 
 date: '2026-02-20'
 status: in-progress
 size: medium
-linkTo: detail
-preview: /home/nick/.local/share/work-reports/artifacts/101/preview.jpg
+preview: media/preview-1.jpg
 tags:
 - Feature
 - JavaScript
@@ -137,9 +136,7 @@ source:
   commit: 46c069573d74fe6f3003f95ac6b452f2a71146f4
 content:
   blocks:
-  - id: aee30476-6805-4cbb-9e5f-7c1e2c06f53b
-    type: text
-    body: 'Built a complete Expo React Native mobile app for daily self-tracking from scratch. The app runs on Android via
+  - body: 'Built a complete Expo React Native mobile app for daily self-tracking from scratch. The app runs on Android via
       Expo Go or as a standalone APK and tracks subjective daily metrics over time.
 
 
@@ -253,16 +250,12 @@ content:
 
       https://github.com/Ckrest/daily-checkin-app — 32 tracked files, MIT license, clean standalone repo via vcsh with no
       Systems dependencies in published files.'
-  - body: '## Reasoning:
-
-
-      This was a full greenfield app build — from `create-expo-app` scaffold to a working, published Android app with non-trivial
-      features (animated range slider, SAF storage with conflict handling, notification scheduling, swipe navigation). High
-      effort due to the breadth of concerns: gesture handling, animated UI, file system persistence with backup strategy,
+    id: aee30476-6805-4cbb-9e5f-7c1e2c06f53b
+    type: text
+  - body: 'This was a full greenfield app build — from `create-expo-app` scaffold to a working, published Android app with
+      non-trivial features (animated range slider, SAF storage with conflict handling, notification scheduling, swipe navigation).
+      High effort due to the breadth of concerns: gesture handling, animated UI, file system persistence with backup strategy,
       notification permissions, and the final publication pass. The sleep time slider alone required worklet-based position
       math, snap-to-grid logic, and animated reaction bridging.'
     id: blk_78492fb7
     type: text
-  - id: ed741126-7a9c-4332-927f-190808e899c6
-    type: readme
-    path: README.md

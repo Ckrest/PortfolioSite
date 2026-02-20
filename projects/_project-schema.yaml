@@ -23,7 +23,7 @@ sections:
   - id: links
     label: Links
     collapsed: false
-    fields: [linkTo, github, externalUrl]
+    fields: [github, externalUrl]
 
   - id: media
     label: Media
@@ -80,12 +80,6 @@ fields:
     placeholder: "e.g., Desktop Tools"
     layout: half
 
-  linkTo:
-    type: enum
-    label: Link To
-    values: [detail, github, external]
-    default: detail
-
   # ─── URL Fields ───────────────────────────────────────────────────────────
   github:
     type: url
@@ -96,9 +90,6 @@ fields:
     type: url
     label: External URL
     placeholder: "https://example.com"
-    showWhen:
-      field: linkTo
-      is: [external]
 
   # ─── Media Fields ─────────────────────────────────────────────────────────
   preview:
@@ -147,29 +138,8 @@ fields:
 # ─── Contextual Warnings ──────────────────────────────────────────────────────
 # These don't block save but inform the user of potential configuration issues
 warnings:
-  - id: github-without-url
-    message: "linkTo is 'github' but no GitHub URL provided"
-    when:
-      field: linkTo
-      is: github
-    check:
-      field: github
-      condition: empty
-
-  - id: external-without-url
-    message: "linkTo is 'external' but no external URL provided"
-    when:
-      field: linkTo
-      is: external
-    check:
-      field: externalUrl
-      condition: empty
-
   - id: detail-without-content
     message: "Detail page has no content blocks"
-    when:
-      field: linkTo
-      is: detail
     check:
       field: _blocks
       condition: empty-array

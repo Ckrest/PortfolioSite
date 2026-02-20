@@ -120,8 +120,17 @@ const BLOCKS = {
     async postRender(el, b, project) {
       const path = b.path || 'README.md';
       try {
-        const res = await fetch(`${project.folder}/${path}`);
-        if (!res.ok) throw new Error('README not found');
+        let url;
+        if (window.__portfolioBridge) {
+          // Editor preview: fetch through asset API
+          const slug = project.slug || project.folder;
+          url = `/api/v1/projects/${encodeURIComponent(slug)}/asset/${encodeURIComponent(path)}`;
+        } else {
+          // Live site: resolve relative to project folder
+          url = `${project.folder}/${path}`;
+        }
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('not found');
         const text = await res.text();
 
         if (typeof marked === 'undefined') {
@@ -132,7 +141,11 @@ const BLOCKS = {
         marked.setOptions({ gfm: true, breaks: true });
         el.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
       } catch {
-        el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">Could not load README.</p>`;
+        if (window.__portfolioBridge) {
+          el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">No <code>${path}</code> in project folder yet.</p>`;
+        } else {
+          el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">Could not load README.</p>`;
+        }
       }
     },
   },

@@ -14,10 +14,6 @@
  *   medium = Compact with side image
  *   small = Icon + title only
  *
- * Link destinations (linkTo):
- *   detail = Links to project detail page
- *   github = Links to GitHub repo
- *   external = Links to externalUrl (falls back to GitHub)
  */
 
 import { escapeHtml, generatePlaceholderDataUri } from '../utils.js';
