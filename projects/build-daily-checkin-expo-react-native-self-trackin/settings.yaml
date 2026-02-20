@@ -1,0 +1,268 @@
+# Daily Checkin App: self-tracking sleep app
+
+title: 'Daily Checkin App: self-tracking sleep app'
+summary: 'Built a complete Expo React Native mobile app for daily self-tracking from scratch. The app runs on Android via
+  Expo Go or as a standalone APK and tracks subjective daily metrics over time.
+
+
+  ## What t'
+date: '2026-02-20'
+status: in-progress
+size: medium
+linkTo: detail
+preview: /home/nick/.local/share/work-reports/artifacts/101/preview.jpg
+tags:
+- Feature
+- JavaScript
+- React
+- Frontend
+description: 'Built a complete Expo React Native mobile app for daily self-tracking from scratch. The app runs on Android
+  via Expo Go or as a standalone APK and tracks subjective daily metrics over time.
+
+
+  ## What the app does
+
+
+  Daily Check-In presents a single-screen daily entry form where users rate three metrics on a 1-5 scale (sleep quality, alertness,
+  mood), optionally record dreams and notes as free text, and can manually override sleep/wake times using a draggable range
+  slider. The app creates one entry per day, navigable by swiping left/right between days.
+
+
+  All data is stored as a single human-readable JSON file, designed for syncing via Syncthing across devices. The storage
+  layer uses Android''s Storage Access Framework (SAF) to let users pick any folder as the save location, with AsyncStorage
+  as an automatic backup that self-heals if SAF writes fail.
+
+
+  ## Architecture
+
+
+  **32 files, ~2100 lines of source code** (excluding package-lock.json and binary assets).
+
+
+  ### App layer (expo-router)
+
+  - `app/_layout.tsx` — Root layout with gesture handler, status bar, notification response listener, cache pre-warming on
+  startup
+
+  - `app/index.tsx` — Redirect to `/entry`
+
+  - `app/entry/index.tsx` — Main entry screen: rating rows, text inputs, sleep time toggle/slider, swipe gestures via react-native-gesture-handler
+  fling detection, keyboard-aware layout
+
+  - `app/settings.tsx` — Settings screen: SAF folder picker, notification toggle with permission flow, time picker (scrollable
+  hour bubbles + minute selector)
+
+
+  ### Component layer
+
+  - `DateNav` — Day navigation header with prev/next arrows, long-press to open settings
+
+  - `RatingRow` — Reusable 1-5 bubble selector with selected state styling
+
+  - `SleepTimeBar` — Dual-handle range slider built on react-native-reanimated shared values and gesture-handler pan gestures.
+  Maps a 22:00-14:00 (16-hour) range to slider positions with 15-minute snap grid. Labels update in real-time via `useAnimatedReaction`
+  bridging the UI thread to JS state.
+
+
+  ### Data layer
+
+  - `store.ts` — Core storage engine: SAF read/write via `StorageAccessFramework`, AsyncStorage backup, in-memory cache for
+  synchronous day navigation, folder picker flow, safe write helper that handles SAF''s delete-and-recreate pattern and deduplicates
+  `daily-checkin (1).json` duplicates from Syncthing conflicts
+
+  - `types.ts` — TypeScript interfaces for Entry, DataFile, AppSettings
+
+  - `dateUtils.ts` — Date arithmetic using date-fns (format, navigate, day numbering from first entry)
+
+
+  ### Hooks
+
+  - `useEntry` — Manages per-day entry state: loads from cache synchronously (falls back to async SAF read), tracks dirty
+  state, auto-saves via 2-second debounce, provides `saveNow()` for navigation guards, handles initialization flag to prevent
+  auto-saving freshly loaded data
+
+  - `useSettings` — Simple settings loader/saver over AsyncStorage
+
+
+  ### Notifications
+
+  - `scheduler.ts` — Daily notification scheduling with Expo Notifications API. Gracefully handles Expo Go (where notifications
+  aren''t available) by dynamically requiring the module. Sets up Android notification channel, handles permission requests,
+  schedules daily triggers.
+
+
+  ### Sleep data provider
+
+  - `sleep_data_provider.py` — Python CLI that reads the JSON file and outputs structured sleep data for a given date. Handles
+  truncated files (Syncthing partial writes) via `raw_decode`. Maps dream text to enum categories. Supports `DAILY_CHECKIN_JSON`
+  env var override.
+
+
+  ### Design
+
+  - Dark OLED theme (`#0f0f1a` background) with purple accent (`#6c5ce7`)
+
+  - Consistent design tokens: colors, spacing, radius, fontSize exported from `theme.ts`
+
+  - All UI built with React Native core components (no third-party UI library)
+
+
+  ## Key technical decisions
+
+
+  - **SAF over expo-file-system paths**: Survives app reinstalls and works with any folder picker destination, including Syncthing
+  sync folders
+
+  - **In-memory cache with async fallback**: Day navigation is instant (cache hit) while first load reads from SAF. Cache
+  refreshes on app start.
+
+  - **Reanimated worklets for sleep slider**: Time-to-position math runs on the UI thread (`''worklet''` directive) for 60fps
+  drag responsiveness, with `runOnJS` bridge for state updates
+
+  - **Dynamic require for notifications**: `expo-notifications` crashes in Expo Go, so it''s loaded conditionally at runtime
+  with a try/catch wrapper
+
+  - **Auto-save with initialization guard**: 2-second debounce saves as you type, but a 200ms delay after data load prevents
+  the load itself from triggering a write-back
+
+
+  ## Published to GitHub
+
+  https://github.com/Ckrest/daily-checkin-app — 32 tracked files, MIT license, clean standalone repo via vcsh with no Systems
+  dependencies in published files.'
+source:
+  duration_hours: 8
+  effort: high
+  report_id: 101
+  commit: 46c069573d74fe6f3003f95ac6b452f2a71146f4
+content:
+  blocks:
+  - id: aee30476-6805-4cbb-9e5f-7c1e2c06f53b
+    type: text
+    body: 'Built a complete Expo React Native mobile app for daily self-tracking from scratch. The app runs on Android via
+      Expo Go or as a standalone APK and tracks subjective daily metrics over time.
+
+
+      ## What the app does
+
+
+      Daily Check-In presents a single-screen daily entry form where users rate three metrics on a 1-5 scale (sleep quality,
+      alertness, mood), optionally record dreams and notes as free text, and can manually override sleep/wake times using
+      a draggable range slider. The app creates one entry per day, navigable by swiping left/right between days.
+
+
+      All data is stored as a single human-readable JSON file, designed for syncing via Syncthing across devices. The storage
+      layer uses Android''s Storage Access Framework (SAF) to let users pick any folder as the save location, with AsyncStorage
+      as an automatic backup that self-heals if SAF writes fail.
+
+
+      ## Architecture
+
+
+      **32 files, ~2100 lines of source code** (excluding package-lock.json and binary assets).
+
+
+      ### App layer (expo-router)
+
+      - `app/_layout.tsx` — Root layout with gesture handler, status bar, notification response listener, cache pre-warming
+      on startup
+
+      - `app/index.tsx` — Redirect to `/entry`
+
+      - `app/entry/index.tsx` — Main entry screen: rating rows, text inputs, sleep time toggle/slider, swipe gestures via
+      react-native-gesture-handler fling detection, keyboard-aware layout
+
+      - `app/settings.tsx` — Settings screen: SAF folder picker, notification toggle with permission flow, time picker (scrollable
+      hour bubbles + minute selector)
+
+
+      ### Component layer
+
+      - `DateNav` — Day navigation header with prev/next arrows, long-press to open settings
+
+      - `RatingRow` — Reusable 1-5 bubble selector with selected state styling
+
+      - `SleepTimeBar` — Dual-handle range slider built on react-native-reanimated shared values and gesture-handler pan gestures.
+      Maps a 22:00-14:00 (16-hour) range to slider positions with 15-minute snap grid. Labels update in real-time via `useAnimatedReaction`
+      bridging the UI thread to JS state.
+
+
+      ### Data layer
+
+      - `store.ts` — Core storage engine: SAF read/write via `StorageAccessFramework`, AsyncStorage backup, in-memory cache
+      for synchronous day navigation, folder picker flow, safe write helper that handles SAF''s delete-and-recreate pattern
+      and deduplicates `daily-checkin (1).json` duplicates from Syncthing conflicts
+
+      - `types.ts` — TypeScript interfaces for Entry, DataFile, AppSettings
+
+      - `dateUtils.ts` — Date arithmetic using date-fns (format, navigate, day numbering from first entry)
+
+
+      ### Hooks
+
+      - `useEntry` — Manages per-day entry state: loads from cache synchronously (falls back to async SAF read), tracks dirty
+      state, auto-saves via 2-second debounce, provides `saveNow()` for navigation guards, handles initialization flag to
+      prevent auto-saving freshly loaded data
+
+      - `useSettings` — Simple settings loader/saver over AsyncStorage
+
+
+      ### Notifications
+
+      - `scheduler.ts` — Daily notification scheduling with Expo Notifications API. Gracefully handles Expo Go (where notifications
+      aren''t available) by dynamically requiring the module. Sets up Android notification channel, handles permission requests,
+      schedules daily triggers.
+
+
+      ### Sleep data provider
+
+      - `sleep_data_provider.py` — Python CLI that reads the JSON file and outputs structured sleep data for a given date.
+      Handles truncated files (Syncthing partial writes) via `raw_decode`. Maps dream text to enum categories. Supports `DAILY_CHECKIN_JSON`
+      env var override.
+
+
+      ### Design
+
+      - Dark OLED theme (`#0f0f1a` background) with purple accent (`#6c5ce7`)
+
+      - Consistent design tokens: colors, spacing, radius, fontSize exported from `theme.ts`
+
+      - All UI built with React Native core components (no third-party UI library)
+
+
+      ## Key technical decisions
+
+
+      - **SAF over expo-file-system paths**: Survives app reinstalls and works with any folder picker destination, including
+      Syncthing sync folders
+
+      - **In-memory cache with async fallback**: Day navigation is instant (cache hit) while first load reads from SAF. Cache
+      refreshes on app start.
+
+      - **Reanimated worklets for sleep slider**: Time-to-position math runs on the UI thread (`''worklet''` directive) for
+      60fps drag responsiveness, with `runOnJS` bridge for state updates
+
+      - **Dynamic require for notifications**: `expo-notifications` crashes in Expo Go, so it''s loaded conditionally at runtime
+      with a try/catch wrapper
+
+      - **Auto-save with initialization guard**: 2-second debounce saves as you type, but a 200ms delay after data load prevents
+      the load itself from triggering a write-back
+
+
+      ## Published to GitHub
+
+      https://github.com/Ckrest/daily-checkin-app — 32 tracked files, MIT license, clean standalone repo via vcsh with no
+      Systems dependencies in published files.'
+  - body: '## Reasoning:
+
+
+      This was a full greenfield app build — from `create-expo-app` scaffold to a working, published Android app with non-trivial
+      features (animated range slider, SAF storage with conflict handling, notification scheduling, swipe navigation). High
+      effort due to the breadth of concerns: gesture handling, animated UI, file system persistence with backup strategy,
+      notification permissions, and the final publication pass. The sleep time slider alone required worklet-based position
+      math, snap-to-grid logic, and animated reaction bridging.'
+    id: blk_78492fb7
+    type: text
+  - id: ed741126-7a9c-4332-927f-190808e899c6
+    type: readme
+    path: README.md

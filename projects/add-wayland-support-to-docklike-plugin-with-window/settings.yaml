@@ -1,0 +1,30 @@
+# Add Wayland support to docklike-plugin with window thumbnails
+
+title: Add Wayland support to docklike-plugin with window thumbnails
+summary: Ported docklike-plugin to Wayland with CaptureManager for async captures, WaylandWnck for window tracking
+date: '2026-01-18'
+status: in-progress
+size: medium
+linkTo: detail
+tags:
+- Wayland
+- Port
+- docklike-wayland
+description: Ported docklike-plugin to Wayland with CaptureManager for async captures, WaylandWnck for window tracking
+source:
+  report_id: 6
+  commit: b28aff9ac688d3d12216ef1c52a78db610d3dd17
+content:
+  blocks:
+  - body: '## Description:
+
+
+      Ported docklike-plugin to Wayland with CaptureManager for async captures, WaylandWnck for window tracking'
+    id: blk_a6ceed81
+    type: text
+  - body: '## Reasoning:
+
+
+      Original plugin was X11-only; Wayland required ext-foreign-toplevel and ext-image-capture-source protocols'
+    id: blk_30e4188b
+    type: text
