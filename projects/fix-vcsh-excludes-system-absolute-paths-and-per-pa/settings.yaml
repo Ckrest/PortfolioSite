@@ -5,8 +5,7 @@ summary: Discovered that core.excludesFile was broken across ALL 62 vcsh repos -
   be resolved by git since GIT_DIR is at ~/.config/vcsh/repo.d/. This made every excl
 date: '2026-02-17'
 status: in-progress
-size: medium
-linkTo: detail
+size: small
 tags:
 - Infrastructure
 - Bug Fix

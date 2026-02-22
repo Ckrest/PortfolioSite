@@ -11,14 +11,13 @@ summary: 'Comprehensive audit and cleanup across the Systems registry, touching 
 
   - **CWD-safe add_commands**: Added `cd` prefix t'
 date: '2026-02-17'
+status: in-progress
+size: small
 tags:
 - maintenance
 - vcsh
 - validation
 - cleanup
-status: in-progress
-size: medium
-linkTo: detail
 description: 'Comprehensive audit and cleanup across the Systems registry, touching 14 vcsh repos in a single session.
 
 
@@ -72,15 +71,13 @@ description: 'Comprehensive audit and cleanup across the Systems registry, touch
 
   - All 14 touched repos clean'
 source:
-  report_id: 83
-  duration_hours: 5.0
+  duration_hours: 5
   effort: medium
+  report_id: 83
   commit: 6f5a2608c4d2f2af1e3d8c022f9a53525dc36d99
 content:
   blocks:
-  - id: blk_ed9ac724
-    type: text
-    body: '## Description:
+  - body: '## Description:
 
 
       Comprehensive audit and cleanup across the Systems registry, touching 14 vcsh repos in a single session.
@@ -135,18 +132,18 @@ content:
       - 0 ownership violations
 
       - All 14 touched repos clean'
-  - id: blk_6a80e3ea
+    id: blk_ed9ac724
     type: text
-    body: '## Reasoning:
+  - body: '## Reasoning:
 
 
       This session was a systematic health audit that evolved from a simple pdf-output directory move into a deep investigation
       of vcsh path behavior, integration file ownership, and repo cleanliness. The vcsh CWD fix and integration file tracking
       were the most impactful infrastructure changes — they prevent a class of path errors and ensure hooks.local/config.local
       files aren''t silently lost. The remaining changes were opportunistic cleanup discovered during the audit sweep.'
-  - id: blk_5542061e
-    type: code
-    language: python
+    id: blk_6a80e3ea
+    type: text
+  - caption: ''
     code: "\"\"\"\nSystems Registry - vcsh File Tracking Module\n\nManages the split between vcsh systems (integration metadata)\
       \ and\nper-package vcsh repos (publishable source). Provides:\n\n- Violation detection: files wrongly tracked by vcsh\
       \ systems\n- Sync: ensure systems-owned files are tracked\n- Excludes generation: auto-generate .gitignore.d/systems\n\
@@ -364,11 +361,11 @@ content:
       \                \"path\": item[\"path\"],\n                    \"error\": output,\n                })\n\n    return\
       \ {\n        \"violations\": violations,\n        \"fixed\": fixed,\n        \"errors\": errors,\n    }\n"
     filename: vcsh_tracking.py
-    caption: ''
-    src: media/vcsh_tracking.py
-  - id: blk_159d6ab8
-    type: code
+    id: blk_5542061e
     language: python
+    src: media/vcsh_tracking.py
+    type: code
+  - caption: ''
     code: "\"\"\"Shared constants for Systems registry.\"\"\"\n\nfrom typing import List, Set\n\n# Files always owned by vcsh\
       \ systems (structural, not in traits)\n# NOTE: find_untracked_systems_files() in vcsh_tracking.py has its own\n# scanning\
       \ logic that must be kept in sync with this list.\nIMPLICIT_SYSTEMS_PATTERNS: List[str] = [\"manifest.yaml\", \"NOTES.md\"\
@@ -380,11 +377,11 @@ content:
       \ types\nSKIP_TRAITS = {\n    \"vcsh_split\": {\"no-repo\", \"standalone-git\", \"untracked\"},\n    \"standalone_only\"\
       : {\"standalone-git\", \"untracked\"},\n}\n"
     filename: constants.py
-    caption: ''
-    src: media/constants.py
-  - id: blk_f59b49d9
-    type: code
+    id: blk_159d6ab8
     language: python
+    src: media/constants.py
+    type: code
+  - caption: ''
     code: "#!/usr/bin/env python3\n\"\"\"\nSystems Registry CLI\n\nThin wrapper around the Systems Python API for registry\
       \ operations.\n\"\"\"\n\nimport argparse\nimport json\nimport os\nimport sys\nimport time\n\nVERSION = \"0.1.0\"\n\n\
       _CONFIG_DEFAULTS = {\n    \"systems_root\": \"(derived from package location or $SYSTEMS_ROOT)\",\n    \"registry_dir\"\
@@ -777,11 +774,11 @@ content:
       \        \"setup-guide\": cmd_setup_guide,\n        \"pure-package\": cmd_pure_package,\n    }\n\n    return commands[args.command](args)\n\
       \n\nif __name__ == \"__main__\":\n    sys.exit(main())\n"
     filename: cli.py
-    caption: ''
-    src: media/cli.py
-  - id: blk_a4c47718
-    type: code
+    id: blk_f59b49d9
     language: python
+    src: media/cli.py
+    type: code
+  - caption: ''
     code: "#!/usr/bin/env python3\n\"\"\"PDF processing and audio conversion CLI.\"\"\"\n\nimport argparse\nimport json\n\
       import os\nimport subprocess\nimport sys\nfrom pathlib import Path\n\ntry:\n    from .extract_pdf import extract_with_word_positions\n\
       except ImportError:\n    from extract_pdf import extract_with_word_positions\n\n# Systems API integration - get audio-tools\
@@ -842,11 +839,11 @@ content:
       \        \"pdf-to-audio-batch\": cmd_pdf_to_audio_batch,\n    }\n    cmd_map[args.command](args)\n\n\nif __name__ ==\
       \ \"__main__\":\n    main()\n"
     filename: cli-1.py
-    caption: ''
+    id: blk_a4c47718
+    language: python
     src: media/cli-1.py
-  - id: blk_15f700e8
     type: code
-    language: markdown
+  - caption: ''
     code: '---
 
       id: 0001-vcsh-architecture
@@ -1090,5 +1087,7 @@ content:
 
       '
     filename: 0001-vcsh-architecture.md
-    caption: ''
+    id: blk_15f700e8
+    language: markdown
     src: media/0001-vcsh-architecture.md
+    type: code
