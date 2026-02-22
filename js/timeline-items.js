@@ -17,9 +17,11 @@ let itemsById = new Map();
 
 // Bundling configuration
 let bundleConfig = {
-  thresholdMs: 14 * 24 * 60 * 60 * 1000, // 14 days
-  currentDate: Date.now(),
+  keepCount: 5,
 };
+
+// IDs of small items protected from bundling (the N newest)
+let protectedIds = new Set();
 
 /**
  * Create a TimelineItem for a single entry
@@ -51,16 +53,28 @@ function createEntryItem(project, phaseId) {
 }
 
 /**
- * Check if an item should be bundleable (small size + old)
+ * Check if an item should be bundleable (small size + not protected)
  * @param {Object} item - Registry item
  * @returns {boolean}
  */
 function isBundleable(item) {
   if (item.size !== 'small') return false;
-  // Validate date exists and is valid before calling getTime()
-  if (!item.date || !(item.date instanceof Date) || isNaN(item.date.getTime())) return false;
-  const age = bundleConfig.currentDate - item.date.getTime();
-  return age > bundleConfig.thresholdMs;
+  return !protectedIds.has(item.id);
+}
+
+/**
+ * Recompute which small items are protected from bundling.
+ * The newest `keepCount` visible small items (globally, across all phases)
+ * are kept as individual entries; the rest get bundled.
+ */
+function recomputeProtected() {
+  const visibleSmall = items
+    .filter(item => item.isVisible && item.size === 'small' && item.date)
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
+
+  protectedIds = new Set(
+    visibleSmall.slice(0, bundleConfig.keepCount).map(item => item.id)
+  );
 }
 
 /**
@@ -86,12 +100,11 @@ export function initRegistry(allItems, config = {}) {
   });
 
   // Store bundling config
-  if (config.thresholdMs !== undefined) {
-    bundleConfig.thresholdMs = config.thresholdMs;
+  if (config.keepCount !== undefined) {
+    bundleConfig.keepCount = config.keepCount;
   }
-  if (config.currentDate !== undefined) {
-    bundleConfig.currentDate = config.currentDate;
-  }
+
+  recomputeProtected();
 }
 
 /**
@@ -104,6 +117,8 @@ export function applyFilter(selectedTags) {
   items.forEach(item => {
     item.isVisible = noFilter || item.tags.some(t => selectedTags.has(t));
   });
+
+  recomputeProtected();
 }
 
 /**

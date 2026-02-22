@@ -5,16 +5,17 @@
  * Sizes:
  *   large = Full card with image
  *   medium = Standard entry
- *   small = Compact (bundles when old AND multiple visible)
+ *   small = Compact (newest N kept individual, rest bundled)
  *
  * Tag Filtering:
  *   Click tags in the cloud to filter entries. Selected tags highlight
  *   on matching entries. Multiple tags use OR logic (show if any match).
  *
  * Dynamic Bundling:
- *   Bundles are computed AFTER filtering, so only visible small/old items
- *   are grouped. If filtering leaves just 1 bundleable item, it shows as
- *   a regular entry, not a "1 of N" bundle.
+ *   Bundles are computed AFTER filtering, so only visible small items
+ *   are grouped. The 5 newest visible small items stay individual;
+ *   the rest bundle. If filtering leaves just 1 bundleable item, it
+ *   shows as a regular entry, not a "1 of N" bundle.
  *
  * State Flow:
  *   1. applyFilter(tags) → updates isVisible on registry items
@@ -77,13 +78,6 @@ export async function init(section, config) {
   // Apply initial tags-hidden state (tags default to hidden)
   sectionEl.classList.add('tags-hidden');
 
-  // Config: bundling threshold and simulated "current date" for testing
-  const thresholdDays = config.timeline?.recentThresholdDays ?? 14;
-  const thresholdMs = thresholdDays * 24 * 60 * 60 * 1000;
-  const currentDate = config.timeline?.currentDate
-    ? new Date(config.timeline.currentDate).getTime()
-    : Date.now();
-
   // Tag display config
   tagConfig = {
     hiddenTags: config.timeline?.tagDisplay?.hiddenTags ?? [],
@@ -133,7 +127,7 @@ export async function init(section, config) {
     }
 
     // Initialize registry with bundling config
-    initRegistry(allItems, { thresholdMs, currentDate });
+    initRegistry(allItems, { keepCount: config.timeline?.keepCount ?? 5 });
 
     // Initial render
     container.innerHTML = '';
