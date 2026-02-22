@@ -44,7 +44,7 @@ export default {
   // ═══════════════════════════════════════════════════════════════════════════
   // Change this to switch which phase shows as "Current" (1, 2, or 3)
 
-  activePhase: 1,
+  activePhase: 2,
 
   // ═══════════════════════════════════════════════════════════════════════════
   // FEATURED SECTION
