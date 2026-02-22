@@ -7,7 +7,6 @@ tags:
 - Feature
 status: in-progress
 size: medium
-linkTo: detail
 description: 'End-to-end test of copy-at-capture for all artifact types: image, code, terminal, video, doc, data.'
 source:
   report_id: 34

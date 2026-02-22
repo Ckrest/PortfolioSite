@@ -9,7 +9,6 @@ tags:
 - Python
 status: in-progress
 size: medium
-linkTo: detail
 description: Added vcsh support so git operations work in the Systems repo. The project name (--project) is now used to detect
   and use the corresponding vcsh repo for git commands.
 source:

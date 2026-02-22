@@ -5,7 +5,6 @@ summary: Socket tagging system for ComfyUI that enables external workflow execut
 date: '2026-01-13'
 status: complete
 size: large
-linkTo: detail
 github: https://github.com/Ckrest/comfyui-conduit
 preview: preview.png
 tags:

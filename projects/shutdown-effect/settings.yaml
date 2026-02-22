@@ -1,18 +1,13 @@
 # Shutdown Effect
 
-title: "Shutdown Effect"
-summary: "Visual shutdown animations with extensible hook system for power transitions on Wayland."
+title: Shutdown Effect
+summary: Visual shutdown animations with extensible hook system for power transitions on Wayland.
 date: 2026-01-18
-
 size: small
-linkTo: github
 status: complete
-
 tags:
-  - Wayland
-  - C
-  - Wayfire
-  - Hook System
-
+- Wayland
+- C
+- Wayfire
+- Hook System
 github: https://github.com/Ckrest/shutdown-effect
-

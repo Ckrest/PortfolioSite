@@ -1,19 +1,14 @@
 # Process Manager
 
-title: "Process Manager"
-summary: "GTK4 dashboard for managing Systems-discovered systemd user services with status, controls, and live logs."
+title: Process Manager
+summary: GTK4 dashboard for managing Systems-discovered systemd user services with status, controls, and live logs.
 date: 2025-10-18
-
 size: medium
 status: complete
-linkTo: github
-
 tags:
-  - Python
-  - GTK
-  - Systemd
-
+- Python
+- GTK
+- Systemd
 github: https://github.com/Ckrest/process-manager
-
 content:
   blocks: []

@@ -1,16 +1,11 @@
 # Ping Monitor
 
-title: "Ping Monitor"
-summary: "Placeholder summary for Ping Monitor. Update with actual project description."
+title: Ping Monitor
+summary: Placeholder summary for Ping Monitor. Update with actual project description.
 date: 2026-01-13
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Python
-  - Infrastructure
-
+- Python
+- Infrastructure
 github: https://github.com/Ckrest/ping-monitor
-

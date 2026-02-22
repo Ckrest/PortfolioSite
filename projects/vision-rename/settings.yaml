@@ -1,17 +1,12 @@
 # Vision Rename
 
-title: "Vision Rename"
-summary: "Placeholder summary for Vision Rename. Update with actual project description."
+title: Vision Rename
+summary: Placeholder summary for Vision Rename. Update with actual project description.
 date: 2025-12-14
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - AI
-  - Python
-  - CLI
-
+- AI
+- Python
+- CLI
 github: https://github.com/Ckrest/vision-rename
-

@@ -1,17 +1,12 @@
 # Wayfire Screen Freeze
 
-title: "Wayfire Screen Freeze"
-summary: "Placeholder summary for Wayfire Screen Freeze. Update with actual project description."
+title: Wayfire Screen Freeze
+summary: Placeholder summary for Wayfire Screen Freeze. Update with actual project description.
 date: 2025-12-06
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Wayfire
-  - C++
-  - Wayland
-
+- Wayfire
+- C++
+- Wayland
 github: https://github.com/Ckrest/wayfire-screen-freeze
-

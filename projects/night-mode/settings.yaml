@@ -1,17 +1,12 @@
 # Night Mode
 
-title: "Night Mode"
-summary: "Placeholder summary for Night Mode. Update with actual project description."
+title: Night Mode
+summary: Placeholder summary for Night Mode. Update with actual project description.
 date: 2026-01-02
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Desktop Environment
-  - Python
-  - Event-Driven Architecture
-
+- Desktop Environment
+- Python
+- Event-Driven Architecture
 github: https://github.com/Ckrest/night-mode
-

@@ -1,17 +1,12 @@
 # Desktop Layer
 
-title: "Desktop Layer"
-summary: "Placeholder summary for Desktop Layer. Update with actual project description."
+title: Desktop Layer
+summary: Placeholder summary for Desktop Layer. Update with actual project description.
 date: 2025-11-26
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Desktop Environment
-  - Wayfire
-  - Python
-
+- Desktop Environment
+- Wayfire
+- Python
 github: https://github.com/Ckrest/desktop-layer
-

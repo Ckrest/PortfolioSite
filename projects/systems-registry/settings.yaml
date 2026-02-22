@@ -1,17 +1,12 @@
 # Systems Registry
 
-title: "Systems Registry"
-summary: "Placeholder summary for Systems Registry. Update with actual project description."
+title: Systems Registry
+summary: Placeholder summary for Systems Registry. Update with actual project description.
 date: 2026-01-08
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Python
-  - CLI
-  - Architecture
-
+- Python
+- CLI
+- Architecture
 github: https://github.com/Ckrest/systems-registry
-

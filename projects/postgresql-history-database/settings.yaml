@@ -1,16 +1,11 @@
 # PostgreSQL History Database
 
-title: "PostgreSQL History Database"
-summary: "Placeholder summary for PostgreSQL History Database. Update with actual project description."
+title: PostgreSQL History Database
+summary: Placeholder summary for PostgreSQL History Database. Update with actual project description.
 date: 2025-11-16
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - PostgreSQL
-  - Infrastructure
-
+- PostgreSQL
+- Infrastructure
 github: https://github.com/Ckrest/postgresql-history-database
-

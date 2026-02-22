@@ -1,15 +1,11 @@
-# Portfolio Site Update
+# Site Update
 
-title: "Site Update"
-summary: "Timeline improvements, media support for GIFs/videos, and bundle icon previews."
+title: Site Update
+summary: Timeline improvements, media support for GIFs/videos, and bundle icon previews.
 date: 2026-01-16
-
 size: small
-linkTo: github
 status: complete
-
 tags:
-  - Frontend
-  - JavaScript
-
+- Frontend
+- JavaScript
 github: https://github.com/Ckrest/PortfolioSite

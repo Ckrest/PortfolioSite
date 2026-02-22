@@ -6,7 +6,6 @@ summary: Full-featured web GUI for composing portfolio project pages from work r
 date: '2026-01-30'
 status: in-progress
 size: medium
-linkTo: detail
 tags:
 - Python
 - Flask

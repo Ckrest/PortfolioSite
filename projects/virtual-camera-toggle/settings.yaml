@@ -1,16 +1,11 @@
 # Virtual Camera Toggle
 
-title: "Virtual Camera Toggle"
-summary: "Placeholder summary for Virtual Camera Toggle. Update with actual project description."
+title: Virtual Camera Toggle
+summary: Placeholder summary for Virtual Camera Toggle. Update with actual project description.
 date: 2025-12-08
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Bash
-  - CLI
-
+- Bash
+- CLI
 github: https://github.com/Ckrest/virtual-camera-toggle
-

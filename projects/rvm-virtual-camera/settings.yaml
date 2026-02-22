@@ -1,16 +1,11 @@
 # RVM Virtual Camera
 
-title: "RVM Virtual Camera"
-summary: "Placeholder summary for RVM Virtual Camera. Update with actual project description."
+title: RVM Virtual Camera
+summary: Placeholder summary for RVM Virtual Camera. Update with actual project description.
 date: 2025-12-01
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - AI
-  - Python
-
+- AI
+- Python
 github: https://github.com/Ckrest/rvm-virtual-camera
-

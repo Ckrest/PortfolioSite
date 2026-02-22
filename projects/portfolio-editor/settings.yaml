@@ -16,7 +16,6 @@ tags:
 - Refactoring
 status: in-progress
 size: medium
-linkTo: detail
 description: 'Web-based split-pane GUI for building portfolio project pages from work reports. Flask backend (port 9750) with
   vanilla JS frontend. Features: report browser with archive/unarchive, project CRUD with settings/content separation, block-based
   content editor, drag-drop from reports, live preview with click-to-edit overlays, tag autocomplete from controlled vocabulary,

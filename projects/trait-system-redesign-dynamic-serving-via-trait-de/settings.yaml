@@ -6,7 +6,6 @@ summary: Major architecture change enabling traits to define their own API behav
 date: '2026-02-04'
 status: in-progress
 size: medium
-linkTo: detail
 tags:
 - Architecture
 - Refactoring

@@ -10,7 +10,6 @@ tags:
 - work-report
 status: in-progress
 size: medium
-linkTo: detail
 source:
   report_id: 75
   duration_hours: 3.0

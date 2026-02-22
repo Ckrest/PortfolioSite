@@ -5,15 +5,12 @@ summary: Placeholder summary for Soundboard. Update with actual project descript
 date: '2026-01-13'
 status: in-progress
 size: medium
-linkTo: detail
 github: https://github.com/Ckrest/soundboard
 preview: preview.png
 tags:
-  - Python
-  - GTK
-  - Audio
-
-
+- Python
+- GTK
+- Audio
 content:
   blocks:
   - type: readme

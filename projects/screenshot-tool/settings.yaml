@@ -1,17 +1,12 @@
 # Screenshot Tool
 
-title: "Screenshot Tool"
-summary: "Placeholder summary for Screenshot Tool. Update with actual project description."
+title: Screenshot Tool
+summary: Placeholder summary for Screenshot Tool. Update with actual project description.
 date: 2025-11-23
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Python
-  - Wayland
-  - Image Capture
-
+- Python
+- Wayland
+- Image Capture
 github: https://github.com/Ckrest/screenshot-tool
-

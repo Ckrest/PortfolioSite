@@ -5,7 +5,6 @@ summary: Ported docklike-plugin to Wayland with CaptureManager for async capture
 date: '2026-01-18'
 status: in-progress
 size: medium
-linkTo: detail
 tags:
 - Wayland
 - Port

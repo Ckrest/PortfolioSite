@@ -1,17 +1,12 @@
 # Wallpaper Service
 
-title: "Wallpaper Service"
-summary: "Placeholder summary for Wallpaper Service. Update with actual project description."
+title: Wallpaper Service
+summary: Placeholder summary for Wallpaper Service. Update with actual project description.
 date: 2025-12-22
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Python
-  - Desktop Environment
-  - Wayland
-
+- Python
+- Desktop Environment
+- Wayland
 github: https://github.com/Ckrest/wallpaper-service
-

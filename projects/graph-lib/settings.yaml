@@ -1,16 +1,11 @@
 # Graph Library
 
-title: "Graph Library"
-summary: "Placeholder summary for Graph Library. Update with actual project description."
+title: Graph Library
+summary: Placeholder summary for Graph Library. Update with actual project description.
 date: 2026-01-13
-
 size: small
-linkTo: github
 status: in-progress
-
 tags:
-  - Python
-  - GTK
-
+- Python
+- GTK
 github: https://github.com/Ckrest/graph-lib
-
