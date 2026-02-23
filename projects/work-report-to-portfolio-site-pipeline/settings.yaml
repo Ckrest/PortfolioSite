@@ -301,14 +301,19 @@ content:
         uploaded to my portfolio site. Along with that, Artifact 3, This project’s portfolio site detail page.'
       id: blk_9d70619a
       type: text
-    - body: '## Artifact 3: Work Report Pipeline Detail Page
-
-
-        I’m just kidding, you can use the link. I just think QR codes are cool.
-
-
-        https://nickyoungci.dev/#hero'
+    - body: '## Artifact 3: Work Report Pipeline Detail Page'
       id: blk_8aaf6f38
       type: text
+    - id: ec5b4696-27b8-48ed-9e96-35a13f5055f4
+      type: image
+      src: media/screenshot_2026-02-23_04-17-09.png
+      alt: ''
+      caption: ''
+    - id: 231ca809-5be7-4c7d-be05-cf71c413b3ce
+      type: text
+      body: 'I’m just kidding, you can use the link. I just think QR codes are cool.
+
+
+        https://nickyoungci.dev/projects/detail?project=work-report-to-portfolio-site-pipeline'
     id: blk_2c3e2078
     type: group
