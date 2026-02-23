@@ -56,7 +56,7 @@ export default {
     // List of project slugs to feature (in display order)
     // Leave empty or comment out items to show "coming soon" message
     items: [
-      'diagram-tool',
+      'work-report-to-portfolio-site-pipeline',
     ],
 
     // How many items to show (will show up to this many from the list)
