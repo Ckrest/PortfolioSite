@@ -1,20 +1,17 @@
 # ComfyUI Viewer
 
-title: "ComfyUI Viewer"
-summary: "A web-based image viewer and workflow manager for ComfyUI with thumbnail generation and organization features."
-date: 2026-01-10
-
-size: medium
+title: ComfyUI Viewer
+summary: A web-based image viewer and workflow manager for ComfyUI with thumbnail generation and organization features.
+date: '2026-01-10'
 status: complete
-
-tags:
-  - ComfyUI
-  - Python
-  - Frontend
-
+size: large
 github: https://github.com/Ckrest/comfy-viewer
-
+tags:
+- ComfyUI
+- Python
+- Frontend
 content:
   blocks:
-    - type: readme
-      path: README.md
+  - path: README.md
+    type: readme
+    id: 1f5c6575-e1bd-4025-b0bf-3813bcab6d08

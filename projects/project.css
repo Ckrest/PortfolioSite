@@ -753,6 +753,45 @@ figure img {
 }
 
 /* ==========================================================================
+   Mermaid Block
+   ========================================================================== */
+
+.block-mermaid figure {
+  margin: 0;
+}
+
+.block-mermaid .mermaid-code {
+  display: none;
+}
+
+.block-mermaid .mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+  overflow-x: auto;
+}
+
+.block-mermaid .mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.block-mermaid .mermaid-diagram .error {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.block-mermaid figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
    Terminal Block
    ========================================================================== */
 

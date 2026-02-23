@@ -346,6 +346,35 @@ const BLOCKS = {
       `;
     },
   },
+
+  // ── Mermaid ─────────────────────────────────────────────────────────────
+  mermaid: {
+    icon: '🧩', label: 'Mermaid', hint: 'Click to add Mermaid diagram',
+    isEmpty(b) { return !b.code?.trim(); },
+    render(b) {
+      const caption = b.caption ? `<figcaption>${escapeHtml(b.caption)}</figcaption>` : '';
+      return `
+        <figure>
+          <pre class="mermaid-code">${escapeHtml(b.code || '')}</pre>
+          <div class="mermaid-diagram" data-mermaid="${encodeURIComponent(b.code || '')}"></div>
+          ${caption}
+        </figure>
+      `;
+    },
+    async postRender(el, b) {
+      const container = el.querySelector('.mermaid-diagram');
+      if (!container || typeof mermaid === 'undefined') return;
+
+      try {
+        const code = decodeURIComponent(container.dataset.mermaid);
+        const { svg } = await mermaid.render('mermaid-' + crypto.randomUUID(), code);
+        container.innerHTML = svg;
+        container.classList.add('mermaid-rendered');
+      } catch (err) {
+        container.innerHTML = `<p class="error">Diagram render error: ${err.message}</p>`;
+      }
+    },
+  },
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

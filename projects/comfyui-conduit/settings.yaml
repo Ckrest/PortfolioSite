@@ -1,18 +1,18 @@
 # ComfyUI Conduit
 
-title: ComfyUI Conduit
-summary: Socket tagging system for ComfyUI that enables external workflow execution with typed inputs and captured outputs.
+content:
+  blocks:
+  - id: 8303e2d6-efbf-43fa-bb15-ef1cd61da4a7
+    path: README.md
+    type: readme
 date: '2026-01-13'
-status: complete
-size: large
 github: https://github.com/Ckrest/comfyui-conduit
 preview: preview.png
+size: large
+status: complete
+summary: Socket tagging system for ComfyUI that enables external workflow execution with typed inputs and captured outputs.
 tags:
 - ComfyUI
 - Python
 - API Design
-content:
-  blocks:
-  - path: README.md
-    type: readme
-    id: 8303e2d6-efbf-43fa-bb15-ef1cd61da4a7
+title: ComfyUI Conduit

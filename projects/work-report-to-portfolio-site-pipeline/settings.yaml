@@ -1,0 +1,314 @@
+# Work Report to Portfolio Site Pipeline
+
+title: Work Report to Portfolio Site Pipeline
+summary: Comprehensive design update documenting the full Work Report to Portfolio Site pipeline — a 4-step system (Capture,
+  Aggregate, Curate, Publish) that addresses the challenge of documentation by automat
+date: '2026-02-23'
+status: in-progress
+size: large
+preview: media/screenshot_2026-02-23_04-09-17.png
+icon: icon.svg
+tags:
+- Feature
+- Architecture
+- Frontend
+- Infrastructure
+- Documentation
+- AI
+- Automation
+- Workflow Orchestration
+description: 'Comprehensive design update documenting the full Work Report to Portfolio Site pipeline — a 4-step system (Capture,
+  Aggregate, Curate, Publish) that addresses the challenge of documentation by automating the recording and presentation of
+  work evidence.
+
+
+  **Step 1: Capture** — Automatic discovery of work outputs from 12+ sources including git diffs, phone camera sync (via Syncthing),
+  screenshots, diagrams, graphs, mermaid charts, audio, and AI-generated images. Each source registers items into a PostgreSQL
+  database for unified access.
+
+
+  **Step 2: Aggregate** — Work report bundler gathers database items, attaches context via AI (GLM 5 through Claude Code CLI),
+  and produces structured reports with metadata (tags, git stats, artifacts, reasoning). Minimal manual effort — a few sentences
+  generates a full report.
+
+
+  **Step 3: Curate** — Custom portfolio editor web interface with 3 tabs (Reports, Projects, Blocks) enables drag-and-drop
+  assembly of presentable pages. Supports 12 block types: Text, Image, Video, Gallery, README, PDF, Group, Code, Mermaid,
+  Terminal, Compare, and Graph.
+
+
+  **Step 4: Publish** — Deploy button pushes curated pages to the live portfolio site at nickyoungci.dev.
+
+
+  **Key Artifacts:**
+
+  1. Pipeline flow diagram (Capture → Aggregate → Curate → Publish)
+
+  2. Portfolio Editor interface (Reports/Projects/Blocks tabs, drag-and-drop, save/deploy)
+
+  3. Portfolio site detail page (nickyoungci.dev)
+
+
+  **Reflections:**
+
+  - Traceability: Massive format diversity created soft constraints; combatted via independence between pipeline stages
+
+  - Uncertainty: Systems-scale changes have unpredictable cascading effects; confidence in risk-taking grew through experience'
+source:
+  duration_hours: 8
+  effort: high
+  report_id: 137
+  commit: 0eeaae55dfeca564d46863506bc37fde1be98c0c
+content:
+  blocks:
+  - blocks:
+    - body: One skill I have struggled with is documentation. It takes work to record what I have done and organize it. My
+        focus this semester is on refinement, so the past few weeks I have been building a pipeline to address exactly this.
+        The goal is making recording what I do and displaying it as efficient as possible. Enter my first artifact; The Work
+        Report to Portfolio Site pipeline… diagram! My naming prowess aside, this diagram shows the steps involved and how
+        work I do gets recorded and transformed though the process. This update will go through each step of the pipeline,
+        what it does, and why it's valuable.
+      id: blk_12f7939c
+      type: text
+    - body: '## Artifact 1: Work Report to Portfolio Site Pipeline'
+      id: blk_bbe0531f
+      type: text
+    - alt: Work Report to Portfolio Site Pipeline
+      caption: Work Report to Portfolio Site Pipeline
+      id: blk_abd27348
+      src: media/image2.png
+      type: image
+    - body: '## Step 0: Work
+
+
+        The first step is doing stuff. Working on the pipeline has involved developing many programs to process and consolidate
+        data, so I have created lots of lines of code. I also set up a 3D printer, so using that I ended up with a lot of
+        pictures I take on my phone. Each new thing that I do has a different output, but putting everything together and
+        keeping track of it all is a task on its own, and not one I particularly enjoy. That brings me to the goal.
+
+
+        **Pipeline''s goal:** Record all work that I do, and make it as easy as possible to display it.'
+      id: blk_3f011009
+      type: text
+    - body: '## Step 1: Capture
+
+
+        The first thing to do is to discover everything I do. I need to take the different outputs of work evidence and put
+        them into a form that the pipeline can use. That form is registering the item and its location into a database. That
+        gives a streamlined way to interact with all pieces of work evidence. This is different for every item, so I will
+        just go through a few examples.'
+      id: blk_b9bde391
+      type: text
+    - body: '### Code
+
+
+        This is one I have been dealing with a lot recently, and the process is straight forward. Changes to code are often
+        already tracked though version control. Every time a set of changes is made, you can commit those changes to the repository.
+        Then you have a dedicated history of everything that has been done. When a commit is mode, the set of changes or the
+        “diff” is logged to the database.'
+      id: blk_1a405d85
+      type: text
+    - alt: Code diff
+      caption: Code diff
+      id: blk_75e99cf4
+      src: media/image7.png
+      type: image
+    - body: '### Phone Pictures
+
+
+        Pictures on my phone need to be on my computer so the pipeline can access them. I am using “Syncthing”, a program
+        that keeps my phone pictures and a local folder on my computer synchronized. Then I have a program that watches that
+        folder for new items, adding each to the database as it gets downloaded.'
+      id: blk_72e28784
+      type: text
+    - alt: Phone pictures
+      caption: Phone pictures
+      id: blk_5828f82a
+      src: media/image15.jpg
+      type: image
+    - body: '### Graphs
+
+
+        Not every artifact can be automatically created, some need manual work to create them. The graph is an example of
+        an artifact that never gets auto created, but I made a program that takes graph information and displays it. So when
+        you use the program to create a graph, it gets added to the database.'
+      id: blk_7a8e2019
+      type: text
+    - alt: Temperature graph
+      caption: Temperature graph
+      id: blk_edff144d
+      src: media/image10.png
+      type: image
+    - body: '**Full list of current imports:**
+
+
+        - screenshot-tool: screenshot_fullscreen, screenshot_region, screenshot_window (Produces: screenshot, image)
+
+        - diagram-tool: diagram_save (Produces: diagram - JSON, PNG, SVG)
+
+        - track-file: manual_registration (Produces: screenshot, diagram, data, comparison, gallery, video, document)
+
+        - chrome-automation: chrome_screenshot (Produces: screenshot)
+
+        - chrome_mcp: screenshot (Produces: screenshot)
+
+        - mermaid-tool: mermaid_from_template, mermaid_generate (Produces: mermaid)
+
+        - system-visualizer: system_flowchart, system_timeline, system_dependencies (Produces: mermaid)
+
+        - portfolio-editor: artifact_creation (Produces: image, video, doc, data, code, file)
+
+        - audio-tools: text_to_audio (Produces: audio)
+
+        - phone-camera-watcher: media_sync (Produces: phone-screenshot)
+
+        - conduit: image_generation (Produces: generated_image)
+
+        - git: commit diffs (Produces: diff)'
+      id: blk_e2f9d5f8
+      type: text
+    - body: '## Reflection 1: How did you ensure traceability between requirements, constraints, and final design?
+
+
+        In software, constraints and requirements are often straightforward. Either it works, or it doesn’t. I have program
+        x, it outputs y, your program needs to be able to use y. In this project, that was not the case. As you can see in
+        this list, I deal with a massive amount of different formats, so the challenge has been trying to get a system that
+        can handle all of them. But doing that requires special handling for each, that means In order to change a part of
+        the system, it often requires many individual changes to support a structural one, even with the high amounts of modularity
+        and streamlining I was adding. This caused a lot of soft constraints, few things were actually locked in, since I
+        made all parts of the pipeline, but as more got added, it became harder and harder to change. I combatted this someone
+        by making everything independent, so a change in step one wouldn’t require changes everywhere else. But the complexity
+        of the pipeline made those strategies less effective.'
+      id: blk_288350e4
+      type: text
+    - body: '## Step 2: Aggregate
+
+
+        All the items are now discoverable, but not organized. So the next step is taking all the pieces, wrapping them up,
+        and adding context. Enter work reports!'
+      id: blk_3a992795
+      type: text
+    - alt: Work report
+      caption: Work report
+      id: blk_eedcaf1e
+      src: media/image4.png
+      type: image
+    - body: 'These are nice to have, they group items together, allow for context searching, and can remind me what I was
+        doing and why I made a change. But adding new forms of documentation doesn’t help my documentation issues. Fortunately,
+        these are for internal use, so extra tools become available. In this case AI, specifically I have been using Z.ai’s
+        GLM 5 running though the claude code CLI, but this setup works with any model capable of reasoning and visual understanding.
+        With a program that feeds the model instructions on how to create work reports, all it takes is a few sentences and
+        a work report is created automatically.
+
+
+        When the work report tool is used, all the items that have been registered to the database get gathered, and the model
+        can go through them, see what changed or what was created, and make a work report with all the given context. All
+        the items are then attached to the report, and registered as “artifacts”, I''ll use the term "pipeline artifacts”
+        to avoid confusion. Each pipeline artifact is a file attached to a report, allowing all the work evidence and context
+        to be stored together.'
+      id: blk_8d395c9a
+      type: text
+    - alt: Pipeline artifacts
+      caption: Pipeline artifacts
+      id: blk_770c8c45
+      src: media/image9.png
+      type: image
+    - body: '**Full list of data types currently tracked:**
+
+
+        id, date, title, summary, description, reasoning, tags[], status, commit, files_changed, lines_added, lines_removed,
+        diff_stat, duration_hours, effort, artifacts[]'
+      id: blk_8c941a5b
+      type: text
+    - body: '## Step 3: Curate
+
+
+        Now that the data is packaged up, it’s more useful internally, but I am still no closer to having something in a presentable
+        form. This step takes work reports, and all the data they have attached, and gives me an interface to put it all together.
+        Behold, artifact number 2! My portfolio editor is a custom web building interface that unpacks work reports and allows
+        building and editing presentable web pages.'
+      id: blk_5483e2a2
+      type: text
+    - body: '## Artifact 2: Portfolio Editor'
+      id: blk_87e3e8b6
+      type: text
+    - alt: Portfolio Editor
+      caption: Portfolio Editor
+      id: blk_9cda73b9
+      src: media/image11.png
+      type: image
+    - body: 'There are 3 editor tabs:'
+      id: blk_735f0daa
+      type: text
+    - caption: 'Editor tabs: Reports, Projects, Blocks'
+      id: blk_294ab3a0
+      images:
+      - alt: ''
+        src: media/image3.png
+      - alt: ''
+        src: media/image13.png
+      - alt: ''
+        src: media/image5.png
+      type: gallery
+    - body: '**Reports:**
+
+        Allows jumping into each work report and dragging and dropping each item into the main page.'
+      id: blk_d9a9a24b
+      type: text
+    - alt: Reports tab
+      caption: Reports tab
+      id: blk_371e6cda
+      src: media/image6.png
+      type: image
+    - body: '**Projects:**
+
+        Keeps track of all the presentable pages and their data.'
+      id: blk_59faad17
+      type: text
+    - alt: Projects tab
+      caption: Projects tab
+      id: blk_5e1249ec
+      src: media/image12.png
+      type: image
+    - body: '**Blocks:**
+
+        A bank of artifact types, without data, allows adding any kind of item to the page and filling in the information
+        manually. This also keeps a list of blocks currently on a page.'
+      id: blk_36d0fffb
+      type: text
+    - caption: Blocks panel
+      id: blk_31c069b6
+      images:
+      - alt: ''
+        src: media/image8.png
+      - alt: ''
+        src: media/image14.png
+      type: gallery
+    - body: And finally, it has save and deploy buttons.
+      id: blk_8319517a
+      type: text
+    - alt: Save and Deploy
+      caption: Save and Deploy
+      id: blk_b6da7cfd
+      src: media/image1.png
+      type: image
+    - body: '## Step 4: Publish
+
+
+        So after the work evidence is collected, each type gets added to a database. An AI reads from the database with a
+        short explanation to make high quality work reports with minimal effort. The editor is a tool to easily take the information
+        from reports and build presentable display pages. And finally, when deploy is clicked in the editor, the changes get
+        uploaded to my portfolio site. Along with that, Artifact 3, This project’s portfolio site detail page.'
+      id: blk_9d70619a
+      type: text
+    - body: '## Artifact 3: Work Report Pipeline Detail Page
+
+
+        I’m just kidding, you can use the link. I just think QR codes are cool.
+
+
+        https://nickyoungci.dev/#hero'
+      id: blk_8aaf6f38
+      type: text
+    id: blk_2c3e2078
+    type: group
