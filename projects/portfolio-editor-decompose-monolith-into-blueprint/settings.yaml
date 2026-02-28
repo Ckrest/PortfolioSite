@@ -1,0 +1,28 @@
+# Portfolio Editor: Blueprint Architecture
+
+title: 'Portfolio Editor: Blueprint Architecture'
+summary: Refactored the portfolio editor from a monolithic Flask app into a modular blueprint architecture with proper separation of concerns.
+date: '2026-02-20'
+github: https://github.com/Ckrest/PortfolioSite
+tags:
+- Refactoring
+- Architecture
+- Python
+- JavaScript
+- Frontend
+status: complete
+size: small
+source:
+  report_id: 107
+  duration_hours: 1.5
+  effort: medium
+  commit: 4ade37e7988472c55cc06cfa93fca659d2a9cd81
+content:
+  blocks:
+  - id: blk_b6561c3c
+    type: text
+    body: 'Broke apart the portfolio editor''s monolithic Flask app into a clean blueprint architecture with separate modules for
+      routes and business logic. Along the way, fixed a UX issue where the editor wasn''t tracking unsaved changes properly — edits
+      could be lost without warning. Added an "unsaved changes" prompt, a preview refresh button, and a test suite to keep things
+      solid going forward.'
+icon: icon.svg

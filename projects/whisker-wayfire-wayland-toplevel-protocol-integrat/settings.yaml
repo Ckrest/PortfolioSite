@@ -1,0 +1,29 @@
+# Whisker Menu: Wayland Protocol Support
+
+title: 'Whisker Menu: Wayland Protocol Support'
+summary: Added Wayland focus tracking to XFCE''s Whisker Menu so it properly auto-hides when clicking away on Wayfire.
+date: '2026-02-22'
+status: in-progress
+size: small
+icon: icon.svg
+tags:
+- C++
+- Wayland
+- Wayfire
+- XFCE
+- Desktop Environment
+- Feature
+- Port
+source:
+  duration_hours: 2
+  effort: high
+  report_id: 113
+  commit: 8a1504ed55eae200d7b7a65650e4cc7740746bf2
+content:
+  blocks:
+  - body: 'XFCE''s Whisker Menu didn''t know how to detect focus loss on Wayland, so clicking away from the menu on the Wayfire
+      compositor wouldn''t close it. Added Wayland toplevel protocol support so the menu can monitor window activation changes and
+      auto-hide when something else gets focus — matching the behavior users expect from the X11 version. This required integrating
+      a Wayland protocol into the existing GTK/XFCE plugin architecture in C++.'
+    id: blk_f6d96200
+    type: text

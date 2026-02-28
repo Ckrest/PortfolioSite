@@ -1,12 +1,19 @@
 # Night Mode
 
 title: Night Mode
-summary: Placeholder summary for Night Mode. Update with actual project description.
-date: 2026-01-02
-size: small
+summary: Automated day/night display switching service that adjusts screen warmth based on sunrise and sunset times.
+date: '2026-01-02'
 status: in-progress
+size: small
+github: https://github.com/Ckrest/night-mode
 tags:
 - Desktop Environment
 - Python
 - Event-Driven Architecture
-github: https://github.com/Ckrest/night-mode
+content:
+  blocks:
+  - body: A background service that automatically switches display warmth between day and night modes based on local sunrise
+      and sunset times. Uses an event-driven architecture with signal-based scheduling so it responds instantly to transitions
+      with near-zero CPU usage. Includes a manual override toggle hook for when you want to force night or day mode.
+    id: blk_697ab540
+    type: text

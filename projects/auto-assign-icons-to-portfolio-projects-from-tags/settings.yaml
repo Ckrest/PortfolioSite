@@ -1,20 +1,18 @@
-# Auto-assign icons to portfolio projects from tags
+# Portfolio Site: Auto Icon Assignment
 
-title: Auto-assign icons to portfolio projects from tags
-summary: Added tag-to-icon mapping service
+title: 'Portfolio Site: Auto Icon Assignment'
+summary: Automatic icon assignment for portfolio projects based on their tags, with a priority system for domain, skill, and fallback icons.
 date: '2026-02-22'
-status: in-progress
+status: complete
 size: medium
+github: https://github.com/Ckrest/PortfolioSite
+preview: media/screenshot_2026-02-28_00-00-07.png
 icon: icon.svg
 tags:
 - Python
 - Feature
 - Flask
 - Automation
-description: Added tag-to-icon mapping service that automatically assigns icons from the shared library when portfolio projects
-  are created. New projects get an icon based on their tags — domain tags (Wayland, ComfyUI, Audio, etc.) take priority, then
-  skill tags (Python, React, Rust), with code.svg as fallback. Work-type tags (Feature, Bug Fix) are skipped. Includes a backfill
-  script that assigned icons to all 24 existing projects that lacked them.
 source:
   duration_hours: 0.75
   effort: medium
@@ -22,22 +20,8 @@ source:
   commit: b63c29ff8fc0884d199175133ba6bea8d18542a3
 content:
   blocks:
-  - body: '## Description:
-
-
-      Added tag-to-icon mapping service that automatically assigns icons from the shared library when portfolio projects are
-      created. New projects get an icon based on their tags — domain tags (Wayland, ComfyUI, Audio, etc.) take priority, then
-      skill tags (Python, React, Rust), with code.svg as fallback. Work-type tags (Feature, Bug Fix) are skipped. Includes
-      a backfill script that assigned icons to all 24 existing projects that lacked them.'
+  - body: Built a service that automatically picks an icon for new portfolio projects based on their tags. Domain-specific tags like Wayland, ComfyUI, or Audio get priority, then skill tags like Python or React, with a generic code icon as the fallback. Also ran a backfill across all existing projects so none are left without an icon.
     id: blk_fd93fda0
-    type: text
-  - body: '## Reasoning:
-
-
-      Portfolio projects created from work reports landed without icons, showing broken images on the timeline for small (icon-card)
-      projects. Manual icon selection doesn''t scale. The shared icon library already had 57 SVGs and projects already carry
-      tags, so mapping tags to icons at creation time was a natural fit.'
-    id: blk_4e59a0f6
     type: text
   - caption: ''
     id: blk_ad81c9f4

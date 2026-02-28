@@ -1,0 +1,23 @@
+# Wayfire: Scene and Layer Stacking Plugins
+
+title: 'Wayfire: Scene and Layer Stacking Plugins'
+summary: Two Wayfire compositor plugins for window layer management — always-on-top scene control and layer stacking order.
+date: '2026-02-22'
+tags:
+- C++
+- Wayfire
+- Wayland
+- Feature
+status: in-progress
+size: medium
+icon: icon.svg
+source:
+  report_id: 117
+  duration_hours: 1.5
+  effort: high
+  commit: 1e913018d42163ec804a4a8898b0852f6ff817c0
+content:
+  blocks:
+  - id: blk_1a609ed4
+    type: text
+    body: Two new Wayfire compositor plugins for controlling window layering. The topmost-scene plugin manages a dedicated scene layer for views that should always render above everything else, with XML metadata for configuration. The layer-stacker plugin handles compatibility for layer stacking order control when multiple layer-shell surfaces need to interact correctly. Together they provide proper always-on-top semantics and Z-ordering for the Wayfire desktop.

@@ -1,0 +1,27 @@
+# Portfolio Editor: Artifact Import Fixes
+
+title: 'Portfolio Editor: Artifact Import Fixes'
+summary: Improved artifact import mapping in the portfolio editor with shape-aware conversion and a migration tool for legacy data.
+date: '2026-02-22'
+github: https://github.com/Ckrest/PortfolioSite
+tags:
+- Feature
+- Bug Fix
+- Refactoring
+- Python
+- JavaScript
+status: complete
+size: small
+source:
+  report_id: 132
+  duration_hours: 2.5
+  effort: high
+content:
+  blocks:
+  - id: blk_47ef4f14
+    type: text
+    body: 'Made the portfolio editor smarter about how it converts work report artifacts into content blocks. Instead of a simple
+      type-to-type mapping, the importer now inspects the shape of the data to pick the right block type — for example, inferring
+      whether a data artifact should become a gallery or a comparison. Also built a one-time migration script to fix blocks that
+      were imported with the old logic, with backup support for safe rollback.'
+icon: icon.svg

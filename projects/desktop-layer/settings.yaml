@@ -1,12 +1,24 @@
 # Desktop Layer
 
 title: Desktop Layer
-summary: Placeholder summary for Desktop Layer. Update with actual project description.
-date: 2025-11-26
-size: small
+summary: Lightweight clickable desktop surface for Wayfire and other wlroots-based Wayland compositors.
+date: '2025-11-26'
 status: in-progress
+size: small
+github: https://github.com/Ckrest/desktop-layer
 tags:
 - Desktop Environment
 - Wayfire
 - Python
-github: https://github.com/Ckrest/desktop-layer
+content:
+  blocks:
+  - body: A desktop surface layer for wlroots-based Wayland compositors like Wayfire. Provides a clickable desktop background
+      that can host widgets and respond to user interaction, something that Wayland compositors don't provide natively the
+      way X11 window managers did.
+    id: blk_dl_001
+    type: text
+  - id: 9cb16c6c-7443-4ba0-b583-1b4fd95e0f57
+    type: image
+    src: media/screenshot_2026-02-28_15-57-19.png
+    alt: screenshot_2026-02-28_15-57-19.png
+    caption: ''

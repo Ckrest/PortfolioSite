@@ -1,12 +1,20 @@
 # Systems Registry
 
-title: Systems Registry
-summary: Placeholder summary for Systems Registry. Update with actual project description.
-date: 2026-01-08
+content:
+  blocks:
+  - body: 'The core of the Systems infrastructure — a package registry that manages ~60 packages across four tiers using a composable
+      traits system. Each package declares its capabilities (CLI, Python, systemd service, etc.) via traits, and the registry validates
+      compliance, generates excludes files for vcsh version control, and exposes everything through MCP tools so AI agents can discover
+      and work with packages. Evolved from a simple manifest schema into a full validation and publishing pipeline.'
+    id: blk_a63a3d98
+    type: text
+date: '2026-01-08'
+github: https://github.com/Ckrest/systems-registry
 size: small
-status: in-progress
+status: complete
+summary: Traits-based package registry managing ~60 packages with validation, vcsh version control, and MCP tool integration.
 tags:
 - Python
 - CLI
 - Architecture
-github: https://github.com/Ckrest/systems-registry
+title: Systems Registry

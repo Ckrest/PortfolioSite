@@ -1,0 +1,83 @@
+# Desktop HUD: GTK4 Layer Shell Overlay
+
+title: 'Desktop HUD: GTK4 Layer Shell Overlay'
+summary: Configurable desktop overlay using GTK4 and layer-shell, supporting images, videos, and live data widgets with a runtime HTTP API.
+date: '2026-02-22'
+status: in-progress
+size: large
+github: https://github.com/Ckrest/desktop-hud
+icon: icon.svg
+tags:
+- Python
+- GTK
+- Wayland
+- Desktop Environment
+- Feature
+- Data Visualization
+source:
+  duration_hours: 4
+  effort: high
+  report_id: 120
+  commit: 1e913018d42163ec804a4a8898b0852f6ff817c0
+content:
+  blocks:
+  - body: '## Description:
+
+
+      Configurable desktop overlay using GTK4 and layer-shell, supporting images, videos, and graph-lib widgets on the desktop
+      surface.
+
+
+      Key components:
+
+      - Element system: pluggable image, video, and graph elements with a base class pattern
+
+      - Runtime HTTP API (port 7820): CRUD for elements, config reload, edit mode toggle, profile management, /health endpoint
+
+      - Visual editor: drag-to-position overlay editing with snap-to-grid
+
+      - Profile/layout system: save, switch, and restore element arrangements
+
+      - Discovery: auto-discovers graph-lib providers for live data widgets
+
+      - Systemd service: runs as a user service
+
+
+      23 source files, registered in Systems with vcsh repo, api/gui/configurable/systemd-service traits.'
+    id: blk_85b6a1cc
+    type: text
+  - body: '## Reasoning:
+
+
+      Desktop-hud is a standalone application combining graph-lib visualizations, layer-shell compositing, and a runtime control
+      API. Previously untracked in draft state, now fully registered.'
+    id: blk_413ef11b
+    type: text
+  - body: '## GTK4 Layer-Shell Overlay with Runtime API (Report #118, 2026-02-22)
+
+
+      Configurable desktop overlay using GTK4 and layer-shell, supporting images, videos, and graph-lib widgets on the desktop
+      surface.
+
+
+      Key components:
+
+      - **Element system**: pluggable image, video, and graph elements with a base class pattern
+
+      - **Runtime HTTP API** (port 7820): CRUD for elements, config reload, edit mode toggle, profile management
+
+      - **Visual editor**: drag-to-position overlay editing with snap-to-grid
+
+      - **Profile/layout system**: save, switch, and restore element arrangements
+
+      - **Discovery**: auto-discovers graph-lib providers for live data widgets
+
+      - **Systemd service**: runs as a user service
+
+
+      23 source files, registered in Systems with vcsh repo, api/gui/configurable/systemd-service traits.
+
+
+      *28 files changed, +482 -5 lines*'
+    id: blk_1deb5d0d
+    type: text

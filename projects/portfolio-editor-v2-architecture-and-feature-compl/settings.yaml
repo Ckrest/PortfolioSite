@@ -1,11 +1,12 @@
-# Portfolio Editor: v2 Architecture and Feature Completeness
+# Portfolio Editor v2
 
-title: 'Portfolio Editor: v2 Architecture and Feature Completeness'
+title: 'Portfolio Editor v2'
 summary: Full-featured web GUI for composing portfolio project pages from work reports with live preview, drag-drop, and controlled
   vocabulary integration.
 date: '2026-01-30'
+github: https://github.com/Ckrest/PortfolioSite
 status: in-progress
-size: medium
+size: large
 tags:
 - Python
 - Flask

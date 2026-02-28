@@ -1,15 +1,14 @@
-# Add Wayland support to docklike-plugin with window thumbnails
+# Docklike Wayland: Taskbar with Window Thumbnails
 
-title: Add Wayland support to docklike-plugin with window thumbnails
-summary: Ported docklike-plugin to Wayland with CaptureManager for async captures, WaylandWnck for window tracking
+title: 'Docklike Wayland: Taskbar with Window Thumbnails'
+summary: Ported docklike-plugin from X11 to Wayland with live window thumbnail captures and foreign-toplevel protocol integration.
 date: '2026-01-18'
 status: in-progress
-size: medium
+size: large
 tags:
 - Wayland
 - Port
 - docklike-wayland
-description: Ported docklike-plugin to Wayland with CaptureManager for async captures, WaylandWnck for window tracking
 source:
   report_id: 6
   commit: b28aff9ac688d3d12216ef1c52a78db610d3dd17

@@ -1,11 +1,12 @@
-# desktop-hud: layouts as single source of truth
+# Desktop HUD: Layout-Driven Architecture
 
-title: 'desktop-hud: layouts as single source of truth'
-summary: 'Made layout files the single source of truth for element definitions in desktop-hud. Previously, element definitions
-  lived in config (elements array) and layout files only stored geometry, creating a '
+title: 'Desktop HUD: Layout-Driven Architecture'
+summary: Made layout files the single source of truth for Desktop HUD element definitions, replacing the old dual-source config
+  approach.
 date: '2026-02-22'
 status: in-progress
 size: small
+github: https://github.com/Ckrest/desktop-hud
 icon: icon.svg
 tags:
 - Architecture
@@ -15,35 +16,6 @@ tags:
 - Desktop Environment
 - Feature
 - Migration
-description: 'Made layout files the single source of truth for element definitions in desktop-hud. Previously, element definitions
-  lived in config (elements array) and layout files only stored geometry, creating a dual-source problem. Now layout files
-  store full element config (type, renderer, provider, position, size, etc.) and config only declares which layouts to load
-  at startup via startup_profiles.
-
-
-  Changes:
-
-  - layouts.py: load_profile() returns full element dicts, save_profile() round-trips full config, new load_profiles() for
-  additive multi-layout loading, new startup_profiles property
-
-  - app.py: Profile-based startup replaces config-based element loading, switch_profile() does full element replace, new add_profile()
-  for additive loading, get_elements_info() round-trips via element.config, reload uses profiles instead of config diffing,
-  trait elements loaded separately via _trait_elements stash
-
-  - api.py: New POST /profiles/add endpoint, GET /profiles includes active_profiles list
-
-  - __main__.py: Passes argv to main() for CLI arg support
-
-  - app.py main(): argparse with --profile, --add, --no-last-used flags
-
-  - Config migration: elements removed from config.example.yaml and config.local.yaml, startup_profiles added, layouts/default.yaml
-  populated with full cpu-gauge definition
-
-  - trait_api.yaml: Complete with all 16 endpoints (was only ports)
-
-  - Backward compat: falls back to config elements with deprecation warning if no startup_profiles set
-
-  - Promoted from draft to ready state'
 source:
   duration_hours: 1.5
   effort: high
@@ -51,45 +23,10 @@ source:
   commit: 9773058eb998eb20f0cf69363ccb1beaa26fbbf0
 content:
   blocks:
-  - body: '## Description:
-
-
-      Made layout files the single source of truth for element definitions in desktop-hud. Previously, element definitions
-      lived in config (elements array) and layout files only stored geometry, creating a dual-source problem. Now layout files
-      store full element config (type, renderer, provider, position, size, etc.) and config only declares which layouts to
-      load at startup via startup_profiles.
-
-
-      Changes:
-
-      - layouts.py: load_profile() returns full element dicts, save_profile() round-trips full config, new load_profiles()
-      for additive multi-layout loading, new startup_profiles property
-
-      - app.py: Profile-based startup replaces config-based element loading, switch_profile() does full element replace, new
-      add_profile() for additive loading, get_elements_info() round-trips via element.config, reload uses profiles instead
-      of config diffing, trait elements loaded separately via _trait_elements stash
-
-      - api.py: New POST /profiles/add endpoint, GET /profiles includes active_profiles list
-
-      - __main__.py: Passes argv to main() for CLI arg support
-
-      - app.py main(): argparse with --profile, --add, --no-last-used flags
-
-      - Config migration: elements removed from config.example.yaml and config.local.yaml, startup_profiles added, layouts/default.yaml
-      populated with full cpu-gauge definition
-
-      - trait_api.yaml: Complete with all 16 endpoints (was only ports)
-
-      - Backward compat: falls back to config elements with deprecation warning if no startup_profiles set
-
-      - Promoted from draft to ready state'
+  - body: Reworked how Desktop HUD manages its display elements. Previously, element definitions lived in both the config
+      file and layout files, creating a confusing dual-source situation. Now layout files are the single source of truth —
+      they store the full element config including type, renderer, data provider, position, and size. The main config just
+      declares which layouts to load at startup. Also added profile-based startup, CLI flags for profile selection, and a
+      REST endpoint for additive profile loading.
     id: blk_e9c777ea
-    type: text
-  - body: '## Reasoning:
-
-
-      The dual-source problem prevented profile switching from working as expected — you couldn''t switch between different
-      element sets, only adjust geometry. Making layouts the single source enables true profile switching, additive multi-layout
-      loading, and CLI-driven startup configurations.'
-    id: blk_f5bb472c
     type: text

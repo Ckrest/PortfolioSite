@@ -1,23 +1,17 @@
-# Fix vcsh excludes system: absolute paths and per-package generation
+# Systems Registry: Excludes Generation Fix
 
-title: 'Fix vcsh excludes system: absolute paths and per-package generation'
-summary: Discovered that core.excludesFile was broken across ALL 62 vcsh repos -- relative paths (.gitignore.d/name) couldn't
-  be resolved by git since GIT_DIR is at ~/.config/vcsh/repo.d/. This made every excl
+title: 'Systems Registry: Excludes Generation Fix'
+summary: Fixed a silent git config bug that broke excludes files across all vcsh repos, and added auto-generation of per-package
+  ignore patterns.
 date: '2026-02-17'
-status: in-progress
+status: complete
 size: small
+github: https://github.com/Ckrest/systems-registry
 tags:
 - Infrastructure
 - Bug Fix
 - vcsh
 - registry
-description: 'Discovered that core.excludesFile was broken across ALL 62 vcsh repos -- relative paths (.gitignore.d/name)
-  couldn''t be resolved by git since GIT_DIR is at ~/.config/vcsh/repo.d/. This made every excludes file non-functional (4713
-  untracked files for systems repo alone). Fixed all 62 repos to absolute paths. Extended sysreg_vcsh_sync to auto-generate
-  per-package ~/.gitignore.d/name excludes files with common build artifact patterns (from new COMMON_IGNORE_PATTERNS constant).
-  Added systems-owned file patterns (manifest.yaml, NOTES.md, trait_*.yaml) per-package based on traits to suppress cross-repo
-  noise. Added health checks to vcsh_status() for missing/misconfigured excludes. Updated CLI output and MCP tool description.
-  Result: every package repo is fully clean with zero untracked noise.'
 source:
   duration_hours: 1.5
   effort: medium
@@ -25,23 +19,10 @@ source:
   commit: 2ecdf120fbfad590169c664f9538c2989c293f97
 content:
   blocks:
-  - body: '## Description:
-
-
-      Discovered that core.excludesFile was broken across ALL 62 vcsh repos -- relative paths (.gitignore.d/name) couldn''t
-      be resolved by git since GIT_DIR is at ~/.config/vcsh/repo.d/. This made every excludes file non-functional (4713 untracked
-      files for systems repo alone). Fixed all 62 repos to absolute paths. Extended sysreg_vcsh_sync to auto-generate per-package
-      ~/.gitignore.d/name excludes files with common build artifact patterns (from new COMMON_IGNORE_PATTERNS constant). Added
-      systems-owned file patterns (manifest.yaml, NOTES.md, trait_*.yaml) per-package based on traits to suppress cross-repo
-      noise. Added health checks to vcsh_status() for missing/misconfigured excludes. Updated CLI output and MCP tool description.
-      Result: every package repo is fully clean with zero untracked noise.'
+  - body: Discovered that git exclude files were silently non-functional across all vcsh repos due to a relative path issue
+      — git couldn't resolve the paths because vcsh stores its git directories in a non-standard location. Fixed all repos
+      to use absolute paths and built auto-generation into the sync tooling so each package gets its own excludes file with
+      common ignore patterns. The result was going from thousands of noisy untracked files to clean status output across the
+      board.
     id: blk_b8657e5e
-    type: text
-  - body: '## Reasoning:
-
-
-      The root cause was a path resolution mismatch between how vcsh configures git repos and how git resolves relative core.excludesFile
-      paths. This had been silently broken since the repos were created. The fix required both an immediate config correction
-      and infrastructure changes to prevent drift going forward (auto-generation in sync, health checks in status).'
-    id: blk_9dd774e8
     type: text

@@ -1,0 +1,28 @@
+# Portfolio Site: Artifact Display Fix
+
+title: 'Portfolio Site: Artifact Display Fix'
+summary: Fixed artifact display across the portfolio editor and live site, including video blocks, path handling, and deploy cache-busting.
+date: '2026-01-28'
+github: https://github.com/Ckrest/PortfolioSite
+tags:
+- Bug Fix
+- Feature
+- JavaScript
+- CSS
+- Frontend
+- Flask
+- portfolio-site
+status: complete
+size: small
+source:
+  report_id: 36
+  commit: 3da301e6dbc11e05cc8e3482354e3eae4220ef7b
+content:
+  blocks:
+  - id: blk_664b5f5a
+    type: text
+    body: 'Fixed artifacts not displaying correctly across the portfolio site and editor. Images dragged from work reports into the
+      editor were showing as broken because the path resolver didn''t account for absolute filesystem paths in the editor context.
+      Also got video blocks working properly with both local files and YouTube/Vimeo embeds, added preview cards for non-image artifact
+      types, and set up cache-busting headers on Cloudflare Pages so deploys are immediately visible.'
+icon: icon.svg

@@ -1,0 +1,28 @@
+# Portfolio Site: Block-Based Content
+
+title: 'Portfolio Site: Block-Based Content'
+summary: Replaced the rigid detail page renderer with a composable block system for flexible, editor-friendly project pages.
+date: '2026-01-27'
+status: in-progress
+size: small
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+tags:
+- Frontend
+- Refactoring
+- portfolio-site
+source:
+  report_id: 28
+content:
+  blocks:
+  - body: Replaced the portfolio site's rigid detail page system (which had separate render modes for readme, pdf, structured,
+      and minimal pages) with a flexible block-based content model. Each project page is now composed from an ordered array
+      of typed blocks — text, images, videos, galleries, code, and more — that can be freely arranged in the editor. This
+      also simplified the project schema and added a live preview API so the editor can show changes in real time.
+    id: blk_66017750
+    type: text
+  - id: 6fc110ee-e5f2-43da-97eb-923637667ca6
+    type: image
+    src: media/screenshot_2026-02-28_15-47-40.png
+    alt: screenshot_2026-02-28_15-47-40.png
+    caption: ''

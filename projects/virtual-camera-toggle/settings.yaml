@@ -1,11 +1,17 @@
 # Virtual Camera Toggle
 
 title: Virtual Camera Toggle
-summary: Placeholder summary for Virtual Camera Toggle. Update with actual project description.
+summary: Simple bash script to toggle the OBS virtual camera on/off with a keyboard shortcut.
 date: 2025-12-08
 size: small
-status: in-progress
+status: complete
 tags:
 - Bash
 - CLI
 github: https://github.com/Ckrest/virtual-camera-toggle
+content:
+  blocks:
+  - type: text
+    body: 'A minimal bash script that toggles the OBS virtual camera with a single keyboard shortcut. Useful for quickly enabling
+      or disabling the virtual camera feed during video calls without switching to the OBS window.'
+    id: blk_vct_001

@@ -1,0 +1,41 @@
+# Sleep Tracker: 7-Day Dashboard
+
+title: 'Sleep Tracker: 7-Day Dashboard'
+summary: Sleep tracking dashboard with 7-day trends, multi-provider data pipeline, and settings-hub integration.
+date: '2026-02-18'
+status: in-progress
+size: medium
+github: https://github.com/Ckrest/daily-checkin-app
+preview: media/screenshot_2026-02-22_16-19-32.png
+icon: icon.svg
+tags:
+- Feature
+- Refactoring
+- Architecture
+source:
+  duration_hours: 3
+  effort: high
+  report_id: 110
+  commit: 8a1504ed55eae200d7b7a65650e4cc7740746bf2
+content:
+  blocks:
+  - body: '## Description:
+
+
+      Major refactor of sleep-tracker data pipeline and settings-hub integration. Deleted settings_hub_bridge.py (418 lines)
+      in favor of a new views.py module with build_day_view(target_date) and build_week_trends(). Added ''view day [--date]''
+      and ''view week'' CLI subcommands replacing the bridge''s custom dispatch. Added provider refresh mechanism: collect_command/collect_timeout
+      fields in provider config, refresh_all() with ThreadPoolExecutor parallelism, --refresh CLI flag and API query param.
+      Fixed datetime.now() to use timezone.utc across providers and routes. Normalized 28K naive DB timestamps. Built 7-day
+      tabbed settings-hub view with per-day sources using shell date arithmetic, overnight temp/humidity graphs, and tab_label
+      field for dynamic date labels. Reversed tab order (oldest left, today right) with default_tab selecting today.'
+    id: blk_8bc744de
+    type: text
+  - body: '## Reasoning:
+
+
+      The settings_hub_bridge was a monolithic module coupling data access with presentation. The refactor separates concerns:
+      views.py handles presentation, the CLI provides a clean interface for both humans and settings-hub sources, and the
+      provider refresh mechanism enables upstream data pulls on demand rather than relying on separate cron-like scheduling.'
+    id: blk_1863c512
+    type: text

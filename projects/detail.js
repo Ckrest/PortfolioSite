@@ -381,7 +381,16 @@ const BLOCKS = {
 
 function resolvePath(src, project) {
   if (!src) return '';
-  if (src.startsWith('http')) return src;
+  if (src.startsWith('http://') || src.startsWith('https://')) return src;
+  if (src.startsWith('blob:') || src.startsWith('data:')) return src;
+  if (src.startsWith('staged://')) {
+    // In editor preview this should already be materialized to blob URLs.
+    // Keep rendering stable even if an unmaterialized staged placeholder leaks.
+    if (window.__portfolioBridge) {
+      console.warn('[detail] Unmaterialized staged URL in preview payload:', src);
+    }
+    return '';
+  }
   // Editor preview: proxy absolute paths through the artifact preview API
   if (src.startsWith('/') && window.__portfolioBridge) {
     return `/api/artifact-preview?path=${encodeURIComponent(src)}`;
@@ -441,6 +450,8 @@ function updatePageMeta(project) {
 // The wrapper has data-block-id="header" so the editor treats it as one unit.
 
 function renderPreviewSection(project) {
+  if (project.size === 'small') return '';
+
   const previewPath = project.preview
     ? resolvePath(project.preview, project)
     : null;

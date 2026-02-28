@@ -1,19 +1,22 @@
-# Replace evidence handler classes with declarative artifact source registry
+# Artifact Pipeline: Declarative Source Registry
 
-title: Replace evidence handler classes with declarative artifact source registry
-summary: 'Imported from work report #75.'
+content:
+  blocks:
+  - type: text
+    body: Replaced the class-based evidence handler system with a declarative artifact source registry. Instead of writing a handler class for each artifact type, sources are now defined as configuration entries with their discovery queries and type mappings. This made it much easier to add new artifact sources and removed a lot of boilerplate code.
+    id: blk_33b73598
 date: '2026-02-15'
+size: small
+source:
+  commit: d05bb62a947ac5fa5b0a783d320d9ce327ed63ae
+  duration_hours: 3.0
+  effort: medium
+  report_id: 75
+status: complete
+summary: Replaced class-based evidence handlers with a declarative source registry for simpler artifact discovery configuration.
 tags:
 - Refactoring
 - Architecture
 - Python
 - work-report
-status: in-progress
-size: medium
-source:
-  report_id: 75
-  duration_hours: 3.0
-  effort: medium
-  commit: d05bb62a947ac5fa5b0a783d320d9ce327ed63ae
-content:
-  blocks: []
+title: 'Artifact Pipeline: Declarative Source Registry'

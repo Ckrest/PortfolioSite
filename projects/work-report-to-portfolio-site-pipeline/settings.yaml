@@ -1,11 +1,11 @@
-# Work Report to Portfolio Site Pipeline
+# Work Report to Portfolio Pipeline
 
-title: Work Report to Portfolio Site Pipeline
-summary: Comprehensive design update documenting the full Work Report to Portfolio Site pipeline — a 4-step system (Capture,
-  Aggregate, Curate, Publish) that addresses the challenge of documentation by automat
+title: Work Report to Portfolio Pipeline
+summary: Comprehensive design update documenting the full Work Report to Portfolio Site pipeline.
 date: '2026-02-23'
 status: complete
 size: large
+github: https://github.com/Ckrest/PortfolioSite
 preview: media/screenshot_2026-02-23_04-09-17.png
 icon: icon.svg
 tags:
@@ -17,43 +17,6 @@ tags:
 - AI
 - Automation
 - Workflow Orchestration
-description: 'Comprehensive design update documenting the full Work Report to Portfolio Site pipeline — a 4-step system (Capture,
-  Aggregate, Curate, Publish) that addresses the challenge of documentation by automating the recording and presentation of
-  work evidence.
-
-
-  **Step 1: Capture** — Automatic discovery of work outputs from 12+ sources including git diffs, phone camera sync (via Syncthing),
-  screenshots, diagrams, graphs, mermaid charts, audio, and AI-generated images. Each source registers items into a PostgreSQL
-  database for unified access.
-
-
-  **Step 2: Aggregate** — Work report bundler gathers database items, attaches context via AI (GLM 5 through Claude Code CLI),
-  and produces structured reports with metadata (tags, git stats, artifacts, reasoning). Minimal manual effort — a few sentences
-  generates a full report.
-
-
-  **Step 3: Curate** — Custom portfolio editor web interface with 3 tabs (Reports, Projects, Blocks) enables drag-and-drop
-  assembly of presentable pages. Supports 12 block types: Text, Image, Video, Gallery, README, PDF, Group, Code, Mermaid,
-  Terminal, Compare, and Graph.
-
-
-  **Step 4: Publish** — Deploy button pushes curated pages to the live portfolio site at nickyoungci.dev.
-
-
-  **Key Artifacts:**
-
-  1. Pipeline flow diagram (Capture → Aggregate → Curate → Publish)
-
-  2. Portfolio Editor interface (Reports/Projects/Blocks tabs, drag-and-drop, save/deploy)
-
-  3. Portfolio site detail page (nickyoungci.dev)
-
-
-  **Reflections:**
-
-  - Traceability: Massive format diversity created soft constraints; combatted via independence between pipeline stages
-
-  - Uncertainty: Systems-scale changes have unpredictable cascading effects; confidence in risk-taking grew through experience'
 source:
   duration_hours: 8
   effort: high
@@ -304,16 +267,16 @@ content:
     - body: '## Artifact 3: Work Report Pipeline Detail Page'
       id: blk_8aaf6f38
       type: text
-    - id: ec5b4696-27b8-48ed-9e96-35a13f5055f4
-      type: image
-      src: media/screenshot_2026-02-23_04-17-09.png
-      alt: ''
+    - alt: ''
       caption: ''
-    - id: 231ca809-5be7-4c7d-be05-cf71c413b3ce
-      type: text
-      body: 'I’m just kidding, you can use the link. I just think QR codes are cool.
+      id: ec5b4696-27b8-48ed-9e96-35a13f5055f4
+      src: media/screenshot_2026-02-23_04-17-09.png
+      type: image
+    - body: 'I’m just kidding, you can use the link. I just think QR codes are cool.
 
 
         https://nickyoungci.dev/projects/detail?project=work-report-to-portfolio-site-pipeline'
+      id: 231ca809-5be7-4c7d-be05-cf71c413b3ce
+      type: text
     id: blk_2c3e2078
     type: group

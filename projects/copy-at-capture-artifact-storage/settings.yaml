@@ -1,0 +1,23 @@
+# Work Reports: Copy-at-Capture Artifacts
+
+title: 'Work Reports: Copy-at-Capture Artifacts'
+summary: Switched artifact storage from file references to copy-at-capture, ensuring work report files are durable regardless
+  of source location.
+date: '2026-01-28'
+status: complete
+size: small
+icon: icon.svg
+tags:
+- Feature
+- Infrastructure
+- Python
+- work-report
+source:
+  report_id: 33
+content:
+  blocks:
+  - body: Changed how work report artifacts are stored — instead of just saving a reference to the original file location,
+      artifacts are now copied into dedicated per-report folders at the moment they're captured. This means report files survive
+      even if the original source gets moved or deleted, and each report is self-contained with all its evidence.
+    id: blk_87b83a2c
+    type: text

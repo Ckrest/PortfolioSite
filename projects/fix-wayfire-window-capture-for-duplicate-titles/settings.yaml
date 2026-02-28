@@ -1,0 +1,23 @@
+# Wayfire Capture: Duplicate Title Fix
+
+title: 'Wayfire Capture: Duplicate Title Fix'
+summary: Fixed window capture in Wayfire so windows with identical titles get their own distinct thumbnails.
+date: '2026-01-18'
+tags:
+- Wayland
+- Window Management
+- Bug Fix
+- wayfire-tools
+status: complete
+size: small
+source:
+  report_id: 4
+  commit: b28aff9ac688d3d12216ef1c52a78db610d3dd17
+content:
+  blocks:
+  - id: blk_7161974b
+    type: text
+    body: 'Fixed a bug in Wayfire''s image capture protocol where windows with the same title (like multiple terminal instances)
+      would all end up with the same thumbnail. The original code was matching windows by name, so duplicates always resolved to
+      the first match. Switched to using direct object references for reliable per-window capture.'
+icon: icon.svg

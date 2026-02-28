@@ -1,0 +1,27 @@
+# Work Reports: Auto-Sweep Artifacts
+
+title: 'Work Reports: Auto-Sweep Artifacts'
+summary: Added automatic artifact discovery to the work report completion flow so agents don't need to manually track artifact
+  IDs.
+date: '2026-02-19'
+status: in-progress
+size: small
+icon: icon.svg
+tags:
+- Python
+- Bug Fix
+- Infrastructure
+- work-report
+source:
+  duration_hours: 1.5
+  effort: medium
+  report_id: 97
+  commit: df02472a15d830eb250a77b5359ab5eb245fc477
+content:
+  blocks:
+  - body: When an AI agent creates artifacts during a work report session, they used to need to manually pass artifact IDs
+      back through the flow. This update makes the completion step automatically discover any artifacts registered during
+      the session window. Also added a CLI flag for attaching artifacts to existing reports after the fact, and fixed a bug
+      where the MCP command template left orphaned flags when optional parameters were empty.
+    id: blk_ea59da2d
+    type: text

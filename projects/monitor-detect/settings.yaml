@@ -1,11 +1,18 @@
 # Monitor Detect
 
 title: Monitor Detect
-summary: Placeholder summary for Monitor Detect. Update with actual project description.
+summary: Wayland monitor detection script that identifies the primary display and exports it to the systemd environment.
 date: '2026-01-15'
-status: in-progress
+status: complete
 size: small
 github: https://github.com/Ckrest/monitor-detect
 tags:
 - Desktop Environment
 - Python
+content:
+  blocks:
+  - type: text
+    body: 'Detects connected monitors on Wayland and exports the primary monitor information to the systemd user environment. Other
+      services and scripts can then reference the correct display without hardcoding monitor names, which is especially useful when
+      monitors change between docked and undocked setups.'
+    id: blk_md_001

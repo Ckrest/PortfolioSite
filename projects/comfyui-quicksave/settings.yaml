@@ -1,11 +1,25 @@
 # ComfyUI QuickSave
 
 title: ComfyUI QuickSave
-summary: Placeholder summary for ComfyUI QuickSave. Update with actual project description.
-date: 2025-12-19
-size: small
+summary: ComfyUI toolbar button for quickly saving preview images to disk with a single click.
+date: '2025-12-19'
 status: in-progress
+size: small
+github: https://github.com/Ckrest/comfyui-quicksave
 tags:
 - ComfyUI
 - Python
-github: https://github.com/Ckrest/comfyui-quicksave
+content:
+  blocks:
+  - body: Adds a one-click save button to the ComfyUI toolbar for quickly saving images from the preview pane. Handy when
+      you want to keep a generated image without wiring up a full save workflow in the graph.
+    id: blk_cqs_001
+    type: text
+  - id: 060082f7-2094-44a4-91b0-f6aa8f917f97
+    type: gallery
+    images:
+    - src: media/screenshot_2026-02-28_16-20-47.png
+      alt: screenshot_2026-02-28_16-20-47.png
+    - src: media/screenshot_2026-02-28_16-21-18.png
+      alt: screenshot_2026-02-28_16-21-18.png
+    caption: ''

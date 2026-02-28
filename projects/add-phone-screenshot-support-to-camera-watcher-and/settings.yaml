@@ -1,0 +1,26 @@
+# Camera Watcher: Phone Screenshot Support
+
+title: 'Camera Watcher: Phone Screenshot Support'
+summary: Added phone screenshot support to the camera watcher so phone captures flow into work reports alongside desktop screenshots.
+date: '2026-02-19'
+status: in-progress
+size: small
+icon: icon.svg
+tags:
+- Feature
+- Python
+- Infrastructure
+- phone-camera-watcher
+- work-report
+source:
+  duration_hours: 1
+  effort: medium
+  report_id: 95
+  commit: 2ed9395cec9a3bbb9b9f9817bcd939cab193109c
+content:
+  blocks:
+  - body: Extended the camera watcher service to support phone screenshots alongside desktop screenshots. Phone screenshots
+      synced via Syncthing are now automatically detected, registered in the database, and available as artifacts during work
+      report creation — the same end-to-end pipeline that already worked for desktop captures.
+    id: blk_b671e701
+    type: text

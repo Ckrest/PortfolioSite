@@ -1,0 +1,25 @@
+# Scene Tracker
+
+title: Scene Tracker
+summary: AI-powered scene tracking tool that uses local Ollama vision models to analyze and categorize visual content.
+date: '2026-02-15'
+status: in-progress
+size: medium
+icon: icon.svg
+tags:
+- Feature
+- AI
+- Python
+- Ollama
+- API Design
+- Workflow Orchestration
+source:
+  commit: d3e3399e05ed91b661e475bbd66771c16fa18ead
+  duration_hours: 8.0
+  effort: medium
+  report_id: 71
+content:
+  blocks:
+  - type: text
+    body: An AI-powered scene tracking tool that uses local Ollama vision models to analyze and categorize visual content. Designed with a workflow orchestration layer so analysis steps can be composed into pipelines, and a REST API for integration with other tools. Runs entirely locally with no cloud dependencies.
+    id: blk_e4f0ae66

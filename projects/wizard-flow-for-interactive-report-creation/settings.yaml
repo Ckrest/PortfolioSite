@@ -1,0 +1,26 @@
+# Work Reports: Interactive Creation Wizard
+
+title: 'Work Reports: Interactive Creation Wizard'
+summary: Redesigned work report creation as an interactive wizard that guides through evidence review and verification steps.
+date: '2026-01-30'
+tags:
+- Feature
+- Python
+- CLI
+- work-report
+status: complete
+size: small
+source:
+  report_id: 48
+  duration_hours: 4.0
+  effort: high
+  commit: d7e4a979255f21d098987451d03f61903505a7d8
+content:
+  blocks:
+  - id: blk_af663691
+    type: text
+    body: 'Redesigned work report creation from a single-shot CLI command into an interactive wizard. The new flow walks through
+      four phases: entering required fields, reviewing auto-discovered evidence (git diffs, screenshots, etc.), answering verification
+      questions about what was done and why, and confirming the final report. The old approach tried to infer work duration from
+      file timestamps, which was unreliable — now duration is always stated explicitly.'
+icon: icon.svg

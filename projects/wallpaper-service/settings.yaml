@@ -1,12 +1,18 @@
 # Wallpaper Service
 
 title: Wallpaper Service
-summary: Placeholder summary for Wallpaper Service. Update with actual project description.
+summary: Unified wallpaper daemon for Wayland with seamless hot-swap transitions between images.
 date: 2025-12-22
 size: small
-status: in-progress
+status: complete
 tags:
 - Python
 - Desktop Environment
 - Wayland
 github: https://github.com/Ckrest/wallpaper-service
+content:
+  blocks:
+  - type: text
+    body: 'A wallpaper daemon for Wayland that provides smooth transitions when swapping wallpapers. Runs as a background service
+      and handles wallpaper changes seamlessly, including support for per-monitor wallpapers on multi-display setups.'
+    id: blk_ws_001

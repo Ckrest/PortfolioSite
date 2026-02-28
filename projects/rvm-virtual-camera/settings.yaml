@@ -1,11 +1,18 @@
 # RVM Virtual Camera
 
 title: RVM Virtual Camera
-summary: Placeholder summary for RVM Virtual Camera. Update with actual project description.
+summary: Real-time background removal for webcams using the Robust Video Matting neural network, streamed to a virtual camera device.
 date: 2025-12-01
 size: small
-status: in-progress
+status: complete
 tags:
 - AI
 - Python
 github: https://github.com/Ckrest/rvm-virtual-camera
+content:
+  blocks:
+  - type: text
+    body: 'Uses the Robust Video Matting (RVM) neural network to do real-time background removal on webcam video, then streams the
+      result to a virtual camera device. Other applications see a clean video feed with the background removed, no green screen
+      needed.'
+    id: blk_rvc_001

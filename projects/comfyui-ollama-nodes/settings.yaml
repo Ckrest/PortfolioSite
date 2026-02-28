@@ -1,13 +1,27 @@
 # ComfyUI Ollama Nodes
 
 title: ComfyUI Ollama Nodes
-summary: Placeholder summary for ComfyUI Ollama Nodes. Update with actual project description.
-date: 2025-12-19
-size: small
+summary: Custom ComfyUI nodes that integrate local Ollama LLMs for text generation and image analysis within workflows.
+date: '2025-12-19'
 status: in-progress
+size: small
+github: https://github.com/Ckrest/comfyui-ollama-nodes
 tags:
 - ComfyUI
 - Python
 - AI
 - Ollama
-github: https://github.com/Ckrest/comfyui-ollama-nodes
+content:
+  blocks:
+  - body: ComfyUI plugin that adds nodes for interacting with local Ollama language models. Lets you use LLMs for prompt generation,
+      image captioning, and text processing directly inside ComfyUI workflows without needing cloud API keys.
+    id: blk_con_001
+    type: text
+  - id: f6f33117-8fe9-4eab-916f-b3e921f801ea
+    type: gallery
+    images:
+    - src: media/screenshot_2026-02-28_16-10-04-1.png
+      alt: screenshot_2026-02-28_16-10-04.png
+    - src: media/screenshot_2026-02-28_16-10-26.png
+      alt: screenshot_2026-02-28_16-10-26.png
+    caption: ''

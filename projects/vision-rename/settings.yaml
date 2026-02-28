@@ -1,12 +1,19 @@
 # Vision Rename
 
 title: Vision Rename
-summary: Placeholder summary for Vision Rename. Update with actual project description.
+summary: CLI tool that batch-renames images using local Ollama vision models to generate descriptive filenames.
 date: 2025-12-14
 size: small
-status: in-progress
+status: complete
 tags:
 - AI
 - Python
 - CLI
 github: https://github.com/Ckrest/vision-rename
+content:
+  blocks:
+  - type: text
+    body: 'A command-line tool that uses local Ollama vision models to automatically rename image files with descriptive names. Send
+      a folder of screenshots or photos and each image gets analyzed by the LLM, which generates a meaningful filename based on
+      what it sees in the image.'
+    id: blk_vr_001

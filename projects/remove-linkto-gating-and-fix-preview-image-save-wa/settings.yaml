@@ -1,0 +1,34 @@
+# Portfolio Editor: Universal Detail Pages
+
+title: 'Portfolio Editor: Universal Detail Pages'
+summary: Made every portfolio project link to its own detail page and fixed a false warning when saving preview images.
+date: '2026-02-20'
+status: in-progress
+size: small
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+tags:
+- Enhancement
+- Bug Fix
+- JavaScript
+- Flask
+- Frontend
+source:
+  duration_hours: 1.5
+  effort: medium
+  report_id: 104
+  commit: 696780a1de16d36e28754ecf46ede9327547d36a
+content:
+  blocks:
+  - body: Simplified the portfolio site so every project always gets its own detail page instead of some linking directly
+      to GitHub or external URLs. This removed a bunch of conditional logic and made the editor more consistent — you can
+      always edit blocks for any project now. Also fixed a bug where dragging an artifact image onto the project header would
+      show a false "preview not found" warning on save because the validation ran before the file was actually copied into
+      place.
+    id: blk_cbe2cd05
+    type: text
+  - id: 87947a8f-21e2-4c45-aa75-f7bd2e08f329
+    type: image
+    src: media/screenshot_2026-02-28_13-21-49.png
+    alt: screenshot_2026-02-28_13-21-49.png
+    caption: ''

@@ -1,0 +1,28 @@
+# Artifact Pipeline: Hook System Integration
+
+title: 'Artifact Pipeline: Hook System Integration'
+summary: Added hook-based artifact integration to the diagram and screenshot tools so captures are automatically tracked in
+  the database.
+date: '2026-01-29'
+status: in-progress
+size: small
+icon: icon.svg
+tags:
+- Hook System
+- Event-Driven Architecture
+- Python
+- Redis
+- PostgreSQL
+- Feature
+- Bash
+source:
+  report_id: 37
+content:
+  blocks:
+  - body: Wired up the diagram tool and screenshot tool to automatically publish events when they create files, so those artifacts
+      get tracked in the database and show up during work report creation. The integration uses hooks rather than direct dependencies
+      — the tools themselves stay standalone with zero Systems imports, and the hook adapters handle the event publishing.
+      This keeps the tools distributable as independent packages while still getting rich integration when running in the
+      Systems environment.
+    id: blk_62b45eca
+    type: text

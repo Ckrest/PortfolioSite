@@ -1,0 +1,25 @@
+# Claude Code: Backend Restructure
+
+title: 'Claude Code: Backend Restructure'
+summary: Restructured Claude Code configuration for consistent behavior across multiple AI backends and modernized the permission system.
+date: '2026-02-16'
+tags:
+- Infrastructure
+- Refactoring
+- Cleanup
+status: in-progress
+size: small
+source:
+  report_id: 80
+  duration_hours: 1.5
+  effort: medium
+  commit: 3cd330e1b2aadc95455ff61d6fa4d8255c912b91
+content:
+  blocks:
+  - id: blk_31803324
+    type: text
+    body: 'Unified the Claude Code setup so it works consistently whether using the default Anthropic API, a Z.ai proxy, or a local
+      Ollama backend. The old approach used separate config directories per backend which caused lost settings and double-login issues.
+      Also replaced a sprawling custom permission system (hundreds of regex rules) with a cleaner hook-based approach using community-maintained
+      safety hooks for dangerous command blocking and credential protection.'
+icon: icon.svg

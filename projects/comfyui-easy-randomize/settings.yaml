@@ -1,15 +1,29 @@
 # ComfyUI Easy Randomize
 
-title: "ComfyUI Easy Randomize"
-summary: "Placeholder summary for ComfyUI Easy Randomize. Update with actual project description."
-date: 2025-12-19
-
-size: medium
+title: ComfyUI Easy Randomize
+summary: ComfyUI node pack for random selection with freeze and lock controls, designed for iterative prompt building.
+date: '2025-12-19'
 status: in-progress
-
-tags:
-  - ComfyUI
-  - Python
-
+size: medium
 github: https://github.com/Ckrest/comfyui-easy-randomize
-
+preview: media/screenshot_2026-02-28_16-56-44.png
+tags:
+- ComfyUI
+- Python
+content:
+  blocks:
+  - body: A set of 10 ComfyUI nodes for adding controlled randomness to image generation workflows. The core idea is random
+      selection with freeze and lock — you can randomize choices across text prompts, LoRAs, images, and numbers, then freeze
+      a value you like while continuing to randomize everything else. This makes iterative prompt building much faster since
+      you can lock in good elements one at a time instead of re-rolling everything. Includes dedicated nodes for different
+      data types and a multi-choice text node for building prompt variations.
+    id: blk_comfyui_rand_01
+    type: text
+  - id: e7f5fe32-e7ef-436e-88c0-fe4becb90964
+    type: gallery
+    images:
+    - src: media/screenshot_2026-02-28_16-56-44-1.png
+      alt: screenshot_2026-02-28_16-56-44.png
+    - src: media/screenshot_2026-02-28_16-57-32.png
+      alt: screenshot_2026-02-28_16-57-32.png
+    caption: ''

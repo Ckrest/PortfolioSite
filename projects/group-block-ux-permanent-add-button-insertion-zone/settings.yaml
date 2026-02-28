@@ -1,0 +1,31 @@
+# Portfolio Editor: Block Group UX
+
+title: 'Portfolio Editor: Block Group UX'
+summary: Added group block editing UX to the portfolio editor with add buttons, click-to-deselect, and drag-leave cleanup.
+date: '2026-01-27'
+status: in-progress
+size: small
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+tags:
+- Feature
+- Enhancement
+- JavaScript
+- CSS
+- Frontend
+- portfolio-editor
+source:
+  report_id: 30
+content:
+  blocks:
+  - body: Improved the group block editing experience in the portfolio editor. Groups now have a permanent "add" button for
+      inserting sub-blocks, clicking empty space deselects the current block, and dragging a block type out of the preview
+      area properly cleans up visual indicators. Also fixed click event routing so the editor's overlay UI doesn't interfere
+      with the block controls underneath.
+    id: blk_ede04e0d
+    type: text
+  - id: 8dfb2b79-6913-4732-ad17-04142a011c32
+    type: image
+    src: media/screenshot_2026-02-28_15-44-50.png
+    alt: screenshot_2026-02-28_15-44-50.png
+    caption: ''

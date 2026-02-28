@@ -1,0 +1,24 @@
+# Modular Flow Engine: Unified Outputs
+
+title: 'Modular Flow Engine: Unified Outputs'
+summary: Simplified the flow engine''s output system by replacing complex persistence logic with a clean destinations model.
+date: '2026-01-24'
+status: in-progress
+size: small
+github: https://github.com/Ckrest/modular-flow-engine
+icon: icon.svg
+tags:
+- Refactoring
+- API Design
+- modular-flow-engine
+source:
+  report_id: 22
+  commit: cc85e1cb000b0db89f829b2969f47bbfa72c7224
+content:
+  blocks:
+  - body: Replaced the flow engine's complex resume/persistence system with a simpler output destinations model. Instead of
+      managing state for paused and resumed flows, sinks now just declare where their output goes — return it as an API response,
+      write it to a file, or print it to console. This made the codebase significantly simpler and the mental model much clearer
+      for anyone building flows.
+    id: blk_8b336de0
+    type: text

@@ -1,19 +1,21 @@
-# Independent AI Integration Engineering Project Proposal
+# AI Integration Project Proposal
 
-title: Independent AI Integration Engineering Project Proposal
-summary: Strategic project proposal outlining an independent AI integration engineering initiative with milestones, budgets, and staffing requirements.
-date: 2025-09-15
-
-size: medium
+title: AI Integration Project Proposal
+summary: Project proposal outlining an independent AI integration engineering initiative.
+date: '2025-09-15'
 status: complete
-
-tags:
-  - AI
-  - Architecture
-
+size: medium
 preview: preview.png
-
+tags:
+- AI
+- Architecture
 content:
   blocks:
-    - type: pdf
-      src: "proposal.pdf"
+  - body: A formal project proposal for an independent AI integration engineering initiative. Covers the strategic case for
+      building internal AI tooling, with detailed milestones and a phased rollout plan. Written as a standalone document to
+      present to stakeholders.
+    id: blk_ai_proposal_01
+    type: text
+  - id: 617a6e9a-e5d3-4650-bfc5-1226c8aaae0b
+    src: proposal.pdf
+    type: pdf

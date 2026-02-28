@@ -1,0 +1,25 @@
+# Portfolio Site: Build Validation
+
+title: 'Portfolio Site: Build Validation'
+summary: Added sensible defaults and build-time validation to portfolio detail pages so every project renders cleanly.
+date: '2026-01-27'
+github: https://github.com/Ckrest/PortfolioSite
+tags:
+- Frontend
+- Enhancement
+- Cleanup
+- JavaScript
+- portfolio-site
+status: complete
+size: small
+source:
+  report_id: 31
+content:
+  blocks:
+  - id: blk_a2bb5342
+    type: text
+    body: 'Improved the portfolio detail pages so every project has a consistent, well-structured header section and guaranteed
+      content. Projects without explicit content blocks now automatically fall back to displaying their README. The build process
+      also gained validation warnings that catch broken links, placeholder summaries, and empty blocks before they make it to the
+      live site.'
+icon: icon.svg

@@ -1,0 +1,28 @@
+# Portfolio Site: Modular Architecture
+
+title: 'Portfolio Site: Modular Architecture'
+summary: Rebuilt the portfolio site from a single monolithic HTML file into a modular component architecture with structured project data.
+date: '2026-01-27'
+github: https://github.com/Ckrest/PortfolioSite
+tags:
+- JavaScript
+- CSS
+- Frontend
+- Architecture
+- Refactoring
+- portfolio-site
+status: complete
+size: small
+source:
+  report_id: 26
+  commit: 5d67a3d81079eb4d472e1ec3d1e5d4527e9c6092
+content:
+  blocks:
+  - id: blk_4b60ccae
+    type: text
+    body: 'Rebuilt the portfolio site from scratch, replacing a 900-line monolithic HTML file with a modular architecture. Each section
+      (header, hero, timeline, etc.) now lives in its own module, CSS is organized into a token-based design system, and every project
+      has its own settings.yaml that gets built into a manifest at deploy time. The main motivation was making project data machine-readable
+      so external tools (like the portfolio editor) could create and update projects programmatically rather than through manual
+      YAML editing.'
+icon: icon.svg

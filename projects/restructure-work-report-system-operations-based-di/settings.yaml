@@ -1,0 +1,28 @@
+# Work Reports: Operations Architecture
+
+title: 'Work Reports: Operations Architecture'
+summary: Simplified the work report flow from a 7-step session process to a 2-step create-and-curate model with operations-based
+  artifact discovery.
+date: '2026-02-20'
+status: complete
+size: small
+icon: icon.svg
+tags:
+- Refactoring
+- Architecture
+- Python
+- Infrastructure
+- Cleanup
+source:
+  duration_hours: 3
+  effort: high
+  report_id: 98
+  commit: df02472a15d830eb250a77b5359ab5eb245fc477
+content:
+  blocks:
+  - body: Major simplification of the work report creation flow. The old approach required 7+ MCP round-trips with complex
+      session state tracked in the database. Replaced it with a straightforward create-then-curate model. Also reworked artifact
+      discovery to query tool operations instead of a dedicated artifacts table, which fixed a data pollution issue and made
+      it trivial to add new artifact sources. Removed about 700 lines of dead code from the old staging and curation systems.
+    id: blk_63918b48
+    type: text

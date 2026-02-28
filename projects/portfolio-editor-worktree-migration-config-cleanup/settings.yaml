@@ -1,0 +1,27 @@
+# Portfolio Editor: Worktree Migration
+
+title: 'Portfolio Editor: Worktree Migration'
+summary: Cleaned up the portfolio editor''s file tracking, config resolution, and added report card IDs to the sidebar UI.
+date: '2026-02-17'
+github: https://github.com/Ckrest/PortfolioSite
+tags:
+- portfolio-editor
+- vcsh
+- refactor
+- ui
+status: complete
+size: small
+source:
+  report_id: 88
+  duration_hours: 1.5
+  effort: medium
+  commit: 2ecdf120fbfad590169c664f9538c2989c293f97
+content:
+  blocks:
+  - id: blk_2af4289f
+    type: text
+    body: 'Follow-up cleanup for the portfolio editor. Migrated file tracking to use package-relative paths (matching the vcsh convention
+      used by all other packages), simplified the config resolution to use the shared systems path module instead of a manual fallback
+      chain, and added report ID numbers to the sidebar cards so it''s easier to cross-reference reports. Also cleaned up a test
+      configuration hack that was causing validation warnings.'
+icon: icon.svg

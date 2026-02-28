@@ -16,5 +16,6 @@ github: https://github.com/Ckrest/model-manager
 
 content:
   blocks:
-    - type: readme
-      path: README.md
+    - type: text
+      body: A VRAM-aware job scheduler for Ollama that manages concurrent inference across multiple models. Tracks available GPU memory and queues requests so large models don't compete for VRAM, with automatic model loading and unloading. Provides both an HTTP API and CLI for submitting jobs, checking queue status, and managing model availability. Built to handle the workflow of running many different models throughout the day without manually juggling which ones are loaded.
+      id: blk_model_mgr_01

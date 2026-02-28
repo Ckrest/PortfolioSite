@@ -1,7 +1,7 @@
 # Soundboard
 
 title: Soundboard
-summary: Placeholder summary for Soundboard. Update with actual project description.
+summary: GTK4 soundboard app with virtual microphone output via PipeWire, thumbnail previews, and tabbed organization.
 date: '2026-01-13'
 status: in-progress
 size: medium
@@ -13,5 +13,6 @@ tags:
 - Audio
 content:
   blocks:
-  - type: readme
-    path: README.md
+  - type: text
+    body: A desktop soundboard built with GTK4 and libadwaita that routes audio through a PipeWire virtual microphone, so sounds play directly into calls and voice chat. Supports drag-and-drop import, thumbnail previews for each clip, and tabbed categories for organizing large sound libraries. Designed around PipeWire's virtual device system rather than loopback hacks, so it integrates cleanly with any app that uses the default mic input.
+    id: blk_soundboard_01

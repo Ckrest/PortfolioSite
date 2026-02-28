@@ -1,0 +1,23 @@
+# Docklike Wayland: Hover and Throttle Fix
+
+title: 'Docklike Wayland: Hover and Throttle Fix'
+summary: Fixed hover glitches and improved window preview throttling in the Docklike taskbar plugin for Wayland.
+date: '2026-01-20'
+tags:
+- Wayland
+- Debugging
+- docklike-wayland
+status: complete
+size: small
+source:
+  report_id: 14
+  commit: c024345ba3de3c35c28b2a571061bcdffa8e1abf
+content:
+  blocks:
+  - id: blk_ecbf9efa
+    type: text
+    body: 'Fixed visual glitches in the Docklike taskbar plugin where hover states were getting stuck, causing phantom menu popups
+      and highlighting artifacts. Also reworked the window preview capture throttling so that all windows get live thumbnail updates
+      instead of only the most recent one monopolizing the refresh queue. The result is a smoother, more responsive taskbar experience
+      on Wayland.'
+icon: icon.svg

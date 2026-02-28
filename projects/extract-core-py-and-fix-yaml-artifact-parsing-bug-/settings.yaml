@@ -1,0 +1,21 @@
+# Work Reports: Core Extraction and YAML Fix
+
+title: 'Work Reports: Core Extraction and YAML Fix'
+summary: Extracted shared business logic into a core module and fixed YAML artifact parsing bugs in the work report system.
+date: '2026-02-15'
+tags:
+- Infrastructure
+- Refactoring
+status: in-progress
+size: small
+source:
+  report_id: 74
+  duration_hours: 3.0
+  effort: medium
+  commit: 63d0690d75a5f4d47e360accda72fab2e45b45a7
+content:
+  blocks:
+  - id: blk_core_desc
+    type: text
+    body: Pulled the shared business logic out of the work report CLI into a dedicated core module that both the CLI and the MCP/agent layer import from. This eliminated circular imports and code duplication between the two entry points. Also fixed a bug where YAML-formatted artifacts weren't being parsed correctly during the portfolio import step.
+icon: icon.svg

@@ -1,0 +1,27 @@
+# Mermaid Diagram Tooling and System Visualizer
+
+title: Mermaid Diagram Tooling and System Visualizer
+summary: Mermaid diagram generation pipeline with templates, AI-assisted creation, and auto-generated system visualizations.
+date: '2026-02-22'
+status: in-progress
+size: medium
+preview: media/mermaid-diagram-2026-02-28-003644.png
+icon: icon.svg
+tags:
+- Feature
+- Python
+- Data Visualization
+- MCP
+- Infrastructure
+- CLI
+- Frontend
+source:
+  duration_hours: 3
+  effort: high
+  report_id: 134
+  commit: 8ca5abffc9c77f53e8cda2ded8d213b4c2b7f71d
+content:
+  blocks:
+  - body: Added Mermaid diagram support across three layers. The portfolio site gained a Mermaid block renderer so diagrams display natively on project pages. A new system-visualizer package auto-generates flowcharts, timelines, and dependency graphs from the systems history database. And a mermaid-tool package provides 9 templates, AI-assisted generation via Ollama, a CLI wizard, and syntax validation. All three tools register their output as discoverable artifacts for work reports.
+    id: blk_b8a027d9
+    type: text

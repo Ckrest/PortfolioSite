@@ -1,12 +1,19 @@
 # Extension Dev Connector
 
 title: Extension Dev Connector
-summary: Placeholder summary for Extension Dev Connector. Update with actual project description.
+summary: HTTP bridge that lets AI agents reload, enable, and disable browser extensions during development via MCP tools.
 date: 2026-01-15
 size: small
-status: in-progress
+status: complete
 tags:
 - Browser Extension
 - JavaScript
 - MCP
 github: https://github.com/Ckrest/extension-dev-connector
+content:
+  blocks:
+  - type: text
+    body: 'An HTTP server that bridges browser extension management to MCP tools. During extension development, AI agents can use
+      this connector to reload extensions after code changes, toggle them on/off for testing, and check their status — all without
+      manual browser interaction.'
+    id: blk_edc_001

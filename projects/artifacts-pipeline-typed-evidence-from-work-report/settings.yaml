@@ -1,0 +1,28 @@
+# Artifact Pipeline: Typed Evidence System
+
+title: 'Artifact Pipeline: Typed Evidence System'
+summary: Built the full artifacts pipeline connecting work reports to the portfolio site, with typed evidence blocks and copy-at-capture file storage.
+date: '2026-01-28'
+tags:
+- Feature
+- Python
+- JavaScript
+- Frontend
+- PostgreSQL
+- CLI
+- Migration
+- portfolio-editor
+status: complete
+size: small
+source:
+  report_id: 35
+content:
+  blocks:
+  - id: blk_8f943dae
+    type: text
+    body: 'Built the pipeline that turns daily work reports into portfolio content. Added new block types for code, terminal output,
+      comparisons, and graphs to the portfolio site, then wired up the work report system to capture artifacts (screenshots, diffs,
+      code snippets) and store them durably at creation time. The portfolio editor can then pull these in with drag-and-drop curation,
+      automatically creating the right block type for each artifact. The goal was to make the daily reporting workflow do double duty
+      as content creation for the portfolio.'
+icon: icon.svg

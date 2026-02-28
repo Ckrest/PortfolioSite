@@ -1,0 +1,26 @@
+{
+  "chartType": "bar",
+  "labels": [
+    "Phase 1",
+    "Phase 2",
+    "Phase 3"
+  ],
+  "datasets": [
+    {
+      "data": [
+        12,
+        7,
+        5
+      ],
+      "label": "Files Changed"
+    },
+    {
+      "data": [
+        490,
+        280,
+        160
+      ],
+      "label": "Lines Added"
+    }
+  ]
+}

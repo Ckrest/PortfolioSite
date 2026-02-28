@@ -1,16 +1,72 @@
 # Settings Hub
 
-title: "Settings Hub"
-summary: "Placeholder summary for Settings Hub. Update with actual project description."
-date: 2025-11-26
+content:
+  blocks:
+  - body: '## Catalog Refactor & Provider Error-Surfacing (Report #68, 2026-02-12)
 
-size: medium
-status: in-progress
 
-tags:
-  - Python
-  - GTK
-  - Desktop Environment
+      Settings Hub catalog refactor and provider error-surfacing test coverage. Major restructuring spanning 45 files with
+      +5380 -2152 lines across Python refactoring, bug fixes, frontend improvements, and architectural changes.
 
+
+      *45 files changed, +5380 -2152 lines, ~180 hours effort*'
+    id: blk_9f4a27f8
+    type: text
+  - body: '## Graph-Lib Renderer Port to Tile Handlers (Report #103, 2026-02-20)
+
+
+      Ported both graph-lib renderers (LineChartRenderer, GaugeRenderer) into settings-hub tile handlers so all visualization
+      features are YAML-declarable.
+
+
+      - **GraphTileHandler**: Full rewrite with axes, configurable grid, y/x-tick labels, current value pill, fill area, data
+      points, rotated y-axis label, min/max annotations
+
+      - **GaugeTileHandler**: Configurable threshold colors, proportional arc width, value format control, optional label
+      below value
+
+
+      Updated builtin tile configs and converted sleep-tracker''s 5 sparkline tiles to full graph tiles with per-graph color
+      themes.'
+    id: blk_67b47e9b
+    type: text
+  - body: '## V4 Schema Upgrade & Ecosystem Integration (Report #105, 2026-02-20)
+
+
+      Major version upgrade from V2 to V4 tile set schema. Removed legacy backends (dconf/xfconf/composite) and entire module
+      subsystem (~4,200 net lines deleted). Replaced config_file/service bindings with named sources (polled commands), actions,
+      and hub_variables. Decomposed monolithic tile handler into content/display/input/layout modules. Added 14 new tile types
+      (stack, tabs, table, sparkline, etc.).
+
+
+      Added settings-hub subcommands to night-mode, ping-monitor, and soundboard for machine-readable status payloads.'
+    id: blk_af04b5a3
+    type: text
+  - type: text
+    body: '## Graph Gap Handling, Async Buttons, Dynamic Tab Labels (Report #111, 2026-02-21)
+
+
+      Three independent enhancements to the settings-hub tile framework:
+
+
+      1. **Graph gap handling**: Graph tiles handle None/gap values by breaking lines, fills, and points at gaps instead of
+      drawing through them
+
+      2. **Async button actions**: Button tile actions run in background threads with visual feedback (disabled state + "Running..."
+      label during execution, success/error feedback on completion)
+
+      3. **Dynamic tab labels**: Tabs support label_source/label_key properties for dynamic labels from source data
+
+
+      *7 files changed, +1972 -401 lines*'
+    id: blk_493f7146
+date: '2025-11-26'
 github: https://github.com/Ckrest/settings-hub
-
+size: large
+status: in-progress
+summary: GTK4 desktop dashboard with a tile-based layout system for monitoring and controlling system services.
+tags:
+- Python
+- GTK
+- Desktop Environment
+title: Settings Hub

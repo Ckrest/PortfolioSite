@@ -1,12 +1,17 @@
 # Wayfire Screen Freeze
 
 title: Wayfire Screen Freeze
-summary: Placeholder summary for Wayfire Screen Freeze. Update with actual project description.
-date: 2025-12-06
+summary: Wayfire plugin that freezes the screen output for presentations, screenshots, or when you need a stable display.
+date: '2025-12-06'
+status: complete
 size: small
-status: in-progress
 tags:
 - Wayfire
 - C++
 - Wayland
-github: https://github.com/Ckrest/wayfire-screen-freeze
+content:
+  blocks:
+  - body: A Wayfire compositor plugin that lets you freeze the screen output in place. Useful for taking stable screenshots,
+      presenting a static view during screen sharing, or temporarily holding the display while making changes behind the scenes.
+    id: blk_wsf_001
+    type: text

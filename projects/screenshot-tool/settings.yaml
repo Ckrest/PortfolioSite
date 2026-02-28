@@ -1,14 +1,27 @@
 # Screenshot Tool
 
-title: Screenshot Tool
-summary: Placeholder summary for Screenshot Tool. Update with actual project description.
+content:
+  blocks:
+  - type: text
+    body: '## Modular Python Package Refactor (Report #17, 2026-01-21)
+
+
+      Consolidated screenshot-tool from a monolithic 1100-line script plus bash wrapper into a proper Python package with
+      12 focused modules. Fixed intermittent window capture failures caused by double-tap detection running before argument
+      parsing. Added configurable paths via environment variables. Published to GitHub.
+
+
+      The original design had double-tap detection running before CLI argument parsing, which caused explicit commands like
+      --window to be incorrectly intercepted as double-taps during rapid invocations. The modular structure improves maintainability
+      and allows standalone distribution.'
+    id: blk_e50a17d2
 date: '2025-11-23'
-status: in-progress
-size: large
 github: https://github.com/Ckrest/screenshot-tool
+size: large
+status: in-progress
+summary: Modular screenshot utility for Wayland with region, window, and fullscreen capture modes.
 tags:
 - Python
 - Wayland
 - Image Capture
-content:
-  blocks: []
+title: Screenshot Tool

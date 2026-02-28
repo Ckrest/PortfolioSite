@@ -1,0 +1,24 @@
+# Artifact Pipeline: Curation Workflow
+
+title: 'Artifact Pipeline: Curation Workflow'
+summary: Built a git-inspired staging area where work report artifacts are reviewed, AI-scored for relevance, and curated
+  before final attachment.
+date: '2026-01-29'
+status: in-progress
+size: small
+icon: icon.svg
+tags:
+- Feature
+- Python
+- PostgreSQL
+- work-report
+source:
+  report_id: 40
+content:
+  blocks:
+  - body: Added a staging workflow for work report artifacts, modeled after git's staging area concept. Screenshots, code
+      snippets, and other evidence from a work session get collected into a pool where they can be reviewed and curated before
+      being attached to the final report. Includes AI-powered relevance scoring using local vision models to help sort useful
+      artifacts from noise, while keeping human oversight for the final call.
+    id: blk_b091cef1
+    type: text

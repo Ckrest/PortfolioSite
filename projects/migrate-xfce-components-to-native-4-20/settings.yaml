@@ -1,0 +1,27 @@
+# XFCE 4.20 Native Migration
+
+title: 'XFCE 4.20 Native Migration'
+summary: Migrated XFCE desktop components from custom forks to native 4.20, rebasing patches and archiving unneeded forks.
+date: '2026-01-17'
+tags:
+- XFCE
+- Migration
+- Wayland
+- Desktop Environment
+- Systemd
+- Fork Management
+- xfce4-panel
+status: complete
+size: small
+source:
+  report_id: 3
+  commit: b28aff9ac688d3d12216ef1c52a78db610d3dd17
+content:
+  blocks:
+  - id: blk_6c2d0301
+    type: text
+    body: 'Migrated three XFCE desktop components from custom forks to the native 4.20 release. Archived the clipman fork after
+      confirming it had zero custom changes, rebased the panel fork to pick up 11 upstream commits while preserving the thin-strip
+      and custom button-width patches, and kept the systemd fork that''s still needed for Wayfire session integration. Each component
+      was tested independently and the whole setup ran stable for 24+ hours before calling it done.'
+icon: icon.svg

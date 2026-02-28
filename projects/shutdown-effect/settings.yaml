@@ -1,13 +1,18 @@
 # Shutdown Effect
 
-title: Shutdown Effect
-summary: Visual shutdown animations with extensible hook system for power transitions on Wayland.
-date: 2026-01-18
-size: small
+date: '2026-01-18'
+github: https://github.com/Ckrest/shutdown-effect
+size: medium
 status: complete
+summary: Visual shutdown animations with extensible hook system for power transitions on Wayland.
 tags:
 - Wayland
 - C
 - Wayfire
 - Hook System
-github: https://github.com/Ckrest/shutdown-effect
+title: Shutdown Effect
+content:
+  blocks:
+  - type: text
+    body: A Wayfire compositor plugin that plays visual animations during system power transitions — shutdown, reboot, and suspend. Ships with a fade animation as the default, and uses a hook-based discovery system so users can drop in custom animations (fire, sakura, etc.) via XDG config directories without modifying the package itself. Works alongside a companion power-manager that handles the actual power state transitions.
+    id: blk_2c3f0f4f

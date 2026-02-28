@@ -1,0 +1,28 @@
+# Work Reports: Agent Artifact Creation
+
+title: 'Work Reports: Agent Artifact Creation'
+summary: Enabled AI agents to capture and register artifacts on the fly during the work report creation flow.
+date: '2026-02-17'
+status: in-progress
+size: small
+icon: icon.svg
+tags:
+- Feature
+- Infrastructure
+- Python
+- work-report
+- events
+- chrome-automation
+source:
+  duration_hours: 1.5
+  effort: medium
+  report_id: 89
+  commit: 362a430d6c32c2e1780820929255fce1620ce928
+content:
+  blocks:
+  - body: Previously, AI agents could only attach pre-existing artifacts to work reports. This update lets them actively create
+      evidence during the report flow — taking browser screenshots, generating diagrams, or registering data files as they
+      answer verification questions. The work report wizard now hints at which creation tools are available for each question,
+      and a new generic registration tool handles artifact types that don't have dedicated capture tools.
+    id: blk_a313c25c
+    type: text

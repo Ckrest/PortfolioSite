@@ -1,0 +1,28 @@
+# Python Packaging: Editable Install Migration
+
+title: 'Python Packaging: Editable Install Migration'
+summary: Migrated 22 Python CLI packages from legacy launcher scripts to modern pip editable installs with proper entry points.
+date: '2026-02-16'
+tags:
+- Packaging
+- Refactoring
+- Python
+- DevOps
+status: in-progress
+size: small
+source:
+  report_id: 81
+  duration_hours: 6.0
+  effort: medium
+  commit: 730ac326adef88302430fdbd1003edc237629044
+content:
+  blocks:
+  - id: blk_8ead3079
+    type: text
+    body: 'Replaced legacy launcher scripts across 22 Python CLI packages with modern pip editable installs. The old approach used
+      fragile path-manipulation hacks that broke easily; the new setup uses standard pyproject.toml entry points that pip manages
+      directly. This was a multi-session effort that included deleting old shim scripts, updating systemd service files, fixing MCP
+      tool binary references, and cleaning up broken symlinks. Discovered an interesting edge case where flat-layout packages with
+      identical module names collide in editable installs — a few packages were left with the old approach for their MCP tools until
+      they can be properly restructured.'
+icon: icon.svg

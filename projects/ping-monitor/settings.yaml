@@ -1,11 +1,22 @@
 # Ping Monitor
 
 title: Ping Monitor
-summary: Placeholder summary for Ping Monitor. Update with actual project description.
-date: 2026-01-13
-size: small
+summary: Lightweight network monitoring service that pings configured hosts and stores results in SQLite for historical analysis.
+date: '2026-01-13'
 status: in-progress
+size: small
+github: https://github.com/Ckrest/ping-monitor
 tags:
 - Python
 - Infrastructure
-github: https://github.com/Ckrest/ping-monitor
+content:
+  blocks:
+  - body: A simple network monitoring service that periodically pings a list of configured hosts and records the results in
+      a SQLite database. Useful for tracking network reliability over time and spotting intermittent connectivity issues.
+    id: blk_pm_001
+    type: text
+  - id: 5572f349-4d0e-4c47-b11e-924e2d26fa63
+    type: image
+    src: media/screenshot_2026-02-28_16-37-03.png
+    alt: screenshot_2026-02-28_16-37-03.png
+    caption: ''

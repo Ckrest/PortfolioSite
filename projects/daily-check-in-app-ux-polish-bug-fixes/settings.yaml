@@ -1,0 +1,29 @@
+# Daily Check-In: UX Polish
+
+title: 'Daily Check-In: UX Polish'
+summary: Major UX polish pass on the Daily Check-In app — swipe navigation, auto-save, snappier controls, and keyboard handling improvements.
+date: '2026-02-19'
+github: https://github.com/Ckrest/daily-checkin-app
+tags:
+- Daily Checkin
+- Expo
+- React Native
+- UX
+status: complete
+size: small
+source:
+  report_id: 94
+  duration_hours: 3.5
+  effort: medium
+  commit: 56d19caca57d79a13e5001dde36f7869e15cbab7
+content:
+  blocks:
+  - id: blk_389af4e8
+    type: text
+    body: Focused UX polish session for the Daily Check-In Expo app. Added swipe navigation between days, auto-save so there's no manual save button, and cleaner settings access via long-press. Fixed keyboard handling quirks on Android and tightened up the layout so everything fits on one screen without scrolling. Pushed around 10 over-the-air updates to dial in the spacing on-device.
+  - id: blk_ae35152a
+    type: image
+    src: media/Screenshot_20260219_164829_Daily Check-In.jpg
+    alt: ''
+    caption: ''
+icon: icon.svg

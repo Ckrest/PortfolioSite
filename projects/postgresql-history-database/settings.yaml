@@ -1,11 +1,16 @@
 # PostgreSQL History Database
 
-title: PostgreSQL History Database
-summary: Placeholder summary for PostgreSQL History Database. Update with actual project description.
-date: 2025-11-16
+date: '2025-11-16'
+github: https://github.com/Ckrest/postgresql-history-database
 size: small
-status: in-progress
+status: complete
+summary: Central PostgreSQL database for tracking system operations, events, and tool activity across the Systems environment.
 tags:
 - PostgreSQL
 - Infrastructure
-github: https://github.com/Ckrest/postgresql-history-database
+title: PostgreSQL History Database
+content:
+  blocks:
+  - type: text
+    body: The shared PostgreSQL database that stores operation logs, event history, and tool activity for the Systems environment. Provides the data backbone for work reports, artifact tracking, and the various dashboards. Includes an event-driven db-logger that records operations as they happen via Redis pub/sub.
+    id: blk_ad4d3a03

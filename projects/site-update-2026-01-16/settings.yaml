@@ -1,11 +1,21 @@
-# Site Update
+# Portfolio Site Update
 
-title: Site Update
+title: Portfolio Site Update
 summary: Timeline improvements, media support for GIFs/videos, and bundle icon previews.
-date: 2026-01-16
-size: small
+date: '2026-01-16'
 status: complete
+size: small
+github: https://github.com/Ckrest/PortfolioSite
 tags:
 - Frontend
 - JavaScript
-github: https://github.com/Ckrest/PortfolioSite
+content:
+  blocks:
+  - body: Batch of improvements to the portfolio site — updated the timeline layout, added support for GIFs and embedded videos
+      in project detail pages, and added icon previews for project bundles on the main listing.
+    id: blk_site_upd01
+    type: text
+  - id: 6caf3043-f2d1-41fd-b790-d74471a81abe
+    type: video
+    embed: https://www.youtube.com/watch?v=6bPN0JyGfA4
+    caption: ''

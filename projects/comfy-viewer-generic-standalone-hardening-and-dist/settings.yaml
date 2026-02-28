@@ -1,0 +1,23 @@
+# ComfyUI Viewer: Standalone Distribution
+
+title: 'ComfyUI Viewer: Standalone Distribution'
+summary: Hardened the ComfyUI Viewer into a standalone package that works independently of the Systems framework.
+date: '2026-02-07'
+github: https://github.com/Ckrest/comfy-viewer
+tags:
+- Refactoring
+- Architecture
+- Python
+- ComfyUI
+status: complete
+size: small
+source:
+  report_id: 56
+  duration_hours: 3.0
+  effort: medium
+content:
+  blocks:
+  - id: blk_2605ab5c
+    type: text
+    body: Refactored the ComfyUI Viewer — a real-time image viewer for ComfyUI generation outputs — into a properly distributable standalone package. Removed hard dependencies on the Systems framework, cleaned up the architecture, and made it installable as an independent tool while still integrating cleanly when running inside the full environment.
+icon: icon.svg

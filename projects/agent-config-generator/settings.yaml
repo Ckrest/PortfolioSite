@@ -1,12 +1,16 @@
 # Agent Config Generator
 
 title: Agent Config Generator
-summary: Placeholder summary for Agent Config Generator. Update with actual project description.
+summary: Simple CLI that copies shared AI agent config files into the right places across projects.
 date: 2026-01-08
 size: small
-status: in-progress
+status: complete
 tags:
 - Python
 - CLI
-- Hexagonal Architecture
 github: https://github.com/Ckrest/agent-config-generator
+content:
+  blocks:
+  - type: text
+    body: A small utility that keeps AI agent configuration files in sync across projects. You define your shared conventions in one place, and the tool copies them out to wherever they need to go. Output paths are configurable so it works for anyone who clones it.
+    id: blk_acg_001

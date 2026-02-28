@@ -1,0 +1,24 @@
+# ComfyUI Conduit: Redis Event Fix
+
+title: 'ComfyUI Conduit: Redis Event Fix'
+summary: Fixed a broken import path that was preventing ComfyUI Conduit from publishing Redis events for the real-time gallery.
+date: '2026-01-21'
+github: https://github.com/Ckrest/comfyui-conduit
+tags:
+- Redis
+- Bug Fix
+- ComfyUI
+- comfyui-conduit
+status: complete
+size: small
+source:
+  report_id: 20
+  commit: e74440625cb82d8faeccdafee044aaa945465976
+content:
+  blocks:
+  - id: blk_f57911ed
+    type: text
+    body: 'The real-time gallery updates for ComfyUI-generated images had stopped working because the event publishing module couldn''t
+      be found after a directory restructure. A quick one-line path fix got Redis events flowing again so the gallery picks up new
+      images as they''re generated. Also cleaned up the README and pushed the conduit package to GitHub.'
+icon: icon.svg

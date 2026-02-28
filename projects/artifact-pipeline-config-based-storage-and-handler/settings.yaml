@@ -1,0 +1,22 @@
+# Artifact Pipeline: Config-Based Storage
+
+title: 'Artifact Pipeline: Config-Based Storage'
+summary: Migrated artifact storage from dedicated database rows to JSONB config fields, simplifying the pipeline and aligning all three registries.
+date: '2026-02-22'
+tags:
+- Infrastructure
+- Python
+- MCP
+status: complete
+size: small
+source:
+  report_id: 135
+  duration_hours: 3.0
+  effort: high
+  commit: 8887a77868585dd7d5bbf3268d0fa3745c0fae92
+content:
+  blocks:
+  - id: blk_3fd21c60
+    type: text
+    body: Moved artifact storage from its own database table into the existing operations table as JSONB config fields. This simplified the pipeline since artifacts are now just metadata attached to the operations that created them. Also unified the three separate registries (handlers, artifact sources, and type mappings) so they all agree on what types exist and how to handle them.
+icon: icon.svg

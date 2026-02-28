@@ -1,11 +1,19 @@
 # Graph Library
 
 title: Graph Library
-summary: Placeholder summary for Graph Library. Update with actual project description.
-date: 2026-01-13
-size: small
+summary: Embeddable GTK4 graph widgets for time series visualization and gauges with a pluggable data provider architecture.
+date: '2026-01-13'
 status: in-progress
+size: medium
+github: https://github.com/Ckrest/graph-lib
+preview: media/screenshot_2026-02-28_16-26-37-1.png
 tags:
 - Python
 - GTK
-github: https://github.com/Ckrest/graph-lib
+content:
+  blocks:
+  - body: A library of embeddable GTK4 graph widgets designed for time series data and gauges. Uses a pluggable architecture
+      that separates data sources (providers) from visualization (renderers), so the same data can be displayed as line charts,
+      gauges, or other formats without changing the data layer.
+    id: blk_gl_001
+    type: text

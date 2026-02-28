@@ -1,0 +1,26 @@
+# Portfolio Editor v1
+
+title: Portfolio Editor v1
+summary: Built the first version of a web-based portfolio editor with work report integration, drag-and-drop blocks, and live
+  preview.
+date: '2026-01-27'
+status: in-progress
+size: large
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+tags:
+- Feature
+- Frontend
+- Flask
+- portfolio-editor
+source:
+  report_id: 29
+content:
+  blocks:
+  - body: Built the first version of a web-based editor for managing portfolio projects. The key idea is that it connects
+      directly to the work report database, so instead of manually writing project descriptions, you can drag data from completed
+      work reports into new portfolio entries. The editor has a split-pane layout with project settings, a block-based content
+      editor with drag-and-drop, and a live preview that shows exactly how the portfolio page will look. Supports multiple
+      block types including text, images, video, galleries, and code.
+    id: blk_b680a277
+    type: text

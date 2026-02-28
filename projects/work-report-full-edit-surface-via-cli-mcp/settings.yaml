@@ -1,0 +1,27 @@
+# Work Reports: Full Edit API
+
+title: 'Work Reports: Full Edit API'
+summary: Added full edit support for work reports across CLI and MCP, making all report fields mutable after creation.
+date: '2026-02-22'
+tags:
+- Infrastructure
+- Python
+- Feature
+- Refactoring
+- Documentation
+status: complete
+size: small
+source:
+  report_id: 127
+  duration_hours: 1.25
+  effort: high
+  commit: df02472a15d830eb250a77b5359ab5eb245fc477
+content:
+  blocks:
+  - id: blk_60b0a23c
+    type: text
+    body: 'Expanded the work report editing API so that all report fields — including commit references, git stats, dates, and artifacts
+      — can be modified after initial creation. Previously, correcting metadata required manual database edits. Now the same edit
+      capabilities are available through the CLI, the MCP tool interface, and the core library, with proper validation and protection
+      against accidentally modifying archived reports.'
+icon: icon.svg

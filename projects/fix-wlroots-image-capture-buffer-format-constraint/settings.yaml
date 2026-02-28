@@ -1,0 +1,23 @@
+# Wlroots: Capture Buffer Format Fix
+
+title: 'Wlroots: Capture Buffer Format Fix'
+summary: Fixed wlroots image capture by setting explicit buffer format constraints for GPU compatibility.
+date: '2026-01-18'
+tags:
+- Wayland
+- Image Capture
+- Bug Fix
+- wlroots
+status: complete
+size: small
+source:
+  report_id: 5
+  commit: b28aff9ac688d3d12216ef1c52a78db610d3dd17
+content:
+  blocks:
+  - id: blk_00d3e7ba
+    type: text
+    body: 'Patched wlroots to explicitly declare buffer format constraints for image capture sources. The default behavior wasn''t
+      providing the right format hints, which caused compatibility issues with certain GPU drivers. Setting explicit SHM and DMA-BUF
+      formats with linear modifiers fixed the capture pipeline.'
+icon: icon.svg
