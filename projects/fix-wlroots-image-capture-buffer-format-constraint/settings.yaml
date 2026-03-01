@@ -10,6 +10,7 @@ tags:
 - wlroots
 status: complete
 size: small
+github: https://github.com/Ckrest/wayfire-toplevel-capture
 source:
   report_id: 5
   commit: b28aff9ac688d3d12216ef1c52a78db610d3dd17

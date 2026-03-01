@@ -1,23 +1,30 @@
 # Wayfire Toplevel Capture Hardening
 
-title: 'Wayfire Toplevel Capture Hardening'
-summary: Reliability improvements to the Wayfire window capture protocol plugin — watchdog timers, output migration, and view lifecycle tracking.
+title: Wayfire Toplevel Capture Hardening
+summary: Reliability improvements to the Wayfire window capture protocol plugin — watchdog timers, output migration, and view
+  lifecycle tracking.
 date: '2026-02-22'
+status: complete
+size: medium
+github: https://github.com/Ckrest/wayfire-toplevel-capture
+preview: media/mermaid-diagram-2026-03-01-170526.png
+icon: icon.svg
 tags:
 - C++
 - Wayfire
 - Wayland
 - Enhancement
-status: in-progress
-size: medium
-icon: icon.svg
 source:
-  report_id: 116
-  duration_hours: 1.0
+  duration_hours: 1
   effort: medium
+  report_id: 116
   commit: 1e913018d42163ec804a4a8898b0852f6ff817c0
 content:
   blocks:
-  - id: blk_d20d830f
+  - body: Hardened the ext-toplevel-image-capture protocol plugin to handle real-world failure modes that come up during extended
+      capture sessions. Added a watchdog timer that detects and recovers from stalled frame captures, output migration handling
+      so capture survives monitor hotplug and workspace moves, and view lifecycle tracking to maintain capture when windows
+      are created or destroyed. These are the kinds of edge cases that silently break recording pipelines in multi-monitor
+      setups.
+    id: blk_d20d830f
     type: text
-    body: Hardened the ext-toplevel-image-capture protocol plugin to handle real-world failure modes that come up during extended capture sessions. Added a watchdog timer that detects and recovers from stalled frame captures, output migration handling so capture survives monitor hotplug and workspace moves, and view lifecycle tracking to maintain capture when windows are created or destroyed. These are the kinds of edge cases that silently break recording pipelines in multi-monitor setups.

@@ -1,16 +1,18 @@
-# Wayfire: Scene and Layer Stacking Plugins
+# Wayfire Layer Plugin
 
-title: 'Wayfire: Scene and Layer Stacking Plugins'
-summary: Two Wayfire compositor plugins for window layer management — always-on-top scene control and layer stacking order.
+title: 'Wayfire Layer Plugin'
+summary: Wayfire compositor plugin that pins windows to the topmost scene layer with priority-based stacking and IPC control.
 date: '2026-02-22'
 tags:
 - C++
 - Wayfire
 - Wayland
 - Feature
-status: in-progress
+status: complete
 size: medium
+github: https://github.com/Ckrest/wayfire-layer-plugin
 icon: icon.svg
+preview: preview.png
 source:
   report_id: 117
   duration_hours: 1.5
@@ -20,4 +22,4 @@ content:
   blocks:
   - id: blk_1a609ed4
     type: text
-    body: Two new Wayfire compositor plugins for controlling window layering. The topmost-scene plugin manages a dedicated scene layer for views that should always render above everything else, with XML metadata for configuration. The layer-stacker plugin handles compatibility for layer stacking order control when multiple layer-shell surfaces need to interact correctly. Together they provide proper always-on-top semantics and Z-ordering for the Wayfire desktop.
+    body: A Wayfire compositor plugin that keeps specified windows permanently above all others by pinning them to the root of the scene graph. Windows are matched by app_id namespace from config or pinned at runtime via IPC. A priority system controls stacking order among pinned windows, and original scene positions are preserved for clean restoration on unpin or shutdown.

@@ -5,6 +5,7 @@ summary: Wayfire plugin that freezes the screen output for presentations, screen
 date: '2025-12-06'
 status: complete
 size: small
+github: https://github.com/Ckrest/screen-freeze
 tags:
 - Wayfire
 - C++

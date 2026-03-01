@@ -1,21 +1,26 @@
 # Model Manager
 
-title: "Model Manager"
-summary: "Queue and job management system for concurrent Ollama inference across multiple evaluation systems."
-date: 2026-01-08
-
-size: medium
+title: Model Manager
+summary: Queue and job management system for concurrent Ollama inference across multiple evaluation systems.
+date: '2026-01-08'
 status: complete
-
-tags:
-  - Python
-  - AI
-  - Ollama
-
+size: medium
 github: https://github.com/Ckrest/model-manager
-
+preview: media/mermaid-diagram-2026-03-01-160519.png
+tags:
+- Python
+- AI
+- Ollama
 content:
   blocks:
-    - type: text
-      body: A VRAM-aware job scheduler for Ollama that manages concurrent inference across multiple models. Tracks available GPU memory and queues requests so large models don't compete for VRAM, with automatic model loading and unloading. Provides both an HTTP API and CLI for submitting jobs, checking queue status, and managing model availability. Built to handle the workflow of running many different models throughout the day without manually juggling which ones are loaded.
-      id: blk_model_mgr_01
+  - body: A VRAM-aware job scheduler for Ollama that manages concurrent inference across multiple models. Tracks available
+      GPU memory and queues requests so large models don't compete for VRAM, with automatic model loading and unloading. Provides
+      both an HTTP API and CLI for submitting jobs, checking queue status, and managing model availability. Built to handle
+      the workflow of running many different models throughout the day without manually juggling which ones are loaded.
+    id: blk_model_mgr_01
+    type: text
+  - id: 41fc1cbd-009b-4e17-94a1-f710485ff018
+    type: image
+    src: media/mermaid-diagram-2026-03-01-160321.png
+    alt: mermaid-diagram-2026-03-01-160321.png
+    caption: ''

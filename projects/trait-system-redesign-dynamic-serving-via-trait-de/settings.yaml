@@ -1,11 +1,12 @@
 # Systems Registry: Dynamic Trait API
 
 title: 'Systems Registry: Dynamic Trait API'
-summary: Redesigned the trait system so traits define their own schema and API behavior, replacing hardcoded transforms with declarative definitions.
+summary: Redesigned the trait system so traits define their own schema and API behavior, replacing hardcoded transforms with
+  declarative definitions.
 date: '2026-02-04'
-github: https://github.com/Ckrest/systems-registry
 status: in-progress
-size: medium
+size: small
+github: https://github.com/Ckrest/systems-registry
 tags:
 - Architecture
 - Refactoring
@@ -16,6 +17,10 @@ source:
   commit: 831d217
 content:
   blocks:
-  - body: Major architecture change to how the Systems registry handles traits. Previously, trait data was embedded in package manifests and the API needed hardcoded transforms to serve it. The new design moves trait data into separate files and lets each trait define its own schema, resolution logic, and API output format. Packages just provide data — the API serves it dynamically without code changes. Also overhauled the trait vocabulary, adding new traits and retiring ones that no longer fit the model.
+  - body: Major architecture change to how the Systems registry handles traits. Previously, trait data was embedded in package
+      manifests and the API needed hardcoded transforms to serve it. The new design moves trait data into separate files and
+      lets each trait define its own schema, resolution logic, and API output format. Packages just provide data — the API
+      serves it dynamically without code changes. Also overhauled the trait vocabulary, adding new traits and retiring ones
+      that no longer fit the model.
     id: blk_1f8b625b
     type: text
