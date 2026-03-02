@@ -8,7 +8,14 @@
       "description": "Markdown text block",
       "hint": "Click to add text content",
       "fields": ["body"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": ["body"],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input"]
+      }
     },
     {
       "type": "image",
@@ -17,7 +24,14 @@
       "description": "Single image with caption",
       "hint": "Click to set image source",
       "fields": ["src", "alt", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": ["src"],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "video",
@@ -26,7 +40,14 @@
       "description": "Embedded or local video",
       "hint": "Click to add video URL",
       "fields": ["embed", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": ["embed"],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "gallery",
@@ -35,7 +56,14 @@
       "description": "Multiple images",
       "hint": "Click to add images",
       "fields": ["images", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["images"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["inline-list", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "readme",
@@ -44,7 +72,14 @@
       "description": "Project README markdown",
       "hint": "Set path to README",
       "fields": ["path"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": false,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "pdf",
@@ -53,7 +88,14 @@
       "description": "Embedded PDF viewer",
       "hint": "Click to set PDF source",
       "fields": ["src"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": ["src"],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "group",
@@ -62,7 +104,14 @@
       "description": "Container for sub-blocks",
       "hint": "Click to add sub-blocks",
       "fields": ["blocks"],
-      "allowInGroup": false
+      "allowInGroup": false,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["blocks"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["add-child"]
+      }
     },
     {
       "type": "code",
@@ -71,7 +120,14 @@
       "description": "Code with syntax highlighting",
       "hint": "Click to add code",
       "fields": ["language", "filename", "src", "code", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["src", "code"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "mermaid",
@@ -80,7 +136,14 @@
       "description": "Mermaid diagram",
       "hint": "Click to add Mermaid diagram",
       "fields": ["src", "code", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["src", "code"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "terminal",
@@ -89,7 +152,14 @@
       "description": "Command-line session",
       "hint": "Click to add commands",
       "fields": ["src", "commands", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["src", "commands"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["inline-list", "text-input", "file-attach"]
+      }
     },
     {
       "type": "comparison",
@@ -98,7 +168,14 @@
       "description": "Before/after comparison",
       "hint": "Click to set images",
       "fields": ["before", "after", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["before.src", "after.src"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input", "file-attach", "drag-drop"]
+      }
     },
     {
       "type": "graph",
@@ -107,7 +184,14 @@
       "description": "Data visualization chart",
       "hint": "Click to add data",
       "fields": ["src", "chartType", "labels", "datasets", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["src", "datasets"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["inline-list", "text-input", "file-attach"]
+      }
     },
     {
       "type": "git-stats",
@@ -116,7 +200,14 @@
       "description": "Commit statistics",
       "hint": "Click to add git statistics",
       "fields": ["files_changed", "lines_added", "lines_removed", "diff_stat", "caption"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": [],
+        "renderRequiredAny": ["files_changed", "lines_added", "lines_removed", "diff_stat"],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["text-input"]
+      }
     },
     {
       "type": "related-mini",
@@ -125,7 +216,17 @@
       "description": "Compact related project link",
       "hint": "Link to another project",
       "fields": ["slug"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": ["slug"],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["project-picker", "text-input"],
+        "referenceField": "slug",
+        "referenceType": "project",
+        "allowSelfReference": false
+      }
     },
     {
       "type": "related-card",
@@ -134,7 +235,17 @@
       "description": "Related project card with summary",
       "hint": "Link to another project with summary",
       "fields": ["slug"],
-      "allowInGroup": true
+      "allowInGroup": true,
+      "contract": {
+        "allowEmptySave": true,
+        "renderRequiredAll": ["slug"],
+        "renderRequiredAny": [],
+        "skipRenderIfIncomplete": true,
+        "fillMethods": ["project-picker", "text-input"],
+        "referenceField": "slug",
+        "referenceType": "project",
+        "allowSelfReference": false
+      }
     }
   ]
 }

@@ -1,22 +1,59 @@
 # Artifact Pipeline: Config-Based Storage
 
 title: 'Artifact Pipeline: Config-Based Storage'
-summary: Migrated artifact storage from dedicated database rows to JSONB config fields, simplifying the pipeline and aligning all three registries.
+summary: Migrated artifact storage from dedicated database rows to JSONB config fields, simplifying the pipeline and aligning
+  all three registries.
 date: '2026-02-22'
+status: complete
+size: small
+icon: icon.svg
 tags:
 - Infrastructure
 - Python
 - MCP
-status: complete
-size: small
 source:
-  report_id: 135
-  duration_hours: 3.0
+  duration_hours: 3
   effort: high
+  report_id: 135
   commit: 8887a77868585dd7d5bbf3268d0fa3745c0fae92
 content:
   blocks:
-  - id: blk_3fd21c60
+  - body: 'Moved artifact storage from its own database table into the existing operations table as JSONB config fields. This
+      simplified the pipeline since artifacts are now just metadata attached to the operations that created them. Also unified
+      the three separate registries (handlers, artifact sources, and type mappings) so they all agree on what types exist
+      and how to handle them. '
+    id: blk_3fd21c60
     type: text
-    body: Moved artifact storage from its own database table into the existing operations table as JSONB config fields. This simplified the pipeline since artifacts are now just metadata attached to the operations that created them. Also unified the three separate registries (handlers, artifact sources, and type mappings) so they all agree on what types exist and how to handle them.
-icon: icon.svg
+  - blocks:
+    - body: Here is a link
+      id: 07a1c054-2314-43e9-b5a2-79d9a8babb0c
+      type: text
+    - id: becb1073-af78-41b3-ae7d-2809a16df9d8
+      slug: work-report-to-portfolio-site-pipeline
+      type: related-card
+    - body: Small link
+      id: ad40209d-6fa2-4fd9-89ba-082f1914b1f4
+      type: text
+    - id: 953060e1-68b0-44cc-8a13-3306e8884d19
+      slug: work-report-to-portfolio-site-pipeline
+      type: related-mini
+    - body: Example block
+      id: 9c282a12-0539-4ada-9ea7-fcd397592192
+      type: text
+    id: 357c6a1b-dde2-42eb-83f1-6cc38de611fe
+    type: group
+  - blocks:
+    - body: 'Related Projects:'
+      id: 3c180923-0a6b-4240-a0ab-333fbd5f3e3f
+      type: text
+    - id: 9efebf78-868b-4b32-93e9-0edbc2747bd8
+      slug: work-report-to-portfolio-site-pipeline
+      type: related-card
+    id: ea4129c7-c6f6-413c-a59c-e501d8c109c9
+    type: group
+  - id: b6a0fef7-8600-408c-9a1a-ac4bd7a1a5a9
+    type: related-mini
+    slug: work-report-to-portfolio-site-pipeline
+  - id: b8453b0e-1ccf-401a-b15f-a9a31d2bb9d9
+    type: related-card
+    slug: work-report-to-portfolio-site-pipeline

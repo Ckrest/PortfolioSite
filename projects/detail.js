@@ -7,7 +7,11 @@
  */
 
 import { escapeHtml, generatePlaceholderDataUri } from '../js/utils.js';
-import { CANONICAL_BLOCK_ORDER } from './generated/block-registry.js';
+import {
+  CANONICAL_BLOCK_ORDER,
+  getMissingRenderFields,
+  hasRequiredRenderData,
+} from './generated/block-registry.js';
 
 // ── Block ID Utilities ───────────────────────────────────────────────────────
 //
@@ -855,7 +859,10 @@ async function renderBlocks(project, settings) {
 
 function isBlockEmpty(block) {
   const def = BLOCKS[block.type];
-  return def ? def.isEmpty(block) : true;
+  const missingRenderFields = getMissingRenderFields(block, block.type);
+  if (!def) return true;
+  if (typeof def.isEmpty === 'function' && def.isEmpty(block)) return true;
+  return missingRenderFields.length > 0;
 }
 
 function renderEmptyPlaceholder(block) {
@@ -874,6 +881,8 @@ function renderBlock(block, project, options) {
   const index = options?.index;
   const tag = isGroupChild ? 'div' : 'section';
   const cssClass = `block-${block.type}`;
+  const missingRenderFields = getMissingRenderFields(block, block.type);
+  const hasRenderData = hasRequiredRenderData(block, block.type);
   // Include both index (legacy) and id (stable) attributes for block identification
   const indexAttr = index != null ? ` data-block-index="${index}"` : '';
   const idAttr = block.id ? ` data-block-id="${block.id}"` : '';
@@ -881,6 +890,19 @@ function renderBlock(block, project, options) {
   // Show placeholder for empty blocks in editor preview mode
   if (window.__portfolioBridge && isBlockEmpty(block)) {
     return `<${tag} class="${cssClass}"${indexAttr}${idAttr}>${renderEmptyPlaceholder(block)}</${tag}>`;
+  }
+
+  // Live site should silently skip incomplete draft blocks.
+  if (!window.__portfolioBridge && !hasRenderData) {
+    if (missingRenderFields.length > 0) {
+      console.warn(
+        '[detail] Skipping incomplete block:',
+        block.type,
+        'missing fields:',
+        missingRenderFields.join(', '),
+      );
+    }
+    return '';
   }
 
   // Group renders its own wrapper

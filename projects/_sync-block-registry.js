@@ -38,6 +38,28 @@ const EDITOR_PY_PATH = join(
   'block_types.py',
 );
 
+function normalizeStringArray(value) {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.map((item) => String(item || '').trim()).filter(Boolean))];
+}
+
+function normalizeContract(contract) {
+  const value = (contract && typeof contract === 'object') ? contract : {};
+  const referenceField = String(value.referenceField || '').trim();
+  const referenceType = String(value.referenceType || '').trim();
+
+  return {
+    allowEmptySave: value.allowEmptySave !== false,
+    renderRequiredAll: normalizeStringArray(value.renderRequiredAll),
+    renderRequiredAny: normalizeStringArray(value.renderRequiredAny),
+    skipRenderIfIncomplete: value.skipRenderIfIncomplete !== false,
+    fillMethods: normalizeStringArray(value.fillMethods),
+    referenceField: referenceField || null,
+    referenceType: referenceType || null,
+    allowSelfReference: value.allowSelfReference !== false,
+  };
+}
+
 function normalizeRegistry(raw) {
   if (!raw || !Array.isArray(raw.types)) {
     throw new Error('Registry must contain a types[] array');
@@ -69,6 +91,7 @@ function normalizeRegistry(raw) {
       fields: Array.isArray(entry.fields) ? entry.fields.map((f) => String(f)) : [],
       allowInGroup: entry.allowInGroup !== false,
       hidden: Boolean(entry.hidden),
+      contract: normalizeContract(entry.contract),
     });
   }
 
@@ -79,7 +102,12 @@ function normalizeRegistry(raw) {
 }
 
 function buildJsModule(registry) {
-  const byType = Object.fromEntries(registry.types.map((entry) => [entry.type, entry]));
+  const byType = Object.fromEntries(
+    registry.types.map(({ contract, ...entry }) => [entry.type, entry]),
+  );
+  const contractsByType = Object.fromEntries(
+    registry.types.map(({ type, contract }) => [type, contract]),
+  );
   const order = registry.types.map((entry) => entry.type);
 
   return `/**
@@ -93,6 +121,66 @@ export const BLOCK_REGISTRY_VERSION = ${registry.version};
 export const CANONICAL_BLOCK_ORDER = ${JSON.stringify(order, null, 2)};
 
 export const CANONICAL_BLOCK_META = ${JSON.stringify(byType, null, 2)};
+
+export const CANONICAL_BLOCK_CONTRACTS = ${JSON.stringify(contractsByType, null, 2)};
+
+function getPathValue(obj, path) {
+  if (!obj || !path) return undefined;
+  let cursor = obj;
+  for (const segment of String(path).split('.')) {
+    if (cursor == null) return undefined;
+    cursor = cursor[segment];
+  }
+  return cursor;
+}
+
+function hasMeaningfulValue(value) {
+  if (value == null) return false;
+  if (typeof value === 'string') return value.trim().length > 0;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === 'number') return Number.isFinite(value) && value !== 0;
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'object') return Object.keys(value).length > 0;
+  return Boolean(value);
+}
+
+export function getBlockContract(type) {
+  return CANONICAL_BLOCK_CONTRACTS[type] || {
+    allowEmptySave: true,
+    renderRequiredAll: [],
+    renderRequiredAny: [],
+    skipRenderIfIncomplete: true,
+    fillMethods: [],
+    referenceField: null,
+    referenceType: null,
+    allowSelfReference: true,
+  };
+}
+
+export function getMissingRenderFields(block, type) {
+  const contract = getBlockContract(type || block?.type);
+  const missing = [];
+
+  for (const field of contract.renderRequiredAll || []) {
+    if (!hasMeaningfulValue(getPathValue(block, field))) {
+      missing.push(field);
+    }
+  }
+
+  const anyFields = contract.renderRequiredAny || [];
+  if (anyFields.length > 0) {
+    const hasAny = anyFields.some((field) => hasMeaningfulValue(getPathValue(block, field)));
+    if (!hasAny) {
+      missing.push(...anyFields);
+    }
+  }
+
+  return missing;
+}
+
+export function hasRequiredRenderData(block, type) {
+  return getMissingRenderFields(block, type).length === 0;
+}
 `;
 }
 
@@ -127,7 +215,12 @@ function toPythonLiteral(value, indent = 0) {
 
 function buildPythonModule(registry) {
   const blockTypes = registry.types.map((entry) => entry.type);
-  const byType = Object.fromEntries(registry.types.map((entry) => [entry.type, entry]));
+  const byType = Object.fromEntries(
+    registry.types.map(({ contract, ...entry }) => [entry.type, entry]),
+  );
+  const contractsByType = Object.fromEntries(
+    registry.types.map(({ type, contract }) => [type, contract]),
+  );
 
   return `"""AUTO-GENERATED block type registry. Do not edit by hand.
 
@@ -140,6 +233,8 @@ BLOCK_REGISTRY_VERSION = ${registry.version}
 BLOCK_TYPES = ${toPythonLiteral(blockTypes)}
 
 BLOCK_META = ${toPythonLiteral(byType)}
+
+BLOCK_CONTRACTS = ${toPythonLiteral(contractsByType)}
 `;
 }
 

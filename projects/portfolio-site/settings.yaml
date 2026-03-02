@@ -15,3 +15,11 @@ tags:
 github: https://github.com/Ckrest/PortfolioSite
 
 preview: preview.png
+content:
+  blocks:
+  - id: blk_portfolio_site_intro
+    type: text
+    body: |
+      This project is actively in progress. The detail-page block system powers
+      the long-form documentation and related-project navigation used across the
+      portfolio.

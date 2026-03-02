@@ -228,3 +228,302 @@ export const CANONICAL_BLOCK_META = {
     "hidden": false
   }
 };
+
+export const CANONICAL_BLOCK_CONTRACTS = {
+  "text": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [
+      "body"
+    ],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "image": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [
+      "src"
+    ],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "video": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [
+      "embed"
+    ],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "gallery": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "images"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "inline-list",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "readme": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": false,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "pdf": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [
+      "src"
+    ],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "group": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "blocks"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "add-child"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "code": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "src",
+      "code"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "mermaid": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "src",
+      "code"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "terminal": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "src",
+      "commands"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "inline-list",
+      "text-input",
+      "file-attach"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "comparison": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "before.src",
+      "after.src"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input",
+      "file-attach",
+      "drag-drop"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "graph": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "src",
+      "datasets"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "inline-list",
+      "text-input",
+      "file-attach"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "git-stats": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [],
+    "renderRequiredAny": [
+      "files_changed",
+      "lines_added",
+      "lines_removed",
+      "diff_stat"
+    ],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "text-input"
+    ],
+    "referenceField": null,
+    "referenceType": null,
+    "allowSelfReference": true
+  },
+  "related-mini": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [
+      "slug"
+    ],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "project-picker",
+      "text-input"
+    ],
+    "referenceField": "slug",
+    "referenceType": "project",
+    "allowSelfReference": false
+  },
+  "related-card": {
+    "allowEmptySave": true,
+    "renderRequiredAll": [
+      "slug"
+    ],
+    "renderRequiredAny": [],
+    "skipRenderIfIncomplete": true,
+    "fillMethods": [
+      "project-picker",
+      "text-input"
+    ],
+    "referenceField": "slug",
+    "referenceType": "project",
+    "allowSelfReference": false
+  }
+};
+
+function getPathValue(obj, path) {
+  if (!obj || !path) return undefined;
+  let cursor = obj;
+  for (const segment of String(path).split('.')) {
+    if (cursor == null) return undefined;
+    cursor = cursor[segment];
+  }
+  return cursor;
+}
+
+function hasMeaningfulValue(value) {
+  if (value == null) return false;
+  if (typeof value === 'string') return value.trim().length > 0;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === 'number') return Number.isFinite(value) && value !== 0;
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'object') return Object.keys(value).length > 0;
+  return Boolean(value);
+}
+
+export function getBlockContract(type) {
+  return CANONICAL_BLOCK_CONTRACTS[type] || {
+    allowEmptySave: true,
+    renderRequiredAll: [],
+    renderRequiredAny: [],
+    skipRenderIfIncomplete: true,
+    fillMethods: [],
+    referenceField: null,
+    referenceType: null,
+    allowSelfReference: true,
+  };
+}
+
+export function getMissingRenderFields(block, type) {
+  const contract = getBlockContract(type || block?.type);
+  const missing = [];
+
+  for (const field of contract.renderRequiredAll || []) {
+    if (!hasMeaningfulValue(getPathValue(block, field))) {
+      missing.push(field);
+    }
+  }
+
+  const anyFields = contract.renderRequiredAny || [];
+  if (anyFields.length > 0) {
+    const hasAny = anyFields.some((field) => hasMeaningfulValue(getPathValue(block, field)));
+    if (!hasAny) {
+      missing.push(...anyFields);
+    }
+  }
+
+  return missing;
+}
+
+export function hasRequiredRenderData(block, type) {
+  return getMissingRenderFields(block, type).length === 0;
+}
