@@ -7,6 +7,7 @@
  */
 
 import { escapeHtml, generatePlaceholderDataUri } from '../js/utils.js';
+import { CANONICAL_BLOCK_ORDER } from './generated/block-registry.js';
 
 // ── Block ID Utilities ───────────────────────────────────────────────────────
 //
@@ -387,6 +388,60 @@ const BLOCKS = {
     },
   },
 
+  // ── Related Mini ────────────────────────────────────────────────────────
+  'related-mini': {
+    icon: '↗', label: 'Related Mini', hint: 'Link to another project',
+    isEmpty(b) { return !b.slug?.trim(); },
+    render(b, project) {
+      const related = resolveRelatedProject(b.slug, project);
+      if (!related.target) {
+        if (window.__portfolioBridge) {
+          return `
+            <div class="related-project-mini related-project-invalid">
+              <span>Unknown project slug: ${escapeHtml(related.slug || '(missing)')}</span>
+            </div>
+          `;
+        }
+        return '';
+      }
+
+      const href = getProjectDetailHref(related.target);
+      return `
+        <a class="related-project-mini" href="${href}">
+          ${escapeHtml(related.target.title)}
+        </a>
+      `;
+    },
+  },
+
+  // ── Related Card ────────────────────────────────────────────────────────
+  'related-card': {
+    icon: '↗', label: 'Related Card', hint: 'Link to another project with summary',
+    isEmpty(b) { return !b.slug?.trim(); },
+    render(b, project) {
+      const related = resolveRelatedProject(b.slug, project);
+      if (!related.target) {
+        if (window.__portfolioBridge) {
+          return `
+            <article class="related-project-card related-project-invalid">
+              <h3>Unknown project slug</h3>
+              <p>${escapeHtml(related.slug || '(missing)')}</p>
+            </article>
+          `;
+        }
+        return '';
+      }
+
+      const href = getProjectDetailHref(related.target);
+      return `
+        <a class="related-project-card" href="${href}">
+          <h3>${escapeHtml(related.target.title)}</h3>
+          <p>${escapeHtml(related.target.summary || '')}</p>
+        </a>
+      `;
+    },
+  },
+
   // ── Mermaid ─────────────────────────────────────────────────────────────
   mermaid: {
     icon: '🧩', label: 'Mermaid', hint: 'Click to add Mermaid diagram',
@@ -422,7 +477,38 @@ const BLOCKS = {
   },
 };
 
+const missingBlockRenderers = CANONICAL_BLOCK_ORDER.filter((type) => !BLOCKS[type]);
+if (missingBlockRenderers.length > 0) {
+  console.warn('[detail] Missing renderers for block types:', missingBlockRenderers.join(', '));
+}
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
+
+let manifestProjects = [];
+const manifestProjectIndex = new Map();
+
+function setManifestProjects(projects) {
+  manifestProjects = Array.isArray(projects) ? projects : [];
+  manifestProjectIndex.clear();
+  for (const project of manifestProjects) {
+    if (project?.slug) manifestProjectIndex.set(project.slug, project);
+    if (project?.folder) manifestProjectIndex.set(project.folder, project);
+  }
+}
+
+function getProjectDetailHref(project) {
+  const slug = project?.slug || project?.folder;
+  return `detail.html?project=${encodeURIComponent(slug)}`;
+}
+
+function resolveRelatedProject(rawSlug, currentProject) {
+  const slug = String(rawSlug || '').trim();
+  if (!slug) return { slug, target: null };
+  if (slug === currentProject?.slug || slug === currentProject?.folder) {
+    return { slug, target: null };
+  }
+  return { slug, target: manifestProjectIndex.get(slug) || null };
+}
 
 function resolvePath(src, project) {
   if (!src) return '';
@@ -625,6 +711,7 @@ async function loadProject(slug) {
     const manifestRes = await fetch('../projects/manifest.json');
     if (!manifestRes.ok) throw new Error('Failed to load manifest');
     const manifest = await manifestRes.json();
+    setManifestProjects(manifest.projects || []);
 
     const project = manifest.projects.find(p => p.folder === slug || p.slug === slug);
     if (!project) {
@@ -856,6 +943,18 @@ async function runPostRenderPass(rootEl, blockList, project, topLevel = true) {
 window.__currentProject = null;
 
 window.__renderProjectPreview = async function(project) {
+  if (manifestProjectIndex.size === 0) {
+    try {
+      const manifestRes = await fetch('../projects/manifest.json');
+      if (manifestRes.ok) {
+        const manifest = await manifestRes.json();
+        setManifestProjects(manifest.projects || []);
+      }
+    } catch {
+      // Best effort: related-project blocks can still render unresolved placeholders in preview.
+    }
+  }
+
   window.__currentProject = project;
   updatePageMeta(project);
   // Ensure blocks have IDs (defense-in-depth, editor should already send them)

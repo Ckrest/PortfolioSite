@@ -186,6 +186,68 @@ section p {
 .button:hover {
   border-color: color-mix(in oklab, var(--muted), transparent 40%);
 }
+
+.related-project-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  background: color-mix(in oklab, var(--soft), transparent 25%);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.related-project-mini:hover {
+  border-color: color-mix(in oklab, var(--accent), transparent 35%);
+  transform: translateY(-1px);
+}
+
+.related-project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--panel), transparent 10%),
+    color-mix(in oklab, var(--soft), transparent 12%)
+  );
+  color: var(--fg);
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.related-project-card:hover {
+  border-color: color-mix(in oklab, var(--accent), transparent 35%);
+  transform: translateY(-2px);
+}
+
+.related-project-card h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.related-project-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.related-project-invalid {
+  opacity: 0.7;
+  border-style: dashed;
+}
+
 pre {
   background: color-mix(in oklab, var(--panel), transparent 30%);
   padding: 18px;

@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "types": [
+    {
+      "type": "text",
+      "label": "Text",
+      "icon": "¶",
+      "description": "Markdown text block",
+      "hint": "Click to add text content",
+      "fields": ["body"],
+      "allowInGroup": true
+    },
+    {
+      "type": "image",
+      "label": "Image",
+      "icon": "🖼",
+      "description": "Single image with caption",
+      "hint": "Click to set image source",
+      "fields": ["src", "alt", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "video",
+      "label": "Video",
+      "icon": "▶",
+      "description": "Embedded or local video",
+      "hint": "Click to add video URL",
+      "fields": ["embed", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "gallery",
+      "label": "Gallery",
+      "icon": "⊞",
+      "description": "Multiple images",
+      "hint": "Click to add images",
+      "fields": ["images", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "readme",
+      "label": "README",
+      "icon": "📄",
+      "description": "Project README markdown",
+      "hint": "Set path to README",
+      "fields": ["path"],
+      "allowInGroup": true
+    },
+    {
+      "type": "pdf",
+      "label": "PDF",
+      "icon": "📋",
+      "description": "Embedded PDF viewer",
+      "hint": "Click to set PDF source",
+      "fields": ["src"],
+      "allowInGroup": true
+    },
+    {
+      "type": "group",
+      "label": "Group",
+      "icon": "☰",
+      "description": "Container for sub-blocks",
+      "hint": "Click to add sub-blocks",
+      "fields": ["blocks"],
+      "allowInGroup": false
+    },
+    {
+      "type": "code",
+      "label": "Code",
+      "icon": "💻",
+      "description": "Code with syntax highlighting",
+      "hint": "Click to add code",
+      "fields": ["language", "filename", "src", "code", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "mermaid",
+      "label": "Mermaid",
+      "icon": "🧩",
+      "description": "Mermaid diagram",
+      "hint": "Click to add Mermaid diagram",
+      "fields": ["src", "code", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "terminal",
+      "label": "Terminal",
+      "icon": "＞",
+      "description": "Command-line session",
+      "hint": "Click to add commands",
+      "fields": ["src", "commands", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "comparison",
+      "label": "Compare",
+      "icon": "⇔",
+      "description": "Before/after comparison",
+      "hint": "Click to set images",
+      "fields": ["before", "after", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "graph",
+      "label": "Graph",
+      "icon": "📊",
+      "description": "Data visualization chart",
+      "hint": "Click to add data",
+      "fields": ["src", "chartType", "labels", "datasets", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "git-stats",
+      "label": "Git Stats",
+      "icon": "±",
+      "description": "Commit statistics",
+      "hint": "Click to add git statistics",
+      "fields": ["files_changed", "lines_added", "lines_removed", "diff_stat", "caption"],
+      "allowInGroup": true
+    },
+    {
+      "type": "related-mini",
+      "label": "Related Mini",
+      "icon": "↗",
+      "description": "Compact related project link",
+      "hint": "Link to another project",
+      "fields": ["slug"],
+      "allowInGroup": true
+    },
+    {
+      "type": "related-card",
+      "label": "Related Card",
+      "icon": "↗",
+      "description": "Related project card with summary",
+      "hint": "Link to another project with summary",
+      "fields": ["slug"],
+      "allowInGroup": true
+    }
+  ]
+}
