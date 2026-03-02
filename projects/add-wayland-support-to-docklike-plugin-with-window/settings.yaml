@@ -5,6 +5,7 @@ summary: Ported docklike-plugin from X11 to Wayland with live window thumbnail c
 date: '2026-01-18'
 status: in-progress
 size: large
+preview: media/screenshot_2026-03-01_20-15-00.png
 tags:
 - Wayland
 - Port

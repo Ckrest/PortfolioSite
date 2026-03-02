@@ -1,23 +1,39 @@
 # Diagram Tool
 
-title: "Diagram Tool"
-summary: "A Figma-like diagramming tool for flowcharts and system diagrams. Single-user, local-first with JSON file storage."
-date: 2025-11-23
-
-size: large
+title: Diagram Tool
+summary: A Figma-like diagramming tool for flowcharts and system diagrams. Single-user, local-first with JSON file storage.
+date: '2025-11-23'
 status: complete
-
-tags:
-  - Python
-  - MCP
-  - Frontend
-  - JavaScript
-
+size: large
 github: https://github.com/Ckrest/diagram-tool
-
 preview: preview.png
-
+tags:
+- Python
+- MCP
+- Frontend
+- JavaScript
 content:
   blocks:
-    - type: readme
-      path: README.md
+  - alt: screenshot_2025-12-05_13-14-52.png
+    caption: ''
+    id: 0ecbe552-34b8-4860-898b-a5b482078e8f
+    src: media/screenshot_2025-12-05_13-14-52.png
+    type: image
+  - alt: screenshot_2025-11-24_01-17-15.png
+    caption: ''
+    id: c1aaf09b-046a-4f5e-b4be-8fb3763d21b6
+    src: media/screenshot_2025-11-24_01-17-15.png
+    type: image
+  - id: 1576817f-c483-4d2c-9c1d-1f083d3af5b0
+    type: image
+    src: media/screenshot_2025-11-24_02-20-17.png
+    alt: screenshot_2025-11-24_02-20-17.png
+    caption: ''
+  - id: 5b4e97b4-1d6d-4a06-93f3-2cc366f5bf17
+    type: image
+    src: media/screenshot_2025-11-24_02-20-11.png
+    alt: screenshot_2025-11-24_02-20-11.png
+    caption: ''
+  - id: 5bb8b11e-5aef-4c7c-bdd5-08302e954b6c
+    path: README.md
+    type: readme

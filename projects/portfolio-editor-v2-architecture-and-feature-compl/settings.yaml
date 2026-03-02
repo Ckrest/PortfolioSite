@@ -1,12 +1,13 @@
-# Portfolio Editor v2
+# Portfolio Editor Update
 
-title: 'Portfolio Editor v2'
-summary: Full-featured web GUI for composing portfolio project pages from work reports with live preview, drag-drop, and controlled
-  vocabulary integration.
+title: 'Portfolio Editor Update'
+summary: Architecture overhaul and feature additions for the portfolio editor — modular ES modules, observer pattern, connection
+  pooling, archive/import workflow, and click-to-edit overlays.
 date: '2026-01-30'
 github: https://github.com/Ckrest/PortfolioSite
 status: in-progress
-size: large
+size: medium
+preview: media/screenshot_2026-01-30_18-17-26.png
 tags:
 - Python
 - Flask

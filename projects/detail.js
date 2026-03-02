@@ -118,17 +118,13 @@ const BLOCKS = {
       return `<p style="color:var(--color-text-secondary);text-align:center;">Loading README...</p>`;
     },
     async postRender(el, b, project) {
-      const path = b.path || 'README.md';
+      const path = normalizeReadmePath(b.path, { allowBlob: Boolean(window.__portfolioBridge) });
+      if (!path) {
+        el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">Invalid README path. Use a project-relative file (for example <code>README.md</code> or <code>docs/README.md</code>).</p>`;
+        return;
+      }
       try {
-        let url;
-        if (window.__portfolioBridge) {
-          // Editor preview: fetch through asset API
-          const slug = project.slug || project.folder;
-          url = `/api/v1/projects/${encodeURIComponent(slug)}/asset/${encodeURIComponent(path)}`;
-        } else {
-          // Live site: resolve relative to project folder
-          url = `${project.folder}/${path}`;
-        }
+        const url = getReadmeFetchUrl(project, path);
         const res = await fetch(url);
         if (!res.ok) throw new Error('not found');
         const text = await res.text();
@@ -139,13 +135,13 @@ const BLOCKS = {
         }
 
         marked.setOptions({ gfm: true, breaks: true });
-        el.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
+        const rendered = marked.parse(text);
+        const rewritten = isBlobLikePath(path)
+          ? rendered
+          : rewriteMarkdownRelativeUrls(rendered, path, project);
+        el.innerHTML = `<div class="markdown-content">${rewritten}</div>`;
       } catch {
-        if (window.__portfolioBridge) {
-          el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">No <code>${path}</code> in project folder yet.</p>`;
-        } else {
-          el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">Could not load README.</p>`;
-        }
+        el.innerHTML = `<p style="color:var(--color-text-secondary);text-align:center;">README file not found: <code>${escapeHtml(path)}</code>.</p>`;
       }
     },
   },
@@ -180,12 +176,14 @@ const BLOCKS = {
   // ── Code ────────────────────────────────────────────────────────────────
   code: {
     icon: '💻', label: 'Code', hint: 'Click to add code',
-    isEmpty(b) { return !b.code?.trim(); },
+    isEmpty(b) { return !b.src?.trim() && !b.code?.trim(); },
     render(b) {
-      const hasHeader = b.filename || b.language;
+      const hasHeader = b.filename || b.language || b.src;
+      const headerTitle = b.filename || b.language || b.src;
+      const initialCode = b.src ? (b.code || '// Loading source file...') : (b.code || '');
       const header = hasHeader ? `
         <div class="code-block-header">
-          <span class="code-block-title">${escapeHtml(b.filename || b.language)}</span>
+          <span class="code-block-title">${escapeHtml(headerTitle)}</span>
           ${b.filename && b.language ? `<span class="code-block-lang">${escapeHtml(b.language)}</span>` : ''}
           <button class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.block-code').querySelector('code').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button>
         </div>` : '';
@@ -193,17 +191,28 @@ const BLOCKS = {
       return `
         <figure>
           ${header}
-          <pre class="code-block-pre"><code>${escapeHtml(b.code || '')}</code></pre>
+          <pre class="code-block-pre"><code>${escapeHtml(initialCode)}</code></pre>
           ${caption}
         </figure>
       `;
+    },
+    async postRender(el, b, project) {
+      if (!b.src) return;
+      const codeEl = el.querySelector('pre code');
+      if (!codeEl) return;
+      try {
+        const text = await fetchTextFromSource(b.src, project);
+        codeEl.textContent = text;
+      } catch (err) {
+        codeEl.textContent = `Failed to load source: ${err.message}`;
+      }
     },
   },
 
   // ── Terminal ────────────────────────────────────────────────────────────
   terminal: {
     icon: '＞', label: 'Terminal', hint: 'Click to add commands',
-    isEmpty(b) { return !b.commands?.length; },
+    isEmpty(b) { return !b.src?.trim() && !b.commands?.length; },
     render(b) {
       const commands = (b.commands || []).map(cmd => {
         const prompt = `<span class="terminal-prompt">${escapeHtml(cmd.prompt || '$ ')}</span>`;
@@ -211,6 +220,8 @@ const BLOCKS = {
         const output = cmd.output ? `\n<span class="terminal-output">${escapeHtml(cmd.output)}</span>` : '';
         return `${prompt}${command}${output}`;
       }).join('\n');
+      const fallbackText = b.src ? (b.code || '# Loading terminal transcript...') : '';
+      const body = commands || escapeHtml(fallbackText);
       const caption = b.caption ? `<figcaption>${escapeHtml(b.caption)}</figcaption>` : '';
       return `
         <figure>
@@ -220,11 +231,22 @@ const BLOCKS = {
               <span class="terminal-dot yellow"></span>
               <span class="terminal-dot green"></span>
             </div>
-            <pre class="terminal-body"><code>${commands}</code></pre>
+            <pre class="terminal-body"><code>${body}</code></pre>
           </div>
           ${caption}
         </figure>
       `;
+    },
+    async postRender(el, b, project) {
+      if (!b.src) return;
+      const codeEl = el.querySelector('.terminal-body code');
+      if (!codeEl) return;
+      try {
+        const text = await fetchTextFromSource(b.src, project);
+        codeEl.textContent = text;
+      } catch (err) {
+        codeEl.textContent = `Failed to load terminal transcript: ${err.message}`;
+      }
     },
   },
 
@@ -259,7 +281,7 @@ const BLOCKS = {
   // ── Graph ───────────────────────────────────────────────────────────────
   graph: {
     icon: '📊', label: 'Graph', hint: 'Click to add data',
-    isEmpty(b) { return !b.datasets?.length; },
+    isEmpty(b) { return !b.src?.trim() && !b.datasets?.length; },
     render(b, _project, index) {
       const caption = b.caption ? `<figcaption>${escapeHtml(b.caption)}</figcaption>` : '';
       return `
@@ -271,10 +293,28 @@ const BLOCKS = {
         </figure>
       `;
     },
-    postRender(el, b) {
+    async postRender(el, b, project) {
       if (typeof Chart === 'undefined') return;
       const canvas = el.querySelector('canvas');
       if (!canvas) return;
+
+      let chartPayload = {
+        chartType: b.chartType || 'bar',
+        labels: b.labels || [],
+        datasets: b.datasets || [],
+      };
+
+      if (b.src) {
+        try {
+          const text = await fetchTextFromSource(b.src, project);
+          chartPayload = normalizeGraphPayload(parseGraphSource(text, b.src), chartPayload);
+        } catch (err) {
+          el.innerHTML = `<p class="error">Graph data load error: ${escapeHtml(err.message)}</p>`;
+          return;
+        }
+      } else {
+        chartPayload = normalizeGraphPayload(chartPayload, chartPayload);
+      }
 
       const colors = [
         { bg: 'rgba(124, 92, 255, 0.2)', border: '#7c5cff' },
@@ -285,10 +325,10 @@ const BLOCKS = {
       ];
 
       new Chart(canvas.getContext('2d'), {
-        type: b.chartType || 'bar',
+        type: chartPayload.chartType || 'bar',
         data: {
-          labels: b.labels || [],
-          datasets: (b.datasets || []).map((ds, i) => ({
+          labels: chartPayload.labels || [],
+          datasets: (chartPayload.datasets || []).map((ds, i) => ({
             label: ds.label || `Series ${i + 1}`,
             data: ds.data || [],
             backgroundColor: colors[i % colors.length].bg,
@@ -300,7 +340,7 @@ const BLOCKS = {
           responsive: true,
           maintainAspectRatio: true,
           plugins: {
-            legend: { display: (b.datasets || []).length > 1 },
+            legend: { display: (chartPayload.datasets || []).length > 1 },
           },
           scales: {
             y: { beginAtZero: true, grid: { color: 'rgba(161, 166, 179, 0.1)' } },
@@ -350,23 +390,28 @@ const BLOCKS = {
   // ── Mermaid ─────────────────────────────────────────────────────────────
   mermaid: {
     icon: '🧩', label: 'Mermaid', hint: 'Click to add Mermaid diagram',
-    isEmpty(b) { return !b.code?.trim(); },
+    isEmpty(b) { return !b.src?.trim() && !b.code?.trim(); },
     render(b) {
+      const initialCode = b.src ? (b.code || 'graph TD\n  Loading --> Source') : (b.code || '');
       const caption = b.caption ? `<figcaption>${escapeHtml(b.caption)}</figcaption>` : '';
       return `
         <figure>
-          <pre class="mermaid-code">${escapeHtml(b.code || '')}</pre>
-          <div class="mermaid-diagram" data-mermaid="${encodeURIComponent(b.code || '')}"></div>
+          <pre class="mermaid-code">${escapeHtml(initialCode)}</pre>
+          <div class="mermaid-diagram" data-mermaid="${encodeURIComponent(initialCode)}"></div>
           ${caption}
         </figure>
       `;
     },
-    async postRender(el, b) {
+    async postRender(el, b, project) {
       const container = el.querySelector('.mermaid-diagram');
       if (!container || typeof mermaid === 'undefined') return;
 
       try {
-        const code = decodeURIComponent(container.dataset.mermaid);
+        const code = b.src
+          ? await fetchTextFromSource(b.src, project)
+          : decodeURIComponent(container.dataset.mermaid);
+        const pre = el.querySelector('.mermaid-code');
+        if (pre) pre.textContent = code;
         const { svg } = await mermaid.render('mermaid-' + crypto.randomUUID(), code);
         container.innerHTML = svg;
         container.classList.add('mermaid-rendered');
@@ -396,6 +441,172 @@ function resolvePath(src, project) {
     return `/api/artifact-preview?path=${encodeURIComponent(src)}`;
   }
   return `${project.folder}/${src}`;
+}
+
+async function fetchTextFromSource(src, project) {
+  const resolved = resolvePath(src, project);
+  if (!resolved) {
+    throw new Error('empty source path');
+  }
+  const res = await fetch(resolved);
+  if (!res.ok) {
+    throw new Error(`file not found (${res.status})`);
+  }
+  return res.text();
+}
+
+function isBlobLikePath(path) {
+  return typeof path === 'string' && (path.startsWith('blob:') || path.startsWith('data:'));
+}
+
+function encodePathSegments(path) {
+  return path.split('/').map(encodeURIComponent).join('/');
+}
+
+function getReadmeFetchUrl(project, path) {
+  if (isBlobLikePath(path)) {
+    return path;
+  }
+  if (window.__portfolioBridge) {
+    // Editor preview: fetch through asset API.
+    const slug = project.slug || project.folder;
+    return `/api/v1/projects/${encodeURIComponent(slug)}/asset/${encodePathSegments(path)}`;
+  }
+  // Live site: resolve relative to project folder.
+  return `${project.folder}/${path}`;
+}
+
+function normalizeReadmePath(rawPath, { allowBlob = false } = {}) {
+  const fallback = 'README.md';
+  const candidate = String(rawPath || fallback).trim() || fallback;
+  if (allowBlob && isBlobLikePath(candidate)) {
+    return candidate;
+  }
+  const normalized = candidate.replace(/\\/g, '/').replace(/^\.\/+/, '');
+
+  // Reject absolute, traversal, and URL-like paths.
+  if (normalized.startsWith('/')) return null;
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(normalized)) return null;
+
+  const parts = normalized.split('/').filter(Boolean);
+  if (parts.length === 0) return fallback;
+  if (parts.some((part) => part === '.' || part === '..')) return null;
+  return parts.join('/');
+}
+
+function normalizeGraphPayload(parsed, fallback = {}) {
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    return {
+      chartType: fallback.chartType || 'bar',
+      labels: fallback.labels || [],
+      datasets: fallback.datasets || [],
+    };
+  }
+
+  return {
+    chartType: parsed.chartType || parsed.type || fallback.chartType || 'bar',
+    labels: Array.isArray(parsed.labels) ? parsed.labels : (fallback.labels || []),
+    datasets: Array.isArray(parsed.datasets) ? parsed.datasets : (fallback.datasets || []),
+  };
+}
+
+function parseGraphSource(text, src) {
+  const lower = String(src || '').toLowerCase();
+  if (lower.endsWith('.csv')) {
+    return parseCsvGraphSource(text);
+  }
+  if (lower.endsWith('.yaml') || lower.endsWith('.yml')) {
+    if (typeof jsyaml !== 'undefined' && typeof jsyaml.load === 'function') {
+      return jsyaml.load(text);
+    }
+    throw new Error('YAML parser is not available in this build');
+  }
+  return JSON.parse(text);
+}
+
+function parseCsvGraphSource(text) {
+  const rows = String(text || '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.split(',').map((cell) => cell.trim()));
+  if (rows.length < 2) {
+    throw new Error('CSV must include a header row and at least one data row');
+  }
+
+  const header = rows[0];
+  const dataRows = rows.slice(1);
+  const labels = dataRows.map((row) => row[0]);
+  const datasets = [];
+
+  for (let col = 1; col < header.length; col += 1) {
+    datasets.push({
+      label: header[col] || `Series ${col}`,
+      data: dataRows.map((row) => Number.parseFloat(row[col]) || 0),
+    });
+  }
+
+  return {
+    chartType: 'line',
+    labels,
+    datasets,
+  };
+}
+
+function isRelativeReference(value) {
+  if (!value || typeof value !== 'string') return false;
+  if (value.startsWith('/')) return false;
+  if (value.startsWith('#')) return false;
+  if (value.startsWith('data:') || value.startsWith('blob:')) return false;
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(value)) return false;
+  return true;
+}
+
+function splitPathAndSuffix(value) {
+  const match = value.match(/^([^?#]*)([?#].*)?$/);
+  return {
+    path: match ? match[1] : value,
+    suffix: match ? (match[2] || '') : '',
+  };
+}
+
+function resolveRelativePath(basePath, relativePath) {
+  const stack = [];
+  const combined = `${basePath}/${relativePath}`;
+  for (const segment of combined.split('/')) {
+    if (!segment || segment === '.') continue;
+    if (segment === '..') {
+      if (stack.length === 0) return null;
+      stack.pop();
+      continue;
+    }
+    stack.push(segment);
+  }
+  return stack.join('/');
+}
+
+function rewriteMarkdownRelativeUrls(renderedHtml, readmePath, project) {
+  const template = document.createElement('template');
+  template.innerHTML = renderedHtml;
+  const baseParts = readmePath.split('/');
+  baseParts.pop();
+  const baseDir = baseParts.join('/');
+
+  const rewriteAttr = (element, attrName) => {
+    const raw = element.getAttribute(attrName);
+    if (!raw || !isRelativeReference(raw)) return;
+
+    const { path, suffix } = splitPathAndSuffix(raw);
+    if (!path) return;
+
+    const resolved = resolveRelativePath(baseDir, path);
+    if (!resolved) return;
+    element.setAttribute(attrName, `${resolvePath(`${resolved}${suffix}`, project)}`);
+  };
+
+  template.content.querySelectorAll('a[href]').forEach((node) => rewriteAttr(node, 'href'));
+  template.content.querySelectorAll('img[src]').forEach((node) => rewriteAttr(node, 'src'));
+  return template.innerHTML;
 }
 
 // ── Page Init ───────────────────────────────────────────────────────────────
@@ -550,39 +761,7 @@ async function renderBlocks(project, settings) {
   main.innerHTML = html;
 
   // Post-render pass: initialize blocks that need DOM access (readme, graph, etc.)
-  for (let i = 0; i < blocks.length; i++) {
-    const def = BLOCKS[blocks[i].type];
-    if (def?.postRender) {
-      const el = main.querySelector(`[data-block-index="${i}"]`);
-      if (el) await def.postRender(el, blocks[i], project);
-    }
-  }
-
-  // Auto-README fallback: if no content blocks and project has GitHub, try loading README.md
-  if (blocks.length === 0 && project.github) {
-    try {
-      const res = await fetch(`${project.folder}/README.md`);
-      if (res.ok) {
-        const text = await res.text();
-
-        if (typeof marked === 'undefined') {
-          const readmeSection = document.createElement('section');
-          readmeSection.className = 'block-readme';
-          readmeSection.innerHTML = `<p style="color:var(--color-text-secondary);">Markdown renderer not loaded. Cannot display README.</p>`;
-          main.appendChild(readmeSection);
-          return;
-        }
-
-        marked.setOptions({ gfm: true, breaks: true });
-        const readmeSection = document.createElement('section');
-        readmeSection.className = 'block-readme';
-        readmeSection.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
-        main.appendChild(readmeSection);
-      }
-    } catch {
-      // No README available — header-only page is fine
-    }
-  }
+  await runPostRenderPass(main, blocks, project);
 }
 
 // ── Empty Block Detection (editor preview only) ─────────────────────────────
@@ -638,6 +817,39 @@ function renderBlockGroup(block, project, index) {
   return `<section class="block-group"${indexAttr}${idAttr}>${children}</section>`;
 }
 
+function selectorEscape(value) {
+  const stringValue = String(value);
+  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') return CSS.escape(stringValue);
+  return stringValue.replace(/["\\]/g, '\\$&');
+}
+
+function findBlockElement(rootEl, block, topLevelIndex) {
+  if (block?.id) {
+    const byId = rootEl.querySelector(`[data-block-id="${selectorEscape(block.id)}"]`);
+    if (byId) return byId;
+  }
+  if (topLevelIndex != null) {
+    return rootEl.querySelector(`[data-block-index="${topLevelIndex}"]`);
+  }
+  return null;
+}
+
+async function runPostRenderPass(rootEl, blockList, project, topLevel = true) {
+  for (let i = 0; i < blockList.length; i++) {
+    const block = blockList[i];
+    const def = BLOCKS[block.type];
+    const el = findBlockElement(rootEl, block, topLevel ? i : null);
+
+    if (def?.postRender && el) {
+      await def.postRender(el, block, project);
+    }
+
+    if (block.type === 'group' && Array.isArray(block.blocks) && el) {
+      await runPostRenderPass(el, block.blocks, project, false);
+    }
+  }
+}
+
 // ── Live Preview API ────────────────────────────────────────────────────────
 
 // Store current project reference for blocks-only rerender
@@ -691,13 +903,7 @@ window.__renderBlocksOnly = async function(blocks) {
   }
 
   // Post-render pass for blocks that need DOM access (readme, graph, etc.)
-  for (let i = 0; i < blocks.length; i++) {
-    const def = BLOCKS[blocks[i].type];
-    if (def?.postRender) {
-      const el = main.querySelector(`[data-block-index="${i}"]`);
-      if (el) await def.postRender(el, blocks[i], project);
-    }
-  }
+  await runPostRenderPass(main, blocks, project);
 
   return { success: true };
 };

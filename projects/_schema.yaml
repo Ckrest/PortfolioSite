@@ -80,9 +80,6 @@ content:
       #             labels[], datasets[] (label, data[]), caption
       # git-stats:  files_changed, lines_added, lines_removed, diff_stat (optional)
 
-  # --- Legacy modes (still supported) ---
-  mode: minimal | structured | readme | pdf
-
   # --- Optional for any content type ---
   links:                         # Additional action buttons
     - label: string

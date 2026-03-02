@@ -6,12 +6,38 @@ date: '2026-01-10'
 status: complete
 size: large
 github: https://github.com/Ckrest/comfy-viewer
+preview: media/screenshot_2026-03-01_20-55-50.png
 tags:
 - ComfyUI
 - Python
 - Frontend
 content:
   blocks:
-  - path: README.md
+  - id: 72755157-23db-4c7d-bb07-56a3c75f0aa0
+    type: image
+    src: media/screenshot_2026-03-01_20-57-38-1.png
+    alt: screenshot_2026-03-01_20-57-38.png
+    caption: ''
+  - id: 293e5a0b-61c7-4491-be52-47c71bea9a6e
+    type: image
+    src: media/screenshot_2026-03-01_20-56-58.png
+    alt: screenshot_2026-03-01_20-56-58.png
+    caption: ''
+  - id: 13ab08cc-8749-4b57-9e1c-cbff2991b988
+    type: image
+    src: media/screenshot_2026-03-01_20-57-12.png
+    alt: screenshot_2026-03-01_20-57-12.png
+    caption: ''
+  - id: 6eeda161-3b15-4b84-b91f-cb3340ad57c1
+    type: image
+    src: media/screenshot_2026-03-01_20-56-08.png
+    alt: screenshot_2026-03-01_20-56-08.png
+    caption: ''
+  - id: 65391d3d-e27b-4427-96ad-c68491dc5d46
+    type: image
+    src: media/screenshot_2026-03-01_20-55-50-1.png
+    alt: screenshot_2026-03-01_20-55-50.png
+    caption: ''
+  - id: 1f5c6575-e1bd-4025-b0bf-3813bcab6d08
+    path: README.md
     type: readme
-    id: 1f5c6575-e1bd-4025-b0bf-3813bcab6d08

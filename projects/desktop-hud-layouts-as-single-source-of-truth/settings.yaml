@@ -30,3 +30,8 @@ content:
       REST endpoint for additive profile loading.
     id: blk_e9c777ea
     type: text
+  - id: f4843f3e-91a9-4d82-9ec5-ac4a631296b6
+    type: image
+    src: media/screenshot_2026-03-01_19-08-39.png
+    alt: ''
+    caption: ''

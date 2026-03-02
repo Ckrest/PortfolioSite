@@ -1,12 +1,12 @@
-# Portfolio Editor v1
+# Portfolio Editor
 
-title: Portfolio Editor v1
-summary: Built the first version of a web-based portfolio editor with work report integration, drag-and-drop blocks, and live
-  preview.
+title: Portfolio Editor
+summary: Web-based portfolio editor with work report integration, drag-and-drop blocks, and live preview.
 date: '2026-01-27'
 status: in-progress
 size: large
 github: https://github.com/Ckrest/PortfolioSite
+preview: media/screenshot_2026-02-23_02-25-56-1.png
 icon: icon.svg
 tags:
 - Feature
@@ -24,3 +24,92 @@ content:
       block types including text, images, video, galleries, and code.
     id: blk_b680a277
     type: text
+  - alt: screenshot_2026-03-01_19-54-03.png
+    caption: ''
+    id: c6664130-79cc-40d6-859c-9614eae5232e
+    src: media/screenshot_2026-03-01_19-54-03.png
+    type: image
+  - caption: ''
+    id: 362cf733-0a10-4840-825a-98cef4ed5594
+    images:
+    - alt: screenshot_2026-02-28_15-47-40.png
+      src: media/screenshot_2026-02-28_15-47-40.png
+    - alt: screenshot_2026-02-28_15-44-50.png
+      src: media/screenshot_2026-02-28_15-44-50.png
+    - alt: screenshot_2026-02-28_13-21-49.png
+      src: media/screenshot_2026-02-28_13-21-49.png
+    type: gallery
+  - caption: ''
+    id: 03d68eb5-57fc-4b63-a635-a373dc4cd247
+    images:
+    - alt: screenshot_2026-02-23_02-53-19.png
+      src: media/screenshot_2026-02-23_02-53-19.png
+    - alt: screenshot_2026-02-23_02-49-55.png
+      src: media/screenshot_2026-02-23_02-49-55.png
+    - alt: screenshot_2026-02-23_02-48-36.png
+      src: media/screenshot_2026-02-23_02-48-36.png
+    - alt: screenshot_2026-02-23_02-46-50.png
+      src: media/screenshot_2026-02-23_02-46-50.png
+    - alt: screenshot_2026-02-23_02-45-47.png
+      src: media/screenshot_2026-02-23_02-45-47.png
+    - alt: screenshot_2026-02-23_02-43-04.png
+      src: media/screenshot_2026-02-23_02-43-04.png
+    - alt: screenshot_2026-02-23_02-39-34.png
+      src: media/screenshot_2026-02-23_02-39-34.png
+    - alt: screenshot_2026-02-23_02-39-03.png
+      src: media/screenshot_2026-02-23_02-39-03.png
+    - alt: screenshot_2026-02-23_02-38-14.png
+      src: media/screenshot_2026-02-23_02-38-14.png
+    - alt: screenshot_2026-02-23_02-25-56.png
+      src: media/screenshot_2026-02-23_02-25-56.png
+    type: gallery
+  - caption: ''
+    id: 016e5170-f89e-4c8b-828e-348a076de74e
+    images:
+    - alt: screenshot_2026-02-15_20-13-23.png
+      src: media/screenshot_2026-02-15_20-13-23.png
+    - alt: screenshot_2026-02-15_19-56-04.png
+      src: media/screenshot_2026-02-15_19-56-04.png
+    type: gallery
+  - caption: ''
+    id: 7a59404f-7b51-414f-baf4-e1398aa1847c
+    images:
+    - alt: screenshot_2026-01-28_03-18-31.png
+      src: media/screenshot_2026-01-28_03-18-31.png
+    - alt: screenshot_2026-01-28_03-18-11.png
+      src: media/screenshot_2026-01-28_03-18-11.png
+    - alt: screenshot_2026-01-28_03-17-46.png
+      src: media/screenshot_2026-01-28_03-17-46.png
+    - alt: screenshot_2026-01-28_03-17-38.png
+      src: media/screenshot_2026-01-28_03-17-38-1.png
+    - alt: screenshot_2026-01-28_03-17-22.png
+      src: media/screenshot_2026-01-28_03-17-22-1.png
+    - alt: screenshot_2026-01-28_01-38-17.png
+      src: media/screenshot_2026-01-28_01-38-17.png
+    - alt: screenshot_2026-01-27_21-52-23.png
+      src: media/screenshot_2026-01-27_21-52-23.png
+    - alt: screenshot_2026-01-27_20-40-46.png
+      src: media/screenshot_2026-01-27_20-40-46.png
+    - alt: screenshot_2026-01-27_20-40-07.png
+      src: media/screenshot_2026-01-27_20-40-07.png
+    type: gallery
+  - caption: ''
+    id: f0b83ac8-0c2e-41c2-a436-658d453f2b0e
+    images:
+    - alt: screenshot_2026-01-30_18-19-41.png
+      src: media/screenshot_2026-01-30_18-19-41.png
+    - alt: screenshot_2026-01-30_18-18-51.png
+      src: media/screenshot_2026-01-30_18-18-51.png
+    - alt: screenshot_2026-01-30_18-17-26.png
+      src: media/screenshot_2026-01-30_18-17-26.png
+    - alt: screenshot_2026-01-30_18-16-28.png
+      src: media/screenshot_2026-01-30_18-16-28.png
+    - alt: screenshot_2026-01-30_18-16-07.png
+      src: media/screenshot_2026-01-30_18-16-07.png
+    - alt: screenshot_2026-01-30_18-15-44.png
+      src: media/screenshot_2026-01-30_18-15-44.png
+    - alt: screenshot_2026-01-30_18-15-24.png
+      src: media/screenshot_2026-01-30_18-15-24.png
+    - alt: screenshot_2026-01-30_18-14-54.png
+      src: media/screenshot_2026-01-30_18-14-54.png
+    type: gallery

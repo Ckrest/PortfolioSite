@@ -1,7 +1,38 @@
 # Settings Hub
 
+title: Settings Hub
+summary: GTK4 desktop dashboard with a tile-based layout system for monitoring and controlling system services.
+date: '2025-11-26'
+status: in-progress
+size: large
+github: https://github.com/Ckrest/settings-hub
+preview: media/screenshot_2026-03-01_18-30-10-1.png
+tags:
+- Python
+- GTK
+- Desktop Environment
 content:
   blocks:
+  - id: e35bc612-ec99-4bf6-a7d0-5c8585bf6619
+    type: image
+    src: media/screenshot_2026-03-01_18-30-19.png
+    alt: ''
+    caption: ''
+  - id: dcbdb1b1-f99d-41d2-ac99-236a78101eae
+    type: image
+    src: media/screenshot_2026-03-01_18-30-45.png
+    alt: ''
+    caption: ''
+  - id: 64853a29-44ef-4fab-90b4-b60b936152a9
+    type: image
+    src: media/screenshot_2026-03-01_18-31-03.png
+    alt: ''
+    caption: ''
+  - id: eeb91b2f-9622-4edf-839d-98b718c7f3a6
+    type: image
+    src: media/screenshot_2026-03-01_18-30-10.png
+    alt: ''
+    caption: ''
   - body: '## Catalog Refactor & Provider Error-Surfacing (Report #68, 2026-02-12)
 
 
@@ -42,8 +73,7 @@ content:
       Added settings-hub subcommands to night-mode, ping-monitor, and soundboard for machine-readable status payloads.'
     id: blk_af04b5a3
     type: text
-  - type: text
-    body: '## Graph Gap Handling, Async Buttons, Dynamic Tab Labels (Report #111, 2026-02-21)
+  - body: '## Graph Gap Handling, Async Buttons, Dynamic Tab Labels (Report #111, 2026-02-21)
 
 
       Three independent enhancements to the settings-hub tile framework:
@@ -60,13 +90,4 @@ content:
 
       *7 files changed, +1972 -401 lines*'
     id: blk_493f7146
-date: '2025-11-26'
-github: https://github.com/Ckrest/settings-hub
-size: large
-status: in-progress
-summary: GTK4 desktop dashboard with a tile-based layout system for monitoring and controlling system services.
-tags:
-- Python
-- GTK
-- Desktop Environment
-title: Settings Hub
+    type: text

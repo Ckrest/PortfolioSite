@@ -1,11 +1,13 @@
 # Desktop HUD: GTK4 Layer Shell Overlay
 
 title: 'Desktop HUD: GTK4 Layer Shell Overlay'
-summary: Configurable desktop overlay using GTK4 and layer-shell, supporting images, videos, and live data widgets with a runtime HTTP API.
+summary: Configurable desktop overlay using GTK4 and layer-shell, supporting images, videos, and live data widgets with a
+  runtime HTTP API.
 date: '2026-02-22'
 status: in-progress
 size: large
 github: https://github.com/Ckrest/desktop-hud
+preview: media/screenshot_2026-03-01_19-08-39.png
 icon: icon.svg
 tags:
 - Python
@@ -81,3 +83,31 @@ content:
       *28 files changed, +482 -5 lines*'
     id: blk_1deb5d0d
     type: text
+  - alt: ''
+    caption: ''
+    id: 55a67fc6-b950-4dd5-847a-2248f5d91153
+    src: media/screenshot_2026-03-01_19-09-21.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: bc9e2736-a533-473b-b28c-deda71eb75b2
+    src: media/screenshot_2026-03-01_19-09-09.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: c533211c-7b98-4cb2-9c4e-92d39d2c0a71
+    src: media/screenshot_2026-03-01_19-09-00.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: 9a20f150-58d3-4a3e-8086-c3a17ca46968
+    src: media/screenshot_2026-03-01_19-08-56.png
+    type: image
+  - alt: ''
+    caption: ''
+    id: c9f531e0-b378-4797-b53c-f69e04ee5f5a
+    src: media/screenshot_2026-03-01_19-08-52.png
+    type: image
+  - id: 088dd699-132c-4d81-8e80-527dfbabe8e1
+    type: readme
+    path: media/README.md

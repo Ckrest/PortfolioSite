@@ -159,7 +159,7 @@ content:
 
 - `src` paths are relative to the project folder (or absolute URLs starting with `http`)
 - Groups cannot be nested inside other groups
-- Legacy `content.mode` (readme, pdf, minimal) still works for existing projects
+- `content.mode` / `readmePath` / `pdfPath` are no longer supported; use `content.blocks` only
 
 ---
 
