@@ -1,0 +1,33 @@
+#!/usr/bin/python3
+"""Serve the currently realized Portfolio Site on its local-only endpoint."""
+
+from __future__ import annotations
+
+import os
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+
+HOST = "127.0.0.1"
+PORT = 9742
+
+
+def active_distribution() -> Path:
+    state_home = Path(
+        os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")
+    ).expanduser()
+    distribution = state_home / "portfolio-site/active/dist"
+    if not (distribution / "index.html").is_file():
+        raise SystemExit(f"Reviewed Portfolio Site is not realized: {distribution}")
+    return distribution
+
+
+def main() -> None:
+    handler = partial(SimpleHTTPRequestHandler, directory=str(active_distribution()))
+    server = ThreadingHTTPServer((HOST, PORT), handler)
+    server.serve_forever()
+
+
+if __name__ == "__main__":
+    main()

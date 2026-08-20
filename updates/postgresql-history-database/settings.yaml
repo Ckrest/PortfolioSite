@@ -1,0 +1,80 @@
+content:
+  blocks:
+  - body: '## Give tool activity a shared data model
+
+
+      I built the Systems History Database so local tools can record operations and
+      the files they consume or produce without inventing a separate log format for
+      every integration. PostgreSQL provides transactions, relational constraints,
+      time-aware queries, and JSONB fields for tool-specific configuration.
+
+
+      The schema separates operations, artifacts, and tags. An operation stores its
+      type, owning tool, optional model, start and completion times, duration, status,
+      error, configuration, and an optional parent operation. Artifacts store a stable
+      UUID, resolved path, file type, size, checksum, MIME type, timestamp, and flexible
+      metadata. Junction tables link inputs, outputs, and tags without copying file
+      records into every event.
+
+
+      ## Preserve lineage, not just a list of events
+
+
+      The repository supports both long-running and one-shot work. A caller can start
+      an operation, register inputs as they become known, attach outputs, and complete
+      with success or failure. A convenience path performs the same lifecycle for
+      work that has already completed. Artifact registration is idempotent by resolved
+      path and computes SHA-256 for files below the configured 100 MB threshold.
+
+
+      Queries cover recent operations, time ranges, tools, operation types, tags,
+      artifact history, and parent-operation chains. The first database run records
+      two successful operations at 19:43 on November 16. Its ComfyUI image-generation
+      record links `test_prompt.txt` as an input and `test_output.png` as an output,
+      exercising operation-to-artifact lineage end to end.
+
+
+      ## Keep the boundary practical
+
+
+      SQLAlchemy supplies the model and repository boundary. Alembic is configured
+      to generate, apply, and roll back schema migrations. Local connections use peer
+      authentication through `postgresql:///systems_history`, while direct SQL examples
+      and `pg_dump`/restore procedures keep the store inspectable outside the Python
+      API.'
+    id: blk_editorial_postgresql-history-database
+    type: text
+  - alt: Terminal showing the first Systems History Database output and its linked
+      input and output artifacts
+    caption: Here’s the first output.
+    id: blk_history_first_lineage
+    src: postgresql-history-first-output.png
+    type: image
+  - caption: The schema models operations and artifacts independently, then uses explicit
+      relations for inputs, outputs, tags, and operation chains.
+    code: "erDiagram\n  OPERATION ||--o{ OPERATION_INPUT : consumes\n  ARTIFACT ||--o{\
+      \ OPERATION_INPUT : is_input\n  OPERATION ||--o{ OPERATION_OUTPUT : produces\n\
+      \  ARTIFACT ||--o{ OPERATION_OUTPUT : is_output\n  OPERATION }o--o{ TAG : categorized_by\n\
+      \  OPERATION o|--o{ OPERATION : parent_of\n\n  OPERATION {\n    uuid id\n  \
+      \  string operation_type\n    string tool_name\n    string status\n    timestamp\
+      \ started_at\n    timestamp completed_at\n    jsonb config\n  }\n  ARTIFACT\
+      \ {\n    uuid id\n    text file_path\n    string file_type\n    string checksum\n\
+      \    jsonb metadata\n  }"
+    id: blk_history_database
+    type: mermaid
+date: '2025-11-16'
+discovery: listed
+github: https://github.com/Ckrest/postgresql-history-database
+icon: icon.svg
+kind: update
+preview: postgresql-history-first-output.png
+previewAlt: The first recorded Systems History Database output and its linked artifacts
+prominence: medium
+related_to: []
+slug: postgresql-history-database
+summary: Built a PostgreSQL history store for tool operations and artifacts, with
+  a normalized SQLAlchemy schema, repository API, and provenance queries.
+tags:
+- PostgreSQL
+- Infrastructure
+title: Built a shared history database for system activity

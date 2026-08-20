@@ -1,0 +1,11 @@
+[Unit]
+Description=Portfolio Site reviewed-pool local preview
+After=network.target
+
+[Service]
+Type=simple
+Slice=app.slice
+ExecStart=%h/.local/bin/portfolio-site-server
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=5

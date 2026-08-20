@@ -1,0 +1,31 @@
+{
+  "schema": "portfolio-capability@3",
+  "capability": {
+    "kind": "capability",
+    "slug": "design-durable-data-evidence-pipelines",
+    "title": "Design durable data and evidence pipelines",
+    "summary": "This temporary shell connects capture-time storage, typed artifacts, shared history, editing, review, and publication into a durable evidence flow.",
+    "folder": "design-durable-data-evidence-pipelines",
+    "preview": null,
+    "previewAlt": "Design durable data and evidence pipelines",
+    "evidence": [
+      {
+        "slug": "postgresql-history-database",
+        "folder": "postgresql-history-database",
+        "title": "Built a shared history database for system activity",
+        "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+        "date": "2025-11-16",
+        "prominence": "medium",
+        "icon": "icon.svg",
+        "preview": "postgresql-history-first-output.png",
+        "previewAlt": "The first recorded Systems History Database output and its linked artifacts",
+        "previewWidth": 1719,
+        "previewHeight": 915,
+        "tags": [
+          "PostgreSQL",
+          "Infrastructure"
+        ]
+      }
+    ]
+  }
+}

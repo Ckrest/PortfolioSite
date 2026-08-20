@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -z "${SYSTEMS_NATIVE_ROOT:-}" ]]; then
+  echo "SYSTEMS_NATIVE_ROOT is required" >&2
+  exit 2
+fi
+if [[ -z "${PORTFOLIO_SITE_POOL_REQUEST:-}" ]]; then
+  echo "PORTFOLIO_SITE_POOL_REQUEST is required" >&2
+  exit 2
+fi
+
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+SITE_ROOT="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
+STAGE_ROOT="$SYSTEMS_NATIVE_ROOT/stage"
+OUTPUT_ROOT="$STAGE_ROOT/portfolio-site"
+mkdir -p "$STAGE_ROOT"
+
+REQUEST_PATH="$(readlink -f "$PORTFOLIO_SITE_POOL_REQUEST")"
+if [[ ! -f "$REQUEST_PATH" ]]; then
+  echo "Claimed Portfolio pool request is unavailable: $REQUEST_PATH" >&2
+  exit 2
+fi
+jq -e '
+  .schema == "portfolio-site/pool-build@2"
+  and .purpose == "accepted"
+  and (.pool_revision | type == "number" and . > 0)
+  and .pool.schema == "portfolio-site/project-pool@1"
+  and (.pool.members | type == "array")
+  and (.expected.approval_bundle_id | type == "string" and length > 0)
+  and (.expected.result_digest | type == "string" and length > 0)
+' "$REQUEST_PATH" >/dev/null
+
+cd "$SITE_ROOT"
+NODE_BIN="${PORTFOLIO_SITE_NODE:-}"
+if [[ -z "$NODE_BIN" ]]; then
+  NODE_BIN="$(command -v node || true)"
+fi
+if [[ -z "$NODE_BIN" || ! -x "$NODE_BIN" ]]; then
+  echo "Portfolio Site Node interpreter is unavailable" >&2
+  exit 127
+fi
+"$NODE_BIN" updates/_pool-build.js --input "$REQUEST_PATH" --output "$OUTPUT_ROOT"
+"$NODE_BIN" updates/_pool-build.js --verify-output "$OUTPUT_ROOT" >/dev/null

@@ -1,0 +1,6 @@
+kind: capability
+slug: design-connect-multi-tool-systems
+title: Design and connect multi-tool software systems
+summary: This temporary shell connects the registries, desktop services, data stores, reporting tools, and publishing systems that demonstrate this capability.
+evidence:
+  - postgresql-history-database

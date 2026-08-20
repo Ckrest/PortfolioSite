@@ -1,0 +1,46 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "process-manager",
+    "title": "Built a desktop service manager with live logs",
+    "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
+    "date": "2025-10-18",
+    "prominence": "medium",
+    "discovery": "listed",
+    "icon": "icon.svg",
+    "preview": "media/process-manager-gtk-reconstruction-2025-10-18.png",
+    "previewAlt": "Reconstructed October 2025 GTK Process Manager showing grouped systemd services, lifecycle controls, and live journal logs",
+    "github": "https://github.com/Ckrest/process-manager",
+    "tags": [
+      "Python",
+      "GTK",
+      "Systemd"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Make background services operable from one place\n\nI built Process Manager because the desktop depends on a growing collection of systemd user services—ComfyUI, local language and speech tools, desktop helpers, and infrastructure—but understanding their state otherwise requires repeating several terminal commands. The application brings that operational surface into a GTK dashboard without becoming a second process supervisor.\n\nSystemd remains responsible for starting processes, persistence, restart policy, and the journal. Process Manager discovers opted-in services, reads their current state, and issues explicit start, stop, restart, enable, and disable actions. If the manager closes or restarts, the services continue normally because it does not claim ownership of their process lifetime.\n\n## Status for repeated observation\n\nThe service list groups entries by category and shows state, port, uptime, and memory use. Running, failed, stopped, starting, and stopping states use distinct treatments. Selecting a service keeps its identity attached to the controls and log view, while manual refresh and periodic updates reconcile the display with systemd.\n\nThe status path uses a two-second cache. Without it, a five-service set would require roughly three subprocess calls per service every second—more than fifteen calls per second. The cache gathers each service’s status once per refresh window, bringing the same example down to about five calls every two seconds. A lifecycle action invalidates that service’s cached state, so the UI does not wait for an unrelated refresh cycle.\n\n## Treat live logs as a first-class workspace\n\nA background streamer loads recent journal entries, then follows all watched units through one `journalctl --user -f -o json` process. It parses journal priority into debug, info, warning, and error levels, retains a bounded in-memory buffer, and delivers entries to GTK through a queue rather than updating widgets from the reader thread.\n\nThe interface can show one selected service or the combined stream, filter by severity, search and highlight text, clear the working buffer, and control auto-scroll. Manual scrolling disables automatic movement so a new line cannot pull the operator away from an older failure being inspected.",
+          "id": "blk_editorial_process-manager",
+          "type": "text"
+        },
+        {
+          "caption": "Status, controls, and live logs converge on the same selected systemd unit while systemd retains process ownership.",
+          "code": "flowchart LR\n  Discovery[Opt-in service discovery] --> Cache[Two-second status cache]\n  Systemd[systemd user manager] --> Cache\n  Cache --> List[Grouped service list]\n  List --> Selection[Selected service context]\n  Selection --> Actions[Start, stop, restart, enable]\n  Journal[journalctl JSON stream] --> Buffer[Bounded parsed log buffer]\n  Buffer --> Filters[Service, level, and text filters]\n  Filters --> Selection",
+          "id": "blk_process_workspace",
+          "type": "mermaid"
+        }
+      ]
+    },
+    "folder": "process-manager",
+    "related_to": [],
+    "phase": 1,
+    "previewWidth": 1152,
+    "previewHeight": 799,
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  }
+}

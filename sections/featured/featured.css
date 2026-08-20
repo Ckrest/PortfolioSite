@@ -1,0 +1,132 @@
+/**
+ * Featured Section
+ *
+ * Featured-specific styles that extend the base update-entry component.
+ * Removes background and stripe for a cleaner, prominent display.
+ *
+ * Base entry styles are in: css/components/update-entry.css
+ */
+
+[data-section="featured"] {
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRIES CONTAINER
+     ═══════════════════════════════════════════════════════════════ */
+
+  .featured-entries {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRY OVERRIDES - No background, no stripe
+     ═══════════════════════════════════════════════════════════════ */
+
+  .update-entry {
+    /* Remove background and stripe */
+    --entry-bg: transparent;
+    --entry-bg-hover: color-mix(in oklab, var(--color-surface-soft), transparent 60%);
+    --entry-stripe-width: 0;
+
+    /* Add left padding where stripe would be */
+    padding-left: var(--entry-pad-md);
+  }
+
+  /* Large entries need internal padding adjustment */
+  .update-entry--large .update-entry__header {
+    padding-left: 0;
+  }
+
+  .update-entry--large .update-entry__body {
+    padding-left: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ENTRY PRESENTATION
+     ═══════════════════════════════════════════════════════════════ */
+
+}
+
+/* Editorial featured story */
+[data-section="featured"] {
+  .featured-entries { gap: var(--space-8); }
+
+  .update-entry {
+    --entry-bg: color-mix(in oklab, var(--color-panel), transparent 20%);
+    --entry-bg-hover: color-mix(in oklab, var(--color-soft), transparent 12%);
+    --entry-stripe-width: 0;
+    padding-left: 0;
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .update-entry--large {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "media header"
+      "media body"
+      "media tags";
+    min-height: 430px;
+  }
+
+  .update-entry--large .update-entry__media {
+    grid-area: media;
+    min-height: 100%;
+    border-radius: 0;
+    background: var(--color-soft);
+  }
+
+  .update-entry--large .update-entry__media img,
+  .update-entry--large .update-entry__media video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+  }
+
+  .update-entry--large .update-entry__header {
+    grid-area: header;
+    padding: clamp(28px, 4vw, 52px) clamp(24px, 4vw, 52px) 0;
+  }
+
+  .update-entry--large .update-entry__date {
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+  }
+
+  .update-entry--large .update-entry__title {
+    font-size: var(--type-feature-title-size);
+    line-height: 1.08;
+  }
+
+  .update-entry--large .update-entry__body {
+    grid-area: body;
+    padding: 24px clamp(24px, 4vw, 52px);
+    align-self: start;
+  }
+
+  .update-entry--large .update-entry__summary {
+    font-size: var(--type-body-size);
+    line-height: 1.65;
+  }
+
+  .update-entry--large .update-entry__tags {
+    grid-area: tags;
+    padding: 0 clamp(24px, 4vw, 52px) clamp(28px, 4vw, 52px);
+  }
+
+  @media (max-width: 800px) {
+    .update-entry--large {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas: "media" "header" "body" "tags";
+      min-height: 0;
+    }
+
+    .update-entry--large .update-entry__media {
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+    }
+  }
+}

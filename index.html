@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="soft-dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nick Young — Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="canonical" href="https://nickyoungci.dev/" />
+  <meta name="description" content="Portfolio showcasing AI integration updates and experiments." />
+  <meta name="color-scheme" content="light dark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="NickYoungCI.dev" />
+  <meta property="og:title" content="Nick Young — Portfolio" />
+  <meta property="og:description" content="Portfolio showcasing AI integration updates and experiments." />
+  <meta property="og:url" content="https://nickyoungci.dev/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Nick Young — Portfolio" />
+  <meta name="twitter:description" content="Portfolio showcasing AI integration updates and experiments." />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nick Young","url":"https://nickyoungci.dev/","email":"mailto:NickYoungCI@gmail.com","sameAs":["https://github.com/Ckrest"]}</script>
+
+  <!-- Design Tokens + Base Styles -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/backgrounds.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+
+  <!-- Components -->
+  <link rel="stylesheet" href="css/components/update-card.css" />
+  <link rel="stylesheet" href="css/components/update-entry.css" />
+  <link rel="stylesheet" href="css/components/timeline-entry.css" />
+</head>
+<body class="bg-mesh" data-site-state="loading">
+  <!-- Header section loads here -->
+  <div id="header-slot"></div>
+
+  <!-- Main content - sections load here in order from config -->
+  <main class="wrap">
+    <div class="loading-placeholder" role="status" aria-live="polite">Loading portfolio...</div>
+    <noscript>
+      <section aria-labelledby="no-script-title">
+        <h1 id="no-script-title">Nick Young</h1>
+        <p>AI seems powerful, but its unreliability makes it difficult to know how useful it really is. I’m running a year-long learning update to find out—building the skills to integrate AI into manufacturing and learning when it makes sense to do so.</p>
+        <p><a href="updates/portfolio-site/detail.html">Read the Portfolio Site update</a></p>
+        <p><a href="mailto:NickYoungCI@gmail.com">NickYoungCI@gmail.com</a></p>
+      </section>
+    </noscript>
+  </main>
+
+  <!-- Footer section loads here -->
+  <div id="footer-slot"></div>
+
+  <!-- Theme utilities (setTheme('name') from an intentional UI or console) -->
+  <script src="js/theme-switcher.js"></script>
+
+  <!-- Section Loader -->
+  <script type="module">
+    import { loadSite } from './js/section-loader.js';
+
+    loadSite().catch((error) => {
+      console.error('[site] Unable to initialize:', error);
+      document.body.dataset.siteState = 'error';
+      const status = document.querySelector('.loading-placeholder');
+      if (status) status.textContent = 'Unable to load the portfolio.';
+    });
+  </script>
+</body>
+</html>

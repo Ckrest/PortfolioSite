@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-site",
+  "version": "6.2.0",
+  "type": "module",
+  "description": "Independent static portfolio site with modular update pages",
+  "scripts": {
+    "sync:block-registry": "node updates/_sync-block-registry.js",
+    "sync:vendor": "node updates/_sync-vendor.js",
+    "check:block-registry": "node updates/_sync-block-registry.js --check",
+    "test:unit": "node --test tests/*.test.js",
+    "build:pool": "node updates/_pool-build.js",
+    "test": "bash ./verify.sh"
+  },
+  "dependencies": {
+    "mermaid": "11.16.1",
+    "yaml": "^2.9.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

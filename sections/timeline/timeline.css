@@ -1,0 +1,498 @@
+/**
+ * Timeline section
+ *
+ * Extends the shared update-entry component with archive layout, filtering,
+ * and expandable bundles. Every timeline rule has one current owner here.
+ */
+
+/* The archive continues the Learning roadmap instead of introducing another
+   primary homepage section. Keep standalone spacing here because its root is
+   intentionally a grouped div rather than a section element. */
+[data-section="timeline"] {
+  padding: clamp(48px, 7vw, 88px) 0 var(--section-padding-y);
+}
+
+/* Tag controls */
+[data-section="timeline"] .tag-controls {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: clamp(36px, 5vw, 64px);
+  background: transparent;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+[data-section="timeline"] .tag-controls__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 68px;
+}
+
+[data-section="timeline"] .timeline-results {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--entry-text-sm);
+}
+
+[data-section="timeline"] .tag-filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 8px 0 8px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+[data-section="timeline"] .tag-filter-toggle__count,
+[data-section="timeline"] .tag-cloud__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+[data-section="timeline"] .tag-filter-toggle__icon {
+  transition: transform var(--transition-fast);
+}
+
+[data-section="timeline"] .tag-filter-toggle[aria-expanded="true"] .tag-filter-toggle__icon {
+  transform: rotate(180deg);
+}
+
+[data-section="timeline"] .tag-cloud__label {
+  color: var(--color-text);
+  font-size: var(--entry-text-base);
+  font-weight: 600;
+}
+
+[data-section="timeline"] .tag-cloud__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+[data-section="timeline"] .tag-cloud {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 20px 0 24px;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+[data-section="timeline"] .tag-cloud[hidden] {
+  display: none;
+}
+
+[data-section="timeline"] .tag-cloud__heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+[data-section="timeline"] .tag-cloud__heading p {
+  margin: 4px 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--entry-text-sm);
+}
+
+[data-section="timeline"] .tag-cloud__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: var(--entry-text-sm);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+  border-radius: var(--radius-full);
+}
+
+[data-section="timeline"] .tag-cloud__tag:hover {
+  background: var(--color-surface-soft);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+[data-section="timeline"] .tag-cloud__tag.is-active,
+[data-section="timeline"] .tag-cloud__tag[aria-pressed="true"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+[data-section="timeline"] .tag-cloud__tag[aria-pressed="true"] .tag-cloud__count {
+  background: color-mix(in oklab, white, transparent 78%);
+  color: white;
+}
+
+[data-section="timeline"] .tag-cloud__search {
+  width: min(100%, 32rem);
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+}
+
+[data-section="timeline"] .tag-cloud__more,
+[data-section="timeline"] .tag-cloud__clear {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-accent);
+  font: inherit;
+  cursor: pointer;
+}
+
+[data-section="timeline"] .tag-cloud__empty {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--entry-text-sm);
+}
+
+[data-section="timeline"] .tag-cloud__tag[hidden],
+[data-section="timeline"] .update-entry.is-filtered-out,
+[data-section="timeline"] .timeline-bundle.is-filtered-out {
+  display: none;
+  display: none;
+}
+
+[data-section="timeline"] .update-entry__tags .tag.tag--selected {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Latest small work stays easy to scan before entering the portfolio archive. */
+[data-section="timeline"] .timeline-recent {
+  --phase-accent: var(--color-accent);
+  display: grid;
+  grid-template-columns: minmax(170px, 0.28fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  margin-bottom: clamp(64px, 10vw, 112px);
+}
+
+[data-section="timeline"] .timeline-recent__header {
+  align-self: start;
+  display: grid;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 2px solid var(--color-accent);
+}
+
+[data-section="timeline"] .timeline-recent__header h3,
+[data-section="timeline"] .timeline-recent__header p {
+  margin: 0;
+}
+
+[data-section="timeline"] .timeline-recent__header h3 {
+  max-width: 13ch;
+  font-size: var(--text-xl);
+  line-height: 1.12;
+}
+
+[data-section="timeline"] .timeline-recent__header p {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+[data-section="timeline"] .timeline-recent__entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+[data-section="timeline"] .timeline-empty {
+  margin: 0;
+  padding: 32px 0;
+  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* Phase layout */
+[data-section="timeline"] .timeline-phase {
+  --phase-accent: var(--color-accent);
+  display: grid;
+  grid-template-columns: minmax(170px, 0.28fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  margin-bottom: clamp(64px, 10vw, 128px);
+}
+
+[data-section="timeline"] .timeline-phase:last-child {
+  margin-bottom: 0;
+}
+
+[data-section="timeline"] .timeline-phase-header {
+  position: sticky;
+  top: 94px;
+  align-self: start;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-top: 20px;
+  border-top: 2px solid var(--phase-accent);
+}
+
+[data-section="timeline"] .timeline-phase-title {
+  max-width: 12ch;
+  margin: 0;
+  color: var(--phase-accent);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+[data-section="timeline"] .timeline-phase-dates {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+[data-section="timeline"] .timeline-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Bundle headers align with the shared timeline-entry surface. */
+[data-section="timeline"] .bundle-header {
+  --entry-accent: var(--phase-accent, var(--color-accent));
+  --entry-bg: color-mix(in oklab, var(--color-panel), transparent 24%);
+  --entry-bg-hover: color-mix(in oklab, var(--color-soft), transparent 14%);
+  --entry-stripe-width: 0;
+  background: var(--entry-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+[data-section="timeline"] .bundle-header:hover {
+  background: var(--entry-bg-hover);
+  border-color: color-mix(in oklab, var(--phase-accent), transparent 55%);
+  transform: translateY(-2px);
+}
+
+/* Expandable update bundles */
+[data-section="timeline"] .timeline-bundle {
+  display: grid;
+  gap: 14px;
+}
+
+[data-section="timeline"] .bundle-header {
+  --entry-bg: color-mix(in oklab, var(--color-panel), transparent 50%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content auto;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 16px;
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+[data-section="timeline"] .bundle-header .update-entry__date {
+  min-width: 0;
+  font-family: var(--font-mono);
+}
+
+[data-section="timeline"] .bundle-label {
+  font-size: var(--entry-text-base);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+[data-section="timeline"] .bundle-toggle {
+  color: var(--color-text-secondary);
+  font-size: 24px;
+  line-height: 1;
+  transition: transform var(--transition-fast);
+}
+
+[data-section="timeline"] .bundle-icons {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+[data-section="timeline"] .bundle-icon {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-soft);
+  object-fit: contain;
+}
+
+[data-section="timeline"] .timeline-bundle.is-expanded .bundle-toggle {
+  transform: rotate(90deg);
+}
+
+[data-section="timeline"] .timeline-bundle.is-expanded .bundle-icons {
+  display: none;
+}
+
+[data-section="timeline"] .timeline-bundle.is-expanded .bundle-header {
+  background: var(--entry-bg-hover);
+  border-color: color-mix(in oklab, var(--phase-accent), transparent 55%);
+}
+
+[data-section="timeline"] .bundle-expanded {
+  display: none;
+}
+
+[data-section="timeline"] .timeline-bundle.is-expanded .bundle-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Deep-link feedback */
+[data-section="timeline"] .update-entry.is-highlighted,
+[data-section="timeline"] .timeline-bundle.is-highlighted {
+  animation: timeline-highlight 2s ease-out;
+}
+
+@keyframes timeline-highlight {
+  0%, 100% { box-shadow: none; }
+  20% { box-shadow: 0 0 0 4px var(--phase-accent, var(--color-accent)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-section="timeline"] .update-entry.is-highlighted,
+  [data-section="timeline"] .timeline-bundle.is-highlighted {
+    box-shadow: 0 0 0 3px var(--phase-accent, var(--color-accent));
+  }
+}
+
+@media (min-width: 901px) {
+  [data-section="timeline"][data-tag-mode="margin"] .update-entry--large {
+    grid-template-columns: minmax(220px, 0.8fr) minmax(260px, 1fr) minmax(130px, 0.4fr);
+    grid-template-areas:
+      "media header tags"
+      "media body tags"
+      "media body tags";
+  }
+
+  [data-section="timeline"][data-tag-mode="margin"] .update-entry--medium {
+    grid-template-columns: minmax(0, 1fr) clamp(130px, 18vw, 190px) minmax(130px, 0.35fr);
+    grid-template-areas:
+      "header media tags"
+      "body media tags"
+      "body media tags";
+  }
+
+  [data-section="timeline"][data-tag-mode="margin"] .update-entry__tags {
+    grid-area: tags;
+    align-content: start;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 24px 18px;
+    border-left: 1px solid var(--color-border-subtle);
+  }
+
+  [data-section="timeline"][data-tag-mode="margin"] .update-entry--small .update-entry__tags {
+    width: min(36%, 260px);
+    margin-left: auto;
+    padding: 0 0 0 16px;
+  }
+}
+
+@media (max-width: 760px) {
+  [data-section="timeline"] .timeline-recent,
+  [data-section="timeline"] .timeline-phase {
+    grid-template-columns: 1fr;
+  }
+
+  [data-section="timeline"] .timeline-phase {
+    gap: 24px;
+    margin-bottom: 80px;
+  }
+
+  [data-section="timeline"] .timeline-recent {
+    gap: 24px;
+    margin-bottom: 80px;
+  }
+
+  [data-section="timeline"] .timeline-recent__header h3 {
+    max-width: none;
+  }
+
+  [data-section="timeline"] .timeline-phase-header {
+    position: static;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+  }
+
+  [data-section="timeline"] .timeline-phase-title {
+    max-width: none;
+  }
+
+}
+
+@media (max-width: 600px) {
+  [data-section="timeline"] .tag-controls__bar,
+  [data-section="timeline"] .tag-cloud__heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block: 12px;
+  }
+
+  [data-section="timeline"] .tag-filter-toggle {
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 0;
+  }
+
+  [data-section="timeline"] .tag-cloud__tags {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-section="timeline"] .tag-cloud__tag {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: left;
+    white-space: normal;
+  }
+}

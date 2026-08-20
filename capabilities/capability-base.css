@@ -1,0 +1,992 @@
+:root {
+  color-scheme: dark light;
+  --bg: #0b0c10;
+  --panel: #12141a;
+  --soft: #1a1d26;
+  --fg: #e6e8ee;
+  --muted: #a1a6b3;
+  --accent: #7c5cff;
+  --accent-2: #00e5ff;
+  --radius: 18px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f7fb;
+    --panel: #ffffff;
+    --soft: #f1f3f9;
+    --fg: #0c0e12;
+    --muted: #5c6472;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
+  background: radial-gradient(1200px 600px at 80% -10%, rgba(124, 92, 255, 0.15), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(0, 229, 255, 0.1), transparent 60%),
+    var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  width: min(1100px, 94vw);
+  margin: 0 auto;
+  padding: 28px 0 10px;
+}
+main {
+  width: min(1100px, 94vw);
+  margin: 0 auto;
+  flex: 1;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+}
+[data-section="footer"] {
+  padding: 64px 0;
+}
+
+[data-section="footer"] .wrap {
+  width: min(1100px, 94vw);
+  margin: 0 auto;
+}
+
+[data-section="footer"] .footer-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+[data-section="footer"] .footer-contact h2 {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+[data-section="footer"] .contact-email {
+  margin: 0;
+}
+
+[data-section="footer"] .contact-email a {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--fg);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+[data-section="footer"] .contact-email a:hover {
+  color: var(--accent-2);
+}
+
+[data-section="footer"] .back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+  background: var(--panel);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+[data-section="footer"] .back-to-top:hover {
+  border-color: var(--muted);
+  transform: translateY(-1px);
+}
+nav a,
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+}
+nav a:hover,
+.breadcrumb a:hover {
+  color: var(--fg);
+}
+.hero {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--panel), transparent 10%), color-mix(in oklab, var(--panel), transparent 35%));
+  padding: 32px clamp(20px, 5vw, 42px);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(32px, 6vw, 48px);
+}
+.hero p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(16px, 2.4vw, 18px);
+}
+section {
+  margin: 21px 0;
+  background: color-mix(in oklab, var(--panel), transparent 20%);
+  padding: clamp(20px, 4vw, 36px);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 75%);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+section h2 {
+  margin-top: 0;
+}
+section p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.live-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.live-demo p {
+  margin: 0;
+}
+.diagram-stage {
+  border-radius: var(--radius);
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+}
+.diagram-stage .diagram-root {
+  width: 100%;
+}
+/* Header wrapper — invisible container for editor targeting, with internal bottom spacing */
+[data-block-id="header"] {
+  padding-bottom: 12px;
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+}
+.button:hover {
+  border-color: color-mix(in oklab, var(--muted), transparent 40%);
+}
+
+.related-update-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  background: color-mix(in oklab, var(--soft), transparent 25%);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.related-update-mini:hover {
+  border-color: color-mix(in oklab, var(--accent), transparent 35%);
+  transform: translateY(-1px);
+}
+
+.reference-update-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--panel), transparent 10%),
+    color-mix(in oklab, var(--soft), transparent 12%)
+  );
+  color: var(--fg);
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.reference-update-card:hover {
+  border-color: color-mix(in oklab, var(--accent), transparent 35%);
+  transform: translateY(-2px);
+}
+
+.reference-update-card h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.reference-update-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.related-update-invalid {
+  opacity: 0.7;
+  border-style: dashed;
+}
+
+pre {
+  background: color-mix(in oklab, var(--panel), transparent 30%);
+  padding: 18px;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  font-size: 13px;
+  line-height: 1.55;
+}
+code {
+  font-family: "SFMono-Regular", ui-monospace, "SFMono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+figure {
+  margin: 0;
+}
+figure img {
+  max-width: 100%;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.24);
+}
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.tag {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  color: var(--muted);
+}
+.breadcrumb {
+  width: min(1100px, 94vw);
+  margin: 0 auto;
+  padding-top: 24px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.breadcrumb span {
+  color: var(--fg);
+}
+
+/* Utility classes used by the interactive diagram component */
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.pointer-events-none {
+  pointer-events: none;
+}
+.z-20 {
+  z-index: 20;
+}
+.w-full {
+  width: 100%;
+}
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+@media (min-width: 768px) {
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-3 {
+  gap: 0.75rem;
+}
+.p-3 {
+  padding: 0.75rem;
+}
+.p-4 {
+  padding: 1rem;
+}
+.p-5 {
+  padding: 1.25rem;
+}
+.p-6 {
+  padding: 1.5rem;
+}
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mt-4 {
+  margin-top: 1rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+.text-gray-600 {
+  color: #4b5563;
+}
+.text-gray-700 {
+  color: #374151;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+.rounded-2xl {
+  border-radius: 1rem;
+}
+.border {
+  border: 1px solid rgba(148, 163, 184, 0.5);
+}
+.bg-white {
+  background: #ffffff;
+  color: #111827;
+}
+.bg-gray-50 {
+  background: #f9fafb;
+  color: #111827;
+}
+.bg-white\/95 {
+  background: rgba(255, 255, 255, 0.95);
+}
+.shadow-sm {
+  box-shadow: 0 6px 18px rgba(13, 16, 23, 0.12);
+}
+.shadow {
+  box-shadow: 0 8px 22px rgba(13, 16, 23, 0.16);
+}
+.shadow-xl {
+  box-shadow: 0 22px 46px rgba(13, 16, 23, 0.22);
+}
+.shadow-2xl {
+  box-shadow: 0 32px 70px rgba(13, 16, 23, 0.25);
+}
+.hover\:shadow-md:hover {
+  box-shadow: 0 16px 36px rgba(13, 16, 23, 0.22);
+}
+.disabled\:opacity-60:disabled {
+  opacity: 0.6;
+}
+.transition-all {
+  transition: all 0.25s ease;
+}
+.select-none {
+  user-select: none;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.list-disc {
+  list-style: disc;
+}
+.pl-5 {
+  padding-left: 1.25rem;
+}
+.max-w-\[260px\] {
+  max-width: 260px;
+}
+.max-w-\[1200px\] {
+  max-width: 1200px;
+}
+.text-\[14px\] {
+  font-size: 14px;
+}
+.text-\[12px\] {
+  font-size: 12px;
+}
+.fill-gray-800 {
+  fill: #1f2937;
+}
+.fill-gray-600 {
+  fill: #4b5563;
+}
+.text-gray-800 {
+  color: #1f2937;
+}
+.shadow-xl circle,
+.shadow-xl rect {
+  transition: inherit;
+}
+
+/* ==========================================================================
+   Markdown Content Styles
+   ========================================================================== */
+
+.markdown-content {
+  line-height: 1.7;
+}
+
+.markdown-content h1 {
+  font-size: clamp(28px, 5vw, 36px);
+  margin: 2em 0 0.75em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+}
+
+.markdown-content h1:first-child {
+  margin-top: 0;
+}
+
+.markdown-content h2 {
+  font-size: clamp(22px, 4vw, 28px);
+  margin: 1.75em 0 0.6em;
+  color: var(--fg);
+}
+
+.markdown-content h3 {
+  font-size: clamp(18px, 3vw, 22px);
+  margin: 1.5em 0 0.5em;
+  color: var(--fg);
+}
+
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  margin: 1.25em 0 0.5em;
+  color: var(--fg);
+}
+
+.markdown-content p {
+  margin: 0 0 1em;
+  color: var(--muted);
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 1.5em;
+  margin: 0 0 1em;
+  color: var(--muted);
+}
+
+.markdown-content li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.markdown-content li > ul,
+.markdown-content li > ol {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+.markdown-content a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.markdown-content a:hover {
+  text-decoration: underline;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin: 1em 0;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.markdown-content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 0.5em 0 0.5em 1.25em;
+  margin: 1em 0;
+  background: color-mix(in oklab, var(--soft), transparent 50%);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--muted);
+}
+
+.markdown-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content code {
+  background: color-mix(in oklab, var(--soft), transparent 30%);
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-size: 0.9em;
+  color: var(--accent-2);
+}
+
+.markdown-content pre {
+  background: color-mix(in oklab, var(--panel), #000 20%);
+  padding: 1.25em;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  margin: 1em 0;
+}
+
+.markdown-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875em;
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.75em 1em;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  text-align: left;
+}
+
+.markdown-content th {
+  background: color-mix(in oklab, var(--soft), transparent 50%);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.markdown-content td {
+  color: var(--muted);
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  margin: 2em 0;
+}
+
+/* ==========================================================================
+   PDF Embed Styles
+   ========================================================================== */
+
+.pdf-embed {
+  width: 100%;
+  height: 80vh;
+  min-height: 500px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  background: var(--panel);
+}
+
+.pdf-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: 16px;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Tag Row Standalone (for dynamic pages)
+   ========================================================================== */
+
+.tag-row.standalone {
+  background: none;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Block Content System
+   ========================================================================== */
+
+/* --- Group block: children flow inside one card without card styling --- */
+.block-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.block-group > .block-text,
+.block-group > .block-image,
+.block-group > .block-video,
+.block-group > .block-gallery,
+.block-group > .block-pdf,
+.block-group > .block-readme {
+  margin: 12px 0;
+}
+
+/* --- Video embed: responsive 16:9 --- */
+.video-embed-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+}
+
+.video-embed-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.block-video video {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+}
+
+/* --- Gallery grid --- */
+.gallery-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.gallery-cols-1 { grid-template-columns: 1fr; }
+.gallery-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.gallery-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.gallery-grid figure {
+  margin: 0;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 640px) {
+  .gallery-cols-2,
+  .gallery-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Block captions --- */
+.block-image figcaption,
+.block-video figcaption,
+.block-gallery figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* --- Block image: full width --- */
+.block-image figure img {
+  width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   Code Block
+   ========================================================================== */
+
+.block-code figure {
+  margin: 0;
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: color-mix(in oklab, var(--panel), #000 25%);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 13px;
+}
+
+.code-block-title {
+  color: var(--fg);
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  font-weight: 500;
+}
+
+.code-block-lang {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--muted), transparent 85%);
+}
+
+.code-copy-btn {
+  margin-left: auto;
+  padding: 4px 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.code-copy-btn:hover {
+  color: var(--fg);
+  border-color: var(--muted);
+}
+
+.code-block-pre {
+  margin: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.code-block-header + .code-block-pre {
+  border-top: none;
+}
+
+/* No header → full rounded corners */
+.block-code figure > .code-block-pre:first-child {
+  border-radius: var(--radius);
+}
+
+.block-code figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Mermaid Block
+   ========================================================================== */
+
+.block-mermaid figure {
+  margin: 0;
+}
+
+.block-mermaid .mermaid-code {
+  display: none;
+}
+
+.block-mermaid .mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+  overflow-x: auto;
+}
+
+.block-mermaid .mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.block-mermaid .mermaid-diagram .error {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.block-mermaid figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Terminal Block
+   ========================================================================== */
+
+.terminal-window {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.24);
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: color-mix(in oklab, var(--panel), #000 20%);
+  border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 80%);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red    { background: #ff5f57; }
+.terminal-dot.yellow { background: #febc2e; }
+.terminal-dot.green  { background: #28c840; }
+
+.terminal-body {
+  margin: 0;
+  padding: 18px;
+  background: color-mix(in oklab, var(--panel), #000 30%);
+  border: none;
+  border-radius: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.terminal-prompt {
+  color: var(--accent);
+  user-select: none;
+}
+
+.terminal-command {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.terminal-output {
+  color: var(--muted);
+}
+
+.block-terminal figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Comparison Block
+   ========================================================================== */
+
+.comparison-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.comparison-side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comparison-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-align: center;
+}
+
+.comparison-side img {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 70%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .comparison-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.block-comparison figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Graph Block
+   ========================================================================== */
+
+.graph-container {
+  position: relative;
+  padding: 8px;
+}
+
+.graph-container canvas {
+  width: 100% !important;
+  max-height: 400px;
+}
+
+.block-graph figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.detail-error {
+  text-align: center;
+}
+
+.detail-error-actions {
+  justify-content: center;
+}

@@ -1,0 +1,34 @@
+# Development & Testing
+_temp/
+_deprecated/
+*.backup
+
+# Ad-hoc generation helpers
+_generate*.py
+_generate*.js
+
+# Editor & OS
+.DS_Store
+*.swp
+*~
+
+# Node
+node_modules/
+
+# Local-only development state
+.claude/
+.playwright-cli/
+
+# Published package requirements
+.env
+__pycache__/
+venv/
+.idea/
+.vscode/
+build/
+dist/
+*.log
+*.db
+*.sqlite3
+*.pkl
+*.pt

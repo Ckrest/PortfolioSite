@@ -1,0 +1,31 @@
+{
+  "schema": "portfolio-capability@3",
+  "capability": {
+    "kind": "capability",
+    "slug": "design-connect-multi-tool-systems",
+    "title": "Design and connect multi-tool software systems",
+    "summary": "This temporary shell connects the registries, desktop services, data stores, reporting tools, and publishing systems that demonstrate this capability.",
+    "folder": "design-connect-multi-tool-systems",
+    "preview": null,
+    "previewAlt": "Design and connect multi-tool software systems",
+    "evidence": [
+      {
+        "slug": "postgresql-history-database",
+        "folder": "postgresql-history-database",
+        "title": "Built a shared history database for system activity",
+        "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+        "date": "2025-11-16",
+        "prominence": "medium",
+        "icon": "icon.svg",
+        "preview": "postgresql-history-first-output.png",
+        "previewAlt": "The first recorded Systems History Database output and its linked artifacts",
+        "previewWidth": 1719,
+        "previewHeight": 915,
+        "tags": [
+          "PostgreSQL",
+          "Infrastructure"
+        ]
+      }
+    ]
+  }
+}

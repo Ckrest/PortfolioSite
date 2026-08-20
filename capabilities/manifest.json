@@ -1,0 +1,23 @@
+{
+  "schema": "portfolio-capability-manifest@3",
+  "_generated": {
+    "warning": "DO NOT EDIT",
+    "source": "capabilities/*/settings.yaml"
+  },
+  "capabilities": [
+    {
+      "slug": "design-connect-multi-tool-systems",
+      "folder": "design-connect-multi-tool-systems",
+      "title": "Design and connect multi-tool software systems",
+      "summary": "This temporary shell connects the registries, desktop services, data stores, reporting tools, and publishing systems that demonstrate this capability.",
+      "evidenceCount": 1
+    },
+    {
+      "slug": "design-durable-data-evidence-pipelines",
+      "folder": "design-durable-data-evidence-pipelines",
+      "title": "Design durable data and evidence pipelines",
+      "summary": "This temporary shell connects capture-time storage, typed artifacts, shared history, editing, review, and publication into a durable evidence flow.",
+      "evidenceCount": 1
+    }
+  ]
+}

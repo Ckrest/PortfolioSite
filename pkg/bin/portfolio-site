@@ -1,0 +1,269 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="6.2.0"
+SITE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)"
+SYSTEMS_ROOT="${SYSTEMS_ROOT:-}"
+if [[ -z "$SYSTEMS_ROOT" ]]; then
+  SYSTEMS_ROOT="$(cd "$SITE_ROOT/../../.." && pwd)"
+fi
+SYSTEMS_CORE="$SYSTEMS_ROOT/infra/systems/worktree"
+STATE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site"
+ACTIVE_ROOT="$STATE_ROOT/active"
+REQUEST_PATH="$STATE_ROOT/realization-request.json"
+LOCK_PATH="$STATE_ROOT/realization.lock"
+URL="http://127.0.0.1:9742/"
+NODE_BIN="${PORTFOLIO_SITE_NODE:-}"
+NODE_ENVIRONMENT="${XDG_CONFIG_HOME:-$HOME/.config}/portfolio-site/environment"
+if [[ -z "$NODE_BIN" && -r "$NODE_ENVIRONMENT" ]]; then
+  while IFS='=' read -r key value; do
+    if [[ "$key" == "PORTFOLIO_SITE_NODE" ]]; then
+      NODE_BIN="$value"
+      break
+    fi
+  done <"$NODE_ENVIRONMENT"
+fi
+if [[ -z "$NODE_BIN" ]]; then
+  NODE_BIN="$(command -v node || true)"
+fi
+TEMPORARY_FILES=()
+REQUEST_OWNED=false
+
+cleanup() {
+  local path
+  for path in "${TEMPORARY_FILES[@]}"; do
+    [[ -n "$path" ]] && rm -f -- "$path"
+  done
+  if [[ "$REQUEST_OWNED" == "true" ]]; then
+    rm -f -- "$REQUEST_PATH"
+  fi
+}
+trap cleanup EXIT
+
+temporary_file() {
+  local variable="$1" path
+  path="$(mktemp)"
+  TEMPORARY_FILES+=("$path")
+  printf -v "$variable" '%s' "$path"
+}
+
+systems_command() {
+  if [[ ! -d "$SYSTEMS_CORE/src/systems" ]]; then
+    echo "Systems core is unavailable; set SYSTEMS_ROOT to the Systems checkout." >&2
+    return 1
+  fi
+  PYTHONPATH="$SYSTEMS_CORE/src" python3 -m systems --root "$SYSTEMS_ROOT" "$@"
+}
+
+editor_available() {
+  portfolio-editor-cli status >/dev/null 2>&1
+}
+
+verify_local_output() {
+  local destination="$1"
+  [[ -x "$NODE_BIN" ]] || return 1
+  "$NODE_BIN" "$SITE_ROOT/updates/_pool-build.js" --verify-output "$ACTIVE_ROOT" \
+    >"$destination"
+}
+
+active_matches_pool() {
+  local pool_response="$1" verification="$2"
+  verify_local_output "$verification" || return 1
+  jq -e --slurpfile pool "$pool_response" '
+    .valid == true
+    and .receipt.pool_revision == $pool[0].data.revision
+    and .receipt.pool_digest == $pool[0].data.digest
+    and .receipt.approval_bundle_id == $pool[0].data.bundle.id
+    and .receipt.approval_manifest_digest == $pool[0].data.bundle.manifest_digest
+    and .receipt.site_source_digest == $pool[0].data.bundle.site_source_digest
+    and .receipt.public_source_digest == $pool[0].data.bundle.public_source_digest
+    and .receipt.result_digest == $pool[0].data.bundle.result_digest
+  ' "$verification" >/dev/null
+}
+
+active_matches_request() {
+  local verification="$1"
+  verify_local_output "$verification" || return 1
+  jq -e --slurpfile request "$REQUEST_PATH" '
+    .valid == true
+    and .receipt.pool_revision == $request[0].pool_revision
+    and .receipt.pool_digest == $request[0].pool.digest
+    and .receipt.approval_bundle_id == $request[0].expected.approval_bundle_id
+    and .receipt.approval_manifest_digest == $request[0].expected.approval_manifest_digest
+    and .receipt.site_source_digest == $request[0].expected.site_source_digest
+    and .receipt.public_source_digest == $request[0].expected.public_source_digest
+    and .receipt.result_digest == $request[0].expected.result_digest
+  ' "$verification" >/dev/null
+}
+
+service_is_healthy() {
+  systemctl --user is-active --quiet portfolio-site-local.service \
+    && curl --fail --silent --max-time 2 "$URL" >/dev/null
+}
+
+ensure_local_service() {
+  if systemctl --user is-active --quiet portfolio-site-local.service; then
+    systems_command service portfolio-site restart >/dev/null
+  else
+    systems_command service portfolio-site start >/dev/null
+  fi
+  for _attempt in {1..50}; do
+    service_is_healthy && return 0
+    sleep 0.1
+  done
+  return 1
+}
+
+complete_attempt() {
+  local revision="$1" attempt="$2" result_digest="$3" stage="$4" diagnostics="$5"
+  local args=(handoff-complete "$revision" "$attempt" --stage "$stage" --diagnostics-json "$diagnostics")
+  if [[ -n "$result_digest" ]]; then
+    args+=(--result-digest "$result_digest")
+  fi
+  portfolio-editor-cli "${args[@]}" >/dev/null
+}
+
+write_claimed_request() {
+  local claim_response="$1" temporary
+  temporary="$(mktemp "$STATE_ROOT/.realization-request.XXXXXX")"
+  TEMPORARY_FILES+=("$temporary")
+  jq -e '.data.request | select(.schema == "portfolio-site/pool-build@2")' \
+    "$claim_response" >"$temporary"
+  chmod 600 "$temporary"
+  mv -f "$temporary" "$REQUEST_PATH"
+  REQUEST_OWNED=true
+}
+
+refresh_locked() {
+  local pool_response claim_response install_output verification
+  local revision handoff_state attempt_id result_digest diagnostics
+  local -a repair
+  temporary_file pool_response
+  temporary_file claim_response
+  temporary_file install_output
+  temporary_file verification
+
+  if ! editor_available; then
+    echo "Portfolio Editor is unavailable; accepted-pool realization will be retried." >&2
+    return 1
+  fi
+
+  for _transition in {1..4}; do
+    portfolio-editor-cli pool-get >"$pool_response"
+    jq -e '.ok == true and .data.schema == "portfolio-editor/accepted-pool@3"' \
+      "$pool_response" >/dev/null
+    revision="$(jq -er '.data.revision' "$pool_response")"
+    if [[ "$revision" == "0" ]]; then
+      echo "No accepted Portfolio pool exists yet; nothing to realize."
+      return 0
+    fi
+    handoff_state="$(jq -er --argjson revision "$revision" '
+      .data.handoffs[] | select(.pool_revision == $revision) | .state
+    ' "$pool_response")"
+
+    if [[ "$handoff_state" == "realized" ]] \
+      && active_matches_pool "$pool_response" "$verification" \
+      && service_is_healthy; then
+      return 0
+    fi
+
+    repair=()
+    if [[ "$handoff_state" == "realized" ]]; then
+      repair=(--repair)
+    fi
+    portfolio-editor-cli handoff-begin "$revision" "${repair[@]}" >"$claim_response"
+    if [[ "$(jq -r '.data.claimed' "$claim_response")" != "true" ]]; then
+      case "$(jq -r '.data.reason' "$claim_response")" in
+        already-realized|superseded)
+          continue
+          ;;
+        already-claimed)
+          echo "Accepted Portfolio pool R$revision is already being realized."
+          return 0
+          ;;
+        *)
+          echo "Portfolio pool R$revision could not be claimed." >&2
+          return 1
+          ;;
+      esac
+    fi
+    attempt_id="$(jq -er '.data.attempt.id' "$claim_response")"
+    write_claimed_request "$claim_response"
+
+    if active_matches_request "$verification"; then
+      if ! ensure_local_service; then
+        diagnostics="$(jq -cn --arg url "$URL" '{message:"Managed local service did not become healthy",url:$url}')"
+        complete_attempt "$revision" "$attempt_id" "" "local-verification" "$diagnostics" || true
+        return 1
+      fi
+    elif ! systems_command install portfolio-site --full >"$install_output" 2>&1; then
+      diagnostics="$(jq -cRs '{message:"Systems could not install the accepted reviewed pool",systems_output:(.[-12000:])}' <"$install_output")"
+      complete_attempt "$revision" "$attempt_id" "" "systems-install" "$diagnostics" || true
+      cat "$install_output" >&2
+      return 1
+    elif ! active_matches_request "$verification"; then
+      diagnostics="$(jq -cn --arg path "$ACTIVE_ROOT/manifest.json" '{message:"Installed output does not match the claimed review",manifest:$path}')"
+      complete_attempt "$revision" "$attempt_id" "" "installed-verification" "$diagnostics" || true
+      return 1
+    elif ! ensure_local_service; then
+      diagnostics="$(jq -cn --arg url "$URL" '{message:"Managed local service did not become healthy",url:$url}')"
+      complete_attempt "$revision" "$attempt_id" "" "local-verification" "$diagnostics" || true
+      return 1
+    fi
+
+    result_digest="$(jq -er '.receipt.result_digest' "$verification")"
+    diagnostics="$(jq -cn --arg url "$URL" '{message:"Accepted reviewed artifact and managed local service verified",url:$url}')"
+    complete_attempt "$revision" "$attempt_id" "$result_digest" "local-verification" "$diagnostics"
+
+    portfolio-editor-cli pool-get >"$pool_response"
+    if [[ "$(jq -er '.data.revision' "$pool_response")" == "$revision" ]]; then
+      return 0
+    fi
+  done
+
+  echo "Accepted Portfolio pool changed repeatedly during realization; reconciliation will retry." >&2
+  return 1
+}
+
+refresh() {
+  mkdir -p "$STATE_ROOT"
+  chmod 700 "$STATE_ROOT"
+  exec 9>"$LOCK_PATH"
+  if ! flock -w 30 9; then
+    echo "Another Portfolio Site realization is still running." >&2
+    return 1
+  fi
+  refresh_locked
+}
+
+open_site() {
+  local verification
+  temporary_file verification
+  if editor_available; then
+    refresh
+  elif ! verify_local_output "$verification"; then
+    echo "No verified local Portfolio Site is available and Portfolio Editor is offline." >&2
+    return 1
+  else
+    echo "Portfolio Editor is offline; opening the last verified local pool." >&2
+  fi
+  if ! service_is_healthy && ! ensure_local_service; then
+    echo "Managed Portfolio Site service did not become healthy." >&2
+    return 1
+  fi
+  systemd-run --user --quiet --collect --property=Type=oneshot xdg-open "$URL" >/dev/null 2>&1 || true
+  printf 'Portfolio Site: %s\n' "$URL"
+}
+
+case "${1:-open}" in
+  open) open_site ;;
+  refresh|reconcile) refresh ;;
+  start) systems_command service portfolio-site start ;;
+  stop) systems_command service portfolio-site stop ;;
+  restart) systems_command service portfolio-site restart ;;
+  status) systems_command service portfolio-site observe ;;
+  logs) journalctl --user -u portfolio-site-local -n "${2:-30}" --no-pager ;;
+  --version) printf 'portfolio-site %s\n' "$VERSION" ;;
+  --help|-h) echo "Usage: portfolio-site {open|refresh|reconcile|start|stop|restart|status|logs}" ;;
+  *) echo "Unknown command: $1" >&2; exit 2 ;;
+esac

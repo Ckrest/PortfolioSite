@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- portfolio:base -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="page-title">Capability — Nick Young</title>
+  <meta name="description" id="page-description" content="" />
+  <meta name="portfolio-capability" content="" />
+  <meta name="portfolio-capability-folder" content="" />
+  <!-- portfolio:metadata -->
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="capability-base.css" />
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="capability-layout.css" />
+  <link rel="stylesheet" href="../css/components/update-entry.css" />
+  <link rel="stylesheet" href="../css/components/timeline-entry.css" />
+  <link rel="stylesheet" href="capability.css" />
+</head>
+<body>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Portfolio</a>
+    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+    <a class="breadcrumb-context" href="../index.html#capabilities">Capabilities</a>
+    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+    <span id="breadcrumb-title">Loading...</span>
+  </nav>
+
+  <header class="update-masthead capability-masthead">
+    <div class="hero">
+      <p class="update-kicker">Capability</p>
+      <h1 id="capability-title">Loading...</h1>
+      <p id="capability-summary"></p>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section id="loading-section">
+      <p class="capability-status">Loading supporting work…</p>
+    </section>
+    <noscript>
+      <style>#loading-section { display: none; }</style>
+      <section>
+        <p class="render-warning">The capability summary is available above. Its supporting work requires JavaScript.</p>
+      </section>
+    </noscript>
+  </main>
+
+  <div id="footer-slot"></div>
+
+  <script src="detail.js" type="module"></script>
+</body>
+</html>

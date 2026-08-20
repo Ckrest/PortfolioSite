@@ -1,0 +1,126 @@
+/*
+ * Layout
+ * Page shell structure - where sections get placed.
+ * Header slot, main content area, footer slot.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE STRUCTURE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* Header slot - for sticky/fixed header */
+#header-slot {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* Main content area - sections get injected here */
+main {
+  flex: 1;
+}
+
+/* Footer slot */
+#footer-slot {
+  margin-top: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION DEFAULTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* All sections get consistent vertical padding */
+section[data-section] {
+  padding: var(--section-padding-y) 0;
+}
+
+main > section[data-section] + section[data-section] {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* Shared heading layout for primary homepage sections. */
+.section-heading {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr));
+  align-items: end;
+  gap: clamp(24px, 4vw, 56px);
+  margin-bottom: clamp(36px, 6vw, 72px);
+}
+
+.section-heading > * {
+  min-width: 0;
+}
+
+.section-heading .section-title {
+  max-width: 22ch;
+}
+
+/* A heading without supporting copy can use the full available row. */
+.section-heading:not(:has(> p)) .section-title {
+  max-width: none;
+}
+
+.section-heading > p {
+  max-width: 36ch;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-compact-body-size);
+  line-height: var(--leading-relaxed);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOADING STATE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Show while sections are loading */
+.loading-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLL MARGIN FOR ANCHOR LINKS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Account for sticky header when jumping to sections */
+section[id],
+footer[id],
+[id^="update-"] {
+  scroll-margin-top: 96px;
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-accent-2);
+  font-family: var(--font-mono);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.section-kicker::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+}
+
+.section-title {
+  margin-top: var(--space-4);
+  font-size: var(--type-section-title-size);
+  font-weight: 600;
+  line-height: 1.08;
+  text-wrap: pretty;
+}

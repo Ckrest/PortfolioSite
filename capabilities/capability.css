@@ -1,0 +1,99 @@
+.capability-status {
+  color: var(--muted);
+  text-align: center;
+}
+
+.capability-shell,
+.capability-evidence {
+  width: min(960px, 100%);
+}
+
+.capability-shell {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--panel), transparent 6%),
+    color-mix(in oklab, var(--soft), transparent 20%)
+  );
+}
+
+.capability-section-kicker {
+  margin: 0 0 12px;
+  color: var(--accent-2);
+  font-family: var(--font-mono);
+  font-size: var(--type-label-size);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.capability-shell h2 {
+  max-width: 18ch;
+  margin: 0;
+  font-size: var(--type-feature-section-title-size);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.capability-evidence h2 {
+  max-width: 18ch;
+  margin: 0;
+  font-size: var(--type-section-title-size);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.capability-shell > p:last-child {
+  max-width: 66ch;
+  margin: 24px 0 0;
+}
+
+.capability-evidence-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.capability-evidence-heading > p {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--type-label-size);
+}
+
+.capability-evidence-list {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-soft: var(--soft);
+  --color-text: var(--fg);
+  --color-text-secondary: var(--muted);
+  --color-surface: var(--panel);
+  --color-surface-soft: var(--soft);
+  --color-border-subtle: var(--line);
+  --color-accent: var(--accent-2);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+@media (max-width: 680px) {
+  .capability-evidence-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+}
+
+.evidence-caption,
+.evidence-qualifier {
+  display: block;
+}
+
+.evidence-qualifier {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.875rem;
+}

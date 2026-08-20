@@ -1,0 +1,88 @@
+# Portfolio Capability Schema
+
+version: 3
+# This is an independent copy of the update authoring framework. It may evolve
+# separately; changes to the update schema never propagate automatically.
+
+sections:
+  - id: metadata
+    label: Public capability
+    collapsed: false
+    fields: [title, summary]
+
+  - id: evidence
+    label: Selected work
+    collapsed: false
+    fields: [evidence]
+
+  - id: links
+    label: Links
+    collapsed: false
+    fields: [github, externalUrl]
+
+  - id: media
+    label: Media
+    collapsed: true
+    fields: [preview, previewAlt, icon]
+
+  - id: tags
+    label: Tags
+    collapsed: false
+    fields: [tags]
+
+fields:
+  title:
+    type: text
+    label: Title
+    required: true
+    help: "Name a durable ability rather than a single project or technology. Do not add manual line breaks."
+
+  summary:
+    type: textarea
+    label: Summary
+    required: true
+    help: "Explain the capability's practical scope and value. Existing temporary summaries remain valid until their editorial pass."
+
+  evidence:
+    type: updates
+    label: Selected work
+    required: true
+    help: "Update slugs that demonstrate this capability. Backlinks are generated automatically; do not add them to updates."
+
+  github:
+    type: url
+    label: GitHub URL
+    placeholder: "https://github.com/username/repo"
+
+  externalUrl:
+    type: url
+    label: External URL
+    placeholder: "https://example.com"
+
+  preview:
+    type: asset
+    label: Preview image
+    default: ''
+    assetType: image
+
+  previewAlt:
+    type: text
+    label: Preview alt text
+
+  icon:
+    type: asset
+    label: Icon
+    default: ''
+    assetType: image
+
+  tags:
+    type: tags
+    label: Tags
+    help: "Public topics that describe this capability."
+
+warnings:
+  - id: detail-without-content
+    message: "Capability narrative has no content blocks; the temporary state will remain visible"
+    check:
+      field: _blocks
+      condition: empty-array

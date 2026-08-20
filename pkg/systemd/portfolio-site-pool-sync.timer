@@ -1,0 +1,12 @@
+[Unit]
+Description=Reconcile accepted Portfolio pools after missed notifications
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=2min
+AccuracySec=15s
+Persistent=true
+Unit=portfolio-site-pool-sync.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,24 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# HTML and generated indexes remain revalidated so a deployment is visible
+# immediately. Browser-managed caching still avoids duplicate requests within
+# a page load, and immutable page media can use the host's normal asset cache.
+/*.js
+  Cache-Control: public, max-age=0, must-revalidate
+/*.css
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+/updates/manifest.json
+  Cache-Control: public, max-age=0, must-revalidate
+/updates/*/update.json
+  Cache-Control: public, max-age=0, must-revalidate
+/capabilities/manifest.json
+  Cache-Control: public, max-age=0, must-revalidate
+/capabilities/*/capability.json
+  Cache-Control: public, max-age=0, must-revalidate
+/sitemap.xml
+  Cache-Control: public, max-age=0, must-revalidate

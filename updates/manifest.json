@@ -1,0 +1,155 @@
+{
+  "schema": "portfolio-update-manifest@3",
+  "_generated": {
+    "warning": "DO NOT EDIT",
+    "source": "updates/*/settings.yaml"
+  },
+  "updates": [
+    {
+      "slug": "rebuilt-screenshot-tool-as-persistent-capture-service",
+      "folder": "rebuilt-screenshot-tool-as-persistent-capture-service",
+      "title": "Rebuilt Screenshot Tool as a persistent capture service",
+      "summary": "Replaced per-hotkey application startup with a persistent GTK4 service, then added precise frozen-region selection and exact identity matching for same-titled windows.",
+      "date": "2026-08-15",
+      "prominence": "medium",
+      "phase": 3,
+      "icon": "icon.svg",
+      "preview": "media/selector-region-magnifier.png",
+      "previewAlt": "Screenshot Tool frozen-region selector with live dimensions, keyboard guidance, crosshairs, and a magnified pointer view",
+      "previewWidth": 1800,
+      "previewHeight": 1050,
+      "github": "https://github.com/Ckrest/screenshot-tool",
+      "tags": [
+        "Python",
+        "GTK",
+        "Wayland",
+        "Image Capture"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "diagram-tool",
+      "folder": "diagram-tool",
+      "title": "Built a local-first diagramming tool",
+      "summary": "Built a local-first visual editor where the browser and MCP tools work on the same JSON-backed diagram through one API and update the canvas in real time.",
+      "date": "2025-11-23",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/diagram-tool-early-architecture-selected.png",
+      "previewAlt": "Reconstructed early Diagram Tool interface zoomed out with Core API selected and its node properties open",
+      "previewWidth": 1600,
+      "previewHeight": 1000,
+      "github": "https://github.com/Ckrest/diagram-tool",
+      "tags": [
+        "Python",
+        "MCP",
+        "Frontend",
+        "JavaScript"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "postgresql-history-database",
+      "folder": "postgresql-history-database",
+      "title": "Built a shared history database for system activity",
+      "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+      "date": "2025-11-16",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "postgresql-history-first-output.png",
+      "previewAlt": "The first recorded Systems History Database output and its linked artifacts",
+      "previewWidth": 1719,
+      "previewHeight": 915,
+      "github": "https://github.com/Ckrest/postgresql-history-database",
+      "tags": [
+        "PostgreSQL",
+        "Infrastructure"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      },
+      "capabilities": [
+        {
+          "slug": "design-connect-multi-tool-systems",
+          "folder": "design-connect-multi-tool-systems",
+          "title": "Design and connect multi-tool software systems",
+          "summary": "This temporary shell connects the registries, desktop services, data stores, reporting tools, and publishing systems that demonstrate this capability.",
+          "evidenceCount": 1
+        },
+        {
+          "slug": "design-durable-data-evidence-pipelines",
+          "folder": "design-durable-data-evidence-pipelines",
+          "title": "Design durable data and evidence pipelines",
+          "summary": "This temporary shell connects capture-time storage, typed artifacts, shared history, editing, review, and publication into a durable evidence flow.",
+          "evidenceCount": 1
+        }
+      ]
+    },
+    {
+      "slug": "process-manager",
+      "folder": "process-manager",
+      "title": "Built a desktop service manager with live logs",
+      "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
+      "date": "2025-10-18",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/process-manager-gtk-reconstruction-2025-10-18.png",
+      "previewAlt": "Reconstructed October 2025 GTK Process Manager showing grouped systemd services, lifecycle controls, and live journal logs",
+      "previewWidth": 1152,
+      "previewHeight": 799,
+      "github": "https://github.com/Ckrest/process-manager",
+      "tags": [
+        "Python",
+        "GTK",
+        "Systemd"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "ai-integration-project-proposal",
+      "folder": "ai-integration-project-proposal",
+      "title": "Proposed a three stage project for applied AI integration",
+      "summary": "Turned an open-ended interest in applied AI into a three-stage engineering proposal, with practical prototypes, review points, documentation, and evaluation built into the plan.",
+      "date": "2025-09-15",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "preview.png",
+      "previewAlt": "First page of the independent AI integration program proposal",
+      "previewWidth": 1224,
+      "previewHeight": 984,
+      "tags": [
+        "AI",
+        "Architecture",
+        "Documentation"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    }
+  ]
+}

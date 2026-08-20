@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "allowedExtensions": [
+    ".avi", ".c", ".cpp", ".css", ".csv", ".diff", ".gif", ".go",
+    ".html", ".java", ".jpeg", ".jpg", ".js", ".json", ".md", ".mermaid",
+    ".mkv", ".mmd", ".mov", ".mp4", ".patch", ".pdf", ".png", ".py", ".rb",
+    ".rs", ".sh", ".sql", ".svg", ".ts", ".txt", ".webm", ".webp"
+  ]
+}

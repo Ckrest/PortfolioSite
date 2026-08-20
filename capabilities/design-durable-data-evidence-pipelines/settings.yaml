@@ -1,0 +1,6 @@
+kind: capability
+slug: design-durable-data-evidence-pipelines
+title: Design durable data and evidence pipelines
+summary: This temporary shell connects capture-time storage, typed artifacts, shared history, editing, review, and publication into a durable evidence flow.
+evidence:
+  - postgresql-history-database

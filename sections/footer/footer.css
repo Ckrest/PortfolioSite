@@ -1,0 +1,60 @@
+/*
+ * Footer Section
+ * Contact info and back-to-top link
+ */
+
+[data-section="footer"] {
+  padding: var(--space-16) 0;
+
+  .footer-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+
+  .footer-contact h2 {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+
+  .contact-email {
+    margin: 0;
+  }
+
+  .contact-email a {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .contact-email a:hover {
+    color: var(--color-accent-2);
+  }
+
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    background: var(--color-surface);
+    transition: border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .back-to-top:hover {
+    border-color: var(--color-text-secondary);
+    transform: translateY(-1px);
+  }
+}

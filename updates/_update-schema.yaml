@@ -1,0 +1,134 @@
+# Portfolio Update Schema
+# Shared by Portfolio Site and Portfolio Editor.
+
+version: 3
+
+sections:
+  - id: metadata
+    label: Candidate content
+    collapsed: false
+    fields: [title, summary, date, prominence, discovery]
+
+  - id: relationships
+    label: Relationships
+    collapsed: false
+    fields: [part_of, supersedes, related_to]
+
+  - id: links
+    label: Links
+    collapsed: false
+    fields: [github, externalUrl]
+
+  - id: media
+    label: Media
+    collapsed: true
+    fields: [preview, previewAlt, icon]
+
+  - id: tags
+    label: Tags
+    collapsed: false
+    fields: [tags]
+
+fields:
+  title:
+    type: text
+    label: Title
+    required: true
+    help: "Concrete, sentence-case name that works on both a card and its detail page. Do not add manual line breaks."
+
+  summary:
+    type: textarea
+    label: Summary
+    required: true
+    help: "One compact explanation of what changed and why it matters. Add context instead of repeating the title."
+
+  date:
+    type: date
+    label: Date
+    required: true
+    layout: half
+
+  prominence:
+    type: enum
+    label: Prominence
+    values: [high, medium, low]
+    default: medium
+    layout: half
+    help: "High and medium updates carry the portfolio; low updates become compact recent activity and archive bundles."
+
+  discovery:
+    type: enum
+    label: Discovery
+    values: [listed, unlisted]
+    default: listed
+    layout: half
+    help: "Unlisted updates retain a direct page but do not appear in the homepage or sitemap."
+
+  part_of:
+    type: update
+    label: Part of
+    placeholder: "Slug of the larger update"
+    help: "Use on a newer, smaller update to point at the larger body of work it belongs to."
+
+  supersedes:
+    type: update
+    label: Supersedes
+    placeholder: "Slug of the older version"
+    help: "Use on a new version; the older update gets a derived newer-version link."
+
+  related_to:
+    type: updates
+    label: Related updates
+    help: "Optional general relationships. Backlinks are derived automatically."
+
+  github:
+    type: url
+    label: GitHub URL
+    placeholder: "https://github.com/username/repo"
+
+  externalUrl:
+    type: url
+    label: External URL
+    placeholder: "https://example.com"
+
+  preview:
+    type: asset
+    label: Preview image
+    placeholder: "Optional — a generated preview is used when empty"
+    default: ''
+    assetType: image
+
+  previewAlt:
+    type: text
+    label: Preview alt text
+
+  icon:
+    type: asset
+    label: Icon
+    placeholder: icon.svg
+    required: true
+    assetType: image
+
+  tags:
+    type: tags
+    label: Tags
+    help: "Public topics visitors can use to filter the timeline."
+
+warnings:
+  - id: detail-without-content
+    message: "Detail page has no content blocks"
+    check:
+      field: _blocks
+      condition: empty-array
+
+  - id: title-manual-line-break
+    message: "Title contains a manual line break; let the page wrap it for each viewport"
+    check:
+      field: title
+      condition: contains-line-break
+
+  - id: summary-multiple-paragraphs
+    message: "Summary contains multiple paragraphs; keep the lead compact and move detail into content blocks"
+    check:
+      field: summary
+      condition: multiple-paragraphs
