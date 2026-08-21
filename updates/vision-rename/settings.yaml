@@ -1,0 +1,34 @@
+content:
+  blocks:
+  - body: '## Turn image folders into searchable names
+
+
+      I built a command for batches of screenshots and images whose generated names
+      carried no meaning. It sent each supported image to a selected local Ollama
+      vision model, then converted the response into a short, filesystem-safe filename.'
+    id: blk_editorial_vision-rename
+    type: text
+  - caption: A representative dry run shows the proposed names without creating the
+      renamed copies.
+    commands:
+    - command: vision-rename ./images --dry-run
+      output: "Found 2 images in images\nOutput: images/renamed\nModel: llava:13b\n\
+        DRY RUN - no files will be copied\n\n[1/2] IMG_0042.png\n  -> rain_covered_station_platform.png\n\
+        [2/2] IMG_0043.png\n  -> terminal_showing_test_results.png\n\nDone! Processed:\
+        \ 2, Skipped: 0, Errors: 0"
+    id: blk_vision_rename
+    type: terminal
+date: '2025-12-14'
+discovery: listed
+github: https://github.com/Ckrest/vision-rename
+icon: icon.svg
+kind: update
+prominence: low
+slug: vision-rename
+summary: Created a batch command that asked a local Ollama vision model for short
+  descriptive filenames and copied each result without altering the originals.
+tags:
+- AI
+- Python
+- CLI
+title: Renamed images with local vision models

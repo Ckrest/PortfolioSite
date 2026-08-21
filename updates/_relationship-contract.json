@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "targetType": "update",
+  "metadata": {
+    "part_of": {
+      "cardinality": "one",
+      "publicEndpoint": "optional",
+      "inverse": "parts",
+      "acyclic": true
+    },
+    "supersedes": {
+      "cardinality": "one",
+      "publicEndpoint": "optional",
+      "inverse": "superseded_by",
+      "acyclic": true
+    },
+    "related_to": {
+      "cardinality": "many",
+      "publicEndpoint": "optional",
+      "inverse": "related",
+      "acyclic": false
+    }
+  },
+  "blocks": {
+    "publicEndpoint": "optional"
+  },
+  "capabilityEvidence": {
+    "publicEndpoint": "required"
+  }
+}

@@ -8,10 +8,10 @@
     "date": "2025-11-23",
     "prominence": "high",
     "discovery": "listed",
-    "icon": "icon.svg",
+    "github": "https://github.com/Ckrest/diagram-tool",
     "preview": "media/diagram-tool-early-architecture-selected.png",
     "previewAlt": "Reconstructed early Diagram Tool interface zoomed out with Core API selected and its node properties open",
-    "github": "https://github.com/Ckrest/diagram-tool",
+    "icon": "icon.svg",
     "tags": [
       "Python",
       "MCP",
@@ -21,8 +21,20 @@
     "content": {
       "blocks": [
         {
-          "body": "## Draw and automate the same diagram\n\nI built Diagram Tool so a diagram can be edited directly in the browser and manipulated by an agent without creating separate visual and machine-readable copies. The editor provides an infinite canvas, multiple node shapes, labeled connections, nested zones, property editing, multi-selection, and undo and redo.\n\n## Keep one shared runtime\n\nA local FastAPI service owns the active diagram. The browser and MCP tools both call its HTTP API, while WebSocket notifications refresh the open editor whenever either side changes the model. An agent can add or move a node, create an edge, or save the diagram, and the browser immediately reflects the same state.\n\nEach diagram remains ordinary JSON with stable identifiers for the diagram, nodes, and edges. Node records preserve position, dimensions, shape, color, tags, and descriptions; edges retain their endpoints and labels. Snapshot history supplies undo and redo without introducing a second representation.\n\n## Keep the result local and inspectable\n\nThe backend binds to loopback and does not require a hosted account. Diagrams can be opened from or saved to an explicitly chosen path, leaving each document available for inspection, copying, or version control outside the editor.",
+          "body": "## Draw and automate the same diagram\n\nI built Diagram Tool so a diagram can be edited directly in the browser and manipulated by an agent without creating separate visual and machine-readable copies. The editor provides an infinite canvas, multiple node shapes, labeled connections, nested zones, property editing, multi-selection, and undo and redo.",
           "id": "blk_editorial_diagram-tool",
+          "type": "text"
+        },
+        {
+          "alt": "Reconstructed early Diagram Tool interface zoomed out with Core API selected and its node properties open",
+          "caption": "Diagram Tool interface with node editor",
+          "id": "1576817f-c483-4d2c-9c1d-1f083d3af5b0",
+          "src": "media/diagram-tool-early-architecture-selected.png",
+          "type": "image"
+        },
+        {
+          "body": "## Keep one shared runtime\n\nA local FastAPI service owns the active diagram. The browser and MCP tools both call its HTTP API, while WebSocket notifications refresh the open editor whenever either side changes the model. An agent can add or move a node, create an edge, or save the diagram, and the browser immediately reflects the same state.\n\nEach diagram remains ordinary JSON with stable identifiers for the diagram, nodes, and edges. Node records preserve position, dimensions, shape, color, tags, and descriptions; edges retain their endpoints and labels. Snapshot history supplies undo and redo without introducing a second representation.\n\n## Keep the result local and inspectable\n\nThe backend binds to loopback and does not require a hosted account. Diagrams can be opened from or saved to an explicitly chosen path, leaving each document available for inspection, copying, or version control outside the editor.",
+          "id": "1106f715-09b5-4217-986d-c2990eeb6e21",
           "type": "text"
         },
         {
@@ -30,13 +42,6 @@
           "code": "flowchart LR\n  Browser[Browser editor] -->|HTTP| API[Local FastAPI service]\n  MCP[MCP tools for agents] -->|HTTP| API\n  API --> State[Active diagram state]\n  State --> Files[JSON file at a chosen path]\n  API -->|WebSocket updates| Browser",
           "id": "blk_diagram_tool_context",
           "type": "mermaid"
-        },
-        {
-          "alt": "Reconstructed early Diagram Tool interface zoomed out with Core API selected and its node properties open",
-          "caption": "A selected service keeps its diagram context and editing controls visible together.",
-          "id": "1576817f-c483-4d2c-9c1d-1f083d3af5b0",
-          "src": "media/diagram-tool-early-architecture-selected.png",
-          "type": "image"
         },
         {
           "alt": "Reconstructed early Diagram Tool component bank zoomed out with a decision node selected and its properties open",

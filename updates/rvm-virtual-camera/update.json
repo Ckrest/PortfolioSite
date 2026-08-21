@@ -1,0 +1,90 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "rvm-virtual-camera",
+    "title": "Built a real-time webcam background removal pipeline",
+    "summary": "Built a real-time webcam pipeline that used Robust Video Matting to separate the foreground, replace or blur the background, and expose the result as a standard V4L2 camera.",
+    "date": "2025-12-01",
+    "prominence": "medium",
+    "discovery": "listed",
+    "github": "https://github.com/Ckrest/rvm-virtual-camera",
+    "preview": "media/rvm-composited-output.png",
+    "previewAlt": "RVM composited output placing a person against a solid blue virtual background",
+    "icon": "icon.svg",
+    "tags": [
+      "AI",
+      "Python"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Turn background removal into an ordinary camera\n\nI built RVM Virtual Camera so real-time background removal could work in applications that knew nothing about the model behind it. The program opened a physical webcam, passed each frame through a Robust Video Matting model loaded with PyTorch, composited the foreground, and wrote the finished frame to a V4L2 loopback device.\n\nOBS, conferencing tools, and browser calls could select that output like an ordinary camera.",
+          "id": "blk_editorial_rvm-virtual-camera",
+          "type": "text"
+        },
+        {
+          "caption": "The machine-learning pipeline terminated at a standard virtual-camera boundary, keeping consumers independent of the model.",
+          "code": "flowchart LR\n  Camera[Physical webcam] --> Capture[Threaded frame capture]\n  Capture --> RVM[Robust Video Matting model]\n  RVM --> Matte[Foreground and alpha matte]\n  Background[Solid color, image, or blurred frame] --> Composite[Frame composition]\n  Matte --> Composite\n  Composite --> Preview[Optional preview]\n  Composite --> V4L2[V4L2 loopback camera]\n  V4L2 --> Calls[OBS, browser, or call application]",
+          "id": "blk_rvm_pipeline",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Keep the frame loop practical\n\nCapture ran on its own thread, keeping camera reads separate from inference and the optional preview. Explicit resolution, frame rate, and downsample controls provided a practical way to balance image quality and throughput. The lighter MobileNetV3 model and heavier ResNet50 model offered another performance choice based on available GPU capacity.\n\nThe pipeline could place the subject over a solid color or chosen image, or blur the original background while preserving the foreground. The preview combined the source frame, composited result, and alpha matte side by side so each stage could be checked before another application consumed the virtual camera.",
+          "id": "blk_rvm_frame_loop",
+          "type": "text"
+        },
+        {
+          "alt": "Three-panel RVM preview showing a man against a red background, the extracted subject against blue, and a white alpha matte",
+          "caption": "Reconstructed with the archived default MobileNetV3 pipeline: source frame, composited output, and alpha matte. Stock frame by Andrea Piacquadio via Pexels.",
+          "id": "blk_rvm_preview_placeholder",
+          "src": "media/rvm-preview-triptych.png",
+          "type": "image"
+        },
+        {
+          "caption": "Command-line options switched between the preview, background treatments, and performance controls.",
+          "commands": [
+            {
+              "command": "python rvm_camera.py --preview",
+              "output": "Physical camera → RVM matte → preview + /dev/video10"
+            },
+            {
+              "command": "python rvm_camera.py --background-image office.jpg --fps 30",
+              "output": "Compositing the selected image behind the foreground at the configured output rate"
+            },
+            {
+              "command": "python rvm_camera.py --background-blur 51 --downsample-ratio 0.25",
+              "output": "Blurring the source background while using a lower-cost matte inference setting"
+            }
+          ],
+          "id": "blk_rvm_modes",
+          "type": "terminal"
+        },
+        {
+          "body": "## Make the host boundary explicit\n\nCamera input, processed output device, optional raw passthrough device, model, resolution, frame rate, background mode, and downsample ratio were command-line options rather than hardcoded to one workstation. The output still depended on a loaded `v4l2loopback` device, while CUDA and half-precision inference made the model substantially more practical at interactive frame rates.",
+          "id": "blk_rvm_host_boundary",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "rvm-virtual-camera",
+    "related_to": [],
+    "phase": 1,
+    "previewWidth": 1280,
+    "previewHeight": 720,
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "virtual-camera-toggle",
+          "folder": "virtual-camera-toggle",
+          "title": "Added a keyboard toggle for the OBS virtual camera",
+          "summary": "Created a keyboard shortcut that started RVM background removal, launched OBS minimized with its virtual camera active, and stopped both processes on the next press.",
+          "date": "2025-12-08",
+          "prominence": "low"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "virtual-camera-toggle",
+    "title": "Added a keyboard toggle for the OBS virtual camera",
+    "summary": "Created a keyboard shortcut that started RVM background removal, launched OBS minimized with its virtual camera active, and stopped both processes on the next press.",
+    "date": "2025-12-08",
+    "prominence": "low",
+    "discovery": "listed",
+    "related_to": [
+      "rvm-virtual-camera"
+    ],
+    "github": "https://github.com/Ckrest/virtual-camera-toggle",
+    "icon": "icon.svg",
+    "tags": [
+      "Bash",
+      "CLI"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Make the camera a desktop action\n\nI bound the command to Super+O in Wayfire so I could control the camera without bringing OBS to the foreground. Desktop notifications confirmed when the pipeline was ready or stopped, leaving OBS minimized and the workflow out of the way.",
+          "id": "blk_editorial_virtual-camera-toggle",
+          "type": "text"
+        },
+        {
+          "id": "ecf7e4d8-73af-40a5-9a83-30aae54cb971",
+          "slug": "rvm-virtual-camera",
+          "type": "related-mini"
+        },
+        {
+          "body": "## Coordinate the camera pipeline\n\nThe command waited for RVM’s output device before starting OBS, then shut the two processes down in reverse order. Process checks kept repeated shortcut presses from leaving either half of the camera pipeline running by itself.",
+          "id": "blk_editorial_virtual-camera-pipeline",
+          "type": "text"
+        },
+        {
+          "caption": "The shortcut checked the camera pipeline, then started or stopped its two parts in order.",
+          "code": "flowchart TD\n  A[Press Super+O] --> B{Is the camera pipeline running?}\n\n  B -- No --> C[Start RVM background removal]\n  C --> D[Wait for the processed camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]",
+          "id": "blk_camera_toggle",
+          "type": "mermaid"
+        }
+      ]
+    },
+    "folder": "virtual-camera-toggle",
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Added a keyboard toggle for the OBS virtual camera",
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "rvm-virtual-camera",
+          "folder": "rvm-virtual-camera",
+          "title": "Built a real-time webcam background removal pipeline",
+          "summary": "Built a real-time webcam pipeline that used Robust Video Matting to separate the foreground, replace or blur the background, and expose the result as a standard V4L2 camera.",
+          "date": "2025-12-01",
+          "prominence": "medium"
+        }
+      ]
+    }
+  }
+}

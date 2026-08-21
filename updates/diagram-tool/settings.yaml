@@ -6,10 +6,16 @@ content:
       I built Diagram Tool so a diagram can be edited directly in the browser and
       manipulated by an agent without creating separate visual and machine-readable
       copies. The editor provides an infinite canvas, multiple node shapes, labeled
-      connections, nested zones, property editing, multi-selection, and undo and redo.
-
-
-      ## Keep one shared runtime
+      connections, nested zones, property editing, multi-selection, and undo and redo.'
+    id: blk_editorial_diagram-tool
+    type: text
+  - alt: Reconstructed early Diagram Tool interface zoomed out with Core API selected
+      and its node properties open
+    caption: Diagram Tool interface with node editor
+    id: 1576817f-c483-4d2c-9c1d-1f083d3af5b0
+    src: media/diagram-tool-early-architecture-selected.png
+    type: image
+  - body: '## Keep one shared runtime
 
 
       A local FastAPI service owns the active diagram. The browser and MCP tools both
@@ -30,7 +36,7 @@ content:
       The backend binds to loopback and does not require a hosted account. Diagrams
       can be opened from or saved to an explicitly chosen path, leaving each document
       available for inspection, copying, or version control outside the editor.'
-    id: blk_editorial_diagram-tool
+    id: 1106f715-09b5-4217-986d-c2990eeb6e21
     type: text
   - caption: Browser and MCP clients edit one model through the same local service.
     code: "flowchart LR\n  Browser[Browser editor] -->|HTTP| API[Local FastAPI service]\n\
@@ -39,13 +45,6 @@ content:
       \ Browser"
     id: blk_diagram_tool_context
     type: mermaid
-  - alt: Reconstructed early Diagram Tool interface zoomed out with Core API selected
-      and its node properties open
-    caption: A selected service keeps its diagram context and editing controls visible
-      together.
-    id: 1576817f-c483-4d2c-9c1d-1f083d3af5b0
-    src: media/diagram-tool-early-architecture-selected.png
-    type: image
   - alt: Reconstructed early Diagram Tool component bank zoomed out with a decision
       node selected and its properties open
     caption: A selected decision node shows reusable components and nested zones being

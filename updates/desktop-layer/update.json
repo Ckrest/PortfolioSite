@@ -1,0 +1,73 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "desktop-layer",
+    "title": "Built a clickable desktop layer for Wayland",
+    "summary": "Built a transparent GTK3 layer-shell surface that makes the Wayland desktop clickable, clears application focus, and opens a configurable command menu at the pointer.",
+    "date": "2025-11-26",
+    "prominence": "medium",
+    "discovery": "listed",
+    "related_to": [
+      "wallpaper-service"
+    ],
+    "github": "https://github.com/Ckrest/desktop-layer",
+    "preview": "media/abf932f2-6e56-44fd-865e-674ba7af8067.png",
+    "previewAlt": "Right click menu",
+    "icon": "icon.svg",
+    "tags": [
+      "Desktop Environment",
+      "Wayfire",
+      "Python"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Put desktop interaction on the bottom layer\n\nI built Desktop Layer as a transparent GTK3 layer-shell surface for Wayland desktops that need a clickable background without asking the same process to paint the wallpaper. The window anchors to all four edges, selects the bottom layer, and accepts keyboard focus on demand, placing it above a background surface and below ordinary application windows.\n\nLeft-clicking the exposed desktop presents that surface and moves focus away from the active application. Right-clicking opens a command menu at the pointer. Because the window paints fully transparent pixels, the existing wallpaper remains visible beneath the interaction layer. ",
+          "id": "blk_editorial_desktop-layer",
+          "type": "text"
+        },
+        {
+          "alt": "Configured Desktop Layer menu open over a wallpaper with application shortcuts and nested Tools and Settings submenus",
+          "caption": "Capture shows the configured right-click menu over the wallpaper, including nested Tools and Settings groups.",
+          "id": "blk_desktop_menu_capture",
+          "src": "media/screenshot_2026-02-28_15-57-19.png",
+          "type": "image"
+        },
+        {
+          "body": "## Build the menu from data\n\nThe menu comes from JSON rather than hardcoded application choices. Each entry can provide a label, shell command, and theme icon, while separators and nested submenus organize larger sets of actions. The script looks for `config.json` beside itself, accepts another path as its command-line argument, and falls back to a built-in menu when no usable file is available.\n\nSelected commands launch as detached background processes, leaving the desktop surface running for the next click.",
+          "id": "410f2411-2e49-4503-9643-8eb482f20730",
+          "type": "text"
+        },
+        {
+          "caption": "The initial configuration format supports commands, theme icons, separators, and nested submenus.",
+          "code": "{\n  \"menu_items\": [\n    {\"label\": \"Open Terminal\", \"command\": \"kitty\", \"icon\": \"utilities-terminal\"},\n    {\"separator\": true},\n    {\n      \"label\": \"Settings\",\n      \"submenu\": [\n        {\"label\": \"Display Settings\", \"command\": \"wdisplays\", \"icon\": \"preferences-desktop-display\"}\n      ]\n    }\n  ]\n}",
+          "filename": "config.json",
+          "id": "blk_desktop_menu",
+          "language": "json",
+          "type": "code"
+        },
+        {
+          "body": "## Keep the boundary small\n\nDesktop Layer owns only empty-desktop input and command launching. The compositor controls stacking, application windows remain ordinary surfaces, and the background stays a separate concern. That narrow boundary adds familiar desktop behavior without turning the layer into a window manager or wallpaper renderer.",
+          "id": "18a7b3ea-01a1-4eaf-b032-fb435fcafad6",
+          "type": "text"
+        },
+        {
+          "caption": "The transparent GTK3 surface handles desktop input between ordinary windows and the background layer.",
+          "code": "flowchart TD\n  Panels[Panels and overlays] --> Windows[Application windows]\n  Windows --> Desktop[Transparent GTK3 bottom-layer surface]\n  Desktop --> Background[Wallpaper background layer]\n  Config[JSON menu configuration] --> Desktop\n  Desktop --> Focus[Left click moves focus]\n  Desktop --> Menu[Right click opens command menu]",
+          "id": "blk_desktop_layer",
+          "type": "mermaid"
+        }
+      ]
+    },
+    "folder": "desktop-layer",
+    "phase": 1,
+    "previewWidth": 391,
+    "previewHeight": 373,
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  }
+}

@@ -8,10 +8,10 @@
     "date": "2025-10-18",
     "prominence": "medium",
     "discovery": "listed",
-    "icon": "icon.svg",
+    "github": "https://github.com/Ckrest/process-manager",
     "preview": "media/process-manager-gtk-reconstruction-2025-10-18.png",
     "previewAlt": "Reconstructed October 2025 GTK Process Manager showing grouped systemd services, lifecycle controls, and live journal logs",
-    "github": "https://github.com/Ckrest/process-manager",
+    "icon": "icon.svg",
     "tags": [
       "Python",
       "GTK",
@@ -40,7 +40,16 @@
     "relationships": {
       "parts": [],
       "superseded_by": [],
-      "related": []
+      "related": [
+        {
+          "slug": "settings-hub",
+          "folder": "settings-hub",
+          "title": "Built a modular desktop settings hub",
+          "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+          "date": "2025-11-26",
+          "prominence": "high"
+        }
+      ]
     }
   }
 }

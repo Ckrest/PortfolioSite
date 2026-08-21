@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="6.2.0"
+VERSION="7.0.0"
 SITE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)"
 SYSTEMS_ROOT="${SYSTEMS_ROOT:-}"
 if [[ -z "$SYSTEMS_ROOT" ]]; then
@@ -127,7 +127,7 @@ write_claimed_request() {
   local claim_response="$1" temporary
   temporary="$(mktemp "$STATE_ROOT/.realization-request.XXXXXX")"
   TEMPORARY_FILES+=("$temporary")
-  jq -e '.data.request | select(.schema == "portfolio-site/pool-build@2")' \
+  jq -e '.data.request | select(.schema == "portfolio-site/pool-build@4")' \
     "$claim_response" >"$temporary"
   chmod 600 "$temporary"
   mv -f "$temporary" "$REQUEST_PATH"
@@ -144,7 +144,7 @@ refresh_locked() {
   temporary_file verification
 
   if ! editor_available; then
-    echo "Portfolio Editor is unavailable; accepted-pool realization will be retried." >&2
+    echo "Portfolio Editor is unavailable; start it before realizing the accepted pool." >&2
     return 1
   fi
 
@@ -162,8 +162,7 @@ refresh_locked() {
     ' "$pool_response")"
 
     if [[ "$handoff_state" == "realized" ]] \
-      && active_matches_pool "$pool_response" "$verification" \
-      && service_is_healthy; then
+      && active_matches_pool "$pool_response" "$verification"; then
       return 0
     fi
 
@@ -191,11 +190,7 @@ refresh_locked() {
     write_claimed_request "$claim_response"
 
     if active_matches_request "$verification"; then
-      if ! ensure_local_service; then
-        diagnostics="$(jq -cn --arg url "$URL" '{message:"Managed local service did not become healthy",url:$url}')"
-        complete_attempt "$revision" "$attempt_id" "" "local-verification" "$diagnostics" || true
-        return 1
-      fi
+      :
     elif ! systems_command install portfolio-site --full >"$install_output" 2>&1; then
       diagnostics="$(jq -cRs '{message:"Systems could not install the accepted reviewed pool",systems_output:(.[-12000:])}' <"$install_output")"
       complete_attempt "$revision" "$attempt_id" "" "systems-install" "$diagnostics" || true
@@ -205,15 +200,11 @@ refresh_locked() {
       diagnostics="$(jq -cn --arg path "$ACTIVE_ROOT/manifest.json" '{message:"Installed output does not match the claimed review",manifest:$path}')"
       complete_attempt "$revision" "$attempt_id" "" "installed-verification" "$diagnostics" || true
       return 1
-    elif ! ensure_local_service; then
-      diagnostics="$(jq -cn --arg url "$URL" '{message:"Managed local service did not become healthy",url:$url}')"
-      complete_attempt "$revision" "$attempt_id" "" "local-verification" "$diagnostics" || true
-      return 1
     fi
 
     result_digest="$(jq -er '.receipt.result_digest' "$verification")"
-    diagnostics="$(jq -cn --arg url "$URL" '{message:"Accepted reviewed artifact and managed local service verified",url:$url}')"
-    complete_attempt "$revision" "$attempt_id" "$result_digest" "local-verification" "$diagnostics"
+    diagnostics='{"message":"Accepted reviewed artifact installed and verified"}'
+    complete_attempt "$revision" "$attempt_id" "$result_digest" "installed-verification" "$diagnostics"
 
     portfolio-editor-cli pool-get >"$pool_response"
     if [[ "$(jq -er '.data.revision' "$pool_response")" == "$revision" ]]; then
@@ -221,8 +212,16 @@ refresh_locked() {
     fi
   done
 
-  echo "Accepted Portfolio pool changed repeatedly during realization; reconciliation will retry." >&2
+  echo "Accepted Portfolio pool changed repeatedly during realization; run refresh again." >&2
   return 1
+}
+
+dispatch() {
+  local job_id
+  job_id="$(< /proc/sys/kernel/random/uuid)"
+  systemd-run --user --quiet --collect --no-block \
+    --unit="portfolio-site-realize-${job_id}.service" \
+    "$HOME/.local/bin/portfolio-site" refresh
 }
 
 refresh() {
@@ -257,13 +256,14 @@ open_site() {
 
 case "${1:-open}" in
   open) open_site ;;
-  refresh|reconcile) refresh ;;
+  refresh) refresh ;;
+  dispatch) dispatch ;;
   start) systems_command service portfolio-site start ;;
   stop) systems_command service portfolio-site stop ;;
   restart) systems_command service portfolio-site restart ;;
   status) systems_command service portfolio-site observe ;;
   logs) journalctl --user -u portfolio-site-local -n "${2:-30}" --no-pager ;;
   --version) printf 'portfolio-site %s\n' "$VERSION" ;;
-  --help|-h) echo "Usage: portfolio-site {open|refresh|reconcile|start|stop|restart|status|logs}" ;;
+  --help|-h) echo "Usage: portfolio-site {open|refresh|dispatch|start|stop|restart|status|logs}" ;;
   *) echo "Unknown command: $1" >&2; exit 2 ;;
 esac

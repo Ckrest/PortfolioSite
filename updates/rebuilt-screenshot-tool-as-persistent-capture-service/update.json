@@ -9,10 +9,10 @@
     "prominence": "medium",
     "discovery": "listed",
     "related_to": [],
-    "icon": "icon.svg",
+    "github": "https://github.com/Ckrest/screenshot-tool",
     "preview": "media/selector-region-magnifier.png",
     "previewAlt": "Screenshot Tool frozen-region selector with live dimensions, keyboard guidance, crosshairs, and a magnified pointer view",
-    "github": "https://github.com/Ckrest/screenshot-tool",
+    "icon": "icon.svg",
     "tags": [
       "Python",
       "GTK",

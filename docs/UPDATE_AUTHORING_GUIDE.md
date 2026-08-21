@@ -199,6 +199,9 @@ narrative.
   presents this as earlier and later versions, not as a "superseded" status.
 - `related_to` connects work that is useful context but is neither structural
   nor a version sequence.
+- A target may be an active Workspace candidate that is not accepted yet. Its
+  authored slug stays in source, while the public link and inverse relationship
+  remain absent until both updates are in the accepted pool.
 - Capability backlinks are never authored on an update. A capability owns its
   evidence list, and the build derives "Capabilities demonstrated."
 
@@ -274,9 +277,10 @@ content:
 
 `kind`, `slug`, `title`, `summary`, an ISO date, and an icon are required.
 Relationships, public links, tags, previews, and narrative blocks are optional
-when they add value. Media paths are relative to the update directory. A supplied preview
-requires `previewAlt`, and every image or gallery item needs meaningful
-alternative text.
+when they add value. Media paths are relative to the update directory. A supplied
+preview should include `previewAlt`; when it does not, review reports an advisory
+and the renderer uses the update title. Every image or gallery item still needs
+meaningful alternative text because those blocks have no safe contextual fallback.
 
 `updates/_update-schema.yaml` is authoritative for metadata fields, enum values,
 form help, and advisory warnings. `updates/_block-registry.json` is
@@ -289,8 +293,10 @@ renders `src`. Omitted mode means `inline`; attached content must declare
 `sourceMode: attached` explicitly. Do not rely on two competing sources.
 
 The build rejects unknown fields, malformed blocks, duplicate IDs, unsafe or
-missing assets, privacy-pattern matches, broken relationships, and graph
-cycles. It derives manifests, payloads, detail pages, preview dimensions,
+missing assets, privacy-pattern matches, invalid relationship structure, and
+graph cycles. Portfolio Editor separately requires every authored optional
+target to exist as an active Workspace candidate before review. It derives
+manifests, payloads, detail pages, preview dimensions,
 backlinks, version pointers, sitemap entries, generated registry modules, and
 `dist/`. Those outputs must never be hand-authored.
 

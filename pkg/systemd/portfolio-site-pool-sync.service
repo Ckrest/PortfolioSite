@@ -1,8 +1,0 @@
-[Unit]
-Description=Realize the accepted Portfolio project pool
-After=portfolio-editor.service
-
-[Service]
-Type=oneshot
-EnvironmentFile=%h/.config/portfolio-site/environment
-ExecStart=%h/.local/bin/portfolio-site refresh

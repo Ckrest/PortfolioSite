@@ -33,16 +33,14 @@ ln -sfn "$ROOT_DIR/pkg/bin/portfolio-site" "$BIN_HOME/portfolio-site"
 ln -sfn "$ROOT_DIR/pkg/bin/portfolio-site-server" "$BIN_HOME/portfolio-site-server"
 ln -sfn "$ROOT_DIR/pkg/systemd/portfolio-site-local.service" \
   "$CONFIG_HOME/systemd/user/portfolio-site-local.service"
-ln -sfn "$ROOT_DIR/pkg/systemd/portfolio-site-pool-sync.service" \
-  "$CONFIG_HOME/systemd/user/portfolio-site-pool-sync.service"
-ln -sfn "$ROOT_DIR/pkg/systemd/portfolio-site-pool-sync.path" \
-  "$CONFIG_HOME/systemd/user/portfolio-site-pool-sync.path"
-ln -sfn "$ROOT_DIR/pkg/systemd/portfolio-site-pool-sync.timer" \
-  "$CONFIG_HOME/systemd/user/portfolio-site-pool-sync.timer"
 ln -sfn "$ROOT_DIR/pkg/applications/portfolio-site.desktop" \
   "$DATA_HOME/applications/portfolio-site.desktop"
 
+login_link="$CONFIG_HOME/systemd/user/default.target.wants/portfolio-site-local.service"
+if [[ -e "$login_link" || -L "$login_link" ]]; then
+  unlink "$login_link"
+fi
+
 systemctl --user daemon-reload
-systemctl --user enable --now portfolio-site-pool-sync.path portfolio-site-pool-sync.timer
 update-desktop-database "$DATA_HOME/applications" >/dev/null 2>&1 || true
-echo "Installed managed Portfolio Site launcher, runtime binding, and pool synchronization."
+echo "Installed the on-demand Portfolio Site preview and accepted-pool realizer."

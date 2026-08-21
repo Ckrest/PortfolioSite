@@ -9,14 +9,17 @@ import { spawn } from 'child_process';
 import { dirname, join, relative, resolve, sep } from 'path';
 import { tmpdir } from 'os';
 import { fileURLToPath } from 'url';
+import {
+  systemIssue, validationIssue, validationResult,
+} from './review-validation.js';
 
 const updates = dirname(fileURLToPath(import.meta.url));
 const root = dirname(updates);
 const IDENTITY_FIELDS = [
   'document_id', 'slug', 'document_revision', 'candidate_digest', 'tree_digest',
 ];
-const REQUEST_SCHEMA = 'portfolio-site/pool-build@2';
-const RESULT_SCHEMA = 'portfolio-site/pool-build-result@2';
+const REQUEST_SCHEMA = 'portfolio-site/pool-build@4';
+const RESULT_SCHEMA = 'portfolio-site/pool-build-result@4';
 const VERIFICATION_SCHEMA = 'portfolio-site/pool-output-verification@1';
 
 function argument(name) {
@@ -37,6 +40,29 @@ function run(command, args, cwd) {
       output: Buffer.concat(chunks).toString('utf8').trim(),
     }));
   });
+}
+
+function stagePass(code, stage, message, evidence = undefined) {
+  return validationIssue({
+    code,
+    outcome: 'pass',
+    consequence: 'required-gate',
+    stage,
+    owner: stage === 'candidate' ? 'portfolio-editor' : 'portfolio-site',
+    subject: { kind: stage, id: code, label: message },
+    message,
+    evidence,
+    action: { kind: 'none' },
+  });
+}
+
+function failedResult(stage, message, output = '') {
+  const issue = systemIssue(`site-${stage}-unavailable`, stage, message, output ? { output } : undefined);
+  return {
+    state: 'failed',
+    stage,
+    validation: validationResult([issue], { kind: 'project-pool' }),
+  };
 }
 
 async function gitVisiblePaths(sourceRoot = root) {
@@ -195,6 +221,7 @@ async function pruneGeneratedContent(siteRoot) {
     }
   }
   await rm(join(collection, 'manifest.json'), { force: true });
+  await rm(join(collection, 'catalog.json'), { force: true });
   await rm(join(collection, 'generated'), { recursive: true, force: true });
 
   const capabilities = join(siteRoot, 'capabilities');
@@ -294,14 +321,63 @@ async function build() {
       });
     }
 
+    const stageIssues = [stagePass(
+      'candidate-integrity', 'candidate', 'Candidate identities match the requested pool',
+      { count: candidates.length },
+    )];
     const registry = await run(process.execPath, ['updates/_sync-block-registry.js'], stagedRoot);
-    if (registry.status !== 0) return { success: false, stage: 'registry', output: registry.output };
+    if (registry.status !== 0) return failedResult('registry', 'Block registry synchronization could not run', registry.output);
+    stageIssues.push(stagePass('block-registry-current', 'registry', 'Block registry is current'));
     const vendor = await run(process.execPath, ['updates/_sync-vendor.js'], stagedRoot);
-    if (vendor.status !== 0) return { success: false, stage: 'vendor', output: vendor.output };
-    const sourceBuild = await run(process.execPath, ['updates/_build.js'], stagedRoot);
-    if (sourceBuild.status !== 0) return { success: false, stage: 'source', output: sourceBuild.output, candidates };
+    if (vendor.status !== 0) return failedResult('vendor', 'Vendored Site dependencies could not be synchronized', vendor.output);
+    stageIssues.push(stagePass('site-vendor-current', 'vendor', 'Vendored Site dependencies are current'));
+    const relationshipReportPath = join(workspace, 'relationship-resolution.json');
+    const validationReportPath = join(workspace, 'review-validation.json');
+    const sourceBuild = await run(
+      process.execPath,
+      [
+        'updates/_build.js', '--relationship-report', relationshipReportPath,
+        '--validation-report', validationReportPath,
+      ],
+      stagedRoot,
+    );
+    let sourceValidation = null;
+    try {
+      sourceValidation = JSON.parse(await readFile(validationReportPath, 'utf8'));
+    } catch { /* A process failure below owns the unavailable report. */ }
+    if (sourceBuild.status !== 0) {
+      if (sourceValidation?.schema === 'portfolio/review-validation@1'
+          && sourceValidation.summary?.blockers > 0) {
+        return {
+          state: 'blocked',
+          stage: 'source',
+          candidates,
+          validation: validationResult(
+            [...stageIssues, ...(sourceValidation.issues || [])],
+            { kind: 'project-pool', digest: pool.digest },
+          ),
+        };
+      }
+      return failedResult('source', 'Portfolio Site source build could not complete', sourceBuild.output);
+    }
+    if (sourceValidation?.schema !== 'portfolio/review-validation@1') {
+      return failedResult('source', 'Portfolio Site source build did not return its validation result', sourceBuild.output);
+    }
+    stageIssues.push(...sourceValidation.issues);
+    stageIssues.push(stagePass('site-source-build', 'source', 'Portfolio Site source built successfully'));
+    let relationshipReport;
+    try {
+      relationshipReport = JSON.parse(await readFile(relationshipReportPath, 'utf8'));
+    } catch (error) {
+      throw new Error(`Portfolio Site relationship report is unavailable: ${error.message}`);
+    }
+    if (
+      relationshipReport?.schema !== 'portfolio-site/relationship-resolution@1'
+      || !Array.isArray(relationshipReport.relationships)
+    ) throw new Error('Portfolio Site returned an invalid relationship report');
     const distribution = await run(process.execPath, ['updates/_build-dist.js'], stagedRoot);
-    if (distribution.status !== 0) return { success: false, stage: 'distribution', output: distribution.output, candidates };
+    if (distribution.status !== 0) return failedResult('distribution', 'Portfolio Site distribution could not be built', distribution.output);
+    stageIssues.push(stagePass('site-distribution-build', 'distribution', 'Portfolio Site distribution built successfully'));
 
     const distributionIdentity = await treeIdentity(join(stagedRoot, 'dist'));
     await rm(join(stagedRoot, 'node_modules'), { recursive: true, force: true });
@@ -318,20 +394,32 @@ async function build() {
         .filter(([key, value]) => request.expected[key] !== value)
         .map(([key, value]) => ({ key, expected: request.expected[key], observed: value }));
       if (mismatches.length) {
-        return {
-          success: false,
+        const issue = validationIssue({
+          code: 'accepted-review-mismatch',
+          outcome: 'conflicting',
+          consequence: 'required-gate',
           stage: 'accepted-review-match',
-          output: 'rebuilt output does not match the accepted review',
+          owner: 'portfolio-site',
+          subject: { kind: 'accepted-pool', id: String(request.pool_revision), label: `Accepted pool R${request.pool_revision}` },
+          message: 'Rebuilt output does not match the accepted review',
+          evidence: { mismatches },
+          action: { kind: 'rebuild-review' },
+        });
+        return {
+          state: 'failed',
+          stage: 'accepted-review-match',
           pool_revision: request.pool_revision,
           pool_digest: pool.digest,
           approval_bundle_id: request.expected.approval_bundle_id,
-          mismatches,
+          validation: validationResult([...stageIssues, issue], {
+            kind: 'accepted-pool', revision: request.pool_revision, digest: pool.digest,
+          }),
         };
       }
     }
     const manifest = {
       schema: RESULT_SCHEMA,
-      success: true,
+      state: 'ready',
       stage: 'complete',
       purpose,
       pool_revision: Number.isInteger(request.pool_revision) ? request.pool_revision : null,
@@ -345,6 +433,8 @@ async function build() {
       public_source_files: publicSourceIdentity.files,
       result_digest: distributionIdentity.digest,
       files: distributionIdentity.files,
+      relationship_resolution: relationshipReport.relationships,
+      validation: validationResult(stageIssues, { kind: 'project-pool', digest: pool.digest }),
       output: [registry.output, vendor.output, sourceBuild.output, distribution.output].filter(Boolean).join('\n'),
     };
     await installResult(output, async (prepared) => {
@@ -367,7 +457,7 @@ async function verifyOutput(value) {
   } catch (error) {
     errors.push(`manifest is unavailable: ${error.message}`);
   }
-  if (manifest && (manifest.schema !== RESULT_SCHEMA || manifest.success !== true)) {
+  if (manifest && (manifest.schema !== RESULT_SCHEMA || manifest.state !== 'ready')) {
     errors.push(`manifest must be one successful ${RESULT_SCHEMA}`);
   }
   let publicSource = null;
@@ -417,14 +507,16 @@ if (invokedDirectly) {
     } else {
       const result = await build();
       console.log(JSON.stringify({ schema: RESULT_SCHEMA, ...result }));
-      if (!result.success) process.exitCode = 1;
+      if (result.state === 'failed') process.exitCode = 1;
     }
   } catch (error) {
     console.log(JSON.stringify({
       schema: RESULT_SCHEMA,
-      success: false,
+      state: 'failed',
       stage: 'request',
-      output: error.message,
+      validation: validationResult([
+        systemIssue('site-request-invalid', 'request', error.message),
+      ], { kind: 'project-pool' }),
     }));
     process.exitCode = 1;
   }

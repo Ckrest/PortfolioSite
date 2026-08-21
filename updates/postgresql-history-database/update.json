@@ -9,10 +9,10 @@
     "prominence": "medium",
     "discovery": "listed",
     "related_to": [],
-    "icon": "icon.svg",
+    "github": "https://github.com/Ckrest/postgresql-history-database",
     "preview": "postgresql-history-first-output.png",
     "previewAlt": "The first recorded Systems History Database output and its linked artifacts",
-    "github": "https://github.com/Ckrest/postgresql-history-database",
+    "icon": "icon.svg",
     "tags": [
       "PostgreSQL",
       "Infrastructure"

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "privacyPatterns": [
+    {"code": "private-home-path", "source": "/(?:home|Users)/[^\\s\"']+", "flags": ""},
+    {"code": "work-report-identity", "source": "\\bwr_[a-f0-9]{16,}\\b", "flags": "i"},
+    {"code": "aws-access-key", "source": "\\bAKIA[0-9A-Z]{16}\\b", "flags": ""},
+    {"code": "github-token", "source": "\\b(?:ghp_|github_pat_)[A-Za-z0-9_]{16,}\\b", "flags": ""},
+    {"code": "openai-key", "source": "\\bsk-[A-Za-z0-9_-]{20,}\\b", "flags": ""}
+  ],
+  "blockFieldTypes": {
+    "id": "string",
+    "type": "string",
+    "body": "string",
+    "src": "string",
+    "embed": "public-url-or-asset",
+    "path": "string",
+    "sourceMode": "string",
+    "alt": "string",
+    "caption": "string",
+    "evidenceQualifier": "string",
+    "images": "gallery-images",
+    "blocks": "array",
+    "language": "string",
+    "filename": "string",
+    "code": "string",
+    "commands": "array",
+    "before": "image-reference",
+    "after": "image-reference",
+    "chartType": "string",
+    "labels": "array",
+    "datasets": "array",
+    "options": "object",
+    "slug": "string"
+  }
+}

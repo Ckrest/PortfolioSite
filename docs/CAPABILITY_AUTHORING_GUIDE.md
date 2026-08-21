@@ -262,9 +262,11 @@ content:
       body: Explain the recurring judgment and what the evidence proves.
 ```
 
-Media paths are relative to the capability directory. A supplied preview
-requires `previewAlt`, and every image or gallery item needs meaningful
-alternative text. Give authored blocks stable unique IDs.
+Media paths are relative to the capability directory. A supplied preview should
+include `previewAlt`; when it does not, review reports an advisory and the
+renderer uses the capability title. Every image or gallery item still needs
+meaningful alternative text because those blocks have no safe contextual
+fallback. Give authored blocks stable unique IDs.
 
 `capabilities/_block-registry.json` is authoritative for capability blocks. It
 is independent from the update registry; changes to either contract must be

@@ -22,7 +22,7 @@ if [[ ! -f "$REQUEST_PATH" ]]; then
   exit 2
 fi
 jq -e '
-  .schema == "portfolio-site/pool-build@2"
+  .schema == "portfolio-site/pool-build@4"
   and .purpose == "accepted"
   and (.pool_revision | type == "number" and . > 0)
   and .pool.schema == "portfolio-site/project-pool@1"

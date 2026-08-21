@@ -154,9 +154,9 @@ async function loadFooter() {
 }
 
 async function loadCatalog() {
-  const manifest = await loadJson('./manifest.json');
-  if (!manifest || !Array.isArray(manifest.updates)) {
-    throw new Error('Update manifest must contain a updates array');
+  const manifest = await loadJson('./catalog.json');
+  if (!manifest || manifest.schema !== 'portfolio-update-catalog@1' || !Array.isArray(manifest.updates)) {
+    throw new Error('Update catalog must use portfolio-update-catalog@1');
   }
   setUpdateCatalog(manifest.updates);
   return manifest.updates;

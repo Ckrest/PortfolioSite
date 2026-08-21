@@ -24,12 +24,15 @@ npm test
 starts the declared on-demand user service, waits for `http://127.0.0.1:9742/`,
 and opens it. When the Editor is offline it may serve only the last locally
 verified artifact. `portfolio-site refresh`, `status`, `stop`, and `logs` expose
-explicit management actions. A lightweight systemd path unit wakes promptly for
-new pool revisions and a timer reconciles missed notifications even while the
-preview server is stopped. Installation records the selected Node interpreter in
-the private `~/.config/portfolio-site/environment` file, so interactive and
-systemd-triggered reconciliation use the same runtime without embedding a host
-path in public source. The launcher never starts or owns the Editor.
+explicit management actions. Acceptance calls the Site-owned `dispatch` command,
+which enqueues one non-blocking realization job. There is no boot watcher,
+timer, polling loop, or filesystem signal; `portfolio-site refresh` is the
+explicit recovery command for an interrupted or missed dispatch. Installation
+records the selected Node interpreter in the private
+`~/.config/portfolio-site/environment` file, so interactive and dispatched
+realization use the same runtime without embedding a host path in public source.
+Artifact realization never activates the preview, and neither Site command
+starts or owns the Editor.
 
 `npm test` checks both block registries, unit behavior, generated manifests,
 the deployable build, and JavaScript syntax without rewriting authored content.
@@ -53,8 +56,9 @@ build after changing canonical sources.
 The build validates the complete public graph rather than one record in
 isolation. It rejects malformed or unknown fields, invalid block structures,
 duplicate block identities, unsafe or missing assets, missing image
-alternatives, privacy-pattern matches, redundant relationship types, broken
-relationships, and graph cycles. The deployable directory is allowlisted by
+alternatives, privacy-pattern matches, redundant relationship types, required
+capability evidence, and graph cycles. Optional update relationships whose
+target is outside the exact pool remain authored but unresolved. The deployable directory is allowlisted by
 `updates/_public-asset-policy.json` and excludes YAML, databases, logs, private
 state, and unreferenced material.
 
@@ -65,12 +69,15 @@ only through the exact closed-pool boundary below.
 ### Exact closed-pool builds
 
 `npm run build:pool -- --input <request.json> --output <directory>` is the shared
-Portfolio Editor and Systems boundary. A `portfolio-site/pool-build@2` request
+Portfolio Editor and Systems boundary. A `portfolio-site/pool-build@4` request
 contains one `portfolio-site/project-pool@1` with every digest-pinned member.
 The command snapshots current Git-visible Site mechanics, removes generated and
 retired project copies, installs only the requested members, runs the complete
 graph and distribution builds, and returns exact source, pool, public-source,
-and output identities.
+and output identities. Review builds return one `portfolio/review-validation@1`
+result. A semantically blocked review exits successfully with actionable issue
+leaves and creates no output; unavailable build machinery returns a distinct
+failed state.
 
 `node updates/_pool-build.js --source-identity` reports the same normalized Site
 mechanics identity without building. Retired update copies and regenerated
@@ -114,7 +121,12 @@ field help live in `updates/_update-schema.yaml`; block contracts live in
 
 The build derives backlinks, project-update lists, later-version links, and the
 newest version. Older records do not need editing when newer work creates a
-forward relationship.
+forward relationship. `updates/_relationship-contract.json` owns endpoint
+policy. Metadata links and update-reference blocks resolve only when both
+updates are in the exact pool; otherwise they are omitted from public derived
+data and reported as pending to Portfolio Editor. Rebuilding after a target is
+accepted, withdrawn, or reaccepted activates or deactivates both directions
+without rewriting the source update. Capability evidence remains required.
 
 ### Capabilities
 
@@ -146,8 +158,8 @@ public presentation uses:
 ## Build and runtime architecture
 
 `updates/_build.js` reads both entity types, validates their canonical sources,
-derives graph data, and writes public manifests, payloads, detail pages, and
-sitemap state. `updates/_build-dist.js` assembles only deployable files into
+derives graph data, and writes a listed manifest, complete accepted catalog,
+payloads, detail pages, and sitemap state. `updates/_build-dist.js` assembles only deployable files into
 `dist/`. The package scripts are authoritative for the exact build sequence.
 
 The homepage is composed from modules in `sections/`. `site.config.js` owns

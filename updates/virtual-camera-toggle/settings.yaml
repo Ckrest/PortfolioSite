@@ -1,0 +1,45 @@
+content:
+  blocks:
+  - body: '## Make the camera a desktop action
+
+
+      I bound the command to Super+O in Wayfire so I could control the camera without
+      bringing OBS to the foreground. Desktop notifications confirmed when the pipeline
+      was ready or stopped, leaving OBS minimized and the workflow out of the way.'
+    id: blk_editorial_virtual-camera-toggle
+    type: text
+  - id: ecf7e4d8-73af-40a5-9a83-30aae54cb971
+    slug: rvm-virtual-camera
+    type: related-mini
+  - body: '## Coordinate the camera pipeline
+
+
+      The command waited for RVM’s output device before starting OBS, then shut the
+      two processes down in reverse order. Process checks kept repeated shortcut presses
+      from leaving either half of the camera pipeline running by itself.'
+    id: blk_editorial_virtual-camera-pipeline
+    type: text
+  - caption: The shortcut checked the camera pipeline, then started or stopped its
+      two parts in order.
+    code: "flowchart TD\n  A[Press Super+O] --> B{Is the camera pipeline running?}\n\
+      \n  B -- No --> C[Start RVM background removal]\n  C --> D[Wait for the processed\
+      \ camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\
+      \n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]"
+    id: blk_camera_toggle
+    type: mermaid
+date: '2025-12-08'
+discovery: listed
+github: https://github.com/Ckrest/virtual-camera-toggle
+icon: icon.svg
+kind: update
+prominence: low
+related_to:
+- rvm-virtual-camera
+slug: virtual-camera-toggle
+summary: Created a keyboard shortcut that started RVM background removal, launched
+  OBS minimized with its virtual camera active, and stopped both processes on the
+  next press.
+tags:
+- Bash
+- CLI
+title: Added a keyboard toggle for the OBS virtual camera

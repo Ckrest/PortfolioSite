@@ -68,6 +68,7 @@ fields:
   previewAlt:
     type: text
     label: Preview alt text
+    help: Optional. Review recommends a tailored description; the capability title is the public fallback.
 
   icon:
     type: asset

@@ -14,7 +14,7 @@ const ROOT_FILES = [
 ];
 const ROOT_DIRS = ['css', 'js', 'data', 'sections'];
 const UPDATE_RUNTIME = [
-  'manifest.json', 'detail.js', 'update-renderer.js', 'runtime-utils.js',
+  'manifest.json', 'catalog.json', 'detail.js', 'update-renderer.js', 'runtime-utils.js',
   'update.css', 'update-layout.css', 'generated', 'vendor',
 ];
 const CAPABILITY_RUNTIME = [

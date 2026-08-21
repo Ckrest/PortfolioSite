@@ -1,0 +1,81 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "wayfire-screen-freeze",
+    "title": "Added screen freeze controls to Wayfire",
+    "summary": "Built a Wayfire plugin that captures the final compositor frame into a GPU texture and presents it—or solid black—until an IPC unfreeze request.",
+    "date": "2025-12-06",
+    "prominence": "low",
+    "discovery": "listed",
+    "github": "https://github.com/Ckrest/screen-freeze",
+    "icon": "icon.svg",
+    "tags": [
+      "Wayfire",
+      "C++",
+      "Wayland"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Freeze compositor output, not applications\n\nI built Screen Freeze as a Wayfire compositor plugin for moments when the visible desktop must stop changing immediately, especially while a shutdown or logout effect establishes its final covered frame. A freeze request installed a post-render hook and marked the next frame for capture. Inside that hook, the plugin copied the rendered output into an OpenGL texture and presented the captured texture in place of later live frames.\n\nApplications and services continued running behind the held frame. No screenshot was written and no overlay window raced the compositor. Unfreezing removed the post-render hook, released the texture, and resumed normal presentation. A separate black mode installed an output overlay hook that cleared the presented frame to solid black.",
+          "id": "blk_editorial_wayfire-screen-freeze",
+          "type": "text"
+        },
+        {
+          "caption": "Per-output renderer state changes only the presented result; applications continue running underneath.",
+          "code": "stateDiagram-v2\n  [*] --> Normal\n  Normal --> Frozen: freeze / install post hook and capture next frame\n  Frozen --> Normal: unfreeze / remove hook and release texture\n  Normal --> Black: black / install overlay hook\n  Black --> Normal: unfreeze / remove overlay hook\n  Frozen --> [*]: output removed\n  Black --> [*]: output removed",
+          "id": "blk_screen_freeze",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Add output-scoped IPC methods\n\nWayfire IPC exposed `screen-freeze/freeze`, `screen-freeze/unfreeze`, `screen-freeze/black`, and `screen-freeze/status`. Freeze, unfreeze, and black accepted an optional output name; without one, the operation applied to every active output. Status returned the current state of every output so an integrating effect could confirm the presentation state before continuing.",
+          "id": "blk_screen_freeze_ipc_text",
+          "type": "text"
+        },
+        {
+          "caption": "State-changing methods return a simple acknowledgement; status returns the output names and their exact states.",
+          "commands": [
+            {
+              "command": "wf-msg screen-freeze/freeze",
+              "output": "{\"ok\":true}"
+            },
+            {
+              "command": "wf-msg screen-freeze/freeze '{\"output\": \"DP-1\"}'",
+              "output": "{\"ok\":true}"
+            },
+            {
+              "command": "wf-msg screen-freeze/black",
+              "output": "{\"ok\":true}"
+            },
+            {
+              "command": "wf-msg screen-freeze/status",
+              "output": "{\n  \"ok\": true,\n  \"outputs\": [\n    {\"name\": \"DP-1\", \"state\": \"frozen\"},\n    {\"name\": \"HDMI-A-1\", \"state\": \"normal\"}\n  ]\n}"
+            },
+            {
+              "command": "wf-msg screen-freeze/unfreeze",
+              "output": "{\"ok\":true}"
+            }
+          ],
+          "id": "blk_screen_freeze_ipc",
+          "type": "terminal"
+        },
+        {
+          "body": "## Release output-scoped renderer state\n\nWhen an output disappeared, removing its per-output object released any captured texture. During plugin shutdown, Screen Freeze deactivated every output, cleared its output data, and unregistered all four IPC methods. That explicit lifecycle handling mattered because the feature lived inside the compositor renderer rather than beside it.",
+          "id": "blk_screen_freeze_cleanup_text",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "wayfire-screen-freeze",
+    "related_to": [],
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Added screen freeze controls to Wayfire",
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  }
+}
