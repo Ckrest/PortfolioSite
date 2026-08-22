@@ -8,7 +8,6 @@
     "date": "2026-08-15",
     "prominence": "medium",
     "discovery": "listed",
-    "related_to": [],
     "github": "https://github.com/Ckrest/screenshot-tool",
     "preview": "media/selector-region-magnifier.png",
     "previewAlt": "Screenshot Tool frozen-region selector with live dimensions, keyboard guidance, crosshairs, and a magnified pointer view",
@@ -33,6 +32,11 @@
           "id": "blk_screenshot_service_selector",
           "src": "media/selector-region-magnifier.png",
           "type": "image"
+        },
+        {
+          "body": "This is a temporary text block that I'm just adding here to put this update back into review for later. ",
+          "id": "166eb941-13d5-4165-ba43-0f5d7dfc0da1",
+          "type": "text"
         },
         {
           "body": "## Separate capture from output\n\nI removed the package's embedded protocol client and native capture helper and consumed the versioned `wayland-capture/frame@1` raw-frame contract instead. The service validates the frame and output layout before using the pixels. Regions are cropped from the frozen frame; selected windows receive a fresh capture through their exact identifier after the overlay closes.\n\nBoth paths then use the same output layer for atomic file saving, clipboard format, notifications, structured JSON, sound, and optional post-save hooks. That preserved the output boundary established by the earlier Screenshot Tool version while replacing its per-invocation coordination.",
@@ -63,6 +67,7 @@
       ]
     },
     "folder": "rebuilt-screenshot-tool-as-persistent-capture-service",
+    "related_to": [],
     "phase": 3,
     "previewWidth": 1800,
     "previewHeight": 1050,

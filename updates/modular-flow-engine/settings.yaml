@@ -1,0 +1,73 @@
+content:
+  blocks:
+  - body: '## Describe evaluation pipelines as data
+
+
+      I built the engine around JSON plans that declare inputs, component instances,
+      and execution steps. Sources load values, transforms process them, sinks collect
+      or write results, and loops express repeated work without requiring a custom
+      Python script for every evaluation.'
+    id: blk_editorial_modular-flow-engine
+    type: text
+  - caption: The retained basic example loads a text list, loops over each item, and
+      finalizes a collector through a JSON plan.
+    code: "{\n  \"name\": \"basic_loop\",\n  \"description\": \"Simplest pattern:\
+      \ load items, loop over them, collect results\",\n  \"components\": {\n    \"\
+      items\": {\n      \"type\": \"source/text_list\",\n      \"config\": {\n   \
+      \     \"path\": \"plans/examples/sample_items.txt\"\n      }\n    },\n    \"\
+      results\": {\n      \"type\": \"sink/collector\"\n    }\n  },\n  \"flow\": [\n\
+      \    {\"source\": \"items\"},\n    {\n      \"loop\": {\n        \"over\": \"\
+      items.items\",\n        \"as\": \"item\",\n        \"index\": \"i\",\n     \
+      \   \"steps\": [\n          {\n            \"call\": \"results\",\n        \
+      \    \"inputs\": {\n              \"index\": \"{i}\",\n              \"value\"\
+      : \"{item}\"\n            }\n          }\n        ]\n      }\n    },\n    {\"\
+      sink\": \"results\"}\n  ]\n}"
+    filename: 01_basic_loop.json
+    id: blk_flow_example
+    language: json
+    type: code
+  - body: '## Make components self-describing
+
+
+      Each component registers its configuration, input, and output contract. Before
+      execution, the runner resolves typed plan inputs and references, validates required
+      values, and can stop after a dry run. Sources, transforms, sinks, and reusable
+      composites can be added without changing the runner.'
+    id: blk_editorial_modular-flow-contracts
+    type: text
+  - caption: The runner validates the plan before execution and can checkpoint completed
+      work when a run ID is supplied.
+    code: "flowchart LR\n  Plan[JSON plan] --> Validate[Resolve inputs and validate]\n\
+      \  Validate --> Execute[Run sources, transforms, loops, and sinks]\n  Execute\
+      \ --> Results[Collect or write results]\n  Execute -. run ID .-> State[Checkpoint\
+      \ completed work]\n  State --> Resume[Resume after interruption]\n  Resume -->\
+      \ Execute"
+    id: blk_modular_flow_architecture
+    type: mermaid
+  - body: '## Resume long evaluations
+
+
+      Supplying a run ID enables checkpointing. The runner records completed calls
+      and loop iterations in a JSONL state file; after an interruption, resume mode
+      skips finished work and retries the incomplete step instead of restarting the
+      whole evaluation.'
+    id: blk_editorial_modular-flow-resume
+    type: text
+date: '2025-12-19'
+discovery: listed
+github: https://github.com/Ckrest/modular-flow-engine
+icon: icon.svg
+kind: update
+preview: media/modular-flow-engine-overview.svg
+previewAlt: Modular Flow Engine plan validation, execution, results, and optional
+  checkpoint-resume architecture
+prominence: high
+slug: modular-flow-engine
+summary: Created a JSON-defined dataflow engine with typed runtime inputs, reusable
+  components and composites, nested loops, validation, and checkpointed resume for
+  long-running evaluations.
+tags:
+- Python
+- AI
+- Architecture
+title: Built a declarative engine for AI evaluation flows

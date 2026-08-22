@@ -67,7 +67,16 @@
     "relationships": {
       "parts": [],
       "superseded_by": [],
-      "related": []
+      "related": [
+        {
+          "slug": "wallpaper-service",
+          "folder": "wallpaper-service",
+          "title": "Built a wallpaper service with seamless switching",
+          "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+          "date": "2025-12-22",
+          "prominence": "medium"
+        }
+      ]
     }
   }
 }

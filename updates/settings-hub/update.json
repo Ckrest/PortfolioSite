@@ -68,11 +68,43 @@
       "superseded_by": [],
       "related": [
         {
+          "slug": "graph-lib",
+          "folder": "graph-lib",
+          "title": "Built reusable GTK graphs and gauges",
+          "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+          "date": "2026-01-13",
+          "prominence": "medium"
+        },
+        {
           "slug": "process-manager",
           "folder": "process-manager",
           "title": "Built a desktop service manager with live logs",
           "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
           "date": "2025-10-18",
+          "prominence": "medium"
+        },
+        {
+          "slug": "ping-monitor",
+          "folder": "ping-monitor",
+          "title": "Built a lightweight network reliability monitor",
+          "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+          "date": "2026-01-13",
+          "prominence": "low"
+        },
+        {
+          "slug": "night-mode",
+          "folder": "night-mode",
+          "title": "Automated display warmth and bedtime transitions",
+          "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+          "date": "2026-01-02",
+          "prominence": "medium"
+        },
+        {
+          "slug": "wallpaper-service",
+          "folder": "wallpaper-service",
+          "title": "Built a wallpaper service with seamless switching",
+          "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+          "date": "2025-12-22",
           "prominence": "medium"
         }
       ]

@@ -18,9 +18,9 @@
         "prominence": "medium",
         "icon": "icon.svg",
         "preview": "postgresql-history-first-output.png",
-        "previewAlt": "The first recorded Systems History Database output and its linked artifacts",
+        "previewAlt": "The first recorded Constellation History Database output and its linked artifacts",
         "previewWidth": 1719,
-        "previewHeight": 915,
+        "previewHeight": 917,
         "tags": [
           "PostgreSQL",
           "Infrastructure"

@@ -1,0 +1,58 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "soundboard",
+    "title": "Built a desktop soundboard",
+    "summary": "Turned more than 250 clips into a searchable GTK soundboard for desktop playback, with an optional virtual-microphone route for voice chat.",
+    "date": "2026-01-13",
+    "prominence": "medium",
+    "discovery": "listed",
+    "github": "https://github.com/Ckrest/soundboard",
+    "preview": "preview.png",
+    "previewAlt": "Soundboard window showing a searchable grid of image-backed sound cards",
+    "icon": "icon.svg",
+    "tags": [
+      "Python",
+      "GTK",
+      "Audio"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Make a large sound library usable\n\nI turned a folder of more than 250 audio clips into a searchable grid of sound cards. Drag-and-drop imports, custom names, and cropped thumbnails make each sound quick to recognize and play without digging through filenames.",
+          "id": "blk_editorial_soundboard",
+          "type": "text"
+        },
+        {
+          "alt": "Soundboard window showing a searchable grid of image-backed sound cards",
+          "caption": "Search, tabs, output status, and Stop All keep the desktop library easy to navigate and control.",
+          "id": "blk_soundboard_preview",
+          "src": "preview.png",
+          "type": "image"
+        },
+        {
+          "body": "## Add voice chat as another output\n\nThe soundboard plays clips through the desktop speakers, but it can also send them to a virtual microphone. Speaker and microphone outputs can be enabled independently and given separate volume levels, so a sound can stay local, go into voice chat, or do both. Overlap support and Stop All keep playback manageable when several clips are triggered.",
+          "id": "blk_soundboard_routing",
+          "type": "text"
+        },
+        {
+          "caption": "Voice-chat routing extends the desktop soundboard without changing how the local library is used.",
+          "code": "flowchart LR\n  Card[Play a sound] --> Speakers[Desktop speakers]\n  Card -. Optional route .-> Mic[Virtual microphone]\n  Mic --> Chat[Voice chat]",
+          "id": "blk_soundboard_audio",
+          "type": "mermaid"
+        }
+      ]
+    },
+    "folder": "soundboard",
+    "related_to": [],
+    "phase": 1,
+    "previewWidth": 598,
+    "previewHeight": 698,
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  }
+}

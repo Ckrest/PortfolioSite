@@ -33,6 +33,603 @@
       }
     },
     {
+      "slug": "extension-dev-connector",
+      "folder": "extension-dev-connector",
+      "title": "Automated the browser extension reload loop",
+      "summary": "Built a loopback bridge and browser helper that let local tools inspect unpacked extensions, queue reload or enable-state changes, and refresh the active test tab.",
+      "date": "2026-01-15",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Automated the browser extension reload loop",
+      "github": "https://github.com/Ckrest/extension-dev-connector",
+      "tags": [
+        "Python",
+        "JavaScript",
+        "Browser Extension",
+        "Automation"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "monitor-detect",
+      "folder": "monitor-detect",
+      "title": "Shared the active Wayland output with session services",
+      "summary": "Built a Bash startup script that waits for Wayland, selects the first enabled output from wlr-randr, and publishes it through both systemd and a runtime file.",
+      "date": "2026-01-15",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Shared the active Wayland output with session services",
+      "github": "https://github.com/Ckrest/monitor-detect",
+      "tags": [
+        "Bash",
+        "Wayland",
+        "Systemd",
+        "Desktop Environment"
+      ],
+      "related_to": [
+        "wallpaper-service"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "wallpaper-service",
+            "folder": "wallpaper-service",
+            "title": "Built a wallpaper service with seamless switching",
+            "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+            "date": "2025-12-22",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "comfyui-conduit",
+      "folder": "comfyui-conduit",
+      "title": "Made ComfyUI workflows callable from external tools",
+      "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
+      "date": "2026-01-13",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "preview.png",
+      "previewAlt": "ComfyUI Conduit node workflow",
+      "previewWidth": 902,
+      "previewHeight": 652,
+      "github": "https://github.com/Ckrest/comfyui-conduit",
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "API Design"
+      ],
+      "related_to": [
+        "comfy-viewer"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "comfy-viewer",
+            "folder": "comfy-viewer",
+            "title": "Built a browser and workflow manager for ComfyUI outputs",
+            "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
+            "date": "2026-01-10",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "graph-lib",
+      "folder": "graph-lib",
+      "title": "Built reusable GTK graphs and gauges",
+      "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+      "date": "2026-01-13",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/screenshot_2026-02-28_16-26-37-1.png",
+      "previewAlt": "Graph Library chart examples",
+      "previewWidth": 1172,
+      "previewHeight": 847,
+      "github": "https://github.com/Ckrest/graph-lib",
+      "tags": [
+        "Python",
+        "GTK"
+      ],
+      "related_to": [
+        "desktop-hud-gtk4-layer-shell-overlay-with-runtime-"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "settings-hub",
+            "folder": "settings-hub",
+            "title": "Built a modular desktop settings hub",
+            "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+            "date": "2025-11-26",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "ping-monitor",
+      "folder": "ping-monitor",
+      "title": "Built a lightweight network reliability monitor",
+      "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+      "date": "2026-01-13",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Built a lightweight network reliability monitor",
+      "github": "https://github.com/Ckrest/ping-monitor",
+      "tags": [
+        "Python",
+        "Infrastructure"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "settings-hub",
+            "folder": "settings-hub",
+            "title": "Built a modular desktop settings hub",
+            "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+            "date": "2025-11-26",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "soundboard",
+      "folder": "soundboard",
+      "title": "Built a desktop soundboard",
+      "summary": "Turned more than 250 clips into a searchable GTK soundboard for desktop playback, with an optional virtual-microphone route for voice chat.",
+      "date": "2026-01-13",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "preview.png",
+      "previewAlt": "Soundboard window showing a searchable grid of image-backed sound cards",
+      "previewWidth": 598,
+      "previewHeight": 698,
+      "github": "https://github.com/Ckrest/soundboard",
+      "tags": [
+        "Python",
+        "GTK",
+        "Audio"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "comfy-viewer",
+      "folder": "comfy-viewer",
+      "title": "Built a browser and workflow manager for ComfyUI outputs",
+      "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
+      "date": "2026-01-10",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/screenshot_2026-03-01_20-55-50.png",
+      "previewAlt": "ComfyUI Viewer gallery interface",
+      "previewWidth": 2125,
+      "previewHeight": 1292,
+      "github": "https://github.com/Ckrest/comfy-viewer",
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "Frontend"
+      ],
+      "related_to": [
+        "comfyui-conduit"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "comfyui-conduit",
+            "folder": "comfyui-conduit",
+            "title": "Made ComfyUI workflows callable from external tools",
+            "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
+            "date": "2026-01-13",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "portfolio-site",
+      "folder": "portfolio-site",
+      "title": "Built a timeline-based portfolio site",
+      "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+      "date": "2026-01-09",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "timeline.png",
+      "previewAlt": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries",
+      "previewWidth": 1440,
+      "previewHeight": 1000,
+      "github": "https://github.com/Ckrest/PortfolioSite",
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "CSS"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "agent-config-generator",
+      "folder": "agent-config-generator",
+      "title": "Built a shared agent config generator",
+      "summary": "Built a small CLI that combines shared working conventions with agent-specific instructions, then previews, diffs, or writes the resulting configuration files.",
+      "date": "2026-01-08",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Built a shared agent config generator",
+      "github": "https://github.com/Ckrest/agent-config-generator",
+      "tags": [
+        "Python",
+        "CLI"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "model-manager",
+      "folder": "model-manager",
+      "title": "Coordinated concurrent local AI inference jobs",
+      "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+      "date": "2026-01-08",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/model-manager-flow.png",
+      "previewAlt": "Diagram showing HTTP and Python callers sharing priority queues, a background scheduler, Ollama execution, and separate GPU and model observation.",
+      "previewWidth": 1680,
+      "previewHeight": 900,
+      "github": "https://github.com/Ckrest/model-manager",
+      "tags": [
+        "Python",
+        "AI",
+        "Ollama"
+      ],
+      "related_to": [
+        "modular-flow-engine",
+        "comfyui-ollama-nodes"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "modular-flow-engine",
+            "folder": "modular-flow-engine",
+            "title": "Built a declarative engine for AI evaluation flows",
+            "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
+            "date": "2025-12-19",
+            "prominence": "high"
+          },
+          {
+            "slug": "comfyui-ollama-nodes",
+            "folder": "comfyui-ollama-nodes",
+            "title": "Connected local Ollama models to ComfyUI",
+            "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+            "date": "2025-12-19",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "systems-registry",
+      "folder": "systems-registry",
+      "title": "Built a discovery-based registry for a software workspace",
+      "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+      "date": "2026-01-08",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/package-registry-preview.png",
+      "previewAlt": "Diagram showing a package manifest flowing through discovery into a generated package index.",
+      "previewWidth": 1200,
+      "previewHeight": 675,
+      "tags": [
+        "Python",
+        "CLI",
+        "Architecture"
+      ],
+      "related_to": [
+        "postgresql-history-database",
+        "process-manager"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "postgresql-history-database",
+            "folder": "postgresql-history-database",
+            "title": "Built a shared history database for system activity",
+            "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+            "date": "2025-11-16",
+            "prominence": "medium"
+          },
+          {
+            "slug": "process-manager",
+            "folder": "process-manager",
+            "title": "Built a desktop service manager with live logs",
+            "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
+            "date": "2025-10-18",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "night-mode",
+      "folder": "night-mode",
+      "title": "Automated display warmth and bedtime transitions",
+      "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+      "date": "2026-01-02",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "night-mode-settings.png",
+      "previewAlt": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls.",
+      "previewWidth": 727,
+      "previewHeight": 484,
+      "github": "https://github.com/Ckrest/night-mode",
+      "tags": [
+        "Desktop Environment",
+        "Python",
+        "Event-Driven Architecture"
+      ],
+      "related_to": [
+        "wallpaper-service",
+        "settings-hub"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "wallpaper-service",
+            "folder": "wallpaper-service",
+            "title": "Built a wallpaper service with seamless switching",
+            "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+            "date": "2025-12-22",
+            "prominence": "medium"
+          },
+          {
+            "slug": "settings-hub",
+            "folder": "settings-hub",
+            "title": "Built a modular desktop settings hub",
+            "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+            "date": "2025-11-26",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "wallpaper-service",
+      "folder": "wallpaper-service",
+      "title": "Built a wallpaper service with seamless switching",
+      "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+      "date": "2025-12-22",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/wallpaper-controls.png",
+      "previewAlt": "Wallpaper service settings hub preview.",
+      "previewWidth": 950,
+      "previewHeight": 970,
+      "github": "https://github.com/Ckrest/wallpaper-service",
+      "tags": [
+        "Python",
+        "Desktop Environment",
+        "Wayland"
+      ],
+      "related_to": [
+        "desktop-layer",
+        "settings-hub"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "desktop-layer",
+            "folder": "desktop-layer",
+            "title": "Built a clickable desktop layer for Wayland",
+            "summary": "Built a transparent GTK3 layer-shell surface that makes the Wayland desktop clickable, clears application focus, and opens a configurable command menu at the pointer.",
+            "date": "2025-11-26",
+            "prominence": "medium"
+          },
+          {
+            "slug": "settings-hub",
+            "folder": "settings-hub",
+            "title": "Built a modular desktop settings hub",
+            "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+            "date": "2025-11-26",
+            "prominence": "high"
+          },
+          {
+            "slug": "monitor-detect",
+            "folder": "monitor-detect",
+            "title": "Shared the active Wayland output with session services",
+            "summary": "Built a Bash startup script that waits for Wayland, selects the first enabled output from wlr-randr, and publishes it through both systemd and a runtime file.",
+            "date": "2026-01-15",
+            "prominence": "low"
+          },
+          {
+            "slug": "night-mode",
+            "folder": "night-mode",
+            "title": "Automated display warmth and bedtime transitions",
+            "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+            "date": "2026-01-02",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "comfyui-easy-randomize",
+      "folder": "comfyui-easy-randomize",
+      "title": "Added controlled randomization to ComfyUI",
+      "summary": "Built a ComfyUI node set for defining prompt pools, freezing useful selections, rerunning the rest, and saving the final choices with each generated image.",
+      "date": "2025-12-19",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/screenshot_2026-02-28_16-56-44.png",
+      "previewAlt": "Easy Randomize item pools and selection nodes in ComfyUI",
+      "previewWidth": 507,
+      "previewHeight": 960,
+      "github": "https://github.com/Ckrest/comfyui-easy-randomize",
+      "tags": [
+        "ComfyUI",
+        "Python"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "comfyui-ollama-nodes",
+      "folder": "comfyui-ollama-nodes",
+      "title": "Connected local Ollama models to ComfyUI",
+      "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+      "date": "2025-12-19",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Connected local Ollama models to ComfyUI",
+      "github": "https://github.com/Ckrest/comfyui-ollama-nodes",
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "AI",
+        "Ollama"
+      ],
+      "related_to": [
+        "vision-rename"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "vision-rename",
+            "folder": "vision-rename",
+            "title": "Renamed images with local vision models",
+            "summary": "Created a batch command that asked a local Ollama vision model for short descriptive filenames and copied each result without altering the originals.",
+            "date": "2025-12-14",
+            "prominence": "low"
+          },
+          {
+            "slug": "model-manager",
+            "folder": "model-manager",
+            "title": "Coordinated concurrent local AI inference jobs",
+            "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+            "date": "2026-01-08",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "comfyui-quicksave",
+      "folder": "comfyui-quicksave",
+      "title": "Added one-click image saving to ComfyUI",
+      "summary": "Added a ComfyUI toolbar action for saving an existing generated preview without changing the workflow, with safe filenames and duplicate-aware writes.",
+      "date": "2025-12-19",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Added one-click image saving to ComfyUI",
+      "github": "https://github.com/Ckrest/comfyui-quicksave",
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "JavaScript"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "modular-flow-engine",
+      "folder": "modular-flow-engine",
+      "title": "Built a declarative engine for AI evaluation flows",
+      "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
+      "date": "2025-12-19",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/modular-flow-engine-overview.svg",
+      "previewAlt": "Modular Flow Engine plan validation, execution, results, and optional checkpoint-resume architecture",
+      "github": "https://github.com/Ckrest/modular-flow-engine",
+      "tags": [
+        "Python",
+        "AI",
+        "Architecture"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "model-manager",
+            "folder": "model-manager",
+            "title": "Coordinated concurrent local AI inference jobs",
+            "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+            "date": "2026-01-08",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
       "slug": "vision-rename",
       "folder": "vision-rename",
       "title": "Renamed images with local vision models",
@@ -52,7 +649,16 @@
       "relationships": {
         "parts": [],
         "superseded_by": [],
-        "related": []
+        "related": [
+          {
+            "slug": "comfyui-ollama-nodes",
+            "folder": "comfyui-ollama-nodes",
+            "title": "Connected local Ollama models to ComfyUI",
+            "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+            "date": "2025-12-19",
+            "prominence": "low"
+          }
+        ]
       }
     },
     {
@@ -170,7 +776,16 @@
       "relationships": {
         "parts": [],
         "superseded_by": [],
-        "related": []
+        "related": [
+          {
+            "slug": "wallpaper-service",
+            "folder": "wallpaper-service",
+            "title": "Built a wallpaper service with seamless switching",
+            "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+            "date": "2025-12-22",
+            "prominence": "medium"
+          }
+        ]
       }
     },
     {
@@ -203,11 +818,43 @@
         "superseded_by": [],
         "related": [
           {
+            "slug": "graph-lib",
+            "folder": "graph-lib",
+            "title": "Built reusable GTK graphs and gauges",
+            "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+            "date": "2026-01-13",
+            "prominence": "medium"
+          },
+          {
             "slug": "process-manager",
             "folder": "process-manager",
             "title": "Built a desktop service manager with live logs",
             "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
             "date": "2025-10-18",
+            "prominence": "medium"
+          },
+          {
+            "slug": "ping-monitor",
+            "folder": "ping-monitor",
+            "title": "Built a lightweight network reliability monitor",
+            "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+            "date": "2026-01-13",
+            "prominence": "low"
+          },
+          {
+            "slug": "night-mode",
+            "folder": "night-mode",
+            "title": "Automated display warmth and bedtime transitions",
+            "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+            "date": "2026-01-02",
+            "prominence": "medium"
+          },
+          {
+            "slug": "wallpaper-service",
+            "folder": "wallpaper-service",
+            "title": "Built a wallpaper service with seamless switching",
+            "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+            "date": "2025-12-22",
             "prominence": "medium"
           }
         ]
@@ -250,9 +897,9 @@
       "phase": 1,
       "icon": "icon.svg",
       "preview": "postgresql-history-first-output.png",
-      "previewAlt": "The first recorded Systems History Database output and its linked artifacts",
+      "previewAlt": "The first recorded Constellation History Database output and its linked artifacts",
       "previewWidth": 1719,
-      "previewHeight": 915,
+      "previewHeight": 917,
       "github": "https://github.com/Ckrest/postgresql-history-database",
       "tags": [
         "PostgreSQL",
@@ -262,7 +909,16 @@
       "relationships": {
         "parts": [],
         "superseded_by": [],
-        "related": []
+        "related": [
+          {
+            "slug": "systems-registry",
+            "folder": "systems-registry",
+            "title": "Built a discovery-based registry for a software workspace",
+            "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+            "date": "2026-01-08",
+            "prominence": "high"
+          }
+        ]
       },
       "capabilities": [
         {
@@ -305,6 +961,14 @@
         "parts": [],
         "superseded_by": [],
         "related": [
+          {
+            "slug": "systems-registry",
+            "folder": "systems-registry",
+            "title": "Built a discovery-based registry for a software workspace",
+            "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+            "date": "2026-01-08",
+            "prominence": "high"
+          },
           {
             "slug": "settings-hub",
             "folder": "settings-hub",

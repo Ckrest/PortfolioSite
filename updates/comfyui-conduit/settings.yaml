@@ -1,0 +1,83 @@
+content:
+  blocks:
+  - body: '## Turn socket tags into an API
+
+
+      Conduit now adds interface tagging directly to ComfyUI. A workflow author can
+      expose a socket, give it a unique tag, and save the workflow from the Conduit
+      sidebar. The saved record pairs the complete execution graph with a smaller
+      schema describing its active tags, types, defaults, and constraints.
+
+
+      External callers can inspect that schema and submit values to `POST /conduit/run/{workflow_name}`
+      using tag names. They do not need node identifiers or the complete editor document.'
+    id: blk_editorial_comfyui-conduit
+    type: text
+  - alt: ComfyUI KSampler node with its steps input and latent output marked as Conduit
+      tags
+    caption: Socket tags mark the inputs and outputs that become the workflow’s external
+      interface.
+    id: blk_conduit_preview
+    src: preview.png
+    type: image
+  - body: '## Prepare caller values without exposing the graph
+
+
+      Missing or `null` values leave the workflow defaults in place. Supported primitive
+      values are coerced and injected into a copy of the graph, while numeric values
+      are clamped to the node’s declared constraints.
+
+
+      Unknown tags, unrecognized node definitions, and mismatched options produce
+      warnings rather than turning the gateway into a strict compiler. Conduit reports
+      the drift and still lets ComfyUI make the final execution decision.
+
+
+      A bounded mimicry layer reproduces known browser transformations such as control-widget
+      seed changes, dynamic prompt choices, and array wrapping. Explicit caller values
+      bypass control-widget randomization, increment, and decrement; dynamic prompt
+      expansion and array wrapping still apply when enabled.'
+    id: blk_conduit_inputs
+    type: text
+  - caption: The tagged schema guides input preparation and output capture without
+      exposing the complete graph to callers.
+    code: "flowchart LR\n  Graph[Saved workflow graph] --> Schema[Active socket tags\
+      \ and schema]\n  Caller[External caller] --> Resolve[Resolve values by tag]\n\
+      \  Schema --> Resolve\n  Resolve --> Transform[Coerce values and apply supported\
+      \ transforms]\n  Transform --> Queue[Submit prepared graph to ComfyUI]\n  Queue\
+      \ --> Capture[Capture tagged outputs]\n  Capture --> Response[Outputs, warnings\
+      \ and run IDs]\n  Capture --> Handlers[Optional output handlers]"
+    id: blk_conduit_run
+    type: mermaid
+  - body: '## Capture only declared results
+
+
+      Before queueing the graph, Conduit injects capture nodes for the tagged output
+      sockets. A caller can wait for completion or receive queued identifiers immediately.
+      Completed requests return the declared outputs together with applied and defaulted
+      inputs, validation warnings, and any automatic transformations.
+
+
+      Configured handlers can receive the same output bundle and caller context as
+      JSON, allowing another local tool to react without learning the workflow’s internal
+      graph.'
+    id: blk_conduit_outputs
+    type: text
+date: '2026-01-13'
+discovery: listed
+github: https://github.com/Ckrest/comfyui-conduit
+icon: icon.svg
+kind: update
+preview: preview.png
+previewAlt: ComfyUI Conduit node workflow
+prominence: high
+related_to:
+- comfy-viewer
+slug: comfyui-conduit
+summary: Built a ComfyUI gateway that turns tagged workflow sockets into a typed external
+  API, prepares caller values against saved defaults, and returns only declared outputs.
+tags:
+- ComfyUI
+- Python
+- API Design
+title: Made ComfyUI workflows callable from external tools

@@ -42,6 +42,14 @@
       "superseded_by": [],
       "related": [
         {
+          "slug": "systems-registry",
+          "folder": "systems-registry",
+          "title": "Built a discovery-based registry for a software workspace",
+          "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+          "date": "2026-01-08",
+          "prominence": "high"
+        },
+        {
           "slug": "settings-hub",
           "folder": "settings-hub",
           "title": "Built a modular desktop settings hub",

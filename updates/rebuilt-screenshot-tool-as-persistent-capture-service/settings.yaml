@@ -40,6 +40,10 @@ content:
     id: blk_screenshot_service_selector
     src: media/selector-region-magnifier.png
     type: image
+  - body: 'This is a temporary text block that I''m just adding here to put this update
+      back into review for later. '
+    id: 166eb941-13d5-4165-ba43-0f5d7dfc0da1
+    type: text
   - body: '## Separate capture from output
 
 
@@ -89,7 +93,6 @@ preview: media/selector-region-magnifier.png
 previewAlt: Screenshot Tool frozen-region selector with live dimensions, keyboard
   guidance, crosshairs, and a magnified pointer view
 prominence: medium
-related_to: []
 slug: rebuilt-screenshot-tool-as-persistent-capture-service
 summary: Replaced per-hotkey application startup with a persistent GTK4 service, then
   added precise frozen-region selection and exact identity matching for same-titled

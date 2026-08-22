@@ -3,10 +3,11 @@ content:
   - body: '## Give tool activity a shared data model
 
 
-      I built the Systems History Database so local tools can record operations and
-      the files they consume or produce without inventing a separate log format for
-      every integration. PostgreSQL provides transactions, relational constraints,
-      time-aware queries, and JSONB fields for tool-specific configuration.
+      I built a shared history database for Constellation Framework so local tools
+      can record operations and the files they consume or produce without inventing
+      a separate log format for every integration. PostgreSQL provides transactions,
+      relational constraints, time-aware queries, and JSONB fields for tool-specific
+      configuration.
 
 
       The schema separates operations, artifacts, and tags. An operation stores its
@@ -39,13 +40,12 @@ content:
 
       SQLAlchemy supplies the model and repository boundary. Alembic is configured
       to generate, apply, and roll back schema migrations. Local connections use peer
-      authentication through `postgresql:///systems_history`, while direct SQL examples
-      and `pg_dump`/restore procedures keep the store inspectable outside the Python
-      API.'
+      authentication over a PostgreSQL Unix socket, while direct SQL examples and
+      `pg_dump`/restore procedures keep the store inspectable outside the Python API.'
     id: blk_editorial_postgresql-history-database
     type: text
-  - alt: Terminal showing the first Systems History Database output and its linked
-      input and output artifacts
+  - alt: Terminal showing the first Constellation History Database output and its
+      linked input and output artifacts
     caption: Here’s the first output.
     id: blk_history_first_lineage
     src: postgresql-history-first-output.png
@@ -68,7 +68,8 @@ github: https://github.com/Ckrest/postgresql-history-database
 icon: icon.svg
 kind: update
 preview: postgresql-history-first-output.png
-previewAlt: The first recorded Systems History Database output and its linked artifacts
+previewAlt: The first recorded Constellation History Database output and its linked
+  artifacts
 prominence: medium
 related_to: []
 slug: postgresql-history-database

@@ -1,0 +1,78 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "comfyui-ollama-nodes",
+    "title": "Connected local Ollama models to ComfyUI",
+    "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+    "date": "2025-12-19",
+    "prominence": "low",
+    "discovery": "listed",
+    "related_to": [
+      "vision-rename"
+    ],
+    "github": "https://github.com/Ckrest/comfyui-ollama-nodes",
+    "icon": "icon.svg",
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "AI",
+      "Ollama"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Call a local model from the graph\n\nI added Ollama Query to send a prompt and optional system prompt to a local Ollama server from inside ComfyUI. The node exposed sampling, context, reproducibility, and connection settings directly in the graph, then returned the response text, raw JSON, and token count for downstream use.",
+          "id": "blk_editorial_comfyui-ollama-nodes",
+          "type": "text"
+        },
+        {
+          "caption": "Captures show the original Ollama Query controls and the separate node used to list models from the configured endpoint.",
+          "id": "blk_ollama_gallery",
+          "images": [
+            {
+              "alt": "Ollama Query node with model selection, prompt, system prompt, sampling, seed, context, and endpoint controls",
+              "src": "media/screenshot_2026-02-28_16-10-04-1.png"
+            },
+            {
+              "alt": "Ollama Model List node with trigger, endpoint, model-list, and JSON outputs",
+              "src": "media/screenshot_2026-02-28_16-10-26.png"
+            }
+          ],
+          "type": "gallery"
+        },
+        {
+          "body": "## Pass chat history forward\n\nOllama Chat used the local `/api/chat` endpoint, accepted prior messages as JSON, and returned the updated history alongside the response. Connecting that output into another chat node kept the conversation explicit in the workflow instead of storing it in a hidden global session.",
+          "id": "blk_editorial_ollama-chat-history",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "comfyui-ollama-nodes",
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Connected local Ollama models to ComfyUI",
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "vision-rename",
+          "folder": "vision-rename",
+          "title": "Renamed images with local vision models",
+          "summary": "Created a batch command that asked a local Ollama vision model for short descriptive filenames and copied each result without altering the originals.",
+          "date": "2025-12-14",
+          "prominence": "low"
+        },
+        {
+          "slug": "model-manager",
+          "folder": "model-manager",
+          "title": "Coordinated concurrent local AI inference jobs",
+          "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+          "date": "2026-01-08",
+          "prominence": "medium"
+        }
+      ]
+    }
+  }
+}

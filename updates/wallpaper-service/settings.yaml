@@ -1,0 +1,56 @@
+content:
+  blocks:
+  - body: '## Own the wallpaper process
+
+
+      I built one long-running daemon to own the wallpaper renderer instead of making
+      desktop controls manage `swaybg` and `mpvpaper` directly. The daemon reads the
+      requested video, image, or solid color from a JSON configuration and resolves
+      the active Wayland output from the desktop session.'
+    id: blk_editorial_wallpaper-service
+    type: text
+  - alt: Desktop Appearance settings showing a live video wallpaper preview and Image,
+      Video, and Solid Color mode controls.
+    caption: Wallpaper controls expose the daemon’s video, image, and solid-color
+      modes while previewing the active background.
+    id: blk_wallpaper_controls
+    src: media/wallpaper-controls.png
+    type: image
+  - body: '## Keep the last working background
+
+
+      On a reload, the daemon starts the replacement renderer, waits briefly for it
+      to initialize, and checks that it is still running before terminating the previous
+      process. If the replacement fails, the current wallpaper remains in place. The
+      same signal-driven loop notices renderer exits and restarts them with backoff
+      instead of continuously polling.'
+    id: blk_editorial_wallpaper-handoff
+    type: text
+  - caption: The daemon brings up and verifies the replacement before releasing the
+      previous background.
+    code: "flowchart LR\n  Config[Video, image, or color config] --> Service[Wallpaper\
+      \ daemon]\n  Output[Detected Wayland output] --> Service\n  Service --> Replacement[Start\
+      \ replacement renderer]\n  Replacement --> Verify[Verify it stays running]\n\
+      \  Verify --> Handoff[Stop previous renderer]\n  Handoff --> Active[New background\
+      \ active]"
+    id: blk_wallpaper_original_flow
+    type: mermaid
+date: '2025-12-22'
+discovery: listed
+github: https://github.com/Ckrest/wallpaper-service
+icon: icon.svg
+kind: update
+preview: media/wallpaper-controls.png
+previewAlt: Wallpaper service settings hub preview.
+prominence: medium
+related_to:
+- desktop-layer
+- settings-hub
+slug: wallpaper-service
+summary: Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color
+  backgrounds without exposing a blank frame between changes.
+tags:
+- Python
+- Desktop Environment
+- Wayland
+title: Built a wallpaper service with seamless switching

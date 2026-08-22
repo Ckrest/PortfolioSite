@@ -1,0 +1,79 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "model-manager",
+    "title": "Coordinated concurrent local AI inference jobs",
+    "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+    "date": "2026-01-08",
+    "prominence": "medium",
+    "discovery": "listed",
+    "related_to": [
+      "modular-flow-engine",
+      "comfyui-ollama-nodes"
+    ],
+    "github": "https://github.com/Ckrest/model-manager",
+    "preview": "media/model-manager-flow.png",
+    "previewAlt": "Diagram showing HTTP and Python callers sharing priority queues, a background scheduler, Ollama execution, and separate GPU and model observation.",
+    "icon": "icon.svg",
+    "tags": [
+      "Python",
+      "AI",
+      "Ollama"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Turn requests into inspectable jobs\n\nI built Model Manager as one coordination point for tools that needed local Ollama inference. Submissions became jobs with explicit pending, queued, running, complete, failed, and cancelled states. The queue separated high, normal, and low priorities and grouped work by requested model before a background scheduler handed it to the execution engine.\n\nHTTP callers could submit a job and poll its result without keeping an inference request open. Direct Python callers used the same queue and could also cancel work while it was still pending or queued.",
+          "id": "blk_editorial_model-manager",
+          "type": "text"
+        },
+        {
+          "caption": "HTTP and Python callers share one job queue while resource observation remains separate from execution.",
+          "code": "flowchart LR\n  HTTP[HTTP client] --> Queue[Priority and model queues]\n  Python[Python caller] --> Queue\n  Python --> Cancel[Cancel pending or queued job]\n  Queue --> Scheduler[Background scheduler]\n  Scheduler --> Engine[Load model and run with Ollama]\n  Engine --> Result[Complete or failed]\n  Monitor[GPU and loaded-model observation] --> Status[Stats and model listing]\n  Registry[Installed model discovery] --> Status",
+          "id": "blk_model_scheduler",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Separate resource observation from execution\n\nThe service reads total, used, and free GPU memory from `nvidia-smi`, then queries Ollama for installed and currently loaded models. Those readings appear in service statistics and give the scheduling boundary a consistent view of the machine.\n\nThe scheduling policy groups work by model, logs the available memory, loads requested models, and executes jobs from a background thread. Explicit load and unload operations are available, but scheduling does not reject oversized jobs or automatically choose a loaded model to evict.",
+          "id": "blk_editorial_model_manager_resources",
+          "type": "text"
+        },
+        {
+          "caption": "The HTTP surface separates submission from status, results, model discovery, and resource diagnostics.",
+          "code": "POST /api/submit\nGET  /api/job/<job_id>\nGET  /api/models\nPOST /api/models/refresh\nGET  /api/stats\nGET  /api/health",
+          "filename": "model-manager-http-api.txt",
+          "id": "blk_model_manager_http_routes",
+          "language": "http",
+          "type": "code"
+        }
+      ]
+    },
+    "folder": "model-manager",
+    "phase": 1,
+    "previewWidth": 1680,
+    "previewHeight": 900,
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "modular-flow-engine",
+          "folder": "modular-flow-engine",
+          "title": "Built a declarative engine for AI evaluation flows",
+          "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
+          "date": "2025-12-19",
+          "prominence": "high"
+        },
+        {
+          "slug": "comfyui-ollama-nodes",
+          "folder": "comfyui-ollama-nodes",
+          "title": "Connected local Ollama models to ComfyUI",
+          "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+          "date": "2025-12-19",
+          "prominence": "low"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,96 @@
+content:
+  blocks:
+  - body: '## Coordinate the overnight schedule
+
+
+      I built Night Mode around explicit blue-light, bedtime, and wake times rather
+      than location-based sunrise or sunset calculations. The daemon evaluates schedules
+      that cross midnight, starts `wlsunset` with the configured day and night temperatures,
+      and schedules bedtime and warning notifications from the same TOML file.
+
+
+      Instead of repeatedly checking the clock, the service calculates its next boundary
+      and sleeps until an alarm or manual-change signal wakes it.'
+    id: blk_editorial_night-mode
+    type: text
+  - alt: Night Mode settings panel showing a 6500K current temperature and Warmer
+      Now, Normal Now, and Auto controls.
+    caption: The Night Mode panel exposes the schedule’s current state and temporary
+      warmer, normal, and automatic choices.
+    id: blk_night_mode_settings
+    src: night-mode-settings.png
+    type: image
+  - body: '## Let manual choices expire automatically
+
+
+      The command surface reports the current state and can temporarily force either
+      warm or normal display behavior. A warm override ends at the next wake boundary;
+      a normal override ends at the next blue-light start. Each one-time choice therefore
+      returns to the schedule without becoming a permanent hidden setting.
+
+
+      Settings Hub exposes the same state-aware control while the daemon keeps the
+      `wlsunset` process, schedule calculations, and notification timers behind one
+      service boundary.'
+    id: blk_editorial_night_mode_overrides
+    type: text
+  - caption: Scheduled and temporary modes meet at the same explicit day and night
+      boundaries.
+    code: "stateDiagram-v2\n  Day --> Night: blue-light start\n  Night --> Day: wake\
+      \ time\n  Day --> ForcedNight: warm now\n  ForcedNight --> Day: wake time\n\
+      \  Night --> ForcedDay: normal now\n  ForcedDay --> Night: blue-light start"
+    id: blk_night_schedule_flow
+    type: mermaid
+  - caption: The original configuration keeps the overnight window, target temperatures,
+      and notification timing together.
+    code: '[schedule]
+
+      blue_light_start = "00:00"
+
+      bedtime = "02:00"
+
+      wake_time = "10:00"
+
+      transition_minutes = 5
+
+
+      [temperature]
+
+      day = 6500
+
+      night = 3000
+
+
+      [notifications]
+
+      enabled = true
+
+      blue_light_message = "Blue light filter activated - winding down"
+
+      bedtime_message = "Bedtime! Time to wrap up and rest"
+
+      bedtime_warning_minutes = 15'
+    filename: night-mode-config.toml
+    id: blk_night_schedule
+    language: toml
+    type: code
+date: '2026-01-02'
+discovery: listed
+github: https://github.com/Ckrest/night-mode
+icon: icon.svg
+kind: update
+preview: night-mode-settings.png
+previewAlt: Night Mode settings panel showing a 6500K current temperature and Warmer
+  Now, Normal Now, and Auto controls.
+prominence: medium
+related_to:
+- wallpaper-service
+- settings-hub
+slug: night-mode
+summary: Built an event-driven night-mode service that coordinated scheduled blue-light
+  filtering, temporary overrides, and bedtime reminders.
+tags:
+- Desktop Environment
+- Python
+- Event-Driven Architecture
+title: Automated display warmth and bedtime transitions

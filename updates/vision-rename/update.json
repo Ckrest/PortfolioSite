@@ -43,7 +43,16 @@
     "relationships": {
       "parts": [],
       "superseded_by": [],
-      "related": []
+      "related": [
+        {
+          "slug": "comfyui-ollama-nodes",
+          "folder": "comfyui-ollama-nodes",
+          "title": "Connected local Ollama models to ComfyUI",
+          "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+          "date": "2025-12-19",
+          "prominence": "low"
+        }
+      ]
     }
   }
 }

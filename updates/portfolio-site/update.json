@@ -1,0 +1,58 @@
+{
+  "schema": "portfolio-update@3",
+  "update": {
+    "kind": "update",
+    "slug": "portfolio-site",
+    "title": "Built a timeline-based portfolio site",
+    "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+    "date": "2026-01-09",
+    "prominence": "high",
+    "discovery": "listed",
+    "github": "https://github.com/Ckrest/PortfolioSite",
+    "preview": "timeline.png",
+    "previewAlt": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries",
+    "icon": "icon.svg",
+    "tags": [
+      "JavaScript",
+      "Frontend",
+      "CSS"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Make the timeline the primary way through the work\n\nThe homepage gives one project a larger introduction, then organizes the work as a chronological timeline. The entry nearest the center of the viewport expands with a larger preview, fuller summary, tags, and a direct project link. Keyboard focus triggers the same treatment.\n\nNearby entries remain compact, keeping the chronology visible as the reader moves through the page.",
+          "id": "blk_editorial_portfolio-site",
+          "type": "text"
+        },
+        {
+          "alt": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries",
+          "caption": "The focused timeline entry expands while the surrounding work remains visible in sequence.",
+          "id": "blk_portfolio_snapshot",
+          "src": "timeline.png",
+          "type": "image"
+        },
+        {
+          "body": "## Keep publishing simple\n\nProject metadata now lives in `projects/projects.json`. The homepage fetches that file, selects the featured project, sorts the records by date, and renders the timeline.\n\nEach project keeps its own detail page and assets under `projects/<slug>/`. The complete site remains plain HTML, CSS, JavaScript, JSON, and project assets, ready to deploy directly to static hosting without an application server or build step.",
+          "id": "blk_portfolio_publishing",
+          "type": "text"
+        },
+        {
+          "caption": "One metadata file supplies both the featured project and the chronological timeline, while each project retains an independent static page.",
+          "code": "flowchart LR\n  JSON[projects.json] --> Featured[Featured project]\n  JSON --> Sort[Sort projects by date]\n  Sort --> Timeline[Interactive timeline]\n  Assets[Project previews] --> Featured\n  Assets --> Timeline\n  Timeline --> Pages[Project detail pages]",
+          "id": "blk_portfolio_build",
+          "type": "mermaid"
+        }
+      ]
+    },
+    "folder": "portfolio-site",
+    "related_to": [],
+    "phase": 1,
+    "previewWidth": 1440,
+    "previewHeight": 1000,
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  }
+}

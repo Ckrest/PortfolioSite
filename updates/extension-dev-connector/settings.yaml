@@ -1,0 +1,46 @@
+content:
+  blocks:
+  - body: '## Put the browser-only step behind an API
+
+
+      Extension work still stopped at the browser after every source change: find
+      the unpacked extension, reload it, and refresh the page under test. I split
+      that interaction between a small loopback HTTP connector and a companion browser
+      extension, giving local tools a way to inspect development extensions and queue
+      those browser-only actions.'
+    id: blk_editorial_extension-dev-connector
+    type: text
+  - caption: The loopback service queues requests; the browser helper performs the
+      permissioned work during its next sync.
+    code: "sequenceDiagram\n  participant Tool as Local tool\n  participant Bridge\
+      \ as Loopback connector\n  participant Helper as Browser helper\n  participant\
+      \ Browser as Browser APIs\n\n  Tool->>Bridge: Queue reload or refresh\n  Helper->>Bridge:\
+      \ Sync extensions and poll\n  Bridge-->>Helper: Return pending commands\n  Helper->>Browser:\
+      \ Toggle extension and refresh tab\n  Helper->>Bridge: Report result"
+    id: blk_extension_loop
+    type: mermaid
+  - body: '## Let the browser perform the privileged work
+
+
+      The helper periodically synchronizes extension metadata and asks the connector
+      for pending commands. To reload an unpacked extension, it briefly disables and
+      re-enables it; a combined command can then refresh the active tab and report
+      the result. The connector stays local and holds only transient state, while
+      the helper remains the component with browser permissions.'
+    id: blk_extension_browser_work
+    type: text
+date: '2026-01-15'
+discovery: listed
+github: https://github.com/Ckrest/extension-dev-connector
+icon: icon.svg
+kind: update
+prominence: low
+slug: extension-dev-connector
+summary: Built a loopback bridge and browser helper that let local tools inspect unpacked
+  extensions, queue reload or enable-state changes, and refresh the active test tab.
+tags:
+- Python
+- JavaScript
+- Browser Extension
+- Automation
+title: Automated the browser extension reload loop
