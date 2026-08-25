@@ -21,6 +21,8 @@ content:
     filename: graph-composition.py
     id: blk_graph_composition
     language: python
+    presentation: content
+    sourceMode: inline
     type: code
   - body: '## Swap the source without rewriting the chart
 
@@ -37,6 +39,7 @@ content:
     caption: One widget API produces labeled time series, compact filled charts, point
       traces, and threshold-colored gauges.
     id: blk_graph_showcase
+    presentation: intrinsic
     src: media/screenshot_2026-02-28_16-26-37-1.png
     type: image
   - body: '## Tune the display at runtime

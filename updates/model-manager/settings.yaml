@@ -24,6 +24,10 @@ content:
       \ and loaded-model observation] --> Status[Stats and model listing]\n  Registry[Installed\
       \ model discovery] --> Status"
     id: blk_model_scheduler
+    presentation: content
+    sourceMode: inline
+    summary: HTTP and Python callers share one job queue while resource observation
+      remains separate from execution.
     type: mermaid
   - body: '## Separate resource observation from execution
 
@@ -55,6 +59,8 @@ content:
     filename: model-manager-http-api.txt
     id: blk_model_manager_http_routes
     language: http
+    presentation: content
+    sourceMode: inline
     type: code
 date: '2026-01-08'
 discovery: listed

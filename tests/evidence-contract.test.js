@@ -29,9 +29,12 @@ function createMain() {
 }
 
 test('registries classify field visibility and exclude raw provenance from public blocks', async () => {
-  for (const relative of ['../updates/_block-registry.json', '../capabilities/_block-registry.json']) {
+  for (const [relative, version] of [
+    ['../updates/_block-registry.json', 7],
+    ['../capabilities/_block-registry.json', 6],
+  ]) {
     const registry = JSON.parse(await readFile(new URL(relative, import.meta.url), 'utf8'));
-    assert.equal(registry.version, 6);
+    assert.equal(registry.version, version);
     assert.equal(registry.fieldDefinitions.caption.visibility, 'public-visible');
     assert.equal(registry.fieldDefinitions.alt.visibility, 'public-accessibility');
     assert.equal(registry.fieldDefinitions.src.visibility, 'structural');
@@ -54,10 +57,12 @@ test('renderer shows editable public copy and never renders raw provenance', asy
     folder: 'current',
     title: 'Current update',
     summary: 'Current summary',
+    media: { items: { 'media/example.png': { width: 91, height: 62 } } },
     content: { blocks: [{
       type: 'image',
       src: 'media/example.png',
       alt: 'Example interface',
+      presentation: 'intrinsic',
       caption: 'The useful public caption.',
       evidenceQualifier: 'Current interface shown for an earlier workflow.',
       capturedAt: '2026-08-15',
@@ -67,6 +72,7 @@ test('renderer shows editable public copy and never renders raw provenance', asy
   });
   assert.match(main.innerHTML, /The useful public caption/);
   assert.match(main.innerHTML, /Current interface shown for an earlier workflow/);
+  assert.match(main.innerHTML, /--media-intrinsic-width: 91px/);
   assert.doesNotMatch(main.innerHTML, /2026-08-15|retrospective reconstruction|Private intake note/);
 });
 
@@ -82,6 +88,8 @@ test('explicit inline source mode wins over a retained attached path', async () 
     content: { blocks: [{
       type: 'code',
       sourceMode: 'inline',
+      language: 'python',
+      presentation: 'content',
       src: 'media/inactive.py',
       code: 'print(&quot;inline wins&quot;)',
     }] },
@@ -92,11 +100,13 @@ test('explicit inline source mode wins over a retained attached path', async () 
 
 test('an attached path is not inferred without the explicit current source mode', async () => {
   const registry = await import('../updates/generated/block-registry.js');
-  const implicit = { type: 'code', src: 'media/example.py', code: '' };
+  const implicit = {
+    type: 'code', language: 'python', presentation: 'content', src: 'media/example.py', code: '',
+  };
   const explicit = { ...implicit, sourceMode: 'attached' };
 
   assert.equal(registry.getBlockSourceMode(implicit), 'inline');
-  assert.deepEqual(registry.getMissingRenderFields(implicit), ['code']);
+  assert.deepEqual(registry.getMissingRenderFields(implicit), ['sourceMode', 'code']);
   assert.equal(registry.getBlockSourceMode(explicit), 'attached');
   assert.deepEqual(registry.getMissingRenderFields(explicit), []);
 });

@@ -4,8 +4,19 @@
   <url><loc>https://nickyoungci.dev/capabilities/design-connect-multi-tool-systems/detail.html</loc></url>
   <url><loc>https://nickyoungci.dev/capabilities/design-durable-data-evidence-pipelines/detail.html</loc></url>
   <url><loc>https://nickyoungci.dev/updates/rebuilt-screenshot-tool-as-persistent-capture-service/detail.html</loc><lastmod>2026-08-15</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/unified-output-destinations-for-modular-flow-engin/detail.html</loc><lastmod>2026-01-24</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/screenshot-tool/detail.html</loc><lastmod>2026-01-21</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/fix-hover-state-and-capture-throttling-in-docklike/detail.html</loc><lastmod>2026-01-20</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/add-wayland-support-to-docklike-plugin-with-window/detail.html</loc><lastmod>2026-01-18</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/fix-wayfire-window-capture-for-duplicate-titles/detail.html</loc><lastmod>2026-01-18</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/fix-wlroots-image-capture-buffer-format-constraint/detail.html</loc><lastmod>2026-01-18</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/shutdown-effect/detail.html</loc><lastmod>2026-01-18</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/migrate-xfce-components-to-native-4-20/detail.html</loc><lastmod>2026-01-17</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/work-report/detail.html</loc><lastmod>2026-01-17</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/site-update-2026-01-16/detail.html</loc><lastmod>2026-01-16</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/extension-dev-connector/detail.html</loc><lastmod>2026-01-15</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/monitor-detect/detail.html</loc><lastmod>2026-01-15</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/restructure-portfolio-site-with-modular-architectu/detail.html</loc><lastmod>2026-01-15</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/comfyui-conduit/detail.html</loc><lastmod>2026-01-13</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/graph-lib/detail.html</loc><lastmod>2026-01-13</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/ping-monitor/detail.html</loc><lastmod>2026-01-13</lastmod></url>
@@ -13,8 +24,8 @@
   <url><loc>https://nickyoungci.dev/updates/comfy-viewer/detail.html</loc><lastmod>2026-01-10</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/portfolio-site/detail.html</loc><lastmod>2026-01-09</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/agent-config-generator/detail.html</loc><lastmod>2026-01-08</lastmod></url>
+  <url><loc>https://nickyoungci.dev/updates/constellation-registry/detail.html</loc><lastmod>2026-01-08</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/model-manager/detail.html</loc><lastmod>2026-01-08</lastmod></url>
-  <url><loc>https://nickyoungci.dev/updates/systems-registry/detail.html</loc><lastmod>2026-01-08</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/night-mode/detail.html</loc><lastmod>2026-01-02</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/wallpaper-service/detail.html</loc><lastmod>2025-12-22</lastmod></url>
   <url><loc>https://nickyoungci.dev/updates/comfyui-easy-randomize/detail.html</loc><lastmod>2025-12-19</lastmod></url>

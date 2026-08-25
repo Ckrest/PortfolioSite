@@ -13,6 +13,7 @@ content:
     caption: The toolbar button made the save action available while reviewing generated
       images.
     id: blk_quicksave_button
+    presentation: intrinsic
     src: media/screenshot_2026-02-28_16-20-47.png
     type: image
   - body: '## Avoid overwrites at the save boundary
@@ -32,6 +33,7 @@ content:
     caption: A small frontend-to-backend path saves an existing preview without changing
       the workflow graph.
     id: blk_quicksave_flow
+    presentation: intrinsic
     src: media/quicksave-flow.svg
     type: image
 date: '2025-12-19'

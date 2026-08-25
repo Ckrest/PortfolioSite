@@ -17,6 +17,9 @@ content:
         [2/2] IMG_0043.png\n  -> terminal_showing_test_results.png\n\nDone! Processed:\
         \ 2, Skipped: 0, Errors: 0"
     id: blk_vision_rename
+    label: Terminal transcript
+    presentation: content
+    sourceMode: inline
     type: terminal
 date: '2025-12-14'
 discovery: listed

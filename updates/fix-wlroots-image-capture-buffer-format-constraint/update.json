@@ -1,0 +1,74 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "fix-wlroots-image-capture-buffer-format-constraint",
+    "title": "Fixed window preview format negotiation",
+    "summary": "Advertised explicit shared-memory and linear DMA-BUF formats so the compositor and capture client could agree on a frame buffer before copying a window preview.",
+    "date": "2026-01-18",
+    "prominence": "low",
+    "discovery": "listed",
+    "part_of": "add-wayland-support-to-docklike-plugin-with-window",
+    "github": "https://github.com/Ckrest/wayfire-toplevel-capture",
+    "icon": "icon.svg",
+    "tags": [
+      "C++",
+      "Wayland",
+      "wlroots",
+      "Image Capture"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Advertise compatible capture formats\n\nThe capture source now tells image-copy clients exactly which buffers it can provide: ARGB8888 or XRGB8888 through shared memory, or the same formats through DMA-BUF with a linear modifier. This gives the compositor and client a common format before the first frame is copied, restoring reliable window previews while preserving the GPU path when available.",
+          "id": "blk_editorial_fix-wlroots-image-captur",
+          "type": "text"
+        },
+        {
+          "caption": "Capture clients choose from the formats the source explicitly supports.",
+          "code": "SHM      ARGB8888, XRGB8888\nDMA-BUF  ARGB8888 + LINEAR, XRGB8888 + LINEAR",
+          "filename": "capture-format-contract.txt",
+          "id": "blk_capture_formats",
+          "language": "text",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "type": "code"
+        }
+      ]
+    },
+    "folder": "fix-wlroots-image-capture-buffer-format-constraint",
+    "related_to": [],
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Fixed window preview format negotiation",
+    "relationships": {
+      "part_of": {
+        "slug": "add-wayland-support-to-docklike-plugin-with-window",
+        "folder": "add-wayland-support-to-docklike-plugin-with-window",
+        "title": "Ported Docklike to Wayland with live window previews",
+        "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+        "date": "2026-01-18",
+        "prominence": "high"
+      },
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
+  }
+}

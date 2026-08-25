@@ -18,6 +18,7 @@ content:
     caption: The focused timeline entry expands while the surrounding work remains
       visible in sequence.
     id: blk_portfolio_snapshot
+    presentation: intrinsic
     src: timeline.png
     type: image
   - body: '## Keep publishing simple
@@ -41,6 +42,10 @@ content:
       \  Assets[Project previews] --> Featured\n  Assets --> Timeline\n  Timeline\
       \ --> Pages[Project detail pages]"
     id: blk_portfolio_build
+    presentation: content
+    sourceMode: inline
+    summary: One metadata file supplies both the featured project and the chronological
+      timeline, while each project retains an independent static page.
     type: mermaid
 date: '2026-01-09'
 discovery: listed

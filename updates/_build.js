@@ -8,6 +8,7 @@ import {
   CANONICAL_BLOCK_ORDER,
   CANONICAL_BLOCK_META,
   getBlockContract,
+  getBlockSourceMode,
   getMissingRenderFields,
 } from './generated/block-registry.js';
 import {
@@ -21,6 +22,11 @@ import { getUpdateAnchorId } from '../js/homepage-location.js';
 import { isDiscoverableUpdate } from './publication.js';
 import { referenceResolution, resolveUpdateRelationships } from './relationship-model.js';
 import { validationIssue, validationResult } from './review-validation.js';
+import {
+  collectDeclaredAssets,
+  loadAssetContract,
+  safeRelativeAssetPath as safeRelativePath,
+} from './asset-contract.js';
 
 const UPDATES_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(UPDATES_DIR);
@@ -38,6 +44,8 @@ const CAPABILITY_DETAIL_TEMPLATE_PATH = join(CAPABILITIES_DIR, 'detail.html');
 const ASSET_POLICY_PATH = join(UPDATES_DIR, '_public-asset-policy.json');
 const RELATIONSHIP_CONTRACT_PATH = join(UPDATES_DIR, '_relationship-contract.json');
 const REVIEW_POLICY_PATH = join(UPDATES_DIR, '_review-policy.json');
+const ASSET_CONTRACT_PATH = join(UPDATES_DIR, '_asset-contract.json');
+const CAPABILITY_ASSET_CONTRACT_PATH = join(CAPABILITIES_DIR, '_asset-contract.json');
 
 const SUMMARY_FIELDS = [
   'slug', 'folder', 'title', 'summary', 'date', 'prominence', 'phase',
@@ -53,10 +61,11 @@ function matchesFieldType(value, type) {
     && (isValidPublicUrl(value) || Boolean(safeRelativePath(value)));
   if (type === 'image-reference') return Boolean(value) && typeof value === 'object'
     && !Array.isArray(value) && typeof value.src === 'string'
-    && (value.label == null || typeof value.label === 'string');
+    && typeof value.label === 'string' && typeof value.alt === 'string';
   if (type === 'gallery-images') return Array.isArray(value) && value.every(item =>
     item && typeof item === 'object' && !Array.isArray(item)
-    && typeof item.src === 'string' && (item.alt == null || typeof item.alt === 'string'));
+    && typeof item.src === 'string' && typeof item.alt === 'string'
+    && (item.caption == null || typeof item.caption === 'string'));
   return false;
 }
 
@@ -192,48 +201,12 @@ function encodeUrlPath(value) {
   return String(value || '').split('/').map(encodeURIComponent).join('/');
 }
 
-function safeRelativePath(value) {
-  if (typeof value !== 'string') return null;
-  const candidate = value.trim().replaceAll('\\', '/').replace(/^\.\//, '');
-  if (!candidate || candidate.startsWith('/') || /^[a-z][a-z0-9+.-]*:/i.test(candidate)) {
-    return null;
-  }
-  const parts = candidate.split('/').filter(Boolean);
-  if (!parts.length || parts.some((part) => part === '.' || part === '..')) return null;
-  return parts.join('/');
-}
-
-function collectReferencedAssets(update) {
-  const assets = new Set();
-  const invalid = [];
-  const visit = (value, parentKey = '', valuePath = '') => {
-    if (Array.isArray(value)) {
-      for (const [index, item] of value.entries()) {
-        if (parentKey === 'images') {
-          const relative = safeRelativePath(item);
-          if (relative) assets.add(relative);
-          else if (typeof item === 'string' && item.trim()) invalid.push({ path: `${valuePath}[${index}]`, value: item });
-        }
-        visit(item, parentKey, `${valuePath}[${index}]`);
-      }
-      return;
-    }
-    if (!value || typeof value !== 'object') return;
-    if (value.type === 'readme' && value.path == null) assets.add('README.md');
-    for (const [key, child] of Object.entries(value)) {
-      if (['src', 'path', 'poster', 'preview', 'icon'].includes(key)) {
-        const relative = safeRelativePath(child);
-        if (relative) assets.add(relative);
-        else if (typeof child === 'string' && child.trim()) invalid.push({
-          path: valuePath ? `${valuePath}.${key}` : key,
-          value: child,
-        });
-      }
-      visit(child, key, valuePath ? `${valuePath}.${key}` : key);
-    }
-  };
-  visit(update);
-  return { assets: [...assets], invalid };
+function imageMediaType(path) {
+  const extension = extname(path).toLowerCase();
+  return ({
+    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+    '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml',
+  })[extension] || null;
 }
 
 async function readImageDimensions(path) {
@@ -243,6 +216,35 @@ async function readImageDimensions(path) {
       Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
     )) {
       return { width: data.readUInt32BE(16), height: data.readUInt32BE(20) };
+    }
+    if (data.length >= 10 && data.subarray(0, 6).toString('ascii').match(/^GIF8[79]a$/)) {
+      return { width: data.readUInt16LE(6), height: data.readUInt16LE(8) };
+    }
+    if (data.length >= 30 && data.subarray(0, 4).toString('ascii') === 'RIFF'
+        && data.subarray(8, 12).toString('ascii') === 'WEBP') {
+      const kind = data.subarray(12, 16).toString('ascii');
+      if (kind === 'VP8X') {
+        return {
+          width: 1 + data.readUIntLE(24, 3),
+          height: 1 + data.readUIntLE(27, 3),
+        };
+      }
+      if (kind === 'VP8L') {
+        const bits = data.readUInt32LE(21);
+        return {
+          width: 1 + (bits & 0x3fff),
+          height: 1 + ((bits >> 14) & 0x3fff),
+        };
+      }
+      if (kind === 'VP8 ') {
+        const marker = data.indexOf(Buffer.from([0x9d, 0x01, 0x2a]), 20);
+        if (marker >= 0 && marker + 7 <= data.length) {
+          return {
+            width: data.readUInt16LE(marker + 3) & 0x3fff,
+            height: data.readUInt16LE(marker + 5) & 0x3fff,
+          };
+        }
+      }
     }
     if (data.length >= 4 && data[0] === 0xff && data[1] === 0xd8) {
       const markers = new Set([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf]);
@@ -259,8 +261,34 @@ async function readImageDimensions(path) {
         offset += 2 + length;
       }
     }
+    if (extname(path).toLowerCase() === '.svg') {
+      const source = data.toString('utf8');
+      const root = source.match(/<svg\b[^>]*>/i)?.[0] || '';
+      const number = (name) => {
+        const raw = root.match(new RegExp(
+          `\\b${name}\\s*=\\s*["']\\s*([0-9]+(?:\\.[0-9]+)?)(?:px)?\\s*["']`,
+          'i',
+        ))?.[1];
+        return raw ? Math.round(Number(raw)) : 0;
+      };
+      let width = number('width');
+      let height = number('height');
+      if (!width || !height) {
+        const viewBox = root.match(/\bviewBox\s*=\s*["']\s*[-+0-9.e]+[ ,]+[-+0-9.e]+[ ,]+([-+0-9.e]+)[ ,]+([-+0-9.e]+)/i);
+        width ||= Math.round(Number(viewBox?.[1] || 0));
+        height ||= Math.round(Number(viewBox?.[2] || 0));
+      }
+      if (width > 0 && height > 0) return { width, height };
+    }
   } catch { /* normal asset validation reports missing files */ }
   return null;
+}
+
+async function readMediaMetadata(path) {
+  const mediaType = imageMediaType(path);
+  if (!mediaType) return null;
+  const dimensions = await readImageDimensions(path);
+  return dimensions ? { media_type: mediaType, ...dimensions } : null;
 }
 
 function derivePhase(date, phases) {
@@ -370,7 +398,9 @@ async function build() {
   const assetPolicy = JSON.parse(await readFile(ASSET_POLICY_PATH, 'utf8'));
   const relationshipContract = JSON.parse(await readFile(RELATIONSHIP_CONTRACT_PATH, 'utf8'));
   const reviewPolicy = JSON.parse(await readFile(REVIEW_POLICY_PATH, 'utf8'));
-  if (schema?.version !== 3) throw new Error('update schema must use version 3');
+  const assetContract = await loadAssetContract(ASSET_CONTRACT_PATH);
+  const capabilityAssetContract = await loadAssetContract(CAPABILITY_ASSET_CONTRACT_PATH);
+  if (schema?.version !== 4) throw new Error('update schema must use version 4');
   if (schema?.relationshipContract !== '_relationship-contract.json') {
     throw new Error('update schema must declare the current relationship contract');
   }
@@ -418,6 +448,8 @@ async function build() {
   ]);
   const entries = await readdir(UPDATES_DIR, { withFileTypes: true });
   const updates = [];
+  const updateAssetManifests = new Map();
+  const updateMediaMetadata = new Map();
   const issues = [];
   const relationshipResolutions = [];
 
@@ -490,6 +522,7 @@ async function build() {
 
   const capabilityEntries = await readdir(CAPABILITIES_DIR, { withFileTypes: true });
   const capabilities = [];
+  const capabilityAssetManifests = new Map();
   for (const entry of capabilityEntries) {
     if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
     const path = join(CAPABILITIES_DIR, entry.name, 'settings.yaml');
@@ -629,7 +662,12 @@ async function build() {
     };
     await validateCapabilityBlocks(blocks);
     const { evidence: _evidence, ...capabilityOwnedContent } = capability;
-    const capabilityAssets = collectReferencedAssets(capabilityOwnedContent);
+    const capabilityAssets = await collectDeclaredAssets(
+      capabilityOwnedContent,
+      capabilityAssetContract,
+      { root: join(CAPABILITIES_DIR, capability.folder) },
+    );
+    capabilityAssetManifests.set(capability.slug, capabilityAssets.assets);
     for (const invalid of capabilityAssets.invalid) {
       addCapabilityIssue('asset-path-unsafe', `Public asset path must be capability-relative: "${invalid.value}"`, {
         location: {
@@ -686,7 +724,7 @@ async function build() {
       { outcome: 'warning', field: '_blocks', action: { kind: 'edit-blocks' } },
     );
     const seenIds = new Set();
-    const validateBlocks = async (items, path = 'content.blocks') => {
+    const validateBlocks = async (items, path = 'content.blocks', withinGroup = false) => {
       for (let position = 0; position < items.length; position += 1) {
         const block = items[position];
         const location = {
@@ -704,14 +742,31 @@ async function build() {
           addBlockIssue('block-unsupported', 'Block type is missing or unsupported', { field: 'type' });
           continue;
         }
+        if (withinGroup && CANONICAL_BLOCK_META[block.type]?.allowInGroup === false) {
+          addBlockIssue('group-nesting-unsupported', `${block.type} cannot be nested inside a group`, { field: 'type' });
+        }
         if (block.id && seenIds.has(block.id)) addBlockIssue('block-id-duplicate', `Duplicate block ID "${block.id}"`, { field: 'id' });
         if (block.id) seenIds.add(block.id);
         const missing = getMissingRenderFields(block, block.type);
-        if (missing.length) addBlockIssue('block-render-data-missing', `Block will be omitted because render fields are missing: ${missing.join(', ')}`, {
-          outcome: 'warning', field: missing[0], evidence: { fields: missing },
+        if (missing.length) addBlockIssue('block-render-data-missing', `Block requires render fields: ${missing.join(', ')}`, {
+          field: missing[0], evidence: { fields: missing },
         });
+        if (block.type === 'text' && /^\s{0,3}#(?:\s|$)/m.test(String(block.body || ''))) {
+          addBlockIssue('text-h1-unsupported', 'Text blocks cannot contain a level-one heading; the update title owns the page heading', { field: 'body' });
+        }
         if (block.type === 'image' && !String(block.alt || '').trim()) addBlockIssue('image-alt-required', 'Image accessibility text is required', { field: 'alt' });
+        const presentations = block.type === 'image'
+          ? ['intrinsic', 'content', 'wide']
+          : ['video', 'gallery', 'pdf', 'code', 'mermaid', 'terminal', 'comparison', 'graph'].includes(block.type)
+            ? ['content', 'wide']
+            : null;
+        if (presentations && !presentations.includes(block.presentation)) {
+          addBlockIssue('block-presentation-invalid', `presentation must be one of ${presentations.join(', ')}`, { field: 'presentation' });
+        }
         if (block.type === 'gallery') {
+          if (!['contain', 'cover'].includes(block.fit)) {
+            addBlockIssue('gallery-fit-invalid', 'fit must be contain or cover', { field: 'fit' });
+          }
           for (const [imageIndex, image] of (block.images || []).entries()) {
             if (image && typeof image === 'object' && !String(image.alt || '').trim()) {
               updateIssue(issues, update.slug, 'gallery-image-alt-required', 'Gallery image accessibility text is required', {
@@ -719,6 +774,20 @@ async function build() {
               });
             }
           }
+        }
+        if (block.type === 'group' && !['stack', 'split', 'grid'].includes(block.layout)) {
+          addBlockIssue('group-layout-invalid', 'layout must be stack, split, or grid', { field: 'layout' });
+        }
+        if (block.type === 'comparison') {
+          for (const side of ['before', 'after']) {
+            if (!String(block[side]?.alt || '').trim()) addBlockIssue(
+              'comparison-alt-required', `${side} accessibility text is required`, { field: `${side}.alt` },
+            );
+          }
+        }
+        if (block.type === 'graph' && getBlockSourceMode(block, block.type) === 'attached'
+            && !/\.(?:csv|json)$/i.test(String(block.src || ''))) {
+          addBlockIssue('graph-source-type-invalid', 'Attached graph data must be CSV or JSON', { field: 'src' });
         }
         const contract = getBlockContract(block.type);
         validateBlockContractShape(
@@ -737,12 +806,38 @@ async function build() {
         }
         if (block.type === 'group') {
           if (!Array.isArray(block.blocks)) addBlockIssue('group-blocks-required', 'Group requires a blocks array', { field: 'blocks' });
-          else await validateBlocks(block.blocks, `${path}[${position}].blocks`);
+          else await validateBlocks(block.blocks, `${path}[${position}].blocks`, true);
         }
       }
     };
     await validateBlocks(blocks);
-    const updateAssets = collectReferencedAssets(update);
+    const dimensionRequiredAssets = new Set();
+    const collectDimensionRequiredAssets = (items) => {
+      for (const block of items || []) {
+        if (!block || typeof block !== 'object') continue;
+        if (block.type === 'image' && safeRelativePath(block.src)) {
+          dimensionRequiredAssets.add(safeRelativePath(block.src));
+        } else if (block.type === 'gallery') {
+          for (const image of block.images || []) {
+            if (safeRelativePath(image?.src)) dimensionRequiredAssets.add(safeRelativePath(image.src));
+          }
+        } else if (block.type === 'comparison') {
+          for (const side of [block.before, block.after]) {
+            if (safeRelativePath(side?.src)) dimensionRequiredAssets.add(safeRelativePath(side.src));
+          }
+        } else if (block.type === 'group') {
+          collectDimensionRequiredAssets(block.blocks);
+        }
+      }
+    };
+    collectDimensionRequiredAssets(blocks);
+    const updateAssets = await collectDeclaredAssets(
+      update,
+      assetContract,
+      { root: join(UPDATES_DIR, update.folder) },
+    );
+    updateAssetManifests.set(update.slug, updateAssets.assets);
+    const mediaItems = {};
     for (const invalid of updateAssets.invalid) {
       updateIssue(issues, update.slug, 'asset-path-unsafe', `Public asset path must be update-relative: "${invalid.value}"`, {
         location: { kind: 'asset', path: invalid.value, source_path: invalid.path },
@@ -758,6 +853,14 @@ async function build() {
       const assetPath = join(UPDATES_DIR, update.folder, relative);
       try {
         await stat(assetPath);
+        const metadata = await readMediaMetadata(assetPath);
+        if (dimensionRequiredAssets.has(relative) && !metadata) {
+          updateIssue(issues, update.slug, 'image-dimensions-unavailable', `Image dimensions could not be determined: "${relative}"`, {
+            location: { kind: 'asset', path: relative },
+          });
+        } else if (metadata) {
+          mediaItems[relative] = metadata;
+        }
         if (relative.toLowerCase().endsWith('.svg')) {
           const svg = await readFile(assetPath, 'utf8');
           if (/<script|\son[a-z]+\s*=|javascript:/i.test(svg)) updateIssue(
@@ -771,6 +874,7 @@ async function build() {
         });
       }
     }
+    updateMediaMetadata.set(update.slug, mediaItems);
   }
   const metadataRelationships = resolveUpdateRelationships(updates, relationshipContract);
   for (const error of metadataRelationships.errors) {
@@ -814,11 +918,29 @@ async function build() {
     capabilities: capabilities.map(capabilityCard),
   };
   const generated = updates.flatMap((update) => [
-    [join(UPDATES_DIR, update.folder, 'update.json'), `${JSON.stringify({ schema: 'portfolio-update@3', update }, null, 2)}\n`],
+    [join(UPDATES_DIR, update.folder, 'update.json'), `${JSON.stringify({
+      schema: 'portfolio-update@5',
+      update,
+      media: {
+        schema: 'portfolio-site/media-metadata@1',
+        items: updateMediaMetadata.get(update.slug) || {},
+      },
+      asset_manifest: {
+        schema: 'portfolio-site/asset-manifest@1',
+        assets: updateAssetManifests.get(update.slug) || [],
+      },
+    }, null, 2)}\n`],
     [join(UPDATES_DIR, update.folder, 'detail.html'), renderDetailPage(template, update, site)],
   ]);
   const generatedCapabilities = capabilities.flatMap((capability) => [
-    [join(CAPABILITIES_DIR, capability.folder, 'capability.json'), `${JSON.stringify({ schema: 'portfolio-capability@3', capability }, null, 2)}\n`],
+    [join(CAPABILITIES_DIR, capability.folder, 'capability.json'), `${JSON.stringify({
+      schema: 'portfolio-capability@4',
+      capability,
+      asset_manifest: {
+        schema: 'portfolio-site/asset-manifest@1',
+        assets: capabilityAssetManifests.get(capability.slug) || [],
+      },
+    }, null, 2)}\n`],
     [join(CAPABILITIES_DIR, capability.folder, 'detail.html'), renderCapabilityDetailPage(capabilityTemplate, capability, site)],
   ]);
   const outputs = [

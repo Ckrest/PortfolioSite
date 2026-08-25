@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "comfyui-ollama-nodes",
@@ -28,6 +28,7 @@
         },
         {
           "caption": "Captures show the original Ollama Query controls and the separate node used to list models from the configured endpoint.",
+          "fit": "contain",
           "id": "blk_ollama_gallery",
           "images": [
             {
@@ -39,6 +40,7 @@
               "src": "media/screenshot_2026-02-28_16-10-26.png"
             }
           ],
+          "presentation": "wide",
           "type": "gallery"
         },
         {
@@ -74,5 +76,33 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/screenshot_2026-02-28_16-10-04-1.png": {
+        "media_type": "image/png",
+        "width": 257,
+        "height": 1171
+      },
+      "media/screenshot_2026-02-28_16-10-26.png": {
+        "media_type": "image/png",
+        "width": 257,
+        "height": 166
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/screenshot_2026-02-28_16-10-04-1.png",
+      "media/screenshot_2026-02-28_16-10-26.png"
+    ]
   }
 }

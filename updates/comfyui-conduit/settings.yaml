@@ -18,6 +18,7 @@ content:
     caption: Socket tags mark the inputs and outputs that become the workflow’s external
       interface.
     id: blk_conduit_preview
+    presentation: intrinsic
     src: preview.png
     type: image
   - body: '## Prepare caller values without exposing the graph
@@ -48,6 +49,10 @@ content:
       \ --> Capture[Capture tagged outputs]\n  Capture --> Response[Outputs, warnings\
       \ and run IDs]\n  Capture --> Handlers[Optional output handlers]"
     id: blk_conduit_run
+    presentation: content
+    sourceMode: inline
+    summary: The tagged schema guides input preparation and output capture without
+      exposing the complete graph to callers.
     type: mermaid
   - body: '## Capture only declared results
 

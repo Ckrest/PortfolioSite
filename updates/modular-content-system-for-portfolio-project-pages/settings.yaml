@@ -1,0 +1,81 @@
+content:
+  blocks:
+  - body: '## Make every project self-contained
+
+
+      I replaced one shared project list and separately authored detail pages with
+      a directory for each project. Each module keeps its `settings.yaml`, preview
+      or icon, and optional README, PDF, screenshots, and other assets together.
+
+
+      The folder name identifies the project, while its settings define the title,
+      summary, display level, phase, status, links, tags, and content mode. Adding
+      work now means adding one project module that carries its page source with it.'
+    id: blk_project_modules
+    type: text
+  - body: '## Render every project through one page
+
+
+      The catalog build collects the project modules into `manifest.json`. One detail-page
+      loader selects the requested project, builds its title and summary, and adds
+      shared page pieces for its preview, tags, and links.
+
+
+      The module''s content mode then selects a README, embedded PDF, structured sections,
+      or a minimal presentation.'
+    id: blk_shared_project_renderer
+    type: text
+  - caption: The project record selects its presentation and content while its files
+      remain beside it.
+    code: "title: Diagram Tool\nlevel: 1\nphase: 1\ntags:\n  - Python\n  - Desktop\
+      \ Utility\n  - MCP\npreview: preview.png\n\ncontent:\n  mode: readme"
+    filename: settings.yaml
+    id: blk_project_settings_example
+    language: yaml
+    presentation: content
+    sourceMode: inline
+    type: code
+  - body: '## Compose structured pages from typed sections
+
+
+      Structured mode stores an ordered list of sections in the project record. Each
+      section chooses a role such as overview, features, installation, usage, technical
+      details, gallery, or custom content, then supplies Markdown or a list of items.
+
+
+      Together, those typed sections provide a page-building-block vocabulary while
+      the shared renderer handles the surrounding project layout.'
+    id: blk_typed_project_sections
+    type: text
+  - caption: Structured mode turns an ordered list of typed sections into the body
+      of the shared project page.
+    code: "content:\n  mode: structured\n  sections:\n    - type: overview\n     \
+      \ content: Project overview\n    - type: features\n      items:\n        - First\
+      \ feature\n        - Second feature"
+    filename: settings.yaml
+    id: blk_structured_sections_example
+    language: yaml
+    presentation: content
+    sourceMode: inline
+    type: code
+date: '2026-01-15'
+discovery: unlisted
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+kind: update
+preview: media/project-module-architecture.svg
+previewAlt: Diagram showing a self-contained project folder flowing through a shared
+  renderer into a page composed from reusable content regions
+prominence: high
+related_to:
+- restructure-portfolio-site-with-modular-architectu
+slug: modular-content-system-for-portfolio-project-pages
+summary: Moved each portfolio project into a self-contained folder with its own metadata,
+  assets, and content configuration, then used one shared renderer to assemble README,
+  PDF, structured, and minimal project pages.
+tags:
+- JavaScript
+- Frontend
+- Architecture
+- Refactoring
+title: Created a modular content system for portfolio project pages

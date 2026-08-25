@@ -252,6 +252,14 @@ test('review validation distinguishes advisory preview fallback from required im
     const settings = YAML.parse(await readFile(settingsPath, 'utf8'));
     settings.preview = 'preview.png';
     await writeFile(join(member.source, 'preview.png'), 'not-a-real-image');
+    settings.content.blocks.push({
+      id: 'blk_viewbox_svg', type: 'image', src: 'flow.svg',
+      alt: 'Wide workflow', presentation: 'intrinsic',
+    });
+    await writeFile(
+      join(member.source, 'flow.svg'),
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1685.71875 198"></svg>\n',
+    );
     await writeFile(settingsPath, YAML.stringify(settings));
     member.tree_digest = await candidateDigest(member.source);
     pool.digest = poolDigest(pool.members);
@@ -266,9 +274,16 @@ test('review validation distinguishes advisory preview fallback from required im
       warning.value.validation.issues.find(issue => issue.code === 'preview-alt-fallback').outcome,
       'warning',
     );
+    const generated = JSON.parse(await readFile(
+      join(temporary, 'warning-output/dist/updates/ai-integration-project-proposal/update.json'),
+      'utf8',
+    ));
+    assert.deepEqual(generated.media.items['flow.svg'], {
+      media_type: 'image/svg+xml', width: 1686, height: 198,
+    });
 
     settings.content.blocks.push({
-      id: 'blk_missing_alt', type: 'image', src: 'preview.png', alt: '',
+      id: 'blk_missing_alt', type: 'image', src: 'preview.png', alt: '', presentation: 'intrinsic',
     });
     await writeFile(settingsPath, YAML.stringify(settings));
     member.tree_digest = await candidateDigest(member.source);

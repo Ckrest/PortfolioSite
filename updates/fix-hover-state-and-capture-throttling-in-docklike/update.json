@@ -1,0 +1,76 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "fix-hover-state-and-capture-throttling-in-docklike",
+    "title": "Fixed Docklike hover previews and capture throttling",
+    "summary": "Introduced a dedicated hover state machine and fair capture scheduling so preview menus close cleanly and every visible window keeps receiving live thumbnail updates.",
+    "date": "2026-01-20",
+    "prominence": "low",
+    "discovery": "listed",
+    "part_of": "add-wayland-support-to-docklike-plugin-with-window",
+    "icon": "icon.svg",
+    "tags": [
+      "Wayland",
+      "C++",
+      "Debugging"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Make hover behavior explicit\n\nDocklike now coordinates the panel button, preview popup, and menu items through a dedicated `HoverManager` with closed, opening, open, and grace-period states. Pointer movement feeds one state machine, keeping the menu available while moving into it and clearing the hover style when the interaction ends.",
+          "id": "blk_editorial_fix-hover-state-and-capt",
+          "type": "text"
+        },
+        {
+          "caption": "One coordinator owns the handoff between the panel and preview menu, then adapts live refresh scheduling to capture load.",
+          "code": "flowchart LR\n  Enter[Pointer enters] --> Open[Show preview]\n  Leave[Pointer leaves button] --> Grace[Keep menu open briefly]\n  Grace -->|Pointer enters menu| Open\n  Grace -->|Timeout| Close[Clear state and hide]\n  Open --> Queue{Capture queue busy?}\n  Queue -->|No| All[Refresh all windows]\n  Queue -->|Yes| Rotate[Round-robin refresh]",
+          "id": "blk_hover_capture",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "One coordinator owns the handoff between the panel and preview menu, then adapts live refresh scheduling to capture load.",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Share capture time fairly\n\nLive refresh requests now use queue depth to choose how captures are admitted. At normal load, every visible window can request a fresh thumbnail; when the queue becomes busy, round-robin selection rotates the next accepted request between windows.",
+          "id": "blk_docklike_capture_fairness",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "fix-hover-state-and-capture-throttling-in-docklike",
+    "related_to": [],
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Fixed Docklike hover previews and capture throttling",
+    "relationships": {
+      "part_of": {
+        "slug": "add-wayland-support-to-docklike-plugin-with-window",
+        "folder": "add-wayland-support-to-docklike-plugin-with-window",
+        "title": "Ported Docklike to Wayland with live window previews",
+        "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+        "date": "2026-01-18",
+        "prominence": "high"
+      },
+      "parts": [],
+      "superseded_by": [],
+      "related": []
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
+  }
+}

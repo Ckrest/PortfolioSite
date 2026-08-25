@@ -60,13 +60,11 @@ export function resolveUpdateAsset(value, update) {
   const raw = String(value || '').trim();
   if (!raw || raw.startsWith('staged://')) return '';
   if (/^(?:https?:|blob:|data:)/i.test(raw)) return raw;
-  if (raw.startsWith('/') && window.__portfolioBridge) {
-    return `/api/artifact-preview?path=${encodeURIComponent(raw)}`;
-  }
   const path = normalizeUpdatePath(raw);
   if (!path) return '';
   const folder = encodeURIComponent(String(update.folder || update.slug || ''));
-  return `${folder}/${encodedPath(path)}`;
+  const version = String(update.asset_versions?.[path] || '').trim();
+  return `${folder}/${encodedPath(path)}${version ? `${path.includes('?') ? '&' : '?'}v=${encodeURIComponent(version)}` : ''}`;
 }
 
 export async function fetchUpdateText(value, update) {

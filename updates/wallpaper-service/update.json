@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "wallpaper-service",
@@ -32,6 +32,7 @@
           "alt": "Desktop Appearance settings showing a live video wallpaper preview and Image, Video, and Solid Color mode controls.",
           "caption": "Wallpaper controls expose the daemon’s video, image, and solid-color modes while previewing the active background.",
           "id": "blk_wallpaper_controls",
+          "presentation": "intrinsic",
           "src": "media/wallpaper-controls.png",
           "type": "image"
         },
@@ -44,6 +45,9 @@
           "caption": "The daemon brings up and verifies the replacement before releasing the previous background.",
           "code": "flowchart LR\n  Config[Video, image, or color config] --> Service[Wallpaper daemon]\n  Output[Detected Wayland output] --> Service\n  Service --> Replacement[Start replacement renderer]\n  Replacement --> Verify[Verify it stays running]\n  Verify --> Handoff[Stop previous renderer]\n  Handoff --> Active[New background active]",
           "id": "blk_wallpaper_original_flow",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The daemon brings up and verifies the replacement before releasing the previous background.",
           "type": "mermaid"
         }
       ]
@@ -90,5 +94,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/wallpaper-controls.png": {
+        "media_type": "image/png",
+        "width": 950,
+        "height": 970
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/wallpaper-controls.png"
+    ]
   }
 }

@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-capability@3",
+  "schema": "portfolio-capability@4",
   "capability": {
     "kind": "capability",
     "slug": "design-connect-multi-tool-systems",
@@ -27,5 +27,9 @@
         ]
       }
     ]
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": []
   }
 }

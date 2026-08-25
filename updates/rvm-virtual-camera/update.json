@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "rvm-virtual-camera",
@@ -27,6 +27,9 @@
           "caption": "The machine-learning pipeline terminated at a standard virtual-camera boundary, keeping consumers independent of the model.",
           "code": "flowchart LR\n  Camera[Physical webcam] --> Capture[Threaded frame capture]\n  Capture --> RVM[Robust Video Matting model]\n  RVM --> Matte[Foreground and alpha matte]\n  Background[Solid color, image, or blurred frame] --> Composite[Frame composition]\n  Matte --> Composite\n  Composite --> Preview[Optional preview]\n  Composite --> V4L2[V4L2 loopback camera]\n  V4L2 --> Calls[OBS, browser, or call application]",
           "id": "blk_rvm_pipeline",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The machine-learning pipeline terminated at a standard virtual-camera boundary, keeping consumers independent of the model.",
           "type": "mermaid"
         },
         {
@@ -38,6 +41,7 @@
           "alt": "Three-panel RVM preview showing a man against a red background, the extracted subject against blue, and a white alpha matte",
           "caption": "Reconstructed with the archived default MobileNetV3 pipeline: source frame, composited output, and alpha matte. Stock frame by Andrea Piacquadio via Pexels.",
           "id": "blk_rvm_preview_placeholder",
+          "presentation": "intrinsic",
           "src": "media/rvm-preview-triptych.png",
           "type": "image"
         },
@@ -58,6 +62,9 @@
             }
           ],
           "id": "blk_rvm_modes",
+          "label": "Terminal transcript",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "terminal"
         },
         {
@@ -86,5 +93,33 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/rvm-composited-output.png": {
+        "media_type": "image/png",
+        "width": 1280,
+        "height": 720
+      },
+      "media/rvm-preview-triptych.png": {
+        "media_type": "image/png",
+        "width": 1920,
+        "height": 414
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/rvm-composited-output.png",
+      "media/rvm-preview-triptych.png"
+    ]
   }
 }

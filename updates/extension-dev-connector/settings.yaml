@@ -18,6 +18,10 @@ content:
       \ Sync extensions and poll\n  Bridge-->>Helper: Return pending commands\n  Helper->>Browser:\
       \ Toggle extension and refresh tab\n  Helper->>Bridge: Report result"
     id: blk_extension_loop
+    presentation: content
+    sourceMode: inline
+    summary: The loopback service queues requests; the browser helper performs the
+      permissioned work during its next sync.
     type: mermaid
   - body: '## Let the browser perform the privileged work
 

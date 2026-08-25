@@ -18,6 +18,7 @@ content:
     caption: The Night Mode panel exposes the schedule’s current state and temporary
       warmer, normal, and automatic choices.
     id: blk_night_mode_settings
+    presentation: intrinsic
     src: night-mode-settings.png
     type: image
   - body: '## Let manual choices expire automatically
@@ -40,6 +41,10 @@ content:
       \ time\n  Day --> ForcedNight: warm now\n  ForcedNight --> Day: wake time\n\
       \  Night --> ForcedDay: normal now\n  ForcedDay --> Night: blue-light start"
     id: blk_night_schedule_flow
+    presentation: content
+    sourceMode: inline
+    summary: Scheduled and temporary modes meet at the same explicit day and night
+      boundaries.
     type: mermaid
   - caption: The original configuration keeps the overnight window, target temperatures,
       and notification timing together.
@@ -73,6 +78,8 @@ content:
     filename: night-mode-config.toml
     id: blk_night_schedule
     language: toml
+    presentation: content
+    sourceMode: inline
     type: code
 date: '2026-01-02'
 discovery: listed

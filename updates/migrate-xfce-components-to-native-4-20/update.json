@@ -1,0 +1,77 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "migrate-xfce-components-to-native-4-20",
+    "title": "Reduced XFCE forks while moving to 4.20",
+    "summary": "Archived an unchanged clipboard-manager copy, rebased three focused panel patches onto XFCE 4.20, and retained the systemd-scope integration that still had no upstream equivalent.",
+    "date": "2026-01-17",
+    "prominence": "low",
+    "discovery": "listed",
+    "icon": "icon.svg",
+    "tags": [
+      "XFCE",
+      "Wayland",
+      "Systemd",
+      "Migration"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Decide separately for each fork\n\nI audited three XFCE components before moving the desktop to the 4.20 line. The clipboard-manager copy matched upstream, so I archived it. The panel still needed three focused patches—for a fixed-size child, configurable show-desktop width, and Wayland pointer safety—so I rebased those changes onto the newer upstream branch. The libxfce4ui fork stayed in place because its systemd-scope launching still had no upstream equivalent.",
+          "id": "blk_editorial_migrate-xfce-components-",
+          "type": "text"
+        },
+        {
+          "caption": "The migration disposition followed the actual delta of each component rather than one fleet-wide rule.",
+          "code": "flowchart TD\n  Audit[Audit each component] --> Difference{Local behavior still needed?}\n  Difference -->|No| Archive[Archive unchanged copy]\n  Difference -->|Focused patch set| Rebase[Rebase panel onto XFCE 4.20]\n  Difference -->|No upstream equivalent| Retain[Keep systemd integration fork]\n  Archive --> Verify[Verify migrated desktop session]\n  Rebase --> Verify\n  Retain --> Verify",
+          "id": "blk_xfce_migration",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The migration disposition followed the actual delta of each component rather than one fleet-wide rule.",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Preserve the panel behavior on the new base\n\nThe rebase kept the thin-strip layout, the 10-pixel show-desktop width, and the Wayland crash fixes while taking the upstream changes around them. I backed up the live XFCE configuration, built the custom panel, loaded all 15 plugins, verified the button-width property, and observed the migrated session without errors.\n\nThe result is a smaller, explicit maintenance surface: no fork where there is no difference, three isolated panel patches where the layout still depends on them, and one retained library fork for systemd-scoped application launches.",
+          "id": "blk_xfce_panel_verification",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "migrate-xfce-components-to-native-4-20",
+    "related_to": [],
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Reduced XFCE forks while moving to 4.20",
+    "relationships": {
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "add-wayland-support-to-docklike-plugin-with-window",
+          "folder": "add-wayland-support-to-docklike-plugin-with-window",
+          "title": "Ported Docklike to Wayland with live window previews",
+          "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+          "date": "2026-01-18",
+          "prominence": "high"
+        }
+      ]
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
+  }
+}

@@ -25,12 +25,16 @@ content:
         \    \"max_latency_ms\": 824.66,\n    \"avg_jitter_ms\": 10.81,\n    \"failed_tests\"\
         : 6,\n    \"uptime_percent\": 99.85\n  }\n}"
     id: blk_ping_monitor_cli
+    label: Terminal transcript
+    presentation: content
+    sourceMode: inline
     type: terminal
   - alt: Ping Monitor visualization with latency, packet-loss, jitter, and uptime
       views
     caption: Stored measurements reveal latency spikes, packet-loss bursts, jitter,
       and overall uptime side by side.
     id: blk_ping_graphs
+    presentation: intrinsic
     src: media/screenshot_2026-02-28_16-37-03.png
     type: image
   - body: '## Keep collection and diagnosis consistent

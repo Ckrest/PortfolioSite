@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "postgresql-history-database",
@@ -28,6 +28,7 @@
           "alt": "Terminal showing the first Constellation History Database output and its linked input and output artifacts",
           "caption": "Here’s the first output.",
           "id": "blk_history_first_lineage",
+          "presentation": "intrinsic",
           "src": "postgresql-history-first-output.png",
           "type": "image"
         },
@@ -35,6 +36,9 @@
           "caption": "The schema models operations and artifacts independently, then uses explicit relations for inputs, outputs, tags, and operation chains.",
           "code": "erDiagram\n  OPERATION ||--o{ OPERATION_INPUT : consumes\n  ARTIFACT ||--o{ OPERATION_INPUT : is_input\n  OPERATION ||--o{ OPERATION_OUTPUT : produces\n  ARTIFACT ||--o{ OPERATION_OUTPUT : is_output\n  OPERATION }o--o{ TAG : categorized_by\n  OPERATION o|--o{ OPERATION : parent_of\n\n  OPERATION {\n    uuid id\n    string operation_type\n    string tool_name\n    string status\n    timestamp started_at\n    timestamp completed_at\n    jsonb config\n  }\n  ARTIFACT {\n    uuid id\n    text file_path\n    string file_type\n    string checksum\n    jsonb metadata\n  }",
           "id": "blk_history_database",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The schema models operations and artifacts independently, then uses explicit relations for inputs, outputs, tags, and operation chains.",
           "type": "mermaid"
         }
       ]
@@ -64,8 +68,16 @@
       "superseded_by": [],
       "related": [
         {
-          "slug": "systems-registry",
-          "folder": "systems-registry",
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        {
+          "slug": "constellation-registry",
+          "folder": "constellation-registry",
           "title": "Built a discovery-based registry for a software workspace",
           "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
           "date": "2026-01-08",
@@ -73,5 +85,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "postgresql-history-first-output.png": {
+        "media_type": "image/png",
+        "width": 1719,
+        "height": 917
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "postgresql-history-first-output.png"
+    ]
   }
 }

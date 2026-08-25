@@ -48,10 +48,10 @@ Canonical public sources are:
 - homepage configuration and section source; and
 - shared JavaScript, CSS, and static assets.
 
-Generated files include manifests, entity payloads, stable detail shells,
-derived graph relationships, preview dimensions, sitemap entries, generated
-block-registry modules, and `dist/`. Do not hand-edit generated output. Run the
-build after changing canonical sources.
+Generated files include manifests, entity payloads, per-entity asset manifests,
+stable detail shells, derived graph relationships, preview dimensions, sitemap
+entries, generated block-registry modules, and `dist/`. Do not hand-edit
+generated output. Run the build after changing canonical sources.
 
 The build validates the complete public graph rather than one record in
 isolation. It rejects malformed or unknown fields, invalid block structures,
@@ -60,16 +60,23 @@ alternatives, privacy-pattern matches, redundant relationship types, required
 capability evidence, and graph cycles. Optional update relationships whose
 target is outside the exact pool remain authored but unresolved. The deployable directory is allowlisted by
 `updates/_public-asset-policy.json` and excludes YAML, databases, logs, private
-state, and unreferenced material.
+state, and unreferenced material. `updates/_asset-contract.json` and
+`capabilities/_asset-contract.json` are the independent declarative asset
+graphs for metadata, blocks, nested groups, explicit attached-source modes, and
+Markdown dependencies. Validation, candidate identity, payload generation, and
+distribution copying consume that graph instead of maintaining separate block
+walkers.
 
-The repository accepts only its current version 3 update and capability
-contracts and version 6 block registries. Project content enters public source
-only through the exact closed-pool boundary below.
+The repository accepts only its current version 4 authored update schema,
+version 3 capability schema, version 7 update block registry, version 6
+capability block registry, version 1 asset contracts, version 5 generated
+update payloads, and version 4 generated capability payloads. Project content
+enters public source only through the exact closed-pool boundary below.
 
 ### Exact closed-pool builds
 
 `npm run build:pool -- --input <request.json> --output <directory>` is the shared
-Portfolio Editor and Systems boundary. A `portfolio-site/pool-build@4` request
+Portfolio Editor and Constellation boundary. A `portfolio-site/pool-build@4` request
 contains one `portfolio-site/project-pool@1` with every digest-pinned member.
 The command snapshots current Git-visible Site mechanics, removes generated and
 retired project copies, installs only the requested members, runs the complete
@@ -89,9 +96,9 @@ Portfolio Editor retains review results as self-contained immutable pool
 bundles. Acceptance creates a durable handoff that pins the bundle manifest,
 Site source, public source, and result digests. A realizer atomically claims that
 handoff and receives its immutable candidate paths in the claim response;
-neither Systems nor the Site re-read the mutable pool while building. The Site
+neither Constellation nor the Site re-read the mutable pool while building. The Site
 rebuilds the request and refuses to replace local output unless every reviewed
-identity matches. Systems then installs and verifies that exact result.
+identity matches. Constellation then installs and verifies that exact result.
 
 `node updates/_pool-build.js --verify-output <directory>` recomputes the public
 source and distribution identities from an installed result. The local launcher
@@ -101,7 +108,7 @@ requires the verified installed receipt to match the current
 
 The result contains an exact public-source tree, deployable `dist`, their file
 inventories and digests, and the pool and Site input identities. A failed graph
-or distribution build leaves the requested output untouched. Systems owns
+or distribution build leaves the requested output untouched. Constellation owns
 activation of a successful result and any later publication.
 
 ## Public content model
@@ -234,6 +241,14 @@ accessibility-only, structural public source, or private authoring metadata.
 Published blocks are strict allowlists: private provenance fields are invalid in
 Site settings, while Editor stores them outside the public block payload.
 
+Update blocks use one semantic flow and three explicit presentation widths:
+`intrinsic` prevents a raster image from being enlarged beyond its source,
+`content` follows the reading measure, and `wide` uses the visual canvas.
+Image, gallery, comparison, and authored preview links use the locally vendored
+PhotoSwipe viewer; source dimensions are generated into the current update
+payload so zoom and intrinsic sizing do not depend on layout guesses. Gallery
+tiles default to `contain`; cropping requires an explicit `fit: cover` choice.
+
 ## Deployment
 
 Deploy the generated `dist/` directory to any static host that preserves the
@@ -243,12 +258,12 @@ assets available when GitHub Pages serves the repository or deployment tree.
 This package intentionally contains no update commit, push, or remote
 publication wrapper.
 
-Systems owns Git publication from the installed, verified `public-source`
+Constellation owns Git publication from the installed, verified `public-source`
 artifact. Review the exact export and its safety scan before publishing:
 
 ```bash
-systems publish portfolio-site --plan-only
-systems publish portfolio-site --message "Publish reviewed Portfolio pool"
+constellation publish portfolio-site --plan-only
+constellation publish portfolio-site --message "Publish reviewed Portfolio pool"
 ```
 
 The first command is read-only. The second advances the accepted public branch

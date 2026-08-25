@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "model-manager",
@@ -32,6 +32,9 @@
           "caption": "HTTP and Python callers share one job queue while resource observation remains separate from execution.",
           "code": "flowchart LR\n  HTTP[HTTP client] --> Queue[Priority and model queues]\n  Python[Python caller] --> Queue\n  Python --> Cancel[Cancel pending or queued job]\n  Queue --> Scheduler[Background scheduler]\n  Scheduler --> Engine[Load model and run with Ollama]\n  Engine --> Result[Complete or failed]\n  Monitor[GPU and loaded-model observation] --> Status[Stats and model listing]\n  Registry[Installed model discovery] --> Status",
           "id": "blk_model_scheduler",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "HTTP and Python callers share one job queue while resource observation remains separate from execution.",
           "type": "mermaid"
         },
         {
@@ -45,6 +48,8 @@
           "filename": "model-manager-http-api.txt",
           "id": "blk_model_manager_http_routes",
           "language": "http",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "code"
         }
       ]
@@ -75,5 +80,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/model-manager-flow.png": {
+        "media_type": "image/png",
+        "width": 1680,
+        "height": 900
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/model-manager-flow.png"
+    ]
   }
 }

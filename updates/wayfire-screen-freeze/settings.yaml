@@ -26,6 +26,10 @@ content:
       \ --> Normal: unfreeze / remove overlay hook\n  Frozen --> [*]: output removed\n\
       \  Black --> [*]: output removed"
     id: blk_screen_freeze
+    presentation: content
+    sourceMode: inline
+    summary: Per-output renderer state changes only the presented result; applications
+      continue running underneath.
     type: mermaid
   - body: '## Add output-scoped IPC methods
 
@@ -53,6 +57,9 @@ content:
     - command: wf-msg screen-freeze/unfreeze
       output: '{"ok":true}'
     id: blk_screen_freeze_ipc
+    label: Terminal transcript
+    presentation: content
+    sourceMode: inline
     type: terminal
   - body: '## Release output-scoped renderer state
 

@@ -38,12 +38,9 @@ content:
       region dimensions, keyboard guidance, and a magnified crosshair.
     evidenceQualifier: ''
     id: blk_screenshot_service_selector
+    presentation: intrinsic
     src: media/selector-region-magnifier.png
     type: image
-  - body: 'This is a temporary text block that I''m just adding here to put this update
-      back into review for later. '
-    id: 166eb941-13d5-4165-ba43-0f5d7dfc0da1
-    type: text
   - body: '## Separate capture from output
 
 
@@ -73,6 +70,11 @@ content:
       \ Capture selected opaque identity\n    W-->>S: Exact window frame\n  end\n\
       \  S->>S: Apply shared output policy\n  S-->>C: File and structured output result"
     id: blk_screenshot_service_flow
+    presentation: content
+    sourceMode: inline
+    summary: The service persists across requests; the frozen selector exists only
+      for the active request, and exact window capture remains distinct from region
+      cropping.
     type: mermaid
   - caption: Service lifecycle ran through its public command and passed its retained
       package suite.
@@ -83,6 +85,9 @@ content:
     - command: PYTHONPATH=src pytest -q
       output: 43 passed
     id: blk_screenshot_service_evidence
+    label: Terminal transcript
+    presentation: content
+    sourceMode: inline
     type: terminal
 date: '2026-08-15'
 discovery: listed

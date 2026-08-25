@@ -1,0 +1,19 @@
+{
+  "schema": "portfolio-site/asset-contract@1",
+  "metadata": [
+    {"path": "preview"},
+    {"path": "icon"}
+  ],
+  "blocks": {
+    "image": [{"path": "src"}],
+    "video": [{"path": "embed", "externalAllowed": true}],
+    "gallery": [{"path": "images[].src"}],
+    "readme": [{"path": "path", "default": "README.md", "markdownDependencies": true}],
+    "pdf": [{"path": "src"}],
+    "code": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}],
+    "mermaid": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}],
+    "terminal": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}],
+    "comparison": [{"path": "before.src"}, {"path": "after.src"}],
+    "graph": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}]
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "comfyui-quicksave",
@@ -27,6 +27,7 @@
           "alt": "QuickSave control with a save icon in the ComfyUI toolbar",
           "caption": "The toolbar button made the save action available while reviewing generated images.",
           "id": "blk_quicksave_button",
+          "presentation": "intrinsic",
           "src": "media/screenshot_2026-02-28_16-20-47.png",
           "type": "image"
         },
@@ -39,6 +40,7 @@
           "alt": "QuickSave flow from the ComfyUI toolbar through preview discovery, image selection, backend sanitization, duplicate checks, safe disk writing, and visible feedback",
           "caption": "A small frontend-to-backend path saves an existing preview without changing the workflow graph.",
           "id": "blk_quicksave_flow",
+          "presentation": "intrinsic",
           "src": "media/quicksave-flow.svg",
           "type": "image"
         }
@@ -53,5 +55,33 @@
       "superseded_by": [],
       "related": []
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/quicksave-flow.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1686,
+        "height": 198
+      },
+      "media/screenshot_2026-02-28_16-20-47.png": {
+        "media_type": "image/png",
+        "width": 91,
+        "height": 62
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/quicksave-flow.svg",
+      "media/screenshot_2026-02-28_16-20-47.png"
+    ]
   }
 }

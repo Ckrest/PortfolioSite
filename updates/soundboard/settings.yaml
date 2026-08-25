@@ -12,6 +12,7 @@ content:
     caption: Search, tabs, output status, and Stop All keep the desktop library easy
       to navigate and control.
     id: blk_soundboard_preview
+    presentation: intrinsic
     src: preview.png
     type: image
   - body: '## Add voice chat as another output
@@ -29,6 +30,10 @@ content:
     code: "flowchart LR\n  Card[Play a sound] --> Speakers[Desktop speakers]\n  Card\
       \ -. Optional route .-> Mic[Virtual microphone]\n  Mic --> Chat[Voice chat]"
     id: blk_soundboard_audio
+    presentation: content
+    sourceMode: inline
+    summary: Voice-chat routing extends the desktop soundboard without changing how
+      the local library is used.
     type: mermaid
 date: '2026-01-13'
 discovery: listed

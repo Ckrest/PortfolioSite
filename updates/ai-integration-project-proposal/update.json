@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "ai-integration-project-proposal",
@@ -26,7 +26,9 @@
         {
           "caption": "The proposal defines the staged work, deliverables, risks, and evaluation plan.",
           "id": "blk_ai_proposal_pdf",
+          "presentation": "content",
           "src": "proposal.pdf",
+          "title": "The proposal defines the staged work, deliverables, risks, and evaluation plan.",
           "type": "pdf"
         }
       ]
@@ -41,5 +43,28 @@
       "superseded_by": [],
       "related": []
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "preview.png": {
+        "media_type": "image/png",
+        "width": 1224,
+        "height": 984
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "preview.png",
+      "proposal.pdf"
+    ]
   }
 }

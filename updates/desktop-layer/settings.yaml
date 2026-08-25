@@ -21,6 +21,7 @@ content:
     caption: Capture shows the configured right-click menu over the wallpaper, including
       nested Tools and Settings groups.
     id: blk_desktop_menu_capture
+    presentation: intrinsic
     src: media/screenshot_2026-02-28_15-57-19.png
     type: image
   - body: '## Build the menu from data
@@ -47,6 +48,8 @@ content:
     filename: config.json
     id: blk_desktop_menu
     language: json
+    presentation: content
+    sourceMode: inline
     type: code
   - body: '## Keep the boundary small
 
@@ -65,6 +68,10 @@ content:
       \ --> Desktop\n  Desktop --> Focus[Left click moves focus]\n  Desktop --> Menu[Right\
       \ click opens command menu]"
     id: blk_desktop_layer
+    presentation: content
+    sourceMode: inline
+    summary: The transparent GTK3 surface handles desktop input between ordinary windows
+      and the background layer.
     type: mermaid
 date: '2025-11-26'
 discovery: listed

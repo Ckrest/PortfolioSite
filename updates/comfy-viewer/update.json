@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "comfy-viewer",
@@ -31,6 +31,7 @@
           "alt": "Comfy Viewer library with workflow controls beside a grid of varied generated images",
           "caption": "Cached previews and metadata filters turn a growing output folder into a browsable visual library.",
           "id": "blk_comfy_library",
+          "presentation": "intrinsic",
           "src": "media/screenshot_2026-03-01_20-55-50-1.png",
           "type": "image"
         },
@@ -43,6 +44,7 @@
           "alt": "Comfy Viewer focused-image view with save, flag, rating, and navigation controls",
           "caption": "The focused viewer keeps navigation and review actions beside the generated image.",
           "id": "blk_comfy_focus",
+          "presentation": "intrinsic",
           "src": "media/screenshot_2026-03-01_20-56-58.png",
           "type": "image"
         },
@@ -55,6 +57,7 @@
           "alt": "Comfy Viewer settings panel with empty connection and folder fields",
           "caption": "Display behavior, optional workflow controls, and watched folders remain independently configurable.",
           "id": "blk_comfy_settings",
+          "presentation": "intrinsic",
           "src": "media/comfy-viewer-settings-redacted.png",
           "type": "image"
         },
@@ -62,6 +65,9 @@
           "caption": "Image browsing remains a complete path of its own, with workflow execution connected as an optional integration.",
           "code": "flowchart LR\n  Output[ComfyUI output folder] --> Watch[Watch for images]\n  Watch --> Index[Extract and index metadata]\n  Index --> Cache[Cache WebP thumbnails]\n  Cache --> Library[Searchable library]\n  Library --> Viewer[Focused viewer]\n  Viewer --> Review[Quicksave, flag and rate]\n  Library -. run requests .-> Gateway[Optional workflow gateway]\n  Gateway -. completion events .-> Index",
           "id": "blk_comfy_viewer_context",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Image browsing remains a complete path of its own, with workflow execution connected as an optional integration.",
           "type": "mermaid"
         }
       ]
@@ -84,5 +90,45 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/comfy-viewer-settings-redacted.png": {
+        "media_type": "image/png",
+        "width": 1131,
+        "height": 1391
+      },
+      "media/screenshot_2026-03-01_20-55-50-1.png": {
+        "media_type": "image/png",
+        "width": 2125,
+        "height": 1292
+      },
+      "media/screenshot_2026-03-01_20-55-50.png": {
+        "media_type": "image/png",
+        "width": 2125,
+        "height": 1292
+      },
+      "media/screenshot_2026-03-01_20-56-58.png": {
+        "media_type": "image/png",
+        "width": 2125,
+        "height": 1291
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/comfy-viewer-settings-redacted.png",
+      "media/screenshot_2026-03-01_20-55-50-1.png",
+      "media/screenshot_2026-03-01_20-55-50.png",
+      "media/screenshot_2026-03-01_20-56-58.png"
+    ]
   }
 }

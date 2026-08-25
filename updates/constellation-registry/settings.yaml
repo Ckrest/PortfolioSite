@@ -13,7 +13,7 @@ content:
       The schema gives desktop, AI, infrastructure, and tools packages a common way
       to declare their identity, status, interfaces, runtime, triggers, dependencies,
       and repository details.'
-    id: blk_editorial_systems-registry
+    id: blk_editorial_constellation-registry
     type: text
   - caption: The package inventory is generated from manifests stored beside the packages
       themselves.
@@ -22,6 +22,10 @@ content:
       \ index]\n  Index --> Search[Find packages]\n  Index --> Details[Inspect runtime\
       \ and dependencies]"
     id: blk_legacy_registry
+    presentation: content
+    sourceMode: inline
+    summary: The package inventory is generated from manifests stored beside the packages
+      themselves.
     type: mermaid
   - body: '## Give different packages a common shape
 
@@ -45,6 +49,8 @@ content:
     filename: example-package-manifest.yaml
     id: blk_registry_manifest
     language: yaml
+    presentation: content
+    sourceMode: inline
     type: code
   - caption: Discovery walks the workspace and builds the registry from the manifests
       it finds.
@@ -55,6 +61,8 @@ content:
     filename: discovery.py
     id: blk_registry_operations
     language: python
+    presentation: content
+    sourceMode: inline
     type: code
 date: '2026-01-08'
 discovery: listed
@@ -67,7 +75,7 @@ prominence: high
 related_to:
 - postgresql-history-database
 - process-manager
-slug: systems-registry
+slug: constellation-registry
 summary: Each tool and service now carries its own manifest, letting the workspace
   discover package identity, status, interfaces, runtime, and dependencies directly
   from package directories.

@@ -22,6 +22,10 @@ content:
       \  Composite --> V4L2[V4L2 loopback camera]\n  V4L2 --> Calls[OBS, browser,\
       \ or call application]"
     id: blk_rvm_pipeline
+    presentation: content
+    sourceMode: inline
+    summary: The machine-learning pipeline terminated at a standard virtual-camera
+      boundary, keeping consumers independent of the model.
     type: mermaid
   - body: '## Keep the frame loop practical
 
@@ -45,6 +49,7 @@ content:
       frame, composited output, and alpha matte. Stock frame by Andrea Piacquadio
       via Pexels.'
     id: blk_rvm_preview_placeholder
+    presentation: intrinsic
     src: media/rvm-preview-triptych.png
     type: image
   - caption: Command-line options switched between the preview, background treatments,
@@ -59,6 +64,9 @@ content:
       output: Blurring the source background while using a lower-cost matte inference
         setting
     id: blk_rvm_modes
+    label: Terminal transcript
+    presentation: content
+    sourceMode: inline
     type: terminal
   - body: '## Make the host boundary explicit
 

@@ -172,6 +172,21 @@ Do not expose private data, absolute local paths, tokens, internal notes,
 irrelevant debug output, or evidence that has not been reviewed. More artifacts
 do not automatically create a stronger case.
 
+Choose layout as part of the evidence. Use `presentation: intrinsic` for small
+images that should never be enlarged, `content` for material that belongs with
+the reading measure, and `wide` only when comparison or visual detail benefits
+from the larger canvas. Galleries default to `fit: contain`, which preserves the
+complete image; select `cover` only when consistent cropped tiles convey the
+content correctly. Images, gallery items, comparisons, and supplied previews
+open in PhotoSwipe for keyboard-accessible inspection and zoom. Captions remain
+visible on the page and in the viewer.
+
+Use `related-mini` immediately after the block whose copy mentions another
+update. It is an inline contextual link, not a standalone section. Use
+`reference-card` when the relationship deserves its own summary and visual
+weight. Groups require an explicit `stack`, `split`, or `grid` layout; split and
+grid collapse to one column on narrow screens.
+
 ### 8. State ownership without overselling
 
 Use a specific, calm first-person voice. Name your decisions and contribution,
@@ -254,7 +269,7 @@ exact local approval build materializes the public snapshot as
 edit a Workspace-managed update in this repository as a round-trip authoring
 workflow. Independent Site changes are a separate input: the next approval
 bundle snapshots them exactly together with the selected Workspace candidate
-for a future Systems-owned publication handoff.
+for a future Constellation-owned publication handoff.
 
 The materialized public source has this shape:
 
@@ -281,16 +296,23 @@ when they add value. Media paths are relative to the update directory. A supplie
 preview should include `previewAlt`; when it does not, review reports an advisory
 and the renderer uses the update title. Every image or gallery item still needs
 meaningful alternative text because those blocks have no safe contextual fallback.
+The build resolves deployable files through `updates/_asset-contract.json`,
+including metadata media, nested group blocks, explicit attached source files,
+and local files linked by Markdown document blocks. Generated
+`portfolio-update@5` payloads carry that exact asset manifest plus dimension
+metadata for inspectable images; `dist/` copies only those declared
+dependencies.
 
 `updates/_update-schema.yaml` is authoritative for metadata fields, enum values,
 form help, and advisory warnings. `updates/_block-registry.json` is
 authoritative for block types, fields, nesting, completeness, and fill methods.
 Give authored blocks stable unique IDs.
 
-Code, Mermaid, terminal, and graph blocks may set `sourceMode` to `inline` or
+Code, Mermaid, terminal, and graph blocks set `sourceMode` to `inline` or
 `attached`. Inline mode renders the block's authored content; attached mode
-renders `src`. Omitted mode means `inline`; attached content must declare
-`sourceMode: attached` explicitly. Do not rely on two competing sources.
+renders `src`. Video blocks set `sourceMode` to `local`, `youtube`, or `vimeo`.
+Review requires an explicit mode; do not rely on inference or two competing
+sources. Mermaid and graph blocks also require a concise accessible `summary`.
 
 The build rejects unknown fields, malformed blocks, duplicate IDs, unsafe or
 missing assets, privacy-pattern matches, invalid relationship structure, and

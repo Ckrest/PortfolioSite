@@ -21,6 +21,10 @@ content:
       \ diff]\n  Combine --> Write[Write target config]\n  Mapping[Optional output\
       \ mapping] --> Write"
     id: blk_agent_config
+    presentation: content
+    sourceMode: inline
+    summary: Each target reuses the shared conventions while keeping its own preamble
+      and destination.
     type: mermaid
   - body: '## Review the fan-out before writing
 
@@ -45,6 +49,8 @@ content:
     filename: agent-config-generator.sh
     id: blk_agent_config_cli
     language: shell
+    presentation: content
+    sourceMode: inline
     type: code
 date: '2026-01-08'
 discovery: listed

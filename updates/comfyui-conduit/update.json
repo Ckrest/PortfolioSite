@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "comfyui-conduit",
@@ -31,6 +31,7 @@
           "alt": "ComfyUI KSampler node with its steps input and latent output marked as Conduit tags",
           "caption": "Socket tags mark the inputs and outputs that become the workflow’s external interface.",
           "id": "blk_conduit_preview",
+          "presentation": "intrinsic",
           "src": "preview.png",
           "type": "image"
         },
@@ -43,6 +44,9 @@
           "caption": "The tagged schema guides input preparation and output capture without exposing the complete graph to callers.",
           "code": "flowchart LR\n  Graph[Saved workflow graph] --> Schema[Active socket tags and schema]\n  Caller[External caller] --> Resolve[Resolve values by tag]\n  Schema --> Resolve\n  Resolve --> Transform[Coerce values and apply supported transforms]\n  Transform --> Queue[Submit prepared graph to ComfyUI]\n  Queue --> Capture[Capture tagged outputs]\n  Capture --> Response[Outputs, warnings and run IDs]\n  Capture --> Handlers[Optional output handlers]",
           "id": "blk_conduit_run",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The tagged schema guides input preparation and output capture without exposing the complete graph to callers.",
           "type": "mermaid"
         },
         {
@@ -70,5 +74,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "preview.png": {
+        "media_type": "image/png",
+        "width": 902,
+        "height": 652
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "preview.png"
+    ]
   }
 }

@@ -1,267 +1,93 @@
 {
-  "version": 6,
+  "version": 7,
   "fieldDefinitions": {
     "id": {"label": "Internal block ID", "visibility": "structural", "description": "Stable editor identity; present in public source but not displayed."},
     "type": {"label": "Block type", "visibility": "structural", "description": "Selects the renderer; present in public source but not displayed."},
     "body": {"label": "Public body", "visibility": "public-visible", "description": "Rendered as visible page content."},
-    "src": {"label": "Source path", "visibility": "structural", "description": "Public asset plumbing; the path is not printed as viewer copy."},
-    "embed": {"label": "Embed URL", "visibility": "structural", "description": "Public media plumbing; the URL is not printed as viewer copy."},
-    "path": {"label": "Document path", "visibility": "structural", "description": "Public asset plumbing; the path is not printed as viewer copy."},
-    "sourceMode": {"label": "Content source", "visibility": "structural", "description": "Chooses inline authoring or an attached public source file."},
-    "alt": {"label": "Accessibility text", "visibility": "public-accessibility", "description": "Available to assistive technology and shown if an image cannot load; not normally visible."},
-    "caption": {"label": "Public caption", "visibility": "public-visible", "description": "Visible beneath the evidence block."},
-    "evidenceQualifier": {"label": "Public evidence qualifier", "visibility": "public-visible", "description": "Optional concise viewer-facing context when a material limitation must be disclosed."},
+    "src": {"label": "Source", "visibility": "structural", "description": "Public asset path or provider-specific media identifier."},
+    "path": {"label": "Document path", "visibility": "structural", "description": "Public update-relative Markdown asset path."},
+    "sourceMode": {"label": "Content source", "visibility": "structural", "description": "Explicitly selects the only source used by the block."},
+    "presentation": {"label": "Presentation width", "visibility": "structural", "description": "Selects intrinsic, content, or wide layout where supported."},
+    "fit": {"label": "Thumbnail fit", "visibility": "structural", "description": "Selects contain or cover for gallery thumbnails."},
+    "layout": {"label": "Group layout", "visibility": "structural", "description": "Selects stack, split, or grid child layout."},
+    "title": {"label": "Public title", "visibility": "public-visible", "description": "Visible and accessible title for the media or document."},
+    "label": {"label": "Accessible label", "visibility": "public-accessibility", "description": "Names a control, transcript, or compact reference."},
+    "summary": {"label": "Accessible summary", "visibility": "public-accessibility", "description": "Explains non-text evidence for assistive technology and alternate views."},
+    "alt": {"label": "Accessibility text", "visibility": "public-accessibility", "description": "Describes image content to assistive technology and when the image cannot load."},
+    "caption": {"label": "Public caption", "visibility": "public-visible", "description": "Visible beneath the evidence block or gallery item."},
+    "evidenceQualifier": {"label": "Public evidence qualifier", "visibility": "public-visible", "description": "Optional concise context when an evidence limitation must be disclosed."},
     "capturedAt": {"label": "Captured at", "visibility": "authoring-private", "description": "Private evidence metadata; never valid inside a published block."},
     "representsVersion": {"label": "Represents version", "visibility": "authoring-private", "description": "Private evidence metadata; never valid inside a published block."},
     "evidenceNote": {"label": "Evidence note", "visibility": "authoring-private", "description": "Private evidence metadata; never valid inside a published block."},
-    "images": {"label": "Gallery images", "visibility": "public-visible", "description": "Visible images; each image also carries accessibility text."},
-    "blocks": {"label": "Child blocks", "visibility": "structural", "description": "Nested block layout; not displayed as metadata."},
-    "language": {"label": "Language", "visibility": "public-visible", "description": "May be displayed in the code block header."},
-    "filename": {"label": "Filename", "visibility": "public-visible", "description": "Displayed in the code block header."},
-    "code": {"label": "Inline source", "visibility": "public-visible", "description": "Rendered as code or diagram content when inline mode is selected."},
-    "commands": {"label": "Inline commands", "visibility": "public-visible", "description": "Rendered as the terminal transcript when inline mode is selected."},
-    "before": {"label": "Before image", "visibility": "public-visible", "description": "Visible comparison image and label."},
-    "after": {"label": "After image", "visibility": "public-visible", "description": "Visible comparison image and label."},
+    "images": {"label": "Gallery images", "visibility": "public-visible", "description": "Ordered visible images with accessibility text and optional captions."},
+    "blocks": {"label": "Child blocks", "visibility": "structural", "description": "Ordered child blocks owned by a group."},
+    "language": {"label": "Language", "visibility": "public-visible", "description": "Source language used for the header and syntax highlighting."},
+    "filename": {"label": "Filename", "visibility": "public-visible", "description": "Optional public filename displayed in the source header."},
+    "code": {"label": "Inline source", "visibility": "public-visible", "description": "Inline code or Mermaid source."},
+    "commands": {"label": "Inline commands", "visibility": "public-visible", "description": "Ordered terminal transcript entries."},
+    "before": {"label": "Before image", "visibility": "public-visible", "description": "Before image with required public label and accessibility text."},
+    "after": {"label": "After image", "visibility": "public-visible", "description": "After image with required public label and accessibility text."},
     "chartType": {"label": "Chart type", "visibility": "public-visible", "description": "Controls the visible chart presentation."},
-    "labels": {"label": "Chart labels", "visibility": "public-visible", "description": "Rendered in the chart."},
-    "datasets": {"label": "Chart datasets", "visibility": "public-visible", "description": "Rendered in the chart."},
-    "options": {"label": "Chart options", "visibility": "structural", "description": "Public Chart.js configuration; affects presentation but is not printed as copy."},
-    "slug": {"label": "Referenced update", "visibility": "structural", "description": "Resolves the visible link target and card content."}
+    "labels": {"label": "Chart labels", "visibility": "public-visible", "description": "Column or category labels shared by the chart and data table."},
+    "datasets": {"label": "Chart datasets", "visibility": "public-visible", "description": "Series rendered in both the chart and accessible data table."},
+    "slug": {"label": "Referenced update", "visibility": "structural", "description": "Resolves the public target for a related update link."}
   },
   "types": [
     {
-      "type": "text",
-      "label": "Text",
-      "icon": "¶",
-      "description": "Markdown text block",
-      "hint": "Click to add text content",
-      "fields": ["body"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": ["body"],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input"]
-      }
+      "type": "text", "label": "Text", "icon": "¶", "description": "Readable Markdown narrative", "hint": "Write narrative content", "fields": ["body"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["body"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input"]}
     },
     {
-      "type": "image",
-      "label": "Image",
-      "icon": "🖼",
-      "description": "Single image with caption",
-      "hint": "Click to set image source",
-      "fields": ["src", "alt", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": ["src"],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"]
-      }
+      "type": "image", "label": "Image", "icon": "🖼", "description": "Dimension-aware zoomable image", "hint": "Attach an image and describe it", "fields": ["src", "alt", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["src", "alt", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
     },
     {
-      "type": "video",
-      "label": "Video",
-      "icon": "▶",
-      "description": "Embedded or local video",
-      "hint": "Click to add video URL",
-      "fields": ["embed", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": ["embed"],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"]
-      }
+      "type": "video", "label": "Video", "icon": "▶", "description": "Local, YouTube, or Vimeo video", "hint": "Choose a source and add a title", "fields": ["sourceMode", "src", "title", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "src", "title", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"], "sourceModes": {"field": "sourceMode", "default": "local", "modes": {"local": ["src"], "youtube": ["src"], "vimeo": ["src"]}}}
     },
     {
-      "type": "gallery",
-      "label": "Gallery",
-      "icon": "⊞",
-      "description": "Multiple images",
-      "hint": "Click to add images",
-      "fields": ["images", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": ["images"],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["inline-list", "file-attach", "drag-drop"]
-      }
+      "type": "gallery", "label": "Gallery", "icon": "⊞", "description": "Zoomable image collection", "hint": "Attach and describe multiple images", "fields": ["images", "fit", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["images", "fit", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["inline-list", "file-attach", "drag-drop"]}
     },
     {
-      "type": "readme",
-      "label": "README",
-      "icon": "📄",
-      "description": "Update README markdown",
-      "hint": "Set path to README",
-      "fields": ["path"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": false,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"]
-      }
+      "type": "markdown-document", "label": "Markdown document", "icon": "📄", "description": "Attached Markdown document", "hint": "Attach a Markdown file", "fields": ["path"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["path"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
     },
     {
-      "type": "pdf",
-      "label": "PDF",
-      "icon": "📋",
-      "description": "Embedded PDF viewer",
-      "hint": "Click to set PDF source",
-      "fields": ["src", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": ["src"],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"]
-      }
+      "type": "pdf", "label": "PDF", "icon": "📋", "description": "Embedded PDF with direct actions", "hint": "Attach and title a PDF", "fields": ["src", "title", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["src", "title", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
     },
     {
-      "type": "group",
-      "label": "Group",
-      "icon": "☰",
-      "description": "Container for sub-blocks",
-      "hint": "Click to add sub-blocks",
-      "fields": ["blocks"],
-      "allowInGroup": false,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": ["blocks"],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["add-child"]
-      }
+      "type": "group", "label": "Group", "icon": "☰", "description": "Stack, split, or grid block group", "hint": "Choose a layout and add child blocks", "fields": ["layout", "blocks"], "allowInGroup": false,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["layout", "blocks"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["add-child"]}
     },
     {
-      "type": "code",
-      "label": "Code",
-      "icon": "💻",
-      "description": "Code with syntax highlighting",
-      "hint": "Click to add code",
-      "fields": ["sourceMode", "language", "filename", "src", "code", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"],
-        "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["code"], "attached": ["src"]}}
-      }
+      "type": "code", "label": "Code", "icon": "💻", "description": "Highlighted source with copy and wrap controls", "hint": "Add inline or attached source", "fields": ["sourceMode", "language", "filename", "src", "code", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "language", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["code"], "attached": ["src"]}}}
     },
     {
-      "type": "mermaid",
-      "label": "Mermaid",
-      "icon": "🧩",
-      "description": "Mermaid diagram",
-      "hint": "Click to add Mermaid diagram",
-      "fields": ["sourceMode", "src", "code", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"],
-        "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["code"], "attached": ["src"]}}
-      }
+      "type": "mermaid", "label": "Mermaid", "icon": "🧩", "description": "Inspectable Mermaid diagram", "hint": "Add diagram source and an accessible summary", "fields": ["sourceMode", "src", "code", "summary", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "summary", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["code"], "attached": ["src"]}}}
     },
     {
-      "type": "terminal",
-      "label": "Terminal",
-      "icon": "＞",
-      "description": "Command-line session",
-      "hint": "Click to add commands",
-      "fields": ["sourceMode", "src", "commands", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["inline-list", "text-input", "file-attach"],
-        "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["commands"], "attached": ["src"]}}
-      }
+      "type": "terminal", "label": "Terminal", "icon": "＞", "description": "Accessible terminal transcript", "hint": "Add commands or attach a transcript", "fields": ["sourceMode", "src", "commands", "label", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "label", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["inline-list", "text-input", "file-attach"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["commands"], "attached": ["src"]}}}
     },
     {
-      "type": "comparison",
-      "label": "Compare",
-      "icon": "⇔",
-      "description": "Before/after comparison",
-      "hint": "Click to set images",
-      "fields": ["before", "after", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": ["before.src", "after.src"],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["text-input", "file-attach", "drag-drop"]
-      }
+      "type": "comparison", "label": "Compare", "icon": "⇔", "description": "Accessible before and after comparison", "hint": "Attach and describe both images", "fields": ["before", "after", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["before.src", "before.label", "before.alt", "after.src", "after.label", "after.alt", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
     },
     {
-      "type": "graph",
-      "label": "Graph",
-      "icon": "📊",
-      "description": "Data visualization chart",
-      "hint": "Click to add data",
-      "fields": ["sourceMode", "src", "chartType", "labels", "datasets", "options", "caption", "evidenceQualifier"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": [],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["inline-list", "text-input", "file-attach"],
-        "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["datasets"], "attached": ["src"]}}
-      }
+      "type": "graph", "label": "Graph", "icon": "📊", "description": "Chart with an accessible data table", "hint": "Add chart data and a summary", "fields": ["sourceMode", "src", "chartType", "labels", "datasets", "summary", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "summary", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["inline-list", "text-input", "file-attach"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["labels", "datasets"], "attached": ["src"]}}}
     },
     {
-      "type": "related-mini",
-      "label": "Related Mini",
-      "icon": "↗",
-      "description": "Compact related update link",
-      "hint": "Link to another update",
-      "fields": ["slug"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": ["slug"],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["update-picker", "text-input"],
-        "referenceField": "slug",
-        "referenceType": "update",
-        "allowSelfReference": false
-      }
+      "type": "related-mini", "label": "Related Mini", "icon": "↗", "description": "Compact contextual update link", "hint": "Link to a nearby update", "fields": ["slug", "label"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["slug"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["update-picker", "text-input"], "referenceField": "slug", "referenceType": "update", "allowSelfReference": false}
     },
     {
-      "type": "reference-card",
-      "label": "Reference Card",
-      "icon": "↗",
-      "description": "Update reference card with summary",
-      "hint": "Reference another update with its title and summary",
-      "fields": ["slug"],
-      "allowInGroup": true,
-      "contract": {
-        "allowEmptySave": true,
-        "renderRequiredAll": ["slug"],
-        "renderRequiredAny": [],
-        "skipRenderIfIncomplete": true,
-        "fillMethods": ["update-picker", "text-input"],
-        "referenceField": "slug",
-        "referenceType": "update",
-        "allowSelfReference": false
-      }
+      "type": "reference-card", "label": "Reference Card", "icon": "↗", "description": "Standalone related update card", "hint": "Reference another update", "fields": ["slug"], "allowInGroup": true,
+      "contract": {"allowEmptySave": true, "renderRequiredAll": ["slug"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["update-picker", "text-input"], "referenceField": "slug", "referenceType": "update", "allowSelfReference": false}
     }
   ]
 }

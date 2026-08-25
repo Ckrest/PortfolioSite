@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "rebuilt-screenshot-tool-as-persistent-capture-service",
@@ -30,13 +30,9 @@
           "caption": "The request-scoped selector kept the desktop frozen while showing live region dimensions, keyboard guidance, and a magnified crosshair.",
           "evidenceQualifier": "",
           "id": "blk_screenshot_service_selector",
+          "presentation": "intrinsic",
           "src": "media/selector-region-magnifier.png",
           "type": "image"
-        },
-        {
-          "body": "This is a temporary text block that I'm just adding here to put this update back into review for later. ",
-          "id": "166eb941-13d5-4165-ba43-0f5d7dfc0da1",
-          "type": "text"
         },
         {
           "body": "## Separate capture from output\n\nI removed the package's embedded protocol client and native capture helper and consumed the versioned `wayland-capture/frame@1` raw-frame contract instead. The service validates the frame and output layout before using the pixels. Regions are cropped from the frozen frame; selected windows receive a fresh capture through their exact identifier after the overlay closes.\n\nBoth paths then use the same output layer for atomic file saving, clipboard format, notifications, structured JSON, sound, and optional post-save hooks. That preserved the output boundary established by the earlier Screenshot Tool version while replacing its per-invocation coordination.",
@@ -47,6 +43,9 @@
           "caption": "The service persists across requests; the frozen selector exists only for the active request, and exact window capture remains distinct from region cropping.",
           "code": "sequenceDiagram\n  participant C as CLI or hotkey\n  participant S as Persistent GTK service\n  participant W as Wayland capture boundary\n  participant O as Request-scoped selector\n  C->>S: Explicit capture request\n  S->>W: Capture cursor-free desktop\n  W-->>S: Frozen raw frame and output layout\n  S->>S: Join window geometry by opaque identity\n  S->>O: Create selector for this request\n  O-->>S: Region, fullscreen, or exact window\n  alt Region or fullscreen\n    S->>S: Crop or reuse the frozen frame\n  else Exact window\n    S->>W: Capture selected opaque identity\n    W-->>S: Exact window frame\n  end\n  S->>S: Apply shared output policy\n  S-->>C: File and structured output result",
           "id": "blk_screenshot_service_flow",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The service persists across requests; the frozen selector exists only for the active request, and exact window capture remains distinct from region cropping.",
           "type": "mermaid"
         },
         {
@@ -62,6 +61,9 @@
             }
           ],
           "id": "blk_screenshot_service_evidence",
+          "label": "Terminal transcript",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "terminal"
         }
       ]
@@ -76,5 +78,27 @@
       "superseded_by": [],
       "related": []
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/selector-region-magnifier.png": {
+        "media_type": "image/png",
+        "width": 1800,
+        "height": 1050
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/selector-region-magnifier.png"
+    ]
   }
 }

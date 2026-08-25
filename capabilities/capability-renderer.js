@@ -118,16 +118,7 @@ async function hydrateReadme(element, block, update) {
     return;
   }
   try {
-    let source;
-    if (window.__portfolioBridge && !isTransient) {
-      const slug = encodeURIComponent(update.slug || update.folder);
-      const assetPath = path.split('/').map(encodeURIComponent).join('/');
-      const response = await fetch(`/api/v1/updates/${slug}/asset/${assetPath}`);
-      if (!response.ok) throw new Error(`File request failed (${response.status})`);
-      source = await response.text();
-    } else {
-      source = await fetchUpdateText(path, update);
-    }
+    const source = await fetchUpdateText(path, update);
     element.innerHTML = `<div class="markdown-content">${rewriteMarkdownAssetUrls(renderMarkdown(source), path, update)}</div>`;
   } catch (error) {
     element.innerHTML = `<p class="render-warning">README unavailable: ${html(error.message)}</p>`;

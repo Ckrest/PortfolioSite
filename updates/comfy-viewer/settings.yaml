@@ -19,6 +19,7 @@ content:
     caption: Cached previews and metadata filters turn a growing output folder into
       a browsable visual library.
     id: blk_comfy_library
+    presentation: intrinsic
     src: media/screenshot_2026-03-01_20-55-50-1.png
     type: image
   - body: '## Keep decisions beside the image
@@ -39,6 +40,7 @@ content:
     caption: The focused viewer keeps navigation and review actions beside the generated
       image.
     id: blk_comfy_focus
+    presentation: intrinsic
     src: media/screenshot_2026-03-01_20-56-58.png
     type: image
   - body: '## Make workflow control optional
@@ -58,6 +60,7 @@ content:
     caption: Display behavior, optional workflow controls, and watched folders remain
       independently configurable.
     id: blk_comfy_settings
+    presentation: intrinsic
     src: media/comfy-viewer-settings-redacted.png
     type: image
   - caption: Image browsing remains a complete path of its own, with workflow execution
@@ -69,6 +72,10 @@ content:
       \ .-> Gateway[Optional workflow gateway]\n  Gateway -. completion events .->\
       \ Index"
     id: blk_comfy_viewer_context
+    presentation: content
+    sourceMode: inline
+    summary: Image browsing remains a complete path of its own, with workflow execution
+      connected as an optional integration.
     type: mermaid
 date: '2026-01-10'
 discovery: listed

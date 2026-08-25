@@ -26,6 +26,10 @@ content:
       \ camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\
       \n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]"
     id: blk_camera_toggle
+    presentation: content
+    sourceMode: inline
+    summary: The shortcut checked the camera pipeline, then started or stopped its
+      two parts in order.
     type: mermaid
 date: '2025-12-08'
 discovery: listed

@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "vision-rename",
@@ -31,6 +31,9 @@
             }
           ],
           "id": "blk_vision_rename",
+          "label": "Terminal transcript",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "terminal"
         }
       ]
@@ -54,5 +57,21 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
   }
 }

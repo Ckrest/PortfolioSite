@@ -14,6 +14,9 @@ content:
       \ --> Preview[Generate and preview]\n  Preview --> Freeze[Freeze useful choices]\n\
       \  Freeze --> Select\n  Preview --> Record[Record final selections]"
     id: blk_easy_randomize_flow
+    presentation: content
+    sourceMode: inline
+    summary: Each queue run changed only the selections that were not frozen.
     type: mermaid
   - body: '## Keep the workflow explicit
 
@@ -26,6 +29,7 @@ content:
     type: text
   - caption: Later captures of the maintained interface show the original selection
       nodes and the ten-input freezable combiner.
+    fit: contain
     id: e7f5fe32-e7ef-436e-88c0-fe4becb90964
     images:
     - alt: ComfyUI Easy Randomize nodes for item pools, random and smart selection,
@@ -34,6 +38,7 @@ content:
     - alt: Freezable String Combiner node with ten string inputs, per-input freeze
         controls, and a freeze-all control
       src: media/screenshot_2026-02-28_16-57-32.png
+    presentation: wide
     type: gallery
   - body: '## Save the choices with the image
 

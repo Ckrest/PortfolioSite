@@ -27,6 +27,9 @@ content:
     - command: cat "$XDG_RUNTIME_DIR/primary-monitor"
       output: DP-3
     id: blk_monitor_detect
+    label: Terminal transcript
+    presentation: content
+    sourceMode: inline
     type: terminal
   - body: '## Serve both systemd and file-based consumers
 

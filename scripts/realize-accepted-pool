@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ -z "${SYSTEMS_NATIVE_ROOT:-}" ]]; then
-  echo "SYSTEMS_NATIVE_ROOT is required" >&2
+if [[ -z "${CONSTELLATION_NATIVE_ROOT:-}" ]]; then
+  echo "CONSTELLATION_NATIVE_ROOT is required" >&2
   exit 2
 fi
 if [[ -z "${PORTFOLIO_SITE_POOL_REQUEST:-}" ]]; then
@@ -12,7 +12,7 @@ fi
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 SITE_ROOT="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
-STAGE_ROOT="$SYSTEMS_NATIVE_ROOT/stage"
+STAGE_ROOT="$CONSTELLATION_NATIVE_ROOT/stage"
 OUTPUT_ROOT="$STAGE_ROOT/portfolio-site"
 mkdir -p "$STAGE_ROOT"
 

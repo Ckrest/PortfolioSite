@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "ping-monitor",
@@ -34,12 +34,16 @@
             }
           ],
           "id": "blk_ping_monitor_cli",
+          "label": "Terminal transcript",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "terminal"
         },
         {
           "alt": "Ping Monitor visualization with latency, packet-loss, jitter, and uptime views",
           "caption": "Stored measurements reveal latency spikes, packet-loss bursts, jitter, and overall uptime side by side.",
           "id": "blk_ping_graphs",
+          "presentation": "intrinsic",
           "src": "media/screenshot_2026-02-28_16-37-03.png",
           "type": "image"
         },
@@ -69,5 +73,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/screenshot_2026-02-28_16-37-03.png": {
+        "media_type": "image/png",
+        "width": 1022,
+        "height": 642
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/screenshot_2026-02-28_16-37-03.png"
+    ]
   }
 }

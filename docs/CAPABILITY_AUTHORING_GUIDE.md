@@ -266,7 +266,10 @@ Media paths are relative to the capability directory. A supplied preview should
 include `previewAlt`; when it does not, review reports an advisory and the
 renderer uses the capability title. Every image or gallery item still needs
 meaningful alternative text because those blocks have no safe contextual
-fallback. Give authored blocks stable unique IDs.
+fallback. Give authored blocks stable unique IDs. The independent
+`capabilities/_asset-contract.json` graph resolves all deployable capability
+dependencies, and generated `portfolio-capability@4` payloads carry the exact
+asset manifest consumed by `dist/`.
 
 `capabilities/_block-registry.json` is authoritative for capability blocks. It
 is independent from the update registry; changes to either contract must be

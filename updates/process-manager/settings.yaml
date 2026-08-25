@@ -60,6 +60,10 @@ content:
       \ --> Buffer[Bounded parsed log buffer]\n  Buffer --> Filters[Service, level,\
       \ and text filters]\n  Filters --> Selection"
     id: blk_process_workspace
+    presentation: content
+    sourceMode: inline
+    summary: Status, controls, and live logs converge on the same selected systemd
+      unit while systemd retains process ownership.
     type: mermaid
 date: '2025-10-18'
 discovery: listed

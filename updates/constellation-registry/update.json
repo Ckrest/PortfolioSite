@@ -1,8 +1,8 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
-    "slug": "systems-registry",
+    "slug": "constellation-registry",
     "title": "Built a discovery-based registry for a software workspace",
     "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
     "date": "2026-01-08",
@@ -24,13 +24,16 @@
       "blocks": [
         {
           "body": "## Let packages register themselves\n\nI built the package registry for Constellation Framework, my package-and-service workspace. Instead of maintaining a separate inventory, each tool or service carries a `manifest.yaml` beside its own files. Scanning the workspace produces the package index, so adding a manifest makes a package discoverable without another registration step.\n\nThe schema gives desktop, AI, infrastructure, and tools packages a common way to declare their identity, status, interfaces, runtime, triggers, dependencies, and repository details.",
-          "id": "blk_editorial_systems-registry",
+          "id": "blk_editorial_constellation-registry",
           "type": "text"
         },
         {
           "caption": "The package inventory is generated from manifests stored beside the packages themselves.",
           "code": "flowchart LR\n  Packages[Package directories] --> Manifests[Local manifest files]\n  Manifests --> Scan[Scan and parse]\n  Scan --> Index[Generated package index]\n  Index --> Search[Find packages]\n  Index --> Details[Inspect runtime and dependencies]",
           "id": "blk_legacy_registry",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The package inventory is generated from manifests stored beside the packages themselves.",
           "type": "mermaid"
         },
         {
@@ -44,6 +47,8 @@
           "filename": "example-package-manifest.yaml",
           "id": "blk_registry_manifest",
           "language": "yaml",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "code"
         },
         {
@@ -52,11 +57,13 @@
           "filename": "discovery.py",
           "id": "blk_registry_operations",
           "language": "python",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "code"
         }
       ]
     },
-    "folder": "systems-registry",
+    "folder": "constellation-registry",
     "phase": 1,
     "previewWidth": 1200,
     "previewHeight": 675,
@@ -82,5 +89,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/package-registry-preview.png": {
+        "media_type": "image/png",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/package-registry-preview.png"
+    ]
   }
 }

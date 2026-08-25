@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "process-manager",
@@ -28,6 +28,9 @@
           "caption": "Status, controls, and live logs converge on the same selected systemd unit while systemd retains process ownership.",
           "code": "flowchart LR\n  Discovery[Opt-in service discovery] --> Cache[Two-second status cache]\n  Systemd[systemd user manager] --> Cache\n  Cache --> List[Grouped service list]\n  List --> Selection[Selected service context]\n  Selection --> Actions[Start, stop, restart, enable]\n  Journal[journalctl JSON stream] --> Buffer[Bounded parsed log buffer]\n  Buffer --> Filters[Service, level, and text filters]\n  Filters --> Selection",
           "id": "blk_process_workspace",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Status, controls, and live logs converge on the same selected systemd unit while systemd retains process ownership.",
           "type": "mermaid"
         }
       ]
@@ -42,8 +45,8 @@
       "superseded_by": [],
       "related": [
         {
-          "slug": "systems-registry",
-          "folder": "systems-registry",
+          "slug": "constellation-registry",
+          "folder": "constellation-registry",
           "title": "Built a discovery-based registry for a software workspace",
           "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
           "date": "2026-01-08",
@@ -59,5 +62,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/process-manager-gtk-reconstruction-2025-10-18.png": {
+        "media_type": "image/png",
+        "width": 1152,
+        "height": 799
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/process-manager-gtk-reconstruction-2025-10-18.png"
+    ]
   }
 }

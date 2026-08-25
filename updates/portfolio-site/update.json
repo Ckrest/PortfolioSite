@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "portfolio-site",
@@ -28,6 +28,7 @@
           "alt": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries",
           "caption": "The focused timeline entry expands while the surrounding work remains visible in sequence.",
           "id": "blk_portfolio_snapshot",
+          "presentation": "intrinsic",
           "src": "timeline.png",
           "type": "image"
         },
@@ -40,6 +41,9 @@
           "caption": "One metadata file supplies both the featured project and the chronological timeline, while each project retains an independent static page.",
           "code": "flowchart LR\n  JSON[projects.json] --> Featured[Featured project]\n  JSON --> Sort[Sort projects by date]\n  Sort --> Timeline[Interactive timeline]\n  Assets[Project previews] --> Featured\n  Assets --> Timeline\n  Timeline --> Pages[Project detail pages]",
           "id": "blk_portfolio_build",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "One metadata file supplies both the featured project and the chronological timeline, while each project retains an independent static page.",
           "type": "mermaid"
         }
       ]
@@ -50,9 +54,57 @@
     "previewWidth": 1440,
     "previewHeight": 1000,
     "relationships": {
-      "parts": [],
-      "superseded_by": [],
-      "related": []
+      "parts": [
+        {
+          "slug": "site-update-2026-01-16",
+          "folder": "site-update-2026-01-16",
+          "title": "Made the portfolio timeline richer and easier to navigate",
+          "summary": "Timeline entries now adapt to each project’s importance, support animated previews and expandable icon bundles, and preserve filters and selections in shareable URLs.",
+          "date": "2026-01-16",
+          "prominence": "medium"
+        }
+      ],
+      "superseded_by": [
+        {
+          "slug": "restructure-portfolio-site-with-modular-architectu",
+          "folder": "restructure-portfolio-site-with-modular-architectu",
+          "title": "Rebuilt the portfolio from independent page sections",
+          "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+          "date": "2026-01-15",
+          "prominence": "medium"
+        }
+      ],
+      "related": [],
+      "latest": {
+        "slug": "restructure-portfolio-site-with-modular-architectu",
+        "folder": "restructure-portfolio-site-with-modular-architectu",
+        "title": "Rebuilt the portfolio from independent page sections",
+        "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+        "date": "2026-01-15",
+        "prominence": "medium"
+      }
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "timeline.png": {
+        "media_type": "image/png",
+        "width": 1440,
+        "height": 1000
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "timeline.png"
+    ]
   }
 }

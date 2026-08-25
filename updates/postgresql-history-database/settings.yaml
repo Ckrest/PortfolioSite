@@ -48,6 +48,7 @@ content:
       linked input and output artifacts
     caption: Here’s the first output.
     id: blk_history_first_lineage
+    presentation: intrinsic
     src: postgresql-history-first-output.png
     type: image
   - caption: The schema models operations and artifacts independently, then uses explicit
@@ -61,6 +62,10 @@ content:
       \ {\n    uuid id\n    text file_path\n    string file_type\n    string checksum\n\
       \    jsonb metadata\n  }"
     id: blk_history_database
+    presentation: content
+    sourceMode: inline
+    summary: The schema models operations and artifacts independently, then uses explicit
+      relations for inputs, outputs, tags, and operation chains.
     type: mermaid
 date: '2025-11-16'
 discovery: listed

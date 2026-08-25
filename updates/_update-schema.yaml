@@ -1,7 +1,7 @@
 # Portfolio Update Schema
 # Shared by Portfolio Site and Portfolio Editor.
 
-version: 3
+version: 4
 
 relationshipContract: _relationship-contract.json
 reviewPolicy: _review-policy.json
@@ -104,7 +104,7 @@ fields:
   previewAlt:
     type: text
     label: Preview alt text
-    help: Optional. Review recommends a tailored description; the update title is the public fallback.
+    help: Optional. When omitted, the preview uses the update title as its accessibility text.
 
   icon:
     type: asset

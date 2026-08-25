@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "night-mode",
@@ -32,6 +32,7 @@
           "alt": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls.",
           "caption": "The Night Mode panel exposes the schedule’s current state and temporary warmer, normal, and automatic choices.",
           "id": "blk_night_mode_settings",
+          "presentation": "intrinsic",
           "src": "night-mode-settings.png",
           "type": "image"
         },
@@ -44,6 +45,9 @@
           "caption": "Scheduled and temporary modes meet at the same explicit day and night boundaries.",
           "code": "stateDiagram-v2\n  Day --> Night: blue-light start\n  Night --> Day: wake time\n  Day --> ForcedNight: warm now\n  ForcedNight --> Day: wake time\n  Night --> ForcedDay: normal now\n  ForcedDay --> Night: blue-light start",
           "id": "blk_night_schedule_flow",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Scheduled and temporary modes meet at the same explicit day and night boundaries.",
           "type": "mermaid"
         },
         {
@@ -52,6 +56,8 @@
           "filename": "night-mode-config.toml",
           "id": "blk_night_schedule",
           "language": "toml",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "code"
         }
       ]
@@ -82,5 +88,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "night-mode-settings.png": {
+        "media_type": "image/png",
+        "width": 727,
+        "height": 484
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "night-mode-settings.png"
+    ]
   }
 }

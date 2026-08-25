@@ -121,8 +121,9 @@ async function initialize() {
       loadJson(`./${encodeURIComponent(folder)}/capability.json`),
       loadCatalog(),
     ]);
-    if (!payload || payload.schema !== 'portfolio-capability@3' || !payload.capability) {
-      throw new Error('Capability payload must use portfolio-capability@3');
+    if (!payload || payload.schema !== 'portfolio-capability@4' || !payload.capability
+        || payload.asset_manifest?.schema !== 'portfolio-site/asset-manifest@1') {
+      throw new Error('Capability payload must use portfolio-capability@4 with an asset manifest');
     }
     await renderCapabilityWithDependencies(payload.capability);
   } catch (error) {

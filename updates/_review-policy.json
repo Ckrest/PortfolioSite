@@ -12,9 +12,14 @@
     "type": "string",
     "body": "string",
     "src": "string",
-    "embed": "public-url-or-asset",
     "path": "string",
     "sourceMode": "string",
+    "presentation": "string",
+    "fit": "string",
+    "layout": "string",
+    "title": "string",
+    "label": "string",
+    "summary": "string",
     "alt": "string",
     "caption": "string",
     "evidenceQualifier": "string",
@@ -29,7 +34,6 @@
     "chartType": "string",
     "labels": "array",
     "datasets": "array",
-    "options": "object",
     "slug": "string"
   }
 }

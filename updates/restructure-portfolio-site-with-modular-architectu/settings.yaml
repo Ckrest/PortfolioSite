@@ -1,0 +1,46 @@
+content:
+  blocks:
+  - body: '## Compose the page from independent sections
+
+
+      I split the page into independent modules for the header, hero, featured work,
+      roadmap, timeline, contact, and footer. Each section owns its HTML, CSS, and
+      JavaScript, while shared layers handle design tokens, themes, backgrounds, base
+      elements, and layout.
+
+
+      A site configuration controls which sections load and in what order. A small
+      section loader reads that configuration and assembles the homepage.'
+    id: blk_editorial_restructure-portfolio-si
+    type: text
+  - caption: Section configuration, independent modules, and shared visual layers
+      meet in the composed homepage.
+    code: "flowchart TD\n  Config[Section order and visibility] --> Loader[Section\
+      \ loader]\n  Header[Header module] --> Loader\n  Hero[Hero module] --> Loader\n\
+      \  Work[Featured, roadmap, and timeline modules] --> Loader\n  Contact[Contact\
+      \ and footer modules] --> Loader\n  Styles[Shared tokens, themes, and layout]\
+      \ --> Loader\n  Loader --> Page[Composed homepage]"
+    id: blk_modular_site
+    presentation: content
+    sourceMode: inline
+    summary: Section configuration, independent modules, and shared visual layers
+      meet in the composed homepage.
+    type: mermaid
+date: '2026-01-15'
+discovery: listed
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+kind: update
+preview: media/modular-portfolio-homepage.png
+prominence: medium
+slug: restructure-portfolio-site-with-modular-architectu
+summary: Split a 900-line homepage into independent section modules and shared style
+  layers, then made section order and visibility configurable.
+supersedes: portfolio-site
+tags:
+- JavaScript
+- CSS
+- Frontend
+- Architecture
+- Refactoring
+title: Rebuilt the portfolio from independent page sections

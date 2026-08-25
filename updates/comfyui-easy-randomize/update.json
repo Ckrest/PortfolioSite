@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "comfyui-easy-randomize",
@@ -27,6 +27,9 @@
           "caption": "Each queue run changed only the selections that were not frozen.",
           "code": "flowchart LR\n  Pools[Define item pools] --> Select[Select values]\n  Select --> Preview[Generate and preview]\n  Preview --> Freeze[Freeze useful choices]\n  Freeze --> Select\n  Preview --> Record[Record final selections]",
           "id": "blk_easy_randomize_flow",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Each queue run changed only the selections that were not frozen.",
           "type": "mermaid"
         },
         {
@@ -36,6 +39,7 @@
         },
         {
           "caption": "Later captures of the maintained interface show the original selection nodes and the ten-input freezable combiner.",
+          "fit": "contain",
           "id": "e7f5fe32-e7ef-436e-88c0-fe4becb90964",
           "images": [
             {
@@ -47,6 +51,7 @@
               "src": "media/screenshot_2026-02-28_16-57-32.png"
             }
           ],
+          "presentation": "wide",
           "type": "gallery"
         },
         {
@@ -66,5 +71,39 @@
       "superseded_by": [],
       "related": []
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/screenshot_2026-02-28_16-56-44-1.png": {
+        "media_type": "image/png",
+        "width": 507,
+        "height": 960
+      },
+      "media/screenshot_2026-02-28_16-56-44.png": {
+        "media_type": "image/png",
+        "width": 507,
+        "height": 960
+      },
+      "media/screenshot_2026-02-28_16-57-32.png": {
+        "media_type": "image/png",
+        "width": 176,
+        "height": 1121
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/screenshot_2026-02-28_16-56-44-1.png",
+      "media/screenshot_2026-02-28_16-56-44.png",
+      "media/screenshot_2026-02-28_16-57-32.png"
+    ]
   }
 }

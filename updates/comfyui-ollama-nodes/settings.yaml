@@ -11,6 +11,7 @@ content:
     type: text
   - caption: Captures show the original Ollama Query controls and the separate node
       used to list models from the configured endpoint.
+    fit: contain
     id: blk_ollama_gallery
     images:
     - alt: Ollama Query node with model selection, prompt, system prompt, sampling,
@@ -18,6 +19,7 @@ content:
       src: media/screenshot_2026-02-28_16-10-04-1.png
     - alt: Ollama Model List node with trigger, endpoint, model-list, and JSON outputs
       src: media/screenshot_2026-02-28_16-10-26.png
+    presentation: wide
     type: gallery
   - body: '## Pass chat history forward
 

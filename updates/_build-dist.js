@@ -14,8 +14,8 @@ const ROOT_FILES = [
 ];
 const ROOT_DIRS = ['css', 'js', 'data', 'sections'];
 const UPDATE_RUNTIME = [
-  'manifest.json', 'catalog.json', 'detail.js', 'update-renderer.js', 'runtime-utils.js',
-  'update.css', 'update-layout.css', 'generated', 'vendor',
+  'manifest.json', 'catalog.json', 'detail.js', 'update-renderer.js', 'update-media.js',
+  'runtime-utils.js', 'update-base.css', 'update-blocks.css', 'generated', 'vendor',
 ];
 const CAPABILITY_RUNTIME = [
   'manifest.json', 'detail.js', 'capability-renderer.js', 'runtime-utils.js',
@@ -23,40 +23,13 @@ const CAPABILITY_RUNTIME = [
   'generated', 'vendor',
 ];
 
-function safeRelativePath(value) {
-  if (typeof value !== 'string') return null;
-  const candidate = value.trim().replaceAll('\\', '/').replace(/^\.\//, '');
-  if (!candidate || candidate.startsWith('/') || /^[a-z][a-z0-9+.-]*:/i.test(candidate)) return null;
-  const parts = candidate.split('/').filter(Boolean);
-  if (!parts.length || parts.some((part) => part === '.' || part === '..')) return null;
-  return parts.join('/');
-}
-
-function collectAssets(update) {
-  const result = new Set();
-  const visit = (value, parentKey = '') => {
-    if (Array.isArray(value)) {
-      value.forEach((item) => {
-        if (parentKey === 'images') {
-          const relative = safeRelativePath(item);
-          if (relative) result.add(relative);
-        }
-        visit(item, parentKey);
-      });
-      return;
-    }
-    if (!value || typeof value !== 'object') return;
-    if (value.type === 'readme' && value.path == null) result.add('README.md');
-    for (const [key, child] of Object.entries(value)) {
-      if (['src', 'path', 'poster', 'preview', 'icon'].includes(key)) {
-        const relative = safeRelativePath(child);
-        if (relative) result.add(relative);
-      }
-      visit(child, key);
-    }
-  };
-  visit(update);
-  return [...result];
+function declaredAssets(payload) {
+  if (payload?.asset_manifest?.schema !== 'portfolio-site/asset-manifest@1'
+      || !Array.isArray(payload.asset_manifest.assets)
+      || payload.asset_manifest.assets.some((item) => typeof item !== 'string')) {
+    throw new Error('Generated entity is missing its current asset manifest');
+  }
+  return payload.asset_manifest.assets;
 }
 
 async function copyExisting(source, target) {
@@ -84,12 +57,13 @@ async function buildDist() {
     let payload;
     try { payload = JSON.parse(await readFile(payloadPath, 'utf8')); }
     catch { continue; }
-    if (payload.schema !== 'portfolio-update@3' || !payload.update) continue;
+    if (payload.schema !== 'portfolio-update@5' || !payload.update
+        || payload.media?.schema !== 'portfolio-site/media-metadata@1') continue;
     const target = join(DIST, 'updates', entry.name);
     await mkdir(target, { recursive: true });
     await cp(payloadPath, join(target, 'update.json'));
     await cp(join(UPDATES, entry.name, 'detail.html'), join(target, 'detail.html'));
-    for (const asset of collectAssets(payload.update)) {
+    for (const asset of declaredAssets(payload)) {
       await copyExisting(join(UPDATES, entry.name, asset), join(target, asset));
     }
     count += 1;
@@ -103,13 +77,12 @@ async function buildDist() {
     let payload;
     try { payload = JSON.parse(await readFile(payloadPath, 'utf8')); }
     catch { continue; }
-    if (payload.schema !== 'portfolio-capability@3' || !payload.capability) continue;
+    if (payload.schema !== 'portfolio-capability@4' || !payload.capability) continue;
     const target = join(DIST, 'capabilities', entry.name);
     await mkdir(target, { recursive: true });
     await cp(payloadPath, join(target, 'capability.json'));
     await cp(join(CAPABILITIES, entry.name, 'detail.html'), join(target, 'detail.html'));
-    const { evidence: _evidence, ...capabilityOwnedContent } = payload.capability;
-    for (const asset of collectAssets(capabilityOwnedContent)) {
+    for (const asset of declaredAssets(payload)) {
       await copyExisting(join(CAPABILITIES, entry.name, asset), join(target, asset));
     }
     capabilityCount += 1;

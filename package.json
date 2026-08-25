@@ -1,6 +1,6 @@
 {
   "name": "portfolio-site",
-  "version": "7.0.0",
+  "version": "9.0.0",
   "type": "module",
   "description": "Independent static portfolio site with modular update pages",
   "scripts": {
@@ -12,7 +12,9 @@
     "test": "bash ./verify.sh"
   },
   "dependencies": {
+    "@highlightjs/cdn-assets": "11.11.1",
     "mermaid": "11.16.1",
+    "photoswipe": "5.4.4",
     "yaml": "^2.9.0"
   },
   "engines": {

@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "wayfire-screen-freeze",
@@ -26,6 +26,9 @@
           "caption": "Per-output renderer state changes only the presented result; applications continue running underneath.",
           "code": "stateDiagram-v2\n  [*] --> Normal\n  Normal --> Frozen: freeze / install post hook and capture next frame\n  Frozen --> Normal: unfreeze / remove hook and release texture\n  Normal --> Black: black / install overlay hook\n  Black --> Normal: unfreeze / remove overlay hook\n  Frozen --> [*]: output removed\n  Black --> [*]: output removed",
           "id": "blk_screen_freeze",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Per-output renderer state changes only the presented result; applications continue running underneath.",
           "type": "mermaid"
         },
         {
@@ -58,6 +61,9 @@
             }
           ],
           "id": "blk_screen_freeze_ipc",
+          "label": "Terminal transcript",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "terminal"
         },
         {
@@ -75,7 +81,32 @@
     "relationships": {
       "parts": [],
       "superseded_by": [],
-      "related": []
+      "related": [
+        {
+          "slug": "shutdown-effect",
+          "folder": "shutdown-effect",
+          "title": "Added extensible shutdown animations to Wayfire",
+          "summary": "Built a shared animation protocol and discovery layer so power actions can coordinate a fire transition and plug in other visual effects through the same interface.",
+          "date": "2026-01-18",
+          "prominence": "medium"
+        }
+      ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 2,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
   }
 }

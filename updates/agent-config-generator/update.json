@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "agent-config-generator",
@@ -25,6 +25,9 @@
           "caption": "Each target reuses the shared conventions while keeping its own preamble and destination.",
           "code": "flowchart LR\n  Shared[Shared AGENTS.md] --> Combine[Combine instructions]\n  Target[Target-specific file] --> Combine\n  Combine --> Preview[Dry run or diff]\n  Combine --> Write[Write target config]\n  Mapping[Optional output mapping] --> Write",
           "id": "blk_agent_config",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Each target reuses the shared conventions while keeping its own preamble and destination.",
           "type": "mermaid"
         },
         {
@@ -38,6 +41,8 @@
           "filename": "agent-config-generator.sh",
           "id": "blk_agent_config_cli",
           "language": "shell",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "code"
         }
       ]
@@ -52,5 +57,21 @@
       "superseded_by": [],
       "related": []
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
   }
 }

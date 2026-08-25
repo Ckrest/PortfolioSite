@@ -21,7 +21,10 @@ content:
   - caption: The proposal defines the staged work, deliverables, risks, and evaluation
       plan.
     id: blk_ai_proposal_pdf
+    presentation: content
     src: proposal.pdf
+    title: The proposal defines the staged work, deliverables, risks, and evaluation
+      plan.
     type: pdf
 date: '2025-09-15'
 discovery: listed

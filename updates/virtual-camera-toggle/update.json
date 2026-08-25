@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "virtual-camera-toggle",
@@ -38,6 +38,9 @@
           "caption": "The shortcut checked the camera pipeline, then started or stopped its two parts in order.",
           "code": "flowchart TD\n  A[Press Super+O] --> B{Is the camera pipeline running?}\n\n  B -- No --> C[Start RVM background removal]\n  C --> D[Wait for the processed camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]",
           "id": "blk_camera_toggle",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "The shortcut checked the camera pipeline, then started or stopped its two parts in order.",
           "type": "mermaid"
         }
       ]
@@ -60,5 +63,21 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
   }
 }

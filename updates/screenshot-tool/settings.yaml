@@ -1,0 +1,74 @@
+content:
+  blocks:
+  - body: '## Capture the screen from one workflow
+
+
+      Screenshot Tool handles fullscreen, drawn-region, and individual-window capture
+      through one hotkey-driven application. The same modes are also exposed through
+      the command line, with explicit output paths, alternate formats, silent operation,
+      standard output, and JSON metadata.'
+    id: blk_editorial_screenshot-tool
+    type: text
+  - body: '## Refine the selection without guessing
+
+
+      The overlay freezes the current screen so content stays still while the target
+      is chosen. Dragging defines a region, clicking captures the window beneath the
+      pointer, and Space or the screenshot key saves the complete frame. Escape or
+      right-click cancels.
+
+
+      During a drag, everything outside the region dims and a live width × height
+      label follows the boundary. Arrow keys move the pointer one pixel at a time,
+      while the magnifier exposes the neighboring source pixels for exact edge placement.'
+    id: blk_screenshot_precise_selection
+    type: text
+  - alt: Circular nine-by-nine pixel magnifier with a grid and red outline around
+      the active center pixel
+    caption: Each cell represents one source pixel. The red outline marks the pixel
+      beneath the pointer while the surrounding grid makes neighboring edges easy
+      to compare.
+    id: blk_screenshot_magnifier_detail
+    presentation: intrinsic
+    src: media/screenshot-tool-magnifier-detail.png
+    type: image
+  - body: '## Keep every capture path consistent
+
+
+      The application is organized into focused Python modules for configuration,
+      capture, Wayfire integration, instance coordination, the GTK overlay, and output
+      handling. Interactive and direct modes share one save pipeline for file destination
+      and format, clipboard copying, notifications, sound feedback, standard output,
+      and JSON metadata.'
+    id: blk_screenshot_shared_output
+    type: text
+  - caption: Fullscreen, region, and window capture share one output policy across
+      interactive and scripted use.
+    code: "flowchart LR\n  Start[Hotkey or CLI] --> Mode{Capture mode}\n  Mode -->\
+      \ Full[Fullscreen]\n  Mode --> Region[Interactive region]\n  Mode --> Window[Window]\n\
+      \  Full --> Save[Shared output pipeline]\n  Region --> Save\n  Window --> Save\n\
+      \  Save --> Result[File, clipboard, notification, or JSON]"
+    id: blk_screenshot_flow
+    presentation: content
+    sourceMode: inline
+    summary: Fullscreen, region, and window capture share one output policy across
+      interactive and scripted use.
+    type: mermaid
+date: '2026-01-21'
+discovery: listed
+github: https://github.com/Ckrest/screenshot-tool
+icon: icon.svg
+kind: update
+preview: media/screenshot-tool-selector.png
+previewAlt: Screenshot Tool selector over a woodland scene with controls, a drawn
+  region, live dimensions, a crosshair, and a circular magnifier
+prominence: medium
+slug: screenshot-tool
+summary: Built a hotkey-driven Wayland screenshot tool with frozen region selection,
+  unobstructed window capture, precise magnification, and consistent desktop and scripted
+  output.
+tags:
+- Python
+- Wayland
+- Image Capture
+title: Built a Wayland screenshot tool for precise desktop capture

@@ -25,6 +25,8 @@ content:
     filename: 01_basic_loop.json
     id: blk_flow_example
     language: json
+    presentation: content
+    sourceMode: inline
     type: code
   - body: '## Make components self-describing
 
@@ -43,6 +45,10 @@ content:
       \ completed work]\n  State --> Resume[Resume after interruption]\n  Resume -->\
       \ Execute"
     id: blk_modular_flow_architecture
+    presentation: content
+    sourceMode: inline
+    summary: The runner validates the plan before execution and can checkpoint completed
+      work when a run ID is supplied.
     type: mermaid
   - body: '## Resume long evaluations
 

@@ -1,3 +1,6 @@
+@layer reset, shell, blocks, utilities;
+
+@layer shell {
 :root {
   color-scheme: dark light;
   --bg: #0b0c10;
@@ -42,8 +45,6 @@ main {
   margin: 0 auto;
   flex: 1;
   padding-bottom: 64px;
-  display: flex;
-  flex-direction: column;
 }
 [data-section="footer"] {
   padding: 64px 0;
@@ -666,8 +667,7 @@ figure img {
 .block-group > .block-image,
 .block-group > .block-video,
 .block-group > .block-gallery,
-.block-group > .block-pdf,
-.block-group > .block-readme {
+.block-group > .block-pdf {
   margin: 12px 0;
 }
 
@@ -994,6 +994,7 @@ figure img {
 .evidence-caption,
 .evidence-qualifier {
   display: block;
+}
 }
 
 .evidence-qualifier {

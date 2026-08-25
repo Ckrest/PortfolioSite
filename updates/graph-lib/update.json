@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "graph-lib",
@@ -32,6 +32,8 @@
           "filename": "graph-composition.py",
           "id": "blk_graph_composition",
           "language": "python",
+          "presentation": "content",
+          "sourceMode": "inline",
           "type": "code"
         },
         {
@@ -43,6 +45,7 @@
           "alt": "GTK4 Graph Library showcase with labeled and compact line charts plus circular gauges",
           "caption": "One widget API produces labeled time series, compact filled charts, point traces, and threshold-colored gauges.",
           "id": "blk_graph_showcase",
+          "presentation": "intrinsic",
           "src": "media/screenshot_2026-02-28_16-26-37-1.png",
           "type": "image"
         },
@@ -71,5 +74,27 @@
         }
       ]
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/screenshot_2026-02-28_16-26-37-1.png": {
+        "media_type": "image/png",
+        "width": 1172,
+        "height": 847
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/screenshot_2026-02-28_16-26-37-1.png"
+    ]
   }
 }

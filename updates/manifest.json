@@ -33,6 +33,365 @@
       }
     },
     {
+      "slug": "unified-output-destinations-for-modular-flow-engin",
+      "folder": "unified-output-destinations-for-modular-flow-engin",
+      "title": "Made Modular Flow Engine callable over HTTP",
+      "summary": "Added a FastAPI service for inspecting, validating, and executing JSON flows, while sink-owned return, file, and console destinations define how completed results are delivered.",
+      "date": "2026-01-24",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Made Modular Flow Engine callable over HTTP",
+      "github": "https://github.com/Ckrest/modular-flow-engine",
+      "tags": [
+        "Python",
+        "FastAPI",
+        "API Design"
+      ],
+      "part_of": "modular-flow-engine",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "modular-flow-engine",
+          "folder": "modular-flow-engine",
+          "title": "Built a declarative engine for AI evaluation flows",
+          "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
+          "date": "2025-12-19",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "screenshot-tool",
+      "folder": "screenshot-tool",
+      "title": "Built a Wayland screenshot tool for precise desktop capture",
+      "summary": "Built a hotkey-driven Wayland screenshot tool with frozen region selection, unobstructed window capture, precise magnification, and consistent desktop and scripted output.",
+      "date": "2026-01-21",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/screenshot-tool-selector.png",
+      "previewAlt": "Screenshot Tool selector over a woodland scene with controls, a drawn region, live dimensions, a crosshair, and a circular magnifier",
+      "previewWidth": 2560,
+      "previewHeight": 1440,
+      "github": "https://github.com/Ckrest/screenshot-tool",
+      "tags": [
+        "Python",
+        "Wayland",
+        "Image Capture"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "fix-hover-state-and-capture-throttling-in-docklike",
+      "folder": "fix-hover-state-and-capture-throttling-in-docklike",
+      "title": "Fixed Docklike hover previews and capture throttling",
+      "summary": "Introduced a dedicated hover state machine and fair capture scheduling so preview menus close cleanly and every visible window keeps receiving live thumbnail updates.",
+      "date": "2026-01-20",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Fixed Docklike hover previews and capture throttling",
+      "tags": [
+        "Wayland",
+        "C++",
+        "Debugging"
+      ],
+      "part_of": "add-wayland-support-to-docklike-plugin-with-window",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "add-wayland-support-to-docklike-plugin-with-window",
+          "folder": "add-wayland-support-to-docklike-plugin-with-window",
+          "title": "Ported Docklike to Wayland with live window previews",
+          "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+          "date": "2026-01-18",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "add-wayland-support-to-docklike-plugin-with-window",
+      "folder": "add-wayland-support-to-docklike-plugin-with-window",
+      "title": "Ported Docklike to Wayland with live window previews",
+      "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+      "date": "2026-01-18",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/docklike-live-window-previews.png",
+      "previewAlt": "Docklike panel menu showing live previews for two open file manager windows",
+      "previewWidth": 740,
+      "previewHeight": 347,
+      "tags": [
+        "Wayland",
+        "C++",
+        "XFCE",
+        "Window Capture"
+      ],
+      "related_to": [
+        "migrate-xfce-components-to-native-4-20"
+      ],
+      "relationships": {
+        "parts": [
+          {
+            "slug": "fix-hover-state-and-capture-throttling-in-docklike",
+            "folder": "fix-hover-state-and-capture-throttling-in-docklike",
+            "title": "Fixed Docklike hover previews and capture throttling",
+            "summary": "Introduced a dedicated hover state machine and fair capture scheduling so preview menus close cleanly and every visible window keeps receiving live thumbnail updates.",
+            "date": "2026-01-20",
+            "prominence": "low"
+          },
+          {
+            "slug": "fix-wayfire-window-capture-for-duplicate-titles",
+            "folder": "fix-wayfire-window-capture-for-duplicate-titles",
+            "title": "Kept same-named window previews distinct",
+            "summary": "Connected each foreign-toplevel handle directly to its Wayfire view so windows sharing a title and application ID still receive separate capture sources.",
+            "date": "2026-01-18",
+            "prominence": "low"
+          },
+          {
+            "slug": "fix-wlroots-image-capture-buffer-format-constraint",
+            "folder": "fix-wlroots-image-capture-buffer-format-constraint",
+            "title": "Fixed window preview format negotiation",
+            "summary": "Advertised explicit shared-memory and linear DMA-BUF formats so the compositor and capture client could agree on a frame buffer before copying a window preview.",
+            "date": "2026-01-18",
+            "prominence": "low"
+          }
+        ],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "migrate-xfce-components-to-native-4-20",
+            "folder": "migrate-xfce-components-to-native-4-20",
+            "title": "Reduced XFCE forks while moving to 4.20",
+            "summary": "Archived an unchanged clipboard-manager copy, rebased three focused panel patches onto XFCE 4.20, and retained the systemd-scope integration that still had no upstream equivalent.",
+            "date": "2026-01-17",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "fix-wayfire-window-capture-for-duplicate-titles",
+      "folder": "fix-wayfire-window-capture-for-duplicate-titles",
+      "title": "Kept same-named window previews distinct",
+      "summary": "Connected each foreign-toplevel handle directly to its Wayfire view so windows sharing a title and application ID still receive separate capture sources.",
+      "date": "2026-01-18",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Kept same-named window previews distinct",
+      "github": "https://github.com/Ckrest/wayfire-toplevel-capture",
+      "tags": [
+        "C++",
+        "Wayland",
+        "Wayfire",
+        "Image Capture"
+      ],
+      "part_of": "add-wayland-support-to-docklike-plugin-with-window",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "add-wayland-support-to-docklike-plugin-with-window",
+          "folder": "add-wayland-support-to-docklike-plugin-with-window",
+          "title": "Ported Docklike to Wayland with live window previews",
+          "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+          "date": "2026-01-18",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "fix-wlroots-image-capture-buffer-format-constraint",
+      "folder": "fix-wlroots-image-capture-buffer-format-constraint",
+      "title": "Fixed window preview format negotiation",
+      "summary": "Advertised explicit shared-memory and linear DMA-BUF formats so the compositor and capture client could agree on a frame buffer before copying a window preview.",
+      "date": "2026-01-18",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Fixed window preview format negotiation",
+      "github": "https://github.com/Ckrest/wayfire-toplevel-capture",
+      "tags": [
+        "C++",
+        "Wayland",
+        "wlroots",
+        "Image Capture"
+      ],
+      "part_of": "add-wayland-support-to-docklike-plugin-with-window",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "add-wayland-support-to-docklike-plugin-with-window",
+          "folder": "add-wayland-support-to-docklike-plugin-with-window",
+          "title": "Ported Docklike to Wayland with live window previews",
+          "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+          "date": "2026-01-18",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "shutdown-effect",
+      "folder": "shutdown-effect",
+      "title": "Added extensible shutdown animations to Wayfire",
+      "summary": "Built a shared animation protocol and discovery layer so power actions can coordinate a fire transition and plug in other visual effects through the same interface.",
+      "date": "2026-01-18",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/2222screenshot_2026-03-01_14-03-36.png",
+      "previewAlt": "Fire shutdown transition spreading across a Wayland desktop",
+      "previewWidth": 2560,
+      "previewHeight": 1440,
+      "github": "https://github.com/Ckrest/shutdown-effect",
+      "tags": [
+        "Python",
+        "GTK",
+        "Wayland",
+        "Wayfire"
+      ],
+      "related_to": [
+        "wayfire-screen-freeze"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "wayfire-screen-freeze",
+            "folder": "wayfire-screen-freeze",
+            "title": "Added screen freeze controls to Wayfire",
+            "summary": "Built a Wayfire plugin that captures the final compositor frame into a GPU texture and presents it—or solid black—until an IPC unfreeze request.",
+            "date": "2025-12-06",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "migrate-xfce-components-to-native-4-20",
+      "folder": "migrate-xfce-components-to-native-4-20",
+      "title": "Reduced XFCE forks while moving to 4.20",
+      "summary": "Archived an unchanged clipboard-manager copy, rebased three focused panel patches onto XFCE 4.20, and retained the systemd-scope integration that still had no upstream equivalent.",
+      "date": "2026-01-17",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Reduced XFCE forks while moving to 4.20",
+      "tags": [
+        "XFCE",
+        "Wayland",
+        "Systemd",
+        "Migration"
+      ],
+      "related_to": [],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "add-wayland-support-to-docklike-plugin-with-window",
+            "folder": "add-wayland-support-to-docklike-plugin-with-window",
+            "title": "Ported Docklike to Wayland with live window previews",
+            "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+            "date": "2026-01-18",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "work-report",
+      "folder": "work-report",
+      "title": "Built Work Report System to preserve completed work",
+      "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+      "date": "2026-01-17",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/work-report-cli.png",
+      "previewAlt": "Built Work Report System to preserve completed work",
+      "previewWidth": 1400,
+      "previewHeight": 1000,
+      "github": "https://github.com/Ckrest/work-report",
+      "tags": [
+        "Python",
+        "PostgreSQL",
+        "CLI",
+        "Documentation"
+      ],
+      "related_to": [
+        "postgresql-history-database"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "postgresql-history-database",
+            "folder": "postgresql-history-database",
+            "title": "Built a shared history database for system activity",
+            "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+            "date": "2025-11-16",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "site-update-2026-01-16",
+      "folder": "site-update-2026-01-16",
+      "title": "Made the portfolio timeline richer and easier to navigate",
+      "summary": "Timeline entries now adapt to each project’s importance, support animated previews and expandable icon bundles, and preserve filters and selections in shareable URLs.",
+      "date": "2026-01-16",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/timeline-live-state.png",
+      "previewAlt": "Historical Portfolio Site timeline with compact update rows and a full media card",
+      "previewWidth": 1100,
+      "previewHeight": 620,
+      "github": "https://github.com/Ckrest/PortfolioSite",
+      "tags": [
+        "Frontend",
+        "JavaScript"
+      ],
+      "part_of": "portfolio-site",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "portfolio-site",
+          "folder": "portfolio-site",
+          "title": "Built a timeline-based portfolio site",
+          "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+          "date": "2026-01-09",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
       "slug": "extension-dev-connector",
       "folder": "extension-dev-connector",
       "title": "Automated the browser extension reload loop",
@@ -87,6 +446,52 @@
             "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
             "date": "2025-12-22",
             "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "restructure-portfolio-site-with-modular-architectu",
+      "folder": "restructure-portfolio-site-with-modular-architectu",
+      "title": "Rebuilt the portfolio from independent page sections",
+      "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+      "date": "2026-01-15",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/modular-portfolio-homepage.png",
+      "previewAlt": "Rebuilt the portfolio from independent page sections",
+      "previewWidth": 2224,
+      "previewHeight": 1276,
+      "github": "https://github.com/Ckrest/PortfolioSite",
+      "tags": [
+        "JavaScript",
+        "CSS",
+        "Frontend",
+        "Architecture",
+        "Refactoring"
+      ],
+      "supersedes": "portfolio-site",
+      "related_to": [],
+      "relationships": {
+        "supersedes": {
+          "slug": "portfolio-site",
+          "folder": "portfolio-site",
+          "title": "Built a timeline-based portfolio site",
+          "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+          "date": "2026-01-09",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "modular-content-system-for-portfolio-project-pages",
+            "folder": "modular-content-system-for-portfolio-project-pages",
+            "title": "Created a modular content system for portfolio project pages",
+            "summary": "Moved each portfolio project into a self-contained folder with its own metadata, assets, and content configuration, then used one shared renderer to assemble README, PDF, structured, and minimal project pages.",
+            "date": "2026-01-15",
+            "prominence": "high"
           }
         ]
       }
@@ -279,9 +684,35 @@
       ],
       "related_to": [],
       "relationships": {
-        "parts": [],
-        "superseded_by": [],
-        "related": []
+        "parts": [
+          {
+            "slug": "site-update-2026-01-16",
+            "folder": "site-update-2026-01-16",
+            "title": "Made the portfolio timeline richer and easier to navigate",
+            "summary": "Timeline entries now adapt to each project’s importance, support animated previews and expandable icon bundles, and preserve filters and selections in shareable URLs.",
+            "date": "2026-01-16",
+            "prominence": "medium"
+          }
+        ],
+        "superseded_by": [
+          {
+            "slug": "restructure-portfolio-site-with-modular-architectu",
+            "folder": "restructure-portfolio-site-with-modular-architectu",
+            "title": "Rebuilt the portfolio from independent page sections",
+            "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+            "date": "2026-01-15",
+            "prominence": "medium"
+          }
+        ],
+        "related": [],
+        "latest": {
+          "slug": "restructure-portfolio-site-with-modular-architectu",
+          "folder": "restructure-portfolio-site-with-modular-architectu",
+          "title": "Rebuilt the portfolio from independent page sections",
+          "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+          "date": "2026-01-15",
+          "prominence": "medium"
+        }
       }
     },
     {
@@ -304,6 +735,51 @@
         "parts": [],
         "superseded_by": [],
         "related": []
+      }
+    },
+    {
+      "slug": "constellation-registry",
+      "folder": "constellation-registry",
+      "title": "Built a discovery-based registry for a software workspace",
+      "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+      "date": "2026-01-08",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/package-registry-preview.png",
+      "previewAlt": "Diagram showing a package manifest flowing through discovery into a generated package index.",
+      "previewWidth": 1200,
+      "previewHeight": 675,
+      "tags": [
+        "Python",
+        "CLI",
+        "Architecture"
+      ],
+      "related_to": [
+        "postgresql-history-database",
+        "process-manager"
+      ],
+      "relationships": {
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "postgresql-history-database",
+            "folder": "postgresql-history-database",
+            "title": "Built a shared history database for system activity",
+            "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+            "date": "2025-11-16",
+            "prominence": "medium"
+          },
+          {
+            "slug": "process-manager",
+            "folder": "process-manager",
+            "title": "Built a desktop service manager with live logs",
+            "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
+            "date": "2025-10-18",
+            "prominence": "medium"
+          }
+        ]
       }
     },
     {
@@ -348,51 +824,6 @@
             "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
             "date": "2025-12-19",
             "prominence": "low"
-          }
-        ]
-      }
-    },
-    {
-      "slug": "systems-registry",
-      "folder": "systems-registry",
-      "title": "Built a discovery-based registry for a software workspace",
-      "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
-      "date": "2026-01-08",
-      "prominence": "high",
-      "phase": 1,
-      "icon": "icon.svg",
-      "preview": "media/package-registry-preview.png",
-      "previewAlt": "Diagram showing a package manifest flowing through discovery into a generated package index.",
-      "previewWidth": 1200,
-      "previewHeight": 675,
-      "tags": [
-        "Python",
-        "CLI",
-        "Architecture"
-      ],
-      "related_to": [
-        "postgresql-history-database",
-        "process-manager"
-      ],
-      "relationships": {
-        "parts": [],
-        "superseded_by": [],
-        "related": [
-          {
-            "slug": "postgresql-history-database",
-            "folder": "postgresql-history-database",
-            "title": "Built a shared history database for system activity",
-            "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
-            "date": "2025-11-16",
-            "prominence": "medium"
-          },
-          {
-            "slug": "process-manager",
-            "folder": "process-manager",
-            "title": "Built a desktop service manager with live logs",
-            "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
-            "date": "2025-10-18",
-            "prominence": "medium"
           }
         ]
       }
@@ -607,6 +1038,8 @@
       "icon": "icon.svg",
       "preview": "media/modular-flow-engine-overview.svg",
       "previewAlt": "Modular Flow Engine plan validation, execution, results, and optional checkpoint-resume architecture",
+      "previewWidth": 1600,
+      "previewHeight": 900,
       "github": "https://github.com/Ckrest/modular-flow-engine",
       "tags": [
         "Python",
@@ -615,7 +1048,16 @@
       ],
       "related_to": [],
       "relationships": {
-        "parts": [],
+        "parts": [
+          {
+            "slug": "unified-output-destinations-for-modular-flow-engin",
+            "folder": "unified-output-destinations-for-modular-flow-engin",
+            "title": "Made Modular Flow Engine callable over HTTP",
+            "summary": "Added a FastAPI service for inspecting, validating, and executing JSON flows, while sink-owned return, file, and console destinations define how completed results are delivered.",
+            "date": "2026-01-24",
+            "prominence": "low"
+          }
+        ],
         "superseded_by": [],
         "related": [
           {
@@ -714,7 +1156,16 @@
       "relationships": {
         "parts": [],
         "superseded_by": [],
-        "related": []
+        "related": [
+          {
+            "slug": "shutdown-effect",
+            "folder": "shutdown-effect",
+            "title": "Added extensible shutdown animations to Wayfire",
+            "summary": "Built a shared animation protocol and discovery layer so power actions can coordinate a fire transition and plug in other visual effects through the same interface.",
+            "date": "2026-01-18",
+            "prominence": "medium"
+          }
+        ]
       }
     },
     {
@@ -911,8 +1362,16 @@
         "superseded_by": [],
         "related": [
           {
-            "slug": "systems-registry",
-            "folder": "systems-registry",
+            "slug": "work-report",
+            "folder": "work-report",
+            "title": "Built Work Report System to preserve completed work",
+            "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+            "date": "2026-01-17",
+            "prominence": "high"
+          },
+          {
+            "slug": "constellation-registry",
+            "folder": "constellation-registry",
             "title": "Built a discovery-based registry for a software workspace",
             "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
             "date": "2026-01-08",
@@ -962,8 +1421,8 @@
         "superseded_by": [],
         "related": [
           {
-            "slug": "systems-registry",
-            "folder": "systems-registry",
+            "slug": "constellation-registry",
+            "folder": "constellation-registry",
             "title": "Built a discovery-based registry for a software workspace",
             "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
             "date": "2026-01-08",

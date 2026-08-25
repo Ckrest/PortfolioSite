@@ -9,10 +9,10 @@
 import { loadJson } from '../js/data-store.js';
 import { getUpdateAnchorId } from '../js/homepage-location.js';
 import {
-  renderBlocksOnly,
   renderUpdate,
   setUpdateCatalog,
 } from './update-renderer.js';
+import { initializeMediaViewer } from './update-media.js';
 
 const dependencyRequests = new Map();
 
@@ -46,11 +46,14 @@ function loadScript(path, globalName) {
 async function loadRenderDependencies(blocks) {
   const types = collectBlockTypes(blocks);
   const requests = [];
-  if (types.has('text') || types.has('readme')) {
+  if (types.has('text') || types.has('markdown-document')) {
     requests.push(loadScript('./vendor/marked.min.js', 'marked'));
   }
   if (types.has('graph')) {
     requests.push(loadScript('./vendor/chart.js', 'Chart'));
+  }
+  if (types.has('code')) {
+    requests.push(loadScript('./vendor/highlight.min.js', 'hljs'));
   }
   if (types.has('mermaid')) {
     requests.push(loadScript('./vendor/mermaid.min.js', 'mermaid').then(() => {
@@ -74,12 +77,9 @@ async function renderUpdateWithDependencies(update) {
     portfolioLink.href = `../index.html#${encodeURIComponent(getUpdateAnchorId(update.slug))}`;
     portfolioLink.setAttribute('aria-label', `Back to this update in the portfolio: ${update.title}`);
   }
-  return renderUpdate(update);
-}
-
-async function renderBlocksWithDependencies(blocks) {
-  await loadRenderDependencies(blocks);
-  return renderBlocksOnly(blocks);
+  const result = await renderUpdate(update);
+  initializeMediaViewer(document.getElementById('main-content'));
+  return result;
 }
 
 function applyCapabilityBreadcrumb(update) {
@@ -165,17 +165,17 @@ async function loadCatalog() {
 async function loadProjectPayload(folder) {
   const safeFolder = encodeURIComponent(String(folder || ''));
   const payload = await loadJson(`./${safeFolder}/update.json`);
-  if (!payload || payload.schema !== 'portfolio-update@3' || !payload.update) {
-    throw new Error('Update payload must use portfolio-update@3');
+  if (!payload || payload.schema !== 'portfolio-update@5' || !payload.update
+      || payload.asset_manifest?.schema !== 'portfolio-site/asset-manifest@1'
+      || payload.media?.schema !== 'portfolio-site/media-metadata@1') {
+    throw new Error('Update payload must use portfolio-update@5 with current asset and media metadata');
   }
-  return payload.update;
+  return { ...payload.update, media: payload.media };
 }
 
 // Stable editor API. It is installed before the catalog request completes so
 // an editor rerender can recover even when the requested update is unsaved.
-window.__currentUpdate = null;
 window.__renderUpdatePreview = renderUpdateWithDependencies;
-window.__renderBlocksOnly = renderBlocksWithDependencies;
 window.__setUpdateCatalog = setUpdateCatalog;
 window.__portfolioRenderReady = true;
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="7.0.0"
+VERSION="9.0.0"
 SITE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)"
-SYSTEMS_ROOT="${SYSTEMS_ROOT:-}"
-if [[ -z "$SYSTEMS_ROOT" ]]; then
-  SYSTEMS_ROOT="$(cd "$SITE_ROOT/../../.." && pwd)"
+CONSTELLATION_ROOT="${CONSTELLATION_ROOT:-}"
+if [[ -z "$CONSTELLATION_ROOT" ]]; then
+  CONSTELLATION_ROOT="$(cd "$SITE_ROOT/../../.." && pwd)"
 fi
-SYSTEMS_CORE="$SYSTEMS_ROOT/infra/systems/worktree"
+CONSTELLATION_CORE="$CONSTELLATION_ROOT/infra/constellation/worktree"
 STATE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site"
 ACTIVE_ROOT="$STATE_ROOT/active"
 REQUEST_PATH="$STATE_ROOT/realization-request.json"
@@ -47,12 +47,12 @@ temporary_file() {
   printf -v "$variable" '%s' "$path"
 }
 
-systems_command() {
-  if [[ ! -d "$SYSTEMS_CORE/src/systems" ]]; then
-    echo "Systems core is unavailable; set SYSTEMS_ROOT to the Systems checkout." >&2
+constellation_command() {
+  if [[ ! -d "$CONSTELLATION_CORE/src/constellation" ]]; then
+    echo "Constellation core is unavailable; set CONSTELLATION_ROOT to the Constellation checkout." >&2
     return 1
   fi
-  PYTHONPATH="$SYSTEMS_CORE/src" python3 -m systems --root "$SYSTEMS_ROOT" "$@"
+  PYTHONPATH="$CONSTELLATION_CORE/src" python3 -m constellation --root "$CONSTELLATION_ROOT" "$@"
 }
 
 editor_available() {
@@ -103,9 +103,9 @@ service_is_healthy() {
 
 ensure_local_service() {
   if systemctl --user is-active --quiet portfolio-site-local.service; then
-    systems_command service portfolio-site restart >/dev/null
+    constellation_command service portfolio-site restart >/dev/null
   else
-    systems_command service portfolio-site start >/dev/null
+    constellation_command service portfolio-site start >/dev/null
   fi
   for _attempt in {1..50}; do
     service_is_healthy && return 0
@@ -191,9 +191,9 @@ refresh_locked() {
 
     if active_matches_request "$verification"; then
       :
-    elif ! systems_command install portfolio-site --full >"$install_output" 2>&1; then
-      diagnostics="$(jq -cRs '{message:"Systems could not install the accepted reviewed pool",systems_output:(.[-12000:])}' <"$install_output")"
-      complete_attempt "$revision" "$attempt_id" "" "systems-install" "$diagnostics" || true
+    elif ! constellation_command install portfolio-site --full >"$install_output" 2>&1; then
+      diagnostics="$(jq -cRs '{message:"Constellation could not install the accepted reviewed pool",constellation_output:(.[-12000:])}' <"$install_output")"
+      complete_attempt "$revision" "$attempt_id" "" "constellation-install" "$diagnostics" || true
       cat "$install_output" >&2
       return 1
     elif ! active_matches_request "$verification"; then
@@ -258,10 +258,10 @@ case "${1:-open}" in
   open) open_site ;;
   refresh) refresh ;;
   dispatch) dispatch ;;
-  start) systems_command service portfolio-site start ;;
-  stop) systems_command service portfolio-site stop ;;
-  restart) systems_command service portfolio-site restart ;;
-  status) systems_command service portfolio-site observe ;;
+  start) constellation_command service portfolio-site start ;;
+  stop) constellation_command service portfolio-site stop ;;
+  restart) constellation_command service portfolio-site restart ;;
+  status) constellation_command service portfolio-site observe ;;
   logs) journalctl --user -u portfolio-site-local -n "${2:-30}" --no-pager ;;
   --version) printf 'portfolio-site %s\n' "$VERSION" ;;
   --help|-h) echo "Usage: portfolio-site {open|refresh|dispatch|start|stop|restart|status|logs}" ;;

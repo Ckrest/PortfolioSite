@@ -47,7 +47,7 @@ test('capability evidence can use timeline entries without losing its return con
     date: '2026-08-14',
     prominence: 'medium',
     preview: 'preview.png',
-    tags: ['Systems'],
+    tags: ['Constellation'],
   }, {
     variant: 'timeline',
     headingLevel: 3,
@@ -82,7 +82,7 @@ test('capability cards carry enough context to set expectations before navigatio
 test('generated public contracts use capability terminology throughout', async () => {
   const build = await readFile(new URL('../updates/_build.js', import.meta.url), 'utf8');
   assert.match(build, /portfolio-capability-manifest@3/);
-  assert.match(build, /portfolio-capability@3/);
+  assert.match(build, /portfolio-capability@4/);
   assert.doesNotMatch(build, /outcome-manifest|portfolio-outcome/);
 });
 

@@ -1,5 +1,5 @@
 {
-  "schema": "portfolio-update@3",
+  "schema": "portfolio-update@5",
   "update": {
     "kind": "update",
     "slug": "soundboard",
@@ -28,6 +28,7 @@
           "alt": "Soundboard window showing a searchable grid of image-backed sound cards",
           "caption": "Search, tabs, output status, and Stop All keep the desktop library easy to navigate and control.",
           "id": "blk_soundboard_preview",
+          "presentation": "intrinsic",
           "src": "preview.png",
           "type": "image"
         },
@@ -40,6 +41,9 @@
           "caption": "Voice-chat routing extends the desktop soundboard without changing how the local library is used.",
           "code": "flowchart LR\n  Card[Play a sound] --> Speakers[Desktop speakers]\n  Card -. Optional route .-> Mic[Virtual microphone]\n  Mic --> Chat[Voice chat]",
           "id": "blk_soundboard_audio",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Voice-chat routing extends the desktop soundboard without changing how the local library is used.",
           "type": "mermaid"
         }
       ]
@@ -54,5 +58,27 @@
       "superseded_by": [],
       "related": []
     }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 2,
+        "height": 24
+      },
+      "preview.png": {
+        "media_type": "image/png",
+        "width": 598,
+        "height": 698
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "preview.png"
+    ]
   }
 }

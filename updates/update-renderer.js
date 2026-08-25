@@ -39,13 +39,33 @@ function evidenceCaption(block) {
   return `<figcaption>${caption ? `<span class="evidence-caption">${html(caption)}</span>` : ''}${qualifier ? `<span class="evidence-qualifier">${html(qualifier)}</span>` : ''}</figcaption>`;
 }
 
+function mediaMetadata(src, update) {
+  const path = normalizeUpdatePath(String(src || ''));
+  const item = path ? update?.media?.items?.[path] : null;
+  if (item && Number.isInteger(item.width) && Number.isInteger(item.height)) return item;
+  if (path && path === normalizeUpdatePath(update?.preview)
+      && Number.isInteger(update?.previewWidth) && Number.isInteger(update?.previewHeight)) {
+    return { width: update.previewWidth, height: update.previewHeight };
+  }
+  return null;
+}
+
+function mediaTrigger(item, update, { caption = '', qualifier = '', className = '' } = {}) {
+  const src = resolveUpdateAsset(item?.src, update);
+  const metadata = mediaMetadata(item?.src, update);
+  const width = metadata?.width || 1;
+  const height = metadata?.height || 1;
+  const dimensions = metadata ? ` width="${width}" height="${height}"` : '';
+  const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${width}px"` : '';
+  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-alt="${html(item?.alt)}" data-pswp-caption="${html(caption)}" data-pswp-qualifier="${html(qualifier)}"><img src="${html(src)}" alt="${html(item?.alt)}"${dimensions} loading="lazy" decoding="async"><span class="media-view-affordance">View larger</span></a>`;
+}
+
 function renderText(block) {
   return `<div class="markdown-content">${renderMarkdown(block.body)}</div>`;
 }
 
 function renderImage(block, update) {
-  const src = resolveUpdateAsset(block.src, update);
-  return `<figure><img src="${html(src)}" alt="${html(block.alt)}" loading="lazy" decoding="async">${evidenceCaption(block)}</figure>`;
+  return `<figure class="media-gallery">${mediaTrigger(block, update, block)}${evidenceCaption(block)}</figure>`;
 }
 
 function parseYouTubeStart(value) {
@@ -57,17 +77,26 @@ function parseYouTubeStart(value) {
   return seconds > 0 ? String(seconds) : '';
 }
 
-function normalizeVideoSource(value, update) {
+function normalizeVideoSource(block, update) {
+  const mode = getBlockSourceMode(block);
+  const value = block.src;
   const source = String(value || '').trim();
-  const remote = safeExternalUrl(source);
-  if (!remote) return { kind: 'video', url: resolveUpdateAsset(source, update) };
+  if (mode === 'local') return { kind: 'video', url: resolveUpdateAsset(source, update) };
 
-  const parsed = new URL(remote, document.baseURI);
+  const remote = safeExternalUrl(source);
+  const parsed = remote ? new URL(remote, document.baseURI) : null;
+  if (mode === 'youtube' && /^[a-zA-Z0-9_-]{6,}$/.test(source)) {
+    return { kind: 'embed', url: `https://www.youtube-nocookie.com/embed/${source}` };
+  }
+  if (mode === 'vimeo' && /^\d+$/.test(source)) {
+    return { kind: 'embed', url: `https://player.vimeo.com/video/${source}` };
+  }
+  if (!parsed) return null;
   const hostname = parsed.hostname.toLowerCase().replace(/^www\./, '');
   let videoId = '';
-  if (hostname === 'youtu.be') {
+  if (mode === 'youtube' && hostname === 'youtu.be') {
     videoId = parsed.pathname.split('/').filter(Boolean)[0] || '';
-  } else if (['youtube.com', 'm.youtube.com', 'youtube-nocookie.com'].includes(hostname)) {
+  } else if (mode === 'youtube' && ['youtube.com', 'm.youtube.com', 'youtube-nocookie.com'].includes(hostname)) {
     if (parsed.pathname === '/watch') videoId = parsed.searchParams.get('v') || '';
     if (/^\/(?:embed|shorts)\//.test(parsed.pathname)) {
       videoId = parsed.pathname.split('/').filter(Boolean)[1] || '';
@@ -79,71 +108,90 @@ function normalizeVideoSource(value, update) {
     return { kind: 'embed', url: `https://www.youtube-nocookie.com/embed/${videoId}${query}` };
   }
 
-  if (hostname === 'vimeo.com' || hostname === 'player.vimeo.com') {
+  if (mode === 'vimeo' && (hostname === 'vimeo.com' || hostname === 'player.vimeo.com')) {
     const segments = parsed.pathname.split('/').filter(Boolean);
     const vimeoId = [...segments].reverse().find((segment) => /^\d+$/.test(segment));
     if (vimeoId) return { kind: 'embed', url: `https://player.vimeo.com/video/${vimeoId}` };
   }
 
-  const directMedia = /\.(?:mp4|m4v|webm|ogv|ogg|mov)$/i.test(parsed.pathname);
-  return { kind: directMedia ? 'video' : 'embed', url: remote };
+  return null;
 }
 
 function renderVideo(block, update) {
-  const source = normalizeVideoSource(block.embed, update);
+  const source = normalizeVideoSource(block, update);
+  if (!source) return '<p class="render-warning">The video source is invalid for its selected provider.</p>';
   if (source.kind === 'embed') {
-    return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.caption || 'Update video')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceCaption(block)}</figure>`;
+    return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.title)}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceCaption(block)}</figure>`;
   }
-  return `<figure><video controls preload="metadata" src="${html(source.url)}"></video>${evidenceCaption(block)}</figure>`;
+  return `<figure><video controls preload="metadata" src="${html(source.url)}" aria-label="${html(block.title)}"></video>${evidenceCaption(block)}</figure>`;
 }
 
 function renderGallery(block, update) {
   const images = Array.isArray(block.images) ? block.images : [];
   const columns = images.length <= 2 ? Math.max(images.length, 1) : images.length <= 4 ? 2 : 3;
-  const items = images.map((item) => `<div class="gallery-item"><img src="${html(resolveUpdateAsset(item?.src, update))}" alt="${html(item?.alt)}" loading="lazy" decoding="async"></div>`).join('');
-  return `<figure class="gallery-figure"><div class="gallery-grid gallery-cols-${columns}">${items}</div>${evidenceCaption(block)}</figure>`;
+  const items = images.map((item) => mediaTrigger(item, update, {
+    caption: item?.caption || block.caption || '',
+    qualifier: block.evidenceQualifier || '',
+    className: 'gallery-item',
+  })).join('');
+  return `<figure class="gallery-figure media-gallery" data-gallery-fit="${html(block.fit)}"><div class="gallery-grid gallery-cols-${columns}">${items}</div>${evidenceCaption(block)}</figure>`;
 }
 
-function renderReadme() {
-  return '<p class="render-pending">Loading README…</p>';
+function renderMarkdownDocument(block, update) {
+  const path = normalizeUpdatePath(String(block.path || ''));
+  const href = path ? resolveUpdateAsset(path, update) : '';
+  return `<div class="markdown-document-actions"><a class="button" href="${html(href)}" target="_blank" rel="noopener noreferrer">Open Markdown source →</a></div><p class="render-pending">Loading Markdown document…</p>`;
 }
 
-async function hydrateReadme(element, block, update) {
-  const rawPath = String(block.path || 'README.md').trim();
+async function hydrateMarkdownDocument(element, block, update) {
+  const rawPath = String(block.path || '').trim();
   const isTransient = /^(?:blob:|data:)/i.test(rawPath);
   const path = isTransient ? rawPath : normalizeUpdatePath(rawPath);
   if (!path) {
-    element.innerHTML = '<p class="render-warning">README path must be update-relative.</p>';
+    element.innerHTML = '<p class="render-warning">Markdown document path must be update-relative.</p>';
     return;
   }
   try {
-    let source;
-    if (window.__portfolioBridge && !isTransient) {
-      const slug = encodeURIComponent(update.slug || update.folder);
-      const assetPath = path.split('/').map(encodeURIComponent).join('/');
-      const response = await fetch(`/api/v1/updates/${slug}/asset/${assetPath}`);
-      if (!response.ok) throw new Error(`File request failed (${response.status})`);
-      source = await response.text();
-    } else {
-      source = await fetchUpdateText(path, update);
-    }
-    element.innerHTML = `<div class="markdown-content">${rewriteMarkdownAssetUrls(renderMarkdown(source), path, update)}</div>`;
+    const source = await fetchUpdateText(path, update);
+    const actions = element.querySelector('.markdown-document-actions')?.outerHTML || '';
+    element.innerHTML = `${actions}<div class="markdown-content">${rewriteMarkdownAssetUrls(renderMarkdown(source), path, update)}</div>`;
   } catch (error) {
-    element.innerHTML = `<p class="render-warning">README unavailable: ${html(error.message)}</p>`;
+    element.innerHTML = `<p class="render-warning">Markdown document unavailable: ${html(error.message)}</p>`;
   }
 }
 
 function renderPdf(block, update) {
   const src = resolveUpdateAsset(block.src, update);
-  return `<figure><object data="${html(src)}" type="application/pdf" class="pdf-embed" aria-label="${html(block.caption || 'Embedded PDF document')}"><div class="pdf-fallback"><p>This browser cannot embed the PDF.</p><a href="${html(src)}" class="button" target="_blank" rel="noopener noreferrer">Download PDF →</a></div></object>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="pdf-actions"><strong>${html(block.title)}</strong><span><a href="${html(src)}" class="button" target="_blank" rel="noopener noreferrer">Open PDF →</a><a href="${html(src)}" class="button" download>Download PDF</a></span></div><object data="${html(src)}" type="application/pdf" class="pdf-embed" aria-label="${html(block.title)}"><p class="pdf-embed-message">This browser cannot embed the PDF. Use the Open or Download action above.</p></object>${evidenceCaption(block)}</figure>`;
 }
 
 function renderCode(block) {
   const attached = getBlockSourceMode(block) === 'attached';
   const title = block.filename || block.language || (attached ? block.src : '') || '';
-  const header = title ? `<div class="code-block-header"><span class="code-block-title">${html(title)}</span>${block.filename && block.language ? `<span class="code-block-lang">${html(block.language)}</span>` : ''}<button class="code-copy-btn" type="button">Copy</button></div>` : '';
   const pending = attached ? '// Loading source file…' : (block.code || '');
-  return `<figure>${header}<pre class="code-block-pre"><code>${html(pending)}</code></pre>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="code-block-header"><span class="code-block-title">${html(title)}</span>${block.filename && block.language ? `<span class="code-block-lang">${html(block.language)}</span>` : ''}<span class="source-actions"><button class="source-wrap-btn" type="button" aria-pressed="false">Wrap</button><button class="code-copy-btn" type="button">Copy</button></span></div><pre class="code-block-pre"><code class="language-${html(block.language)}">${html(pending)}</code></pre>${evidenceCaption(block)}</figure>`;
+}
+
+async function copySource(button, text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = 'Copied';
+    setTimeout(() => { button.textContent = 'Copy'; }, 1200);
+  } catch {
+    button.textContent = 'Unavailable';
+  }
+}
+
+function enhanceSourceControls(element, preSelector, copySelector) {
+  const pre = element.querySelector(preSelector);
+  element.querySelector('.source-wrap-btn')?.addEventListener('click', (event) => {
+    const pressed = event.currentTarget.getAttribute('aria-pressed') !== 'true';
+    event.currentTarget.setAttribute('aria-pressed', String(pressed));
+    pre?.classList.toggle('is-wrapped', pressed);
+  });
+  element.querySelector(copySelector)?.addEventListener('click', (event) => {
+    void copySource(event.currentTarget, pre?.textContent || '');
+  });
 }
 
 async function hydrateCode(element, block, update) {
@@ -155,16 +203,9 @@ async function hydrateCode(element, block, update) {
       code.textContent = `Unable to load source: ${error.message}`;
     }
   }
-  element.querySelector('.code-copy-btn')?.addEventListener('click', async (event) => {
-    const button = event.currentTarget;
-    try {
-      await navigator.clipboard.writeText(element.querySelector('code')?.textContent || '');
-      button.textContent = 'Copied';
-      setTimeout(() => { button.textContent = 'Copy'; }, 1200);
-    } catch {
-      button.textContent = 'Unavailable';
-    }
-  });
+  const code = element.querySelector('code');
+  if (code && window.hljs) window.hljs.highlightElement(code);
+  enhanceSourceControls(element, '.code-block-pre', '.code-copy-btn');
 }
 
 function renderTerminal(block) {
@@ -174,27 +215,36 @@ function renderTerminal(block) {
     return `<span class="terminal-prompt">${html(command?.prompt || '$ ')}</span><span class="terminal-command">${html(command?.command)}</span>${output}`;
   }).join('\n');
   const pending = attached ? '# Loading terminal transcript…' : commands;
-  return `<figure><div class="terminal-window"><div class="terminal-titlebar" aria-hidden="true"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div><pre class="terminal-body"><code>${pending}</code></pre></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="terminal-window" role="region" aria-label="${html(block.label)}"><div class="terminal-titlebar"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></span><span class="source-actions"><button class="source-wrap-btn" type="button" aria-pressed="false">Wrap</button><button class="terminal-copy-btn" type="button">Copy</button></span></div><pre class="terminal-body"><code>${pending}</code></pre></div>${evidenceCaption(block)}</figure>`;
 }
 
 async function hydrateTerminal(element, block, update) {
-  if (getBlockSourceMode(block) !== 'attached') return;
-  try {
-    element.querySelector('code').textContent = await fetchUpdateText(block.src, update);
-  } catch (error) {
-    element.querySelector('code').textContent = `Unable to load transcript: ${error.message}`;
+  if (getBlockSourceMode(block) === 'attached') {
+    try {
+      element.querySelector('code').textContent = await fetchUpdateText(block.src, update);
+    } catch (error) {
+      element.querySelector('code').textContent = `Unable to load transcript: ${error.message}`;
+    }
   }
+  enhanceSourceControls(element, '.terminal-body', '.terminal-copy-btn');
 }
 
 function renderComparison(block, update) {
-  const beforeLabel = block.before?.label || 'Before';
-  const afterLabel = block.after?.label || 'After';
-  const side = (value, label) => value?.src ? `<div class="comparison-side"><div class="comparison-label">${html(label)}</div><img src="${html(resolveUpdateAsset(value.src, update))}" alt="${html(label)}" loading="lazy" decoding="async"></div>` : '';
-  return `<figure><div class="comparison-container">${side(block.before, beforeLabel)}${side(block.after, afterLabel)}</div>${evidenceCaption(block)}</figure>`;
+  const side = (value) => value?.src ? `<div class="comparison-side"><div class="comparison-label">${html(value.label)}</div>${mediaTrigger(value, update, { caption: value.label, qualifier: block.evidenceQualifier || '' })}</div>` : '';
+  return `<figure class="media-gallery"><div class="comparison-container">${side(block.before)}${side(block.after)}</div>${evidenceCaption(block)}</figure>`;
+}
+
+function graphTable(payload) {
+  const labels = Array.isArray(payload.labels) ? payload.labels : [];
+  const datasets = Array.isArray(payload.datasets) ? payload.datasets : [];
+  const head = datasets.map((set) => `<th scope="col">${html(set.label)}</th>`).join('');
+  const rows = labels.map((label, index) => `<tr><th scope="row">${html(label)}</th>${datasets.map((set) => `<td>${html(set.data?.[index] ?? '')}</td>`).join('')}</tr>`).join('');
+  return `<div class="graph-data"><table><caption>${html(payload.summary)}</caption><thead><tr><th scope="col">Label</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function renderGraph(block, _project, context) {
-  return `<figure><div class="graph-container"><canvas id="graph-${html(context.path.replaceAll('.', '-'))}"></canvas></div>${evidenceCaption(block)}</figure>`;
+  const table = getBlockSourceMode(block) === 'inline' ? graphTable(block) : '<div class="graph-data"><p>Loading chart data…</p></div>';
+  return `<figure><p class="sr-only">${html(block.summary)}</p><div class="graph-container"><canvas id="graph-${html(context.path.replaceAll('.', '-'))}" aria-hidden="true"></canvas></div>${table}${evidenceCaption(block)}</figure>`;
 }
 
 function parseGraph(text, path) {
@@ -211,7 +261,7 @@ function parseGraph(text, path) {
 }
 
 async function hydrateGraph(element, block, update) {
-  if (typeof Chart === 'undefined') {
+  if (typeof window.Chart === 'undefined') {
     element.innerHTML = '<p class="render-warning">Graph renderer is unavailable.</p>';
     return;
   }
@@ -219,8 +269,9 @@ async function hydrateGraph(element, block, update) {
     const payload = getBlockSourceMode(block) === 'attached'
       ? parseGraph(await fetchUpdateText(block.src, update), block.src)
       : block;
+    payload.summary = block.summary;
     const colors = ['#ff8662', '#f4ba72', '#7fb7a3', '#b89bd9', '#7fa8d8'];
-    new Chart(element.querySelector('canvas').getContext('2d'), {
+    new window.Chart(element.querySelector('canvas').getContext('2d'), {
       type: payload.chartType || 'bar',
       data: {
         labels: Array.isArray(payload.labels) ? payload.labels : [],
@@ -231,8 +282,9 @@ async function hydrateGraph(element, block, update) {
           borderWidth: set.borderWidth || 2,
         })),
       },
-      options: { responsive: true, maintainAspectRatio: true, ...(block.options || {}) },
+      options: { responsive: true, maintainAspectRatio: true },
     });
+    element.querySelector('.graph-data')?.replaceWith(document.createRange().createContextualFragment(graphTable(payload)));
   } catch (error) {
     element.innerHTML = `<p class="render-warning">Graph unavailable: ${html(error.message)}</p>`;
   }
@@ -242,7 +294,7 @@ function renderMermaid(block) {
   const source = getBlockSourceMode(block) === 'attached'
     ? 'graph TD\n  Loading --> Source'
     : (block.code || '');
-  return `<figure><pre class="mermaid-code">${html(source)}</pre><div class="mermaid-diagram"></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><p class="sr-only">${html(block.summary)}</p><div class="diagram-toolbar" aria-label="Diagram controls"><button type="button" data-diagram-action="out">−</button><button type="button" data-diagram-action="reset">Reset</button><button type="button" data-diagram-action="in">+</button><button type="button" data-diagram-action="source" aria-pressed="false">Source</button></div><pre class="mermaid-code" hidden>${html(source)}</pre><div class="mermaid-viewport" tabindex="0" aria-label="Scrollable diagram: ${html(block.summary)}"><div class="mermaid-diagram"></div></div>${evidenceCaption(block)}</figure>`;
 }
 
 async function hydrateMermaid(element, block, update) {
@@ -260,6 +312,26 @@ async function hydrateMermaid(element, block, update) {
     const target = element.querySelector('.mermaid-diagram');
     target.innerHTML = svg;
     target.classList.add('mermaid-rendered');
+    let scale = 1;
+    const updateScale = () => {
+      target.style.setProperty('--diagram-scale', String(scale));
+      element.querySelector('[data-diagram-action="reset"]').textContent = `${Math.round(scale * 100)}%`;
+    };
+    element.querySelector('.diagram-toolbar')?.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-diagram-action]');
+      if (!button) return;
+      const action = button.dataset.diagramAction;
+      if (action === 'in') scale = Math.min(3, scale + 0.25);
+      if (action === 'out') scale = Math.max(0.5, scale - 0.25);
+      if (action === 'reset') scale = 1;
+      if (action === 'source') {
+        const sourceElement = element.querySelector('.mermaid-code');
+        sourceElement.hidden = !sourceElement.hidden;
+        button.setAttribute('aria-pressed', String(!sourceElement.hidden));
+      }
+      updateScale();
+    });
+    updateScale();
   } catch (error) {
     element.querySelector('.mermaid-diagram').innerHTML = `<p class="render-warning">Diagram unavailable: ${html(error.message)}</p>`;
   }
@@ -270,8 +342,8 @@ function renderUpdateReference(block, update, variant) {
   if (!target) return window.__portfolioBridge ? `<div class="related-update-${variant} related-update-invalid">Unknown update: ${html(block.slug || '(missing)')}</div>` : '';
   const folder = encodeURIComponent(target.folder || target.slug);
   const href = `${folder}/detail.html`;
-  if (variant === 'mini') return `<a class="related-update-mini" href="${href}">${html(target.title)}</a>`;
-  return `<a class="reference-update-card" href="${href}"><h3>${html(target.title)}</h3><p>${html(target.summary)}</p></a>`;
+  if (variant === 'mini') return `<a class="related-update-mini" href="${href}"><span>${html(block.label || target.title)}</span><span aria-hidden="true">→</span></a>`;
+  return `<a class="reference-update-card" href="${href}"><span class="reference-update-eyebrow">Related update${target.date ? ` · ${html(formatUpdateDate(target.date))}` : ''}</span><h3>${html(target.title)}</h3><p>${html(target.summary)}</p><span class="reference-update-link">Read update <span aria-hidden="true">→</span></span></a>`;
 }
 
 const RENDERERS = {
@@ -279,7 +351,7 @@ const RENDERERS = {
   image: { render: renderImage },
   video: { render: renderVideo },
   gallery: { render: renderGallery },
-  readme: { render: renderReadme, hydrate: hydrateReadme },
+  'markdown-document': { render: renderMarkdownDocument, hydrate: hydrateMarkdownDocument },
   pdf: { render: renderPdf },
   code: { render: renderCode, hydrate: hydrateCode },
   mermaid: { render: renderMermaid, hydrate: hydrateMermaid },
@@ -296,7 +368,7 @@ if (missingRenderers.length) console.error(`Missing update renderers: ${missingR
 function placeholder(block) {
   const labels = {
     text: ['¶', 'Text'], image: ['🖼', 'Image'], video: ['▶', 'Video'], gallery: ['⊞', 'Gallery'],
-    readme: ['📄', 'README'], pdf: ['📋', 'PDF'], group: ['☰', 'Group'], code: ['💻', 'Code'],
+    'markdown-document': ['📄', 'Markdown document'], pdf: ['📋', 'PDF'], group: ['☰', 'Group'], code: ['💻', 'Code'],
     mermaid: ['🧩', 'Mermaid'], terminal: ['＞', 'Terminal'], comparison: ['⇔', 'Compare'],
     graph: ['📊', 'Graph'], 'related-mini': ['↗', 'Related'],
     'reference-card': ['↗', 'Reference'],
@@ -315,6 +387,8 @@ function blockAttributes(block, context) {
     block.id ? `data-block-id="${html(block.id)}"` : '',
     context.parentId ? `data-parent-block-id="${html(context.parentId)}"` : '',
     context.childIndex != null ? `data-group-child-index="${context.childIndex}"` : '',
+    block.presentation ? `data-presentation="${html(block.presentation)}"` : '',
+    block.layout ? `data-group-layout="${html(block.layout)}"` : '',
   ];
   return values.filter(Boolean).join(' ');
 }
@@ -326,8 +400,8 @@ function renderBlock(block, update, context) {
   const complete = hasRequiredRenderData(block, block.type);
   if (!complete && !window.__portfolioBridge) {
     const missing = getMissingRenderFields(block, block.type);
-    console.warn(`[detail] Skipped ${block.type} at ${context.path}; missing ${missing.join(', ')}`);
-    return '';
+    console.error(`[detail] Invalid ${block.type} at ${context.path}; missing ${missing.join(', ')}`);
+    return `<${tag} class="block-${html(block.type)} block-render-error" ${attributes}><p class="render-warning">This block is invalid and could not be rendered.</p></${tag}>`;
   }
   if (block.type === 'group') {
     const children = (Array.isArray(block.blocks) ? block.blocks : []).map((child, childIndex) => renderBlock(child, update, {
@@ -339,7 +413,11 @@ function renderBlock(block, update, context) {
     return `<section class="block-group" ${attributes}>${children || (window.__portfolioBridge ? placeholder(block) : '')}</section>`;
   }
   const renderer = RENDERERS[block.type];
-  const content = complete && renderer ? renderer.render(block, update, context) : placeholder(block);
+  const content = complete && renderer
+    ? renderer.render(block, update, context)
+    : window.__portfolioBridge
+      ? placeholder(block)
+      : '<p class="render-warning">This block has no current renderer.</p>';
   return `<${tag} class="block-${html(block.type)}" ${attributes}>${content}</${tag}>`;
 }
 
@@ -359,10 +437,16 @@ async function hydrateBlocks(root, blocks, update, parentPath = '') {
 function renderPreview(update) {
   if (update.prominence === 'low') return '';
   const placeholderSource = generatePlaceholderDataUri(update.title);
-  const source = resolveUpdateAsset(update.preview, update) || placeholderSource;
   const width = Number.isInteger(update.previewWidth) ? update.previewWidth : 640;
   const height = Number.isInteger(update.previewHeight) ? update.previewHeight : 360;
-  return `<section class="update-preview"><figure><img src="${html(source)}" alt="${html(update.previewAlt || update.title)}" width="${width}" height="${height}" loading="eager" decoding="async" fetchpriority="high" data-placeholder="${html(placeholderSource)}"></figure></section>`;
+  if (update.preview) {
+    const trigger = mediaTrigger({ src: update.preview, alt: update.previewAlt || update.title }, update, {
+      caption: update.previewAlt || update.title,
+      className: 'update-preview-trigger',
+    }).replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
+    return `<section class="update-preview"><figure class="media-gallery">${trigger}</figure></section>`;
+  }
+  return `<section class="update-preview"><figure><img src="${html(placeholderSource)}" alt="" width="${width}" height="${height}" loading="eager" decoding="async" fetchpriority="high"></figure></section>`;
 }
 
 function renderHeaderExtras(update) {
@@ -463,30 +547,6 @@ function renderCapabilityList(update) {
   return `<section class="update-capabilities" aria-labelledby="update-capabilities-title"><div class="update-capabilities-heading"><h2 id="update-capabilities-title">Capabilities demonstrated</h2></div><div class="update-capabilities-grid">${cards}</div></section>`;
 }
 
-const BLOCK_CONTEXT_ATTRIBUTES = [
-  'data-block-path',
-  'data-block-type',
-  'data-block-index',
-  'data-block-id',
-  'data-parent-block-id',
-  'data-group-child-index',
-];
-
-function syncBlockContext(element, replacement) {
-  const existingNodes = [element, ...element.querySelectorAll('[data-block-path]')];
-  const replacementNodes = [replacement, ...replacement.querySelectorAll('[data-block-path]')];
-  if (existingNodes.length !== replacementNodes.length) return false;
-
-  existingNodes.forEach((node, index) => {
-    const source = replacementNodes[index];
-    for (const attribute of BLOCK_CONTEXT_ATTRIBUTES) {
-      if (source.hasAttribute(attribute)) node.setAttribute(attribute, source.getAttribute(attribute));
-      else node.removeAttribute(attribute);
-    }
-  });
-  return true;
-}
-
 function formatUpdateDate(value) {
   if (!value) return '';
   const date = new Date(`${value}T00:00:00`);
@@ -508,7 +568,6 @@ function updateMetadata(update) {
 
 export async function renderUpdate(update) {
   updateMetadata(update);
-  window.__currentUpdate = update;
   const blocks = Array.isArray(update.content?.blocks) ? update.content.blocks : [];
   const editor = Boolean(window.__portfolioBridge);
   const content = blocks.map((block, index) => renderBlock(block, update, { path: String(index), topIndex: index, childIndex: null, parentId: null })).join('');
@@ -526,78 +585,4 @@ export async function renderUpdate(update) {
     }
   });
   document.dispatchEvent(new CustomEvent('portfolio:rendered', { detail: { update, editor } }));
-}
-
-export async function renderBlocksOnly(blocks) {
-  if (!window.__currentUpdate) return { success: false, reason: 'no-current-update' };
-  window.__currentUpdate.content = { ...(window.__currentUpdate.content || {}), blocks };
-  const update = window.__currentUpdate;
-  const main = document.getElementById('main-content');
-  if (!main) return { success: false, reason: 'missing-main' };
-
-  const overview = main.querySelector(':scope > .update-overview-region');
-  if (!overview) return { success: false, reason: 'missing-overview' };
-  const trailingNavigation = main.querySelector(':scope > .update-capabilities, :scope > .update-history, :scope > .update-relationships');
-
-  const current = new Map();
-  main.querySelectorAll(':scope > [data-block-index]').forEach((element) => {
-    const key = element.dataset.blockId
-      ? `id:${element.dataset.blockId}`
-      : `path:${element.dataset.blockPath}`;
-    current.set(key, element);
-  });
-
-  const retained = new Set();
-  const hydrate = [];
-  for (let index = 0; index < blocks.length; index += 1) {
-    const block = blocks[index];
-    const markup = renderBlock(block, update, {
-      path: String(index),
-      topIndex: index,
-      childIndex: null,
-      parentId: null,
-    });
-    if (!markup) continue;
-
-    const template = document.createElement('template');
-    template.innerHTML = markup;
-    const replacement = template.content.firstElementChild;
-    const key = block?.id ? `id:${block.id}` : `path:${index}`;
-    const existing = current.get(key);
-    const signature = JSON.stringify(block);
-    let element = replacement;
-
-    if (existing && existing.__portfolioBlockSignature === signature) {
-      if (syncBlockContext(existing, replacement)) {
-        element = existing;
-        retained.add(existing);
-      } else {
-        element.__portfolioBlockSignature = signature;
-        hydrate.push({ element, block, path: String(index) });
-      }
-    } else {
-      element.__portfolioBlockSignature = signature;
-      hydrate.push({ element, block, path: String(index) });
-    }
-    if (trailingNavigation) main.insertBefore(element, trailingNavigation);
-    else main.append(element);
-  }
-
-  current.forEach((element) => {
-    if (!retained.has(element) && element.isConnected) element.remove();
-  });
-  for (const item of hydrate) {
-    await RENDERERS[item.block.type]?.hydrate?.(item.element, item.block, update, { path: item.path });
-    if (item.block.type === 'group' && Array.isArray(item.block.blocks)) {
-      await hydrateBlocks(item.element, item.block.blocks, update, item.path);
-    }
-  }
-  main.querySelectorAll(':scope > [data-block-index]').forEach((element) => {
-    const index = Number.parseInt(element.dataset.blockIndex, 10);
-    if (Number.isInteger(index) && blocks[index]) {
-      element.__portfolioBlockSignature = JSON.stringify(blocks[index]);
-    }
-  });
-  document.dispatchEvent(new CustomEvent('portfolio:rendered', { detail: { update, editor: true, blocksOnly: true } }));
-  return { success: true };
 }
