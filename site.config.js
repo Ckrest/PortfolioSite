@@ -58,9 +58,9 @@ export default {
     // List of update slugs to feature (in display order)
     // Leave empty or comment out items to show "coming soon" message
     items: [
+      'redesigned-settings-hub-around-declarative-catalogs',
+      'v1-portfolio-editor-with-work-report-integration',
       'portfolio-site',
-      'diagram-tool',
-      'comfy-viewer',
     ],
 
     // How many items to show (will show up to this many from the list)

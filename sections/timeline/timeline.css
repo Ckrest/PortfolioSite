@@ -5,7 +5,7 @@
  * and expandable bundles. Every timeline rule has one current owner here.
  */
 
-/* The archive continues the Learning roadmap instead of introducing another
+/* The archive continues Work by phase instead of introducing another
    primary homepage section. Keep standalone spacing here because its root is
    intentionally a grouped div rather than a section element. */
 [data-section="timeline"] {
