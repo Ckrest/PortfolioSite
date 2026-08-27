@@ -822,10 +822,6 @@ figure img {
   margin: 0;
 }
 
-.block-mermaid .mermaid-code {
-  display: none;
-}
-
 .block-mermaid .mermaid-diagram {
   display: flex;
   justify-content: center;

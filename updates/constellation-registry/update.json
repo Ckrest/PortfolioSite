@@ -68,7 +68,24 @@
     "previewWidth": 1200,
     "previewHeight": 675,
     "relationships": {
-      "parts": [],
+      "parts": [
+        {
+          "slug": "trait-system-redesign-dynamic-serving-via-trait-de",
+          "folder": "trait-system-redesign-dynamic-serving-via-trait-de",
+          "title": "Made registry traits define their own API behavior",
+          "summary": "Moved Constellation Framework trait schemas, resolution, queries, aggregation, and API projections out of hardcoded transforms and into declarative registry definitions.",
+          "date": "2026-02-04",
+          "prominence": "low"
+        },
+        {
+          "slug": "separated-package-histories-with-vcsh",
+          "folder": "separated-package-histories-with-vcsh",
+          "title": "Separated package histories with VCSH",
+          "summary": "Constellation now uses VCSH to track packages independently inside one shared workspace, giving every package a formal Git ownership boundary without splitting apart the files that work together.",
+          "date": "2026-01-27",
+          "prominence": "medium"
+        }
+      ],
       "superseded_by": [],
       "related": [
         {

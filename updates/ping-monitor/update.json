@@ -64,6 +64,14 @@
       "superseded_by": [],
       "related": [
         {
+          "slug": "redesigned-settings-hub-around-declarative-catalogs",
+          "folder": "redesigned-settings-hub-around-declarative-catalogs",
+          "title": "Redesigned Settings Hub around declarative catalogs",
+          "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+          "date": "2026-02-12",
+          "prominence": "high"
+        },
+        {
           "slug": "settings-hub",
           "folder": "settings-hub",
           "title": "Built a modular desktop settings hub",

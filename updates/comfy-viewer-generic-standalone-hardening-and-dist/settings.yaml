@@ -1,0 +1,57 @@
+content:
+  blocks:
+  - body: '## Give the viewer its own package boundary
+
+
+      I reorganized the application into a `src/comfy_viewer` package with a `pyproject.toml`,
+      console entry point, package-owned dependencies, and a copyable configuration
+      template. Runtime paths now come from configuration, environment overrides,
+      and platform data and cache directories instead of assumptions about the surrounding
+      Constellation Framework checkout.'
+    id: blk_editorial_comfy-viewer-generic-sta
+    type: text
+  - caption: The installable core owns viewing and configuration, while Conduit and
+      host hooks remain explicit integration points.
+    code: "flowchart TD\n  Viewer[Comfy Viewer core] --> Config[Package-owned configuration]\n\
+      \  Viewer --> ComfyUI[Required ComfyUI connection]\n  Viewer -. optional .->\
+      \ Conduit[Conduit workflow integration]\n  Viewer -. optional .-> Hooks[Host\
+      \ integration hooks]"
+    id: blk_viewer_standalone
+    presentation: content
+    sourceMode: inline
+    summary: The installable core owns viewing and configuration, while Conduit and
+      host hooks remain explicit integration points.
+    type: mermaid
+  - body: '## Keep integrations behind explicit boundaries
+
+
+      The gallery, focused viewer, file watching, thumbnails, search, and quicksave
+      run through the core package. Conduit adds workflow browsing, run controls,
+      and richer output metadata, while namespaced lifecycle hooks provide a separate
+      extension point.
+
+
+      I replaced the dedicated subscriber with structured events and lifecycle hooks,
+      added CLI introspection, packaged the browser client, and rejected file paths
+      outside configured roots. Integrations can extend the viewer without becoming
+      part of its startup contract.'
+    id: blk_viewer_integration_boundaries
+    type: text
+date: '2026-02-07'
+discovery: listed
+github: https://github.com/Ckrest/comfy-viewer
+icon: icon.svg
+kind: update
+part_of: comfy-viewer
+prominence: low
+related_to:
+- comfyui-conduit
+slug: comfy-viewer-generic-standalone-hardening-and-dist
+summary: Reorganized ComfyUI Viewer into an installable Python package with explicit
+  configuration, safer file access, structured events, and optional Conduit integration.
+tags:
+- Refactoring
+- Architecture
+- Python
+- ComfyUI
+title: Made ComfyUI Viewer independently installable

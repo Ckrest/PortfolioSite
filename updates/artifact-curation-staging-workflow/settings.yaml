@@ -1,0 +1,55 @@
+content:
+  blocks:
+  - body: '## Stage evidence before attachment
+
+
+      Work Report now gathers discovered evidence in a PostgreSQL staging pool instead
+      of attaching every nearby file immediately. Each candidate enters as pending
+      with its source path, artifact type, metadata, and an optional link to the shared
+      artifact record.
+
+
+      Files can also be added directly, so discovered and explicitly supplied material
+      move through the same curation flow.'
+    id: blk_editorial_artifact-curation-stagin
+    type: text
+  - caption: Candidates remain separate from the report until curation selects the
+      approved set for durable storage.
+    code: "flowchart LR\n  Source[Discover or add] --> Pending[Pending]\n  Pending\
+      \ -.-> Score[Optional score]\n  Pending --> Curate{Curate}\n  Score -.-> Curate\n\
+      \  Curate -->|Approve| Store[Store in report]\n  Curate -->|Reject| Exclude[Exclude]\n\
+      \  Store --> Complete[Complete]"
+    id: blk_artifact_staging
+    presentation: content
+    sourceMode: inline
+    summary: Candidates remain separate from the report until curation selects the
+      approved set for durable storage.
+    type: mermaid
+  - body: '## Curate the candidate set
+
+
+      Staged artifacts can be captioned and approved or rejected by item, filename
+      pattern, or as a group. An optional local model can add a relevance score and
+      short explanation, and threshold commands can apply those scores across pending
+      items.
+
+
+      Finalizing an approved set copies that material into the report’s durable storage,
+      writes the artifact list, completes the report, and clears the staging pool.'
+    id: blk_curate_candidate_set
+    type: text
+date: '2026-01-29'
+discovery: listed
+icon: icon.svg
+kind: update
+part_of: artifacts-pipeline-typed-evidence-from-work-report
+prominence: low
+slug: artifact-curation-staging-workflow
+summary: Work Report now gathers captured evidence into a staging pool where it can
+  be scored, captioned, approved, or rejected before the approved set is copied into
+  report-owned storage.
+tags:
+- Python
+- PostgreSQL
+- AI
+title: Added artifact staging and curation to Work Reports

@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Typed evidence becomes editable portfolio blocks</title>
+  <desc id="desc">Screenshots, code, terminal output, comparisons, and metrics move from Work Report through matching Portfolio Editor blocks into a rendered portfolio page.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080d1c"/>
+      <stop offset="0.55" stop-color="#10142a"/>
+      <stop offset="1" stop-color="#16102a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#151c35"/>
+      <stop offset="1" stop-color="#10162a"/>
+    </linearGradient>
+    <linearGradient id="editor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#191a3a"/>
+      <stop offset="1" stop-color="#14132d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3ce1ef"/>
+      <stop offset="0.5" stop-color="#8075ff"/>
+      <stop offset="1" stop-color="#e65bcc"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#03050d" flood-opacity="0.55"/>
+    </filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="118" cy="780" r="280" fill="#2bd7e5" opacity="0.055"/>
+  <circle cx="1460" cy="70" r="300" fill="#df55c7" opacity="0.06"/>
+  <path d="M0 760C280 630 440 835 745 718S1230 606 1600 730V900H0Z" fill="#6573ff" opacity="0.025"/>
+
+  <text x="68" y="67" fill="#61e4ee" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="5">EVIDENCE PIPELINE</text>
+  <text x="68" y="128" fill="#f5f3ff" font-family="Inter, Arial, sans-serif" font-size="49" font-weight="750">Capture once. Edit as blocks. Render on the page.</text>
+  <text x="70" y="168" fill="#b9bfd8" font-family="Inter, Arial, sans-serif" font-size="22">Typed artifacts move from Work Report into editable portfolio content.</text>
+
+  <!-- Work Report -->
+  <g filter="url(#shadow)">
+    <rect x="54" y="218" width="422" height="568" rx="28" fill="url(#panel)" stroke="#2b4161" stroke-width="2"/>
+    <rect x="54" y="218" width="422" height="64" rx="28" fill="#18223e"/>
+    <rect x="54" y="251" width="422" height="31" fill="#18223e"/>
+    <circle cx="87" cy="249" r="8" fill="#3ce1ef"/>
+    <text x="112" y="257" fill="#f3f5ff" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Work Report</text>
+    <text x="444" y="255" text-anchor="end" fill="#7183aa" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2">TYPED ARTIFACTS</text>
+
+    <rect x="82" y="310" width="366" height="74" rx="16" fill="#11192f" stroke="#27445b"/>
+    <circle cx="116" cy="347" r="19" fill="#123746"/>
+    <path d="M104 357l10-12 8 7 9-11 10 16z" fill="#55dce7"/>
+    <text x="150" y="342" fill="#e8ebfa" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Screenshot</text>
+    <text x="150" y="365" fill="#8591b0" font-family="Inter, Arial, sans-serif" font-size="14">Visual evidence</text>
+    <rect x="358" y="332" width="66" height="28" rx="14" fill="#123746" stroke="#256476"/>
+    <text x="391" y="351" text-anchor="middle" fill="#74e7ef" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700">IMAGE</text>
+
+    <rect x="82" y="398" width="366" height="74" rx="16" fill="#11192f" stroke="#343568"/>
+    <circle cx="116" cy="435" r="19" fill="#272657"/>
+    <path d="M110 427l-7 8 7 8M122 427l7 8-7 8" fill="none" stroke="#9a91ff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="150" y="430" fill="#e8ebfa" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Code sample</text>
+    <text x="150" y="453" fill="#8591b0" font-family="Inter, Arial, sans-serif" font-size="14">Implementation evidence</text>
+    <rect x="358" y="420" width="66" height="28" rx="14" fill="#272657" stroke="#5650a9"/>
+    <text x="391" y="439" text-anchor="middle" fill="#afa8ff" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700">CODE</text>
+
+    <rect x="82" y="486" width="366" height="74" rx="16" fill="#11192f" stroke="#394064"/>
+    <circle cx="116" cy="523" r="19" fill="#263149"/>
+    <path d="M106 517l7 6-7 6M117 530h10" fill="none" stroke="#9ab5e3" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="150" y="518" fill="#e8ebfa" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Terminal output</text>
+    <text x="150" y="541" fill="#8591b0" font-family="Inter, Arial, sans-serif" font-size="14">Command results</text>
+    <rect x="338" y="508" width="86" height="28" rx="14" fill="#263149" stroke="#475f87"/>
+    <text x="381" y="527" text-anchor="middle" fill="#acc5ed" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700">TERMINAL</text>
+
+    <rect x="82" y="574" width="366" height="74" rx="16" fill="#11192f" stroke="#55305e"/>
+    <circle cx="116" cy="611" r="19" fill="#482044"/>
+    <path d="M106 603h8v16h-8zM118 599h8v20h-8z" fill="#e470cf"/>
+    <text x="150" y="606" fill="#e8ebfa" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Comparison</text>
+    <text x="150" y="629" fill="#8591b0" font-family="Inter, Arial, sans-serif" font-size="14">Before-and-after evidence</text>
+    <rect x="328" y="596" width="96" height="28" rx="14" fill="#482044" stroke="#8b3e7f"/>
+    <text x="376" y="615" text-anchor="middle" fill="#ef91dc" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700">COMPARE</text>
+
+    <rect x="82" y="662" width="366" height="74" rx="16" fill="#11192f" stroke="#244d5c"/>
+    <circle cx="116" cy="699" r="19" fill="#173c43"/>
+    <path d="M106 707v-8M115 707v-16M124 707v-12" stroke="#54d7cf" stroke-width="4" stroke-linecap="round"/>
+    <text x="150" y="694" fill="#e8ebfa" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Metrics</text>
+    <text x="150" y="717" fill="#8591b0" font-family="Inter, Arial, sans-serif" font-size="14">Structured data</text>
+    <rect x="354" y="684" width="70" height="28" rx="14" fill="#173c43" stroke="#2d7477"/>
+    <text x="389" y="703" text-anchor="middle" fill="#74e2dc" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700">GRAPH</text>
+  </g>
+
+  <!-- Mapping arrow -->
+  <path d="M494 502h76" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M559 488l22 14-22 14z" fill="#7978ff"/>
+  <rect x="490" y="458" width="86" height="24" rx="12" fill="#161731" stroke="#383b75"/>
+  <text x="533" y="475" text-anchor="middle" fill="#aaa8ff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="1">MAP TYPE</text>
+
+  <!-- Portfolio Editor -->
+  <g filter="url(#shadow)">
+    <rect x="598" y="218" width="440" height="568" rx="28" fill="url(#editor)" stroke="#4a438d" stroke-width="2"/>
+    <rect x="598" y="218" width="440" height="64" rx="28" fill="#202049"/>
+    <rect x="598" y="251" width="440" height="31" fill="#202049"/>
+    <circle cx="632" cy="249" r="8" fill="#8b7fff"/>
+    <text x="657" y="257" fill="#f3f2ff" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Portfolio Editor</text>
+    <text x="1005" y="255" text-anchor="end" fill="#8f89bd" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2">EDITABLE BLOCKS</text>
+
+    <rect x="628" y="310" width="380" height="82" rx="16" fill="#13172f" stroke="#2d546b"/>
+    <circle cx="652" cy="339" r="2.8" fill="#67718f"/><circle cx="652" cy="350" r="2.8" fill="#67718f"/><circle cx="652" cy="361" r="2.8" fill="#67718f"/>
+    <rect x="678" y="328" width="64" height="46" rx="9" fill="#123746"/>
+    <path d="M688 364l15-18 12 11 10-13 10 20z" fill="#55dce7"/>
+    <text x="765" y="342" fill="#edf0ff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Image block</text>
+    <text x="765" y="366" fill="#858daf" font-family="Inter, Arial, sans-serif" font-size="14">Caption and alt text remain editable</text>
+
+    <rect x="628" y="406" width="380" height="82" rx="16" fill="#13172f" stroke="#423d80"/>
+    <circle cx="652" cy="435" r="2.8" fill="#67718f"/><circle cx="652" cy="446" r="2.8" fill="#67718f"/><circle cx="652" cy="457" r="2.8" fill="#67718f"/>
+    <rect x="678" y="424" width="64" height="46" rx="9" fill="#272657"/>
+    <path d="M698 435l-8 12 8 12M722 435l8 12-8 12" fill="none" stroke="#a59cff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="765" y="438" fill="#edf0ff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Code block</text>
+    <text x="765" y="462" fill="#858daf" font-family="Inter, Arial, sans-serif" font-size="14">Language, source, and caption</text>
+
+    <rect x="628" y="502" width="380" height="82" rx="16" fill="#13172f" stroke="#3c466c"/>
+    <circle cx="652" cy="531" r="2.8" fill="#67718f"/><circle cx="652" cy="542" r="2.8" fill="#67718f"/><circle cx="652" cy="553" r="2.8" fill="#67718f"/>
+    <rect x="678" y="520" width="64" height="46" rx="9" fill="#263149"/>
+    <path d="M691 533l8 10-8 10M703 553h22" fill="none" stroke="#acc5ed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="765" y="534" fill="#edf0ff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Terminal block</text>
+    <text x="765" y="558" fill="#858daf" font-family="Inter, Arial, sans-serif" font-size="14">Output can be trimmed and labeled</text>
+
+    <rect x="628" y="598" width="380" height="82" rx="16" fill="#13172f" stroke="#593460"/>
+    <circle cx="652" cy="627" r="2.8" fill="#67718f"/><circle cx="652" cy="638" r="2.8" fill="#67718f"/><circle cx="652" cy="649" r="2.8" fill="#67718f"/>
+    <rect x="678" y="616" width="64" height="46" rx="9" fill="#482044"/>
+    <path d="M689 625h17v28h-17zM714 625h17v28h-17z" fill="none" stroke="#ec86d8" stroke-width="2.5"/>
+    <text x="765" y="630" fill="#edf0ff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Comparison block</text>
+    <text x="765" y="654" fill="#858daf" font-family="Inter, Arial, sans-serif" font-size="14">Pairs remain one movable unit</text>
+
+    <rect x="690" y="710" width="256" height="42" rx="21" fill="#25214b" stroke="#5b51a0"/>
+    <path d="M724 731h12M730 725v12" stroke="#a79fff" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="818" y="738" text-anchor="middle" fill="#c4bfff" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1">ADD · MOVE · EDIT</text>
+  </g>
+
+  <!-- Render arrow -->
+  <path d="M1056 502h76" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M1121 488l22 14-22 14z" fill="#d260c7"/>
+  <rect x="1052" y="458" width="86" height="24" rx="12" fill="#21152f" stroke="#673568"/>
+  <text x="1095" y="475" text-anchor="middle" fill="#e998dd" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="1">RENDER</text>
+
+  <!-- Portfolio page -->
+  <g filter="url(#shadow)">
+    <rect x="1160" y="218" width="386" height="568" rx="28" fill="#11152a" stroke="#623761" stroke-width="2"/>
+    <rect x="1160" y="218" width="386" height="61" rx="28" fill="#251a3b"/>
+    <rect x="1160" y="248" width="386" height="31" fill="#251a3b"/>
+    <circle cx="1191" cy="249" r="6" fill="#837592"/>
+    <circle cx="1210" cy="249" r="6" fill="#837592"/>
+    <circle cx="1229" cy="249" r="6" fill="#837592"/>
+    <text x="1417" y="256" text-anchor="end" fill="#b19dbd" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2">PORTFOLIO PAGE</text>
+
+    <text x="1192" y="327" fill="#f4f1fb" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700">Project update</text>
+    <rect x="1192" y="348" width="278" height="8" rx="4" fill="#69697b"/>
+    <rect x="1192" y="365" width="212" height="7" rx="3.5" fill="#4d5066"/>
+
+    <rect x="1192" y="401" width="322" height="126" rx="15" fill="#121d30" stroke="#27445b"/>
+    <rect x="1212" y="421" width="282" height="86" rx="10" fill="#0a1423"/>
+    <path d="M1228 492l54-50 43 37 41-35 87 48z" fill="#405776"/>
+    <circle cx="1457" cy="444" r="14" fill="#55dce7"/>
+
+    <rect x="1192" y="545" width="322" height="104" rx="15" fill="#17152f" stroke="#423d80"/>
+    <rect x="1212" y="568" width="282" height="58" rx="9" fill="#0d1021"/>
+    <text x="1227" y="590" fill="#988fff" font-family="ui-monospace, SFMono-Regular, monospace" font-size="13">$ build --verify</text>
+    <text x="1227" y="612" fill="#8adbd9" font-family="ui-monospace, SFMono-Regular, monospace" font-size="13">✓ 24 checks passed</text>
+
+    <rect x="1192" y="667" width="322" height="87" rx="15" fill="#21142e" stroke="#593460"/>
+    <path d="M1217 731V698M1244 731V711M1271 731V687M1298 731V702M1325 731V693" stroke="#e470cf" stroke-width="11" stroke-linecap="round"/>
+    <rect x="1363" y="691" width="119" height="7" rx="3.5" fill="#6d5979"/>
+    <rect x="1363" y="709" width="92" height="7" rx="3.5" fill="#584862"/>
+    <rect x="1363" y="727" width="106" height="7" rx="3.5" fill="#584862"/>
+  </g>
+
+  <text x="265" y="843" text-anchor="middle" fill="#72cbd9" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">CAPTURE</text>
+  <text x="818" y="843" text-anchor="middle" fill="#a79fff" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">CURATE</text>
+  <text x="1353" y="843" text-anchor="middle" fill="#e18ad5" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">PRESENT</text>
+</svg>

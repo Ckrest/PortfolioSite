@@ -1,0 +1,179 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+    "title": "Reworked Portfolio Editor architecture and editing flows",
+    "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+    "date": "2026-01-30",
+    "prominence": "medium",
+    "discovery": "listed",
+    "supersedes": "v1-portfolio-editor-with-work-report-integration",
+    "related_to": [
+      "work-report",
+      "portfolio-site"
+    ],
+    "preview": "media/screenshot_2026-01-30_18-16-28.png",
+    "previewAlt": "Portfolio Editor project metadata beside the rendered portfolio page in the split editing workspace",
+    "icon": "icon.svg",
+    "tags": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "Frontend",
+      "Refactoring"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Centralize editor state and actions\n\nAs the editor grew, project data, selection, dirty tracking, preview readiness, and undo history could drift across separate browser modules. I moved those concerns into one centralized store and routed changes through explicit actions. Focused render modules project the same state into the report browser, project form, block controls, and preview.\n\nObserver updates and delegated DOM events replaced circular imports and listeners that could multiply after each render. A form edit, block move, or project switch now follows the same state path, giving every visible surface one source of truth.",
+          "id": "blk_v2_editor_story",
+          "type": "text"
+        },
+        {
+          "alt": "Portfolio Editor v2 state flow from report, form, block, and preview events through explicit actions and one store to focused renderers and the iframe bridge",
+          "caption": "Explicit actions and one store replaced distributed mutable state while the preview bridge remained a controlled input and output.",
+          "id": "blk_v2_editor_state",
+          "presentation": "intrinsic",
+          "src": "media/state-flow.svg",
+          "type": "image"
+        },
+        {
+          "body": "## Keep long editing sessions predictable\n\nOriginal snapshots drive dirty state, and undo and redo operate on the same project model. Preview commands wait for the iframe bridge to become ready, while asynchronous report loads verify the current selection before updating the panel. Panel width and preview scroll stay in place between edits, so the workspace preserves context instead of resetting it.",
+          "id": "blk_v2_editor_session",
+          "type": "text"
+        },
+        {
+          "alt": "Portfolio Editor text block controls beside the selected block in the live portfolio preview",
+          "caption": "Selecting a block exposes its controls beside the corresponding region of the live preview.",
+          "id": "blk_v2_editor_live_editing",
+          "presentation": "wide",
+          "src": "media/screenshot_2026-01-30_18-19-41.png",
+          "type": "image"
+        },
+        {
+          "body": "## Move from work report to portfolio page\n\nThe report browser can search, archive, restore, and expand records without loading every report up front. A report can create a project candidate in one step, or individual report sections can be dragged into the page as selected blocks.\n\nMetadata fields and tags come from the portfolio schema. The block palette exposes the available content types, while click-to-edit overlays connect rendered output back to its source field or block. Connection pooling keeps repeated report reads from exhausting PostgreSQL connections.",
+          "id": "blk_v2_editor_report_path",
+          "type": "text"
+        },
+        {
+          "caption": "Report browsing, source inspection, the content palette, and schema-driven metadata controls keep the path from source material to page composition inside one interface.",
+          "fit": "contain",
+          "id": "blk_v2_editor_gallery",
+          "images": [
+            {
+              "alt": "Portfolio Editor report browser with searchable report cards and archive controls",
+              "src": "media/screenshot_2026-01-30_18-14-54.png"
+            },
+            {
+              "alt": "Expanded work report showing its content, artifacts, and metadata inside Portfolio Editor",
+              "src": "media/screenshot_2026-01-30_18-15-24.png"
+            },
+            {
+              "alt": "Portfolio Editor palette listing the supported portfolio content block types",
+              "src": "media/screenshot_2026-01-30_18-15-44.png"
+            },
+            {
+              "alt": "Portfolio Editor metadata controls for title, summary, status, links, media, tags, and source information",
+              "src": "media/screenshot_2026-01-30_18-17-26.png"
+            }
+          ],
+          "presentation": "wide",
+          "type": "gallery"
+        }
+      ]
+    },
+    "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+    "phase": 1,
+    "previewWidth": 1085,
+    "previewHeight": 1325,
+    "relationships": {
+      "supersedes": {
+        "slug": "v1-portfolio-editor-with-work-report-integration",
+        "folder": "v1-portfolio-editor-with-work-report-integration",
+        "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+        "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+        "date": "2026-01-27",
+        "prominence": "high"
+      },
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        {
+          "slug": "portfolio-site",
+          "folder": "portfolio-site",
+          "title": "Built a timeline-based portfolio site",
+          "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+          "date": "2026-01-09",
+          "prominence": "high"
+        }
+      ]
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/screenshot_2026-01-30_18-14-54.png": {
+        "media_type": "image/png",
+        "width": 1085,
+        "height": 1325
+      },
+      "media/screenshot_2026-01-30_18-15-24.png": {
+        "media_type": "image/png",
+        "width": 400,
+        "height": 1116
+      },
+      "media/screenshot_2026-01-30_18-15-44.png": {
+        "media_type": "image/png",
+        "width": 392,
+        "height": 706
+      },
+      "media/screenshot_2026-01-30_18-16-28.png": {
+        "media_type": "image/png",
+        "width": 1085,
+        "height": 1325
+      },
+      "media/screenshot_2026-01-30_18-17-26.png": {
+        "media_type": "image/png",
+        "width": 411,
+        "height": 1175
+      },
+      "media/screenshot_2026-01-30_18-19-41.png": {
+        "media_type": "image/png",
+        "width": 1533,
+        "height": 1325
+      },
+      "media/state-flow.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1035,
+        "height": 510
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg",
+      "media/screenshot_2026-01-30_18-14-54.png",
+      "media/screenshot_2026-01-30_18-15-24.png",
+      "media/screenshot_2026-01-30_18-15-44.png",
+      "media/screenshot_2026-01-30_18-16-28.png",
+      "media/screenshot_2026-01-30_18-17-26.png",
+      "media/screenshot_2026-01-30_18-19-41.png",
+      "media/state-flow.svg"
+    ]
+  }
+}

@@ -22,9 +22,13 @@ npm test
 
 `portfolio-site open` reconciles the accepted pool when the Editor is available,
 starts the declared on-demand user service, waits for `http://127.0.0.1:9742/`,
-and opens it. When the Editor is offline it may serve only the last locally
-verified artifact. `portfolio-site refresh`, `status`, `stop`, and `logs` expose
-explicit management actions. Acceptance calls the Site-owned `dispatch` command,
+opens it, and prints both the loopback and current local-network URLs. The
+server listens on IPv4 port 9742 and serves only the generated public artifact;
+it does not expose the repository or private editor state. LAN access is
+unauthenticated, so it should remain limited to a trusted local network. When
+the Editor is offline it may serve only the last locally verified artifact.
+`portfolio-site refresh`, `status`, `stop`, and `logs` expose explicit
+management actions. Acceptance calls the Site-owned `dispatch` command,
 which enqueues one non-blocking realization job. There is no boot watcher,
 timer, polling loop, or filesystem signal; `portfolio-site refresh` is the
 explicit recovery command for an interrupted or missed dispatch. Installation
@@ -248,6 +252,13 @@ Image, gallery, comparison, and authored preview links use the locally vendored
 PhotoSwipe viewer; source dimensions are generated into the current update
 payload so zoom and intrinsic sizing do not depend on layout guesses. Gallery
 tiles default to `contain`; cropping requires an explicit `fit: cover` choice.
+Detail previews use a consistent 16:9 cover frame, captions use a centered
+artifact footprint with a small responsive text inset, and Mermaid
+diagrams expose a compact keyboard-operable zoom toolbar. Image surfaces do not
+add a second border or matte over an asset's own transparent or rounded edges;
+PhotoSwipe uses a stable fade into the viewer while retaining in-viewer zoom.
+Mermaid blocks use one stable frame, layout-sized zoom content, center-preserving
+zoom steps, and an inset scrollport so scrollbars do not collide with the frame.
 
 ## Deployment
 

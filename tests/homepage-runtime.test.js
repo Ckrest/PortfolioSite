@@ -4,6 +4,10 @@ import { readFile } from 'node:fs/promises';
 
 import { renderEntry } from '../js/components/update-entry.js';
 import { createOrderedMountQueue } from '../js/section-loader.js';
+import {
+  currentDocumentTopHref,
+  initializeBackToTop,
+} from '../sections/footer/footer.js';
 
 test('homepage entries render visibly without observer-owned reveal state', async () => {
   const markup = renderEntry({
@@ -64,4 +68,27 @@ test('section initialization retries stale modules and cannot leave loading copy
   assert.match(loader, /markSectionInitializationFailure\(name, sectionEl\)/);
   assert.match(loader, /status\.textContent = `Unable to load \$\{label\}\.\`/);
   assert.match(loader, /outcome\.initialized === false/);
+});
+
+test('shared back-to-top links remain on the current document when a base URL is present', async () => {
+  const location = 'https://example.test/updates/example/detail.html?from-capability=ai#old';
+  assert.equal(
+    currentDocumentTopHref(location),
+    'https://example.test/updates/example/detail.html?from-capability=ai#page-top',
+  );
+
+  const link = { href: '' };
+  assert.equal(initializeBackToTop({ querySelector: () => link }, location), true);
+  assert.equal(link.href, currentDocumentTopHref(location));
+
+  const [footer, homepage, updateDetail, capabilityDetail] = await Promise.all([
+    readFile(new URL('../sections/footer/footer.html', import.meta.url), 'utf8'),
+    readFile(new URL('../index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../updates/detail.html', import.meta.url), 'utf8'),
+    readFile(new URL('../capabilities/detail.html', import.meta.url), 'utf8'),
+  ]);
+  assert.match(footer, /class="back-to-top" href="#page-top"/);
+  for (const shell of [homepage, updateDetail, capabilityDetail]) {
+    assert.match(shell, /<body[^>]*id="page-top"/);
+  }
 });

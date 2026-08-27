@@ -1,0 +1,142 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "redesigned-settings-hub-around-declarative-catalogs",
+    "title": "Redesigned Settings Hub around declarative catalogs",
+    "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+    "date": "2026-02-12",
+    "prominence": "high",
+    "discovery": "listed",
+    "supersedes": "settings-hub",
+    "related_to": [
+      "graph-lib",
+      "ping-monitor"
+    ],
+    "github": "https://github.com/Ckrest/settings-hub",
+    "preview": "media/settings-hub-v2.png",
+    "previewAlt": "Settings Hub Appearance page with a colorful selected background and catalog-rendered controls",
+    "icon": "media/sliders.svg",
+    "tags": [
+      "Python",
+      "GTK",
+      "Architecture",
+      "Desktop Environment"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Move package settings into validated tile sets\n\nSettings Hub now loads versioned YAML catalogs instead of requiring every integration to construct its own GTK page. Core definitions establish the shared tabs; each package contributes one or more tile sets, assigns them through `tab_id`, and declares the controls that belong there.\n\nA catalog loader merges built-in and package definitions, validates their structure before rendering, and evaluates visibility conditions at the tab, tile-set, and tile levels. Packages can add focused settings surfaces without taking over navigation or duplicating the application shell.",
+          "id": "blk_settings_catalog_story",
+          "type": "text"
+        },
+        {
+          "alt": "Settings Hub architecture flowing from core tab definitions and package tile-set catalogs through loading, validation, visibility planning, shared tile handlers, and a GTK page stack",
+          "caption": "Core tabs provide navigation, package catalogs contribute validated tile sets, and the shared runtime renders them through reusable GTK handlers.",
+          "id": "blk_settings_hub_architecture",
+          "presentation": "intrinsic",
+          "src": "media/catalog-runtime.svg",
+          "type": "image"
+        },
+        {
+          "body": "## Render controls through a shared vocabulary\n\nOne renderer now handles headers, text and information panels, images, buttons, toggles, selects, text and numeric inputs, lists, time, font, file and color pickers, graphs, gauges, separators, switchable panels, and reorderable lists.\n\nA tile set can declare a configuration file, then bind ordinary controls through section and key properties. Monitoring tiles can read command, file, SQLite, or static providers and poll when live values are useful. The package still owns the command or configuration surface; Settings Hub owns the consistent control and presentation.",
+          "id": "blk_settings_hub_shared_vocabulary",
+          "type": "text"
+        },
+        {
+          "alt": "Settings Hub Tile showcase tab with a dropdown, enabled toggle, numeric stepper, color picker, and action button",
+          "caption": "The presentation tab renders a select, toggle, numeric input, color picker, and action from one catalog-defined tile set.",
+          "id": "blk_settings_hub_v2_ui",
+          "presentation": "intrinsic",
+          "src": "media/settings-hub-v2-showcase.png",
+          "type": "image"
+        },
+        {
+          "caption": "A package assigns its tile set to an existing tab and keeps command-backed data inside the tile that consumes it.",
+          "code": "tile_sets:\n  - id: service-health\n    tab_id: services\n    title: Service health\n    order: 20\n    visible_when:\n      - command: example-tool\n    tiles:\n      - id: current-status\n        type: info\n        title: Current status\n        props:\n          source:\n            type: command\n            command: example-tool status\n\n      - id: recent-activity\n        type: graph\n        title: Recent activity\n        props:\n          max_points: 90\n          provider:\n            type: command\n            command: example-tool metric\n            poll_interval_ms: 2500",
+          "filename": "extension-catalog.example.txt",
+          "id": "blk_settings_hub_catalog",
+          "language": "yaml",
+          "presentation": "content",
+          "sourceMode": "attached",
+          "src": "media/extension-catalog.example.txt",
+          "type": "code"
+        },
+        {
+          "body": "## Keep failures contained\n\nStructural validation runs before page creation, and visibility checks keep unavailable integrations out of the interface. An unknown tile, invalid definition, unavailable provider, or failed command stays local to the affected integration instead of collapsing the window.\n\nPages render lazily into a stable stack and remain cached as navigation changes. Tab visibility and order remain adjustable, while provider work runs away from the GTK event loop and reports failures through the interface. This gives package-owned settings and monitoring views one predictable shell without making Settings Hub responsible for each package's operational logic.",
+          "id": "blk_settings_hub_failure_isolation",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "redesigned-settings-hub-around-declarative-catalogs",
+    "phase": 2,
+    "previewWidth": 1080,
+    "previewHeight": 740,
+    "relationships": {
+      "supersedes": {
+        "slug": "settings-hub",
+        "folder": "settings-hub",
+        "title": "Built a modular desktop settings hub",
+        "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+        "date": "2025-11-26",
+        "prominence": "high"
+      },
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "graph-lib",
+          "folder": "graph-lib",
+          "title": "Built reusable GTK graphs and gauges",
+          "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+          "date": "2026-01-13",
+          "prominence": "medium"
+        },
+        {
+          "slug": "ping-monitor",
+          "folder": "ping-monitor",
+          "title": "Built a lightweight network reliability monitor",
+          "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+          "date": "2026-01-13",
+          "prominence": "low"
+        }
+      ]
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "media/catalog-runtime.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 720
+      },
+      "media/settings-hub-v2-showcase.png": {
+        "media_type": "image/png",
+        "width": 1080,
+        "height": 740
+      },
+      "media/settings-hub-v2.png": {
+        "media_type": "image/png",
+        "width": 1080,
+        "height": 740
+      },
+      "media/sliders.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "media/catalog-runtime.svg",
+      "media/extension-catalog.example.txt",
+      "media/settings-hub-v2-showcase.png",
+      "media/settings-hub-v2.png",
+      "media/sliders.svg"
+    ]
+  }
+}

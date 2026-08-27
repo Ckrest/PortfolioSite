@@ -61,7 +61,16 @@
     "previewWidth": 902,
     "previewHeight": 652,
     "relationships": {
-      "parts": [],
+      "parts": [
+        {
+          "slug": "fix-comfyui-conduit-redis-event-publishing",
+          "folder": "fix-comfyui-conduit-redis-event-publishing",
+          "title": "Restored live gallery updates from ComfyUI Conduit",
+          "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.",
+          "date": "2026-01-21",
+          "prominence": "low"
+        }
+      ],
       "superseded_by": [],
       "related": [
         {
@@ -71,6 +80,14 @@
           "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
           "date": "2026-01-10",
           "prominence": "high"
+        },
+        {
+          "slug": "comfy-viewer-generic-standalone-hardening-and-dist",
+          "folder": "comfy-viewer-generic-standalone-hardening-and-dist",
+          "title": "Made ComfyUI Viewer independently installable",
+          "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+          "date": "2026-02-07",
+          "prominence": "low"
         }
       ]
     }

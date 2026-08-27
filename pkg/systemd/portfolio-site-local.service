@@ -1,5 +1,5 @@
 [Unit]
-Description=Portfolio Site reviewed-pool local preview
+Description=Portfolio Site reviewed-pool local-network preview
 After=network.target
 
 [Service]

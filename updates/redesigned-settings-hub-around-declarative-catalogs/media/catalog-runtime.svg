@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="title desc">
+  <title id="title">Settings Hub tile-set catalog architecture</title>
+  <desc id="desc">Core tab definitions and package-owned tile-set catalogs pass through loading, validation, visibility planning, shared tile handlers, and finally a GTK page stack with isolated diagnostics.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="1" stop-color="#172033"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#67e8f9"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#020617" flood-opacity=".35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#67e8f9"/>
+    </marker>
+    <style>
+      .label{font:700 18px Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;fill:#94a3b8}
+      .title{font:700 27px Inter,system-ui,sans-serif;fill:#f8fafc}
+      .body{font:500 19px Inter,system-ui,sans-serif;fill:#cbd5e1}
+      .small{font:500 17px Inter,system-ui,sans-serif;fill:#94a3b8}
+      .code{font:600 17px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#a5f3fc}
+      .card{fill:#1e293b;stroke:#334155;stroke-width:2}
+      .inner{fill:#111827;stroke:#334155;stroke-width:1.5}
+      .flow{fill:none;stroke:#67e8f9;stroke-width:4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1600" height="720" rx="32" fill="url(#bg)"/>
+  <rect x="48" y="42" width="1504" height="8" rx="4" fill="url(#accent)"/>
+  <text x="72" y="100" class="title">A shared runtime for package-defined settings</text>
+  <text x="72" y="134" class="body">Packages describe tile sets; Settings Hub validates and renders them consistently.</text>
+
+  <g filter="url(#shadow)">
+    <rect class="card" x="72" y="194" width="350" height="386" rx="24"/>
+    <text x="100" y="232" class="label">Definitions</text>
+    <rect class="inner" x="100" y="262" width="294" height="116" rx="16"/>
+    <text x="124" y="299" class="title">Core tabs</text>
+    <text x="124" y="332" class="body">Navigation identity</text>
+    <text x="124" y="359" class="body">Order and availability</text>
+    <rect class="inner" x="100" y="400" width="294" height="148" rx="16"/>
+    <text x="124" y="437" class="title">Package catalogs</text>
+    <text x="124" y="472" class="code">tile_sets:</text>
+    <text x="124" y="501" class="code">  tab_id · tiles</text>
+    <text x="124" y="530" class="small">Config bindings and providers</text>
+  </g>
+
+  <path class="flow" d="M 422 387 C 456 387, 466 387, 500 387"/>
+
+  <g filter="url(#shadow)">
+    <rect class="card" x="508" y="194" width="350" height="386" rx="24"/>
+    <text x="536" y="232" class="label">Catalog boundary</text>
+    <rect class="inner" x="536" y="262" width="294" height="82" rx="16"/>
+    <text x="560" y="298" class="title">Load and merge</text>
+    <text x="560" y="326" class="small">Built-ins plus package traits</text>
+    <rect class="inner" x="536" y="360" width="294" height="82" rx="16"/>
+    <text x="560" y="396" class="title">Validate structure</text>
+    <text x="560" y="424" class="small">Reject malformed definitions</text>
+    <rect class="inner" x="536" y="458" width="294" height="90" rx="16"/>
+    <text x="560" y="494" class="title">Plan visibility</text>
+    <text x="560" y="522" class="small">Tabs, tile sets, and tiles</text>
+  </g>
+
+  <path class="flow" d="M 858 387 C 892 387, 902 387, 936 387"/>
+
+  <g filter="url(#shadow)">
+    <rect class="card" x="944" y="194" width="584" height="386" rx="24"/>
+    <text x="972" y="232" class="label">Settings Hub runtime</text>
+    <rect class="inner" x="972" y="262" width="242" height="124" rx="16"/>
+    <text x="996" y="299" class="title">Tile handlers</text>
+    <text x="996" y="332" class="body">Controls and pickers</text>
+    <text x="996" y="361" class="body">Graphs and gauges</text>
+    <rect class="inner" x="1236" y="262" width="264" height="124" rx="16"/>
+    <text x="1260" y="299" class="title">Package backends</text>
+    <text x="1260" y="332" class="body">Configuration files</text>
+    <text x="1260" y="361" class="body">Commands and providers</text>
+    <path d="M1214 324 H1236" stroke="#818cf8" stroke-width="3"/>
+    <rect class="inner" x="972" y="410" width="528" height="138" rx="16"/>
+    <text x="996" y="448" class="title">GTK page stack</text>
+    <text x="996" y="483" class="body">Lazy page creation · stable navigation · cached pages</text>
+    <text x="996" y="516" class="body">Failures stay with the affected integration</text>
+  </g>
+
+  <rect x="72" y="624" width="1456" height="52" rx="16" fill="#0f172a" stroke="#334155"/>
+  <circle cx="104" cy="650" r="7" fill="#67e8f9"/>
+  <text x="126" y="657" class="body">Settings Hub owns validation and presentation; each package keeps operational authority.</text>
+</svg>

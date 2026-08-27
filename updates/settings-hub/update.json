@@ -70,7 +70,16 @@
     "previewHeight": 862,
     "relationships": {
       "parts": [],
-      "superseded_by": [],
+      "superseded_by": [
+        {
+          "slug": "redesigned-settings-hub-around-declarative-catalogs",
+          "folder": "redesigned-settings-hub-around-declarative-catalogs",
+          "title": "Redesigned Settings Hub around declarative catalogs",
+          "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+          "date": "2026-02-12",
+          "prominence": "high"
+        }
+      ],
       "related": [
         {
           "slug": "graph-lib",
@@ -112,7 +121,15 @@
           "date": "2025-12-22",
           "prominence": "medium"
         }
-      ]
+      ],
+      "latest": {
+        "slug": "redesigned-settings-hub-around-declarative-catalogs",
+        "folder": "redesigned-settings-hub-around-declarative-catalogs",
+        "title": "Redesigned Settings Hub around declarative catalogs",
+        "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+        "date": "2026-02-12",
+        "prominence": "high"
+      }
     }
   },
   "media": {

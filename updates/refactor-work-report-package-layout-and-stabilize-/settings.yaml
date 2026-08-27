@@ -1,0 +1,50 @@
+content:
+  blocks:
+  - body: '## Give Work Report one package boundary
+
+
+      I moved the command, curation, machine-readable agent flow, evidence handlers,
+      artifact mappings, and migration code under a single installable `work_report`
+      package. The CLI and agent flow now import the same application modules instead
+      of depending on adjacent scripts or the checkout’s working directory.'
+    id: blk_work_report_package_story
+    type: text
+  - alt: Work Report package boundary connecting its command entry point, report flow,
+      typed evidence handlers, artifact mapping, and versioned database migrations
+    caption: The refactor placed command flow, evidence conversion, and database evolution
+      inside one package boundary.
+    id: blk_work_report_package_map
+    presentation: intrinsic
+    src: media/package-boundary.svg
+    type: image
+  - body: '## Make artifact and schema transitions explicit
+
+
+      Ordered migrations remove the obsolete `project` fields from reports and sessions
+      after preserving report grouping through tags. The agent flow previews discovered
+      evidence, requires an explicit review selection before completion, and accepts
+      narrowed or manually added artifacts.
+
+
+      Configurable exclusions filter known noise, while source identifiers and normalized
+      paths record provenance and keep previously used artifacts from being rediscovered.
+      Screenshot, document, gallery, comparison, data, video, terminal, code, and
+      Git-diff handlers all feed the same artifact-to-block mapping.'
+    id: blk_work_report_explicit_transitions
+    type: text
+date: '2026-02-11'
+discovery: listed
+icon: icon.svg
+kind: update
+part_of: work-report
+prominence: low
+slug: refactor-work-report-package-layout-and-stabilize-
+summary: Moved Work Report’s command, agent flow, evidence handlers, artifact mapping,
+  and database migrations into one installable Python package with explicit artifact
+  review and provenance handling.
+tags:
+- Refactoring
+- Python
+- PostgreSQL
+- Migration
+title: Reorganized Work Report around a package boundary

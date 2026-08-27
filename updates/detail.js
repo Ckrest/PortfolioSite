@@ -13,6 +13,7 @@ import {
   setUpdateCatalog,
 } from './update-renderer.js';
 import { initializeMediaViewer } from './update-media.js';
+import { initializeBackToTop } from '../sections/footer/footer.js';
 
 const dependencyRequests = new Map();
 
@@ -143,6 +144,7 @@ async function loadFooter() {
       loadJson('../data/site.json'),
     ]);
     slot.innerHTML = markup;
+    initializeBackToTop(slot);
     const email = slot.querySelector('.contact-email a');
     if (email && site.email) {
       email.href = `mailto:${site.email}`;

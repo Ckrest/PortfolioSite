@@ -1,0 +1,98 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "hook-constellation-and-artifact-integration-for-visual-t",
+    "title": "Connected visual tools to automatic artifact tracking",
+    "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+    "date": "2026-01-29",
+    "prominence": "low",
+    "discovery": "listed",
+    "part_of": "artifacts-pipeline-typed-evidence-from-work-report",
+    "related_to": [
+      "diagram-tool",
+      "screenshot-tool"
+    ],
+    "icon": "icon.svg",
+    "tags": [
+      "Event-Driven Architecture",
+      "Python",
+      "Redis",
+      "PostgreSQL",
+      "Bash"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Add integration at the save boundary\n\nDiagram Tool and Screenshot Tool now expose post-save extension points instead of embedding artifact tracking in their core save paths. Diagram Tool calls registered Python callbacks after a successful save; Screenshot Tool runs executable scripts after writing the capture.",
+          "id": "blk_editorial_hook-systems-and-artifac",
+          "type": "text"
+        },
+        {
+          "caption": "Python and shell hooks converge on one artifact event, then Redis and the database logger place the saved visual in PostgreSQL for Work Report discovery.",
+          "code": "flowchart LR\n  Diagram[Diagram save] --> PythonHook[Python hook]\n  Screenshot[Screenshot save] --> ShellHook[Shell hook]\n  PythonHook & ShellHook --> Event[artifact.created]\n  Event --> Pipeline[Redis → DB logger → PostgreSQL]\n  Pipeline --> Reports[Work Report discovery]",
+          "id": "blk_visual_hooks",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Python and shell hooks converge on one artifact event, then Redis and the database logger place the saved visual in PostgreSQL for Work Report discovery.",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Route one event into the evidence pipeline\n\nWhen the Constellation Framework adapters are present, both hooks publish the same `artifact.created` event with the saved path and capture metadata. Redis carries the event to the database logger, which records the artifact in PostgreSQL for Work Report discovery.\n\nThis keeps each tool focused on producing its visual while the optional adapters handle workspace integration.",
+          "id": "blk_visual_tool_event_pipeline",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "hook-constellation-and-artifact-integration-for-visual-t",
+    "phase": 1,
+    "preview": null,
+    "previewAlt": "Connected visual tools to automatic artifact tracking",
+    "relationships": {
+      "part_of": {
+        "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+        "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+        "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+        "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+        "date": "2026-01-28",
+        "prominence": "high"
+      },
+      "parts": [],
+      "superseded_by": [],
+      "related": [
+        {
+          "slug": "diagram-tool",
+          "folder": "diagram-tool",
+          "title": "Built a local-first diagramming tool",
+          "summary": "Built a local-first visual editor where the browser and MCP tools work on the same JSON-backed diagram through one API and update the canvas in real time.",
+          "date": "2025-11-23",
+          "prominence": "high"
+        },
+        {
+          "slug": "screenshot-tool",
+          "folder": "screenshot-tool",
+          "title": "Built a Wayland screenshot tool for precise desktop capture",
+          "summary": "Built a hotkey-driven Wayland screenshot tool with frozen region selection, unobstructed window capture, precise magnification, and consistent desktop and scripted output.",
+          "date": "2026-01-21",
+          "prominence": "medium"
+        }
+      ]
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "icon.svg"
+    ]
+  }
+}

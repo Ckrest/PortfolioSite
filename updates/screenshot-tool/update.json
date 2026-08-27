@@ -61,7 +61,16 @@
     "relationships": {
       "parts": [],
       "superseded_by": [],
-      "related": []
+      "related": [
+        {
+          "slug": "hook-constellation-and-artifact-integration-for-visual-t",
+          "folder": "hook-constellation-and-artifact-integration-for-visual-t",
+          "title": "Connected visual tools to automatic artifact tracking",
+          "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+          "date": "2026-01-29",
+          "prominence": "low"
+        }
+      ]
     }
   },
   "media": {

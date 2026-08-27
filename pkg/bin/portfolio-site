@@ -12,7 +12,8 @@ STATE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site"
 ACTIVE_ROOT="$STATE_ROOT/active"
 REQUEST_PATH="$STATE_ROOT/realization-request.json"
 LOCK_PATH="$STATE_ROOT/realization.lock"
-URL="http://127.0.0.1:9742/"
+PORT=9742
+URL="http://127.0.0.1:${PORT}/"
 NODE_BIN="${PORTFOLIO_SITE_NODE:-}"
 NODE_ENVIRONMENT="${XDG_CONFIG_HOME:-$HOME/.config}/portfolio-site/environment"
 if [[ -z "$NODE_BIN" && -r "$NODE_ENVIRONMENT" ]]; then
@@ -112,6 +113,17 @@ ensure_local_service() {
     sleep 0.1
   done
   return 1
+}
+
+print_access_urls() {
+  local address
+  printf 'Portfolio Site (this PC): %s\n' "$URL"
+  command -v ip >/dev/null 2>&1 || return 0
+  while IFS= read -r address; do
+    address="${address%/*}"
+    [[ -n "$address" && "$address" != 127.* ]] || continue
+    printf 'Portfolio Site (local network): http://%s:%s/\n' "$address" "$PORT"
+  done < <(ip -o -4 address show up scope global | awk '{print $4}')
 }
 
 complete_attempt() {
@@ -251,7 +263,7 @@ open_site() {
     return 1
   fi
   systemd-run --user --quiet --collect --property=Type=oneshot xdg-open "$URL" >/dev/null 2>&1 || true
-  printf 'Portfolio Site: %s\n' "$URL"
+  print_access_urls
 }
 
 case "${1:-open}" in

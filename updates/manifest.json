@@ -33,6 +33,854 @@
       }
     },
     {
+      "slug": "redesigned-settings-hub-around-declarative-catalogs",
+      "folder": "redesigned-settings-hub-around-declarative-catalogs",
+      "title": "Redesigned Settings Hub around declarative catalogs",
+      "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+      "date": "2026-02-12",
+      "prominence": "high",
+      "phase": 2,
+      "icon": "media/sliders.svg",
+      "preview": "media/settings-hub-v2.png",
+      "previewAlt": "Settings Hub Appearance page with a colorful selected background and catalog-rendered controls",
+      "previewWidth": 1080,
+      "previewHeight": 740,
+      "github": "https://github.com/Ckrest/settings-hub",
+      "tags": [
+        "Python",
+        "GTK",
+        "Architecture",
+        "Desktop Environment"
+      ],
+      "supersedes": "settings-hub",
+      "related_to": [
+        "graph-lib",
+        "ping-monitor"
+      ],
+      "relationships": {
+        "supersedes": {
+          "slug": "settings-hub",
+          "folder": "settings-hub",
+          "title": "Built a modular desktop settings hub",
+          "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+          "date": "2025-11-26",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "graph-lib",
+            "folder": "graph-lib",
+            "title": "Built reusable GTK graphs and gauges",
+            "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+            "date": "2026-01-13",
+            "prominence": "medium"
+          },
+          {
+            "slug": "ping-monitor",
+            "folder": "ping-monitor",
+            "title": "Built a lightweight network reliability monitor",
+            "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+            "date": "2026-01-13",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "refactor-work-report-package-layout-and-stabilize-",
+      "folder": "refactor-work-report-package-layout-and-stabilize-",
+      "title": "Reorganized Work Report around a package boundary",
+      "summary": "Moved Work Report’s command, agent flow, evidence handlers, artifact mapping, and database migrations into one installable Python package with explicit artifact review and provenance handling.",
+      "date": "2026-02-11",
+      "prominence": "low",
+      "phase": 2,
+      "icon": "icon.svg",
+      "previewAlt": "Reorganized Work Report around a package boundary",
+      "tags": [
+        "Refactoring",
+        "Python",
+        "PostgreSQL",
+        "Migration"
+      ],
+      "part_of": "work-report",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "comfy-viewer-generic-standalone-hardening-and-dist",
+      "folder": "comfy-viewer-generic-standalone-hardening-and-dist",
+      "title": "Made ComfyUI Viewer independently installable",
+      "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+      "date": "2026-02-07",
+      "prominence": "low",
+      "phase": 2,
+      "icon": "icon.svg",
+      "previewAlt": "Made ComfyUI Viewer independently installable",
+      "github": "https://github.com/Ckrest/comfy-viewer",
+      "tags": [
+        "Refactoring",
+        "Architecture",
+        "Python",
+        "ComfyUI"
+      ],
+      "part_of": "comfy-viewer",
+      "related_to": [
+        "comfyui-conduit"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "comfy-viewer",
+          "folder": "comfy-viewer",
+          "title": "Built a browser and workflow manager for ComfyUI outputs",
+          "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
+          "date": "2026-01-10",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "comfyui-conduit",
+            "folder": "comfyui-conduit",
+            "title": "Made ComfyUI workflows callable from external tools",
+            "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
+            "date": "2026-01-13",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "trait-system-redesign-dynamic-serving-via-trait-de",
+      "folder": "trait-system-redesign-dynamic-serving-via-trait-de",
+      "title": "Made registry traits define their own API behavior",
+      "summary": "Moved Constellation Framework trait schemas, resolution, queries, aggregation, and API projections out of hardcoded transforms and into declarative registry definitions.",
+      "date": "2026-02-04",
+      "prominence": "low",
+      "phase": 2,
+      "icon": "icon.svg",
+      "previewAlt": "Made registry traits define their own API behavior",
+      "tags": [
+        "Architecture",
+        "Refactoring"
+      ],
+      "part_of": "constellation-registry",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "constellation-registry",
+          "folder": "constellation-registry",
+          "title": "Built a discovery-based registry for a software workspace",
+          "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+          "date": "2026-01-08",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+      "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+      "title": "Reworked Portfolio Editor architecture and editing flows",
+      "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+      "date": "2026-01-30",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/screenshot_2026-01-30_18-16-28.png",
+      "previewAlt": "Portfolio Editor project metadata beside the rendered portfolio page in the split editing workspace",
+      "previewWidth": 1085,
+      "previewHeight": 1325,
+      "tags": [
+        "Python",
+        "Flask",
+        "JavaScript",
+        "Frontend",
+        "Refactoring"
+      ],
+      "supersedes": "v1-portfolio-editor-with-work-report-integration",
+      "related_to": [
+        "work-report",
+        "portfolio-site"
+      ],
+      "relationships": {
+        "supersedes": {
+          "slug": "v1-portfolio-editor-with-work-report-integration",
+          "folder": "v1-portfolio-editor-with-work-report-integration",
+          "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+          "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+          "date": "2026-01-27",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "work-report",
+            "folder": "work-report",
+            "title": "Built Work Report System to preserve completed work",
+            "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+            "date": "2026-01-17",
+            "prominence": "high"
+          },
+          {
+            "slug": "portfolio-site",
+            "folder": "portfolio-site",
+            "title": "Built a timeline-based portfolio site",
+            "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+            "date": "2026-01-09",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "wizard-flow-for-interactive-report-creation",
+      "folder": "wizard-flow-for-interactive-report-creation",
+      "title": "Turned Work Report creation into a guided wizard",
+      "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+      "date": "2026-01-30",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Turned Work Report creation into a guided wizard",
+      "tags": [
+        "Python",
+        "CLI"
+      ],
+      "part_of": "work-report",
+      "related_to": [
+        "artifact-curation-staging-workflow"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "artifact-curation-staging-workflow",
+            "folder": "artifact-curation-staging-workflow",
+            "title": "Added artifact staging and curation to Work Reports",
+            "summary": "Work Report now gathers captured evidence into a staging pool where it can be scored, captioned, approved, or rejected before the approved set is copied into report-owned storage.",
+            "date": "2026-01-29",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "work-report-vcsh-support",
+      "folder": "work-report-vcsh-support",
+      "title": "Made Work Report Git tracking package-aware",
+      "summary": "Work Report now uses the report’s project identity as the repository context for commit metadata, diff statistics, and captured Git evidence, routing VCSH-backed packages through their independent histories.",
+      "date": "2026-01-30",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Made Work Report Git tracking package-aware",
+      "tags": [
+        "Python",
+        "Git",
+        "Infrastructure"
+      ],
+      "part_of": "work-report",
+      "related_to": [
+        "separated-package-histories-with-vcsh"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "separated-package-histories-with-vcsh",
+            "folder": "separated-package-histories-with-vcsh",
+            "title": "Separated package histories with VCSH",
+            "summary": "Constellation now uses VCSH to track packages independently inside one shared workspace, giving every package a formal Git ownership boundary without splitting apart the files that work together.",
+            "date": "2026-01-27",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "artifact-curation-staging-workflow",
+      "folder": "artifact-curation-staging-workflow",
+      "title": "Added artifact staging and curation to Work Reports",
+      "summary": "Work Report now gathers captured evidence into a staging pool where it can be scored, captioned, approved, or rejected before the approved set is copied into report-owned storage.",
+      "date": "2026-01-29",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Added artifact staging and curation to Work Reports",
+      "tags": [
+        "Python",
+        "PostgreSQL",
+        "AI"
+      ],
+      "part_of": "artifacts-pipeline-typed-evidence-from-work-report",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "wizard-flow-for-interactive-report-creation",
+            "folder": "wizard-flow-for-interactive-report-creation",
+            "title": "Turned Work Report creation into a guided wizard",
+            "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+            "date": "2026-01-30",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "hook-constellation-and-artifact-integration-for-visual-t",
+      "folder": "hook-constellation-and-artifact-integration-for-visual-t",
+      "title": "Connected visual tools to automatic artifact tracking",
+      "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+      "date": "2026-01-29",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Connected visual tools to automatic artifact tracking",
+      "tags": [
+        "Event-Driven Architecture",
+        "Python",
+        "Redis",
+        "PostgreSQL",
+        "Bash"
+      ],
+      "part_of": "artifacts-pipeline-typed-evidence-from-work-report",
+      "related_to": [
+        "diagram-tool",
+        "screenshot-tool"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "diagram-tool",
+            "folder": "diagram-tool",
+            "title": "Built a local-first diagramming tool",
+            "summary": "Built a local-first visual editor where the browser and MCP tools work on the same JSON-backed diagram through one API and update the canvas in real time.",
+            "date": "2025-11-23",
+            "prominence": "high"
+          },
+          {
+            "slug": "screenshot-tool",
+            "folder": "screenshot-tool",
+            "title": "Built a Wayland screenshot tool for precise desktop capture",
+            "summary": "Built a hotkey-driven Wayland screenshot tool with frozen region selection, unobstructed window capture, precise magnification, and consistent desktop and scripted output.",
+            "date": "2026-01-21",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+      "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+      "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+      "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+      "date": "2026-01-28",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/artifact-pipeline-preview.svg",
+      "previewAlt": "Diagram showing typed Work Report artifacts mapped to editable Portfolio Editor blocks and rendered on a portfolio page",
+      "previewWidth": 1600,
+      "previewHeight": 900,
+      "tags": [
+        "Python",
+        "JavaScript",
+        "Frontend",
+        "PostgreSQL",
+        "CLI",
+        "Migration"
+      ],
+      "part_of": "work-report",
+      "related_to": [
+        "v1-portfolio-editor-with-work-report-integration",
+        "portfolio-site"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        "parts": [
+          {
+            "slug": "artifact-curation-staging-workflow",
+            "folder": "artifact-curation-staging-workflow",
+            "title": "Added artifact staging and curation to Work Reports",
+            "summary": "Work Report now gathers captured evidence into a staging pool where it can be scored, captioned, approved, or rejected before the approved set is copied into report-owned storage.",
+            "date": "2026-01-29",
+            "prominence": "low"
+          },
+          {
+            "slug": "hook-constellation-and-artifact-integration-for-visual-t",
+            "folder": "hook-constellation-and-artifact-integration-for-visual-t",
+            "title": "Connected visual tools to automatic artifact tracking",
+            "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+            "date": "2026-01-29",
+            "prominence": "low"
+          },
+          {
+            "slug": "copy-at-capture-artifact-storage",
+            "folder": "copy-at-capture-artifact-storage",
+            "title": "Made Work Report artifacts durable at capture time",
+            "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retained the material it referenced.",
+            "date": "2026-01-28",
+            "prominence": "low"
+          },
+          {
+            "slug": "phase-5-fix-artifact-display-across-all-4-render-l",
+            "folder": "phase-5-fix-artifact-display-across-all-4-render-l",
+            "title": "Fixed artifact rendering across the portfolio pipeline",
+            "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+            "date": "2026-01-28",
+            "prominence": "low"
+          }
+        ],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "v1-portfolio-editor-with-work-report-integration",
+            "folder": "v1-portfolio-editor-with-work-report-integration",
+            "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+            "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+            "date": "2026-01-27",
+            "prominence": "high"
+          },
+          {
+            "slug": "portfolio-site",
+            "folder": "portfolio-site",
+            "title": "Built a timeline-based portfolio site",
+            "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+            "date": "2026-01-09",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "copy-at-capture-artifact-storage",
+      "folder": "copy-at-capture-artifact-storage",
+      "title": "Made Work Report artifacts durable at capture time",
+      "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retained the material it referenced.",
+      "date": "2026-01-28",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Made Work Report artifacts durable at capture time",
+      "tags": [
+        "Infrastructure",
+        "Python",
+        "PostgreSQL"
+      ],
+      "part_of": "artifacts-pipeline-typed-evidence-from-work-report",
+      "related_to": [
+        "work-report"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "work-report",
+            "folder": "work-report",
+            "title": "Built Work Report System to preserve completed work",
+            "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+            "date": "2026-01-17",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "phase-5-fix-artifact-display-across-all-4-render-l",
+      "folder": "phase-5-fix-artifact-display-across-all-4-render-l",
+      "title": "Fixed artifact rendering across the portfolio pipeline",
+      "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+      "date": "2026-01-28",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Fixed artifact rendering across the portfolio pipeline",
+      "github": "https://github.com/Ckrest/PortfolioSite",
+      "tags": [
+        "Debugging",
+        "JavaScript",
+        "Flask",
+        "Frontend"
+      ],
+      "part_of": "artifacts-pipeline-typed-evidence-from-work-report",
+      "related_to": [
+        "v1-portfolio-editor-with-work-report-integration",
+        "portfolio-site"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "v1-portfolio-editor-with-work-report-integration",
+            "folder": "v1-portfolio-editor-with-work-report-integration",
+            "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+            "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+            "date": "2026-01-27",
+            "prominence": "high"
+          },
+          {
+            "slug": "portfolio-site",
+            "folder": "portfolio-site",
+            "title": "Built a timeline-based portfolio site",
+            "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+            "date": "2026-01-09",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "detail-page-defaults-and-build-validation",
+      "folder": "detail-page-defaults-and-build-validation",
+      "title": "Added reliable defaults and validation to portfolio detail pages",
+      "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+      "date": "2026-01-27",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Added reliable defaults and validation to portfolio detail pages",
+      "github": "https://github.com/Ckrest/PortfolioSite",
+      "tags": [
+        "Frontend",
+        "JavaScript",
+        "Validation"
+      ],
+      "part_of": "refactor-detail-pages-to-block-based-content-syste",
+      "related_to": [
+        "v1-portfolio-editor-with-work-report-integration"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "refactor-detail-pages-to-block-based-content-syste",
+          "folder": "refactor-detail-pages-to-block-based-content-syste",
+          "title": "Made portfolio projects modular and their pages block-based",
+          "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+          "date": "2026-01-27",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "v1-portfolio-editor-with-work-report-integration",
+            "folder": "v1-portfolio-editor-with-work-report-integration",
+            "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+            "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+            "date": "2026-01-27",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "group-block-ux-permanent-add-button-insertion-zone",
+      "folder": "group-block-ux-permanent-add-button-insertion-zone",
+      "title": "Made nested blocks easier to edit",
+      "summary": "Added an always-visible child control, click-outside deselection, and drag cleanup so groups follow the same editing rules as top-level blocks.",
+      "date": "2026-01-27",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Made nested blocks easier to edit",
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "Interaction Design"
+      ],
+      "part_of": "v1-portfolio-editor-with-work-report-integration",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "v1-portfolio-editor-with-work-report-integration",
+          "folder": "v1-portfolio-editor-with-work-report-integration",
+          "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+          "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+          "date": "2026-01-27",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": []
+      }
+    },
+    {
+      "slug": "refactor-detail-pages-to-block-based-content-syste",
+      "folder": "refactor-detail-pages-to-block-based-content-syste",
+      "title": "Made portfolio projects modular and their pages block-based",
+      "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+      "date": "2026-01-27",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/project-module-block-architecture.svg",
+      "previewAlt": "Diagram showing project details, visuals, and writing flowing through a shared foundation into a flexible portfolio page",
+      "previewWidth": 1600,
+      "previewHeight": 900,
+      "github": "https://github.com/Ckrest/PortfolioSite",
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "Architecture",
+        "Refactoring"
+      ],
+      "part_of": "portfolio-site",
+      "related_to": [
+        "restructure-portfolio-site-with-modular-architectu"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "portfolio-site",
+          "folder": "portfolio-site",
+          "title": "Built a timeline-based portfolio site",
+          "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+          "date": "2026-01-09",
+          "prominence": "high"
+        },
+        "parts": [
+          {
+            "slug": "detail-page-defaults-and-build-validation",
+            "folder": "detail-page-defaults-and-build-validation",
+            "title": "Added reliable defaults and validation to portfolio detail pages",
+            "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+            "date": "2026-01-27",
+            "prominence": "low"
+          }
+        ],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "restructure-portfolio-site-with-modular-architectu",
+            "folder": "restructure-portfolio-site-with-modular-architectu",
+            "title": "Rebuilt the portfolio from independent page sections",
+            "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+            "date": "2026-01-15",
+            "prominence": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "separated-package-histories-with-vcsh",
+      "folder": "separated-package-histories-with-vcsh",
+      "title": "Separated package histories with VCSH",
+      "summary": "Constellation now uses VCSH to track packages independently inside one shared workspace, giving every package a formal Git ownership boundary without splitting apart the files that work together.",
+      "date": "2026-01-27",
+      "prominence": "medium",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/vcsh-workspace-preview.png",
+      "previewAlt": "An isometric shared workspace platform with distinct package modules connected to separate external history archives.",
+      "previewWidth": 1536,
+      "previewHeight": 1024,
+      "tags": [
+        "Git",
+        "Architecture",
+        "Infrastructure"
+      ],
+      "part_of": "constellation-registry",
+      "related_to": [],
+      "relationships": {
+        "part_of": {
+          "slug": "constellation-registry",
+          "folder": "constellation-registry",
+          "title": "Built a discovery-based registry for a software workspace",
+          "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+          "date": "2026-01-08",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "work-report-vcsh-support",
+            "folder": "work-report-vcsh-support",
+            "title": "Made Work Report Git tracking package-aware",
+            "summary": "Work Report now uses the report’s project identity as the repository context for commit metadata, diff statistics, and captured Git evidence, routing VCSH-backed packages through their independent histories.",
+            "date": "2026-01-30",
+            "prominence": "low"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "v1-portfolio-editor-with-work-report-integration",
+      "folder": "v1-portfolio-editor-with-work-report-integration",
+      "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+      "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+      "date": "2026-01-27",
+      "prominence": "high",
+      "phase": 1,
+      "icon": "icon.svg",
+      "preview": "media/portfolio-editor-block-assembly-preview.png",
+      "previewAlt": "Portfolio Editor block palette with colored routes connecting Text, Image, and Gallery blocks to matching sections in a live portfolio page preview",
+      "previewWidth": 1600,
+      "previewHeight": 1000,
+      "tags": [
+        "Python",
+        "Flask",
+        "JavaScript",
+        "Frontend"
+      ],
+      "related_to": [
+        "work-report",
+        "portfolio-site"
+      ],
+      "relationships": {
+        "parts": [
+          {
+            "slug": "group-block-ux-permanent-add-button-insertion-zone",
+            "folder": "group-block-ux-permanent-add-button-insertion-zone",
+            "title": "Made nested blocks easier to edit",
+            "summary": "Added an always-visible child control, click-outside deselection, and drag cleanup so groups follow the same editing rules as top-level blocks.",
+            "date": "2026-01-27",
+            "prominence": "low"
+          }
+        ],
+        "superseded_by": [
+          {
+            "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+            "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+            "title": "Reworked Portfolio Editor architecture and editing flows",
+            "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+            "date": "2026-01-30",
+            "prominence": "medium"
+          }
+        ],
+        "related": [
+          {
+            "slug": "work-report",
+            "folder": "work-report",
+            "title": "Built Work Report System to preserve completed work",
+            "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+            "date": "2026-01-17",
+            "prominence": "high"
+          },
+          {
+            "slug": "portfolio-site",
+            "folder": "portfolio-site",
+            "title": "Built a timeline-based portfolio site",
+            "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+            "date": "2026-01-09",
+            "prominence": "high"
+          },
+          {
+            "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+            "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+            "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+            "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+            "date": "2026-01-28",
+            "prominence": "high"
+          },
+          {
+            "slug": "phase-5-fix-artifact-display-across-all-4-render-l",
+            "folder": "phase-5-fix-artifact-display-across-all-4-render-l",
+            "title": "Fixed artifact rendering across the portfolio pipeline",
+            "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+            "date": "2026-01-28",
+            "prominence": "low"
+          },
+          {
+            "slug": "detail-page-defaults-and-build-validation",
+            "folder": "detail-page-defaults-and-build-validation",
+            "title": "Added reliable defaults and validation to portfolio detail pages",
+            "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+            "date": "2026-01-27",
+            "prominence": "low"
+          }
+        ],
+        "latest": {
+          "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+          "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+          "title": "Reworked Portfolio Editor architecture and editing flows",
+          "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+          "date": "2026-01-30",
+          "prominence": "medium"
+        }
+      }
+    },
+    {
       "slug": "unified-output-destinations-for-modular-flow-engin",
       "folder": "unified-output-destinations-for-modular-flow-engin",
       "title": "Made Modular Flow Engine callable over HTTP",
@@ -65,6 +913,49 @@
       }
     },
     {
+      "slug": "fix-comfyui-conduit-redis-event-publishing",
+      "folder": "fix-comfyui-conduit-redis-event-publishing",
+      "title": "Restored live gallery updates from ComfyUI Conduit",
+      "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.",
+      "date": "2026-01-21",
+      "prominence": "low",
+      "phase": 1,
+      "icon": "icon.svg",
+      "previewAlt": "Restored live gallery updates from ComfyUI Conduit",
+      "github": "https://github.com/Ckrest/comfyui-conduit",
+      "tags": [
+        "Redis",
+        "Debugging",
+        "ComfyUI"
+      ],
+      "part_of": "comfyui-conduit",
+      "related_to": [
+        "comfy-viewer"
+      ],
+      "relationships": {
+        "part_of": {
+          "slug": "comfyui-conduit",
+          "folder": "comfyui-conduit",
+          "title": "Made ComfyUI workflows callable from external tools",
+          "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
+          "date": "2026-01-13",
+          "prominence": "high"
+        },
+        "parts": [],
+        "superseded_by": [],
+        "related": [
+          {
+            "slug": "comfy-viewer",
+            "folder": "comfy-viewer",
+            "title": "Built a browser and workflow manager for ComfyUI outputs",
+            "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
+            "date": "2026-01-10",
+            "prominence": "high"
+          }
+        ]
+      }
+    },
+    {
       "slug": "screenshot-tool",
       "folder": "screenshot-tool",
       "title": "Built a Wayland screenshot tool for precise desktop capture",
@@ -87,7 +978,16 @@
       "relationships": {
         "parts": [],
         "superseded_by": [],
-        "related": []
+        "related": [
+          {
+            "slug": "hook-constellation-and-artifact-integration-for-visual-t",
+            "folder": "hook-constellation-and-artifact-integration-for-visual-t",
+            "title": "Connected visual tools to automatic artifact tracking",
+            "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+            "date": "2026-01-29",
+            "prominence": "low"
+          }
+        ]
       }
     },
     {
@@ -343,7 +1243,40 @@
         "postgresql-history-database"
       ],
       "relationships": {
-        "parts": [],
+        "parts": [
+          {
+            "slug": "refactor-work-report-package-layout-and-stabilize-",
+            "folder": "refactor-work-report-package-layout-and-stabilize-",
+            "title": "Reorganized Work Report around a package boundary",
+            "summary": "Moved Work Report’s command, agent flow, evidence handlers, artifact mapping, and database migrations into one installable Python package with explicit artifact review and provenance handling.",
+            "date": "2026-02-11",
+            "prominence": "low"
+          },
+          {
+            "slug": "wizard-flow-for-interactive-report-creation",
+            "folder": "wizard-flow-for-interactive-report-creation",
+            "title": "Turned Work Report creation into a guided wizard",
+            "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+            "date": "2026-01-30",
+            "prominence": "low"
+          },
+          {
+            "slug": "work-report-vcsh-support",
+            "folder": "work-report-vcsh-support",
+            "title": "Made Work Report Git tracking package-aware",
+            "summary": "Work Report now uses the report’s project identity as the repository context for commit metadata, diff statistics, and captured Git evidence, routing VCSH-backed packages through their independent histories.",
+            "date": "2026-01-30",
+            "prominence": "low"
+          },
+          {
+            "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+            "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+            "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+            "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+            "date": "2026-01-28",
+            "prominence": "high"
+          }
+        ],
         "superseded_by": [],
         "related": [
           {
@@ -353,6 +1286,30 @@
             "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
             "date": "2025-11-16",
             "prominence": "medium"
+          },
+          {
+            "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+            "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+            "title": "Reworked Portfolio Editor architecture and editing flows",
+            "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+            "date": "2026-01-30",
+            "prominence": "medium"
+          },
+          {
+            "slug": "copy-at-capture-artifact-storage",
+            "folder": "copy-at-capture-artifact-storage",
+            "title": "Made Work Report artifacts durable at capture time",
+            "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retained the material it referenced.",
+            "date": "2026-01-28",
+            "prominence": "low"
+          },
+          {
+            "slug": "v1-portfolio-editor-with-work-report-integration",
+            "folder": "v1-portfolio-editor-with-work-report-integration",
+            "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+            "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+            "date": "2026-01-27",
+            "prominence": "high"
           }
         ]
       }
@@ -486,6 +1443,14 @@
         "superseded_by": [],
         "related": [
           {
+            "slug": "refactor-detail-pages-to-block-based-content-syste",
+            "folder": "refactor-detail-pages-to-block-based-content-syste",
+            "title": "Made portfolio projects modular and their pages block-based",
+            "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+            "date": "2026-01-27",
+            "prominence": "high"
+          },
+          {
             "slug": "modular-content-system-for-portfolio-project-pages",
             "folder": "modular-content-system-for-portfolio-project-pages",
             "title": "Created a modular content system for portfolio project pages",
@@ -519,7 +1484,16 @@
         "comfy-viewer"
       ],
       "relationships": {
-        "parts": [],
+        "parts": [
+          {
+            "slug": "fix-comfyui-conduit-redis-event-publishing",
+            "folder": "fix-comfyui-conduit-redis-event-publishing",
+            "title": "Restored live gallery updates from ComfyUI Conduit",
+            "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.",
+            "date": "2026-01-21",
+            "prominence": "low"
+          }
+        ],
         "superseded_by": [],
         "related": [
           {
@@ -529,6 +1503,14 @@
             "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
             "date": "2026-01-10",
             "prominence": "high"
+          },
+          {
+            "slug": "comfy-viewer-generic-standalone-hardening-and-dist",
+            "folder": "comfy-viewer-generic-standalone-hardening-and-dist",
+            "title": "Made ComfyUI Viewer independently installable",
+            "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+            "date": "2026-02-07",
+            "prominence": "low"
           }
         ]
       }
@@ -558,6 +1540,14 @@
         "parts": [],
         "superseded_by": [],
         "related": [
+          {
+            "slug": "redesigned-settings-hub-around-declarative-catalogs",
+            "folder": "redesigned-settings-hub-around-declarative-catalogs",
+            "title": "Redesigned Settings Hub around declarative catalogs",
+            "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+            "date": "2026-02-12",
+            "prominence": "high"
+          },
           {
             "slug": "settings-hub",
             "folder": "settings-hub",
@@ -589,6 +1579,14 @@
         "parts": [],
         "superseded_by": [],
         "related": [
+          {
+            "slug": "redesigned-settings-hub-around-declarative-catalogs",
+            "folder": "redesigned-settings-hub-around-declarative-catalogs",
+            "title": "Redesigned Settings Hub around declarative catalogs",
+            "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+            "date": "2026-02-12",
+            "prominence": "high"
+          },
           {
             "slug": "settings-hub",
             "folder": "settings-hub",
@@ -649,7 +1647,16 @@
         "comfyui-conduit"
       ],
       "relationships": {
-        "parts": [],
+        "parts": [
+          {
+            "slug": "comfy-viewer-generic-standalone-hardening-and-dist",
+            "folder": "comfy-viewer-generic-standalone-hardening-and-dist",
+            "title": "Made ComfyUI Viewer independently installable",
+            "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+            "date": "2026-02-07",
+            "prominence": "low"
+          }
+        ],
         "superseded_by": [],
         "related": [
           {
@@ -659,6 +1666,14 @@
             "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
             "date": "2026-01-13",
             "prominence": "high"
+          },
+          {
+            "slug": "fix-comfyui-conduit-redis-event-publishing",
+            "folder": "fix-comfyui-conduit-redis-event-publishing",
+            "title": "Restored live gallery updates from ComfyUI Conduit",
+            "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.",
+            "date": "2026-01-21",
+            "prominence": "low"
           }
         ]
       }
@@ -686,6 +1701,14 @@
       "relationships": {
         "parts": [
           {
+            "slug": "refactor-detail-pages-to-block-based-content-syste",
+            "folder": "refactor-detail-pages-to-block-based-content-syste",
+            "title": "Made portfolio projects modular and their pages block-based",
+            "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+            "date": "2026-01-27",
+            "prominence": "high"
+          },
+          {
             "slug": "site-update-2026-01-16",
             "folder": "site-update-2026-01-16",
             "title": "Made the portfolio timeline richer and easier to navigate",
@@ -704,7 +1727,40 @@
             "prominence": "medium"
           }
         ],
-        "related": [],
+        "related": [
+          {
+            "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+            "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+            "title": "Reworked Portfolio Editor architecture and editing flows",
+            "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+            "date": "2026-01-30",
+            "prominence": "medium"
+          },
+          {
+            "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+            "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+            "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+            "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+            "date": "2026-01-28",
+            "prominence": "high"
+          },
+          {
+            "slug": "phase-5-fix-artifact-display-across-all-4-render-l",
+            "folder": "phase-5-fix-artifact-display-across-all-4-render-l",
+            "title": "Fixed artifact rendering across the portfolio pipeline",
+            "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+            "date": "2026-01-28",
+            "prominence": "low"
+          },
+          {
+            "slug": "v1-portfolio-editor-with-work-report-integration",
+            "folder": "v1-portfolio-editor-with-work-report-integration",
+            "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+            "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+            "date": "2026-01-27",
+            "prominence": "high"
+          }
+        ],
         "latest": {
           "slug": "restructure-portfolio-site-with-modular-architectu",
           "folder": "restructure-portfolio-site-with-modular-architectu",
@@ -760,7 +1816,24 @@
         "process-manager"
       ],
       "relationships": {
-        "parts": [],
+        "parts": [
+          {
+            "slug": "trait-system-redesign-dynamic-serving-via-trait-de",
+            "folder": "trait-system-redesign-dynamic-serving-via-trait-de",
+            "title": "Made registry traits define their own API behavior",
+            "summary": "Moved Constellation Framework trait schemas, resolution, queries, aggregation, and API projections out of hardcoded transforms and into declarative registry definitions.",
+            "date": "2026-02-04",
+            "prominence": "low"
+          },
+          {
+            "slug": "separated-package-histories-with-vcsh",
+            "folder": "separated-package-histories-with-vcsh",
+            "title": "Separated package histories with VCSH",
+            "summary": "Constellation now uses VCSH to track packages independently inside one shared workspace, giving every package a formal Git ownership boundary without splitting apart the files that work together.",
+            "date": "2026-01-27",
+            "prominence": "medium"
+          }
+        ],
         "superseded_by": [],
         "related": [
           {
@@ -1266,7 +2339,16 @@
       ],
       "relationships": {
         "parts": [],
-        "superseded_by": [],
+        "superseded_by": [
+          {
+            "slug": "redesigned-settings-hub-around-declarative-catalogs",
+            "folder": "redesigned-settings-hub-around-declarative-catalogs",
+            "title": "Redesigned Settings Hub around declarative catalogs",
+            "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+            "date": "2026-02-12",
+            "prominence": "high"
+          }
+        ],
         "related": [
           {
             "slug": "graph-lib",
@@ -1308,7 +2390,15 @@
             "date": "2025-12-22",
             "prominence": "medium"
           }
-        ]
+        ],
+        "latest": {
+          "slug": "redesigned-settings-hub-around-declarative-catalogs",
+          "folder": "redesigned-settings-hub-around-declarative-catalogs",
+          "title": "Redesigned Settings Hub around declarative catalogs",
+          "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+          "date": "2026-02-12",
+          "prominence": "high"
+        }
       }
     },
     {
@@ -1335,7 +2425,16 @@
       "relationships": {
         "parts": [],
         "superseded_by": [],
-        "related": []
+        "related": [
+          {
+            "slug": "hook-constellation-and-artifact-integration-for-visual-t",
+            "folder": "hook-constellation-and-artifact-integration-for-visual-t",
+            "title": "Connected visual tools to automatic artifact tracking",
+            "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+            "date": "2026-01-29",
+            "prominence": "low"
+          }
+        ]
       }
     },
     {

@@ -1,0 +1,88 @@
+content:
+  blocks:
+  - body: '## Capture evidence as typed artifacts
+
+
+      Work Report now attaches screenshots, code samples, terminal output, comparisons,
+      and structured data as typed artifacts. Each record identifies the kind of evidence
+      and carries the content needed to use it again.
+
+
+      That turns material produced during daily work into structured input for documentation
+      and portfolio authoring.'
+    id: blk_editorial_artifacts-pipeline-typed
+    type: text
+  - body: '## Keep the material with the report
+
+
+      Files are copied into report-owned storage when they are captured, so the report
+      does not depend on the original path remaining available. Text-based artifacts
+      keep both a durable file and inline content: the editor can prefill an editable
+      block while the site can render the same material from a file.
+
+
+      The report therefore preserves both the evidence and enough structure to reuse
+      it.'
+    id: blk_preserve_report_material
+    type: text
+  - caption: Artifact type selects the initial block while the editor keeps its content
+      and placement editable.
+    code: "flowchart LR\n  Artifact[Typed artifact] --> Kind{Artifact type}\n  Kind\
+      \ -->|Screenshot| Image[Image block]\n  Kind -->|Code| Code[Code block]\n  Kind\
+      \ -->|Terminal| Terminal[Terminal block]\n  Kind -->|Comparison| Compare[Comparison\
+      \ block]\n  Kind -->|Data| Graph[Graph block]\n  Image & Code & Terminal & Compare\
+      \ & Graph --> Page[Editable project page]"
+    id: blk_artifact_type_mapping
+    presentation: content
+    sourceMode: inline
+    summary: Artifact type selects the initial block while the editor keeps its content
+      and placement editable.
+    type: mermaid
+  - body: '## Turn artifact types into editable blocks
+
+
+      Portfolio Editor displays the artifacts attached to a report and maps each type
+      to a matching content block. Dropping a code sample creates a code block; terminal
+      output, comparisons, screenshots, and data receive their corresponding presentation.
+
+
+      The generated block is a starting point that can be moved, labeled, trimmed,
+      or edited alongside the rest of the page.'
+    id: blk_map_artifacts_to_blocks
+    type: text
+  - body: '## Render the same evidence on the portfolio page
+
+
+      Portfolio Site adds renderers for code, terminal sessions, comparisons, and
+      graphs, along with file handling that carries attached material into the project’s
+      media. Once the editor places and adjusts an artifact, the resulting block renders
+      with the same type-specific presentation on the detail page.
+
+
+      Daily work can now move from report evidence to finished portfolio content without
+      being rebuilt by hand.'
+    id: blk_render_evidence_on_page
+    type: text
+date: '2026-01-28'
+discovery: listed
+icon: icon.svg
+kind: update
+part_of: work-report
+preview: media/artifact-pipeline-preview.svg
+previewAlt: Diagram showing typed Work Report artifacts mapped to editable Portfolio
+  Editor blocks and rendered on a portfolio page
+prominence: high
+related_to:
+- v1-portfolio-editor-with-work-report-integration
+- portfolio-site
+slug: artifacts-pipeline-typed-evidence-from-work-report
+summary: Preserved screenshots, code, terminal output, comparisons, and data as typed
+  Work Report artifacts, then mapped them into editable blocks for portfolio pages.
+tags:
+- Python
+- JavaScript
+- Frontend
+- PostgreSQL
+- CLI
+- Migration
+title: Built an evidence pipeline from Work Reports to portfolio pages

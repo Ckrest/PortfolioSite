@@ -62,7 +62,40 @@
     "previewWidth": 1400,
     "previewHeight": 1000,
     "relationships": {
-      "parts": [],
+      "parts": [
+        {
+          "slug": "refactor-work-report-package-layout-and-stabilize-",
+          "folder": "refactor-work-report-package-layout-and-stabilize-",
+          "title": "Reorganized Work Report around a package boundary",
+          "summary": "Moved Work Report’s command, agent flow, evidence handlers, artifact mapping, and database migrations into one installable Python package with explicit artifact review and provenance handling.",
+          "date": "2026-02-11",
+          "prominence": "low"
+        },
+        {
+          "slug": "wizard-flow-for-interactive-report-creation",
+          "folder": "wizard-flow-for-interactive-report-creation",
+          "title": "Turned Work Report creation into a guided wizard",
+          "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+          "date": "2026-01-30",
+          "prominence": "low"
+        },
+        {
+          "slug": "work-report-vcsh-support",
+          "folder": "work-report-vcsh-support",
+          "title": "Made Work Report Git tracking package-aware",
+          "summary": "Work Report now uses the report’s project identity as the repository context for commit metadata, diff statistics, and captured Git evidence, routing VCSH-backed packages through their independent histories.",
+          "date": "2026-01-30",
+          "prominence": "low"
+        },
+        {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        }
+      ],
       "superseded_by": [],
       "related": [
         {
@@ -72,6 +105,30 @@
           "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
           "date": "2025-11-16",
           "prominence": "medium"
+        },
+        {
+          "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+          "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+          "title": "Reworked Portfolio Editor architecture and editing flows",
+          "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+          "date": "2026-01-30",
+          "prominence": "medium"
+        },
+        {
+          "slug": "copy-at-capture-artifact-storage",
+          "folder": "copy-at-capture-artifact-storage",
+          "title": "Made Work Report artifacts durable at capture time",
+          "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retained the material it referenced.",
+          "date": "2026-01-28",
+          "prominence": "low"
+        },
+        {
+          "slug": "v1-portfolio-editor-with-work-report-integration",
+          "folder": "v1-portfolio-editor-with-work-report-integration",
+          "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+          "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+          "date": "2026-01-27",
+          "prominence": "high"
         }
       ]
     }

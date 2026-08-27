@@ -1,0 +1,52 @@
+content:
+  blocks:
+  - body: '## Separate report facts from evidence discovery
+
+
+      Work Report creation now begins with the project, title, tags, and an explicit
+      duration. The duration records active work time independently of file timestamps.
+
+
+      Registered evidence handlers then search the work session and present candidates
+      with their type and source path visible.'
+    id: blk_editorial_wizard-flow-for-interact
+    type: text
+  - caption: Four visible phases carry the report from required facts to saved evidence.
+    code: "flowchart LR\n  Facts[1 · Required facts] --> Evidence[2 · Discover and\
+      \ review]\n  Evidence --> Verify[3 · Targeted verification]\n  Verify --> Confirm[4\
+      \ · Confirm report]\n  Confirm --> Record[Save report + evidence]"
+    id: blk_report_wizard
+    presentation: content
+    sourceMode: inline
+    summary: Four visible phases carry the report from required facts to saved evidence.
+    type: mermaid
+  - body: '## Ask only the relevant follow-ups
+
+
+      Evidence candidates are listed as INCLUDE or SKIP and can be toggled before
+      continuing. Verification begins with broad categories—visuals, demos, data,
+      and comparisons—then expands only into questions defined by the matching evidence
+      handlers.
+
+
+      The final confirmation summarizes the report facts, change statistics, and selected
+      evidence before saving the report and copying its evidence into durable report
+      storage.'
+    id: blk_wizard_relevant_followups
+    type: text
+date: '2026-01-30'
+discovery: listed
+icon: icon.svg
+kind: update
+part_of: work-report
+prominence: low
+related_to:
+- artifact-curation-staging-workflow
+slug: wizard-flow-for-interactive-report-creation
+summary: Work Report now guides creation through required facts, evidence review,
+  handler-defined verification prompts, and final confirmation before saving the report
+  and its selected evidence.
+tags:
+- Python
+- CLI
+title: Turned Work Report creation into a guided wizard

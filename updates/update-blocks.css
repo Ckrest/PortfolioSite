@@ -25,6 +25,7 @@
   --wide: min(1180px, 100%);
   --flow-gap: clamp(36px, 6vw, 72px);
   --radius: clamp(10px, 1.5vw, 18px);
+  --artifact-caption-inset: clamp(12px, 1.5vw, 18px);
   --font-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, system-ui, sans-serif;
   --font-mono: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   --type-page-title-size: clamp(2.55rem, 1.95rem + 2.6vw, 4.75rem);
@@ -422,17 +423,32 @@ main > .update-overview-region {
 }
 
 .update-preview figure {
-  display: flex;
-  justify-content: center;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
-.update-preview img {
-  display: block;
-  width: auto;
-  max-width: 100%;
-  max-height: min(70svh, 720px);
-  object-fit: contain;
+.update-preview .media-trigger {
+  width: 100%;
+  height: 100%;
 }
+
+.update-preview .media-trigger img,
+.update-preview figure > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  object-fit: cover;
+}
+
+.update-preview .media-trigger img { border-radius: 0; }
 
 .update-overview-meta {
   display: flex;
@@ -663,7 +679,16 @@ figure { margin: 0; }
 .media-trigger img,
 figure > img,
 .gallery-grid img,
-.comparison-side img,
+.comparison-side img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .block-video video {
   display: block;
   width: 100%;
@@ -680,27 +705,16 @@ figure > img,
   position: relative;
   display: block;
   max-width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: transparent;
   color: inherit;
   text-decoration: none;
 }
 
-.media-view-affordance {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  min-height: 36px;
-  padding: 7px 11px;
-  border: 1px solid color-mix(in oklab, white, transparent 72%);
-  border-radius: 999px;
-  background: color-mix(in oklab, #111, transparent 14%);
-  color: white;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 20px;
-}
-
 .block-image[data-presentation="intrinsic"] figure {
-  width: 100%;
+  width: min(100%, max(var(--media-intrinsic-width, 100%), 42ch));
+  margin-inline: auto;
 }
 
 .block-image[data-presentation="intrinsic"] .media-trigger {
@@ -723,7 +737,9 @@ figcaption,
 .block-terminal figcaption,
 .block-comparison figcaption,
 .block-graph figcaption {
-  margin-top: 12px;
+  width: 100%;
+  margin: 12px 0 0;
+  padding-inline: var(--artifact-caption-inset);
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -742,7 +758,7 @@ figcaption,
   min-width: 0;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--soft);
+  background: transparent;
 }
 
 .gallery-cols-1 { grid-template-columns: 1fr; }
@@ -767,18 +783,12 @@ figcaption,
 
 .video-embed-wrapper,
 .pdf-embed,
-.terminal-window,
-.block-mermaid .mermaid-diagram {
+.terminal-window {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
   box-shadow: none;
-}
-
-.block-mermaid .mermaid-diagram {
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
 .pdf-embed {
@@ -833,8 +843,7 @@ figcaption,
 }
 
 .source-wrap-btn,
-.terminal-copy-btn,
-.diagram-toolbar button {
+.terminal-copy-btn {
   min-height: 32px;
   padding: 5px 10px;
   border: 1px solid var(--line);
@@ -896,22 +905,116 @@ figcaption,
 }
 
 .diagram-toolbar {
+  width: max-content;
+  max-width: 100%;
   justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 0;
   margin-bottom: 8px;
+  margin-left: auto;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--soft);
 }
 
-.mermaid-viewport {
-  max-height: 80svh;
-  overflow: auto;
+.diagram-toolbar button {
+  display: grid;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  font: 600 12px/1 var(--font-mono);
+  place-items: center;
+  cursor: pointer;
+}
+
+.diagram-toolbar .diagram-zoom-reset { min-width: 64px; }
+
+.diagram-toolbar button:hover,
+.diagram-toolbar button:focus-visible {
+  background: var(--panel);
+}
+
+.diagram-toolbar button:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 1px;
+}
+
+.diagram-toolbar button[aria-disabled="true"] {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.mermaid-frame {
+  --diagram-frame-inset: 6px;
+  overflow: clip;
+  padding: var(--diagram-frame-inset);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
 }
 
+.mermaid-viewport {
+  width: 100%;
+  min-height: min(180px, 50svh);
+  max-height: 80svh;
+  aspect-ratio: var(--diagram-viewport-ratio, auto);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: clamp(16px, 2.5vw, 24px) clamp(28px, 3vw, 36px) clamp(28px, 3vw, 36px) clamp(16px, 2.5vw, 24px);
+  border: 0;
+  border-radius: calc(var(--radius) - var(--diagram-frame-inset));
+  background: transparent;
+  scrollbar-color: color-mix(in oklab, var(--muted), transparent 38%) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.mermaid-viewport:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: -2px;
+}
+
+.mermaid-viewport::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.mermaid-viewport::-webkit-scrollbar-track,
+.mermaid-viewport::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.mermaid-viewport::-webkit-scrollbar-thumb {
+  min-width: 36px;
+  min-height: 36px;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--muted), transparent 38%);
+  background-clip: padding-box;
+}
+
 .block-mermaid .mermaid-diagram {
   width: calc(100% * var(--diagram-scale, 1));
-  transform-origin: top left;
-  transform: scale(var(--diagram-scale, 1));
+  margin-inline: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  transform: none;
+}
+
+.block-mermaid .mermaid-diagram svg {
+  display: block;
+  width: 100%;
+  max-width: none !important;
+  height: auto;
+  flex: none;
 }
 
 .media-viewer-caption {

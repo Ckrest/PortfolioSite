@@ -56,6 +56,14 @@
     "relationships": {
       "parts": [
         {
+          "slug": "refactor-detail-pages-to-block-based-content-syste",
+          "folder": "refactor-detail-pages-to-block-based-content-syste",
+          "title": "Made portfolio projects modular and their pages block-based",
+          "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+          "date": "2026-01-27",
+          "prominence": "high"
+        },
+        {
           "slug": "site-update-2026-01-16",
           "folder": "site-update-2026-01-16",
           "title": "Made the portfolio timeline richer and easier to navigate",
@@ -74,7 +82,40 @@
           "prominence": "medium"
         }
       ],
-      "related": [],
+      "related": [
+        {
+          "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+          "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+          "title": "Reworked Portfolio Editor architecture and editing flows",
+          "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+          "date": "2026-01-30",
+          "prominence": "medium"
+        },
+        {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        },
+        {
+          "slug": "phase-5-fix-artifact-display-across-all-4-render-l",
+          "folder": "phase-5-fix-artifact-display-across-all-4-render-l",
+          "title": "Fixed artifact rendering across the portfolio pipeline",
+          "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+          "date": "2026-01-28",
+          "prominence": "low"
+        },
+        {
+          "slug": "v1-portfolio-editor-with-work-report-integration",
+          "folder": "v1-portfolio-editor-with-work-report-integration",
+          "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+          "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+          "date": "2026-01-27",
+          "prominence": "high"
+        }
+      ],
       "latest": {
         "slug": "restructure-portfolio-site-with-modular-architectu",
         "folder": "restructure-portfolio-site-with-modular-architectu",

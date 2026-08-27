@@ -1,0 +1,215 @@
+{
+  "schema": "portfolio-update@5",
+  "update": {
+    "kind": "update",
+    "slug": "v1-portfolio-editor-with-work-report-integration",
+    "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+    "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+    "date": "2026-01-27",
+    "prominence": "high",
+    "discovery": "listed",
+    "related_to": [
+      "work-report",
+      "portfolio-site"
+    ],
+    "preview": "media/portfolio-editor-block-assembly-preview.png",
+    "previewAlt": "Portfolio Editor block palette with colored routes connecting Text, Image, and Gallery blocks to matching sections in a live portfolio page preview",
+    "icon": "icon.svg",
+    "tags": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "Frontend"
+    ],
+    "content": {
+      "blocks": [
+        {
+          "body": "## Turn portfolio site authoring into a visual workflow\n\nPortfolio Editor brings completed Work Reports, project metadata, content blocks, and the rendered detail page into one web application. Its Flask backend reads report records from PostgreSQL and manages Portfolio Site project sources, while the browser keeps those inputs visible within one editing session.\n\nThe interface is divided into Reports, Projects, Blocks, and a live preview. Project source becomes forms and composable blocks, so the page can be shaped and inspected through the same interface that holds its supporting material.",
+          "id": "blk_v1_editor_workflow",
+          "type": "text"
+        },
+        {
+          "id": "blk_ref_portfolio_site",
+          "slug": "portfolio-site",
+          "type": "related-mini"
+        },
+        {
+          "caption": "Work Report records, project fields, and seven block types meet in one editing session that drives the real page preview and structured project source.",
+          "code": "flowchart LR\n  Reports[Work Report records] --> Editor[Portfolio Editor session]\n  Projects[Project fields] --> Editor\n  Palette[Seven block types] --> Editor\n  Editor --> Preview[Live Site preview]\n  Editor --> Source[Structured project source]",
+          "id": "blk_v1_editor_flow",
+          "presentation": "content",
+          "sourceMode": "inline",
+          "summary": "Work Report records, project fields, and seven block types meet in one editing session that drives the real page preview and structured project source.",
+          "type": "mermaid"
+        },
+        {
+          "body": "## Move Work Report material into the page\n\nOpening a completed Work Report in the Reports panel exposes its description, reasoning, metadata, and available material as separate source fields. Each field can be dragged into project metadata or the page’s block list, while the complete report can seed a new portfolio project for further editing.",
+          "id": "blk_v1_editor_report_material",
+          "type": "text"
+        },
+        {
+          "id": "blk_ref_work_report",
+          "slug": "work-report",
+          "type": "related-mini"
+        },
+        {
+          "alt": "Screenshot_2026-08-26_15-34-39_Region.png",
+          "caption": "An expanded Work Report exposes draggable content, artifacts, and metadata beside the portfolio page being assembled.",
+          "evidenceQualifier": "",
+          "id": "b32122ca-1403-406c-8fcd-4ea46d366245",
+          "presentation": "intrinsic",
+          "src": "assets/Screenshot_2026-08-26_15-34-39_Region.png",
+          "type": "image"
+        },
+        {
+          "body": "## Shape the project around that material\n\nThe Projects panel manages the fields used by timeline cards and detail pages: title, summary, date, presentation size, tags, links, icon, and preview. A controlled tag vocabulary and autocomplete keep the metadata consistent while every field remains editable.",
+          "id": "blk_v1_editor_project_fields",
+          "type": "text"
+        },
+        {
+          "body": "## Compose Portfolio Site pages from seven block types\n\nThe Blocks panel offers text, image, video, gallery, README, PDF, and group blocks. A block can start empty from the palette or be filled with material brought over from a report. Groups let related blocks share one section while retaining their individual types.\n\nPage content stays as structured data rather than rendered HTML. That keeps reordering and type-specific editing straightforward while Portfolio Site remains responsible for typography, responsive layout, media behavior, and links.",
+          "id": "blk_v1_editor_blocks",
+          "type": "text"
+        },
+        {
+          "caption": "The Projects and Blocks tabs keep structured metadata and seven composable block types beside the rendered page.",
+          "fit": "contain",
+          "id": "blk_v1_editor_gallery",
+          "images": [
+            {
+              "alt": "Portfolio Editor Projects tab with project metadata controls beside the rendered portfolio page",
+              "src": "media/screenshot_2026-01-27_20-40-46.png"
+            },
+            {
+              "alt": "Portfolio Editor Blocks tab with text, image, video, gallery, README, PDF, and group controls beside the rendered detail page",
+              "src": "media/screenshot_2026-01-27_20-40-07.png"
+            }
+          ],
+          "presentation": "wide",
+          "type": "gallery"
+        },
+        {
+          "body": "## Edit against the real renderer\n\nThe right pane loads Portfolio Site’s detail page in a same-origin iframe. An injected bridge sends the in-memory project and block state into the renderer and maps clicks in the page back to the corresponding field or block in the Editor.\n\nThe preview therefore uses the Site’s real CSS and block behavior while keeping authoring controls outside the public page. Changes can be inspected in memory before the structured project source is saved.",
+          "id": "blk_v1_editor_preview",
+          "type": "text"
+        }
+      ]
+    },
+    "folder": "v1-portfolio-editor-with-work-report-integration",
+    "phase": 1,
+    "previewWidth": 1600,
+    "previewHeight": 1000,
+    "relationships": {
+      "parts": [
+        {
+          "slug": "group-block-ux-permanent-add-button-insertion-zone",
+          "folder": "group-block-ux-permanent-add-button-insertion-zone",
+          "title": "Made nested blocks easier to edit",
+          "summary": "Added an always-visible child control, click-outside deselection, and drag cleanup so groups follow the same editing rules as top-level blocks.",
+          "date": "2026-01-27",
+          "prominence": "low"
+        }
+      ],
+      "superseded_by": [
+        {
+          "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+          "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+          "title": "Reworked Portfolio Editor architecture and editing flows",
+          "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+          "date": "2026-01-30",
+          "prominence": "medium"
+        }
+      ],
+      "related": [
+        {
+          "slug": "work-report",
+          "folder": "work-report",
+          "title": "Built Work Report System to preserve completed work",
+          "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+          "date": "2026-01-17",
+          "prominence": "high"
+        },
+        {
+          "slug": "portfolio-site",
+          "folder": "portfolio-site",
+          "title": "Built a timeline-based portfolio site",
+          "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+          "date": "2026-01-09",
+          "prominence": "high"
+        },
+        {
+          "slug": "artifacts-pipeline-typed-evidence-from-work-report",
+          "folder": "artifacts-pipeline-typed-evidence-from-work-report",
+          "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+          "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+          "date": "2026-01-28",
+          "prominence": "high"
+        },
+        {
+          "slug": "phase-5-fix-artifact-display-across-all-4-render-l",
+          "folder": "phase-5-fix-artifact-display-across-all-4-render-l",
+          "title": "Fixed artifact rendering across the portfolio pipeline",
+          "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+          "date": "2026-01-28",
+          "prominence": "low"
+        },
+        {
+          "slug": "detail-page-defaults-and-build-validation",
+          "folder": "detail-page-defaults-and-build-validation",
+          "title": "Added reliable defaults and validation to portfolio detail pages",
+          "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+          "date": "2026-01-27",
+          "prominence": "low"
+        }
+      ],
+      "latest": {
+        "slug": "portfolio-editor-v2-architecture-and-feature-compl",
+        "folder": "portfolio-editor-v2-architecture-and-feature-compl",
+        "title": "Reworked Portfolio Editor architecture and editing flows",
+        "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+        "date": "2026-01-30",
+        "prominence": "medium"
+      }
+    }
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/Screenshot_2026-08-26_15-34-39_Region.png": {
+        "media_type": "image/png",
+        "width": 527,
+        "height": 898
+      },
+      "icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24
+      },
+      "media/portfolio-editor-block-assembly-preview.png": {
+        "media_type": "image/png",
+        "width": 1600,
+        "height": 1000
+      },
+      "media/screenshot_2026-01-27_20-40-07.png": {
+        "media_type": "image/png",
+        "width": 1362,
+        "height": 1327
+      },
+      "media/screenshot_2026-01-27_20-40-46.png": {
+        "media_type": "image/png",
+        "width": 1362,
+        "height": 1326
+      }
+    }
+  },
+  "asset_manifest": {
+    "schema": "portfolio-site/asset-manifest@1",
+    "assets": [
+      "assets/Screenshot_2026-08-26_15-34-39_Region.png",
+      "icon.svg",
+      "media/portfolio-editor-block-assembly-preview.png",
+      "media/screenshot_2026-01-27_20-40-07.png",
+      "media/screenshot_2026-01-27_20-40-46.png"
+    ]
+  }
+}

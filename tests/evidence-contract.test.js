@@ -73,7 +73,37 @@ test('renderer shows editable public copy and never renders raw provenance', asy
   assert.match(main.innerHTML, /The useful public caption/);
   assert.match(main.innerHTML, /Current interface shown for an earlier workflow/);
   assert.match(main.innerHTML, /--media-intrinsic-width: 91px/);
+  assert.match(main.innerHTML, /aria-label="Open image: Example interface"/);
+  assert.doesNotMatch(main.innerHTML, /View larger|media-view-affordance/);
   assert.doesNotMatch(main.innerHTML, /2026-08-15|retrospective reconstruction|Private intake note/);
+});
+
+test('detail media and diagram controls use the current compact interaction pattern', async () => {
+  const [renderer, mediaSource, styles] = await Promise.all([
+    readFile(new URL('../updates/update-renderer.js', import.meta.url), 'utf8'),
+    readFile(new URL('../updates/update-media.js', import.meta.url), 'utf8'),
+    readFile(new URL('../updates/update-blocks.css', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(renderer, /role="toolbar" aria-label="Diagram zoom controls"/);
+  assert.match(renderer, /aria-label="Zoom out"/);
+  assert.match(renderer, /aria-label="Zoom in"/);
+  assert.match(renderer, /event\.key === 'ArrowRight'/);
+  assert.doesNotMatch(renderer, /data-diagram-action="source"|mermaid-code|View larger/);
+  assert.match(renderer, /class="mermaid-frame"><div class="mermaid-viewport"/);
+  assert.match(renderer, /updateScale\(\{ preserveCenter: true \}\)/);
+  assert.match(renderer, /<figure class="media-gallery"\$\{intrinsicWidth\}>/);
+  assert.match(mediaSource, /showHideAnimationType: reduceMotion \? 'none' : 'fade'/);
+  assert.doesNotMatch(mediaSource, /addFilter\('thumbBounds'|calculateObjectFitBounds/);
+  assert.match(styles, /\.update-preview figure\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s);
+  assert.match(styles, /\.update-preview \.media-trigger img,[\s\S]*?object-fit:\s*cover/);
+  assert.match(styles, /\.media-trigger\s*\{[^}]*overflow:\s*hidden[^}]*background:\s*transparent/s);
+  assert.match(styles, /\.media-trigger img,[\s\S]*?border:\s*0[^}]*background:\s*transparent/);
+  assert.match(styles, /--artifact-caption-inset:\s*clamp\(12px, 1\.5vw, 18px\)/);
+  assert.match(styles, /figcaption,[\s\S]*?width:\s*100%[^}]*margin:\s*12px 0 0[^}]*padding-inline:\s*var\(--artifact-caption-inset\)/);
+  assert.match(styles, /\.mermaid-frame\s*\{[^}]*overflow:\s*clip[^}]*border:\s*1px solid var\(--line\)/s);
+  assert.match(styles, /\.mermaid-viewport\s*\{[^}]*aspect-ratio:[^}]*overflow:\s*auto[^}]*scrollbar-gutter:\s*stable/s);
+  assert.match(styles, /\.block-mermaid \.mermaid-diagram\s*\{[^}]*width:\s*calc\(100% \* var\(--diagram-scale, 1\)\)[^}]*transform:\s*none/s);
 });
 
 test('explicit inline source mode wins over a retained attached path', async () => {

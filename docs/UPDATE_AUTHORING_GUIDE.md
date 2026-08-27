@@ -179,7 +179,21 @@ from the larger canvas. Galleries default to `fit: contain`, which preserves the
 complete image; select `cover` only when consistent cropped tiles convey the
 content correctly. Images, gallery items, comparisons, and supplied previews
 open in PhotoSwipe for keyboard-accessible inspection and zoom. Captions remain
-visible on the page and in the viewer.
+visible on the page and in the viewer. Detail-page previews use one consistent
+16:9 cover frame; block-image presentation does not change that header frame.
+Artifact captions are left-aligned with the artifact rather than independently
+centered on the page. An intrinsic image and its caption share a centered
+footprint: the footprint follows the image width when practical and keeps a
+small minimum reading width for captions beneath unusually narrow images. A
+shared responsive inset moves caption text slightly inside that footprint while
+keeping its outer edges aligned with the artifact.
+PhotoSwipe fades between the page and viewer because block images can be
+cropped, intrinsic, or transparent; zooming remains available inside the open
+viewer.
+Mermaid diagrams keep a stable single-frame viewport while their content is
+zoomed. Zoom preserves the current visual center, and native keyboard scrolling
+remains available inside an inset scrollport whose scrollbars cannot cover the
+outer border or rounded corners.
 
 Use `related-mini` immediately after the block whose copy mentions another
 update. It is an inline contextual link, not a standalone section. Use

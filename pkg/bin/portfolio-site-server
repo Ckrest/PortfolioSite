@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Serve the currently realized Portfolio Site on its local-only endpoint."""
+"""Serve the currently realized Portfolio Site on the local IPv4 network."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 9742
 
 

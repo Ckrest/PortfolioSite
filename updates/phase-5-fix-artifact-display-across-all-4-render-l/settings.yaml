@@ -1,0 +1,70 @@
+content:
+  blocks:
+  - body: '## Make every artifact recognizable before import
+
+
+      Work Report cards now preview image, code, terminal, video, document, and data
+      evidence before it enters a draft. When staged material still carries an absolute
+      filesystem path, Portfolio Editor''s preview bridge routes it through the artifact-preview
+      endpoint and supplies the live page with a valid preview URL.'
+    id: blk_editorial_phase-5-fix-artifact-dis
+    type: text
+  - alt: 'Work Report card titled Test: All 6 artifact types with preview cards for
+      image, code, terminal, video, document, and data evidence'
+    caption: Work Report cards distinguish all six evidence categories before they
+      enter the draft.
+    id: blk_artifact_report_previews
+    presentation: intrinsic
+    src: media/artifact-types-work-report.png
+    type: image
+  - body: '## Preserve artifacts through save and render
+
+
+      Saving now copies local video alongside other asset-bearing blocks and rewrites
+      its source to a project-relative media path. The detail renderer uses native
+      video playback for local files and an iframe for supported hosted media. Shared
+      path resolution covers images, galleries, comparisons, and PDFs through the
+      same preview and save flow.'
+    id: blk_artifact_save_render
+    type: text
+  - caption: One artifact keeps a traceable path from Work Report preview to editor
+      state and saved detail-page output.
+    code: "flowchart LR\n  Report[Work Report card] --> Draft[Editor draft]\n  Draft\
+      \ --> Preview[Live preview]\n  Draft --> Media[Saved project media]\n  Media\
+      \ --> Page[Detail-page blocks]\n  Assets[Updated renderer files] --> Refresh[Browser\
+      \ revalidation]\n  Refresh --> Page"
+    id: blk_four_renderers
+    presentation: content
+    sourceMode: inline
+    summary: Artifact evidence moves from a Work Report card into an editor draft,
+      branches into live preview and saved project media, and reaches the detail page
+      alongside revalidated renderer files.
+    type: mermaid
+  - body: '## Revalidate renderer assets after changes
+
+
+      HTML, JavaScript, CSS, and project manifest responses now ask the browser to
+      revalidate on navigation. ETags keep unchanged files lightweight while updated
+      renderer code takes effect immediately.'
+    id: blk_artifact_revalidation
+    type: text
+date: '2026-01-28'
+discovery: listed
+github: https://github.com/Ckrest/PortfolioSite
+icon: icon.svg
+kind: update
+part_of: artifacts-pipeline-typed-evidence-from-work-report
+prominence: low
+related_to:
+- v1-portfolio-editor-with-work-report-integration
+- portfolio-site
+slug: phase-5-fix-artifact-display-across-all-4-render-l
+summary: Aligned Work Report previews, Portfolio Editor path handling, saved media,
+  detail-page blocks, and browser revalidation so artifacts stay usable from capture
+  through the rendered page.
+tags:
+- Debugging
+- JavaScript
+- Flask
+- Frontend
+title: Fixed artifact rendering across the portfolio pipeline

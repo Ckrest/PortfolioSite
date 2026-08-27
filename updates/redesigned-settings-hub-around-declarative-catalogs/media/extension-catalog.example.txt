@@ -1,0 +1,25 @@
+tile_sets:
+  - id: service-health
+    tab_id: services
+    title: Service health
+    order: 20
+    visible_when:
+      - command: example-tool
+    tiles:
+      - id: current-status
+        type: info
+        title: Current status
+        props:
+          source:
+            type: command
+            command: example-tool status
+
+      - id: recent-activity
+        type: graph
+        title: Recent activity
+        props:
+          max_points: 90
+          provider:
+            type: command
+            command: example-tool metric
+            poll_interval_ms: 2500

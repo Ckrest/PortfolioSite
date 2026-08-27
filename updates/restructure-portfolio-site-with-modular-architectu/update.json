@@ -56,6 +56,14 @@
       "superseded_by": [],
       "related": [
         {
+          "slug": "refactor-detail-pages-to-block-based-content-syste",
+          "folder": "refactor-detail-pages-to-block-based-content-syste",
+          "title": "Made portfolio projects modular and their pages block-based",
+          "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+          "date": "2026-01-27",
+          "prominence": "high"
+        },
+        {
           "slug": "modular-content-system-for-portfolio-project-pages",
           "folder": "modular-content-system-for-portfolio-project-pages",
           "title": "Created a modular content system for portfolio project pages",

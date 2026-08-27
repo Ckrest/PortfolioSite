@@ -1,0 +1,102 @@
+content:
+  blocks:
+  - body: '## Centralize editor state and actions
+
+
+      As the editor grew, project data, selection, dirty tracking, preview readiness,
+      and undo history could drift across separate browser modules. I moved those
+      concerns into one centralized store and routed changes through explicit actions.
+      Focused render modules project the same state into the report browser, project
+      form, block controls, and preview.
+
+
+      Observer updates and delegated DOM events replaced circular imports and listeners
+      that could multiply after each render. A form edit, block move, or project switch
+      now follows the same state path, giving every visible surface one source of
+      truth.'
+    id: blk_v2_editor_story
+    type: text
+  - alt: Portfolio Editor v2 state flow from report, form, block, and preview events
+      through explicit actions and one store to focused renderers and the iframe bridge
+    caption: Explicit actions and one store replaced distributed mutable state while
+      the preview bridge remained a controlled input and output.
+    id: blk_v2_editor_state
+    presentation: intrinsic
+    src: media/state-flow.svg
+    type: image
+  - body: '## Keep long editing sessions predictable
+
+
+      Original snapshots drive dirty state, and undo and redo operate on the same
+      project model. Preview commands wait for the iframe bridge to become ready,
+      while asynchronous report loads verify the current selection before updating
+      the panel. Panel width and preview scroll stay in place between edits, so the
+      workspace preserves context instead of resetting it.'
+    id: blk_v2_editor_session
+    type: text
+  - alt: Portfolio Editor text block controls beside the selected block in the live
+      portfolio preview
+    caption: Selecting a block exposes its controls beside the corresponding region
+      of the live preview.
+    id: blk_v2_editor_live_editing
+    presentation: wide
+    src: media/screenshot_2026-01-30_18-19-41.png
+    type: image
+  - body: '## Move from work report to portfolio page
+
+
+      The report browser can search, archive, restore, and expand records without
+      loading every report up front. A report can create a project candidate in one
+      step, or individual report sections can be dragged into the page as selected
+      blocks.
+
+
+      Metadata fields and tags come from the portfolio schema. The block palette exposes
+      the available content types, while click-to-edit overlays connect rendered output
+      back to its source field or block. Connection pooling keeps repeated report
+      reads from exhausting PostgreSQL connections.'
+    id: blk_v2_editor_report_path
+    type: text
+  - caption: Report browsing, source inspection, the content palette, and schema-driven
+      metadata controls keep the path from source material to page composition inside
+      one interface.
+    fit: contain
+    id: blk_v2_editor_gallery
+    images:
+    - alt: Portfolio Editor report browser with searchable report cards and archive
+        controls
+      src: media/screenshot_2026-01-30_18-14-54.png
+    - alt: Expanded work report showing its content, artifacts, and metadata inside
+        Portfolio Editor
+      src: media/screenshot_2026-01-30_18-15-24.png
+    - alt: Portfolio Editor palette listing the supported portfolio content block
+        types
+      src: media/screenshot_2026-01-30_18-15-44.png
+    - alt: Portfolio Editor metadata controls for title, summary, status, links, media,
+        tags, and source information
+      src: media/screenshot_2026-01-30_18-17-26.png
+    presentation: wide
+    type: gallery
+date: '2026-01-30'
+discovery: listed
+icon: icon.svg
+kind: update
+preview: media/screenshot_2026-01-30_18-16-28.png
+previewAlt: Portfolio Editor project metadata beside the rendered portfolio page in
+  the split editing workspace
+prominence: medium
+related_to:
+- work-report
+- portfolio-site
+slug: portfolio-editor-v2-architecture-and-feature-compl
+summary: Centralized Portfolio Editor state and actions, then connected report browsing,
+  project import, block editing, live preview, and undo and redo into one reliable
+  workspace.
+supersedes: v1-portfolio-editor-with-work-report-integration
+tags:
+- Python
+- Flask
+- JavaScript
+- Frontend
+- Refactoring
+title: Reworked Portfolio Editor architecture and editing flows

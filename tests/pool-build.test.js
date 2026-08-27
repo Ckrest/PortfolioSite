@@ -147,11 +147,15 @@ test('local preview service has a package-owned launch binding', async () => {
   const installer = await readFile(join(root, 'install-user.sh'), 'utf8');
   const manifest = await readFile(resolve(root, '..', 'manifest.yaml'), 'utf8');
   const server = await readFile(join(root, 'pkg/bin/portfolio-site-server'), 'utf8');
+  const launcher = await readFile(join(root, 'pkg/bin/portfolio-site'), 'utf8');
   assert.match(unit, /ExecStart=%h\/\.local\/bin\/portfolio-site-server/);
   assert.doesNotMatch(unit, /python3 -m http\.server/);
   assert.match(installer, /pkg\/bin\/portfolio-site-server/);
   assert.match(manifest, /path: pkg\/bin\/portfolio-site-server/);
   assert.match(server, /ThreadingHTTPServer/);
+  assert.match(server, /HOST = "0\.0\.0\.0"/);
+  assert.match(launcher, /Portfolio Site \(local network\): http:\/\/%s:%s\//);
+  assert.match(launcher, /ip -o -4 address show up scope global/);
 });
 
 test('acceptance-triggered realization uses a collected transient job', async () => {

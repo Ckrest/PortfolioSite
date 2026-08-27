@@ -57,7 +57,7 @@ function mediaTrigger(item, update, { caption = '', qualifier = '', className = 
   const height = metadata?.height || 1;
   const dimensions = metadata ? ` width="${width}" height="${height}"` : '';
   const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${width}px"` : '';
-  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-alt="${html(item?.alt)}" data-pswp-caption="${html(caption)}" data-pswp-qualifier="${html(qualifier)}"><img src="${html(src)}" alt="${html(item?.alt)}"${dimensions} loading="lazy" decoding="async"><span class="media-view-affordance">View larger</span></a>`;
+  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} aria-label="Open image: ${html(item?.alt)}" data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-alt="${html(item?.alt)}" data-pswp-caption="${html(caption)}" data-pswp-qualifier="${html(qualifier)}"><img src="${html(src)}" alt="${html(item?.alt)}"${dimensions} loading="lazy" decoding="async"></a>`;
 }
 
 function renderText(block) {
@@ -65,7 +65,9 @@ function renderText(block) {
 }
 
 function renderImage(block, update) {
-  return `<figure class="media-gallery">${mediaTrigger(block, update, block)}${evidenceCaption(block)}</figure>`;
+  const metadata = mediaMetadata(block.src, update);
+  const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${metadata.width}px"` : '';
+  return `<figure class="media-gallery"${intrinsicWidth}>${mediaTrigger(block, update, block)}${evidenceCaption(block)}</figure>`;
 }
 
 function parseYouTubeStart(value) {
@@ -291,10 +293,7 @@ async function hydrateGraph(element, block, update) {
 }
 
 function renderMermaid(block) {
-  const source = getBlockSourceMode(block) === 'attached'
-    ? 'graph TD\n  Loading --> Source'
-    : (block.code || '');
-  return `<figure><p class="sr-only">${html(block.summary)}</p><div class="diagram-toolbar" aria-label="Diagram controls"><button type="button" data-diagram-action="out">−</button><button type="button" data-diagram-action="reset">Reset</button><button type="button" data-diagram-action="in">+</button><button type="button" data-diagram-action="source" aria-pressed="false">Source</button></div><pre class="mermaid-code" hidden>${html(source)}</pre><div class="mermaid-viewport" tabindex="0" aria-label="Scrollable diagram: ${html(block.summary)}"><div class="mermaid-diagram"></div></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><p class="sr-only">${html(block.summary)}</p><div class="diagram-toolbar" role="toolbar" aria-label="Diagram zoom controls"><button type="button" data-diagram-action="out" aria-label="Zoom out" title="Zoom out"><span aria-hidden="true">−</span></button><button type="button" class="diagram-zoom-reset" data-diagram-action="reset" aria-label="Reset diagram zoom to 100%"><span aria-hidden="true">100%</span></button><button type="button" data-diagram-action="in" aria-label="Zoom in" title="Zoom in"><span aria-hidden="true">+</span></button></div><div class="mermaid-frame"><div class="mermaid-viewport" tabindex="0" aria-label="Scrollable diagram: ${html(block.summary)}"><div class="mermaid-diagram"></div></div></div>${evidenceCaption(block)}</figure>`;
 }
 
 async function hydrateMermaid(element, block, update) {
@@ -306,30 +305,72 @@ async function hydrateMermaid(element, block, update) {
     const source = getBlockSourceMode(block) === 'attached'
       ? await fetchUpdateText(block.src, update)
       : String(block.code || '');
-    element.querySelector('.mermaid-code').textContent = source;
     const id = `mermaid-${crypto.randomUUID?.() || Math.random().toString(36).slice(2)}`;
     const { svg } = await mermaid.render(id, source);
     const target = element.querySelector('.mermaid-diagram');
     target.innerHTML = svg;
     target.classList.add('mermaid-rendered');
+    const toolbar = element.querySelector('.diagram-toolbar');
+    const viewport = element.querySelector('.mermaid-viewport');
+    const buttons = [...(toolbar?.querySelectorAll('[data-diagram-action]') || [])];
+    buttons.forEach((button, index) => { button.tabIndex = index === 0 ? 0 : -1; });
     let scale = 1;
-    const updateScale = () => {
+    const fitWidth = viewport?.clientWidth || 0;
+    const fitHeight = viewport?.scrollHeight || 0;
+    if (fitWidth > 0 && fitHeight > 0) {
+      viewport.style.setProperty('--diagram-viewport-ratio', `${fitWidth} / ${fitHeight}`);
+    }
+    const updateScale = ({ preserveCenter = false, resetPosition = false } = {}) => {
+      const oldWidth = viewport?.scrollWidth || 1;
+      const oldHeight = viewport?.scrollHeight || 1;
+      const centerX = (viewport?.scrollLeft || 0) + (viewport?.clientWidth || 0) / 2;
+      const centerY = (viewport?.scrollTop || 0) + (viewport?.clientHeight || 0) / 2;
+      const percentage = Math.round(scale * 100);
       target.style.setProperty('--diagram-scale', String(scale));
-      element.querySelector('[data-diagram-action="reset"]').textContent = `${Math.round(scale * 100)}%`;
+      if (viewport && resetPosition) {
+        viewport.scrollLeft = 0;
+        viewport.scrollTop = 0;
+      } else if (viewport && preserveCenter) {
+        viewport.scrollLeft = (centerX / oldWidth) * viewport.scrollWidth - viewport.clientWidth / 2;
+        viewport.scrollTop = (centerY / oldHeight) * viewport.scrollHeight - viewport.clientHeight / 2;
+      }
+      const reset = element.querySelector('[data-diagram-action="reset"]');
+      reset.querySelector('span').textContent = `${percentage}%`;
+      reset.setAttribute('aria-label', `Reset diagram zoom to 100% (currently ${percentage}%)`);
+      viewport?.setAttribute('aria-label', `Scrollable diagram at ${percentage}%: ${block.summary}`);
+      element.querySelector('[data-diagram-action="out"]').setAttribute('aria-disabled', String(scale <= 0.5));
+      element.querySelector('[data-diagram-action="in"]').setAttribute('aria-disabled', String(scale >= 3));
     };
-    element.querySelector('.diagram-toolbar')?.addEventListener('click', (event) => {
+    toolbar?.addEventListener('click', (event) => {
       const button = event.target.closest('[data-diagram-action]');
       if (!button) return;
+      if (button.getAttribute('aria-disabled') === 'true') return;
       const action = button.dataset.diagramAction;
+      if (action === 'reset') {
+        scale = 1;
+        updateScale({ resetPosition: true });
+        return;
+      }
       if (action === 'in') scale = Math.min(3, scale + 0.25);
       if (action === 'out') scale = Math.max(0.5, scale - 0.25);
-      if (action === 'reset') scale = 1;
-      if (action === 'source') {
-        const sourceElement = element.querySelector('.mermaid-code');
-        sourceElement.hidden = !sourceElement.hidden;
-        button.setAttribute('aria-pressed', String(!sourceElement.hidden));
-      }
-      updateScale();
+      updateScale({ preserveCenter: true });
+    });
+    toolbar?.addEventListener('focusin', (event) => {
+      const button = event.target.closest('[data-diagram-action]');
+      if (!button) return;
+      buttons.forEach((candidate) => { candidate.tabIndex = candidate === button ? 0 : -1; });
+    });
+    toolbar?.addEventListener('keydown', (event) => {
+      const current = event.target.closest('[data-diagram-action]');
+      if (!current) return;
+      let index = buttons.indexOf(current);
+      if (event.key === 'ArrowRight') index = (index + 1) % buttons.length;
+      else if (event.key === 'ArrowLeft') index = (index - 1 + buttons.length) % buttons.length;
+      else if (event.key === 'Home') index = 0;
+      else if (event.key === 'End') index = buttons.length - 1;
+      else return;
+      event.preventDefault();
+      buttons[index].focus();
     });
     updateScale();
   } catch (error) {

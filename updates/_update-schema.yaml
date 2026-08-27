@@ -8,7 +8,7 @@ reviewPolicy: _review-policy.json
 
 sections:
   - id: metadata
-    label: Candidate content
+    label: Details
     collapsed: false
     fields: [title, summary, date, prominence, discovery]
 
@@ -57,7 +57,7 @@ fields:
     values: [high, medium, low]
     default: medium
     layout: half
-    help: "High and medium updates carry the portfolio; low updates become compact recent activity and archive bundles."
+    help: "High and medium updates get more space; low updates appear as compact recent activity."
 
   discovery:
     type: enum
@@ -71,18 +71,18 @@ fields:
     type: update
     label: Part of
     placeholder: "Slug of the larger update"
-    help: "Use on a newer, smaller update to point at the larger body of work it belongs to. Candidate targets remain pending until both updates are accepted."
+    help: "Use on a newer, smaller update to point at the larger body of work it belongs to. The connection appears when both updates are in the portfolio."
 
   supersedes:
     type: update
     label: Supersedes
     placeholder: "Slug of the older version"
-    help: "Use on a new version; the older update gets a derived newer-version link once both updates are accepted."
+    help: "Use on a new version; the older update gets a newer-version link when both updates are in the portfolio."
 
   related_to:
     type: updates
     label: Related updates
-    help: "Optional general relationships. Candidate targets remain pending until accepted; backlinks are then derived automatically."
+    help: "Optional general relationships. Connections and backlinks appear when the updates are in the portfolio."
 
   github:
     type: url

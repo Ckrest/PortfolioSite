@@ -1,0 +1,56 @@
+content:
+  blocks:
+  - body: '## Copy evidence when it is attached
+
+
+      Work Report now moves artifact material into a directory owned by the report
+      as soon as it is attached. Images, videos, and documents are copied from their
+      source files; code, terminal output, and structured data are written from the
+      content captured with the artifact.
+
+
+      The stored artifact then points to that report-owned file, so later use no longer
+      depends on the original path.'
+    id: blk_editorial_copy-at-capture-artifact
+    type: text
+  - caption: The report ID selects the storage directory before each artifact record
+      is updated with its owned path.
+    code: "flowchart TD\n  Artifact[Typed artifact] --> Report[Create report row]\n\
+      \  Report --> Material{Artifact material}\n  Material -->|Image, video, document|\
+      \ Copy[Copy source file]\n  Material -->|Code, terminal, data| Write[Write captured\
+      \ content]\n  Copy & Write --> Owned[Report-owned path]\n  Owned --> Record[Store\
+      \ artifact record]"
+    id: blk_copy_capture
+    presentation: content
+    sourceMode: inline
+    summary: The report ID selects the storage directory before each artifact record
+      is updated with its owned path.
+    type: mermaid
+  - body: '## Create the report and its material in two phases
+
+
+      The storage directory needs the report ID, so creation first inserts the report
+      row and retrieves its ID. Work Report then copies or writes each artifact beneath
+      that report’s directory and updates the artifact list with the owned paths.
+
+
+      Artifacts added to an existing report use the same storage helper before they
+      are appended, keeping the report and its evidence together.'
+    id: blk_two_phase_report_capture
+    type: text
+date: '2026-01-28'
+discovery: listed
+icon: icon.svg
+kind: update
+part_of: artifacts-pipeline-typed-evidence-from-work-report
+prominence: low
+related_to:
+- work-report
+slug: copy-at-capture-artifact-storage
+summary: Copied attached files and reconstructed text artifacts into report-owned
+  storage at capture time, so each Work Report retained the material it referenced.
+tags:
+- Infrastructure
+- Python
+- PostgreSQL
+title: Made Work Report artifacts durable at capture time
