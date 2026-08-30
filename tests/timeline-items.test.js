@@ -9,10 +9,9 @@ import {
   getVisibleItemCount,
   initRegistry,
 } from '../js/timeline-items.js';
-import { isDiscoverableUpdate } from '../updates/publication.js';
 
-function update(slug, date, prominence, tags = [], partOf = '') {
-  return { slug, folder: slug, title: slug, date, prominence, tags, part_of: partOf };
+function update(key, date, prominence, tags = [], partOf = '') {
+  return { key, title: key, date, prominence, tags, part_of: partOf };
 }
 
 test('recent small work stays separate from the milestone archive', () => {
@@ -105,10 +104,4 @@ test('multiple tag selections use inclusive matching', () => {
     computeDisplayStructure(1).map((item) => item.id),
     ['python', 'wayland'],
   );
-});
-
-test('unlisted updates are excluded from public discovery', () => {
-  assert.equal(isDiscoverableUpdate({}), true);
-  assert.equal(isDiscoverableUpdate({ discovery: 'listed' }), true);
-  assert.equal(isDiscoverableUpdate({ discovery: 'unlisted' }), false);
 });

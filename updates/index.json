@@ -1,0 +1,1392 @@
+{
+  "schema": "portfolio-update-index@2",
+  "_generated": {
+    "warning": "DO NOT EDIT",
+    "source": "updates/*/settings.yaml"
+  },
+  "updates": [
+    {
+      "key": "doc_1a911fdf0fc453de94a7cc5537694883",
+      "title": "Rebuilt Screenshot Tool as a persistent capture service",
+      "summary": "Replaced per-hotkey application startup with a persistent GTK4 service, then added precise frozen-region selection and exact identity matching for same-titled windows.",
+      "date": "2026-08-15",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/selector-region-magnifier.png",
+        "description": "Screenshot Tool frozen-region selector with live dimensions, keyboard guidance, crosshairs, and a magnified pointer view",
+        "width": 1800,
+        "height": 1050
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Wayland",
+        "Image Capture"
+      ]
+    },
+    {
+      "key": "doc_2e4140eb93645e53954507d3aba8c374",
+      "title": "Made Desktop HUD profiles define complete scenes",
+      "summary": "Moved each element’s renderer, data source, presentation, and geometry into layout profiles, allowing a profile switch to replace the complete HUD composition.",
+      "date": "2026-02-23",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Architecture",
+        "Python",
+        "GTK",
+        "API Design",
+        "Desktop Environment",
+        "Migration"
+      ]
+    },
+    {
+      "key": "doc_004858c24c955a1aa023a9e8eb9c3180",
+      "title": "Built an editable desktop HUD for Wayland",
+      "summary": "Placed images, looping video, and live Graph Library widgets on a transparent desktop surface with in-place editing, reusable layouts, and runtime control.",
+      "date": "2026-02-22",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-03-01_19-08-39.png",
+        "description": "Images, live charts, gauges, and a looping fire effect composed across the desktop.",
+        "width": 2560,
+        "height": 1440
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Wayland",
+        "Desktop Environment",
+        "Data Visualization"
+      ]
+    },
+    {
+      "key": "doc_2498489180925748b8347ab97140178d",
+      "title": "Mapped Work Report evidence into the right portfolio blocks",
+      "summary": "Made Portfolio Editor inspect structured artifact content before choosing a block, so galleries, comparisons, and charts imported correctly while unknown shapes remained reviewable.",
+      "date": "2026-02-22",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Debugging",
+        "Refactoring",
+        "Python",
+        "JavaScript"
+      ]
+    },
+    {
+      "key": "doc_2b0985906a7354fba09c142012446689",
+      "title": "Recorded generated outputs with their producing operations",
+      "summary": "Stored each generated file’s descriptor on the successful operation that produced it, then aligned discovery and block mappings across the supported evidence types.",
+      "date": "2026-02-22",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Python",
+        "Architecture"
+      ]
+    },
+    {
+      "key": "doc_315d02ff658e5615bd31fa3c6f37b793",
+      "title": "Assigned portfolio icons automatically from tags",
+      "summary": "Made Portfolio Editor assign a shared icon when it created an update, prioritizing the subject of the work over technology and work-type labels.",
+      "date": "2026-02-22",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-02-28_00-00-07.png",
+        "description": "Portfolio updates with automatically assigned icons",
+        "width": 1372,
+        "height": 903
+      },
+      "tags": [
+        "Python",
+        "Flask",
+        "Automation"
+      ]
+    },
+    {
+      "key": "doc_34a72e56c32a5cbbae2587ef72aed19d",
+      "title": "Built a Mermaid pipeline for authored and generated diagrams",
+      "summary": "Connected template and model-assisted authoring, generated Constellation views, and a shared `.mmd` artifact path through Work Report, Portfolio Editor, and the portfolio renderer.",
+      "date": "2026-02-22",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/mermaid-diagram-2026-02-28-003644.png",
+        "description": "A project planning timeline rendered from Mermaid source.",
+        "width": 2702,
+        "height": 872
+      },
+      "tags": [
+        "Python",
+        "Data Visualization",
+        "MCP",
+        "Infrastructure",
+        "CLI",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_57d88fbcb0345f9ea34a25c70cefb981",
+      "title": "Made Wayfire window capture resilient and cursor-aware",
+      "summary": "Added optional cursor compositing, reliable failure signaling, snapshot fallback for stalled outputs, and output rebinding as captured windows moved between monitors.",
+      "date": "2026-02-22",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/capture-reliability.svg",
+        "description": "Three guarded Wayfire capture paths: cursor compositing, watchdog snapshot fallback, and output listener rebinding",
+        "width": 1600,
+        "height": 900
+      },
+      "tags": [
+        "C++",
+        "Wayfire",
+        "Wayland"
+      ]
+    },
+    {
+      "key": "doc_a529e0dc25c854d0b1921f8b2006a9f2",
+      "title": "Added priority-based window pinning to Wayfire",
+      "summary": "Built a Wayfire plugin that moved matched windows into a priority-ordered topmost scene, restored them when unpinned, and exposed configuration and IPC control.",
+      "date": "2026-02-22",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "preview.png",
+        "description": "Namespace rules and IPC pinning feeding a priority-ordered Wayfire scene stack.",
+        "width": 3624,
+        "height": 2096
+      },
+      "tags": [
+        "C++",
+        "Wayfire",
+        "Wayland"
+      ]
+    },
+    {
+      "key": "doc_e231ba92a76357568aec5ed265dbbbc7",
+      "title": "Made Work Report records fully editable",
+      "summary": "Expanded one validated edit path to cover report text, tags, timing, commit metadata, Git statistics, status, and artifacts through both the CLI and automation interface.",
+      "date": "2026-02-22",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Python",
+        "Refactoring",
+        "Documentation"
+      ]
+    },
+    {
+      "key": "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+      "title": "Separated Work Report creation from evidence curation",
+      "summary": "Reduced report creation to one direct operation and separated evidence review into a second curation step driven by completed tool operations.",
+      "date": "2026-02-20",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Refactoring",
+        "Architecture",
+        "Python",
+        "Infrastructure"
+      ]
+    },
+    {
+      "key": "doc_77ba7c83a9375f088f4ea19e1eca1ace",
+      "title": "Split Portfolio Editor into focused routes and services",
+      "summary": "Separated Portfolio Editor’s request handling and application work into focused Flask modules, with consistent unsaved-change tracking across block edits.",
+      "date": "2026-02-20",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Refactoring",
+        "Architecture",
+        "Python",
+        "JavaScript",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_b96f6bcce4965a80bf8db7633cc3628b",
+      "title": "Gave every portfolio item a detail page",
+      "summary": "Gave every portfolio item its own detail page while keeping repository and external links available, then made dropped preview images save cleanly into project media.",
+      "date": "2026-02-20",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Debugging",
+        "JavaScript",
+        "Flask",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_1eb2699b9ef651bd8a19c482f35276f2",
+      "title": "Added phone screenshots to Work Reports",
+      "summary": "Extended Work Report’s screenshot collection to recognize phone captures as a distinct source while keeping them in the shared evidence-review flow.",
+      "date": "2026-02-19",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "Infrastructure",
+        "Automation"
+      ]
+    },
+    {
+      "key": "doc_4dfdcbce5020516ca7a8e0ff29c542b8",
+      "title": "Collected artifacts created during Work Report sessions",
+      "summary": "Made report completion find artifacts created during the active session and added a direct attachment path for evidence added afterward.",
+      "date": "2026-02-19",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "Debugging",
+        "Infrastructure"
+      ]
+    },
+    {
+      "key": "doc_c36b489eb68052409d72d967f78df646",
+      "title": "Polished Daily Check-In for fast, one-screen use",
+      "summary": "Added flicker-free day navigation and guarded autosave, then simplified the mobile form so a complete check-in fits on one screen.",
+      "date": "2026-02-19",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Expo",
+        "React Native",
+        "UX"
+      ]
+    },
+    {
+      "key": "doc_2ae1e22a4ed957048348c988b376312f",
+      "title": "Built a seven-day sleep tracking dashboard",
+      "summary": "Separated sleep presentation from collection, added on-demand multi-provider refresh, and produced day and week views for a tabbed desktop dashboard.",
+      "date": "2026-02-18",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/sleep-dashboard-synthetic.png",
+        "description": "Settings Hub Sleep page showing seven-day score, duration, and felt-quality trends",
+        "width": 1536,
+        "height": 1024
+      },
+      "tags": [
+        "Python",
+        "Architecture",
+        "Data Visualization"
+      ]
+    },
+    {
+      "key": "doc_e82215dd546e5acdb4d3a52e36be3ad3",
+      "title": "Built an Android app for daily sleep-tracking",
+      "summary": "Built a local-first React Native app for daily ratings, notes, optional sleep times, reminders, and portable JSON storage.",
+      "date": "2026-02-18",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/daily-checkin-overview.svg",
+        "description": "Daily Check-In mobile form beside its matching portable JSON record and local backup",
+        "width": 1600,
+        "height": 900
+      },
+      "tags": [
+        "React",
+        "TypeScript",
+        "Frontend",
+        "Mobile"
+      ]
+    },
+    {
+      "key": "doc_33a58a7114d85ff39beca694a533cc59",
+      "title": "Repaired VCSH excludes across the Constellation registry",
+      "summary": "Corrected VCSH exclude paths and generated package-specific ignore rules so repository status reflected owned changes instead of unrelated files.",
+      "date": "2026-02-17",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Debugging",
+        "VCSH"
+      ]
+    },
+    {
+      "key": "doc_37b9d3920c2b5cf3844a9a57a98f602b",
+      "title": "Moved Portfolio Editor into its managed worktree",
+      "summary": "Re-rooted tracked files and configuration around the package worktree, then clarified report identities in the editor interface.",
+      "date": "2026-02-17",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "VCSH",
+        "Refactoring",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_645434a5ee8f550b9e0b237950789066",
+      "title": "Let agents create evidence during Work Reports",
+      "summary": "Extended Work Report review so agents could create missing evidence, register it through artifact events, and return it to the same selection flow.",
+      "date": "2026-02-17",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Python",
+        "MCP"
+      ]
+    },
+    {
+      "key": "doc_6b15f8dd9ad157659549c358b6c33eaa",
+      "title": "Audited and repaired the Constellation registry",
+      "summary": "Repaired VCSH command paths, brought overlooked integration files under ownership, and resolved package issues discovered by a full registry audit.",
+      "date": "2026-02-17",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "VCSH",
+        "Validation",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_2c2680838c31548ca09c5f5f79aeb890",
+      "title": "Unified Claude Code configuration across AI backends",
+      "summary": "Kept every backend on one Claude Code configuration, preserving history and integrations while focused hooks guarded shell commands and credential access.",
+      "date": "2026-02-16",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_add123234fda58f990931774fda8436e",
+      "title": "Modernized Python packaging across the tool fleet",
+      "summary": "Replaced runtime path-manipulating launchers with declared Python entry points, then updated services and integrations to call stable installed commands.",
+      "date": "2026-02-16",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Packaging",
+        "Refactoring",
+        "Python",
+        "DevOps"
+      ]
+    },
+    {
+      "key": "doc_093c398e1d445c8da81519e03e64f233",
+      "title": "Unified Work Report logic across CLI and automation",
+      "summary": "Moved Work Report operations into one reusable core and gave YAML, JSON, and CSV evidence a shared loading path.",
+      "date": "2026-02-15",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Refactoring",
+        "Python"
+      ]
+    },
+    {
+      "key": "doc_2318c76c788c5637af0e620ae4ef352c",
+      "title": "Built a local AI scene-tracking pipeline",
+      "summary": "Built an agent pipeline that turns narrative messages into typed scene state through focused worker loops and constrained tool calls.",
+      "date": "2026-02-15",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/stitched.png",
+        "description": "Illustrated tavern scene beside structured scene-state JSON",
+        "width": 1405,
+        "height": 1069
+      },
+      "tags": [
+        "AI",
+        "Python",
+        "Ollama",
+        "API Design",
+        "Workflow Orchestration"
+      ]
+    },
+    {
+      "key": "doc_3e2b31469eb25cd6a2100944e0e261cc",
+      "title": "Unified artifact discovery in Work Report",
+      "summary": "Moved screenshots, diagrams, data, and other evidence types into one shared registry, giving Work Report one path for discovery and capture.",
+      "date": "2026-02-15",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Refactoring",
+        "Architecture",
+        "Python"
+      ]
+    },
+    {
+      "key": "doc_38811c0e3f5d564f8b840821d6ea52b5",
+      "title": "Redesigned Settings Hub around declarative catalogs",
+      "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+      "date": "2026-02-12",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/settings-hub-v2.png",
+        "description": "Settings Hub Appearance page with a colorful selected background and catalog-rendered controls",
+        "width": 1080,
+        "height": 740
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Architecture",
+        "Desktop Environment"
+      ]
+    },
+    {
+      "key": "doc_59a90972f9ea57829144e009a1b098c0",
+      "title": "Reorganized Work Report around a package boundary",
+      "summary": "Moved Work Report’s command, agent flow, evidence handlers, artifact mapping, and database migrations into one installable Python package with explicit artifact review and provenance handling.",
+      "date": "2026-02-11",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Refactoring",
+        "Python",
+        "PostgreSQL",
+        "Migration"
+      ]
+    },
+    {
+      "key": "doc_6d6148fbb49356a19c3197fdac568b46",
+      "title": "Ported XFCE’s Whisker Menu to Wayfire",
+      "summary": "Adapted XFCE’s searchable application launcher for a Wayland/Wayfire desktop, preserving its familiar menu workflow while adding compositor-aware focus handling.",
+      "date": "2026-02-11",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "C++",
+        "Wayland",
+        "Wayfire",
+        "XFCE",
+        "Desktop Environment",
+        "Migration"
+      ]
+    },
+    {
+      "key": "doc_06f2ddd4fc5a564f95089d16dbab3ffd",
+      "title": "Made ComfyUI Viewer independently installable",
+      "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+      "date": "2026-02-07",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Refactoring",
+        "Architecture",
+        "Python",
+        "ComfyUI"
+      ]
+    },
+    {
+      "key": "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
+      "title": "Made registry traits define their own API behavior",
+      "summary": "Moved Constellation Framework trait schemas, resolution, queries, aggregation, and API projections out of hardcoded transforms and into declarative registry definitions.",
+      "date": "2026-02-04",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Architecture",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_582dd26679fb5519a5a4bf771863f5a6",
+      "title": "Turned Work Report creation into a guided wizard",
+      "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+      "date": "2026-01-30",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "CLI"
+      ]
+    },
+    {
+      "key": "doc_99838d724f435e5188804413bb06c96e",
+      "title": "Reworked Portfolio Editor architecture and editing flows",
+      "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+      "date": "2026-01-30",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-01-30_18-16-28.png",
+        "description": "Portfolio Editor project metadata beside the rendered portfolio page in the split editing workspace",
+        "width": 1085,
+        "height": 1325
+      },
+      "tags": [
+        "Python",
+        "Flask",
+        "JavaScript",
+        "Frontend",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_aac3da2ebc5f52a485af8b51f7de2767",
+      "title": "Made Work Report Git tracking package-aware",
+      "summary": "Work Report now uses the report’s project identity as the repository context for commit metadata, diff statistics, and captured Git evidence, routing VCSH-backed packages through their independent histories.",
+      "date": "2026-01-30",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "Git",
+        "Infrastructure"
+      ]
+    },
+    {
+      "key": "doc_472b46319d6948c6bcca4533b716a802",
+      "title": "Connected visual tools to automatic artifact tracking",
+      "summary": "Diagram Tool and Screenshot Tool now publish saved visuals into artifact tracking through optional post-save adapters, making them discoverable by Work Report while keeping the tools independently runnable.",
+      "date": "2026-01-29",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Event-Driven Architecture",
+        "Python",
+        "Redis",
+        "PostgreSQL",
+        "Bash"
+      ]
+    },
+    {
+      "key": "doc_f1ecee3798b75a698060af0d6fd26b53",
+      "title": "Added artifact staging and curation to Work Reports",
+      "summary": "Work Report now gathers captured evidence into a staging pool where it can be scored, captioned, approved, or rejected before the approved set is copied into report-owned storage.",
+      "date": "2026-01-29",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "PostgreSQL",
+        "AI"
+      ]
+    },
+    {
+      "key": "doc_0b8d60db909c54b7aad85f168788ca3f",
+      "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+      "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+      "date": "2026-01-28",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/artifact-pipeline-preview.svg",
+        "description": "Diagram showing typed Work Report artifacts mapped to editable Portfolio Editor blocks and rendered on a portfolio page",
+        "width": 1600,
+        "height": 900
+      },
+      "tags": [
+        "Python",
+        "JavaScript",
+        "Frontend",
+        "PostgreSQL",
+        "CLI",
+        "Migration"
+      ]
+    },
+    {
+      "key": "doc_35acc634705754a2b846a4951e00470a",
+      "title": "Fixed artifact rendering across the portfolio pipeline",
+      "summary": "Aligned Work Report previews, Portfolio Editor path handling, saved media, detail-page blocks, and browser revalidation so artifacts stay usable from capture through the rendered page.",
+      "date": "2026-01-28",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Debugging",
+        "JavaScript",
+        "Flask",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_79abb20a49725d63a0fd541a1aec30d8",
+      "title": "Made Work Report artifacts durable at capture time",
+      "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retained the material it referenced.",
+      "date": "2026-01-28",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Infrastructure",
+        "Python",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "key": "doc_45e24fee0f645130a7d9ce1685a5af01",
+      "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+      "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+      "date": "2026-01-27",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/portfolio-editor-block-assembly-preview.png",
+        "description": "Portfolio Editor block palette with colored routes connecting Text, Image, and Gallery blocks to matching sections in a live portfolio page preview",
+        "width": 1600,
+        "height": 1000
+      },
+      "tags": [
+        "Python",
+        "Flask",
+        "JavaScript",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_7a5e51989c35543baf1b6dbf1a8b793a",
+      "title": "Added reliable defaults and validation to portfolio detail pages",
+      "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+      "date": "2026-01-27",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Frontend",
+        "JavaScript",
+        "Validation"
+      ]
+    },
+    {
+      "key": "doc_9503340b85e059238577a3ec79bbc0b9",
+      "title": "Made portfolio projects modular and their pages block-based",
+      "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+      "date": "2026-01-27",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/project-module-block-architecture.svg",
+        "description": "Diagram showing project details, visuals, and writing flowing through a shared foundation into a flexible portfolio page",
+        "width": 1600,
+        "height": 900
+      },
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "Architecture",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_cffb55d093aa560f98a27693edf6655b",
+      "title": "Made nested blocks easier to edit",
+      "summary": "Added an always-visible child control, click-outside deselection, and drag cleanup so groups follow the same editing rules as top-level blocks.",
+      "date": "2026-01-27",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "Interaction Design"
+      ]
+    },
+    {
+      "key": "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6",
+      "title": "Separated package histories with VCSH",
+      "summary": "Constellation now uses VCSH to track packages independently inside one shared workspace, giving every package a formal Git ownership boundary without splitting apart the files that work together.",
+      "date": "2026-01-27",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/vcsh-workspace-preview.png",
+        "description": "An isometric shared workspace platform with distinct package modules connected to separate external history archives.",
+        "width": 1536,
+        "height": 1024
+      },
+      "tags": [
+        "Git",
+        "Architecture",
+        "Infrastructure"
+      ]
+    },
+    {
+      "key": "doc_4abf6b7ba46e5908b5a274b4b8eeac50",
+      "title": "Made Modular Flow Engine callable over HTTP",
+      "summary": "Added a FastAPI service for inspecting, validating, and executing JSON flows, while sink-owned return, file, and console destinations define how completed results are delivered.",
+      "date": "2026-01-24",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "FastAPI",
+        "API Design"
+      ]
+    },
+    {
+      "key": "doc_6ce28cd7f7165a4cab2913e4bcdac533",
+      "title": "Built a Wayland screenshot tool for precise desktop capture",
+      "summary": "Built a hotkey-driven Wayland screenshot tool with frozen region selection, unobstructed window capture, precise magnification, and consistent desktop and scripted output.",
+      "date": "2026-01-21",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot-tool-selector.png",
+        "description": "Screenshot Tool selector over a woodland scene with controls, a drawn region, live dimensions, a crosshair, and a circular magnifier",
+        "width": 2560,
+        "height": 1440
+      },
+      "tags": [
+        "Python",
+        "Wayland",
+        "Image Capture"
+      ]
+    },
+    {
+      "key": "doc_9042fc61c7645236825a709ad3e2474a",
+      "title": "Restored live gallery updates from ComfyUI Conduit",
+      "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.",
+      "date": "2026-01-21",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Redis",
+        "Debugging",
+        "ComfyUI"
+      ]
+    },
+    {
+      "key": "doc_8a5a62eb3d715b5faad4d314849ae7c1",
+      "title": "Fixed Docklike hover previews and capture throttling",
+      "summary": "Introduced a dedicated hover state machine and fair capture scheduling so preview menus close cleanly and every visible window keeps receiving live thumbnail updates.",
+      "date": "2026-01-20",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Wayland",
+        "C++",
+        "Debugging"
+      ]
+    },
+    {
+      "key": "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a",
+      "title": "Kept same-named window previews distinct",
+      "summary": "Connected each foreign-toplevel handle directly to its Wayfire view so windows sharing a title and application ID still receive separate capture sources.",
+      "date": "2026-01-18",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "C++",
+        "Wayland",
+        "Wayfire",
+        "Image Capture"
+      ]
+    },
+    {
+      "key": "doc_6a23e1a43eda5ff9966831b235c28b21",
+      "title": "Added extensible shutdown animations to Wayfire",
+      "summary": "Built a shared animation protocol and discovery layer so power actions can coordinate a fire transition and plug in other visual effects through the same interface.",
+      "date": "2026-01-18",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/2222screenshot_2026-03-01_14-03-36.png",
+        "description": "Fire shutdown transition spreading across a Wayland desktop",
+        "width": 2560,
+        "height": 1440
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Wayland",
+        "Wayfire"
+      ]
+    },
+    {
+      "key": "doc_c84281d5fa3b56b5a063455815ed6cc8",
+      "title": "Fixed window preview format negotiation",
+      "summary": "Advertised explicit shared-memory and linear DMA-BUF formats so the compositor and capture client could agree on a frame buffer before copying a window preview.",
+      "date": "2026-01-18",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "C++",
+        "Wayland",
+        "wlroots",
+        "Image Capture"
+      ]
+    },
+    {
+      "key": "doc_cec34e8034f1584fa26d7325bc9341e5",
+      "title": "Ported Docklike to Wayland with live window previews",
+      "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+      "date": "2026-01-18",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/docklike-live-window-previews.png",
+        "description": "Docklike panel menu showing live previews for two open file manager windows",
+        "width": 740,
+        "height": 347
+      },
+      "tags": [
+        "Wayland",
+        "C++",
+        "XFCE",
+        "Window Capture"
+      ]
+    },
+    {
+      "key": "doc_8cfd107748445dcf8674dabc5865d0ff",
+      "title": "Reduced XFCE forks while moving to 4.20",
+      "summary": "Archived an unchanged clipboard-manager copy, rebased three focused panel patches onto XFCE 4.20, and retained the systemd-scope integration that still had no upstream equivalent.",
+      "date": "2026-01-17",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "XFCE",
+        "Wayland",
+        "Systemd",
+        "Migration"
+      ]
+    },
+    {
+      "key": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
+      "title": "Built Work Report System to preserve completed work",
+      "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+      "date": "2026-01-17",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/work-report-cli.png",
+        "description": "Terminal output for Work Report #1 showing report metadata, summary, files, tags, technologies, and Git statistics.",
+        "width": 1400,
+        "height": 1000
+      },
+      "tags": [
+        "Python",
+        "PostgreSQL",
+        "CLI",
+        "Documentation"
+      ]
+    },
+    {
+      "key": "doc_e2b464eeca015722bcaf583192c346f6",
+      "title": "Made the portfolio timeline richer and easier to navigate",
+      "summary": "Timeline entries now adapt to each project’s importance, support animated previews and expandable icon bundles, and preserve filters and selections in shareable URLs.",
+      "date": "2026-01-16",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/timeline-live-state.png",
+        "description": "Historical Portfolio Site timeline with compact update rows and a full media card",
+        "width": 1100,
+        "height": 620
+      },
+      "tags": [
+        "Frontend",
+        "JavaScript"
+      ]
+    },
+    {
+      "key": "doc_6b7f8c754a1e5e9492d306667ad478d2",
+      "title": "Rebuilt the portfolio from independent page sections",
+      "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+      "date": "2026-01-15",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/modular-portfolio-homepage.png",
+        "description": "Dark portfolio homepage showing a large Nick Young heading and a featured Diagram Tool project card.",
+        "width": 2224,
+        "height": 1276
+      },
+      "tags": [
+        "JavaScript",
+        "CSS",
+        "Frontend",
+        "Architecture",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_9b5b1d7144ed5ad8be0381baf2ebfd6e",
+      "title": "Automated the browser extension reload loop",
+      "summary": "Built a loopback bridge and browser helper that let local tools inspect unpacked extensions, queue reload or enable-state changes, and refresh the active test tab.",
+      "date": "2026-01-15",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "JavaScript",
+        "Browser Extension",
+        "Automation"
+      ]
+    },
+    {
+      "key": "doc_a4499baf70965526bf7fd8dbd0dd686a",
+      "title": "Shared the active Wayland output with session services",
+      "summary": "Built a Bash startup script that waits for Wayland, selects the first enabled output from wlr-randr, and publishes it through both systemd and a runtime file.",
+      "date": "2026-01-15",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Bash",
+        "Wayland",
+        "Systemd",
+        "Desktop Environment"
+      ]
+    },
+    {
+      "key": "doc_bcdd9d2b5fee4d5b99ce3cd33c6357c2",
+      "title": "Created a modular content system for portfolio project pages",
+      "summary": "Moved each portfolio project into a self-contained folder with its own metadata, assets, and content configuration, then used one shared renderer to assemble README, PDF, structured, and minimal project pages.",
+      "date": "2026-01-15",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/project-module-architecture.svg",
+        "description": "Diagram showing a self-contained project folder flowing through a shared renderer into a page composed from reusable content regions",
+        "width": 1600,
+        "height": 900
+      },
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "Architecture",
+        "Refactoring"
+      ]
+    },
+    {
+      "key": "doc_2ae84d4904f755c5914f89bf76ae73e8",
+      "title": "Built a desktop soundboard",
+      "summary": "Turned more than 250 clips into a searchable GTK soundboard for desktop playback, with an optional virtual-microphone route for voice chat.",
+      "date": "2026-01-13",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "preview.png",
+        "description": "Soundboard window showing a searchable grid of image-backed sound cards",
+        "width": 598,
+        "height": 698
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Audio"
+      ]
+    },
+    {
+      "key": "doc_aa793128a2075e32a8dea215c096de7c",
+      "title": "Built reusable GTK graphs and gauges",
+      "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+      "date": "2026-01-13",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-02-28_16-26-37-1.png",
+        "description": "Graph Library chart examples",
+        "width": 1172,
+        "height": 847
+      },
+      "tags": [
+        "Python",
+        "GTK"
+      ]
+    },
+    {
+      "key": "doc_b7183ef2af925346b9755252150a46e0",
+      "title": "Made ComfyUI workflows callable from external tools",
+      "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
+      "date": "2026-01-13",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "preview.png",
+        "description": "ComfyUI Conduit node workflow",
+        "width": 902,
+        "height": 652
+      },
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "API Design"
+      ]
+    },
+    {
+      "key": "doc_df23e97310c4507ba4aa8c1a5f2e2853",
+      "title": "Built a lightweight network reliability monitor",
+      "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+      "date": "2026-01-13",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "Infrastructure"
+      ]
+    },
+    {
+      "key": "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad",
+      "title": "Built a browser and workflow manager for ComfyUI outputs",
+      "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
+      "date": "2026-01-10",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-03-01_20-55-50.png",
+        "description": "ComfyUI Viewer gallery interface",
+        "width": 2125,
+        "height": 1292
+      },
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "Frontend"
+      ]
+    },
+    {
+      "key": "doc_1a3826668acb53688961faa991a157f1",
+      "title": "Built a timeline-based portfolio site",
+      "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+      "date": "2026-01-09",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "timeline.png",
+        "description": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries",
+        "width": 1440,
+        "height": 1000
+      },
+      "tags": [
+        "JavaScript",
+        "Frontend",
+        "CSS"
+      ]
+    },
+    {
+      "key": "doc_185a5d2f4d2051c098c591e4ac240a1b",
+      "title": "Coordinated concurrent local AI inference jobs",
+      "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+      "date": "2026-01-08",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/model-manager-flow.png",
+        "description": "Diagram showing HTTP and Python callers sharing priority queues, a background scheduler, Ollama execution, and separate GPU and model observation.",
+        "width": 1680,
+        "height": 900
+      },
+      "tags": [
+        "Python",
+        "AI",
+        "Ollama"
+      ]
+    },
+    {
+      "key": "doc_71ce05a4e4195e4495b0cc3acd0eda03",
+      "title": "Built a shared agent config generator",
+      "summary": "Built a small CLI that combines shared working conventions with agent-specific instructions, then previews, diffs, or writes the resulting configuration files.",
+      "date": "2026-01-08",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Python",
+        "CLI"
+      ]
+    },
+    {
+      "key": "doc_d05b27abd50b40f9907f78c8a2988d4e",
+      "title": "Built a discovery-based registry for a software workspace",
+      "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+      "date": "2026-01-08",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/package-registry-preview.png",
+        "description": "Diagram showing a package manifest flowing through discovery into a generated package index.",
+        "width": 1200,
+        "height": 675
+      },
+      "tags": [
+        "Python",
+        "CLI",
+        "Architecture"
+      ]
+    },
+    {
+      "key": "doc_774e6a0b184653c2917464eaeb611782",
+      "title": "Automated display warmth and bedtime transitions",
+      "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+      "date": "2026-01-02",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "night-mode-settings.png",
+        "description": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls.",
+        "width": 727,
+        "height": 484
+      },
+      "tags": [
+        "Desktop Environment",
+        "Python",
+        "Event-Driven Architecture"
+      ]
+    },
+    {
+      "key": "doc_3a6495dd303a5286b238144d478fa5df",
+      "title": "Built a wallpaper service with seamless switching",
+      "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+      "date": "2025-12-22",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/wallpaper-controls.png",
+        "description": "Wallpaper service settings hub preview.",
+        "width": 950,
+        "height": 970
+      },
+      "tags": [
+        "Python",
+        "Desktop Environment",
+        "Wayland"
+      ]
+    },
+    {
+      "key": "doc_454f99caef5f54cf9d600970fd5e1614",
+      "title": "Added controlled randomization to ComfyUI",
+      "summary": "Built a ComfyUI node set for defining prompt pools, freezing useful selections, rerunning the rest, and saving the final choices with each generated image.",
+      "date": "2025-12-19",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-02-28_16-56-44.png",
+        "description": "Easy Randomize item pools and selection nodes in ComfyUI",
+        "width": 507,
+        "height": 960
+      },
+      "tags": [
+        "ComfyUI",
+        "Python"
+      ]
+    },
+    {
+      "key": "doc_696ff59f63b850bf885ef66a3df1250c",
+      "title": "Added one-click image saving to ComfyUI",
+      "summary": "Added a ComfyUI toolbar action for saving an existing generated preview without changing the workflow, with safe filenames and duplicate-aware writes.",
+      "date": "2025-12-19",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "JavaScript"
+      ]
+    },
+    {
+      "key": "doc_88921a05dc4b5621aa8671b9e48d82dc",
+      "title": "Connected local Ollama models to ComfyUI",
+      "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+      "date": "2025-12-19",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "ComfyUI",
+        "Python",
+        "AI",
+        "Ollama"
+      ]
+    },
+    {
+      "key": "doc_d5f1ae0b35e150ff97749a0ddbcaa1d8",
+      "title": "Built a declarative engine for AI evaluation flows",
+      "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
+      "date": "2025-12-19",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/modular-flow-engine-overview.svg",
+        "description": "Modular Flow Engine plan validation, execution, results, and optional checkpoint-resume architecture",
+        "width": 1600,
+        "height": 900
+      },
+      "tags": [
+        "Python",
+        "AI",
+        "Architecture"
+      ]
+    },
+    {
+      "key": "doc_5e23d3f9b0e0511d9474b29addc7d003",
+      "title": "Renamed images with local vision models",
+      "summary": "Created a batch command that asked a local Ollama vision model for short descriptive filenames and copied each result without altering the originals.",
+      "date": "2025-12-14",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "AI",
+        "Python",
+        "CLI"
+      ]
+    },
+    {
+      "key": "doc_a912b3bdf6ef5fe0b53b6e400146c779",
+      "title": "Added a keyboard toggle for the OBS virtual camera",
+      "summary": "Created a keyboard shortcut that started RVM background removal, launched OBS minimized with its virtual camera active, and stopped both processes on the next press.",
+      "date": "2025-12-08",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Bash",
+        "CLI"
+      ]
+    },
+    {
+      "key": "doc_e3d8e56964925c728bfa44f709213cda",
+      "title": "Added screen freeze controls to Wayfire",
+      "summary": "Built a Wayfire plugin that captures the final compositor frame into a GPU texture and presents it—or solid black—until an IPC unfreeze request.",
+      "date": "2025-12-06",
+      "prominence": "low",
+      "icon": "assets/icon.svg",
+      "tags": [
+        "Wayfire",
+        "C++",
+        "Wayland"
+      ]
+    },
+    {
+      "key": "doc_51bf8adf26645d2e85771fe2390cd999",
+      "title": "Built a real-time webcam background removal pipeline",
+      "summary": "Built a real-time webcam pipeline that used Robust Video Matting to separate the foreground, replace or blur the background, and expose the result as a standard V4L2 camera.",
+      "date": "2025-12-01",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/rvm-composited-output.png",
+        "description": "RVM composited output placing a person against a solid blue virtual background",
+        "width": 1280,
+        "height": 720
+      },
+      "tags": [
+        "AI",
+        "Python"
+      ]
+    },
+    {
+      "key": "doc_d9b73e88fe905abcad8a842e1a6ac92b",
+      "title": "Built a clickable desktop layer for Wayland",
+      "summary": "Built a transparent GTK3 layer-shell surface that makes the Wayland desktop clickable, clears application focus, and opens a configurable command menu at the pointer.",
+      "date": "2025-11-26",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/abf932f2-6e56-44fd-865e-674ba7af8067.png",
+        "description": "Right click menu",
+        "width": 391,
+        "height": 373
+      },
+      "tags": [
+        "Desktop Environment",
+        "Wayfire",
+        "Python"
+      ]
+    },
+    {
+      "key": "doc_ff2e48756b8f5bf5aeaee62e5142e744",
+      "title": "Built a modular desktop settings hub",
+      "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+      "date": "2025-11-26",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/screenshot_2026-02-12_00-12-41.png",
+        "description": "Settings Hub GPU page with sidebar navigation, VRAM and temperature gauges, and utilization history",
+        "width": 1202,
+        "height": 862
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Architecture",
+        "Desktop Environment"
+      ]
+    },
+    {
+      "key": "doc_79633f0172065a5aaef2a5c4f8d70359",
+      "title": "Built a local-first diagramming tool",
+      "summary": "Built a local-first visual editor where the browser and MCP tools work on the same JSON-backed diagram through one API and update the canvas in real time.",
+      "date": "2025-11-23",
+      "prominence": "high",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/diagram-tool-early-architecture-selected.png",
+        "description": "Reconstructed early Diagram Tool interface zoomed out with Core API selected and its node properties open",
+        "width": 1600,
+        "height": 1000
+      },
+      "tags": [
+        "Python",
+        "MCP",
+        "Frontend",
+        "JavaScript"
+      ]
+    },
+    {
+      "key": "doc_e76b0f81dd7b5b93a11e8f357b63ffb8",
+      "title": "Built a shared history database for system activity",
+      "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
+      "date": "2025-11-16",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "postgresql-history-first-output.png",
+        "description": "The first recorded Constellation History Database output and its linked artifacts",
+        "width": 1719,
+        "height": 917
+      },
+      "tags": [
+        "PostgreSQL",
+        "Infrastructure"
+      ]
+    },
+    {
+      "key": "doc_c9cdd79a861a5739aa99c3d1f3da27dc",
+      "title": "Built a desktop service manager with live logs",
+      "summary": "Built a GTK dashboard for opted-in systemd user services, with cached live status, lifecycle controls, and a filterable shared journal stream.",
+      "date": "2025-10-18",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "media/process-manager-gtk-reconstruction-2025-10-18.png",
+        "description": "Reconstructed October 2025 GTK Process Manager showing grouped systemd services, lifecycle controls, and live journal logs",
+        "width": 1152,
+        "height": 799
+      },
+      "tags": [
+        "Python",
+        "GTK",
+        "Systemd"
+      ]
+    },
+    {
+      "key": "doc_02cd1bdfbbb551a69105e7b41978943b",
+      "title": "Proposed a three stage project for applied AI integration",
+      "summary": "Turned an open-ended interest in applied AI into a three-stage engineering proposal, with practical prototypes, review points, documentation, and evaluation built into the plan.",
+      "date": "2025-09-15",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "preview": {
+        "src": "preview.png",
+        "description": "First page of the independent AI integration program proposal",
+        "width": 1224,
+        "height": 984
+      },
+      "tags": [
+        "AI",
+        "Architecture",
+        "Documentation"
+      ]
+    }
+  ]
+}

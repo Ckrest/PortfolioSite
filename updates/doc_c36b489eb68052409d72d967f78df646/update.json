@@ -1,0 +1,50 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_c36b489eb68052409d72d967f78df646",
+    "title": "Polished Daily Check-In for fast, one-screen use",
+    "summary": "Added flicker-free day navigation and guarded autosave, then simplified the mobile form so a complete check-in fits on one screen.",
+    "date": "2026-02-19",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/daily-checkin-app",
+    "tags": [
+      "Expo",
+      "React Native",
+      "UX"
+    ],
+    "relationships": {
+      "part_of": "doc_e82215dd546e5acdb4d3a52e36be3ad3"
+    },
+    "blocks": [
+      {
+        "body": "## Move between days without losing work\n\nDay changes use local state and cached entries, avoiding a full screen remount when the user swipes or taps between dates. A guarded two-second autosave records genuine edits, while navigation flushes pending changes before loading the next entry.",
+        "type": "text"
+      },
+      {
+        "code": "stateDiagram-v2\n  [*] --> Loading\n  Loading --> Ready: initialize without saving\n  Ready --> Dirty: user edit\n  Dirty --> Ready: debounced save\n  Dirty --> Loading: save before navigation\n  Ready --> Loading: change day",
+        "description": "Daily Check-In separates initialization from user edits, debounces ordinary saves, and flushes pending changes before day navigation. Loading an entry does not count as an edit; only user changes enter the autosave path, and navigation saves pending work before changing days.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep the whole routine on one screen\n\nThe manual save button and visible settings control were removed from the main form, with settings available from a long press on the date. Tighter spacing and keyboard dismissal keep the check-in usable without extra scrolling.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep displayed and stored time aligned\n\nThe sleep-time handle, labels, duration, and stored value share the same 15-minute snap calculation. The value shown after a drag is the value written to the daily record.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

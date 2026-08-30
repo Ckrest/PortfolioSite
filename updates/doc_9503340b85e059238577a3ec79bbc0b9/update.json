@@ -1,0 +1,78 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_9503340b85e059238577a3ec79bbc0b9",
+    "title": "Made portfolio projects modular and their pages block-based",
+    "summary": "Reorganized each portfolio project as a self-contained module and rebuilt detail pages from ordered content blocks that can be added, moved, and edited independently.",
+    "date": "2026-01-27",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "src": "media/project-module-block-architecture.svg",
+      "description": "Diagram showing project details, visuals, and writing flowing through a shared foundation into a flexible portfolio page",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "JavaScript",
+      "Frontend",
+      "Architecture",
+      "Refactoring"
+    ],
+    "relationships": {
+      "part_of": "doc_1a3826668acb53688961faa991a157f1",
+      "parts": [
+        "doc_7a5e51989c35543baf1b6dbf1a8b793a"
+      ],
+      "related": [
+        "doc_6b7f8c754a1e5e9492d306667ad478d2",
+        "doc_77ba7c83a9375f088f4ea19e1eca1ace",
+        "doc_b96f6bcce4965a80bf8db7633cc3628b"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Turn each project into a self-contained module\n\nEach project now lives in its own directory with its metadata, links, visuals, and long-form content. The site discovers those project modules and assembles its shared portfolio data from them.\n\nAdding or revising a project means editing one contained source instead of coordinating metadata and page content in different places.",
+        "type": "text"
+      },
+      {
+        "body": "## Render every project through one shared page\n\nA shared page renderer supplies the consistent title, summary, preview, tags, and links, then renders the project’s content blocks in their configured order.\n\nThe surrounding structure stays consistent while each project controls the blocks that make up its page.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio project page editor with independently editable text, image, and video blocks. Text, image, and video blocks can be moved and edited independently within the page.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_15-47-40.png",
+        "type": "image"
+      },
+      {
+        "body": "## Compose pages from reusable blocks\n\nText, images, video, galleries, README content, PDFs, and groups each act as independent content blocks. An editor can insert, remove, reorder, or revise one block without restructuring the rest of the page.\n\nGroup blocks keep related content together while preserving the same modular editing model.",
+        "type": "text"
+      },
+      {
+        "body": "## Edit against the rendered page\n\nThe editor works with the same ordered block document used by the detail page. Adding, moving, or updating a block immediately changes the preview, keeping authoring and output on one shared structure.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/project-module-block-architecture.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900
+      },
+      "media/screenshot_2026-02-28_15-47-40.png": {
+        "media_type": "image/png",
+        "width": 901,
+        "height": 758
+      }
+    }
+  }
+}

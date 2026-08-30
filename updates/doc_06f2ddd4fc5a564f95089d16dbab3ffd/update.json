@@ -1,0 +1,50 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_06f2ddd4fc5a564f95089d16dbab3ffd",
+    "title": "Made ComfyUI Viewer independently installable",
+    "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+    "date": "2026-02-07",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/comfy-viewer",
+    "tags": [
+      "Refactoring",
+      "Architecture",
+      "Python",
+      "ComfyUI"
+    ],
+    "relationships": {
+      "part_of": "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad",
+      "related": [
+        "doc_b7183ef2af925346b9755252150a46e0"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Give the viewer its own package boundary\n\nI reorganized the application into a `src/comfy_viewer` package with a `pyproject.toml`, console entry point, package-owned dependencies, and a copyable configuration template. Runtime paths now come from configuration, environment overrides, and platform data and cache directories instead of assumptions about the surrounding Constellation Framework checkout.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Viewer[Comfy Viewer core] --> Config[Package-owned configuration]\n  Viewer --> ComfyUI[Required ComfyUI connection]\n  Viewer -. optional .-> Conduit[Conduit workflow integration]\n  Viewer -. optional .-> Hooks[Host integration hooks]",
+        "description": "The installable core owns viewing and configuration, while Conduit and host hooks remain explicit integration points.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep integrations behind explicit boundaries\n\nThe gallery, focused viewer, file watching, thumbnails, search, and quicksave run through the core package. Conduit adds workflow browsing, run controls, and richer output metadata, while namespaced lifecycle hooks provide a separate extension point.\n\nI replaced the dedicated subscriber with structured events and lifecycle hooks, added CLI introspection, packaged the browser client, and rejected file paths outside configured roots. Integrations can extend the viewer without becoming part of its startup contract.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

@@ -18,8 +18,8 @@ import { escapeHtml, getMediaType } from '../utils.js';
  * @returns {string} URL to link to
  */
 export function getLinkUrl(update) {
-  const folder = encodeURIComponent(String(update.folder || update.slug || ''));
-  return `updates/${folder}/detail.html`;
+  const key = encodeURIComponent(String(update.key || ''));
+  return `updates/${key}/detail.html`;
 }
 
 /**
@@ -59,8 +59,8 @@ export function getCTAText(update) {
  * @returns {string|null} Preview image path or null if not set
  */
 export function getPreviewPath(update) {
-  if (!update.preview) return null;
-  return `updates/${update.folder}/${update.preview}`;
+  if (!update.preview?.src) return null;
+  return `updates/${update.key}/${update.preview.src}`;
 }
 
 /**
@@ -70,7 +70,7 @@ export function getPreviewPath(update) {
  */
 export function getIconPath(update) {
   const icon = update.icon || 'icon.svg';
-  return `updates/${update.folder}/${icon}`;
+  return `updates/${update.key}/${icon}`;
 }
 
 // =============================================================================

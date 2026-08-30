@@ -1,0 +1,68 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_3a6495dd303a5286b238144d478fa5df",
+    "title": "Built a wallpaper service with seamless switching",
+    "summary": "Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color backgrounds without exposing a blank frame between changes.",
+    "date": "2025-12-22",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/wallpaper-service",
+    "preview": {
+      "src": "media/wallpaper-controls.png",
+      "description": "Wallpaper service settings hub preview.",
+      "width": 950,
+      "height": 970
+    },
+    "tags": [
+      "Python",
+      "Desktop Environment",
+      "Wayland"
+    ],
+    "relationships": {
+      "related": [
+        "doc_d9b73e88fe905abcad8a842e1a6ac92b",
+        "doc_ff2e48756b8f5bf5aeaee62e5142e744",
+        "doc_a4499baf70965526bf7fd8dbd0dd686a",
+        "doc_774e6a0b184653c2917464eaeb611782"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Own the wallpaper process\n\nI built one long-running daemon to own the wallpaper renderer instead of making desktop controls manage `swaybg` and `mpvpaper` directly. The daemon reads the requested video, image, or solid color from a JSON configuration and resolves the active Wayland output from the desktop session.",
+        "type": "text"
+      },
+      {
+        "description": "Desktop Appearance settings showing a live video wallpaper preview and Image, Video, and Solid Color mode controls. Wallpaper controls expose the daemon’s video, image, and solid-color modes while previewing the active background.",
+        "presentation": "intrinsic",
+        "src": "media/wallpaper-controls.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep the last working background\n\nOn a reload, the daemon starts the replacement renderer, waits briefly for it to initialize, and checks that it is still running before terminating the previous process. If the replacement fails, the current wallpaper remains in place. The same signal-driven loop notices renderer exits and restarts them with backoff instead of continuously polling.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Config[Video, image, or color config] --> Service[Wallpaper daemon]\n  Output[Detected Wayland output] --> Service\n  Service --> Replacement[Start replacement renderer]\n  Replacement --> Verify[Verify it stays running]\n  Verify --> Handoff[Stop previous renderer]\n  Handoff --> Active[New background active]",
+        "description": "The daemon brings up and verifies the replacement before releasing the previous background.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/wallpaper-controls.png": {
+        "media_type": "image/png",
+        "width": 950,
+        "height": 970
+      }
+    }
+  }
+}

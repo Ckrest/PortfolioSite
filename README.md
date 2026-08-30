@@ -35,6 +35,8 @@ explicit recovery command for an interrupted or missed dispatch. Installation
 records the selected Node interpreter in the private
 `~/.config/portfolio-site/environment` file, so interactive and dispatched
 realization use the same runtime without embedding a host path in public source.
+Lifecycle actions delegate to the installed `constellation` command against
+this checkout; launchers do not import an in-progress Constellation worktree.
 Artifact realization never activates the preview, and neither Site command
 starts or owns the Editor.
 
@@ -45,7 +47,7 @@ the deployable build, and JavaScript syntax without rewriting authored content.
 
 Canonical public sources are:
 
-- `updates/<slug>/settings.yaml` and the assets referenced by that update;
+- `updates/<stable-document-id>/settings.yaml` and the assets referenced by that update;
 - `capabilities/<slug>/settings.yaml` and the assets referenced by that
   capability;
 - the update and capability schemas and block registries;
@@ -59,8 +61,8 @@ generated output. Run the build after changing canonical sources.
 
 The build validates the complete public graph rather than one record in
 isolation. It rejects malformed or unknown fields, invalid block structures,
-duplicate block identities, unsafe or missing assets, missing image
-alternatives, privacy-pattern matches, redundant relationship types, required
+duplicate block identities, unsafe or missing assets, missing public image
+descriptions, privacy-pattern matches, redundant relationship types, required
 capability evidence, and graph cycles. Optional update relationships whose
 target is outside the exact pool remain authored but unresolved. The deployable directory is allowlisted by
 `updates/_public-asset-policy.json` and excludes YAML, databases, logs, private
@@ -71,17 +73,17 @@ Markdown dependencies. Validation, candidate identity, payload generation, and
 distribution copying consume that graph instead of maintaining separate block
 walkers.
 
-The repository accepts only its current version 4 authored update schema,
-version 3 capability schema, version 7 update block registry, version 6
-capability block registry, version 1 asset contracts, version 5 generated
+The repository accepts only its current version 7 authored update schema,
+version 3 capability schema, version 8 update block registry, version 7
+capability block registry, version 1 asset contracts, version 7 generated
 update payloads, and version 4 generated capability payloads. Project content
 enters public source only through the exact closed-pool boundary below.
 
 ### Exact closed-pool builds
 
 `npm run build:pool -- --input <request.json> --output <directory>` is the shared
-Portfolio Editor and Constellation boundary. A `portfolio-site/pool-build@4` request
-contains one `portfolio-site/project-pool@1` with every digest-pinned member.
+Portfolio Editor and Constellation boundary. A `portfolio-site/pool-build@5` request
+contains one `portfolio-site/project-pool@2` with every digest-pinned member.
 The command snapshots current Git-visible Site mechanics, removes generated and
 retired project copies, installs only the requested members, runs the complete
 graph and distribution builds, and returns exact source, pool, public-source,
@@ -108,7 +110,7 @@ identity matches. Constellation then installs and verifies that exact result.
 source and distribution identities from an installed result. The local launcher
 uses this verifier before reporting realization, and publication validation
 requires the verified installed receipt to match the current
-`portfolio-editor/accepted-pool@3` and its realized handoff.
+`portfolio-editor/accepted-pool@4` and its realized handoff.
 
 The result contains an exact public-source tree, deployable `dist`, their file
 inventories and digests, and the pool and Site input identities. A failed graph
@@ -124,11 +126,14 @@ field help live in `updates/_update-schema.yaml`; block contracts live in
 `updates/_block-registry.json`.
 
 - `prominence` controls presentation weight.
-- `discovery` controls whether a valid public page participates in indexes and
-  the sitemap.
 - `part_of`, `supersedes`, and `related_to` are forward relationships.
-- tags provide public browsing topics.
+- tags are free-form public browsing topics.
 - media paths are relative to the update directory.
+
+Every accepted update participates in public indexes and the sitemap. Its
+stable document ID is its directory, payload identity, relationship target,
+and URL key. Every update has the fixed generated `assets/icon.svg`; an
+optional preview is retained regardless of prominence.
 
 The build derives backlinks, project-update lists, later-version links, and the
 newest version. Older records do not need editing when newer work creates a
@@ -143,7 +148,7 @@ without rewriting the source update. Capability evidence remains required.
 
 A capability is a durable ability demonstrated by concrete updates. Its source
 contract lives in `capabilities/_capability-schema.yaml`, and it owns the list
-of update slugs used as evidence.
+of stable update IDs used as evidence.
 
 The build resolves selected-work cards for capability pages and derives the
 inverse capability links for supporting updates. One update may support several
@@ -240,10 +245,11 @@ and it invokes the exact Workspace build contract for a durable approval view.
 The bridge is an optional authoring integration: it does not belong to the
 published DOM, and the Site neither loads nor requires the Editor.
 
-The block registry also declares whether each field is visibly public,
-accessibility-only, structural public source, or private authoring metadata.
-Published blocks are strict allowlists: private provenance fields are invalid in
-Site settings, while Editor stores them outside the public block payload.
+The block registry declares whether each field is visible public meaning or
+structural public source. Evidence uses one description visibly and for
+assistive technology. Published blocks are strict allowlists: private
+provenance fields are invalid in Site settings, while Editor stores concise
+internal context outside the public block payload.
 
 Update blocks use one semantic flow and three explicit presentation widths:
 `intrinsic` prevents a raster image from being enlarged beyond its source,
@@ -252,7 +258,7 @@ Image, gallery, comparison, and authored preview links use the locally vendored
 PhotoSwipe viewer; source dimensions are generated into the current update
 payload so zoom and intrinsic sizing do not depend on layout guesses. Gallery
 tiles default to `contain`; cropping requires an explicit `fit: cover` choice.
-Detail previews use a consistent 16:9 cover frame, captions use a centered
+Detail previews use a consistent 16:9 cover frame, descriptions use a centered
 artifact footprint with a small responsive text inset, and Mermaid
 diagrams expose a compact keyboard-operable zoom toolbar. Image surfaces do not
 add a second border or matte over an asset's own transparent or rounded edges;

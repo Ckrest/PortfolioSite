@@ -1,0 +1,57 @@
+blocks:
+- body: '## Track one workspace package by package
+
+
+    Constellation Framework keeps related tools and services together in one filesystem
+    so they can share integrations and be worked on as a connected environment. A
+    single repository would combine unrelated package histories, while nested repositories
+    would introduce Git boundaries throughout the workspace.
+
+
+    VCSH keeps repository metadata outside the package tree and lets each repository
+    track selected paths inside the shared worktree. A package can stay exactly where
+    the rest of the workspace expects it while retaining its own commits, branches,
+    and remotes.'
+  id: blk_vcsh_why
+  type: text
+- code: "flowchart LR\n  subgraph Repos[External VCSH repository metadata]\n    RepoA[Package\
+    \ A repository]\n    RepoB[Package B repository]\n  end\n\n  subgraph Workspace[Shared\
+    \ Constellation worktree]\n    PackageA[Package A paths]\n    PackageB[Package\
+    \ B paths]\n  end\n\n  RepoA -->|tracks in place| PackageA\n  RepoB -->|tracks\
+    \ in place| PackageB\n  PackageA --> HistoryA[Independent history + remote]\n\
+    \  PackageB --> HistoryB[Independent history + remote]"
+  description: External VCSH repositories assign independent history and ownership
+    to package paths inside one shared Constellation worktree.
+  id: blk_vcsh_architecture
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Make repository ownership explicit
+
+
+    Each package now has a defined VCSH repository identity, repository conventions,
+    and ignore rules. Git operations can target that identity instead of inferring
+    ownership from whichever directory happens to be active.
+
+
+    This formalizes tracking across the workspace: changes can be found across packages,
+    assigned to the repository that owns them, and committed without pulling neighboring
+    package work into the same history. The structure now covers 53 packages, including
+    10 forks with their own upstream configuration.'
+  id: blk_vcsh_structure
+  type: text
+date: '2026-01-27'
+part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
+preview:
+  description: An isometric shared workspace platform with distinct package modules
+    connected to separate external history archives.
+  src: media/vcsh-workspace-preview.png
+prominence: medium
+summary: Constellation now uses VCSH to track packages independently inside one shared
+  workspace, giving every package a formal Git ownership boundary without splitting
+  apart the files that work together.
+tags:
+- Git
+- Architecture
+- Infrastructure
+title: Separated package histories with VCSH

@@ -10,17 +10,18 @@
     "previewAlt": "Design durable data and evidence pipelines",
     "evidence": [
       {
-        "slug": "postgresql-history-database",
-        "folder": "postgresql-history-database",
+        "key": "doc_e76b0f81dd7b5b93a11e8f357b63ffb8",
         "title": "Built a shared history database for system activity",
         "summary": "Built a PostgreSQL history store for tool operations and artifacts, with a normalized SQLAlchemy schema, repository API, and provenance queries.",
         "date": "2025-11-16",
         "prominence": "medium",
-        "icon": "icon.svg",
-        "preview": "postgresql-history-first-output.png",
-        "previewAlt": "The first recorded Constellation History Database output and its linked artifacts",
-        "previewWidth": 1719,
-        "previewHeight": 917,
+        "icon": "assets/icon.svg",
+        "preview": {
+          "src": "postgresql-history-first-output.png",
+          "description": "The first recorded Constellation History Database output and its linked artifacts",
+          "width": 1719,
+          "height": 917
+        },
         "tags": [
           "PostgreSQL",
           "Infrastructure"

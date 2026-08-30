@@ -1,0 +1,72 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_aa793128a2075e32a8dea215c096de7c",
+    "title": "Built reusable GTK graphs and gauges",
+    "summary": "Built a GTK4 graph library that pairs interchangeable data providers with reusable Cairo line-chart and gauge renderers, with runtime styling and refresh controls.",
+    "date": "2026-01-13",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/graph-lib",
+    "preview": {
+      "src": "media/screenshot_2026-02-28_16-26-37-1.png",
+      "description": "Graph Library chart examples",
+      "width": 1172,
+      "height": 847
+    },
+    "tags": [
+      "Python",
+      "GTK"
+    ],
+    "relationships": {
+      "related": [
+        "doc_004858c24c955a1aa023a9e8eb9c3180",
+        "doc_38811c0e3f5d564f8b840821d6ea52b5",
+        "doc_ff2e48756b8f5bf5aeaee62e5142e744"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Compose data and presentation\n\nGraph Library splits a live visualization into three replaceable pieces: a provider returns timestamped values, a Cairo renderer turns them into a line chart or gauge, and `GraphWidget` handles GTK drawing and the refresh lifecycle. The same widget can use generated data, SQLite history, or live GPU metrics without moving acquisition logic into the renderer.",
+        "type": "text"
+      },
+      {
+        "code": "provider = SQLiteProvider(\n    db_path=\"metrics.db\",\n    table=\"readings\",\n    value_column=\"temperature\",\n    time_column=\"timestamp\",\n    time_range_hours=24,\n)\n\nrenderer = LineChartRenderer()\ngraph = GraphWidget(renderer, provider, refresh_interval_ms=1000)\n\ngraph.configure(\n    title=\"Temperature\",\n    unit=\"°C\",\n    y_min=0,\n    y_max=100,\n    show_current=True,\n)\n\ngraph.start()",
+        "description": "A provider and renderer become one embeddable, independently configurable GTK widget.",
+        "filename": "graph-composition.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Swap the source without rewriting the chart\n\nEach provider returns the same small `DataPoint` structure, keeping database queries and hardware sampling out of the drawing code. The included providers cover generated example data, configurable SQLite queries, and rolling GPU metrics, while custom sources can implement the same `fetch()` interface and optional streaming hooks.",
+        "type": "text"
+      },
+      {
+        "description": "GTK4 Graph Library showcase with labeled and compact line charts plus circular gauges. One widget API produces labeled time series, compact filled charts, point traces, and threshold-colored gauges.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_16-26-37-1.png",
+        "type": "image"
+      },
+      {
+        "body": "## Tune the display at runtime\n\nLine charts expose labels, units, automatic or fixed ranges, axes, ticks, grids, fills, points, colors, and a current-value display. Gauges add configurable ranges, thresholds, arc styling, colors, and labels. The widget can also change its provider or refresh interval while running and request a redraw when new data arrives.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/screenshot_2026-02-28_16-26-37-1.png": {
+        "media_type": "image/png",
+        "width": 1172,
+        "height": 847
+      }
+    }
+  }
+}

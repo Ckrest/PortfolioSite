@@ -1,0 +1,91 @@
+blocks:
+- body: '## Turn narrative input into structured state
+
+
+    Scene Tracker processes each message as a state-building task. It combines the
+    message with the current chat state, runs the configured agents, and returns an
+    updated scene.
+
+
+    Useful details become typed characters, objects, locations, and scene context
+    that the next message can reuse.'
+  id: blk_editorial_scene-tracker-full-packa
+  type: text
+- code: "flowchart LR\n  Input[Message + current state] --> Context[Build step context]\n\
+    \  Context --> Loop[Focused agent loop]\n  Loop -->|Tool call| Tool[Apply structured\
+    \ state change]\n  Tool --> Loop\n  Loop -->|Step complete| Scheduler[Release\
+    \ dependent steps]\n  Scheduler -->|More work| Context\n  Scheduler -->|Pipeline\
+    \ complete| Result[Updated state + processing trace]"
+  description: A message moves through focused agent loops, constrained state tools,
+    dependency scheduling, and an explicit result. Each agent loops through reasoning
+    and tool calls until its step is complete, then releases any work that depends
+    on it.
+  id: blk_scene_pipeline
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Give each agent a focused role
+
+
+    Agents specialize in characters, clothing, emotions, objects, scene details, or
+    relevance. Independent steps can run together, while dependent steps wait for
+    the state they need.
+
+
+    Each role receives only the context and tools configured for its job, keeping
+    the pipeline modular instead of relying on one all-purpose prompt.'
+  id: blk_scene_workers
+  type: text
+- body: '## Use tool calls as the state boundary
+
+
+    Agents turn their findings into constrained calls that create entities, update
+    attributes, move objects, or record scene changes. Those calls produce typed state
+    instead of leaving the result buried in model prose.'
+  id: blk_scene_tool_boundary
+  type: text
+- code: "{\n  \"message_index\": 1,\n  \"phases\": {\n    \"extract_chars\": {\n \
+    \     \"worker\": \"character_analyst\",\n      \"rounds\": 5,\n      \"tool_calls\"\
+    : 7,\n      \"success\": true\n    },\n    \"extract_scene\": {\n      \"worker\"\
+    : \"scene_analyst\",\n      \"rounds\": 2,\n      \"tool_calls\": 1,\n      \"\
+    success\": true\n    }\n  },\n  \"changes_applied\": [\n    \"[extract_chars]\
+    \ Created character 'Kael' with id 'kael'.\"\n  ],\n  \"processing_time_ms\":\
+    \ 44753.2,\n  \"state_snapshot\": {\n    \"entities\": {\n      \"kael\": {\n\
+    \        \"entity_type\": \"character\",\n        \"in_scene\": true\n      }\n\
+    \    },\n    \"message_count\": 1\n  }\n}"
+  description: 'A shortened retained run result shows the response boundary: step
+    outcomes, applied mutations, timing, and the updated state.'
+  filename: processing-result.example.json
+  id: blk_scene_retained_result
+  language: json
+  presentation: content
+  sourceMode: attached
+  src: media/processing-result.example.json
+  type: code
+- body: '## Keep each run inspectable
+
+
+    The response records which steps ran, whether they succeeded, how many tool calls
+    they made, and which changes were applied.
+
+
+    The same lifecycle is logged across worker starts, completions, and errors, making
+    a slow or incorrect extraction step easier to trace.'
+  id: blk_scene_trace
+  type: text
+date: '2026-02-15'
+preview:
+  description: Illustrated tavern scene beside structured scene-state JSON
+  src: media/stitched.png
+prominence: medium
+related_to:
+- doc_d5f1ae0b35e150ff97749a0ddbcaa1d8
+summary: Built an agent pipeline that turns narrative messages into typed scene state
+  through focused worker loops and constrained tool calls.
+tags:
+- AI
+- Python
+- Ollama
+- API Design
+- Workflow Orchestration
+title: Built a local AI scene-tracking pipeline

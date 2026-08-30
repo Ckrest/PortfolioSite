@@ -1,0 +1,61 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_b96f6bcce4965a80bf8db7633cc3628b",
+    "title": "Gave every portfolio item a detail page",
+    "summary": "Gave every portfolio item its own detail page while keeping repository and external links available, then made dropped preview images save cleanly into project media.",
+    "date": "2026-02-20",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "tags": [
+      "Debugging",
+      "JavaScript",
+      "Flask",
+      "Frontend"
+    ],
+    "relationships": {
+      "part_of": "doc_1a3826668acb53688961faa991a157f1",
+      "related": [
+        "doc_9503340b85e059238577a3ec79bbc0b9"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Keep the page and its external links\n\nEvery timeline item opens a stable detail page with its authored blocks. Repository and external URLs remain available as actions inside the page, so linking to the work does not replace the space used to explain it.\n\nPortfolio Editor follows the same rule: block controls and the rendered page preview stay available for every item.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio detail page with title, summary, tags, repository link, and authored content. The repository link remains available inside the item’s authored detail page.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_13-21-49.png",
+        "type": "image"
+      },
+      {
+        "code": "flowchart LR\n  Card[Timeline card] --> Detail[Detail page]\n  Detail --> Blocks[Authored blocks]\n  Detail --> Links[Repository and external links]\n  Preview[Dropped preview] --> Intake[Copy into project media]\n  Intake --> Asset[Saved relative asset]\n  Asset --> Detail",
+        "description": "Every card leads to an authored page, while staged previews become owned media when saved.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Save dropped previews as owned media\n\nA preview image dropped into the editor begins as a staged local path. Saving copies the file into the item’s media directory, rewrites the field to a relative asset path, and refreshes the editor’s saved values and asset inventory.\n\nValidation recognizes the staged path as pending intake, avoiding a missing-file warning before the copy has happened.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/screenshot_2026-02-28_13-21-49.png": {
+        "media_type": "image/png",
+        "width": 1399,
+        "height": 1291
+      }
+    }
+  }
+}

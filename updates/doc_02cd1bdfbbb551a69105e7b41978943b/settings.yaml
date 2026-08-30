@@ -1,0 +1,37 @@
+blocks:
+- body: '## Turn an open-ended goal into a staged program
+
+
+    I wrote this proposal to turn a broad interest in applied AI into a concrete engineering
+    project with phased work, review points, and deliverables. It paired research
+    with implementation: identify useful integration boundaries, build local tools
+    and prototypes, document decisions, and evaluate each stage before expanding the
+    scope.
+
+
+    Rather than commit the program to a single model or product, I organized it around
+    three stages that could adapt as the work progressed. Early milestones would establish
+    infrastructure and working methods; later ones would apply them to larger integrations
+    and consolidate the results into reusable systems and documentation. The proposal
+    treated risk, evaluation, and communication as part of the work from the beginning. '
+  id: blk_ai_proposal_story
+  type: text
+- description: The proposal defines the staged work, deliverables, risks, and evaluation
+    plan.
+  id: blk_ai_proposal_pdf
+  presentation: content
+  src: proposal.pdf
+  type: pdf
+date: '2025-09-15'
+preview:
+  description: First page of the independent AI integration program proposal
+  src: preview.png
+prominence: medium
+summary: Turned an open-ended interest in applied AI into a three-stage engineering
+  proposal, with practical prototypes, review points, documentation, and evaluation
+  built into the plan.
+tags:
+- AI
+- Architecture
+- Documentation
+title: Proposed a three stage project for applied AI integration

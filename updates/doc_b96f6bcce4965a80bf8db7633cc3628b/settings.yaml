@@ -1,0 +1,57 @@
+blocks:
+- body: '## Keep the page and its external links
+
+
+    Every timeline item opens a stable detail page with its authored blocks. Repository
+    and external URLs remain available as actions inside the page, so linking to the
+    work does not replace the space used to explain it.
+
+
+    Portfolio Editor follows the same rule: block controls and the rendered page preview
+    stay available for every item.'
+  id: blk_editorial_remove-linkto-gating-and
+  type: text
+- description: Portfolio detail page with title, summary, tags, repository link, and
+    authored content. The repository link remains available inside the item’s authored
+    detail page.
+  id: 87947a8f-21e2-4c45-aa75-f7bd2e08f329
+  presentation: intrinsic
+  src: media/screenshot_2026-02-28_13-21-49.png
+  type: image
+- code: "flowchart LR\n  Card[Timeline card] --> Detail[Detail page]\n  Detail -->\
+    \ Blocks[Authored blocks]\n  Detail --> Links[Repository and external links]\n\
+    \  Preview[Dropped preview] --> Intake[Copy into project media]\n  Intake -->\
+    \ Asset[Saved relative asset]\n  Asset --> Detail"
+  description: Every card leads to an authored page, while staged previews become
+    owned media when saved.
+  id: blk_universal_detail
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Save dropped previews as owned media
+
+
+    A preview image dropped into the editor begins as a staged local path. Saving
+    copies the file into the item’s media directory, rewrites the field to a relative
+    asset path, and refreshes the editor’s saved values and asset inventory.
+
+
+    Validation recognizes the staged path as pending intake, avoiding a missing-file
+    warning before the copy has happened.'
+  id: blk_staged_preview_intake
+  type: text
+date: '2026-02-20'
+external_url: https://github.com/Ckrest/PortfolioSite
+part_of: doc_1a3826668acb53688961faa991a157f1
+prominence: low
+related_to:
+- doc_9503340b85e059238577a3ec79bbc0b9
+summary: Gave every portfolio item its own detail page while keeping repository and
+  external links available, then made dropped preview images save cleanly into project
+  media.
+tags:
+- Debugging
+- JavaScript
+- Flask
+- Frontend
+title: Gave every portfolio item a detail page

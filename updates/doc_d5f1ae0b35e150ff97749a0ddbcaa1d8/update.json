@@ -1,0 +1,76 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_d5f1ae0b35e150ff97749a0ddbcaa1d8",
+    "title": "Built a declarative engine for AI evaluation flows",
+    "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
+    "date": "2025-12-19",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/modular-flow-engine",
+    "preview": {
+      "src": "media/modular-flow-engine-overview.svg",
+      "description": "Modular Flow Engine plan validation, execution, results, and optional checkpoint-resume architecture",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "Python",
+      "AI",
+      "Architecture"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_4abf6b7ba46e5908b5a274b4b8eeac50"
+      ],
+      "related": [
+        "doc_2318c76c788c5637af0e620ae4ef352c",
+        "doc_185a5d2f4d2051c098c591e4ac240a1b"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Describe evaluation pipelines as data\n\nI built the engine around JSON plans that declare inputs, component instances, and execution steps. Sources load values, transforms process them, sinks collect or write results, and loops express repeated work without requiring a custom Python script for every evaluation.",
+        "type": "text"
+      },
+      {
+        "code": "{\n  \"name\": \"basic_loop\",\n  \"description\": \"Simplest pattern: load items, loop over them, collect results\",\n  \"components\": {\n    \"items\": {\n      \"type\": \"source/text_list\",\n      \"config\": {\n        \"path\": \"plans/examples/sample_items.txt\"\n      }\n    },\n    \"results\": {\n      \"type\": \"sink/collector\"\n    }\n  },\n  \"flow\": [\n    {\"source\": \"items\"},\n    {\n      \"loop\": {\n        \"over\": \"items.items\",\n        \"as\": \"item\",\n        \"index\": \"i\",\n        \"steps\": [\n          {\n            \"call\": \"results\",\n            \"inputs\": {\n              \"index\": \"{i}\",\n              \"value\": \"{item}\"\n            }\n          }\n        ]\n      }\n    },\n    {\"sink\": \"results\"}\n  ]\n}",
+        "description": "The retained basic example loads a text list, loops over each item, and finalizes a collector through a JSON plan.",
+        "filename": "01_basic_loop.json",
+        "language": "json",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Make components self-describing\n\nEach component registers its configuration, input, and output contract. Before execution, the runner resolves typed plan inputs and references, validates required values, and can stop after a dry run. Sources, transforms, sinks, and reusable composites can be added without changing the runner.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Plan[JSON plan] --> Validate[Resolve inputs and validate]\n  Validate --> Execute[Run sources, transforms, loops, and sinks]\n  Execute --> Results[Collect or write results]\n  Execute -. run ID .-> State[Checkpoint completed work]\n  State --> Resume[Resume after interruption]\n  Resume --> Execute",
+        "description": "The runner validates the plan before execution and can checkpoint completed work when a run ID is supplied.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Resume long evaluations\n\nSupplying a run ID enables checkpointing. The runner records completed calls and loop iterations in a JSONL state file; after an interruption, resume mode skips finished work and retries the incomplete step instead of restarting the whole evaluation.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/modular-flow-engine-overview.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900
+      }
+    }
+  }
+}

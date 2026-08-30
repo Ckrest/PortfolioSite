@@ -6,16 +6,18 @@
  * silently drift away from what the independent static site publishes.
  */
 
-import { loadJson } from '../js/data-store.js';
+import { loadJson, loadUpdateIndex } from '../js/data-store.js';
 import { getUpdateAnchorId } from '../js/homepage-location.js';
 import {
   renderUpdate,
+  setCapabilityCatalog,
   setUpdateCatalog,
 } from './update-renderer.js';
 import { initializeMediaViewer } from './update-media.js';
 import { initializeBackToTop } from '../sections/footer/footer.js';
 
 const dependencyRequests = new Map();
+let capabilityCatalog = [];
 
 function collectBlockTypes(blocks, types = new Set()) {
   for (const block of Array.isArray(blocks) ? blocks : []) {
@@ -72,10 +74,10 @@ async function loadRenderDependencies(blocks) {
 }
 
 async function renderUpdateWithDependencies(update) {
-  await loadRenderDependencies(update?.content?.blocks);
+  await loadRenderDependencies(update?.blocks);
   const portfolioLink = document.getElementById('portfolio-breadcrumb');
-  if (portfolioLink && update?.slug) {
-    portfolioLink.href = `../index.html#${encodeURIComponent(getUpdateAnchorId(update.slug))}`;
+  if (portfolioLink && update?.key) {
+    portfolioLink.href = `../index.html#${encodeURIComponent(getUpdateAnchorId(update.key))}`;
     portfolioLink.setAttribute('aria-label', `Back to this update in the portfolio: ${update.title}`);
   }
   const result = await renderUpdate(update);
@@ -86,9 +88,9 @@ async function renderUpdateWithDependencies(update) {
 function applyCapabilityBreadcrumb(update) {
   const requestedCapability = new URLSearchParams(window.location.search).get('from-capability');
   if (!requestedCapability) return;
-  const capability = (Array.isArray(update?.capabilities) ? update.capabilities : []).find((item) => (
-    item.slug === requestedCapability || item.folder === requestedCapability
-  ));
+  if (!(update?.capabilities || []).includes(requestedCapability)) return;
+  const capability = capabilityCatalog.find((item) => item.slug === requestedCapability
+    || item.folder === requestedCapability);
   if (!capability) return;
 
   const breadcrumb = document.querySelector('.breadcrumb');
@@ -156,21 +158,27 @@ async function loadFooter() {
 }
 
 async function loadCatalog() {
-  const manifest = await loadJson('./catalog.json');
-  if (!manifest || manifest.schema !== 'portfolio-update-catalog@1' || !Array.isArray(manifest.updates)) {
-    throw new Error('Update catalog must use portfolio-update-catalog@1');
+  const [index, capabilities] = await Promise.all([
+    loadUpdateIndex('./index.json'),
+    loadJson('../capabilities/manifest.json'),
+  ]);
+  if (capabilities?.schema !== 'portfolio-capability-manifest@3'
+      || !Array.isArray(capabilities.capabilities)) {
+    throw new Error('Capability catalog must use portfolio-capability-manifest@3');
   }
-  setUpdateCatalog(manifest.updates);
-  return manifest.updates;
+  const updates = index.updates;
+  capabilityCatalog = capabilities.capabilities;
+  setUpdateCatalog(updates);
+  setCapabilityCatalog(capabilityCatalog);
+  return updates;
 }
 
-async function loadProjectPayload(folder) {
-  const safeFolder = encodeURIComponent(String(folder || ''));
-  const payload = await loadJson(`./${safeFolder}/update.json`);
-  if (!payload || payload.schema !== 'portfolio-update@5' || !payload.update
-      || payload.asset_manifest?.schema !== 'portfolio-site/asset-manifest@1'
+async function loadProjectPayload(key) {
+  const safeKey = encodeURIComponent(String(key || ''));
+  const payload = await loadJson(`./${safeKey}/update.json`);
+  if (!payload || payload.schema !== 'portfolio-update@7' || !payload.update
       || payload.media?.schema !== 'portfolio-site/media-metadata@1') {
-    throw new Error('Update payload must use portfolio-update@5 with current asset and media metadata');
+    throw new Error('Update payload must use portfolio-update@7 with current media metadata');
   }
   return { ...payload.update, media: payload.media };
 }
@@ -179,29 +187,23 @@ async function loadProjectPayload(folder) {
 // an editor rerender can recover even when the requested update is unsaved.
 window.__renderUpdatePreview = renderUpdateWithDependencies;
 window.__setUpdateCatalog = setUpdateCatalog;
+window.__setCapabilityCatalog = setCapabilityCatalog;
 window.__portfolioRenderReady = true;
 
 async function initialize() {
   const requested = new URLSearchParams(window.location.search).get('update')
     || document.querySelector('meta[name="portfolio-update"]')?.content
     || '';
-  const generatedFolder = document.querySelector('meta[name="portfolio-update-folder"]')?.content || '';
   if (requested === '__new__') return;
   try {
     const catalogRequest = loadCatalog();
-    const likelyFolder = generatedFolder || requested;
     const payloadRequest = requested && requested !== '__new__'
-      ? loadProjectPayload(likelyFolder).catch((error) => ({ error }))
+      ? loadProjectPayload(requested).catch((error) => ({ error }))
       : Promise.resolve(null);
     const [updates, payloadResult] = await Promise.all([catalogRequest, payloadRequest]);
-    const projectSummary = updates.find(
-      (item) => item.slug === requested || item.folder === requested
-    );
+    const projectSummary = updates.find((item) => item.key === requested);
 
     let update = payloadResult && !payloadResult.error ? payloadResult : null;
-    if (!update && projectSummary && projectSummary.folder !== likelyFolder) {
-      update = await loadProjectPayload(projectSummary.folder);
-    }
     if (!update && projectSummary && payloadResult?.error) {
       throw payloadResult.error;
     }
@@ -219,7 +221,7 @@ async function initialize() {
     errorView(
       'Unable to load update',
       'The full update content could not be loaded.',
-      { preserveHeader: Boolean(generatedFolder) },
+      { preserveHeader: Boolean(requested) },
     );
   }
 }

@@ -1,0 +1,75 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_6ce28cd7f7165a4cab2913e4bcdac533",
+    "title": "Built a Wayland screenshot tool for precise desktop capture",
+    "summary": "Built a hotkey-driven Wayland screenshot tool with frozen region selection, unobstructed window capture, precise magnification, and consistent desktop and scripted output.",
+    "date": "2026-01-21",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/screenshot-tool",
+    "preview": {
+      "src": "media/screenshot-tool-selector.png",
+      "description": "Screenshot Tool selector over a woodland scene with controls, a drawn region, live dimensions, a crosshair, and a circular magnifier",
+      "width": 2560,
+      "height": 1440
+    },
+    "tags": [
+      "Python",
+      "Wayland",
+      "Image Capture"
+    ],
+    "relationships": {
+      "related": [
+        "doc_645434a5ee8f550b9e0b237950789066",
+        "doc_472b46319d6948c6bcca4533b716a802"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Capture the screen from one workflow\n\nScreenshot Tool handles fullscreen, drawn-region, and individual-window capture through one hotkey-driven application. The same modes are also exposed through the command line, with explicit output paths, alternate formats, silent operation, standard output, and JSON metadata.",
+        "type": "text"
+      },
+      {
+        "body": "## Refine the selection without guessing\n\nThe overlay freezes the current screen so content stays still while the target is chosen. Dragging defines a region, clicking captures the window beneath the pointer, and Space or the screenshot key saves the complete frame. Escape or right-click cancels.\n\nDuring a drag, everything outside the region dims and a live width × height label follows the boundary. Arrow keys move the pointer one pixel at a time, while the magnifier exposes the neighboring source pixels for exact edge placement.",
+        "type": "text"
+      },
+      {
+        "description": "Circular nine-by-nine pixel magnifier with a grid and red outline around the active center pixel. Each cell represents one source pixel. The red outline marks the pixel beneath the pointer while the surrounding grid makes neighboring edges easy to compare.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot-tool-magnifier-detail.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep every capture path consistent\n\nThe application is organized into focused Python modules for configuration, capture, Wayfire integration, instance coordination, the GTK overlay, and output handling. Interactive and direct modes share one save pipeline for file destination and format, clipboard copying, notifications, sound feedback, standard output, and JSON metadata.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Start[Hotkey or CLI] --> Mode{Capture mode}\n  Mode --> Full[Fullscreen]\n  Mode --> Region[Interactive region]\n  Mode --> Window[Window]\n  Full --> Save[Shared output pipeline]\n  Region --> Save\n  Window --> Save\n  Save --> Result[File, clipboard, notification, or JSON]",
+        "description": "Fullscreen, region, and window capture share one output policy across interactive and scripted use.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/screenshot-tool-magnifier-detail.png": {
+        "media_type": "image/png",
+        "width": 480,
+        "height": 480
+      },
+      "media/screenshot-tool-selector.png": {
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440
+      }
+    }
+  }
+}

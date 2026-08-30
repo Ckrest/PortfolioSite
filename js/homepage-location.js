@@ -23,8 +23,8 @@ function parseTags(value) {
     .filter(Boolean);
 }
 
-export function getUpdateAnchorId(slug) {
-  return `${UPDATE_TARGET_PREFIX}${String(slug || '').trim()}`;
+export function getUpdateAnchorId(updateId) {
+  return `${UPDATE_TARGET_PREFIX}${String(updateId || '').trim()}`;
 }
 
 /** Parse the public homepage URL contract. */

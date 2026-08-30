@@ -1,0 +1,75 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_774e6a0b184653c2917464eaeb611782",
+    "title": "Automated display warmth and bedtime transitions",
+    "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+    "date": "2026-01-02",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/night-mode",
+    "preview": {
+      "src": "night-mode-settings.png",
+      "description": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls.",
+      "width": 727,
+      "height": 484
+    },
+    "tags": [
+      "Desktop Environment",
+      "Python",
+      "Event-Driven Architecture"
+    ],
+    "relationships": {
+      "related": [
+        "doc_3a6495dd303a5286b238144d478fa5df",
+        "doc_ff2e48756b8f5bf5aeaee62e5142e744"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Coordinate the overnight schedule\n\nI built Night Mode around explicit blue-light, bedtime, and wake times rather than location-based sunrise or sunset calculations. The daemon evaluates schedules that cross midnight, starts `wlsunset` with the configured day and night temperatures, and schedules bedtime and warning notifications from the same TOML file.\n\nInstead of repeatedly checking the clock, the service calculates its next boundary and sleeps until an alarm or manual-change signal wakes it.",
+        "type": "text"
+      },
+      {
+        "description": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls. The Night Mode panel exposes the schedule’s current state and temporary warmer, normal, and automatic choices.",
+        "presentation": "intrinsic",
+        "src": "night-mode-settings.png",
+        "type": "image"
+      },
+      {
+        "body": "## Let manual choices expire automatically\n\nThe command surface reports the current state and can temporarily force either warm or normal display behavior. A warm override ends at the next wake boundary; a normal override ends at the next blue-light start. Each one-time choice therefore returns to the schedule without becoming a permanent hidden setting.\n\nSettings Hub exposes the same state-aware control while the daemon keeps the `wlsunset` process, schedule calculations, and notification timers behind one service boundary.",
+        "type": "text"
+      },
+      {
+        "code": "stateDiagram-v2\n  Day --> Night: blue-light start\n  Night --> Day: wake time\n  Day --> ForcedNight: warm now\n  ForcedNight --> Day: wake time\n  Night --> ForcedDay: normal now\n  ForcedDay --> Night: blue-light start",
+        "description": "Scheduled and temporary modes meet at the same explicit day and night boundaries.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "code": "[schedule]\nblue_light_start = \"00:00\"\nbedtime = \"02:00\"\nwake_time = \"10:00\"\ntransition_minutes = 5\n\n[temperature]\nday = 6500\nnight = 3000\n\n[notifications]\nenabled = true\nblue_light_message = \"Blue light filter activated - winding down\"\nbedtime_message = \"Bedtime! Time to wrap up and rest\"\nbedtime_warning_minutes = 15",
+        "description": "The original configuration keeps the overnight window, target temperatures, and notification timing together.",
+        "filename": "night-mode-config.toml",
+        "language": "toml",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "night-mode-settings.png": {
+        "media_type": "image/png",
+        "width": 727,
+        "height": 484
+      }
+    }
+  }
+}

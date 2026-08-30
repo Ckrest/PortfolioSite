@@ -1,0 +1,73 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_2ae1e22a4ed957048348c988b376312f",
+    "title": "Built a seven-day sleep tracking dashboard",
+    "summary": "Separated sleep presentation from collection, added on-demand multi-provider refresh, and produced day and week views for a tabbed desktop dashboard.",
+    "date": "2026-02-18",
+    "prominence": "medium",
+    "preview": {
+      "src": "media/sleep-dashboard-synthetic.png",
+      "description": "Settings Hub Sleep page showing seven-day score, duration, and felt-quality trends",
+      "width": 1536,
+      "height": 1024
+    },
+    "tags": [
+      "Python",
+      "Architecture",
+      "Data Visualization"
+    ],
+    "relationships": {
+      "part_of": "doc_38811c0e3f5d564f8b840821d6ea52b5"
+    },
+    "blocks": [
+      {
+        "body": "## Give every consumer the same day and week views\n\nSleep Tracker owns reusable day and week view functions plus matching command-line operations. Human callers and the desktop dashboard receive the same structured payload instead of duplicating presentation rules.\n\nThe views combine available session, diary, override, and environmental data. Missing measurements remain gaps rather than becoming misleading zeroes.",
+        "type": "text"
+      },
+      {
+        "description": "Sleep data flow from parallel provider refresh through typed collection and repository storage into day, week, and Settings Hub views. Refresh, collection, view formatting, and desktop rendering remain separate, observable stages.",
+        "presentation": "intrinsic",
+        "src": "media/provider-flow.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Refresh independent providers together\n\nProviders can declare an optional collection command and timeout. A refresh runs eligible sources in parallel and returns the result of each one, keeping an upstream failure distinct from a successful reading with no data.\n\nThe command line and API expose the same operation, so the dashboard can request fresh data through the tracker’s normal boundary.",
+        "type": "text"
+      },
+      {
+        "description": "Typed providers declare how to read a date and, when supported, how to refresh their upstream source before collection.",
+        "filename": "provider-config.example.txt",
+        "language": "yaml",
+        "presentation": "content",
+        "sourceMode": "attached",
+        "src": "media/provider-config.example.txt",
+        "type": "code"
+      },
+      {
+        "body": "## Render the week from declarative sources\n\nSettings Hub defines the seven date tabs, trend view, dynamic labels, and polling behavior. Sleep Tracker owns date resolution, ratings, duration, score, and environmental summaries, keeping domain logic out of the desktop shell.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/provider-flow.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1690,
+        "height": 174
+      },
+      "media/sleep-dashboard-synthetic.png": {
+        "media_type": "image/png",
+        "width": 1536,
+        "height": 1024
+      }
+    }
+  }
+}

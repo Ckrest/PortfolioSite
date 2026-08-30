@@ -1,0 +1,38 @@
+blocks:
+- body: '## Repair the event handoff
+
+
+    ComfyUI Conduit was still saving completed outputs, but Comfy Viewer was not receiving
+    the event that refreshes its gallery. I traced the break to the local Constellation
+    Framework adapter: its import path still pointed at the former location of the
+    event package.
+
+
+    I corrected the adapter to load the event publisher from its managed location
+    and verified the complete route from saved output through Redis to the gallery.
+    The adapter remains outside Conduit’s package boundary, keeping the host integration
+    optional while the public package stays self-contained.'
+  id: blk_editorial_fix-comfyui-conduit-redi
+  type: text
+- code: "flowchart LR\n  Output[Completed Conduit output] --> Saved[Saved output]\n\
+    \  Output --> Adapter[Optional Constellation adapter]\n  Adapter --> Redis[Redis\
+    \ artifact event]\n  Redis --> Viewer[Comfy Viewer refresh]"
+  description: The repaired adapter carries an artifact event to Comfy Viewer while
+    output saving remains part of Conduit’s core path.
+  id: blk_conduit_event_fix
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+date: '2026-01-21'
+external_url: https://github.com/Ckrest/comfyui-conduit
+part_of: doc_b7183ef2af925346b9755252150a46e0
+prominence: low
+related_to:
+- doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad
+summary: Corrected the optional Constellation Framework event adapter so completed
+  Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.
+tags:
+- Redis
+- Debugging
+- ComfyUI
+title: Restored live gallery updates from ComfyUI Conduit

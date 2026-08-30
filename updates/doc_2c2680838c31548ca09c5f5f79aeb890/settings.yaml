@@ -1,0 +1,44 @@
+blocks:
+- body: '## Keep one configuration across backends
+
+
+    Backend selection now happens through launcher environment variables. Every launch
+    path uses the same Claude Code directory, so authentication, history, integrations,
+    skills, and settings stay together.
+
+
+    Switching providers changes the endpoint without opening a separate environment
+    or requiring another login.'
+  id: blk_editorial_restructure-claude-code-
+  type: text
+- code: "flowchart TD\n  Launch[Launch command] --> Select[Select backend with environment]\n\
+    \  Config[Shared configuration] --> Session[Agent session]\n  Select --> Session\n\
+    \  Session --> Edit[Read and edit tools]\n  Session --> Consequential[Shell or\
+    \ credential access]\n  Edit --> BuiltIn[Built-in edit permissions]\n  Consequential\
+    \ --> Hooks[Focused pre-execution hooks]\n  Hooks --> Decision[Allow or block]"
+  description: One shared configuration supports backend selection at launch, built-in
+    editing permissions, and focused checks around shell and credential access. Backend
+    selection changes the endpoint without creating a separate configuration identity;
+    focused hooks guard consequential operations.
+  id: blk_agent_backends
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Simplify allow and deny rules
+
+
+    Permissions now use a clearer balance of broad defaults and focused allow and
+    deny rules. Routine actions stay out of the way, while higher-risk commands and
+    sensitive paths remain behind explicit checks.'
+  id: blk_agent_permission_policy
+  type: text
+date: '2026-02-16'
+prominence: low
+related_to:
+- doc_71ce05a4e4195e4495b0cc3acd0eda03
+summary: Kept every backend on one Claude Code configuration, preserving history and
+  integrations while focused hooks guarded shell commands and credential access.
+tags:
+- Infrastructure
+- Refactoring
+title: Unified Claude Code configuration across AI backends

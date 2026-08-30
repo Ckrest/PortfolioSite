@@ -1,0 +1,84 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_d05b27abd50b40f9907f78c8a2988d4e",
+    "title": "Built a discovery-based registry for a software workspace",
+    "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+    "date": "2026-01-08",
+    "prominence": "high",
+    "preview": {
+      "src": "media/package-registry-preview.png",
+      "description": "Diagram showing a package manifest flowing through discovery into a generated package index.",
+      "width": 1200,
+      "height": 675
+    },
+    "tags": [
+      "Python",
+      "CLI",
+      "Architecture"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_33a58a7114d85ff39beca694a533cc59",
+        "doc_6b15f8dd9ad157659549c358b6c33eaa",
+        "doc_add123234fda58f990931774fda8436e",
+        "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
+        "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6"
+      ],
+      "related": [
+        "doc_e76b0f81dd7b5b93a11e8f357b63ffb8",
+        "doc_c9cdd79a861a5739aa99c3d1f3da27dc"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Let packages register themselves\n\nI built the package registry for Constellation Framework, my package-and-service workspace. Instead of maintaining a separate inventory, each tool or service carries a `manifest.yaml` beside its own files. Scanning the workspace produces the package index, so adding a manifest makes a package discoverable without another registration step.\n\nThe schema gives desktop, AI, infrastructure, and tools packages a common way to declare their identity, status, interfaces, runtime, triggers, dependencies, and repository details.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Packages[Package directories] --> Manifests[Local manifest files]\n  Manifests --> Scan[Scan and parse]\n  Scan --> Index[Generated package index]\n  Index --> Search[Find packages]\n  Index --> Details[Inspect runtime and dependencies]",
+        "description": "The package inventory is generated from manifests stored beside the packages themselves.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Give different packages a common shape\n\nLong-running services, command-line tools, libraries, and graphical applications can share one descriptive format without being forced into the same runtime. Templates provide starting structures for common package types while leaving each package responsible for its own metadata.\n\nI also defined search, inspection, creation, update, and validation operations around the registry. That gives agents and maintenance tools a consistent way to discover existing capabilities before creating or changing packages.",
+        "type": "text"
+      },
+      {
+        "code": "name: diagram-tool\ntier: tools\nstatus: active\ndescription: Local-first diagram editor\n\ninterfaces:\n  - cli\n  - api\n  - gui\ntriggers:\n  - manual\nruntime: python\ndepends_on: []\ntags:\n  - diagram\n  - automation",
+        "description": "A package describes its identity, interfaces, runtime, and dependencies beside its own files.",
+        "filename": "example-package-manifest.yaml",
+        "language": "yaml",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "code": "def discover_packages(root: Path):\n    packages = {}\n\n    for manifest_path in root.rglob(\"manifest.yaml\"):\n        manifest = yaml.safe_load(manifest_path.read_text())\n        packages[manifest[\"name\"]] = {\n            \"path\": manifest_path.parent,\n            \"manifest\": manifest,\n        }\n\n    return packages",
+        "description": "Discovery walks the workspace and builds the registry from the manifests it finds.",
+        "filename": "discovery.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/package-registry-preview.png": {
+        "media_type": "image/png",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+blocks:
+- body: '## Collect evidence created during the session
+
+
+    Artifacts registered while answering report questions exist independently from
+    the active report. At completion, Work Report searches the bounded session window
+    and adds newly created artifacts to the candidate set, so callers do not have
+    to carry identifiers through every tool call.'
+  id: blk_editorial_work-report-flow-auto-sw
+  type: text
+- code: "sequenceDiagram\n  participant A as Agent\n  participant W as Work Report\n\
+    \  participant R as Artifact registry\n  A->>R: Register artifact\n  A->>W: Complete\
+    \ report\n  W->>R: Search session window\n  R-->>W: New candidates\n  W->>W: Attach\
+    \ reviewed evidence"
+  description: An agent registers an artifact independently, and Work Report discovers
+    it during completion before attaching reviewed evidence. Completion searches the
+    active session window and brings newly registered evidence back into the report.
+  id: blk_auto_sweep
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Attach evidence after creation
+
+
+    Existing reports gained a direct attachment path for one or more files, making
+    missed or newly generated evidence recoverable without reopening the guided flow.
+    The automation command builder also removes an optional flag together with its
+    empty value, keeping attachment calls valid when other edit fields are omitted.'
+  id: blk_posthoc_attachment
+  type: text
+date: '2026-02-19'
+part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
+prominence: low
+summary: Made report completion find artifacts created during the active session and
+  added a direct attachment path for evidence added afterward.
+tags:
+- Python
+- Debugging
+- Infrastructure
+title: Collected artifacts created during Work Report sessions

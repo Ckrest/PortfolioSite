@@ -1,0 +1,49 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_5e23d3f9b0e0511d9474b29addc7d003",
+    "title": "Renamed images with local vision models",
+    "summary": "Created a batch command that asked a local Ollama vision model for short descriptive filenames and copied each result without altering the originals.",
+    "date": "2025-12-14",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/vision-rename",
+    "tags": [
+      "AI",
+      "Python",
+      "CLI"
+    ],
+    "relationships": {
+      "related": [
+        "doc_88921a05dc4b5621aa8671b9e48d82dc"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Turn image folders into searchable names\n\nI built a command for batches of screenshots and images whose generated names carried no meaning. It sent each supported image to a selected local Ollama vision model, then converted the response into a short, filesystem-safe filename.",
+        "type": "text"
+      },
+      {
+        "commands": [
+          {
+            "command": "vision-rename ./images --dry-run",
+            "output": "Found 2 images in images\nOutput: images/renamed\nModel: llava:13b\nDRY RUN - no files will be copied\n\n[1/2] IMG_0042.png\n  -> rain_covered_station_platform.png\n[2/2] IMG_0043.png\n  -> terminal_showing_test_results.png\n\nDone! Processed: 2, Skipped: 0, Errors: 0"
+          }
+        ],
+        "description": "A representative dry run shows the proposed names without creating the renamed copies.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "terminal"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

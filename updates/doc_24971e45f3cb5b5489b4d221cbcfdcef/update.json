@@ -1,0 +1,54 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+    "title": "Separated Work Report creation from evidence curation",
+    "summary": "Reduced report creation to one direct operation and separated evidence review into a second curation step driven by completed tool operations.",
+    "date": "2026-02-20",
+    "prominence": "low",
+    "tags": [
+      "Refactoring",
+      "Architecture",
+      "Python",
+      "Infrastructure"
+    ],
+    "relationships": {
+      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
+      "supersedes": "doc_582dd26679fb5519a5a4bf771863f5a6",
+      "parts": [
+        "doc_e231ba92a76357568aec5ed265dbbbc7"
+      ],
+      "related": [
+        "doc_4dfdcbce5020516ca7a8e0ff29c542b8",
+        "doc_f1ecee3798b75a698060af0d6fd26b53"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Create the factual record directly\n\nA single create operation writes the report’s required context as a complete record. The caller supplies the narrative and report facts together, without maintaining a server-side wizard session across several responses.\n\nEvidence remains a separate decision, so recording what happened does not depend on choosing every supporting artifact at the same time.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Facts[Report facts] --> Create[Create report]\n  Create --> Record[Complete record]\n  Operations[Completed tool operations] --> Registry[Handler registry]\n  Registry --> Candidates[Evidence candidates]\n  Candidates --> Curate[Review and attach]\n  Curate --> Record",
+        "description": "The report is created directly; evidence reaches it through a separate, traceable curation path.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Discover evidence from completed operations\n\nSuccessful tool operations form the source of evidence candidates. A declarative handler registry maps each operation type to the artifact it can produce, so discovery starts from a recorded result instead of creating records while merely inspecting files.\n\nCuration reviews the bounded candidate set and attaches selected material to the report. Detach keeps that choice reversible without reopening a guided flow.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

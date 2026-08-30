@@ -1,0 +1,44 @@
+blocks:
+- body: '## Save a preview without changing the graph
+
+
+    I added QuickSave as a toolbar action for keeping an image already visible in
+    ComfyUI without adding a Save Image node to the workflow. It collects distinct
+    images from workflow nodes and the latest execution, saves the only result immediately,
+    or opens a picker when several are available.'
+  id: blk_quicksave_story
+  type: text
+- description: QuickSave control with a save icon in the ComfyUI toolbar. The toolbar
+    button made the save action available while reviewing generated images.
+  id: blk_quicksave_button
+  presentation: intrinsic
+  src: media/screenshot_2026-02-28_16-20-47.png
+  type: image
+- body: '## Avoid overwrites at the save boundary
+
+
+    I added a small `/quicksave` route behind the toolbar action. The extension fetches
+    the chosen preview and sends its encoded image data, original filename, and configured
+    save path to that route. The backend sanitizes the filename, falls back to `output/quicksave`
+    when no valid custom directory is set, skips byte-for-byte duplicates, and adds
+    a numeric suffix to other collisions. A toast reports the result in ComfyUI.'
+  id: blk_quicksave-save-boundary
+  type: text
+- description: QuickSave flow from the ComfyUI toolbar through preview discovery,
+    image selection, backend sanitization, duplicate checks, safe disk writing, and
+    visible feedback. A small frontend-to-backend path saves an existing preview without
+    changing the workflow graph.
+  id: blk_quicksave_flow
+  presentation: intrinsic
+  src: media/quicksave-flow.svg
+  type: image
+date: '2025-12-19'
+external_url: https://github.com/Ckrest/comfyui-quicksave
+prominence: low
+summary: Added a ComfyUI toolbar action for saving an existing generated preview without
+  changing the workflow, with safe filenames and duplicate-aware writes.
+tags:
+- ComfyUI
+- Python
+- JavaScript
+title: Added one-click image saving to ComfyUI

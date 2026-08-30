@@ -1,0 +1,57 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_6b15f8dd9ad157659549c358b6c33eaa",
+    "title": "Audited and repaired the Constellation registry",
+    "summary": "Repaired VCSH command paths, brought overlooked integration files under ownership, and resolved package issues discovered by a full registry audit.",
+    "date": "2026-02-17",
+    "prominence": "low",
+    "tags": [
+      "VCSH",
+      "Validation",
+      "Refactoring"
+    ],
+    "relationships": {
+      "part_of": "doc_d05b27abd50b40f9907f78c8a2988d4e",
+      "related": [
+        "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Audit ownership across the fleet\n\nA fleet-wide audit now checks repository health, integration-file ownership, and commands from outside the workspace root. It exposes add commands that depend on the caller’s current directory and local hook or configuration files that are not recognized by package ownership rules.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Observe[Observe repository state] --> Classify[Classify ownership]\n  Classify --> Shared{Shared cause?}\n  Shared -->|Yes| Rule[Repair common rule]\n  Shared -->|No| Package[Repair owning package]\n  Rule --> Validate[Validate entire affected fleet]\n  Package --> Validate",
+        "description": "The audit distinguished common infrastructure faults from package-local cleanup instead of suppressing both with broad ignores.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Fix the rule at the right level\n\nVCSH commands now establish their working directory, while discovery recognizes the local integration-file forms used by packages. Output locations, stale paths, ignores, and preview resolution are repaired in the package that owns them rather than hidden by a fleet-wide exception.",
+        "type": "text"
+      },
+      {
+        "code": "packages valid               63 / 63\nuntracked integration files   0\nownership violations          0\ntouched repositories clean   14 / 14",
+        "description": "The audit closes only after ownership and validation checks return clean across the affected fleet.",
+        "filename": "audit-summary.txt",
+        "language": "text",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

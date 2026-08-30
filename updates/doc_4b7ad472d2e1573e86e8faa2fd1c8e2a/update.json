@@ -1,0 +1,43 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a",
+    "title": "Kept same-named window previews distinct",
+    "summary": "Connected each foreign-toplevel handle directly to its Wayfire view so windows sharing a title and application ID still receive separate capture sources.",
+    "date": "2026-01-18",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/wayfire-toplevel-capture",
+    "tags": [
+      "C++",
+      "Wayland",
+      "Wayfire",
+      "Image Capture"
+    ],
+    "relationships": {
+      "part_of": "doc_cec34e8034f1584fa26d7325bc9341e5"
+    },
+    "blocks": [
+      {
+        "body": "## Give every window a stable capture identity\n\nSeveral windows can legitimately share a title and application ID. The capture path now carries the underlying Wayfire view on each foreign-toplevel handle, giving every request an exact window identity.\n\nThat direct handle-to-view link keeps each window attached to its own capture source and preview. Titles and application IDs remain useful display metadata, while compositor identity selects the frames.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Shared[Shared title and app ID]\n  Shared -. display metadata .-> HandleA[Toplevel handle A]\n  Shared -. display metadata .-> HandleB[Toplevel handle B]\n  HandleA --> ViewA[Wayfire view A]\n  HandleB --> ViewB[Wayfire view B]\n  ViewA --> CaptureA[Capture source A]\n  ViewB --> CaptureB[Capture source B]",
+        "description": "Each handle keeps a direct path to one Wayfire view and one capture source.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

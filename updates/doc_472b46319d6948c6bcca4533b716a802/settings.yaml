@@ -1,0 +1,49 @@
+blocks:
+- body: '## Add integration at the save boundary
+
+
+    Diagram Tool and Screenshot Tool now expose post-save extension points instead
+    of embedding artifact tracking in their core save paths. Diagram Tool calls registered
+    Python callbacks after a successful save; Screenshot Tool runs executable scripts
+    after writing the capture.'
+  id: blk_editorial_hook-systems-and-artifac
+  type: text
+- code: "flowchart LR\n  Diagram[Diagram save] --> PythonHook[Python hook]\n  Screenshot[Screenshot\
+    \ save] --> ShellHook[Shell hook]\n  PythonHook & ShellHook --> Event[artifact.created]\n\
+    \  Event --> Pipeline[Redis → DB logger → PostgreSQL]\n  Pipeline --> Reports[Work\
+    \ Report discovery]"
+  description: Python and shell hooks converge on one artifact event, then Redis and
+    the database logger place the saved visual in PostgreSQL for Work Report discovery.
+  id: blk_visual_hooks
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Route one event into the evidence pipeline
+
+
+    When the Constellation Framework adapters are present, both hooks publish the
+    same `artifact.created` event with the saved path and capture metadata. Redis
+    carries the event to the database logger, which records the artifact in PostgreSQL
+    for Work Report discovery.
+
+
+    This keeps each tool focused on producing its visual while the optional adapters
+    handle workspace integration.'
+  id: blk_visual_tool_event_pipeline
+  type: text
+date: '2026-01-29'
+part_of: doc_0b8d60db909c54b7aad85f168788ca3f
+prominence: low
+related_to:
+- doc_79633f0172065a5aaef2a5c4f8d70359
+- doc_6ce28cd7f7165a4cab2913e4bcdac533
+summary: Diagram Tool and Screenshot Tool now publish saved visuals into artifact
+  tracking through optional post-save adapters, making them discoverable by Work Report
+  while keeping the tools independently runnable.
+tags:
+- Event-Driven Architecture
+- Python
+- Redis
+- PostgreSQL
+- Bash
+title: Connected visual tools to automatic artifact tracking

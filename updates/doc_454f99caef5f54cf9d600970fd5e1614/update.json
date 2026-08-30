@@ -1,0 +1,83 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_454f99caef5f54cf9d600970fd5e1614",
+    "title": "Added controlled randomization to ComfyUI",
+    "summary": "Built a ComfyUI node set for defining prompt pools, freezing useful selections, rerunning the rest, and saving the final choices with each generated image.",
+    "date": "2025-12-19",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/comfyui-easy-randomize",
+    "preview": {
+      "src": "media/screenshot_2026-02-28_16-56-44.png",
+      "description": "Easy Randomize item pools and selection nodes in ComfyUI",
+      "width": 507,
+      "height": 960
+    },
+    "tags": [
+      "ComfyUI",
+      "Python"
+    ],
+    "blocks": [
+      {
+        "body": "## Keep the useful choices\n\nI built the node set around a short iteration loop: define pools of prompt fragments, queue a generation, freeze the selections that worked, and rerun the rest. Frozen values were stored in the workflow, so refining one part of a prompt did not require copying the whole combination into a new graph.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Pools[Define item pools] --> Select[Select values]\n  Select --> Preview[Generate and preview]\n  Preview --> Freeze[Freeze useful choices]\n  Freeze --> Select\n  Preview --> Record[Record final selections]",
+        "description": "Each queue run changed only the selections that were not frozen.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep the workflow explicit\n\nItem Pool and Smart Selector nodes kept the available choices visible in the graph and supported random or sequential selection. String joiners, template fillers, and a freezable combiner assembled those choices into ordinary ComfyUI inputs instead of hiding prompt construction inside one generator.",
+        "type": "text"
+      },
+      {
+        "description": "Later captures of the maintained interface show the original selection nodes and the ten-input freezable combiner.",
+        "fit": "contain",
+        "images": [
+          {
+            "description": "ComfyUI Easy Randomize nodes for item pools, random and smart selection, templates, selection recording, and image output",
+            "src": "media/screenshot_2026-02-28_16-56-44-1.png"
+          },
+          {
+            "description": "Freezable String Combiner node with ten string inputs, per-input freeze controls, and a freeze-all control",
+            "src": "media/screenshot_2026-02-28_16-57-32.png"
+          }
+        ],
+        "presentation": "wide",
+        "type": "gallery"
+      },
+      {
+        "body": "## Save the choices with the image\n\nSelection Recorder collected the chosen values as JSON, and Save Image with Selections embedded that record in the PNG metadata. A successful generation kept both the image and the inputs that produced it, making the result reproducible without relying on memory or a screenshot of the graph.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/screenshot_2026-02-28_16-56-44-1.png": {
+        "media_type": "image/png",
+        "width": 507,
+        "height": 960
+      },
+      "media/screenshot_2026-02-28_16-56-44.png": {
+        "media_type": "image/png",
+        "width": 507,
+        "height": 960
+      },
+      "media/screenshot_2026-02-28_16-57-32.png": {
+        "media_type": "image/png",
+        "width": 176,
+        "height": 1121
+      }
+    }
+  }
+}

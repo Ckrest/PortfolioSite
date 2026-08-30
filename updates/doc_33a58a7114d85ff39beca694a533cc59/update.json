@@ -1,0 +1,50 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_33a58a7114d85ff39beca694a533cc59",
+    "title": "Repaired VCSH excludes across the Constellation registry",
+    "summary": "Corrected VCSH exclude paths and generated package-specific ignore rules so repository status reflected owned changes instead of unrelated files.",
+    "date": "2026-02-17",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Debugging",
+      "VCSH"
+    ],
+    "relationships": {
+      "part_of": "doc_d05b27abd50b40f9907f78c8a2988d4e",
+      "related": [
+        "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Make repository status package-scoped\n\nVCSH keeps repository metadata outside the shared worktree. Relative `core.excludesFile` values were therefore resolved from the metadata directory instead of the package workspace, leaving the intended exclusions unused and filling repository status with unrelated files.",
+        "type": "text"
+      },
+      {
+        "code": "[core]\n  excludesFile = /resolved/path/to/package-excludes\n\n# The generated file contains package-scoped patterns.\n# It is not resolved relative to the repository metadata directory.",
+        "description": "Using a resolved file location removed an assumption that differed between an ordinary Git repository and an overlaid VCSH repository.",
+        "filename": "git-config-example.ini",
+        "language": "ini",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Generate and verify every package’s exclusions\n\nSynchronization now writes a resolved exclude location and generates package-specific patterns for common build output and Constellation-managed files. Status checks surface missing or mismatched configuration so repository state remains aligned with package ownership.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

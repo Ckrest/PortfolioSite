@@ -1,0 +1,52 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_582dd26679fb5519a5a4bf771863f5a6",
+    "title": "Turned Work Report creation into a guided wizard",
+    "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+    "date": "2026-01-30",
+    "prominence": "low",
+    "tags": [
+      "Python",
+      "CLI"
+    ],
+    "relationships": {
+      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
+      "superseded_by": [
+        "doc_24971e45f3cb5b5489b4d221cbcfdcef"
+      ],
+      "related": [
+        "doc_f1ecee3798b75a698060af0d6fd26b53",
+        "doc_093c398e1d445c8da81519e03e64f233"
+      ],
+      "latest": "doc_24971e45f3cb5b5489b4d221cbcfdcef"
+    },
+    "blocks": [
+      {
+        "body": "## Separate report facts from evidence discovery\n\nWork Report creation now begins with the project, title, tags, and an explicit duration. The duration records active work time independently of file timestamps.\n\nRegistered evidence handlers then search the work session and present candidates with their type and source path visible.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Facts[1 · Required facts] --> Evidence[2 · Discover and review]\n  Evidence --> Verify[3 · Targeted verification]\n  Verify --> Confirm[4 · Confirm report]\n  Confirm --> Record[Save report + evidence]",
+        "description": "Four visible phases carry the report from required facts to saved evidence.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Ask only the relevant follow-ups\n\nEvidence candidates are listed as INCLUDE or SKIP and can be toggled before continuing. Verification begins with broad categories—visuals, demos, data, and comparisons—then expands only into questions defined by the matching evidence handlers.\n\nThe final confirmation summarizes the report facts, change statistics, and selected evidence before saving the report and copying its evidence into durable report storage.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_185a5d2f4d2051c098c591e4ac240a1b",
+    "title": "Coordinated concurrent local AI inference jobs",
+    "summary": "Built an Ollama gateway that queued jobs by priority and model, exposed their lifecycle over HTTP, and reported GPU and model state.",
+    "date": "2026-01-08",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/model-manager",
+    "preview": {
+      "src": "media/model-manager-flow.png",
+      "description": "Diagram showing HTTP and Python callers sharing priority queues, a background scheduler, Ollama execution, and separate GPU and model observation.",
+      "width": 1680,
+      "height": 900
+    },
+    "tags": [
+      "Python",
+      "AI",
+      "Ollama"
+    ],
+    "relationships": {
+      "related": [
+        "doc_d5f1ae0b35e150ff97749a0ddbcaa1d8",
+        "doc_88921a05dc4b5621aa8671b9e48d82dc"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Turn requests into inspectable jobs\n\nI built Model Manager as one coordination point for tools that needed local Ollama inference. Submissions became jobs with explicit pending, queued, running, complete, failed, and cancelled states. The queue separated high, normal, and low priorities and grouped work by requested model before a background scheduler handed it to the execution engine.\n\nHTTP callers could submit a job and poll its result without keeping an inference request open. Direct Python callers used the same queue and could also cancel work while it was still pending or queued.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  HTTP[HTTP client] --> Queue[Priority and model queues]\n  Python[Python caller] --> Queue\n  Python --> Cancel[Cancel pending or queued job]\n  Queue --> Scheduler[Background scheduler]\n  Scheduler --> Engine[Load model and run with Ollama]\n  Engine --> Result[Complete or failed]\n  Monitor[GPU and loaded-model observation] --> Status[Stats and model listing]\n  Registry[Installed model discovery] --> Status",
+        "description": "HTTP and Python callers share one job queue while resource observation remains separate from execution.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Separate resource observation from execution\n\nThe service reads total, used, and free GPU memory from `nvidia-smi`, then queries Ollama for installed and currently loaded models. Those readings appear in service statistics and give the scheduling boundary a consistent view of the machine.\n\nThe scheduling policy groups work by model, logs the available memory, loads requested models, and executes jobs from a background thread. Explicit load and unload operations are available, but scheduling does not reject oversized jobs or automatically choose a loaded model to evict.",
+        "type": "text"
+      },
+      {
+        "code": "POST /api/submit\nGET  /api/job/<job_id>\nGET  /api/models\nPOST /api/models/refresh\nGET  /api/stats\nGET  /api/health",
+        "description": "The HTTP surface separates submission from status, results, model discovery, and resource diagnostics.",
+        "filename": "model-manager-http-api.txt",
+        "language": "http",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/model-manager-flow.png": {
+        "media_type": "image/png",
+        "width": 1680,
+        "height": 900
+      }
+    }
+  }
+}

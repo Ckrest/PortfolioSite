@@ -3,7 +3,7 @@
  * Displays selected updates using the same card styling as timeline
  *
  * Configuration is in site.config.js under `featured`:
- *   items: ['slug1', 'slug2', ...]  - Update slugs to feature
+ *   items: ['doc_…', 'doc_…', ...]  - Stable update IDs to feature
  *   maxItems: 3                      - Maximum items to display
  *   showDate, showTags, showSummary  - Display options
  */
@@ -19,10 +19,10 @@ export async function init(sectionEl, config) {
 
   // Get featured config
   const featuredConfig = config.featured || {};
-  const featuredSlugs = featuredConfig.items || [];
+  const featuredIds = featuredConfig.items || [];
   const maxItems = featuredConfig.maxItems ?? 3;
 
-  if (featuredSlugs.length === 0) {
+  if (featuredIds.length === 0) {
     if (status) {
       status.textContent = 'Featured updates coming soon.';
       status.hidden = false;
@@ -34,10 +34,10 @@ export async function init(sectionEl, config) {
   try {
     const updates = await loadUpdates(config);
 
-    // Find featured updates by slug, maintaining config order
-    const featuredUpdates = featuredSlugs
+    // Find featured updates by stable ID, maintaining config order
+    const featuredUpdates = featuredIds
       .slice(0, maxItems)
-      .map(slug => updates.find(p => p.slug === slug))
+      .map(key => updates.find(update => update.key === key))
       .filter(Boolean); // Remove any not found
 
     if (featuredUpdates.length === 0) {

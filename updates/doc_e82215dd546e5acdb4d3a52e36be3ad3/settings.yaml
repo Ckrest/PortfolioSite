@@ -1,0 +1,62 @@
+blocks:
+- body: '## Make daily tracking quick to enter
+
+
+    Daily Check-In brings sleep quality, alertness, mood, dreams, notes, and optional
+    sleep times into a focused Android form. Large rating controls and date-based
+    entries keep the routine direct without turning it into a long questionnaire.'
+  id: blk_daily_checkin_story
+  type: text
+- body: '## Keep the record local and readable
+
+
+    Each day is stored in one versioned JSON document selected through Android’s file
+    picker. The file remains inspectable, copyable, and compatible with user-chosen
+    synchronization, while a separate on-device backup provides recovery if document
+    access fails.'
+  id: blk_daily_storage_story
+  type: text
+- description: Daily Check-In entry form writing through a storage layer to a user-selected
+    JSON document and local recovery backup, with optional synchronization. One storage
+    boundary writes the readable document and an independent recovery copy.
+  id: blk_daily_storage_flow
+  presentation: intrinsic
+  src: media/storage-flow.svg
+  type: image
+- body: '## Give the document a stable shape
+
+
+    A version field and date-keyed entries keep the file understandable outside the
+    app. Each entry carries only the recorded values for that day, making the document
+    straightforward to inspect, copy, or consume elsewhere.'
+  id: blk_daily_document_story
+  type: text
+- code: "{\n  \"version\": 1,\n  \"entries\": {\n    \"2026-01-01\": {\n      \"date\"\
+    : \"2026-01-01\",\n      \"sleep_quality\": 4,\n      \"alertness\": 3,\n    \
+    \  \"mood\": 4,\n      \"dreams\": \"\",\n      \"notes\": \"Example entry\",\n\
+    \      \"sleep_time\": \"00:30\",\n      \"wake_time\": \"08:45\"\n    }\n  }\n\
+    }"
+  description: A versioned, human-readable document keeps the record portable and
+    gives integrations a stable, narrow input.
+  filename: daily-checkin.example.json
+  id: blk_daily_document
+  language: json
+  presentation: content
+  sourceMode: attached
+  src: media/daily-checkin.example.json
+  type: code
+date: '2026-02-18'
+external_url: https://github.com/Ckrest/daily-checkin-app
+preview:
+  description: Daily Check-In mobile form beside its matching portable JSON record
+    and local backup
+  src: media/daily-checkin-overview.svg
+prominence: high
+summary: Built a local-first React Native app for daily ratings, notes, optional sleep
+  times, reminders, and portable JSON storage.
+tags:
+- React
+- TypeScript
+- Frontend
+- Mobile
+title: Built an Android app for daily sleep-tracking

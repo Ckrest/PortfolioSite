@@ -1,0 +1,58 @@
+blocks:
+- body: '## Bring the XFCE application launcher into Wayfire
+
+
+    Whisker Menu provides the XFCE panel with searchable applications, categories,
+    favorites, and a recent-launch list. I kept that familiar launcher while moving
+    the desktop to Wayfire, adapting the maintained plugin rather than replacing its
+    application model.
+
+
+    The port uses the plugin’s GTK layer-shell support for Wayland placement and preserves
+    its normal search, selection, and launch behavior inside the XFCE panel.'
+  id: blk_editorial_whisker-wayfire-wayland-
+  type: text
+- description: Whisker Menu showing favorite applications alongside categories such
+    as accessories, graphics, internet, multimedia, office, settings, and system.
+    Whisker Menu combines favorites, recent applications, searchable programs, and
+    category browsing in one launcher. Image from the XFCE Whisker Menu documentation.
+  id: blk_whisker_menu_overview
+  presentation: intrinsic
+  src: media/whisker-menu-favorites.png
+  type: image
+- code: "flowchart LR\n  Panel[XFCE panel] --> Menu[Whisker Menu]\n  Menu --> Features[Search,\
+    \ favorites, categories]\n  Menu --> Layer[GTK layer shell]\n  Layer --> Wayfire[Wayfire]\n\
+    \  Wayfire --> Tracker[Foreign-toplevel activation]\n  Tracker --> Hide[Existing\
+    \ GTK hide behavior]"
+  description: The port preserves Whisker Menu’s application workflow while translating
+    Wayland placement and activation into its existing GTK behavior.
+  id: blk_whisker_focus
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Fill the Wayland focus gap
+
+
+    Layer-shell positioning did not provide the X11 focus signal Whisker Menu used
+    to close after a click elsewhere. The port binds the wlroots foreign-toplevel-management
+    protocol exposed by Wayfire, tracks activation for the menu’s toplevel, and schedules
+    the existing GTK hide path when that activation is lost.
+
+
+    Generated protocol bindings and C++ lifecycle cleanup keep the integration contained.
+    On X11, the Wayland monitor remains inactive and the original behavior continues.'
+  id: blk_whisker_wayland_focus_gap
+  type: text
+date: '2026-02-11'
+part_of: doc_8cfd107748445dcf8674dabc5865d0ff
+prominence: low
+summary: Adapted XFCE’s searchable application launcher for a Wayland/Wayfire desktop,
+  preserving its familiar menu workflow while adding compositor-aware focus handling.
+tags:
+- C++
+- Wayland
+- Wayfire
+- XFCE
+- Desktop Environment
+- Migration
+title: Ported XFCE’s Whisker Menu to Wayfire

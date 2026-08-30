@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-labelledby="title desc">
+  <title id="title">Daily Check-In storage flow</title>
+  <desc id="desc">The entry form writes through one storage boundary to a user-selected JSON document and a local recovery backup, while the document can optionally be synchronized.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#11121f"/>
+      <stop offset="1" stop-color="#1a1830"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8c7cff"/>
+      <stop offset="1" stop-color="#6759df"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#05050c" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M1 1 12 6.5 1 12Z" fill="#8b7cff"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .title { fill: #f5f4ff; font-size: 28px; font-weight: 760; text-anchor: middle; }
+      .body { fill: #a8aac0; font-size: 19px; text-anchor: middle; }
+      .eyebrow { fill: #a89dff; font-size: 17px; font-weight: 800; letter-spacing: 2.5px; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1600" height="700" rx="36" fill="url(#bg)"/>
+  <g class="sans">
+    <text x="800" y="76" class="eyebrow">LOCAL-FIRST STORAGE</text>
+    <text x="800" y="119" fill="#f7f6ff" font-size="34" font-weight="780" text-anchor="middle">One write boundary keeps the record portable and recoverable</text>
+  </g>
+
+  <path d="M392 318H550" fill="none" stroke="#8b7cff" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M914 286H1080" fill="none" stroke="#8b7cff" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M1245 383V478" fill="none" stroke="#8b7cff" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M732 390V478" fill="none" stroke="#8b7cff" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="90" y="217" width="302" height="202" rx="30" fill="#191b2c" stroke="#353750" stroke-width="2"/>
+    <rect x="550" y="217" width="364" height="202" rx="30" fill="#1d1e33" stroke="#6458c3" stroke-width="3"/>
+    <rect x="1080" y="217" width="330" height="202" rx="30" fill="#191b2c" stroke="#353750" stroke-width="2"/>
+    <rect x="1063" y="492" width="364" height="132" rx="26" fill="#17192a" stroke="#353750" stroke-width="2"/>
+    <rect x="550" y="492" width="364" height="132" rx="26" fill="#17192a" stroke="#353750" stroke-width="2"/>
+  </g>
+
+  <g class="sans">
+    <circle cx="241" cy="275" r="31" fill="#2b2d48"/>
+    <rect x="226" y="257" width="30" height="38" rx="6" fill="none" stroke="#a99eff" stroke-width="4"/>
+    <circle cx="241" cy="286" r="2.5" fill="#a99eff"/>
+    <text x="241" y="344" class="title">Entry form</text>
+    <text x="241" y="378" class="body">Ratings, notes, sleep times</text>
+
+    <circle cx="732" cy="275" r="31" fill="url(#accent)"/>
+    <path d="M717 275h30M732 260v30" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="732" y="344" class="title">Storage layer</text>
+    <text x="732" y="378" class="body">Validate, merge, and write</text>
+
+    <circle cx="1245" cy="275" r="31" fill="#2b2d48"/>
+    <path d="M1232 255h21l11 11v29h-32z" fill="none" stroke="#a99eff" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M1253 255v12h11" fill="none" stroke="#a99eff" stroke-width="4"/>
+    <text x="1245" y="344" class="title">daily-checkin.json</text>
+    <text x="1245" y="378" class="body">User-selected, readable file</text>
+
+    <text x="1245" y="542" class="title">Optional synchronization</text>
+    <text x="1245" y="575" class="body">Moves with a</text>
+    <text x="1245" y="601" class="body">user-chosen tool</text>
+
+    <text x="732" y="542" class="title">Local recovery backup</text>
+    <text x="732" y="575" class="body">Second on-device copy</text>
+    <text x="732" y="601" class="body">protects document access</text>
+  </g>
+</svg>

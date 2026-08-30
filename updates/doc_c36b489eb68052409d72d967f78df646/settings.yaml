@@ -1,0 +1,48 @@
+blocks:
+- body: '## Move between days without losing work
+
+
+    Day changes use local state and cached entries, avoiding a full screen remount
+    when the user swipes or taps between dates. A guarded two-second autosave records
+    genuine edits, while navigation flushes pending changes before loading the next
+    entry.'
+  id: blk_editorial_daily-check-in-app-ux-po
+  type: text
+- code: "stateDiagram-v2\n  [*] --> Loading\n  Loading --> Ready: initialize without\
+    \ saving\n  Ready --> Dirty: user edit\n  Dirty --> Ready: debounced save\n  Dirty\
+    \ --> Loading: save before navigation\n  Ready --> Loading: change day"
+  description: Daily Check-In separates initialization from user edits, debounces
+    ordinary saves, and flushes pending changes before day navigation. Loading an
+    entry does not count as an edit; only user changes enter the autosave path, and
+    navigation saves pending work before changing days.
+  id: blk_checkin_save
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Keep the whole routine on one screen
+
+
+    The manual save button and visible settings control were removed from the main
+    form, with settings available from a long press on the date. Tighter spacing and
+    keyboard dismissal keep the check-in usable without extra scrolling.'
+  id: blk_checkin_one_screen
+  type: text
+- body: '## Keep displayed and stored time aligned
+
+
+    The sleep-time handle, labels, duration, and stored value share the same 15-minute
+    snap calculation. The value shown after a drag is the value written to the daily
+    record.'
+  id: blk_checkin_time_alignment
+  type: text
+date: '2026-02-19'
+external_url: https://github.com/Ckrest/daily-checkin-app
+part_of: doc_e82215dd546e5acdb4d3a52e36be3ad3
+prominence: low
+summary: Added flicker-free day navigation and guarded autosave, then simplified the
+  mobile form so a complete check-in fits on one screen.
+tags:
+- Expo
+- React Native
+- UX
+title: Polished Daily Check-In for fast, one-screen use

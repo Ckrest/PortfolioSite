@@ -1,0 +1,100 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad",
+    "title": "Built a browser and workflow manager for ComfyUI outputs",
+    "summary": "Built a local web app that turns ComfyUI output folders into a searchable image library, surfaces new generations as they appear, and can optionally launch configured workflows from the same screen.",
+    "date": "2026-01-10",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/comfy-viewer",
+    "preview": {
+      "src": "media/screenshot_2026-03-01_20-55-50.png",
+      "description": "ComfyUI Viewer gallery interface",
+      "width": 2125,
+      "height": 1292
+    },
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "Frontend"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_06f2ddd4fc5a564f95089d16dbab3ffd"
+      ],
+      "related": [
+        "doc_b7183ef2af925346b9755252150a46e0",
+        "doc_9042fc61c7645236825a709ad3e2474a"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Turn the output folder into a review library\n\nComfyUI produces files effectively, but its output folder stops being useful once iterations accumulate. Comfy Viewer now indexes those files into a browser-based library, generates cached WebP thumbnails, and extracts searchable metadata through hooks.\n\nA file watcher feeds new results into the library while WebSocket events refresh the open page. Search and metadata filters narrow the collection without requiring the underlying files to be reorganized.",
+        "type": "text"
+      },
+      {
+        "description": "Comfy Viewer library with workflow controls beside a grid of varied generated images. Cached previews and metadata filters turn a growing output folder into a browsable visual library.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-03-01_20-55-50-1.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep decisions beside the image\n\nOpening a result switches to a focused view with nearby-image navigation and keyboard shortcuts. A result can be copied into a separate quicksave collection, flagged, liked, or disliked without moving or rewriting the original ComfyUI output.\n\nThe same index preserves those review decisions and extracted metadata, making it possible to revisit a generation run without manually curating its folders first.",
+        "type": "text"
+      },
+      {
+        "description": "Comfy Viewer focused-image view with save, flag, rating, and navigation controls. The focused viewer keeps navigation and review actions beside the generated image.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-03-01_20-56-58.png",
+        "type": "image"
+      },
+      {
+        "body": "## Make workflow control optional\n\nThe gallery and focused viewer work on their own. When the workflow gateway is available, the library loads configured workflows and their input schemas, remembers the last selection and saved overrides, and submits new runs from the sidebar.\n\nWorkflow controls retain their own availability and visibility states, so losing the runner does not remove access to existing images.",
+        "type": "text"
+      },
+      {
+        "description": "Comfy Viewer settings panel with empty connection and folder fields. Display behavior, optional workflow controls, and watched folders remain independently configurable.",
+        "presentation": "intrinsic",
+        "src": "media/comfy-viewer-settings-redacted.png",
+        "type": "image"
+      },
+      {
+        "code": "flowchart LR\n  Output[ComfyUI output folder] --> Watch[Watch for images]\n  Watch --> Index[Extract and index metadata]\n  Index --> Cache[Cache WebP thumbnails]\n  Cache --> Library[Searchable library]\n  Library --> Viewer[Focused viewer]\n  Viewer --> Review[Quicksave, flag and rate]\n  Library -. run requests .-> Gateway[Optional workflow gateway]\n  Gateway -. completion events .-> Index",
+        "description": "Image browsing remains a complete path of its own, with workflow execution connected as an optional integration.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/comfy-viewer-settings-redacted.png": {
+        "media_type": "image/png",
+        "width": 1131,
+        "height": 1391
+      },
+      "media/screenshot_2026-03-01_20-55-50-1.png": {
+        "media_type": "image/png",
+        "width": 2125,
+        "height": 1292
+      },
+      "media/screenshot_2026-03-01_20-55-50.png": {
+        "media_type": "image/png",
+        "width": 2125,
+        "height": 1292
+      },
+      "media/screenshot_2026-03-01_20-56-58.png": {
+        "media_type": "image/png",
+        "width": 2125,
+        "height": 1291
+      }
+    }
+  }
+}

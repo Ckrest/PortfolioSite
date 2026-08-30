@@ -1,0 +1,40 @@
+blocks:
+- body: '## One core for every caller
+
+
+    Work Report’s report creation, validation, Git inspection, artifact parsing, and
+    storage operations moved into one reusable core. The CLI and automation tools
+    call the same functions instead of carrying separate copies of report behavior.'
+  id: blk_editorial_extract-core-py-and-fix-
+  type: text
+- code: "def load_data_content(path: Path):\n    ext = path.suffix.lower()\n    if\
+    \ ext in (\".yaml\", \".yml\"):\n        import yaml\n        return yaml.safe_load(path.read_text())\n\
+    \    if ext == \".csv\":\n        return path.read_text()\n    return json.loads(path.read_text())"
+  description: The shared loader selects the parser by file type, preserving YAML
+    structures instead of sending them through JSON parsing.
+  filename: type_mappings.py
+  id: blk_core_boundary
+  language: python
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Preserve structured evidence
+
+
+    YAML evidence is parsed as YAML rather than falling through a JSON-only path.
+    The shared loader keeps mappings and lists intact for report, graph, and portfolio
+    handling, while JSON and CSV follow the same entry point.'
+  id: blk_structured_evidence
+  type: text
+date: '2026-02-15'
+part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
+prominence: low
+related_to:
+- doc_582dd26679fb5519a5a4bf771863f5a6
+summary: Moved Work Report operations into one reusable core and gave YAML, JSON,
+  and CSV evidence a shared loading path.
+tags:
+- Infrastructure
+- Refactoring
+- Python
+title: Unified Work Report logic across CLI and automation

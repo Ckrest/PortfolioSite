@@ -30,15 +30,14 @@ function createMain() {
 
 test('registries classify field visibility and exclude raw provenance from public blocks', async () => {
   for (const [relative, version] of [
-    ['../updates/_block-registry.json', 7],
-    ['../capabilities/_block-registry.json', 6],
+    ['../updates/_block-registry.json', 8],
+    ['../capabilities/_block-registry.json', 7],
   ]) {
     const registry = JSON.parse(await readFile(new URL(relative, import.meta.url), 'utf8'));
     assert.equal(registry.version, version);
-    assert.equal(registry.fieldDefinitions.caption.visibility, 'public-visible');
-    assert.equal(registry.fieldDefinitions.alt.visibility, 'public-accessibility');
+    assert.equal(registry.fieldDefinitions.description.visibility, 'public-visible-accessibility');
     assert.equal(registry.fieldDefinitions.src.visibility, 'structural');
-    assert.equal(registry.fieldDefinitions.capturedAt.visibility, 'authoring-private');
+    assert.equal(registry.fieldDefinitions.capturedAt, undefined);
     for (const type of registry.types) {
       assert.equal(type.fields.includes('capturedAt'), false);
       assert.equal(type.fields.includes('representsVersion'), false);
@@ -53,29 +52,22 @@ test('renderer shows editable public copy and never renders raw provenance', asy
   installDocument(main);
   const renderer = await import('../updates/update-renderer.js');
   await renderer.renderUpdate({
-    slug: 'current',
-    folder: 'current',
+    key: 'doc_current',
     title: 'Current update',
     summary: 'Current summary',
     media: { items: { 'media/example.png': { width: 91, height: 62 } } },
-    content: { blocks: [{
+    blocks: [{
       type: 'image',
       src: 'media/example.png',
-      alt: 'Example interface',
+      description: 'The useful public description.',
       presentation: 'intrinsic',
-      caption: 'The useful public caption.',
-      evidenceQualifier: 'Current interface shown for an earlier workflow.',
-      capturedAt: '2026-08-15',
-      representsVersion: 'a retrospective reconstruction',
-      evidenceNote: 'Private intake note.',
-    }] },
+    }],
   });
-  assert.match(main.innerHTML, /The useful public caption/);
-  assert.match(main.innerHTML, /Current interface shown for an earlier workflow/);
+  assert.match(main.innerHTML, /The useful public description/);
   assert.match(main.innerHTML, /--media-intrinsic-width: 91px/);
-  assert.match(main.innerHTML, /aria-label="Open image: Example interface"/);
+  assert.match(main.innerHTML, /aria-label="Open image: The useful public description\."/);
   assert.doesNotMatch(main.innerHTML, /View larger|media-view-affordance/);
-  assert.doesNotMatch(main.innerHTML, /2026-08-15|retrospective reconstruction|Private intake note/);
+  assert.doesNotMatch(main.innerHTML, /capturedAt|representsVersion|evidenceNote|evidenceQualifier/);
 });
 
 test('detail media and diagram controls use the current compact interaction pattern', async () => {
@@ -111,18 +103,18 @@ test('explicit inline source mode wins over a retained attached path', async () 
   installDocument(main);
   const renderer = await import('../updates/update-renderer.js');
   await renderer.renderUpdate({
-    slug: 'current',
-    folder: 'current',
+    key: 'doc_current',
     title: 'Current update',
     summary: 'Current summary',
-    content: { blocks: [{
+    blocks: [{
       type: 'code',
       sourceMode: 'inline',
       language: 'python',
       presentation: 'content',
+      description: 'Inline source example.',
       src: 'media/inactive.py',
       code: 'print(&quot;inline wins&quot;)',
-    }] },
+    }],
   });
   assert.match(main.innerHTML, /inline wins/);
   assert.doesNotMatch(main.innerHTML, /Loading source file/);
@@ -131,7 +123,8 @@ test('explicit inline source mode wins over a retained attached path', async () 
 test('an attached path is not inferred without the explicit current source mode', async () => {
   const registry = await import('../updates/generated/block-registry.js');
   const implicit = {
-    type: 'code', language: 'python', presentation: 'content', src: 'media/example.py', code: '',
+    type: 'code', language: 'python', presentation: 'content', src: 'media/example.py',
+    description: 'Attached source example.', code: '',
   };
   const explicit = { ...implicit, sourceMode: 'attached' };
 

@@ -1,16 +1,5 @@
 /** Resolve authored relationship intent against one exact public project pool. */
 
-function relationCard(update) {
-  return update ? {
-    slug: update.slug,
-    folder: update.folder,
-    title: update.title,
-    summary: update.summary,
-    date: update.date,
-    prominence: update.prominence,
-  } : null;
-}
-
 function declaredTargets(update, field, policy) {
   const value = update[field];
   if (policy.cardinality === 'many') return Array.isArray(value) ? value : [];
@@ -25,7 +14,7 @@ function findCycles(updates, field, index) {
   const edges = new Map(
     updates
       .filter((item) => item[field] && index.has(item[field]))
-      .map((item) => [item.slug, index.get(item[field]).slug]),
+      .map((item) => [item.key, index.get(item[field]).key]),
   );
   const errors = [];
   for (const start of edges.keys()) {
@@ -50,21 +39,7 @@ function findCycles(updates, field, index) {
 export function resolveUpdateRelationships(updates, contract) {
   const metadata = contract?.metadata || {};
   const errors = [];
-  const index = new Map();
-  for (const update of updates) {
-    for (const identity of new Set([update.slug, update.folder])) {
-      const existing = index.get(identity);
-      if (existing && existing !== update) {
-        errors.push({
-          code: 'identity-collision', source: update.slug, kind: 'identity', target: identity,
-          location: 'metadata.slug',
-          message: `Identity "${identity}" is already used by ${existing.slug}`,
-        });
-      } else {
-        index.set(identity, update);
-      }
-    }
-  }
+  const index = new Map(updates.map((update) => [update.key, update]));
   const resolutions = [];
   const parts = new Map();
   const supersededBy = new Map();
@@ -77,7 +52,7 @@ export function resolveUpdateRelationships(updates, contract) {
       const duplicates = targets.filter((target, position) => targets.indexOf(target) !== position);
       if (duplicates.length) {
         errors.push({
-          code: 'duplicate', source: update.slug, kind: field, target: duplicates[0],
+          code: 'duplicate', source: update.key, kind: field, target: duplicates[0],
           location: `metadata.${field}`,
           message: `${field} contains duplicate targets: ${[...new Set(duplicates)].join(', ')}`,
         });
@@ -86,7 +61,7 @@ export function resolveUpdateRelationships(updates, contract) {
         const previous = seen.get(target);
         if (previous && previous !== field) {
           errors.push({
-            code: 'overlap', source: update.slug, kind: field, target,
+            code: 'overlap', source: update.key, kind: field, target,
             location: `metadata.${field}`,
             message: `Relationship target "${target}" must not be both ${previous} and ${field}`,
           });
@@ -94,15 +69,15 @@ export function resolveUpdateRelationships(updates, contract) {
           seen.set(target, field);
         }
         const resolved = index.get(target) || null;
-        if (resolved === update || target === update.slug || target === update.folder) {
+        if (resolved === update || target === update.key) {
           errors.push({
-            code: 'self', source: update.slug, kind: field, target,
+            code: 'self', source: update.key, kind: field, target,
             location: `metadata.${field}`,
             message: `${field} cannot reference itself`,
           });
         }
         resolutions.push({
-          source: update.slug,
+          source: update.key,
           source_type: 'update',
           kind: field,
           target,
@@ -110,9 +85,9 @@ export function resolveUpdateRelationships(updates, contract) {
           status: resolved ? 'resolved' : 'pending',
         });
         if (!resolved) continue;
-        if (field === 'part_of') append(parts, resolved.slug, update);
-        if (field === 'supersedes') append(supersededBy, resolved.slug, update);
-        if (field === 'related_to') append(relatedFrom, resolved.slug, update);
+        if (field === 'part_of') append(parts, resolved.key, update);
+        if (field === 'supersedes') append(supersededBy, resolved.key, update);
+        if (field === 'related_to') append(relatedFrom, resolved.key, update);
       }
     }
   }
@@ -124,31 +99,31 @@ export function resolveUpdateRelationships(updates, contract) {
   for (const update of updates) {
     const partOf = update.part_of ? index.get(update.part_of) : null;
     const supersedes = update.supersedes ? index.get(update.supersedes) : null;
-    const directRelated = (update.related_to || []).map((slug) => index.get(slug)).filter(Boolean);
-    const inverseRelated = relatedFrom.get(update.slug) || [];
+    const directRelated = (update.related_to || []).map((documentId) => index.get(documentId)).filter(Boolean);
+    const inverseRelated = relatedFrom.get(update.key) || [];
     const related = [...new Map(
-      [...directRelated, ...inverseRelated].map((item) => [item.slug, item]),
+      [...directRelated, ...inverseRelated].map((item) => [item.key, item]),
     ).values()];
     let latest = update;
-    const visited = new Set([update.slug]);
-    while ((supersededBy.get(latest.slug) || []).length) {
-      const next = [...supersededBy.get(latest.slug)]
+    const visited = new Set([update.key]);
+    while ((supersededBy.get(latest.key) || []).length) {
+      const next = [...supersededBy.get(latest.key)]
         .sort((left, right) => new Date(right.date) - new Date(left.date))[0];
-      if (visited.has(next.slug)) break;
-      visited.add(next.slug);
+      if (visited.has(next.key)) break;
+      visited.add(next.key);
       latest = next;
     }
     update.relationships = {
-      ...(partOf ? { part_of: relationCard(partOf) } : {}),
-      ...(supersedes ? { supersedes: relationCard(supersedes) } : {}),
-      parts: (parts.get(update.slug) || [])
+      ...(partOf ? { part_of: partOf.key } : {}),
+      ...(supersedes ? { supersedes: supersedes.key } : {}),
+      parts: (parts.get(update.key) || [])
         .sort((left, right) => new Date(right.date) - new Date(left.date))
-        .map(relationCard),
-      superseded_by: (supersededBy.get(update.slug) || [])
+        .map((item) => item.key),
+      superseded_by: (supersededBy.get(update.key) || [])
         .sort((left, right) => new Date(right.date) - new Date(left.date))
-        .map(relationCard),
-      related: related.map(relationCard),
-      ...(latest.slug !== update.slug ? { latest: relationCard(latest) } : {}),
+        .map((item) => item.key),
+      related: related.map((item) => item.key),
+      ...(latest.key !== update.key ? { latest: latest.key } : {}),
     };
   }
 

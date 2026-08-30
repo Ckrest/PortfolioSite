@@ -1,0 +1,75 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_bcdd9d2b5fee4d5b99ce3cd33c6357c2",
+    "title": "Created a modular content system for portfolio project pages",
+    "summary": "Moved each portfolio project into a self-contained folder with its own metadata, assets, and content configuration, then used one shared renderer to assemble README, PDF, structured, and minimal project pages.",
+    "date": "2026-01-15",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "src": "media/project-module-architecture.svg",
+      "description": "Diagram showing a self-contained project folder flowing through a shared renderer into a page composed from reusable content regions",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "JavaScript",
+      "Frontend",
+      "Architecture",
+      "Refactoring"
+    ],
+    "relationships": {
+      "related": [
+        "doc_6b7f8c754a1e5e9492d306667ad478d2"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Make every project self-contained\n\nI replaced one shared project list and separately authored detail pages with a directory for each project. Each module keeps its `settings.yaml`, preview or icon, and optional README, PDF, screenshots, and other assets together.\n\nThe folder name identifies the project, while its settings define the title, summary, display level, phase, status, links, tags, and content mode. Adding work now means adding one project module that carries its page source with it.",
+        "type": "text"
+      },
+      {
+        "body": "## Render every project through one page\n\nThe catalog build collects the project modules into `manifest.json`. One detail-page loader selects the requested project, builds its title and summary, and adds shared page pieces for its preview, tags, and links.\n\nThe module's content mode then selects a README, embedded PDF, structured sections, or a minimal presentation.",
+        "type": "text"
+      },
+      {
+        "code": "title: Diagram Tool\nlevel: 1\nphase: 1\ntags:\n  - Python\n  - Desktop Utility\n  - MCP\npreview: preview.png\n\ncontent:\n  mode: readme",
+        "description": "The project record selects its presentation and content while its files remain beside it.",
+        "filename": "settings.yaml",
+        "language": "yaml",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Compose structured pages from typed sections\n\nStructured mode stores an ordered list of sections in the project record. Each section chooses a role such as overview, features, installation, usage, technical details, gallery, or custom content, then supplies Markdown or a list of items.\n\nTogether, those typed sections provide a page-building-block vocabulary while the shared renderer handles the surrounding project layout.",
+        "type": "text"
+      },
+      {
+        "code": "content:\n  mode: structured\n  sections:\n    - type: overview\n      content: Project overview\n    - type: features\n      items:\n        - First feature\n        - Second feature",
+        "description": "Structured mode turns an ordered list of typed sections into the body of the shared project page.",
+        "filename": "settings.yaml",
+        "language": "yaml",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/project-module-architecture.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900
+      }
+    }
+  }
+}

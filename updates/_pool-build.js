@@ -16,10 +16,10 @@ import {
 const updates = dirname(fileURLToPath(import.meta.url));
 const root = dirname(updates);
 const IDENTITY_FIELDS = [
-  'document_id', 'slug', 'document_revision', 'candidate_digest', 'tree_digest',
+  'document_id', 'document_revision', 'candidate_digest', 'tree_digest',
 ];
-const REQUEST_SCHEMA = 'portfolio-site/pool-build@4';
-const RESULT_SCHEMA = 'portfolio-site/pool-build-result@4';
+const REQUEST_SCHEMA = 'portfolio-site/pool-build@5';
+const RESULT_SCHEMA = 'portfolio-site/pool-build-result@5';
 const VERIFICATION_SCHEMA = 'portfolio-site/pool-output-verification@1';
 
 function argument(name) {
@@ -177,7 +177,7 @@ function canonical(value) {
 
 function poolIdentity(members) {
   const identity = [...members]
-    .sort((left, right) => String(left.slug).localeCompare(String(right.slug)))
+    .sort((left, right) => String(left.document_id).localeCompare(String(right.document_id)))
     .map(member => Object.fromEntries(IDENTITY_FIELDS.map(key => [key, member[key]])));
   return `sha256:${createHash('sha256').update(JSON.stringify(canonical(identity))).digest('hex')}`;
 }
@@ -220,8 +220,8 @@ async function pruneGeneratedContent(siteRoot) {
       if (error?.code !== 'ENOENT') throw error;
     }
   }
-  await rm(join(collection, 'manifest.json'), { force: true });
-  await rm(join(collection, 'catalog.json'), { force: true });
+  await rm(join(collection, 'index.json'), { force: true });
+  await rm(join(collection, '_asset-inventory.json'), { force: true });
   await rm(join(collection, 'generated'), { recursive: true, force: true });
 
   const capabilities = join(siteRoot, 'capabilities');
@@ -258,9 +258,9 @@ async function build() {
   const pool = request.pool;
   if (
     request.schema !== REQUEST_SCHEMA
-    || pool?.schema !== 'portfolio-site/project-pool@1'
+    || pool?.schema !== 'portfolio-site/project-pool@2'
     || !Array.isArray(pool.members)
-  ) throw new Error('input must contain one portfolio-site/project-pool@1');
+  ) throw new Error('input must contain one portfolio-site/project-pool@2');
   const purpose = String(request.purpose || 'review');
   if (!['review', 'accepted', 'test'].includes(purpose)) {
     throw new Error(`unsupported pool build purpose: ${purpose}`);
@@ -282,12 +282,12 @@ async function build() {
   }
   if (poolIdentity(pool.members) !== pool.digest) throw new Error('project pool digest does not match its members');
 
-  const slugs = new Set();
+  const documentIds = new Set();
   for (const member of pool.members) {
-    const slug = String(member?.slug || '').trim();
-    if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) throw new Error('every pool member requires a safe slug');
-    if (slugs.has(slug)) throw new Error(`project pool contains duplicate slug: ${slug}`);
-    slugs.add(slug);
+    const documentId = String(member?.document_id || '').trim();
+    if (!/^doc_[a-f0-9]{32}$/.test(documentId)) throw new Error('every pool member requires a stable document ID');
+    if (documentIds.has(documentId)) throw new Error(`project pool contains duplicate document ID: ${documentId}`);
+    documentIds.add(documentId);
   }
 
   const workspace = await mkdtemp(join(tmpdir(), 'portfolio-pool-site-'));
@@ -307,14 +307,13 @@ async function build() {
       const source = resolve(String(member.source || ''));
       const identity = await candidateIdentity(source);
       if (identity.digest !== member.tree_digest) {
-        throw new Error(`${member.slug}: candidate tree digest changed`);
+        throw new Error(`${member.document_id}: candidate tree digest changed`);
       }
-      const destination = join(stagedRoot, 'updates', member.slug);
+      const destination = join(stagedRoot, 'updates', member.document_id);
       await mkdir(dirname(destination), { recursive: true });
       await cp(source, destination, { recursive: true });
       candidates.push({
         document_id: member.document_id,
-        slug: member.slug,
         document_revision: member.document_revision,
         candidate_digest: member.candidate_digest,
         tree_digest: identity.digest,

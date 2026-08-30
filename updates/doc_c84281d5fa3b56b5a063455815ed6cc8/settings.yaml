@@ -1,0 +1,33 @@
+blocks:
+- body: '## Advertise compatible capture formats
+
+
+    The capture source now tells image-copy clients exactly which buffers it can provide:
+    ARGB8888 or XRGB8888 through shared memory, or the same formats through DMA-BUF
+    with a linear modifier. This gives the compositor and client a common format before
+    the first frame is copied, restoring reliable window previews while preserving
+    the GPU path when available.'
+  id: blk_editorial_fix-wlroots-image-captur
+  type: text
+- code: 'SHM      ARGB8888, XRGB8888
+
+    DMA-BUF  ARGB8888 + LINEAR, XRGB8888 + LINEAR'
+  description: Capture clients choose from the formats the source explicitly supports.
+  filename: capture-format-contract.txt
+  id: blk_capture_formats
+  language: text
+  presentation: content
+  sourceMode: inline
+  type: code
+date: '2026-01-18'
+external_url: https://github.com/Ckrest/wayfire-toplevel-capture
+part_of: doc_cec34e8034f1584fa26d7325bc9341e5
+prominence: low
+summary: Advertised explicit shared-memory and linear DMA-BUF formats so the compositor
+  and capture client could agree on a frame buffer before copying a window preview.
+tags:
+- C++
+- Wayland
+- wlroots
+- Image Capture
+title: Fixed window preview format negotiation

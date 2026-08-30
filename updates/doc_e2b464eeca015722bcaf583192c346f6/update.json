@@ -1,0 +1,56 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_e2b464eeca015722bcaf583192c346f6",
+    "title": "Made the portfolio timeline richer and easier to navigate",
+    "summary": "Timeline entries now adapt to each project’s importance, support animated previews and expandable icon bundles, and preserve filters and selections in shareable URLs.",
+    "date": "2026-01-16",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "src": "media/timeline-live-state.png",
+      "description": "Historical Portfolio Site timeline with compact update rows and a full media card",
+      "width": 1100,
+      "height": 620
+    },
+    "tags": [
+      "Frontend",
+      "JavaScript"
+    ],
+    "relationships": {
+      "part_of": "doc_1a3826668acb53688961faa991a157f1"
+    },
+    "blocks": [
+      {
+        "body": "## Give each timeline item the right amount of space\n\nI replaced the timeline’s one-size-fits-all markup with a shared entry renderer used by the timeline, featured work, and standalone cards. Projects can now appear as a full media card, a compact preview, or a small icon-and-title row, while GIF and video previews follow the same media path as static images.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Data[Project data] --> Entry[Shared entry renderer]\n  Entry --> Large[Large media card]\n  Entry --> Compact[Compact preview]\n  Entry --> Small[Small icon row]\n  Small --> Bundle[Expandable bundle]\n  Timeline[Filters and selection] --> Bundle\n  Timeline --> URL[Shareable URL state]",
+        "description": "Shared project data controls presentation depth, while timeline filters and selections remain addressable through the URL.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep filtering and bundling in sync\n\nOlder small entries can now combine into expandable bundles with an icon strip. Bundling is recalculated after filters are applied, so a narrow result returns to a normal entry instead of leaving a misleading group. The chosen tags, connection mode, group, and project are written into the URL, allowing the same timeline view to be reopened directly.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/timeline-live-state.png": {
+        "media_type": "image/png",
+        "width": 1100,
+        "height": 620
+      }
+    }
+  }
+}

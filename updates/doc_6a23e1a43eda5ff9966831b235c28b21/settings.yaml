@@ -1,0 +1,57 @@
+blocks:
+- body: '## Coordinate animations with power actions
+
+
+    Shutdown Effect gives each animation two explicit handoff points. `READY` means
+    the overlay is visible, and `BLACK` means the display is fully covered. Power
+    Manager listens for those signals before advancing to the selected power action.
+
+
+    After `BLACK`, the animation holds its final frame through the handoff, keeping
+    the display covered until the action takes over.'
+  id: blk_editorial_shutdown-effect
+  type: text
+- body: '## Plug in different visual effects
+
+
+    Animation discovery gives packaged and custom effects the same interface. Each
+    effect implements the shared lifecycle, allowing the renderer and visual style
+    to change without changing the power workflow.
+
+
+    The fire effect uses that boundary to spread across the desktop, cover the prior
+    scene, and hold the final black frame while the action proceeds. Other visual
+    effects can hook into the same lifecycle.'
+  id: blk_shutdown_effect_visual_hooks
+  type: text
+- description: The fire transition spreads across the desktop and holds a covered
+    frame through the power-action handoff.
+  fit: contain
+  id: c3bf65bb-996a-4421-86fb-f8c5454bad48
+  images:
+  - description: Fire effect beginning along the lower edge of an aquarium desktop
+    src: media/1111screenshot_2026-03-01_14-06-08.png
+  - description: Fire effect covering the left and center of the aquarium desktop
+    src: media/screenshot_2026-03-01_14-04-13.png
+  - description: Dense fire effect spreading across the desktop
+    src: media/3333screenshot_2026-03-01_14-06-26.png
+  - description: Solid black frame held at the end of the fire transition
+    src: media/4444screenshot_2026-03-01_14-06-42.png
+  presentation: wide
+  type: gallery
+date: '2026-01-18'
+external_url: https://github.com/Ckrest/shutdown-effect
+preview:
+  description: Fire shutdown transition spreading across a Wayland desktop
+  src: media/2222screenshot_2026-03-01_14-03-36.png
+prominence: medium
+related_to:
+- doc_e3d8e56964925c728bfa44f709213cda
+summary: Built a shared animation protocol and discovery layer so power actions can
+  coordinate a fire transition and plug in other visual effects through the same interface.
+tags:
+- Python
+- GTK
+- Wayland
+- Wayfire
+title: Added extensible shutdown animations to Wayfire

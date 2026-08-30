@@ -1,11 +1,17 @@
 {
-  "version": 1,
+  "version": 3,
   "privacyPatterns": [
-    {"code": "private-home-path", "source": "/(?:home|Users)/[^\\s\"']+", "flags": ""},
-    {"code": "work-report-identity", "source": "\\bwr_[a-f0-9]{16,}\\b", "flags": "i"},
-    {"code": "aws-access-key", "source": "\\bAKIA[0-9A-Z]{16}\\b", "flags": ""},
-    {"code": "github-token", "source": "\\b(?:ghp_|github_pat_)[A-Za-z0-9_]{16,}\\b", "flags": ""},
-    {"code": "openai-key", "source": "\\bsk-[A-Za-z0-9_-]{20,}\\b", "flags": ""}
+    {"code": "private-home-path", "source": "/(?:home|Users)/[^\\s\"']+", "flags": "", "disposition": "confirm", "message": "Public content contains an absolute home-directory path"},
+    {"code": "public-email-address", "source": "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b", "flags": "i", "disposition": "confirm", "message": "Public content contains an email address"},
+    {"code": "work-report-identity", "source": "\\bwr_[a-f0-9]{16,}\\b", "flags": "i", "disposition": "block", "message": "Public content contains a private Work Report identity"},
+    {"code": "aws-access-key", "source": "\\bAKIA[0-9A-Z]{16}\\b", "flags": "", "disposition": "block", "message": "Public content contains an AWS access-key pattern"},
+    {"code": "github-token", "source": "\\b(?:ghp_|github_pat_)[A-Za-z0-9_]{16,}\\b", "flags": "", "disposition": "block", "message": "Public content contains a GitHub token pattern"},
+    {"code": "openai-key", "source": "\\bsk-[A-Za-z0-9_-]{20,}\\b", "flags": "", "disposition": "block", "message": "Public content contains an API-key pattern"}
+  ],
+  "textAssetExtensions": [
+    ".c", ".cpp", ".css", ".csv", ".diff", ".go", ".html", ".java",
+    ".js", ".json", ".md", ".mermaid", ".mmd", ".patch", ".py", ".rb",
+    ".rs", ".sh", ".sql", ".ts", ".txt", ".yaml", ".yml"
   ],
   "blockFieldTypes": {
     "id": "string",
@@ -17,12 +23,8 @@
     "presentation": "string",
     "fit": "string",
     "layout": "string",
-    "title": "string",
     "label": "string",
-    "summary": "string",
-    "alt": "string",
-    "caption": "string",
-    "evidenceQualifier": "string",
+    "description": "string",
     "images": "gallery-images",
     "blocks": "array",
     "language": "string",
@@ -34,6 +36,6 @@
     "chartType": "string",
     "labels": "array",
     "datasets": "array",
-    "slug": "string"
+    "updateId": "string"
   }
 }

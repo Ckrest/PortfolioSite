@@ -1,0 +1,45 @@
+blocks:
+- body: '## Call a local model from the graph
+
+
+    I added Ollama Query to send a prompt and optional system prompt to a local Ollama
+    server from inside ComfyUI. The node exposed sampling, context, reproducibility,
+    and connection settings directly in the graph, then returned the response text,
+    raw JSON, and token count for downstream use.'
+  id: blk_editorial_comfyui-ollama-nodes
+  type: text
+- description: Captures show the original Ollama Query controls and the separate node
+    used to list models from the configured endpoint.
+  fit: contain
+  id: blk_ollama_gallery
+  images:
+  - description: Ollama Query node with model selection, prompt, system prompt, sampling,
+      seed, context, and endpoint controls
+    src: media/screenshot_2026-02-28_16-10-04-1.png
+  - description: Ollama Model List node with trigger, endpoint, model-list, and JSON
+      outputs
+    src: media/screenshot_2026-02-28_16-10-26.png
+  presentation: wide
+  type: gallery
+- body: '## Pass chat history forward
+
+
+    Ollama Chat used the local `/api/chat` endpoint, accepted prior messages as JSON,
+    and returned the updated history alongside the response. Connecting that output
+    into another chat node kept the conversation explicit in the workflow instead
+    of storing it in a hidden global session.'
+  id: blk_editorial_ollama-chat-history
+  type: text
+date: '2025-12-19'
+external_url: https://github.com/Ckrest/comfyui-ollama-nodes
+prominence: low
+related_to:
+- doc_5e23d3f9b0e0511d9474b29addc7d003
+summary: Added ComfyUI nodes for querying local Ollama models, passing chat history
+  between graph steps, and listing the models available on a configured endpoint.
+tags:
+- ComfyUI
+- Python
+- AI
+- Ollama
+title: Connected local Ollama models to ComfyUI

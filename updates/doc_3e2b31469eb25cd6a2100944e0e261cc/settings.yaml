@@ -1,0 +1,48 @@
+blocks:
+- body: '## Put every evidence type in one registry
+
+
+    Work Report defines screenshots, diagrams, videos, data, comparisons, galleries,
+    diffs, terminal sessions, and documents in one registry. Each entry says which
+    stored files it matches, which portfolio block it becomes, and how it should be
+    captured.
+
+
+    One shared discovery path reads these definitions instead of sending each evidence
+    type through its own handler class.'
+  id: blk_editorial_replace-evidence-handler
+  type: text
+- code: "ARTIFACT_SOURCES = {\n    \"screenshot\": {\n        \"db_file_types\": [\"\
+    screenshot\", \"photo\", \"image\"],\n        \"portfolio_type\": \"image\",\n\
+    \        \"capture\": \"copy\",\n        \"category\": \"visual\",\n    },\n \
+    \   \"data\": {\n        \"db_file_types\": [\"data\"],\n        \"portfolio_type\"\
+    : \"data\",\n        \"capture\": \"copy_with_content\",\n        \"category\"\
+    : \"data\",\n    },\n}"
+  description: Two entries show how different evidence types share the same discovery
+    and capture structure.
+  filename: artifacts.py
+  id: blk_artifact_registry
+  language: python
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Add sources without another handler
+
+
+    Supporting another evidence type means adding one registry entry. Labeling, conversion,
+    capture, and validation stay in the shared engine, so the full evidence surface
+    is visible in one place.'
+  id: blk_artifact_registry_shared_path
+  type: text
+date: '2026-02-15'
+part_of: doc_0b8d60db909c54b7aad85f168788ca3f
+prominence: low
+related_to:
+- doc_a67b241ca49f5f12ba0dcb4badd5ceac
+summary: Moved screenshots, diagrams, data, and other evidence types into one shared
+  registry, giving Work Report one path for discovery and capture.
+tags:
+- Refactoring
+- Architecture
+- Python
+title: Unified artifact discovery in Work Report

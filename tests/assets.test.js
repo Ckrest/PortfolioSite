@@ -20,9 +20,8 @@ test('one declarative graph resolves metadata, nested blocks, and Markdown depen
     await writeFile(join(root, 'docs', 'more.md'), '![Nested](images/nested.svg)\n');
     const contract = await loadAssetContract(new URL('../updates/_asset-contract.json', import.meta.url));
     const result = await collectDeclaredAssets({
-      preview: 'preview.png',
-      icon: 'icon.svg',
-      content: { blocks: [
+      preview: { src: 'preview.png', description: 'Preview' },
+      blocks: [
         { type: 'video', sourceMode: 'youtube', src: 'https://example.test/video' },
         { type: 'markdown-document', path: 'docs/README.md' },
         { type: 'group', layout: 'stack', blocks: [
@@ -30,7 +29,7 @@ test('one declarative graph resolves metadata, nested blocks, and Markdown depen
           { type: 'code', sourceMode: 'inline', src: 'ignored.js' },
           { type: 'code', sourceMode: 'attached', src: 'source/current.js' },
         ] },
-      ] },
+      ],
     }, contract, { root });
 
     assert.deepEqual(result.invalid, []);
@@ -41,7 +40,6 @@ test('one declarative graph resolves metadata, nested blocks, and Markdown depen
       'docs/more.md',
       'gallery/one.webp',
       'gallery/two.webp',
-      'icon.svg',
       'preview.png',
       'source/current.js',
     ]);
@@ -58,13 +56,14 @@ test('asset paths reject absolute, parent, and URL-shaped local references', () 
 });
 
 test('authoring projections version update and capability asset URLs by digest', () => {
-  const entity = {
-    folder: 'demo',
+  const update = {
+    key: 'demo',
     asset_versions: { 'media/preview image.png': 'sha256:replacement' },
   };
+  const capability = { ...update, folder: 'demo' };
   const expected = 'demo/media/preview%20image.png?v=sha256%3Areplacement';
-  assert.equal(resolveUpdateAsset('media/preview image.png', entity), expected);
-  assert.equal(resolveCapabilityAsset('media/preview image.png', entity), expected);
+  assert.equal(resolveUpdateAsset('media/preview image.png', update), expected);
+  assert.equal(resolveCapabilityAsset('media/preview image.png', capability), expected);
 });
 
 test('Site entity runtime contains only the current payload and render paths', async () => {
@@ -77,11 +76,14 @@ test('Site entity runtime contains only the current payload and render paths', a
     '../capabilities/capability-renderer.js',
   ].map(path => readFile(new URL(path, import.meta.url), 'utf8')));
   const joined = sources.join('\n');
-  assert.match(joined, /portfolio-update@5/);
+  assert.match(joined, /portfolio-update@7/);
+  assert.match(joined, /portfolio-update-index@2/);
   assert.match(joined, /portfolio-capability@4/);
   assert.match(joined, /portfolio-site\/asset-manifest@1/);
   for (const retired of [
     'portfolio-update@4',
+    'portfolio-update@5',
+    'portfolio-update@6',
     'portfolio-capability@3',
     'renderBlocksOnly',
     '/api/artifact-preview',
@@ -89,4 +91,10 @@ test('Site entity runtime contains only the current payload and render paths', a
   ]) {
     assert.equal(joined.includes(retired), false, `retired runtime path remains: ${retired}`);
   }
+});
+
+test('update asset resolution accepts only the current public key', () => {
+  assert.equal(resolveUpdateAsset('icon.svg', { key: 'current-update' }), 'current-update/icon.svg');
+  assert.equal(resolveUpdateAsset('icon.svg', { slug: 'retired-update' }), '');
+  assert.equal(resolveUpdateAsset('icon.svg', { folder: 'retired-update' }), '');
 });

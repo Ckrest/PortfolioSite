@@ -1,0 +1,51 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_3e2b31469eb25cd6a2100944e0e261cc",
+    "title": "Unified artifact discovery in Work Report",
+    "summary": "Moved screenshots, diagrams, data, and other evidence types into one shared registry, giving Work Report one path for discovery and capture.",
+    "date": "2026-02-15",
+    "prominence": "low",
+    "tags": [
+      "Refactoring",
+      "Architecture",
+      "Python"
+    ],
+    "relationships": {
+      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
+      "related": [
+        "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
+        "doc_2b0985906a7354fba09c142012446689"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Put every evidence type in one registry\n\nWork Report defines screenshots, diagrams, videos, data, comparisons, galleries, diffs, terminal sessions, and documents in one registry. Each entry says which stored files it matches, which portfolio block it becomes, and how it should be captured.\n\nOne shared discovery path reads these definitions instead of sending each evidence type through its own handler class.",
+        "type": "text"
+      },
+      {
+        "code": "ARTIFACT_SOURCES = {\n    \"screenshot\": {\n        \"db_file_types\": [\"screenshot\", \"photo\", \"image\"],\n        \"portfolio_type\": \"image\",\n        \"capture\": \"copy\",\n        \"category\": \"visual\",\n    },\n    \"data\": {\n        \"db_file_types\": [\"data\"],\n        \"portfolio_type\": \"data\",\n        \"capture\": \"copy_with_content\",\n        \"category\": \"data\",\n    },\n}",
+        "description": "Two entries show how different evidence types share the same discovery and capture structure.",
+        "filename": "artifacts.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Add sources without another handler\n\nSupporting another evidence type means adding one registry entry. Labeling, conversion, capture, and validation stay in the shared engine, so the full evidence surface is visible in one place.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

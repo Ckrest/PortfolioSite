@@ -1,0 +1,65 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_57d88fbcb0345f9ea34a25c70cefb981",
+    "title": "Made Wayfire window capture resilient and cursor-aware",
+    "summary": "Added optional cursor compositing, reliable failure signaling, snapshot fallback for stalled outputs, and output rebinding as captured windows moved between monitors.",
+    "date": "2026-02-22",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/wayfire-toplevel-capture",
+    "preview": {
+      "src": "media/capture-reliability.svg",
+      "description": "Three guarded Wayfire capture paths: cursor compositing, watchdog snapshot fallback, and output listener rebinding",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "C++",
+      "Wayfire",
+      "Wayland"
+    ],
+    "relationships": {
+      "part_of": "doc_cec34e8034f1584fa26d7325bc9341e5"
+    },
+    "blocks": [
+      {
+        "body": "## Draw the cursor into captured windows\n\nWhen a capture session requests `paint_cursors`, the source remembers that preference. After each window snapshot, the plugin finds the first visible hardware cursor that intersects the view, converts its position from output coordinates using the cursor hotspot and output scale, and renders the cursor texture into the snapshot buffer.\n\nThe preference is cleared when the last capture session stops, so cursor inclusion remains explicit for the active source.",
+        "type": "text"
+      },
+      {
+        "body": "## Complete every frame request\n\nA failed snapshot still emits a frame event, allowing the copy path to retry and return a protocol-level failure if no buffer becomes available. Clients receive an explicit outcome instead of waiting indefinitely.\n\nThe buffer-copy helper already owns its failure signal when dimensions or buffer state do not match. Avoiding a second failure call prevents the plugin from touching a frame after that helper has destroyed it.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Client[Capture session] --> Snapshot[Snapshot window]\n  Snapshot --> Cursor{Include cursor?}\n  Cursor -->|Yes| Composite[Composite visible cursor]\n  Cursor -->|No| Deliver[Emit frame]\n  Composite --> Deliver\n\n  Commit[Output commit] --> Watchdog[Refresh 300 ms watchdog]\n  Watchdog -->|Stalled| Fallback[Take fallback snapshot]\n  Fallback --> Deliver\n\n  Move[Window changes output] --> Rebind[Rebind output listeners]\n  Rebind --> Constraints[Update capture constraints]\n  Constraints --> Deliver",
+        "description": "Capture follows guarded paths for cursor inclusion, stalled output commits, and output changes.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Recover when output commits stop\n\nThe first active capture session starts a repeating 300 ms watchdog keyed to the latest output commit. When the output stays quiet past that threshold, the plugin attempts to recover a missing output, takes a fresh compositor snapshot, composites the cursor when requested, and emits a full-damage frame.\n\nThe timer disconnects when the last session stops or when the view, output, or capture source is destroyed.",
+        "type": "text"
+      },
+      {
+        "body": "## Follow the window between outputs\n\nA view-output change disconnects the capture source from the old output’s commit and destroy signals, binds those listeners to the destination output, recalculates capture constraints, and announces the updated formats to clients. Reused sources also verify that they still point to the window’s active output.\n\nDocklike can therefore keep tracking the same view while the real window crosses monitors. If the view disappears, teardown stops the watchdog and releases the listeners before the compositor pointer becomes invalid.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/capture-reliability.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900
+      }
+    }
+  }
+}

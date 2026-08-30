@@ -1,0 +1,39 @@
+blocks:
+- body: '## Add another capture source
+
+
+    Work Report’s screenshot collection accepts phone captures alongside desktop screenshots.
+    Both enter the same artifact discovery and review flow, avoiding a separate reporting
+    path for each source.'
+  id: blk_editorial_add-phone-screenshot-sup
+  type: text
+- code: "flowchart LR\n  Desktop[Desktop screenshots] --> Collection[Shared screenshot\
+    \ collection]\n  Phone[Phone screenshots] --> Collection\n  Collection --> Discovery[Work\
+    \ Report discovery]\n  Discovery --> Review[Evidence review]"
+  description: Desktop and phone screenshots enter the same Work Report collection,
+    discovery, and evidence-review flow. Multiple screenshot sources converge on one
+    Work Report collection and review path.
+  id: blk_phone_capture_flow
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Preserve where evidence came from
+
+
+    Phone captures retain a distinct `phone-screenshot` type and `Phone screenshot:`
+    label during collection. Their origin stays visible during review without changing
+    how the underlying image is copied or handled.'
+  id: blk_phone_source_identity
+  type: text
+date: '2026-02-19'
+part_of: doc_0b8d60db909c54b7aad85f168788ca3f
+prominence: low
+related_to:
+- doc_a67b241ca49f5f12ba0dcb4badd5ceac
+summary: Extended Work Report’s screenshot collection to recognize phone captures
+  as a distinct source while keeping them in the shared evidence-review flow.
+tags:
+- Python
+- Infrastructure
+- Automation
+title: Added phone screenshots to Work Reports

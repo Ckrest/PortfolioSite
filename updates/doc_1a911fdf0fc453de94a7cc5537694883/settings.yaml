@@ -1,0 +1,101 @@
+blocks:
+- body: '## Keep capture ready between hotkeys
+
+
+    I replaced the one-process-per-hotkey interactive path with a GTK4 service that
+    stays available on the session bus. The `screenshot` command became a thin client:
+    it sends an explicit request while the service moves through idle, freezing, selecting,
+    and saving states. Fullscreen, fixed-region, and named-window capture remained
+    scriptable through the same command.
+
+
+    The service captures a cursor-free desktop frame before opening the selector.
+    It creates the overlay only for the active request and destroys it after saving
+    or cancellation. Pressing the hotkey again while the service is freezing or selecting
+    saves the already frozen frame fullscreen instead of starting competing work.
+    Cancellation clears the request and returns the service to idle.
+
+
+    ## Select the exact window and pixels
+
+
+    I joined Wayfire''s window geometry to the capture backend through the standard
+    opaque foreign-toplevel identifier. App IDs and titles remained useful labels,
+    but they were no longer identity fallbacks. Two windows with the same title therefore
+    remained distinct, while a window without an exact match stayed visible but could
+    not be captured by guesswork.
+
+
+    Region selection gained live dimensions, one-pixel keyboard movement, a crosshair,
+    and an enlarged eight-times magnifier. Because the selector displays a frozen
+    frame rather than the changing desktop, its target cannot move beneath the pointer.'
+  id: blk_screenshot_service_story
+  type: text
+- description: Screenshot Tool's frozen selector over an abstract landscape, with
+    a cyan 1038 by 814 selection box, keyboard guidance, crosshairs, and a circular
+    magnifier. The request-scoped selector kept the desktop frozen while showing live
+    region dimensions, keyboard guidance, and a magnified crosshair.
+  id: blk_screenshot_service_selector
+  presentation: intrinsic
+  src: media/selector-region-magnifier.png
+  type: image
+- body: '## Separate capture from output
+
+
+    I removed the package''s embedded protocol client and native capture helper and
+    consumed the versioned `wayland-capture/frame@1` raw-frame contract instead. The
+    service validates the frame and output layout before using the pixels. Regions
+    are cropped from the frozen frame; selected windows receive a fresh capture through
+    their exact identifier after the overlay closes.
+
+
+    Both paths then use the same output layer for atomic file saving, clipboard format,
+    notifications, structured JSON, sound, and optional post-save hooks. That preserved
+    the output boundary established by the earlier Screenshot Tool version while replacing
+    its per-invocation coordination.'
+  id: blk_screenshot_service_output
+  type: text
+- code: "sequenceDiagram\n  participant C as CLI or hotkey\n  participant S as Persistent\
+    \ GTK service\n  participant W as Wayland capture boundary\n  participant O as\
+    \ Request-scoped selector\n  C->>S: Explicit capture request\n  S->>W: Capture\
+    \ cursor-free desktop\n  W-->>S: Frozen raw frame and output layout\n  S->>S:\
+    \ Join window geometry by opaque identity\n  S->>O: Create selector for this request\n\
+    \  O-->>S: Region, fullscreen, or exact window\n  alt Region or fullscreen\n \
+    \   S->>S: Crop or reuse the frozen frame\n  else Exact window\n    S->>W: Capture\
+    \ selected opaque identity\n    W-->>S: Exact window frame\n  end\n  S->>S: Apply\
+    \ shared output policy\n  S-->>C: File and structured output result"
+  description: The service persists across requests; the frozen selector exists only
+    for the active request, and exact window capture remains distinct from region
+    cropping.
+  id: blk_screenshot_service_flow
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- commands:
+  - command: screenshot --print-lifecycle
+    output: "{\n  \"states\": [\n    \"idle\",\n    \"freezing\",\n    \"selecting\"\
+      ,\n    \"saving\"\n  ]\n}"
+  - command: PYTHONPATH=src pytest -q
+    output: 43 passed
+  description: Service lifecycle ran through its public command and passed its retained
+    package suite.
+  id: blk_screenshot_service_evidence
+  presentation: content
+  sourceMode: inline
+  type: terminal
+date: '2026-08-15'
+external_url: https://github.com/Ckrest/screenshot-tool
+preview:
+  description: Screenshot Tool frozen-region selector with live dimensions, keyboard
+    guidance, crosshairs, and a magnified pointer view
+  src: media/selector-region-magnifier.png
+prominence: medium
+summary: Replaced per-hotkey application startup with a persistent GTK4 service, then
+  added precise frozen-region selection and exact identity matching for same-titled
+  windows.
+tags:
+- Python
+- GTK
+- Wayland
+- Image Capture
+title: Rebuilt Screenshot Tool as a persistent capture service

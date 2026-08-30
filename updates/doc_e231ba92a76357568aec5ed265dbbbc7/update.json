@@ -1,0 +1,51 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_e231ba92a76357568aec5ed265dbbbc7",
+    "title": "Made Work Report records fully editable",
+    "summary": "Expanded one validated edit path to cover report text, tags, timing, commit metadata, Git statistics, status, and artifacts through both the CLI and automation interface.",
+    "date": "2026-02-22",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Python",
+      "Refactoring",
+      "Documentation"
+    ],
+    "relationships": {
+      "part_of": "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+      "related": [
+        "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Correct the complete report record\n\n`work-report edit` can change narrative fields, tags, effort, duration, repository links, commit metadata, status, timestamps, Git statistics, and artifacts. The matching automation tool exposes the same arguments, so manual and agent-driven corrections run through the application instead of writing database rows directly.",
+        "type": "text"
+      },
+      {
+        "code": "work-report edit 123 \\\n  --summary \"Corrected public summary\" \\\n  --files-changed 8 \\\n  --lines-added 120 \\\n  --lines-removed 42 \\\n  --clear github,diff_stat",
+        "description": "One command can replace values and explicitly clear optional fields without touching omitted fields.",
+        "filename": "work-report edit",
+        "language": "bash",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Keep corrections inside shared guardrails\n\nThe shared core validates titles, tags, effort, duration, commit format, status, timestamps, nonnegative Git counts, and artifact structure before writing. Archived reports must be unarchived before editing, and tests cover both accepted corrections and rejected values.\n\nSuccessful changes emit a `report.edited` event listing the fields that were updated.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

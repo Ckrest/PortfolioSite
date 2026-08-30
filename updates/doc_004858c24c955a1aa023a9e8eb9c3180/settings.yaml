@@ -1,0 +1,109 @@
+blocks:
+- body: '## Assemble the desktop from elements
+
+
+    I built Desktop HUD as a transparent GTK4 layer-shell surface that placed images,
+    looping video, and live Graph Library widgets directly on the Wayland desktop.
+    Each element shared identity, position, size, opacity, and visibility fields while
+    its renderer handled type-specific behavior.
+
+
+    Outside edit mode, the overlay cleared its input region, keeping the desktop click-through.
+    Image and video playback remained inside their own elements while the HUD coordinated
+    composition, lifecycle, and placement.'
+  id: blk_editorial_desktop-hud-gtk4-layer-s
+  type: text
+- description: 'Two different looping fire versions: an opaque treatment and an alpha-transparent
+    version that kept the desktop visible through the flames.'
+  id: c9f531e0-b378-4797-b53c-f69e04ee5f5a
+  presentation: intrinsic
+  src: media/screenshot_2026-03-01_19-08-52.png
+  type: image
+- body: '## Bring live data into the overlay
+
+
+    Graph Library supplied gauges and line charts as embeddable GTK widgets. Desktop
+    HUD selected a renderer and provider, scheduled refreshes, and placed the result
+    beside image and video elements without absorbing Graph Library’s data history
+    or drawing logic.
+
+
+    By changing only the provider and renderer configuration, the same element model
+    hosted command-backed gauges, rolling line charts, and static demonstration data.'
+  id: blk_hud_live_data
+  type: text
+- id: 05929c6d-7b52-4c4b-9f19-0f5ede5cf23c
+  label: Graph Library
+  type: related-mini
+  updateId: doc_aa793128a2075e32a8dea215c096de7c
+- description: Live system-load and CPU-temperature line charts rendered through Graph
+    Library.
+  id: 9a20f150-58d3-4a3e-8086-c3a17ca46968
+  presentation: intrinsic
+  src: media/screenshot_2026-03-01_19-08-56.png
+  type: image
+- description: Compact CPU and memory gauges using the same graph element contract.
+  id: bc9e2736-a533-473b-b28c-deda71eb75b2
+  presentation: intrinsic
+  src: media/screenshot_2026-03-01_19-09-09.png
+  type: image
+- body: '## Edit the layout in place
+
+
+    Edit mode turned the rendered overlay itself into the design surface. Selecting
+    an element revealed an outline and corner handles; dragging moved it, the handles
+    resized it, and snapping aligned it with screen or neighboring element edges.
+
+
+    Each interaction updated the active element and visible widget together. Leaving
+    edit mode removed the selection chrome and restored click-through behavior.'
+  id: blk_hud_editing
+  type: text
+- description: Edit mode exposed the selected element’s outline and resize handles
+    directly on the rendered overlay.
+  id: blk_hud_edit_mode_capture
+  presentation: intrinsic
+  src: media/desktop-hud-edit-mode.png
+  type: image
+- body: '## Control the same model at runtime
+
+
+    A local HTTP API exposed explicit operations to list, add, update, and remove
+    elements; reload configuration; toggle edit mode; check health; and manage profiles.
+    It dispatched GTK mutations onto the application thread with a bounded wait, giving
+    launchers and automation structured operations instead of arbitrary code execution.
+
+
+    Profile operations saved, restored, switched, and combined named arrangements
+    through the same runtime surface.'
+  id: blk_hud_runtime_control
+  type: text
+- code: "flowchart LR\n  Profiles[Layout profiles] --> Model[Live element model]\n\
+    \  API[Local HTTP API] --> Model\n  Editor[Drag resize snap] --> Model\n  Model\
+    \ --> Image[Image elements]\n  Model --> Video[Looping video]\n  Model --> Graph[Graph\
+    \ Library widgets]\n  Image --> Surface[GTK4 layer-shell surface]\n  Video -->\
+    \ Surface\n  Graph --> Surface"
+  description: Profiles, runtime commands, and direct manipulation converged on the
+    element model rendered on the layer-shell surface.
+  id: blk_hud_architecture
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+date: '2026-02-22'
+external_url: https://github.com/Ckrest/desktop-hud
+preview:
+  description: Images, live charts, gauges, and a looping fire effect composed across
+    the desktop.
+  src: media/screenshot_2026-03-01_19-08-39.png
+prominence: high
+related_to:
+- doc_aa793128a2075e32a8dea215c096de7c
+summary: Placed images, looping video, and live Graph Library widgets on a transparent
+  desktop surface with in-place editing, reusable layouts, and runtime control.
+tags:
+- Python
+- GTK
+- Wayland
+- Desktop Environment
+- Data Visualization
+title: Built an editable desktop HUD for Wayland

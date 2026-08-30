@@ -45,24 +45,22 @@ test('reference cards link to the selected update from update and capability pag
   const updateRenderer = await import('../updates/update-renderer.js');
   const capabilityRenderer = await import('../capabilities/capability-renderer.js');
   const catalog = [{
-    slug: 'other-card',
-    folder: 'other-card',
+    key: 'doc_other',
     title: 'Other card',
     summary: 'The referenced card summary.',
   }];
 
   updateRenderer.setUpdateCatalog(catalog);
   await updateRenderer.renderUpdate({
-    slug: 'current',
-    folder: 'current',
+    key: 'doc_current',
     title: 'Current update',
     summary: 'Current summary',
-    content: { blocks: [{ type: 'reference-card', slug: 'other-card' }] },
+    blocks: [{ type: 'reference-card', updateId: 'doc_other' }],
   });
 
   assert.match(
     main.innerHTML,
-    /class="reference-update-card" href="other-card\/detail\.html"/,
+    /class="reference-update-card" href="doc_other\/detail\.html"/,
   );
   assert.match(main.innerHTML, /<h3>Other card<\/h3>/);
   assert.match(main.innerHTML, /<p>The referenced card summary\.<\/p>/);
@@ -73,11 +71,35 @@ test('reference cards link to the selected update from update and capability pag
     folder: 'current-capability',
     title: 'Current capability',
     summary: 'Capability summary',
-    content: { blocks: [{ type: 'reference-card', slug: 'other-card' }] },
+    content: { blocks: [{ type: 'reference-card', updateId: 'doc_other' }] },
   });
 
   assert.match(
     main.innerHTML,
-    /class="reference-update-card" href="\.\.\/updates\/other-card\/detail\.html"/,
+    /class="reference-update-card" href="\.\.\/updates\/doc_other\/detail\.html"/,
   );
+});
+
+test('the single external link receives GitHub-specific presentation', async () => {
+  const main = createMain();
+  installDocument(main);
+  const updateRenderer = await import('../updates/update-renderer.js');
+
+  await updateRenderer.renderUpdate({
+    key: 'github-update',
+    title: 'GitHub update',
+    summary: 'Published as source.',
+    external_url: 'https://www.github.com/example/project',
+  });
+  assert.match(main.innerHTML, />View on GitHub<\/a>/);
+  assert.doesNotMatch(main.innerHTML, />View live →<\/a>/);
+
+  await updateRenderer.renderUpdate({
+    key: 'live-update',
+    title: 'Live update',
+    summary: 'Published as a live site.',
+    external_url: 'https://example.com/project',
+  });
+  assert.match(main.innerHTML, />View live →<\/a>/);
+  assert.doesNotMatch(main.innerHTML, />View on GitHub<\/a>/);
 });

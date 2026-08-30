@@ -1,0 +1,63 @@
+blocks:
+- body: '## Pin windows at the scene boundary
+
+
+    I built Topmost Scene to keep selected Wayfire views above ordinary windows, drag
+    overlays, and compositor effects. Configuration matched app IDs and namespaces
+    automatically, while IPC pinned a specific view on demand.
+
+
+    Each pinned view carried a numeric priority. Reapplying the layer sorted those
+    values before moving the existing scene nodes to the front of Wayfire’s root scene,
+    so the order came from explicit data rather than focus timing or caller order.'
+  id: blk_editorial_wayfire-topmost-scene-an
+  type: text
+- code: "flowchart TD\n  View[Wayfire view] --> Match{Configured namespace or IPC\
+    \ pin?}\n  Match -->|Yes| Preserve[Preserve original parent]\n  Preserve --> Topmost[Move\
+    \ to topmost scene]\n  Priority[Configured priority] --> Topmost\n  Topmost -->\
+    \ Restore[Restore on unpin or shutdown]"
+  description: Pinning remained reversible because the plugin retained each view’s
+    original scene parent.
+  id: blk_topmost_scene
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Return views without recreating them
+
+
+    Before moving a view into the root scene, the plugin saved its original scene
+    parent. When no pin rule remained, unpinning reattached the existing node to that
+    parent. Disabling or unloading the plugin restored all tracked views, while view
+    destruction removed their bookkeeping.
+
+
+    Moving and restoring the same node preserved the compositor object, input routing,
+    and application lifecycle instead of creating a second representation of the window.'
+  id: blk_topmost_restoration
+  type: text
+- body: '## Control the layer at runtime
+
+
+    Topmost Scene exposed `pin`, `unpin`, `list`, and `reapply` through IPC, while
+    namespace and priority settings supplied persistent rules. A smaller Layer Stacker
+    companion handled compatibility cases inside an existing layer, re-raising matched
+    views after mapping, focus requests, or geometry changes.'
+  id: blk_topmost_runtime
+  type: text
+date: '2026-02-22'
+external_url: https://github.com/Ckrest/wayfire-layer-plugin
+preview:
+  description: Namespace rules and IPC pinning feeding a priority-ordered Wayfire
+    scene stack.
+  src: preview.png
+prominence: medium
+related_to:
+- doc_6a23e1a43eda5ff9966831b235c28b21
+- doc_004858c24c955a1aa023a9e8eb9c3180
+summary: Built a Wayfire plugin that moved matched windows into a priority-ordered
+  topmost scene, restored them when unpinned, and exposed configuration and IPC control.
+tags:
+- C++
+- Wayfire
+- Wayland
+title: Added priority-based window pinning to Wayfire

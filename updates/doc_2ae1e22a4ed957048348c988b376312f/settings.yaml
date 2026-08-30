@@ -1,0 +1,67 @@
+blocks:
+- body: '## Give every consumer the same day and week views
+
+
+    Sleep Tracker owns reusable day and week view functions plus matching command-line
+    operations. Human callers and the desktop dashboard receive the same structured
+    payload instead of duplicating presentation rules.
+
+
+    The views combine available session, diary, override, and environmental data.
+    Missing measurements remain gaps rather than becoming misleading zeroes.'
+  id: blk_sleep_views_story
+  type: text
+- description: Sleep data flow from parallel provider refresh through typed collection
+    and repository storage into day, week, and Settings Hub views. Refresh, collection,
+    view formatting, and desktop rendering remain separate, observable stages.
+  id: blk_sleep_views_flow
+  presentation: intrinsic
+  src: media/provider-flow.svg
+  type: image
+- body: '## Refresh independent providers together
+
+
+    Providers can declare an optional collection command and timeout. A refresh runs
+    eligible sources in parallel and returns the result of each one, keeping an upstream
+    failure distinct from a successful reading with no data.
+
+
+    The command line and API expose the same operation, so the dashboard can request
+    fresh data through the tracker’s normal boundary.'
+  id: blk_sleep_provider_refresh
+  type: text
+- code: "providers:\n  - name: watch\n    type: watch\n    command: watch-sleep-provider\
+    \ --date {date}\n    collect_command: watch-sleep-provider --refresh\n    collect_timeout:\
+    \ 60\n  - name: diary\n    type: subjective\n    command: daily-checkin-sleep-provider\
+    \ --date {date}"
+  description: Typed providers declare how to read a date and, when supported, how
+    to refresh their upstream source before collection.
+  filename: provider-config.example.txt
+  id: blk_sleep_provider_config
+  language: yaml
+  presentation: content
+  sourceMode: attached
+  src: media/provider-config.example.txt
+  type: code
+- body: '## Render the week from declarative sources
+
+
+    Settings Hub defines the seven date tabs, trend view, dynamic labels, and polling
+    behavior. Sleep Tracker owns date resolution, ratings, duration, score, and environmental
+    summaries, keeping domain logic out of the desktop shell.'
+  id: blk_sleep_declarative_dashboard
+  type: text
+date: '2026-02-18'
+part_of: doc_38811c0e3f5d564f8b840821d6ea52b5
+preview:
+  description: Settings Hub Sleep page showing seven-day score, duration, and felt-quality
+    trends
+  src: media/sleep-dashboard-synthetic.png
+prominence: medium
+summary: Separated sleep presentation from collection, added on-demand multi-provider
+  refresh, and produced day and week views for a tabbed desktop dashboard.
+tags:
+- Python
+- Architecture
+- Data Visualization
+title: Built a seven-day sleep tracking dashboard

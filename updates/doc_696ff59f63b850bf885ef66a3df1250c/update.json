@@ -1,0 +1,58 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_696ff59f63b850bf885ef66a3df1250c",
+    "title": "Added one-click image saving to ComfyUI",
+    "summary": "Added a ComfyUI toolbar action for saving an existing generated preview without changing the workflow, with safe filenames and duplicate-aware writes.",
+    "date": "2025-12-19",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/comfyui-quicksave",
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "JavaScript"
+    ],
+    "blocks": [
+      {
+        "body": "## Save a preview without changing the graph\n\nI added QuickSave as a toolbar action for keeping an image already visible in ComfyUI without adding a Save Image node to the workflow. It collects distinct images from workflow nodes and the latest execution, saves the only result immediately, or opens a picker when several are available.",
+        "type": "text"
+      },
+      {
+        "description": "QuickSave control with a save icon in the ComfyUI toolbar. The toolbar button made the save action available while reviewing generated images.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_16-20-47.png",
+        "type": "image"
+      },
+      {
+        "body": "## Avoid overwrites at the save boundary\n\nI added a small `/quicksave` route behind the toolbar action. The extension fetches the chosen preview and sends its encoded image data, original filename, and configured save path to that route. The backend sanitizes the filename, falls back to `output/quicksave` when no valid custom directory is set, skips byte-for-byte duplicates, and adds a numeric suffix to other collisions. A toast reports the result in ComfyUI.",
+        "type": "text"
+      },
+      {
+        "description": "QuickSave flow from the ComfyUI toolbar through preview discovery, image selection, backend sanitization, duplicate checks, safe disk writing, and visible feedback. A small frontend-to-backend path saves an existing preview without changing the workflow graph.",
+        "presentation": "intrinsic",
+        "src": "media/quicksave-flow.svg",
+        "type": "image"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/quicksave-flow.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1686,
+        "height": 198
+      },
+      "media/screenshot_2026-02-28_16-20-47.png": {
+        "media_type": "image/png",
+        "width": 91,
+        "height": 62
+      }
+    }
+  }
+}

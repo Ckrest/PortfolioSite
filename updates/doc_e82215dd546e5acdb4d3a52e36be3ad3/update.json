@@ -1,0 +1,77 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_e82215dd546e5acdb4d3a52e36be3ad3",
+    "title": "Built an Android app for daily sleep-tracking",
+    "summary": "Built a local-first React Native app for daily ratings, notes, optional sleep times, reminders, and portable JSON storage.",
+    "date": "2026-02-18",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/daily-checkin-app",
+    "preview": {
+      "src": "media/daily-checkin-overview.svg",
+      "description": "Daily Check-In mobile form beside its matching portable JSON record and local backup",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "React",
+      "TypeScript",
+      "Frontend",
+      "Mobile"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_c36b489eb68052409d72d967f78df646"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Make daily tracking quick to enter\n\nDaily Check-In brings sleep quality, alertness, mood, dreams, notes, and optional sleep times into a focused Android form. Large rating controls and date-based entries keep the routine direct without turning it into a long questionnaire.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep the record local and readable\n\nEach day is stored in one versioned JSON document selected through Android’s file picker. The file remains inspectable, copyable, and compatible with user-chosen synchronization, while a separate on-device backup provides recovery if document access fails.",
+        "type": "text"
+      },
+      {
+        "description": "Daily Check-In entry form writing through a storage layer to a user-selected JSON document and local recovery backup, with optional synchronization. One storage boundary writes the readable document and an independent recovery copy.",
+        "presentation": "intrinsic",
+        "src": "media/storage-flow.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Give the document a stable shape\n\nA version field and date-keyed entries keep the file understandable outside the app. Each entry carries only the recorded values for that day, making the document straightforward to inspect, copy, or consume elsewhere.",
+        "type": "text"
+      },
+      {
+        "description": "A versioned, human-readable document keeps the record portable and gives integrations a stable, narrow input.",
+        "filename": "daily-checkin.example.json",
+        "language": "json",
+        "presentation": "content",
+        "sourceMode": "attached",
+        "src": "media/daily-checkin.example.json",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/daily-checkin-overview.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900
+      },
+      "media/storage-flow.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 700
+      }
+    }
+  }
+}

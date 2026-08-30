@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "fieldDefinitions": {
     "id": {"label": "Internal block ID", "visibility": "structural", "description": "Stable editor identity; present in public source but not displayed."},
     "type": {"label": "Block type", "visibility": "structural", "description": "Selects the renderer; present in public source but not displayed."},
@@ -10,84 +10,35 @@
     "presentation": {"label": "Presentation width", "visibility": "structural", "description": "Selects intrinsic, content, or wide layout where supported."},
     "fit": {"label": "Thumbnail fit", "visibility": "structural", "description": "Selects contain or cover for gallery thumbnails."},
     "layout": {"label": "Group layout", "visibility": "structural", "description": "Selects stack, split, or grid child layout."},
-    "title": {"label": "Public title", "visibility": "public-visible", "description": "Visible and accessible title for the media or document."},
-    "label": {"label": "Accessible label", "visibility": "public-accessibility", "description": "Names a control, transcript, or compact reference."},
-    "summary": {"label": "Accessible summary", "visibility": "public-accessibility", "description": "Explains non-text evidence for assistive technology and alternate views."},
-    "alt": {"label": "Accessibility text", "visibility": "public-accessibility", "description": "Describes image content to assistive technology and when the image cannot load."},
-    "caption": {"label": "Public caption", "visibility": "public-visible", "description": "Visible beneath the evidence block or gallery item."},
-    "evidenceQualifier": {"label": "Public evidence qualifier", "visibility": "public-visible", "description": "Optional concise context when an evidence limitation must be disclosed."},
-    "capturedAt": {"label": "Captured at", "visibility": "authoring-private", "description": "Private evidence metadata; never valid inside a published block."},
-    "representsVersion": {"label": "Represents version", "visibility": "authoring-private", "description": "Private evidence metadata; never valid inside a published block."},
-    "evidenceNote": {"label": "Evidence note", "visibility": "authoring-private", "description": "Private evidence metadata; never valid inside a published block."},
-    "images": {"label": "Gallery images", "visibility": "public-visible", "description": "Ordered visible images with accessibility text and optional captions."},
+    "description": {"label": "Description", "visibility": "public-visible-accessibility", "description": "The single public explanation for evidence, used visibly and by assistive technology without duplicate announcements."},
+    "label": {"label": "Label", "visibility": "public-visible", "description": "A short structural label where two named parts must be distinguished."},
+    "images": {"label": "Gallery images", "visibility": "public-visible", "description": "Ordered visible images, each with one description."},
     "blocks": {"label": "Child blocks", "visibility": "structural", "description": "Ordered child blocks owned by a group."},
     "language": {"label": "Language", "visibility": "public-visible", "description": "Source language used for the header and syntax highlighting."},
     "filename": {"label": "Filename", "visibility": "public-visible", "description": "Optional public filename displayed in the source header."},
     "code": {"label": "Inline source", "visibility": "public-visible", "description": "Inline code or Mermaid source."},
     "commands": {"label": "Inline commands", "visibility": "public-visible", "description": "Ordered terminal transcript entries."},
-    "before": {"label": "Before image", "visibility": "public-visible", "description": "Before image with required public label and accessibility text."},
-    "after": {"label": "After image", "visibility": "public-visible", "description": "After image with required public label and accessibility text."},
+    "before": {"label": "Before image", "visibility": "public-visible", "description": "Before image with a label and description."},
+    "after": {"label": "After image", "visibility": "public-visible", "description": "After image with a label and description."},
     "chartType": {"label": "Chart type", "visibility": "public-visible", "description": "Controls the visible chart presentation."},
     "labels": {"label": "Chart labels", "visibility": "public-visible", "description": "Column or category labels shared by the chart and data table."},
     "datasets": {"label": "Chart datasets", "visibility": "public-visible", "description": "Series rendered in both the chart and accessible data table."},
-    "slug": {"label": "Referenced update", "visibility": "structural", "description": "Resolves the public target for a related update link."}
+    "updateId": {"label": "Referenced update", "visibility": "structural", "description": "Stable ID of the referenced update."}
   },
   "types": [
-    {
-      "type": "text", "label": "Text", "icon": "¶", "description": "Readable Markdown narrative", "hint": "Write narrative content", "fields": ["body"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["body"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input"]}
-    },
-    {
-      "type": "image", "label": "Image", "icon": "🖼", "description": "Dimension-aware zoomable image", "hint": "Attach an image and describe it", "fields": ["src", "alt", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["src", "alt", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
-    },
-    {
-      "type": "video", "label": "Video", "icon": "▶", "description": "Local, YouTube, or Vimeo video", "hint": "Choose a source and add a title", "fields": ["sourceMode", "src", "title", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "src", "title", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"], "sourceModes": {"field": "sourceMode", "default": "local", "modes": {"local": ["src"], "youtube": ["src"], "vimeo": ["src"]}}}
-    },
-    {
-      "type": "gallery", "label": "Gallery", "icon": "⊞", "description": "Zoomable image collection", "hint": "Attach and describe multiple images", "fields": ["images", "fit", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["images", "fit", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["inline-list", "file-attach", "drag-drop"]}
-    },
-    {
-      "type": "markdown-document", "label": "Markdown document", "icon": "📄", "description": "Attached Markdown document", "hint": "Attach a Markdown file", "fields": ["path"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["path"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
-    },
-    {
-      "type": "pdf", "label": "PDF", "icon": "📋", "description": "Embedded PDF with direct actions", "hint": "Attach and title a PDF", "fields": ["src", "title", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["src", "title", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
-    },
-    {
-      "type": "group", "label": "Group", "icon": "☰", "description": "Stack, split, or grid block group", "hint": "Choose a layout and add child blocks", "fields": ["layout", "blocks"], "allowInGroup": false,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["layout", "blocks"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["add-child"]}
-    },
-    {
-      "type": "code", "label": "Code", "icon": "💻", "description": "Highlighted source with copy and wrap controls", "hint": "Add inline or attached source", "fields": ["sourceMode", "language", "filename", "src", "code", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "language", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["code"], "attached": ["src"]}}}
-    },
-    {
-      "type": "mermaid", "label": "Mermaid", "icon": "🧩", "description": "Inspectable Mermaid diagram", "hint": "Add diagram source and an accessible summary", "fields": ["sourceMode", "src", "code", "summary", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "summary", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["code"], "attached": ["src"]}}}
-    },
-    {
-      "type": "terminal", "label": "Terminal", "icon": "＞", "description": "Accessible terminal transcript", "hint": "Add commands or attach a transcript", "fields": ["sourceMode", "src", "commands", "label", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "label", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["inline-list", "text-input", "file-attach"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["commands"], "attached": ["src"]}}}
-    },
-    {
-      "type": "comparison", "label": "Compare", "icon": "⇔", "description": "Accessible before and after comparison", "hint": "Attach and describe both images", "fields": ["before", "after", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["before.src", "before.label", "before.alt", "after.src", "after.label", "after.alt", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["text-input", "file-attach", "drag-drop"]}
-    },
-    {
-      "type": "graph", "label": "Graph", "icon": "📊", "description": "Chart with an accessible data table", "hint": "Add chart data and a summary", "fields": ["sourceMode", "src", "chartType", "labels", "datasets", "summary", "presentation", "caption", "evidenceQualifier"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["sourceMode", "summary", "presentation"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["inline-list", "text-input", "file-attach"], "sourceModes": {"field": "sourceMode", "default": "inline", "modes": {"inline": ["labels", "datasets"], "attached": ["src"]}}}
-    },
-    {
-      "type": "related-mini", "label": "Related Mini", "icon": "↗", "description": "Compact contextual update link", "hint": "Link to a nearby update", "fields": ["slug", "label"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["slug"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["update-picker", "text-input"], "referenceField": "slug", "referenceType": "update", "allowSelfReference": false}
-    },
-    {
-      "type": "reference-card", "label": "Reference Card", "icon": "↗", "description": "Standalone related update card", "hint": "Reference another update", "fields": ["slug"], "allowInGroup": true,
-      "contract": {"allowEmptySave": true, "renderRequiredAll": ["slug"], "renderRequiredAny": [], "skipRenderIfIncomplete": false, "fillMethods": ["update-picker", "text-input"], "referenceField": "slug", "referenceType": "update", "allowSelfReference": false}
-    }
+    {"type":"text","label":"Text","icon":"¶","description":"Readable Markdown narrative","hint":"Write narrative content","fields":["body"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["body"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input"]}},
+    {"type":"image","label":"Image","icon":"🖼","description":"Dimension-aware zoomable image","hint":"Attach and describe an image","fields":["src","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["src","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"]}},
+    {"type":"video","label":"Video","icon":"▶","description":"Local, YouTube, or Vimeo video","hint":"Choose a source and describe it","fields":["sourceMode","src","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["sourceMode","src","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"],"sourceModes":{"field":"sourceMode","default":"local","modes":{"local":["src"],"youtube":["src"],"vimeo":["src"]}}}},
+    {"type":"gallery","label":"Gallery","icon":"⊞","description":"Zoomable image collection","hint":"Attach and describe multiple images","fields":["images","fit","presentation","description"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["images","fit","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["inline-list","file-attach","drag-drop"]}},
+    {"type":"markdown-document","label":"Markdown document","icon":"📄","description":"Attached Markdown document","hint":"Attach a Markdown file","fields":["path"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["path"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"]}},
+    {"type":"pdf","label":"PDF","icon":"📋","description":"Embedded PDF with direct actions","hint":"Attach and describe a PDF","fields":["src","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["src","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"]}},
+    {"type":"group","label":"Group","icon":"☰","description":"Stack, split, or grid block group","hint":"Choose a layout and add child blocks","fields":["layout","blocks"],"allowInGroup":false,"contract":{"allowEmptySave":true,"renderRequiredAll":["layout","blocks"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["add-child"]}},
+    {"type":"code","label":"Code","icon":"💻","description":"Highlighted source with copy and wrap controls","hint":"Add source and describe why it matters","fields":["sourceMode","language","filename","src","code","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["sourceMode","language","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"],"sourceModes":{"field":"sourceMode","default":"inline","modes":{"inline":["code"],"attached":["src"]}}}},
+    {"type":"mermaid","label":"Mermaid","icon":"🧩","description":"Inspectable Mermaid diagram","hint":"Add diagram source and one description","fields":["sourceMode","src","code","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["sourceMode","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"],"sourceModes":{"field":"sourceMode","default":"inline","modes":{"inline":["code"],"attached":["src"]}}}},
+    {"type":"terminal","label":"Terminal","icon":"＞","description":"Accessible terminal transcript","hint":"Add commands and describe the result","fields":["sourceMode","src","commands","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["sourceMode","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["inline-list","text-input","file-attach"],"sourceModes":{"field":"sourceMode","default":"inline","modes":{"inline":["commands"],"attached":["src"]}}}},
+    {"type":"comparison","label":"Compare","icon":"⇔","description":"Accessible before and after comparison","hint":"Attach and describe both images","fields":["before","after","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["before.src","before.label","before.description","after.src","after.label","after.description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["text-input","file-attach","drag-drop"]}},
+    {"type":"graph","label":"Graph","icon":"📊","description":"Chart with an accessible data table","hint":"Add chart data and one description","fields":["sourceMode","src","chartType","labels","datasets","description","presentation"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["sourceMode","description","presentation"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["inline-list","text-input","file-attach"],"sourceModes":{"field":"sourceMode","default":"inline","modes":{"inline":["labels","datasets"],"attached":["src"]}}}},
+    {"type":"related-mini","label":"Related Mini","icon":"↗","description":"Compact contextual update link","hint":"Link to a nearby update","fields":["updateId","label"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["updateId"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["update-picker","text-input"],"referenceField":"updateId","referenceType":"update","allowSelfReference":false}},
+    {"type":"reference-card","label":"Reference Card","icon":"↗","description":"Standalone related update card","hint":"Reference another update","fields":["updateId"],"allowInGroup":true,"contract":{"allowEmptySave":true,"renderRequiredAll":["updateId"],"renderRequiredAny":[],"skipRenderIfIncomplete":false,"fillMethods":["update-picker","text-input"],"referenceField":"updateId","referenceType":"update","allowSelfReference":false}}
   ]
 }

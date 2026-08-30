@@ -1,0 +1,48 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_79abb20a49725d63a0fd541a1aec30d8",
+    "title": "Made Work Report artifacts durable at capture time",
+    "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retained the material it referenced.",
+    "date": "2026-01-28",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Python",
+      "PostgreSQL"
+    ],
+    "relationships": {
+      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
+      "related": [
+        "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Copy evidence when it is attached\n\nWork Report now moves artifact material into a directory owned by the report as soon as it is attached. Images, videos, and documents are copied from their source files; code, terminal output, and structured data are written from the content captured with the artifact.\n\nThe stored artifact then points to that report-owned file, so later use no longer depends on the original path.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Artifact[Typed artifact] --> Report[Create report row]\n  Report --> Material{Artifact material}\n  Material -->|Image, video, document| Copy[Copy source file]\n  Material -->|Code, terminal, data| Write[Write captured content]\n  Copy & Write --> Owned[Report-owned path]\n  Owned --> Record[Store artifact record]",
+        "description": "The report ID selects the storage directory before each artifact record is updated with its owned path.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Create the report and its material in two phases\n\nThe storage directory needs the report ID, so creation first inserts the report row and retrieves its ID. Work Report then copies or writes each artifact beneath that report’s directory and updates the artifact list with the owned paths.\n\nArtifacts added to an existing report use the same storage helper before they are appended, keeping the report and its evidence together.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

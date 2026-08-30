@@ -1,0 +1,53 @@
+blocks:
+- body: '## Publish one output name for the session
+
+
+    User services needed a Wayland connector name, but hardcoding one tied them to
+    a particular display setup. I added a startup script that waits for the Wayland
+    socket, asks `wlr-randr` for enabled outputs, and selects the first one marked
+    `Enabled: yes`.'
+  id: blk_editorial_monitor-detect
+  type: text
+- commands:
+  - command: ./monitor-detect.sh
+    output: 'Detected primary monitor: DP-3
+
+      Exported: PRIMARY_MONITOR=DP-3
+
+      Wrote: /run/user/1000/primary-monitor'
+  - command: systemctl --user show-environment
+    output: '...
+
+      PRIMARY_MONITOR=DP-3
+
+      ...'
+  - command: cat "$XDG_RUNTIME_DIR/primary-monitor"
+    output: DP-3
+  description: Representative output showing the environment and runtime-file forms
+    of the detected connector.
+  id: blk_monitor_detect
+  presentation: content
+  sourceMode: inline
+  type: terminal
+- body: '## Serve both systemd and file-based consumers
+
+
+    The script publishes the connector as `PRIMARY_MONITOR` in the systemd user environment
+    and writes the same value to `$XDG_RUNTIME_DIR/primary-monitor`. Wallpaper Service
+    reads the runtime file during startup, while other user services can consume the
+    environment value after detection completes.'
+  id: blk_monitor_consumers
+  type: text
+date: '2026-01-15'
+external_url: https://github.com/Ckrest/monitor-detect
+prominence: low
+related_to:
+- doc_3a6495dd303a5286b238144d478fa5df
+summary: Built a Bash startup script that waits for Wayland, selects the first enabled
+  output from wlr-randr, and publishes it through both systemd and a runtime file.
+tags:
+- Bash
+- Wayland
+- Systemd
+- Desktop Environment
+title: Shared the active Wayland output with session services

@@ -3,4 +3,4 @@ slug: design-connect-multi-tool-systems
 title: Design and connect multi-tool software systems
 summary: This temporary shell connects the registries, desktop services, data stores, reporting tools, and publishing systems that demonstrate this capability.
 evidence:
-  - postgresql-history-database
+  - doc_e76b0f81dd7b5b93a11e8f357b63ffb8

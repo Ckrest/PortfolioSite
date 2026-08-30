@@ -1,0 +1,56 @@
+blocks:
+- body: '## Audit ownership across the fleet
+
+
+    A fleet-wide audit now checks repository health, integration-file ownership, and
+    commands from outside the workspace root. It exposes add commands that depend
+    on the caller’s current directory and local hook or configuration files that are
+    not recognized by package ownership rules.'
+  id: blk_editorial_full-repo-health-audit-v
+  type: text
+- code: "flowchart LR\n  Observe[Observe repository state] --> Classify[Classify ownership]\n\
+    \  Classify --> Shared{Shared cause?}\n  Shared -->|Yes| Rule[Repair common rule]\n\
+    \  Shared -->|No| Package[Repair owning package]\n  Rule --> Validate[Validate\
+    \ entire affected fleet]\n  Package --> Validate"
+  description: The audit distinguished common infrastructure faults from package-local
+    cleanup instead of suppressing both with broad ignores.
+  id: blk_repo_audit
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Fix the rule at the right level
+
+
+    VCSH commands now establish their working directory, while discovery recognizes
+    the local integration-file forms used by packages. Output locations, stale paths,
+    ignores, and preview resolution are repaired in the package that owns them rather
+    than hidden by a fleet-wide exception.'
+  id: blk_repo_audit_repairs
+  type: text
+- code: 'packages valid               63 / 63
+
+    untracked integration files   0
+
+    ownership violations          0
+
+    touched repositories clean   14 / 14'
+  description: The audit closes only after ownership and validation checks return
+    clean across the affected fleet.
+  filename: audit-summary.txt
+  id: blk_repo_audit_result
+  language: text
+  presentation: content
+  sourceMode: inline
+  type: code
+date: '2026-02-17'
+part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
+prominence: low
+related_to:
+- doc_ed9b9a567c7c4d589dbe92c7abbf3eb6
+summary: Repaired VCSH command paths, brought overlooked integration files under ownership,
+  and resolved package issues discovered by a full registry audit.
+tags:
+- VCSH
+- Validation
+- Refactoring
+title: Audited and repaired the Constellation registry

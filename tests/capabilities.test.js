@@ -7,9 +7,9 @@ import { renderEntry } from '../js/components/update-entry.js';
 
 test('capabilities own evidence and updates receive derived backlinks', () => {
   const updates = [
-    { slug: 'registry', title: 'Registry' },
-    { slug: 'editor', title: 'Editor' },
-    { slug: 'unrelated', title: 'Unrelated' },
+    { key: 'registry', title: 'Registry' },
+    { key: 'editor', title: 'Editor' },
+    { key: 'unrelated', title: 'Unrelated' },
   ];
   const capabilities = [{
     slug: 'connect-systems',
@@ -21,13 +21,13 @@ test('capabilities own evidence and updates receive derived backlinks', () => {
 
   connectCapabilities(capabilities, updates);
 
-  assert.deepEqual(updates[0].capabilities, [capabilityCard(capabilities[0])]);
-  assert.deepEqual(updates[1].capabilities, [capabilityCard(capabilities[0])]);
+  assert.deepEqual(updates[0].capabilities, ['connect-systems']);
+  assert.deepEqual(updates[1].capabilities, ['connect-systems']);
   assert.equal('capabilities' in updates[2], false);
 });
 
 test('one update can support several capabilities', () => {
-  const update = { slug: 'shared-evidence', title: 'Shared evidence' };
+  const update = { key: 'shared-evidence', title: 'Shared evidence' };
   const capabilities = [
     { slug: 'first', folder: 'first', title: 'First', summary: 'First capability', evidence: [update] },
     { slug: 'second', folder: 'second', title: 'Second', summary: 'Second capability', evidence: [update] },
@@ -35,18 +35,17 @@ test('one update can support several capabilities', () => {
 
   connectCapabilities(capabilities, [update]);
 
-  assert.deepEqual(update.capabilities.map((capability) => capability.slug), ['first', 'second']);
+  assert.deepEqual(update.capabilities, ['first', 'second']);
 });
 
 test('capability evidence can use timeline entries without losing its return context', () => {
   const markup = renderEntry({
-    slug: 'shared-evidence',
-    folder: 'shared-evidence',
+    key: 'shared-evidence',
     title: 'Shared evidence',
     summary: 'A useful result.',
     date: '2026-08-14',
     prominence: 'medium',
-    preview: 'preview.png',
+    preview: { src: 'preview.png', description: 'Shared evidence preview' },
     tags: ['Constellation'],
   }, {
     variant: 'timeline',
@@ -67,7 +66,7 @@ test('capability cards carry enough context to set expectations before navigatio
     folder: 'durable-pipelines',
     title: 'Durable pipelines',
     summary: 'Evidence stays connected.',
-    evidence: [{ slug: 'one' }, { slug: 'two' }],
+    evidence: [{ key: 'doc_one' }, { key: 'doc_two' }],
   };
 
   assert.deepEqual(capabilityCard(capability), {

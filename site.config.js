@@ -52,15 +52,15 @@ export default {
   // FEATURED SECTION
   // ═══════════════════════════════════════════════════════════════════════════
   // Control which updates appear in the featured section
-  // Updates are identified by slug (from manifest.json)
+  // Updates are identified by their stable document ID.
 
   featured: {
-    // List of update slugs to feature (in display order)
+    // List of update IDs to feature (in display order)
     // Leave empty or comment out items to show "coming soon" message
     items: [
-      'redesigned-settings-hub-around-declarative-catalogs',
-      'v1-portfolio-editor-with-work-report-integration',
-      'portfolio-site',
+      'doc_38811c0e3f5d564f8b840821d6ea52b5',
+      'doc_45e24fee0f645130a7d9ce1685a5af01',
+      'doc_1a3826668acb53688961faa991a157f1',
     ],
 
     // How many items to show (will show up to this many from the list)
@@ -122,7 +122,7 @@ export default {
 
   data: {
     site: 'data/site.json',
-    updates: 'updates/manifest.json',  // Generated from update folders
+    updates: 'updates/index.json',  // Generated from update folders
     capabilities: 'capabilities/manifest.json',
     phases: 'data/phases.json',
   },

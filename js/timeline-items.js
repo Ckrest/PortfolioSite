@@ -14,7 +14,7 @@ function parseUpdateDate(value) {
 
 function createEntryItem(update, phaseId) {
   return {
-    id: update.slug,
+    id: update.key,
     type: 'entry',
     phaseId,
     update,

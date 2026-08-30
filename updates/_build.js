@@ -19,7 +19,6 @@ import {
 } from '../capabilities/generated/block-registry.js';
 import { connectCapabilities, capabilityCard } from '../capabilities/model.js';
 import { getUpdateAnchorId } from '../js/homepage-location.js';
-import { isDiscoverableUpdate } from './publication.js';
 import { referenceResolution, resolveUpdateRelationships } from './relationship-model.js';
 import { validationIssue, validationResult } from './review-validation.js';
 import {
@@ -31,13 +30,12 @@ import {
 const UPDATES_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(UPDATES_DIR);
 const CAPABILITIES_DIR = join(ROOT, 'capabilities');
-const MANIFEST_PATH = join(UPDATES_DIR, 'manifest.json');
-const CATALOG_PATH = join(UPDATES_DIR, 'catalog.json');
+const INDEX_PATH = join(UPDATES_DIR, 'index.json');
+const ASSET_INVENTORY_PATH = join(UPDATES_DIR, '_asset-inventory.json');
 const CAPABILITY_MANIFEST_PATH = join(CAPABILITIES_DIR, 'manifest.json');
 const SITEMAP_PATH = join(ROOT, 'sitemap.xml');
 const SCHEMA_PATH = join(UPDATES_DIR, '_update-schema.yaml');
 const CAPABILITY_SCHEMA_PATH = join(CAPABILITIES_DIR, '_capability-schema.yaml');
-const PHASES_PATH = join(ROOT, 'data', 'phases.json');
 const SITE_PATH = join(ROOT, 'data', 'site.json');
 const DETAIL_TEMPLATE_PATH = join(UPDATES_DIR, 'detail.html');
 const CAPABILITY_DETAIL_TEMPLATE_PATH = join(CAPABILITIES_DIR, 'detail.html');
@@ -48,10 +46,7 @@ const ASSET_CONTRACT_PATH = join(UPDATES_DIR, '_asset-contract.json');
 const CAPABILITY_ASSET_CONTRACT_PATH = join(CAPABILITIES_DIR, '_asset-contract.json');
 
 const SUMMARY_FIELDS = [
-  'slug', 'folder', 'title', 'summary', 'date', 'prominence', 'phase',
-  'icon', 'preview', 'previewAlt', 'previewWidth', 'previewHeight',
-  'github', 'externalUrl', 'tags', 'part_of', 'supersedes', 'related_to',
-  'relationships', 'capabilities',
+  'key', 'title', 'summary', 'date', 'prominence', 'icon', 'preview', 'tags',
 ];
 function matchesFieldType(value, type) {
   if (type === 'string') return typeof value === 'string';
@@ -61,11 +56,10 @@ function matchesFieldType(value, type) {
     && (isValidPublicUrl(value) || Boolean(safeRelativePath(value)));
   if (type === 'image-reference') return Boolean(value) && typeof value === 'object'
     && !Array.isArray(value) && typeof value.src === 'string'
-    && typeof value.label === 'string' && typeof value.alt === 'string';
+    && typeof value.label === 'string' && typeof value.description === 'string';
   if (type === 'gallery-images') return Array.isArray(value) && value.every(item =>
     item && typeof item === 'object' && !Array.isArray(item)
-    && typeof item.src === 'string' && typeof item.alt === 'string'
-    && (item.caption == null || typeof item.caption === 'string'));
+    && typeof item.src === 'string' && typeof item.description === 'string');
   return false;
 }
 
@@ -97,7 +91,7 @@ function validateBlockContractShape(block, metadata, contract, fieldTypes, addIs
   }
 }
 
-function updateIssue(issues, slug, code, message, {
+function updateIssue(issues, documentId, code, message, {
   outcome = 'fail', consequence, field, location, evidence, action,
 } = {}) {
   const issueLocation = location || (field ? { kind: 'field', field } : undefined);
@@ -107,7 +101,7 @@ function updateIssue(issues, slug, code, message, {
     consequence,
     stage: 'candidate',
     owner: 'workspace-document',
-    subject: { kind: 'update', id: slug, slug, label: slug.replaceAll('-', ' ') },
+    subject: { kind: 'update', id: documentId, label: documentId },
     location: issueLocation,
     message,
     evidence,
@@ -174,6 +168,13 @@ function validateSchemaFields(settings, schema, addIssue) {
     const type = definition.type;
     if (['text', 'textarea', 'asset', 'update'].includes(type) && typeof value !== 'string') {
       addIssue('field-type-invalid', `${definition.label || field} must be text`, { field });
+    } else if (type === 'preview' && (
+      !value || typeof value !== 'object' || Array.isArray(value)
+      || Object.keys(value).some((key) => !['src', 'description'].includes(key))
+      || !safeRelativePath(value.src)
+      || !String(value.description || '').trim()
+    )) {
+      addIssue('preview-invalid', `${definition.label || field} must contain an update-relative src and meaningful description`, { field });
     } else if (type === 'date' && !isValidDate(value)) {
       addIssue('date-invalid', `${definition.label || field} must be a valid YYYY-MM-DD date`, { field });
     } else if (type === 'url' && !isValidPublicUrl(value)) {
@@ -183,7 +184,7 @@ function validateSchemaFields(settings, schema, addIssue) {
     } else if (type === 'tags' && (!Array.isArray(value) || value.some(item => typeof item !== 'string'))) {
       addIssue('list-type-invalid', `${definition.label || field} must be an array of text values`, { field });
     } else if (type === 'updates' && (!Array.isArray(value) || value.some(item => typeof item !== 'string'))) {
-      addIssue('list-type-invalid', `${definition.label || field} must be an array of update slugs`, { field });
+      addIssue('list-type-invalid', `${definition.label || field} must be an array of update IDs`, { field });
     }
   }
 }
@@ -291,12 +292,6 @@ async function readMediaMetadata(path) {
   return dimensions ? { media_type: mediaType, ...dimensions } : null;
 }
 
-function derivePhase(date, phases) {
-  const observed = new Date(date);
-  return phases.find((phase) => observed >= new Date(phase.startDate)
-    && observed <= new Date(phase.endDate))?.id ?? 1;
-}
-
 function compactSummary(update) {
   return Object.fromEntries(SUMMARY_FIELDS
     .filter((field) => update[field] != null)
@@ -304,19 +299,57 @@ function compactSummary(update) {
 }
 
 function evidenceEntry(update) {
-  if (!update) return null;
-  return Object.fromEntries([
-    'slug', 'folder', 'title', 'summary', 'date', 'prominence', 'icon',
-    'preview', 'previewAlt', 'previewWidth', 'previewHeight', 'tags',
-  ].filter((field) => update[field] != null).map((field) => [field, update[field]]));
+  return update ? compactSummary(update) : null;
+}
+
+function stripBlockIds(blocks) {
+  return (Array.isArray(blocks) ? blocks : []).map((block) => {
+    if (!block || typeof block !== 'object' || Array.isArray(block)) return block;
+    const { id: _id, ...published } = block;
+    const sourceModes = getBlockContract(block.type)?.sourceModes;
+    if (sourceModes) {
+      const activeMode = getBlockSourceMode(block, block.type);
+      const activeFields = new Set(sourceModes.modes?.[activeMode] || []);
+      for (const fields of Object.values(sourceModes.modes || {})) {
+        for (const field of fields) {
+          if (!activeFields.has(field)) delete published[field];
+        }
+      }
+    }
+    if (block.type === 'group') published.blocks = stripBlockIds(block.blocks);
+    return published;
+  });
+}
+
+function compactObject(value) {
+  return Object.fromEntries(Object.entries(value).filter(([, item]) => (
+    item != null && item !== '' && (!Array.isArray(item) || item.length > 0)
+    && (typeof item !== 'object' || Array.isArray(item) || Object.keys(item).length > 0)
+  )));
+}
+
+function publishedUpdate(update) {
+  return compactObject({
+    key: update.key,
+    title: update.title,
+    summary: update.summary,
+    date: update.date,
+    prominence: update.prominence,
+    external_url: update.external_url,
+    preview: update.preview,
+    tags: update.tags,
+    relationships: compactObject(update.relationships || {}),
+    capabilities: update.capabilities,
+    blocks: update.blocks?.length ? stripBlockIds(update.blocks) : undefined,
+  });
 }
 
 function renderDetailPage(template, update, site) {
   const origin = String(site.url || '').replace(/\/$/, '');
-  const route = `/updates/${encodeURIComponent(update.folder)}/detail.html`;
+  const route = `/updates/${encodeURIComponent(update.key)}/detail.html`;
   const canonical = `${origin}${route}`;
   const title = `${update.title} — ${site.name}`;
-  const image = update.preview ? `${origin}/updates/${encodeUrlPath(`${update.folder}/${update.preview}`)}` : '';
+  const image = update.preview?.src ? `${origin}/updates/${encodeUrlPath(`${update.key}/${update.preview.src}`)}` : '';
   const metadata = [
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
     '<meta property="og:type" content="article" />',
@@ -330,11 +363,10 @@ function renderDetailPage(template, update, site) {
     .replace('<!-- portfolio:metadata -->', metadata)
     .replace('<title id="page-title">Update — Nick Young</title>', `<title id="page-title">${escapeHtml(title)}</title>`)
     .replace('<meta name="description" id="page-description" content="" />', `<meta name="description" id="page-description" content="${escapeHtml(update.summary)}" />`)
-    .replace('<meta name="portfolio-update" content="" />', `<meta name="portfolio-update" content="${escapeHtml(update.slug)}" />`)
-    .replace('<meta name="portfolio-update-folder" content="" />', `<meta name="portfolio-update-folder" content="${escapeHtml(update.folder)}" />`)
+    .replace('<meta name="portfolio-update" content="" />', `<meta name="portfolio-update" content="${escapeHtml(update.key)}" />`)
     .replace(
       '<a id="portfolio-breadcrumb" href="../index.html">Portfolio</a>',
-      `<a id="portfolio-breadcrumb" href="../index.html#${escapeHtml(getUpdateAnchorId(update.slug))}">Portfolio</a>`,
+      `<a id="portfolio-breadcrumb" href="../index.html#${escapeHtml(getUpdateAnchorId(update.key))}">Portfolio</a>`,
     )
     .replace('<span id="breadcrumb-title">Loading...</span>', `<span id="breadcrumb-title">${escapeHtml(update.title)}</span>`)
     .replace('<h1 id="update-title">Loading...</h1>', `<h1 id="update-title">${escapeHtml(update.title)}</h1>`)
@@ -377,7 +409,7 @@ function renderSitemap(updates, capabilities, site) {
       `  <url><loc>${escapeHtml(`${origin}/capabilities/${encodeURIComponent(capability.folder)}/detail.html`)}</loc></url>`
     ),
     ...updates.map((update) =>
-      `  <url><loc>${escapeHtml(`${origin}/updates/${encodeURIComponent(update.folder)}/detail.html`)}</loc><lastmod>${escapeHtml(update.date)}</lastmod></url>`
+      `  <url><loc>${escapeHtml(`${origin}/updates/${encodeURIComponent(update.key)}/detail.html`)}</loc><lastmod>${escapeHtml(update.date)}</lastmod></url>`
     ),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
@@ -400,12 +432,12 @@ async function build() {
   const reviewPolicy = JSON.parse(await readFile(REVIEW_POLICY_PATH, 'utf8'));
   const assetContract = await loadAssetContract(ASSET_CONTRACT_PATH);
   const capabilityAssetContract = await loadAssetContract(CAPABILITY_ASSET_CONTRACT_PATH);
-  if (schema?.version !== 4) throw new Error('update schema must use version 4');
+  if (schema?.version !== 7) throw new Error('update schema must use version 7');
   if (schema?.relationshipContract !== '_relationship-contract.json') {
     throw new Error('update schema must declare the current relationship contract');
   }
-  if (schema?.reviewPolicy !== '_review-policy.json' || reviewPolicy?.version !== 1) {
-    throw new Error('update schema must declare current review policy version 1');
+  if (schema?.reviewPolicy !== '_review-policy.json' || reviewPolicy?.version !== 3) {
+    throw new Error('update schema must declare current review policy version 3');
   }
   if (capabilitySchema?.version !== 3) throw new Error('capability schema must use version 3');
   if (assetPolicy?.version !== 3 || !Array.isArray(assetPolicy.allowedExtensions)) {
@@ -429,16 +461,21 @@ async function build() {
   const allowedAssetExtensions = new Set(
     assetPolicy.allowedExtensions.map((value) => String(value).toLowerCase()),
   );
-  const secretPatterns = (reviewPolicy.privacyPatterns || []).map(item => ({
+  if (reviewPolicy?.version !== 3) throw new Error('review policy must use version 3');
+  const privacyPatterns = (reviewPolicy.privacyPatterns || []).map(item => ({
     code: String(item.code || ''),
     pattern: new RegExp(String(item.source || ''), String(item.flags || '')),
+    disposition: String(item.disposition || 'block'),
+    message: String(item.message || `Public content matches the ${item.code} privacy pattern`),
   }));
+  const textAssetExtensions = new Set(
+    (reviewPolicy.textAssetExtensions || []).map(value => String(value).toLowerCase()),
+  );
   const blockFieldTypes = reviewPolicy.blockFieldTypes || {};
-  const phases = JSON.parse(await readFile(PHASES_PATH, 'utf8'));
   const site = JSON.parse(await readFile(SITE_PATH, 'utf8'));
   const template = await readFile(DETAIL_TEMPLATE_PATH, 'utf8');
   const capabilityTemplate = await readFile(CAPABILITY_DETAIL_TEMPLATE_PATH, 'utf8');
-  const publicFields = ['kind', 'slug', ...Object.keys(schema.fields || {}), 'content'];
+  const publicFields = [...Object.keys(schema.fields || {}), 'blocks'];
   const allowedFields = new Set(publicFields);
   const publicCapabilityFields = [
     'kind', 'slug', ...Object.keys(capabilitySchema.fields || {}), 'content',
@@ -482,43 +519,44 @@ async function build() {
       'summary-multiple-paragraphs', 'Summary contains multiple paragraphs',
       { outcome: 'warning', field: 'summary' },
     );
-    if (settings.kind !== 'update') addUpdateIssue('kind-invalid', 'Kind must be "update"', { field: 'kind' });
     const prominence = settings.prominence || 'medium';
-    const discovery = settings.discovery || 'listed';
-    if (settings.content != null && (!settings.content || typeof settings.content !== 'object' || !Array.isArray(settings.content.blocks))) {
-      addUpdateIssue('content-shape-invalid', 'Content blocks must be an array', { field: 'content' });
+    if (settings.blocks != null && !Array.isArray(settings.blocks)) {
+      addUpdateIssue('blocks-shape-invalid', 'Blocks must be an array', { field: 'blocks' });
     }
-    if (settings.preview && !String(settings.previewAlt || '').trim()) addUpdateIssue(
-      'preview-alt-fallback', 'Preview uses the project title as its accessibility text; add custom text when the image needs a different description',
-      { outcome: 'warning', field: 'previewAlt' },
-    );
-    for (const secret of secretPatterns) {
-      if (secret.pattern.test(JSON.stringify(settings))) addUpdateIssue(
-        `privacy-${secret.code}`, `Public content matches the ${secret.code} privacy pattern`,
-        { field: 'content', evidence: { pattern: secret.code } },
+    for (const privacy of privacyPatterns) {
+      if (privacy.pattern.test(JSON.stringify(settings))) addUpdateIssue(
+        `privacy-${privacy.code}`, privacy.message,
+        {
+          outcome: privacy.disposition === 'confirm' ? 'warning' : 'fail',
+          consequence: privacy.disposition === 'confirm' ? 'advisory' : 'required-gate',
+          field: 'content',
+          evidence: { pattern: privacy.code, review_requirement: privacy.disposition },
+          action: privacy.disposition === 'confirm'
+            ? { kind: 'acknowledge-publication-risk' }
+            : { kind: 'edit-document' },
+        },
       );
     }
 
     const preview = settings.preview || null;
-    const previewPath = preview ? safeRelativePath(preview) : null;
+    const previewPath = preview ? safeRelativePath(preview.src) : null;
     const dimensions = previewPath ? await readImageDimensions(join(UPDATES_DIR, entry.name, previewPath)) : null;
     updates.push({
       ...Object.fromEntries(publicFields.filter((field) => settings[field] != null).map((field) => [field, settings[field]])),
-      slug: settings.slug || entry.name,
-      folder: entry.name,
+      key: entry.name,
       prominence,
-      discovery,
       related_to: settings.related_to || [],
-      phase: derivePhase(settings.date, phases),
-      icon: settings.icon,
-      preview,
-      previewAlt: settings.previewAlt || settings.title,
-      ...(dimensions ? { previewWidth: dimensions.width, previewHeight: dimensions.height } : {}),
+      icon: 'assets/icon.svg',
+      ...(preview ? { preview: {
+        src: preview.src,
+        description: preview.description,
+        ...(dimensions || {}),
+      } } : {}),
     });
   }
 
   updates.sort((a, b) => new Date(b.date) - new Date(a.date));
-  const index = new Map(updates.flatMap((update) => [[update.slug, update], [update.folder, update]]));
+  const index = new Map(updates.map((update) => [update.key, update]));
 
   const capabilityEntries = await readdir(CAPABILITIES_DIR, { withFileTypes: true });
   const capabilities = [];
@@ -554,10 +592,10 @@ async function build() {
     );
     if (settings.kind !== 'capability') addCapabilityIssue('kind-invalid', 'Kind must be "capability"', { field: 'kind' });
     const evidenceRefs = Array.isArray(settings.evidence) ? settings.evidence : [];
-    if (!evidenceRefs.length) addCapabilityIssue('evidence-required', 'Evidence must contain at least one update slug', { field: 'evidence' });
+    if (!evidenceRefs.length) addCapabilityIssue('evidence-required', 'Evidence must contain at least one update ID', { field: 'evidence' });
     if (settings.evidence != null && (!Array.isArray(settings.evidence)
       || settings.evidence.some((value) => typeof value !== 'string'))) {
-      addCapabilityIssue('evidence-type-invalid', 'Evidence must be an array of update slugs', { field: 'evidence' });
+      addCapabilityIssue('evidence-type-invalid', 'Evidence must be an array of update IDs', { field: 'evidence' });
     }
     if (settings.content != null && (!settings.content
       || typeof settings.content !== 'object'
@@ -626,14 +664,14 @@ async function build() {
         if (missing.length) addBlockIssue('block-render-data-missing', `Block will be omitted because render fields are missing: ${missing.join(', ')}`, {
           outcome: 'warning', field: missing[0], evidence: { fields: missing },
         });
-        if (block.type === 'image' && !String(block.alt || '').trim()) {
-          addBlockIssue('image-alt-required', 'Image accessibility text is required', { field: 'alt' });
+        if (block.type === 'image' && !String(block.description || '').trim()) {
+          addBlockIssue('image-description-required', 'Image description is required', { field: 'description' });
         }
         if (block.type === 'gallery') {
           for (const [imageIndex, imageItem] of (block.images || []).entries()) {
-            if (imageItem && typeof imageItem === 'object' && !String(imageItem.alt || '').trim()) {
-              addCapabilityIssue('gallery-image-alt-required', 'Gallery image accessibility text is required', {
-                location: { ...location, field: 'alt', item_index: imageIndex },
+            if (imageItem && typeof imageItem === 'object' && !String(imageItem.description || '').trim()) {
+              addCapabilityIssue('gallery-image-description-required', 'Gallery image description is required', {
+                location: { ...location, field: 'description', item_index: imageIndex },
               });
             }
           }
@@ -685,7 +723,7 @@ async function build() {
       }
       const assetPath = join(CAPABILITIES_DIR, capability.folder, relative);
       try {
-        await stat(assetPath);
+        const assetStat = await stat(assetPath);
         if (relative.toLowerCase().endsWith('.svg')) {
           const svg = await readFile(assetPath, 'utf8');
           if (/<script|\son[a-z]+\s*=|javascript:/i.test(svg)) {
@@ -700,10 +738,18 @@ async function build() {
         });
       }
     }
-    for (const secret of secretPatterns) {
-      if (secret.pattern.test(JSON.stringify(capability))) addCapabilityIssue(
-        `privacy-${secret.code}`, `Public content matches the ${secret.code} privacy pattern`,
-        { field: 'content', evidence: { pattern: secret.code } },
+    for (const privacy of privacyPatterns) {
+      if (privacy.pattern.test(JSON.stringify(capability))) addCapabilityIssue(
+        `privacy-${privacy.code}`, privacy.message,
+        {
+          outcome: privacy.disposition === 'confirm' ? 'warning' : 'fail',
+          consequence: privacy.disposition === 'confirm' ? 'advisory' : 'required-gate',
+          field: 'content',
+          evidence: { pattern: privacy.code, review_requirement: privacy.disposition },
+          action: privacy.disposition === 'confirm'
+            ? { kind: 'acknowledge-publication-risk' }
+            : { kind: 'edit-capability' },
+        },
       );
     }
     capabilities.push(capability);
@@ -718,13 +764,13 @@ async function build() {
   connectCapabilities(capabilities, updates);
 
   for (const update of updates) {
-    const blocks = update.content?.blocks || [];
+    const blocks = update.blocks || [];
     if (!blocks.length) updateIssue(
-      issues, update.slug, 'detail-without-content', 'Detail page has no content blocks',
+      issues, update.key, 'detail-without-content', 'Detail page has no content blocks',
       { outcome: 'warning', field: '_blocks', action: { kind: 'edit-blocks' } },
     );
     const seenIds = new Set();
-    const validateBlocks = async (items, path = 'content.blocks', withinGroup = false) => {
+    const validateBlocks = async (items, path = 'blocks', withinGroup = false) => {
       for (let position = 0; position < items.length; position += 1) {
         const block = items[position];
         const location = {
@@ -733,7 +779,7 @@ async function build() {
           ...(block?.id ? { block_id: block.id } : {}),
         };
         const addBlockIssue = (code, message, options = {}) => updateIssue(
-          issues, update.slug, code, message, {
+          issues, update.key, code, message, {
             ...options,
             location: { ...location, ...(options.field ? { field: options.field } : {}) },
           },
@@ -754,7 +800,7 @@ async function build() {
         if (block.type === 'text' && /^\s{0,3}#(?:\s|$)/m.test(String(block.body || ''))) {
           addBlockIssue('text-h1-unsupported', 'Text blocks cannot contain a level-one heading; the update title owns the page heading', { field: 'body' });
         }
-        if (block.type === 'image' && !String(block.alt || '').trim()) addBlockIssue('image-alt-required', 'Image accessibility text is required', { field: 'alt' });
+        if (block.type === 'image' && !String(block.description || '').trim()) addBlockIssue('image-description-required', 'Image description is required', { field: 'description' });
         const presentations = block.type === 'image'
           ? ['intrinsic', 'content', 'wide']
           : ['video', 'gallery', 'pdf', 'code', 'mermaid', 'terminal', 'comparison', 'graph'].includes(block.type)
@@ -768,9 +814,9 @@ async function build() {
             addBlockIssue('gallery-fit-invalid', 'fit must be contain or cover', { field: 'fit' });
           }
           for (const [imageIndex, image] of (block.images || []).entries()) {
-            if (image && typeof image === 'object' && !String(image.alt || '').trim()) {
-              updateIssue(issues, update.slug, 'gallery-image-alt-required', 'Gallery image accessibility text is required', {
-                location: { ...location, field: 'alt', item_index: imageIndex },
+            if (image && typeof image === 'object' && !String(image.description || '').trim()) {
+              updateIssue(issues, update.key, 'gallery-image-description-required', 'Gallery image description is required', {
+                location: { ...location, field: 'description', item_index: imageIndex },
               });
             }
           }
@@ -780,8 +826,8 @@ async function build() {
         }
         if (block.type === 'comparison') {
           for (const side of ['before', 'after']) {
-            if (!String(block[side]?.alt || '').trim()) addBlockIssue(
-              'comparison-alt-required', `${side} accessibility text is required`, { field: `${side}.alt` },
+            if (!String(block[side]?.description || '').trim()) addBlockIssue(
+              'comparison-description-required', `${side} description is required`, { field: `${side}.description` },
             );
           }
         }
@@ -796,11 +842,11 @@ async function build() {
         if (contract.referenceField && contract.referenceType === 'update') {
           const target = String(block[contract.referenceField] || '').trim();
           if (target) {
-            if (!contract.allowSelfReference && [update.slug, update.folder].includes(target)) {
+            if (!contract.allowSelfReference && update.key === target) {
               addBlockIssue('relationship-self', 'Relationship cannot reference its source update', { field: contract.referenceField });
             }
             relationshipResolutions.push(referenceResolution(
-              'update', update.slug, block.type, target, `${path}[${position}]`, index,
+              'update', update.key, block.type, target, `${path}[${position}]`, index,
             ));
           }
         }
@@ -834,28 +880,29 @@ async function build() {
     const updateAssets = await collectDeclaredAssets(
       update,
       assetContract,
-      { root: join(UPDATES_DIR, update.folder) },
+      { root: join(UPDATES_DIR, update.key) },
     );
-    updateAssetManifests.set(update.slug, updateAssets.assets);
+    const declaredUpdateAssets = [...new Set(['assets/icon.svg', ...updateAssets.assets])].sort();
+    updateAssetManifests.set(update.key, declaredUpdateAssets);
     const mediaItems = {};
     for (const invalid of updateAssets.invalid) {
-      updateIssue(issues, update.slug, 'asset-path-unsafe', `Public asset path must be update-relative: "${invalid.value}"`, {
+      updateIssue(issues, update.key, 'asset-path-unsafe', `Public asset path must be update-relative: "${invalid.value}"`, {
         location: { kind: 'asset', path: invalid.value, source_path: invalid.path },
       });
     }
-    for (const relative of updateAssets.assets) {
+    for (const relative of declaredUpdateAssets) {
       if (!allowedAssetExtensions.has(extname(relative).toLowerCase())) {
-        updateIssue(issues, update.slug, 'asset-type-disallowed', `Public asset type is not allowed: "${relative}"`, {
+        updateIssue(issues, update.key, 'asset-type-disallowed', `Public asset type is not allowed: "${relative}"`, {
           location: { kind: 'asset', path: relative },
         });
         continue;
       }
-      const assetPath = join(UPDATES_DIR, update.folder, relative);
+      const assetPath = join(UPDATES_DIR, update.key, relative);
       try {
-        await stat(assetPath);
+        const assetStat = await stat(assetPath);
         const metadata = await readMediaMetadata(assetPath);
         if (dimensionRequiredAssets.has(relative) && !metadata) {
-          updateIssue(issues, update.slug, 'image-dimensions-unavailable', `Image dimensions could not be determined: "${relative}"`, {
+          updateIssue(issues, update.key, 'image-dimensions-unavailable', `Image dimensions could not be determined: "${relative}"`, {
             location: { kind: 'asset', path: relative },
           });
         } else if (metadata) {
@@ -864,17 +911,32 @@ async function build() {
         if (relative.toLowerCase().endsWith('.svg')) {
           const svg = await readFile(assetPath, 'utf8');
           if (/<script|\son[a-z]+\s*=|javascript:/i.test(svg)) updateIssue(
-            issues, update.slug, 'svg-unsafe', `SVG asset contains unsafe active content: "${relative}"`,
+            issues, update.key, 'svg-unsafe', `SVG asset contains unsafe active content: "${relative}"`,
             { location: { kind: 'asset', path: relative } },
           );
         }
+        if (textAssetExtensions.has(extname(relative).toLowerCase()) && assetStat.size <= 2 * 1024 * 1024) {
+          const text = await readFile(assetPath, 'utf8');
+          for (const privacy of privacyPatterns) {
+            if (!privacy.pattern.test(text)) continue;
+            updateIssue(issues, update.key, `privacy-${privacy.code}`, `${privacy.message}: "${relative}"`, {
+              outcome: privacy.disposition === 'confirm' ? 'warning' : 'fail',
+              consequence: privacy.disposition === 'confirm' ? 'advisory' : 'required-gate',
+              location: { kind: 'asset', path: relative },
+              evidence: { pattern: privacy.code, review_requirement: privacy.disposition },
+              action: privacy.disposition === 'confirm'
+                ? { kind: 'acknowledge-publication-risk' }
+                : { kind: 'edit-asset' },
+            });
+          }
+        }
       } catch {
-        updateIssue(issues, update.slug, 'asset-missing', `Referenced asset is missing: "${relative}"`, {
+        updateIssue(issues, update.key, 'asset-missing', `Referenced asset is missing: "${relative}"`, {
           location: { kind: 'asset', path: relative },
         });
       }
     }
-    updateMediaMetadata.set(update.slug, mediaItems);
+    updateMediaMetadata.set(update.key, mediaItems);
   }
   const metadataRelationships = resolveUpdateRelationships(updates, relationshipContract);
   for (const error of metadataRelationships.errors) {
@@ -901,16 +963,16 @@ async function build() {
     return;
   }
 
-  const discoverable = updates.filter(isDiscoverableUpdate);
-  const manifest = {
-    schema: 'portfolio-update-manifest@3',
-    _generated: { warning: 'DO NOT EDIT', source: 'updates/*/settings.yaml' },
-    updates: discoverable.map(compactSummary),
-  };
-  const catalog = {
-    schema: 'portfolio-update-catalog@1',
+  const updateIndex = {
+    schema: 'portfolio-update-index@2',
     _generated: { warning: 'DO NOT EDIT', source: 'updates/*/settings.yaml' },
     updates: updates.map(compactSummary),
+  };
+  const assetInventory = {
+    schema: 'portfolio-site/update-asset-inventory@1',
+    updates: Object.fromEntries(updates.map((update) => [
+      update.key, updateAssetManifests.get(update.key) || [],
+    ])),
   };
   const capabilityManifest = {
     schema: 'portfolio-capability-manifest@3',
@@ -918,19 +980,15 @@ async function build() {
     capabilities: capabilities.map(capabilityCard),
   };
   const generated = updates.flatMap((update) => [
-    [join(UPDATES_DIR, update.folder, 'update.json'), `${JSON.stringify({
-      schema: 'portfolio-update@5',
-      update,
+    [join(UPDATES_DIR, update.key, 'update.json'), `${JSON.stringify({
+      schema: 'portfolio-update@7',
+      update: publishedUpdate(update),
       media: {
         schema: 'portfolio-site/media-metadata@1',
-        items: updateMediaMetadata.get(update.slug) || {},
-      },
-      asset_manifest: {
-        schema: 'portfolio-site/asset-manifest@1',
-        assets: updateAssetManifests.get(update.slug) || [],
+        items: updateMediaMetadata.get(update.key) || {},
       },
     }, null, 2)}\n`],
-    [join(UPDATES_DIR, update.folder, 'detail.html'), renderDetailPage(template, update, site)],
+    [join(UPDATES_DIR, update.key, 'detail.html'), renderDetailPage(template, update, site)],
   ]);
   const generatedCapabilities = capabilities.flatMap((capability) => [
     [join(CAPABILITIES_DIR, capability.folder, 'capability.json'), `${JSON.stringify({
@@ -944,10 +1002,10 @@ async function build() {
     [join(CAPABILITIES_DIR, capability.folder, 'detail.html'), renderCapabilityDetailPage(capabilityTemplate, capability, site)],
   ]);
   const outputs = [
-    [MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`],
-    [CATALOG_PATH, `${JSON.stringify(catalog, null, 2)}\n`],
+    [INDEX_PATH, `${JSON.stringify(updateIndex, null, 2)}\n`],
+    [ASSET_INVENTORY_PATH, `${JSON.stringify(assetInventory, null, 2)}\n`],
     [CAPABILITY_MANIFEST_PATH, `${JSON.stringify(capabilityManifest, null, 2)}\n`],
-    [SITEMAP_PATH, renderSitemap(discoverable, capabilities, site)],
+    [SITEMAP_PATH, renderSitemap(updates, capabilities, site)],
     ...generated,
     ...generatedCapabilities,
   ];
@@ -958,6 +1016,10 @@ async function build() {
     else console.log(`Portfolio manifests are current (${updates.length} updates, ${capabilities.length} capabilities).`);
     return;
   }
+  await Promise.all([
+    unlink(join(UPDATES_DIR, 'manifest.json')).catch(() => {}),
+    unlink(join(UPDATES_DIR, 'catalog.json')).catch(() => {}),
+  ]);
   for (const [path, content] of outputs) await writeAtomicIfChanged(path, content);
   const reportIndex = process.argv.indexOf('--relationship-report');
   if (reportIndex >= 0) {
@@ -968,7 +1030,7 @@ async function build() {
       relationships: relationshipResolutions,
     }, null, 2)}\n`);
   }
-  console.log(`Built ${updates.length} updates (${discoverable.length} listed) and ${capabilities.length} capabilities.`);
+  console.log(`Built ${updates.length} updates and ${capabilities.length} capabilities.`);
 }
 
 await build();

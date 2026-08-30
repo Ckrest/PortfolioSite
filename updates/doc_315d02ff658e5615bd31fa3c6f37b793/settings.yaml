@@ -1,0 +1,147 @@
+blocks:
+- body: '## Give every imported update an icon
+
+
+    Portfolio Editor had created compact updates without an icon, leaving their timeline
+    cards with broken or generic presentation. I added a deterministic selector to
+    the creation path. It checked domain tags first, skill tags second, and copied
+    the selected asset from the shared icon library. When nothing matched, it used
+    the shared code icon as a valid fallback.
+
+
+    Work-type labels such as “Feature” and “Bug Fix” were ignored because they described
+    the activity rather than its subject. A one-time backfill assigned icons to 24
+    existing updates that lacked them.'
+  id: blk_editorial_auto-assign-icons-to-por
+  type: text
+- description: Domain, skill, and work-type tags passed through a fixed priority order
+    before Portfolio Editor copied the selected shared icon into the update.
+  id: blk_icon_selection_flow
+  presentation: intrinsic
+  src: media/tag-icon-selection-flow.svg
+  type: image
+- body: '## Make the choice repeatable
+
+
+    The selector lowercased incoming tags, classified them with the shared tag registry,
+    and walked fixed priority tables. The mapping order—not the order of the incoming
+    tags—decided the winner. An update tagged with both Wayland and Python received
+    the desktop-layers icon because a domain match took priority over a skill match.
+
+
+    Before copying an icon, the selector verified that the selected asset existed
+    in the shared library.'
+  id: blk_icon_matching
+  type: text
+- code: '1. Matched a domain tag such as Wayland, ComfyUI, or Audio
+
+    2. Otherwise matched a technology or skill tag
+
+    3. Ignored generic work-type tags
+
+    4. Fell back to the shared code icon'
+  description: The priority order favored what the work was about over how the report
+    classified the activity.
+  filename: selection-priority.txt
+  id: blk_icon_priority
+  language: text
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Preserve editorial control
+
+
+    Automatic selection ran only when an update did not already have an icon and no
+    custom icon path had been provided. Existing choices stayed in place.
+
+
+    Because the selected SVG was copied into the update during creation, later changes
+    to the mapping did not silently rewrite reviewed items. The automatic result remained
+    an initial proposal that an editor could replace.'
+  id: blk_icon_editorial_control
+  type: text
+- description: The maintained icon vocabulary and the resulting update cards show
+    the deterministic mapping in use.
+  fit: contain
+  id: blk_ad81c9f4
+  images:
+  - description: AI (ai.svg)
+    src: media/ai.svg
+  - description: API Design (api.svg)
+    src: media/api.svg
+  - description: Bash (bash.svg)
+    src: media/bash.svg
+  - description: Data Visualization (chart.svg)
+    src: media/chart.svg
+  - description: Browser Extension (chrome.svg)
+    src: media/chrome.svg
+  - description: Fallback (code.svg)
+    src: media/code.svg
+  - description: Automation / Systemd (cog.svg)
+    src: media/cog.svg
+  - description: C++ (cpp.svg)
+    src: media/cpp.svg
+  - description: Infrastructure (cpu.svg)
+    src: media/cpu.svg
+  - description: CSS (css.svg)
+    src: media/css.svg
+  - description: PostgreSQL / Redis (database.svg)
+    src: media/database.svg
+  - description: Document Processing (file.svg)
+    src: media/file.svg
+  - description: Git Workflow (git.svg)
+    src: media/git.svg
+  - description: Frontend (globe.svg)
+    src: media/globe.svg
+  - description: Image Capture (image.svg)
+    src: media/image.svg
+  - description: JavaScript (javascript.svg)
+    src: media/javascript.svg
+  - description: Wayland / Desktop (layers.svg)
+    src: media/layers.svg
+  - description: Hook System / D-Bus (link.svg)
+    src: media/link.svg
+  - description: Speech-to-Text (microphone.svg)
+    src: media/microphone.svg
+  - description: Architecture (package.svg)
+    src: media/package.svg
+  - description: MCP (plugin.svg)
+    src: media/plugin.svg
+  - description: ComfyUI (puzzle.svg)
+    src: media/puzzle.svg
+  - description: Python / Flask (python.svg)
+    src: media/python.svg
+  - description: React (react.svg)
+    src: media/react.svg
+  - description: Rust (rust.svg)
+    src: media/rust.svg
+  - description: Computer Vision (search.svg)
+    src: media/search.svg
+  - description: Audio / TTS (speaker-wave.svg)
+    src: media/speaker-wave.svg
+  - description: CLI (terminal.svg)
+    src: media/terminal.svg
+  - description: Video Processing (video.svg)
+    src: media/video.svg
+  - description: Bluetooth / Network (wifi.svg)
+    src: media/wifi.svg
+  - description: Event-Driven (zap.svg)
+    src: media/zap.svg
+  presentation: wide
+  type: gallery
+date: '2026-02-22'
+external_url: https://github.com/Ckrest/PortfolioSite
+part_of: doc_45e24fee0f645130a7d9ce1685a5af01
+preview:
+  description: Portfolio updates with automatically assigned icons
+  src: media/screenshot_2026-02-28_00-00-07.png
+prominence: medium
+related_to:
+- doc_1a3826668acb53688961faa991a157f1
+summary: Made Portfolio Editor assign a shared icon when it created an update, prioritizing
+  the subject of the work over technology and work-type labels.
+tags:
+- Python
+- Flask
+- Automation
+title: Assigned portfolio icons automatically from tags

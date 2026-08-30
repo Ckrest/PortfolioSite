@@ -1,0 +1,51 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_8cfd107748445dcf8674dabc5865d0ff",
+    "title": "Reduced XFCE forks while moving to 4.20",
+    "summary": "Archived an unchanged clipboard-manager copy, rebased three focused panel patches onto XFCE 4.20, and retained the systemd-scope integration that still had no upstream equivalent.",
+    "date": "2026-01-17",
+    "prominence": "low",
+    "tags": [
+      "XFCE",
+      "Wayland",
+      "Systemd",
+      "Migration"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_6d6148fbb49356a19c3197fdac568b46"
+      ],
+      "related": [
+        "doc_cec34e8034f1584fa26d7325bc9341e5"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Decide separately for each fork\n\nI audited three XFCE components before moving the desktop to the 4.20 line. The clipboard-manager copy matched upstream, so I archived it. The panel still needed three focused patches—for a fixed-size child, configurable show-desktop width, and Wayland pointer safety—so I rebased those changes onto the newer upstream branch. The libxfce4ui fork stayed in place because its systemd-scope launching still had no upstream equivalent.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Audit[Audit each component] --> Difference{Local behavior still needed?}\n  Difference -->|No| Archive[Archive unchanged copy]\n  Difference -->|Focused patch set| Rebase[Rebase panel onto XFCE 4.20]\n  Difference -->|No upstream equivalent| Retain[Keep systemd integration fork]\n  Archive --> Verify[Verify migrated desktop session]\n  Rebase --> Verify\n  Retain --> Verify",
+        "description": "The migration disposition followed the actual delta of each component rather than one fleet-wide rule.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Preserve the panel behavior on the new base\n\nThe rebase kept the thin-strip layout, the 10-pixel show-desktop width, and the Wayland crash fixes while taking the upstream changes around them. I backed up the live XFCE configuration, built the custom panel, loaded all 15 plugins, verified the button-width property, and observed the migrated session without errors.\n\nThe result is a smaller, explicit maintenance surface: no fork where there is no difference, three isolated panel patches where the layout still depends on them, and one retained library fork for systemd-scoped application launches.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">One project becomes one flexible page</title>
+  <desc id="desc">A project’s details, visuals, and writing flow through a shared page foundation into a flexible portfolio page.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111310"/>
+      <stop offset="1" stop-color="#171511"/>
+    </linearGradient>
+    <linearGradient id="projectCard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#20251f"/>
+      <stop offset="1" stop-color="#171b18"/>
+    </linearGradient>
+    <linearGradient id="pageCard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d211d"/>
+      <stop offset="1" stop-color="#151715"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#000" flood-opacity="0.34"/>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#background)"/>
+  <circle cx="1450" cy="80" r="250" fill="#b67b37" opacity="0.055"/>
+  <circle cx="90" cy="850" r="350" fill="#4d6174" opacity="0.055"/>
+
+  <text x="72" y="70" fill="#e7a64f" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="5">FLEXIBLE PROJECT PAGES</text>
+  <text x="72" y="132" fill="#f4efe7" font-family="Inter, Arial, sans-serif" font-size="51" font-weight="750">One project becomes one flexible page</text>
+  <text x="74" y="172" fill="#c9c2b8" font-family="Inter, Arial, sans-serif" font-size="23">Writing, visuals, and project details stay together from editing to presentation.</text>
+
+  
+  <g filter="url(#shadow)">
+    <rect x="72" y="224" width="430" height="566" rx="28" fill="url(#projectCard)" stroke="#474b43" stroke-width="2"/>
+    <path d="M73 284h428" stroke="#41453e" stroke-width="2"/>
+    <path d="M104 256h28l12 12h42" fill="none" stroke="#e7a64f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="206" y="267" text-anchor="middle" fill="#f3eee6" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700">ONE PROJECT</text>
+
+    <rect x="104" y="322" width="366" height="112" rx="18" fill="#292b27" stroke="#474a43"/>
+    <circle cx="148" cy="378" r="22" fill="#4d4432"/>
+    <path d="M138 370h20M138 378h15M138 386h18" stroke="#e7b15f" stroke-width="3" stroke-linecap="round"/>
+    <text x="188" y="365" fill="#f1ece4" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="700">Project details</text>
+    <text x="188" y="395" fill="#aaa49b" font-family="Inter, Arial, sans-serif" font-size="17">Title, summary, links, and tags</text>
+
+    <rect x="104" y="454" width="366" height="112" rx="18" fill="#292b27" stroke="#474a43"/>
+    <circle cx="148" cy="510" r="22" fill="#303c48"/>
+    <path d="M133 521l11-13 9 8 10-13 10 18z" fill="#92afd0"/>
+    <circle cx="156" cy="496" r="4" fill="#92afd0"/>
+    <text x="188" y="497" fill="#f1ece4" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="700">Visuals</text>
+    <text x="188" y="527" fill="#aaa49b" font-family="Inter, Arial, sans-serif" font-size="17">Previews, screenshots, and video</text>
+
+    <rect x="104" y="586" width="366" height="112" rx="18" fill="#292b27" stroke="#474a43"/>
+    <circle cx="148" cy="642" r="22" fill="#314035"/>
+    <path d="M137 633h22M137 642h18M137 651h22" stroke="#9bc79b" stroke-width="3" stroke-linecap="round"/>
+    <text x="188" y="629" fill="#f1ece4" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="700">Writing</text>
+    <text x="188" y="659" fill="#aaa49b" font-family="Inter, Arial, sans-serif" font-size="17">Explanations and supporting data</text>
+
+    <rect x="130" y="724" width="314" height="38" rx="19" fill="#302a20" stroke="#654c2d"/>
+    <text x="287" y="749" text-anchor="middle" fill="#dfc39a" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.8">TOGETHER IN ONE PLACE</text>
+  </g>
+
+  
+  <g filter="url(#shadow)">
+    <rect x="626" y="310" width="348" height="388" rx="28" fill="#1b1c19" stroke="#62513a" stroke-width="2"/>
+    <circle cx="800" cy="372" r="46" fill="#e7a64f" opacity="0.12" filter="url(#softGlow)"/>
+    <circle cx="800" cy="372" r="35" fill="#3b3123" stroke="#aa7539"/>
+    <path d="M786 372h28M800 358v28" stroke="#efb662" stroke-width="4" stroke-linecap="round"/>
+    <text x="800" y="438" text-anchor="middle" fill="#f2ede5" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700">Shared page foundation</text>
+    <text x="800" y="470" text-anchor="middle" fill="#aaa49b" font-family="Inter, Arial, sans-serif" font-size="17">Keeps the site consistent</text>
+
+    <rect x="666" y="516" width="268" height="54" rx="15" fill="#282925" stroke="#47473f"/>
+    <circle cx="697" cy="543" r="7" fill="#e7a64f"/>
+    <text x="719" y="550" fill="#ded8cf" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="650">Consistent presentation</text>
+
+    <rect x="666" y="586" width="268" height="54" rx="15" fill="#282925" stroke="#47473f"/>
+    <circle cx="697" cy="613" r="7" fill="#8eaa8c"/>
+    <text x="719" y="620" fill="#ded8cf" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="650">Flexible storytelling</text>
+  </g>
+
+  
+  <path d="M520 504h76" stroke="#e7a64f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M585 491l20 13-20 13z" fill="#e7a64f"/>
+  <path d="M994 504h76" stroke="#e7a64f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1059 491l20 13-20 13z" fill="#e7a64f"/>
+
+  
+  <g filter="url(#shadow)">
+    <rect x="1098" y="224" width="430" height="566" rx="28" fill="url(#pageCard)" stroke="#474b43" stroke-width="2"/>
+    <rect x="1098" y="224" width="430" height="58" rx="28" fill="#24261f"/>
+    <rect x="1098" y="252" width="430" height="30" fill="#24261f"/>
+    <circle cx="1130" cy="253" r="6" fill="#827f77"/>
+    <circle cx="1148" cy="253" r="6" fill="#827f77"/>
+    <circle cx="1166" cy="253" r="6" fill="#827f77"/>
+    <text x="1318" y="260" text-anchor="middle" fill="#aaa49b" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="2.6">PORTFOLIO PAGE</text>
+
+    <rect x="1130" y="312" width="366" height="92" rx="16" fill="#292b27" stroke="#464941"/>
+    <text x="1158" y="348" fill="#eee8df" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Project title</text>
+    <rect x="1158" y="366" width="232" height="8" rx="4" fill="#6f706a"/>
+    <rect x="1158" y="382" width="178" height="7" rx="3.5" fill="#555750"/>
+
+    <rect x="1130" y="426" width="366" height="152" rx="16" fill="#252b27" stroke="#464941"/>
+    <rect x="1148" y="444" width="330" height="116" rx="12" fill="#151b19"/>
+    <path d="M1174 542l72-70 55 49 54-47 98 68z" fill="#48586a"/>
+    <circle cx="1398" cy="477" r="17" fill="#b78345"/>
+
+    <rect x="1130" y="600" width="366" height="154" rx="16" fill="#292b27" stroke="#464941"/>
+    <text x="1158" y="635" fill="#eee8df" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Content blocks</text>
+    <rect x="1158" y="654" width="282" height="8" rx="4" fill="#71726c"/>
+    <rect x="1158" y="672" width="246" height="8" rx="4" fill="#60615b"/>
+    <rect x="1158" y="690" width="274" height="8" rx="4" fill="#60615b"/>
+    <rect x="1158" y="716" width="98" height="20" rx="10" fill="#3d3325" stroke="#674e2f"/>
+    <rect x="1268" y="716" width="98" height="20" rx="10" fill="#293642" stroke="#455b70"/>
+  </g>
+
+  <text x="287" y="842" text-anchor="middle" fill="#c3aa88" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">PROJECT CONTENT</text>
+  <text x="800" y="842" text-anchor="middle" fill="#c3aa88" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">SHARED FOUNDATION</text>
+  <text x="1313" y="842" text-anchor="middle" fill="#c3aa88" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">FLEXIBLE PAGE</text>
+</svg>
+

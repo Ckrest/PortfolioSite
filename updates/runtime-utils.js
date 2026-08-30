@@ -62,7 +62,9 @@ export function resolveUpdateAsset(value, update) {
   if (/^(?:https?:|blob:|data:)/i.test(raw)) return raw;
   const path = normalizeUpdatePath(raw);
   if (!path) return '';
-  const folder = encodeURIComponent(String(update.folder || update.slug || ''));
+  const key = String(update?.key || '').trim();
+  if (!key) return '';
+  const folder = encodeURIComponent(key);
   const version = String(update.asset_versions?.[path] || '').trim();
   return `${folder}/${encodedPath(path)}${version ? `${path.includes('?') ? '&' : '?'}v=${encodeURIComponent(version)}` : ''}`;
 }

@@ -1,0 +1,48 @@
+blocks:
+- body: '## Give each tool a declared command
+
+
+    Python command tools now expose their CLIs through `pyproject.toml` entry points
+    and editable installs. Source edits remain immediately available, while callers
+    use stable command names instead of launcher scripts that rewrite Python’s import
+    path.'
+  id: blk_editorial_modern-python-packaging-
+  type: text
+- code: '[project.scripts]
+
+    example-tool = "example_tool.cli:main"'
+  description: A declared entry point maps a stable command name to its package-owned
+    implementation.
+  filename: pyproject.toml
+  id: blk_python_entrypoint
+  language: toml
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Move consumers onto the command boundary
+
+
+    Systemd units, MCP definitions, desktop launchers, and validation now resolve
+    installed commands through `PATH`. Obsolete shims, broken symlinks, and hardcoded
+    source paths are removed as each consumer moves to the package-owned entry point.'
+  id: blk_python_command_consumers
+  type: text
+- body: '## Keep module resolution deterministic
+
+
+    Packages with unique module paths use installed entry points throughout. Where
+    flat-layout tools share a generic top-level module name, integration definitions
+    use an explicit source command so imports cannot resolve to the wrong package.'
+  id: blk_python_module_resolution
+  type: text
+date: '2026-02-16'
+part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
+prominence: low
+summary: Replaced runtime path-manipulating launchers with declared Python entry points,
+  then updated services and integrations to call stable installed commands.
+tags:
+- Packaging
+- Refactoring
+- Python
+- DevOps
+title: Modernized Python packaging across the tool fleet

@@ -1,0 +1,51 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_a912b3bdf6ef5fe0b53b6e400146c779",
+    "title": "Added a keyboard toggle for the OBS virtual camera",
+    "summary": "Created a keyboard shortcut that started RVM background removal, launched OBS minimized with its virtual camera active, and stopped both processes on the next press.",
+    "date": "2025-12-08",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/virtual-camera-toggle",
+    "tags": [
+      "Bash",
+      "CLI"
+    ],
+    "relationships": {
+      "related": [
+        "doc_51bf8adf26645d2e85771fe2390cd999"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Make the camera a desktop action\n\nI bound the command to Super+O in Wayfire so I could control the camera without bringing OBS to the foreground. Desktop notifications confirmed when the pipeline was ready or stopped, leaving OBS minimized and the workflow out of the way.",
+        "type": "text"
+      },
+      {
+        "type": "related-mini",
+        "updateId": "doc_51bf8adf26645d2e85771fe2390cd999"
+      },
+      {
+        "body": "## Coordinate the camera pipeline\n\nThe command waited for RVM’s output device before starting OBS, then shut the two processes down in reverse order. Process checks kept repeated shortcut presses from leaving either half of the camera pipeline running by itself.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  A[Press Super+O] --> B{Is the camera pipeline running?}\n\n  B -- No --> C[Start RVM background removal]\n  C --> D[Wait for the processed camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]",
+        "description": "The shortcut checked the camera pipeline, then started or stopped its two parts in order.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

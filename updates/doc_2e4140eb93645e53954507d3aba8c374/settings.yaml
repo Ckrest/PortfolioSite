@@ -1,0 +1,53 @@
+blocks:
+- body: '## Let profiles define the elements
+
+
+    The main configuration selects profiles through `startup_profiles`, while each
+    layout file carries the element records needed to build its scene. Type-specific
+    settings such as renderer, provider, source, and opacity live beside position
+    and size instead of being split across separate configuration layers.
+
+
+    Loading a profile therefore creates its content and its arrangement from the same
+    document.'
+  id: blk_editorial_desktop-hud-layouts-as-s
+  type: text
+- code: "name: default\nelements:\n  - id: cpu-gauge\n    type: graph\n    renderer:\
+    \ gauge\n    renderer_config:\n      min_value: 0\n      max_value: 100\n    \
+    \  label: CPU\n    provider:\n      type: command\n      interval_ms: 2000\n \
+    \   position: {x: 50, y: 50}\n    size: {width: 150, height: 150}\n    opacity:\
+    \ 0.8"
+  description: A profile carries the renderer, provider, presentation, and geometry
+    needed to construct an element.
+  filename: layouts/default.yaml
+  id: blk_layout_shape
+  language: yaml
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Switch or combine complete profiles
+
+
+    Switching profiles removes the active non-trait elements and constructs the selected
+    profile’s element set. Additive loading combines multiple profiles by element
+    ID, with definitions from later profiles replacing duplicates.
+
+
+    Startup profiles, the `--profile` and `--add` command-line options, and the profile
+    API expose the same composition model for launch-time and runtime control.'
+  id: blk_desktop_hud_profile_composition
+  type: text
+date: '2026-02-23'
+external_url: https://github.com/Ckrest/desktop-hud
+part_of: doc_004858c24c955a1aa023a9e8eb9c3180
+prominence: low
+summary: Moved each element’s renderer, data source, presentation, and geometry into
+  layout profiles, allowing a profile switch to replace the complete HUD composition.
+tags:
+- Architecture
+- Python
+- GTK
+- API Design
+- Desktop Environment
+- Migration
+title: Made Desktop HUD profiles define complete scenes

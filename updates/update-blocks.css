@@ -1032,7 +1032,7 @@ figcaption,
   pointer-events: none;
 }
 
-.media-viewer-caption-qualifier { color: #d7d7d7; font-size: 0.85rem; }
+.media-viewer-description { color: #fff; }
 
 .sr-only {
   position: absolute;

@@ -1,0 +1,383 @@
+{
+  "schema": "portfolio-site/update-asset-inventory@1",
+  "updates": {
+    "doc_1a911fdf0fc453de94a7cc5537694883": [
+      "assets/icon.svg",
+      "media/selector-region-magnifier.png"
+    ],
+    "doc_2e4140eb93645e53954507d3aba8c374": [
+      "assets/icon.svg"
+    ],
+    "doc_004858c24c955a1aa023a9e8eb9c3180": [
+      "assets/icon.svg",
+      "media/desktop-hud-edit-mode.png",
+      "media/screenshot_2026-03-01_19-08-39.png",
+      "media/screenshot_2026-03-01_19-08-52.png",
+      "media/screenshot_2026-03-01_19-08-56.png",
+      "media/screenshot_2026-03-01_19-09-09.png"
+    ],
+    "doc_2498489180925748b8347ab97140178d": [
+      "assets/icon.svg"
+    ],
+    "doc_2b0985906a7354fba09c142012446689": [
+      "assets/icon.svg",
+      "media/operation-output.json"
+    ],
+    "doc_315d02ff658e5615bd31fa3c6f37b793": [
+      "assets/icon.svg",
+      "media/ai.svg",
+      "media/api.svg",
+      "media/bash.svg",
+      "media/chart.svg",
+      "media/chrome.svg",
+      "media/code.svg",
+      "media/cog.svg",
+      "media/cpp.svg",
+      "media/cpu.svg",
+      "media/css.svg",
+      "media/database.svg",
+      "media/file.svg",
+      "media/git.svg",
+      "media/globe.svg",
+      "media/image.svg",
+      "media/javascript.svg",
+      "media/layers.svg",
+      "media/link.svg",
+      "media/microphone.svg",
+      "media/package.svg",
+      "media/plugin.svg",
+      "media/puzzle.svg",
+      "media/python.svg",
+      "media/react.svg",
+      "media/rust.svg",
+      "media/screenshot_2026-02-28_00-00-07.png",
+      "media/search.svg",
+      "media/speaker-wave.svg",
+      "media/tag-icon-selection-flow.svg",
+      "media/terminal.svg",
+      "media/video.svg",
+      "media/wifi.svg",
+      "media/zap.svg"
+    ],
+    "doc_34a72e56c32a5cbbae2587ef72aed19d": [
+      "assets/icon.svg",
+      "media/mermaid-diagram-2026-02-28-003644.png"
+    ],
+    "doc_57d88fbcb0345f9ea34a25c70cefb981": [
+      "assets/icon.svg",
+      "media/capture-reliability.svg"
+    ],
+    "doc_a529e0dc25c854d0b1921f8b2006a9f2": [
+      "assets/icon.svg",
+      "preview.png"
+    ],
+    "doc_e231ba92a76357568aec5ed265dbbbc7": [
+      "assets/icon.svg"
+    ],
+    "doc_24971e45f3cb5b5489b4d221cbcfdcef": [
+      "assets/icon.svg"
+    ],
+    "doc_77ba7c83a9375f088f4ea19e1eca1ace": [
+      "assets/icon.svg"
+    ],
+    "doc_b96f6bcce4965a80bf8db7633cc3628b": [
+      "assets/icon.svg",
+      "media/screenshot_2026-02-28_13-21-49.png"
+    ],
+    "doc_1eb2699b9ef651bd8a19c482f35276f2": [
+      "assets/icon.svg"
+    ],
+    "doc_4dfdcbce5020516ca7a8e0ff29c542b8": [
+      "assets/icon.svg"
+    ],
+    "doc_c36b489eb68052409d72d967f78df646": [
+      "assets/icon.svg"
+    ],
+    "doc_2ae1e22a4ed957048348c988b376312f": [
+      "assets/icon.svg",
+      "media/provider-config.example.txt",
+      "media/provider-flow.svg",
+      "media/sleep-dashboard-synthetic.png"
+    ],
+    "doc_e82215dd546e5acdb4d3a52e36be3ad3": [
+      "assets/icon.svg",
+      "media/daily-checkin-overview.svg",
+      "media/daily-checkin.example.json",
+      "media/storage-flow.svg"
+    ],
+    "doc_33a58a7114d85ff39beca694a533cc59": [
+      "assets/icon.svg"
+    ],
+    "doc_37b9d3920c2b5cf3844a9a57a98f602b": [
+      "assets/icon.svg"
+    ],
+    "doc_645434a5ee8f550b9e0b237950789066": [
+      "assets/icon.svg"
+    ],
+    "doc_6b15f8dd9ad157659549c358b6c33eaa": [
+      "assets/icon.svg"
+    ],
+    "doc_2c2680838c31548ca09c5f5f79aeb890": [
+      "assets/icon.svg"
+    ],
+    "doc_add123234fda58f990931774fda8436e": [
+      "assets/icon.svg"
+    ],
+    "doc_093c398e1d445c8da81519e03e64f233": [
+      "assets/icon.svg"
+    ],
+    "doc_2318c76c788c5637af0e620ae4ef352c": [
+      "assets/icon.svg",
+      "media/processing-result.example.json",
+      "media/stitched.png"
+    ],
+    "doc_3e2b31469eb25cd6a2100944e0e261cc": [
+      "assets/icon.svg"
+    ],
+    "doc_38811c0e3f5d564f8b840821d6ea52b5": [
+      "assets/icon.svg",
+      "media/catalog-runtime.svg",
+      "media/extension-catalog.example.txt",
+      "media/settings-hub-v2-showcase.png",
+      "media/settings-hub-v2.png"
+    ],
+    "doc_59a90972f9ea57829144e009a1b098c0": [
+      "assets/icon.svg",
+      "media/package-boundary.svg"
+    ],
+    "doc_6d6148fbb49356a19c3197fdac568b46": [
+      "assets/icon.svg",
+      "media/whisker-menu-favorites.png"
+    ],
+    "doc_06f2ddd4fc5a564f95089d16dbab3ffd": [
+      "assets/icon.svg"
+    ],
+    "doc_c95cfaed84a75c5d99e9e4f74c8f3a39": [
+      "assets/icon.svg"
+    ],
+    "doc_582dd26679fb5519a5a4bf771863f5a6": [
+      "assets/icon.svg"
+    ],
+    "doc_99838d724f435e5188804413bb06c96e": [
+      "assets/icon.svg",
+      "media/screenshot_2026-01-30_18-14-54.png",
+      "media/screenshot_2026-01-30_18-15-24.png",
+      "media/screenshot_2026-01-30_18-15-44.png",
+      "media/screenshot_2026-01-30_18-16-28.png",
+      "media/screenshot_2026-01-30_18-17-26.png",
+      "media/screenshot_2026-01-30_18-19-41.png",
+      "media/state-flow.svg"
+    ],
+    "doc_aac3da2ebc5f52a485af8b51f7de2767": [
+      "assets/icon.svg"
+    ],
+    "doc_472b46319d6948c6bcca4533b716a802": [
+      "assets/icon.svg"
+    ],
+    "doc_f1ecee3798b75a698060af0d6fd26b53": [
+      "assets/icon.svg"
+    ],
+    "doc_0b8d60db909c54b7aad85f168788ca3f": [
+      "assets/icon.svg",
+      "media/artifact-pipeline-preview.svg"
+    ],
+    "doc_35acc634705754a2b846a4951e00470a": [
+      "assets/icon.svg",
+      "media/artifact-types-work-report.png"
+    ],
+    "doc_79abb20a49725d63a0fd541a1aec30d8": [
+      "assets/icon.svg"
+    ],
+    "doc_45e24fee0f645130a7d9ce1685a5af01": [
+      "assets/Screenshot_2026-08-26_15-34-39_Region.png",
+      "assets/icon.svg",
+      "media/portfolio-editor-block-assembly-preview.png",
+      "media/screenshot_2026-01-27_20-40-07.png",
+      "media/screenshot_2026-01-27_20-40-46.png"
+    ],
+    "doc_7a5e51989c35543baf1b6dbf1a8b793a": [
+      "assets/icon.svg",
+      "media/detail-readme-fallback.png"
+    ],
+    "doc_9503340b85e059238577a3ec79bbc0b9": [
+      "assets/icon.svg",
+      "media/project-module-block-architecture.svg",
+      "media/screenshot_2026-02-28_15-47-40.png"
+    ],
+    "doc_cffb55d093aa560f98a27693edf6655b": [
+      "assets/icon.svg",
+      "media/nested-block-editing.png"
+    ],
+    "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6": [
+      "assets/icon.svg",
+      "media/vcsh-workspace-preview.png"
+    ],
+    "doc_4abf6b7ba46e5908b5a274b4b8eeac50": [
+      "assets/icon.svg"
+    ],
+    "doc_6ce28cd7f7165a4cab2913e4bcdac533": [
+      "assets/icon.svg",
+      "media/screenshot-tool-magnifier-detail.png",
+      "media/screenshot-tool-selector.png"
+    ],
+    "doc_9042fc61c7645236825a709ad3e2474a": [
+      "assets/icon.svg"
+    ],
+    "doc_8a5a62eb3d715b5faad4d314849ae7c1": [
+      "assets/icon.svg"
+    ],
+    "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a": [
+      "assets/icon.svg"
+    ],
+    "doc_6a23e1a43eda5ff9966831b235c28b21": [
+      "assets/icon.svg",
+      "media/1111screenshot_2026-03-01_14-06-08.png",
+      "media/2222screenshot_2026-03-01_14-03-36.png",
+      "media/3333screenshot_2026-03-01_14-06-26.png",
+      "media/4444screenshot_2026-03-01_14-06-42.png",
+      "media/screenshot_2026-03-01_14-04-13.png"
+    ],
+    "doc_c84281d5fa3b56b5a063455815ed6cc8": [
+      "assets/icon.svg"
+    ],
+    "doc_cec34e8034f1584fa26d7325bc9341e5": [
+      "assets/icon.svg",
+      "media/docklike-live-window-previews.png",
+      "media/screenshot_2026-03-01_20-15-00.png"
+    ],
+    "doc_8cfd107748445dcf8674dabc5865d0ff": [
+      "assets/icon.svg"
+    ],
+    "doc_a67b241ca49f5f12ba0dcb4badd5ceac": [
+      "assets/icon.svg",
+      "media/work-report-cli.png"
+    ],
+    "doc_e2b464eeca015722bcaf583192c346f6": [
+      "assets/icon.svg",
+      "media/timeline-live-state.png"
+    ],
+    "doc_6b7f8c754a1e5e9492d306667ad478d2": [
+      "assets/icon.svg",
+      "media/modular-portfolio-homepage.png"
+    ],
+    "doc_9b5b1d7144ed5ad8be0381baf2ebfd6e": [
+      "assets/icon.svg"
+    ],
+    "doc_a4499baf70965526bf7fd8dbd0dd686a": [
+      "assets/icon.svg"
+    ],
+    "doc_bcdd9d2b5fee4d5b99ce3cd33c6357c2": [
+      "assets/icon.svg",
+      "media/project-module-architecture.svg"
+    ],
+    "doc_2ae84d4904f755c5914f89bf76ae73e8": [
+      "assets/icon.svg",
+      "preview.png"
+    ],
+    "doc_aa793128a2075e32a8dea215c096de7c": [
+      "assets/icon.svg",
+      "media/screenshot_2026-02-28_16-26-37-1.png"
+    ],
+    "doc_b7183ef2af925346b9755252150a46e0": [
+      "assets/icon.svg",
+      "preview.png"
+    ],
+    "doc_df23e97310c4507ba4aa8c1a5f2e2853": [
+      "assets/icon.svg",
+      "media/screenshot_2026-02-28_16-37-03.png"
+    ],
+    "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad": [
+      "assets/icon.svg",
+      "media/comfy-viewer-settings-redacted.png",
+      "media/screenshot_2026-03-01_20-55-50-1.png",
+      "media/screenshot_2026-03-01_20-55-50.png",
+      "media/screenshot_2026-03-01_20-56-58.png"
+    ],
+    "doc_1a3826668acb53688961faa991a157f1": [
+      "assets/icon.svg",
+      "timeline.png"
+    ],
+    "doc_185a5d2f4d2051c098c591e4ac240a1b": [
+      "assets/icon.svg",
+      "media/model-manager-flow.png"
+    ],
+    "doc_71ce05a4e4195e4495b0cc3acd0eda03": [
+      "assets/icon.svg"
+    ],
+    "doc_d05b27abd50b40f9907f78c8a2988d4e": [
+      "assets/icon.svg",
+      "media/package-registry-preview.png"
+    ],
+    "doc_774e6a0b184653c2917464eaeb611782": [
+      "assets/icon.svg",
+      "night-mode-settings.png"
+    ],
+    "doc_3a6495dd303a5286b238144d478fa5df": [
+      "assets/icon.svg",
+      "media/wallpaper-controls.png"
+    ],
+    "doc_454f99caef5f54cf9d600970fd5e1614": [
+      "assets/icon.svg",
+      "media/screenshot_2026-02-28_16-56-44-1.png",
+      "media/screenshot_2026-02-28_16-56-44.png",
+      "media/screenshot_2026-02-28_16-57-32.png"
+    ],
+    "doc_696ff59f63b850bf885ef66a3df1250c": [
+      "assets/icon.svg",
+      "media/quicksave-flow.svg",
+      "media/screenshot_2026-02-28_16-20-47.png"
+    ],
+    "doc_88921a05dc4b5621aa8671b9e48d82dc": [
+      "assets/icon.svg",
+      "media/screenshot_2026-02-28_16-10-04-1.png",
+      "media/screenshot_2026-02-28_16-10-26.png"
+    ],
+    "doc_d5f1ae0b35e150ff97749a0ddbcaa1d8": [
+      "assets/icon.svg",
+      "media/modular-flow-engine-overview.svg"
+    ],
+    "doc_5e23d3f9b0e0511d9474b29addc7d003": [
+      "assets/icon.svg"
+    ],
+    "doc_a912b3bdf6ef5fe0b53b6e400146c779": [
+      "assets/icon.svg"
+    ],
+    "doc_e3d8e56964925c728bfa44f709213cda": [
+      "assets/icon.svg"
+    ],
+    "doc_51bf8adf26645d2e85771fe2390cd999": [
+      "assets/icon.svg",
+      "media/rvm-composited-output.png",
+      "media/rvm-preview-triptych.png"
+    ],
+    "doc_d9b73e88fe905abcad8a842e1a6ac92b": [
+      "assets/icon.svg",
+      "media/abf932f2-6e56-44fd-865e-674ba7af8067.png",
+      "media/screenshot_2026-02-28_15-57-19.png"
+    ],
+    "doc_ff2e48756b8f5bf5aeaee62e5142e744": [
+      "assets/icon.svg",
+      "assets/screenshot_2026-02-12_00-12-30.png",
+      "assets/screenshot_2026-02-12_00-12-41.png",
+      "media/screenshot_2026-02-12_00-12-41.png"
+    ],
+    "doc_79633f0172065a5aaef2a5c4f8d70359": [
+      "assets/icon.svg",
+      "media/diagram-tool-early-architecture-selected.png",
+      "media/diagram-tool-early-component-bank-selected.png"
+    ],
+    "doc_e76b0f81dd7b5b93a11e8f357b63ffb8": [
+      "assets/icon.svg",
+      "postgresql-history-first-output.png"
+    ],
+    "doc_c9cdd79a861a5739aa99c3d1f3da27dc": [
+      "assets/icon.svg",
+      "media/process-manager-gtk-reconstruction-2025-10-18.png"
+    ],
+    "doc_02cd1bdfbbb551a69105e7b41978943b": [
+      "assets/icon.svg",
+      "preview.png",
+      "proposal.pdf"
+    ]
+  }
+}

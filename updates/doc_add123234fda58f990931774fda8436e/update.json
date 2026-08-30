@@ -1,0 +1,52 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_add123234fda58f990931774fda8436e",
+    "title": "Modernized Python packaging across the tool fleet",
+    "summary": "Replaced runtime path-manipulating launchers with declared Python entry points, then updated services and integrations to call stable installed commands.",
+    "date": "2026-02-16",
+    "prominence": "low",
+    "tags": [
+      "Packaging",
+      "Refactoring",
+      "Python",
+      "DevOps"
+    ],
+    "relationships": {
+      "part_of": "doc_d05b27abd50b40f9907f78c8a2988d4e"
+    },
+    "blocks": [
+      {
+        "body": "## Give each tool a declared command\n\nPython command tools now expose their CLIs through `pyproject.toml` entry points and editable installs. Source edits remain immediately available, while callers use stable command names instead of launcher scripts that rewrite Python’s import path.",
+        "type": "text"
+      },
+      {
+        "code": "[project.scripts]\nexample-tool = \"example_tool.cli:main\"",
+        "description": "A declared entry point maps a stable command name to its package-owned implementation.",
+        "filename": "pyproject.toml",
+        "language": "toml",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Move consumers onto the command boundary\n\nSystemd units, MCP definitions, desktop launchers, and validation now resolve installed commands through `PATH`. Obsolete shims, broken symlinks, and hardcoded source paths are removed as each consumer moves to the package-owned entry point.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep module resolution deterministic\n\nPackages with unique module paths use installed entry points throughout. Where flat-layout tools share a generic top-level module name, integration definitions use an explicit source command so imports cannot resolve to the wrong package.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

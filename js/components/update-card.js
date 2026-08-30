@@ -49,7 +49,7 @@ function renderLargeCard(update, options) {
   const linkAttrs = getLinkAttrs(update);
   const previewPath = getPreviewPath(update);
   const placeholderDataUri = generatePlaceholderDataUri(update.title);
-  const altText = escapeHtml(update.title);
+  const altText = escapeHtml(update.preview?.description || update.title);
   const ctaText = getCTAText(update);
 
   const externalIcon = isExternalLink(update) ? `
@@ -57,12 +57,12 @@ function renderLargeCard(update, options) {
   ` : '';
 
   return `
-    <article class="update-card update-card--large" data-slug="${update.slug}" data-size="large">
+    <article class="update-card update-card--large" data-key="${update.key}" data-size="large">
       <a class="update-card__link" href="${linkUrl}" ${linkAttrs}>
         <div class="update-card__media">
           ${renderMedia(previewPath, altText, placeholderDataUri, 'update-card', {
-            width: update.previewWidth,
-            height: update.previewHeight,
+            width: update.preview?.width,
+            height: update.preview?.height,
           })}
         </div>
         <div class="update-card__content">
@@ -85,7 +85,7 @@ function renderMediumCard(update, options) {
   const linkAttrs = getLinkAttrs(update);
   const previewPath = getPreviewPath(update);
   const placeholderDataUri = generatePlaceholderDataUri(update.title);
-  const altText = escapeHtml(update.title);
+  const altText = escapeHtml(update.preview?.description || update.title);
   const ctaText = getCTAText(update);
 
   const externalIcon = isExternalLink(update) ? `
@@ -93,7 +93,7 @@ function renderMediumCard(update, options) {
   ` : '';
 
   return `
-    <article class="update-card update-card--medium" data-slug="${update.slug}" data-size="medium">
+    <article class="update-card update-card--medium" data-key="${update.key}" data-size="medium">
       <a class="update-card__link" href="${linkUrl}" ${linkAttrs}>
         <div class="update-card__content">
           <h4 class="update-card__title">${escapeHtml(update.title)}${externalIcon}</h4>
@@ -103,8 +103,8 @@ function renderMediumCard(update, options) {
         <div class="update-card__expanded">
           <div class="update-card__media">
             ${renderMedia(previewPath, altText, placeholderDataUri, 'update-card', {
-              width: update.previewWidth,
-              height: update.previewHeight,
+              width: update.preview?.width,
+              height: update.preview?.height,
             })}
           </div>
           <span class="update-card__cta">${ctaText}</span>
@@ -129,7 +129,7 @@ function renderSmallCard(update, options) {
        href="${linkUrl}"
        ${linkAttrs}
        title="${altText}"
-       data-slug="${update.slug}"
+       data-key="${update.key}"
        data-size="small">
       <img src="${iconPath}"
            alt="${altText}"

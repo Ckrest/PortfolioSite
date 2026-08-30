@@ -1,0 +1,79 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_1a3826668acb53688961faa991a157f1",
+    "title": "Built a timeline-based portfolio site",
+    "summary": "Built a framework-free portfolio that loads project metadata from one JSON file, highlights featured work, and expands timeline entries as they move through the viewport.",
+    "date": "2026-01-09",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "src": "timeline.png",
+      "description": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries",
+      "width": 1440,
+      "height": 1000
+    },
+    "tags": [
+      "JavaScript",
+      "Frontend",
+      "CSS"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_b96f6bcce4965a80bf8db7633cc3628b",
+        "doc_9503340b85e059238577a3ec79bbc0b9",
+        "doc_e2b464eeca015722bcaf583192c346f6"
+      ],
+      "superseded_by": [
+        "doc_6b7f8c754a1e5e9492d306667ad478d2"
+      ],
+      "related": [
+        "doc_315d02ff658e5615bd31fa3c6f37b793",
+        "doc_34a72e56c32a5cbbae2587ef72aed19d",
+        "doc_99838d724f435e5188804413bb06c96e",
+        "doc_0b8d60db909c54b7aad85f168788ca3f",
+        "doc_35acc634705754a2b846a4951e00470a",
+        "doc_45e24fee0f645130a7d9ce1685a5af01"
+      ],
+      "latest": "doc_6b7f8c754a1e5e9492d306667ad478d2"
+    },
+    "blocks": [
+      {
+        "body": "## Make the timeline the primary way through the work\n\nThe homepage gives one project a larger introduction, then organizes the work as a chronological timeline. The entry nearest the center of the viewport expands with a larger preview, fuller summary, tags, and a direct project link. Keyboard focus triggers the same treatment.\n\nNearby entries remain compact, keeping the chronology visible as the reader moves through the page.",
+        "type": "text"
+      },
+      {
+        "description": "Dark portfolio project timeline with one centered project entry expanded between compact neighboring entries. The focused timeline entry expands while the surrounding work remains visible in sequence.",
+        "presentation": "intrinsic",
+        "src": "timeline.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep publishing simple\n\nProject metadata now lives in `projects/projects.json`. The homepage fetches that file, selects the featured project, sorts the records by date, and renders the timeline.\n\nEach project keeps its own detail page and assets under `projects/<slug>/`. The complete site remains plain HTML, CSS, JavaScript, JSON, and project assets, ready to deploy directly to static hosting without an application server or build step.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  JSON[projects.json] --> Featured[Featured project]\n  JSON --> Sort[Sort projects by date]\n  Sort --> Timeline[Interactive timeline]\n  Assets[Project previews] --> Featured\n  Assets --> Timeline\n  Timeline --> Pages[Project detail pages]",
+        "description": "One metadata file supplies both the featured project and the chronological timeline, while each project retains an independent static page.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "timeline.png": {
+        "media_type": "image/png",
+        "width": 1440,
+        "height": 1000
+      }
+    }
+  }
+}

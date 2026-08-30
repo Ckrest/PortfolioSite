@@ -1,8 +1,7 @@
 {
   "schema": "portfolio-site/asset-contract@1",
   "metadata": [
-    {"path": "preview"},
-    {"path": "icon"}
+    {"path": "preview.src"}
   ],
   "blocks": {
     "image": [{"path": "src"}],

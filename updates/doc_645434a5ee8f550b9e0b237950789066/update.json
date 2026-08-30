@@ -1,0 +1,54 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_645434a5ee8f550b9e0b237950789066",
+    "title": "Let agents create evidence during Work Reports",
+    "summary": "Extended Work Report review so agents could create missing evidence, register it through artifact events, and return it to the same selection flow.",
+    "date": "2026-02-17",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Python",
+      "MCP"
+    ],
+    "relationships": {
+      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
+      "related": [
+        "doc_79633f0172065a5aaef2a5c4f8d70359",
+        "doc_6ce28cd7f7165a4cab2913e4bcdac533",
+        "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Create evidence when review finds a gap\n\nVerification questions now identify tools that can capture a screenshot, create a diagram, or register another file. An agent can act on missing evidence without leaving the report flow or carrying an opaque artifact ID between tools.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Review[Review report evidence] --> Gap{Useful candidate available?}\n  Gap -->|Yes| Candidates[Candidate artifacts]\n  Gap -->|No| Create[Create screenshot, diagram, or data]\n  Create --> Event[Publish artifact event]\n  Event --> Candidates\n  Candidates --> Decide[Review and select]\n  Decide --> Attach[Attach to report]",
+        "description": "Review can create missing material, return it through artifact discovery, and preserve the final selection boundary. Creating missing evidence feeds the same candidate review instead of bypassing it.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Feed new material back into discovery\n\nScreenshot capture publishes an artifact event, while a generic registration tool accepts files created elsewhere. Both routes place the result in the active session’s candidates, where it follows the same review and attachment step as existing evidence.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep creation and reporting decoupled\n\nArtifact publication is best-effort during capture, so reporting does not control whether the source operation succeeds. Review remains the boundary that determines what becomes part of the report.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

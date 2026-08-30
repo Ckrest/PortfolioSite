@@ -1,0 +1,37 @@
+blocks:
+- body: '## Add content directly inside a group
+
+
+    Every group now ends with an always-visible **Add sub-block** control. It opens
+    the same block picker used elsewhere and inserts the selected block at the chosen
+    position, including when the group is empty. A stronger accent edge keeps the
+    group boundary visible while composing the page.'
+  id: blk_group_ux_story
+  type: text
+- description: Portfolio Editor preview showing two child blocks inside a purple-accented
+    group with an always-visible Add sub-block control. The permanent control keeps
+    the next action visible at the end of every group, including after its current
+    children.
+  id: blk_group_ux_visual
+  presentation: wide
+  src: media/nested-block-editing.png
+  type: image
+- body: '## Keep the preview interaction state clean
+
+
+    The live preview runs inside an iframe, so direct interactions pass through a
+    small bridge to the Editor. Its click handler now yields to the injected add and
+    insertion controls, empty-space clicks clear the current selection, and leaving
+    the preview during a drag removes stale targets and insertion feedback.'
+  id: blk_group_ux_bridge
+  type: text
+date: '2026-01-27'
+part_of: doc_45e24fee0f645130a7d9ce1685a5af01
+prominence: low
+summary: Added an always-visible child control, click-outside deselection, and drag
+  cleanup so groups follow the same editing rules as top-level blocks.
+tags:
+- JavaScript
+- Frontend
+- Interaction Design
+title: Made nested blocks easier to edit

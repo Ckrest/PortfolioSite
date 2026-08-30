@@ -1,0 +1,47 @@
+blocks:
+- body: '## Make a large sound library usable
+
+
+    I turned a folder of more than 250 audio clips into a searchable grid of sound
+    cards. Drag-and-drop imports, custom names, and cropped thumbnails make each sound
+    quick to recognize and play without digging through filenames.'
+  id: blk_editorial_soundboard
+  type: text
+- description: Soundboard window showing a searchable grid of image-backed sound cards.
+    Search, tabs, output status, and Stop All keep the desktop library easy to navigate
+    and control.
+  id: blk_soundboard_preview
+  presentation: intrinsic
+  src: preview.png
+  type: image
+- body: '## Add voice chat as another output
+
+
+    The soundboard plays clips through the desktop speakers, but it can also send
+    them to a virtual microphone. Speaker and microphone outputs can be enabled independently
+    and given separate volume levels, so a sound can stay local, go into voice chat,
+    or do both. Overlap support and Stop All keep playback manageable when several
+    clips are triggered.'
+  id: blk_soundboard_routing
+  type: text
+- code: "flowchart LR\n  Card[Play a sound] --> Speakers[Desktop speakers]\n  Card\
+    \ -. Optional route .-> Mic[Virtual microphone]\n  Mic --> Chat[Voice chat]"
+  description: Voice-chat routing extends the desktop soundboard without changing
+    how the local library is used.
+  id: blk_soundboard_audio
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+date: '2026-01-13'
+external_url: https://github.com/Ckrest/soundboard
+preview:
+  description: Soundboard window showing a searchable grid of image-backed sound cards
+  src: preview.png
+prominence: medium
+summary: Turned more than 250 clips into a searchable GTK soundboard for desktop playback,
+  with an optional virtual-microphone route for voice chat.
+tags:
+- Python
+- GTK
+- Audio
+title: Built a desktop soundboard

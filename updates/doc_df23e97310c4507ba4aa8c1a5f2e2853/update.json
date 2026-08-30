@@ -1,0 +1,68 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_df23e97310c4507ba4aa8c1a5f2e2853",
+    "title": "Built a lightweight network reliability monitor",
+    "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
+    "date": "2026-01-13",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/ping-monitor",
+    "tags": [
+      "Python",
+      "Infrastructure"
+    ],
+    "relationships": {
+      "related": [
+        "doc_38811c0e3f5d564f8b840821d6ea52b5",
+        "doc_ff2e48756b8f5bf5aeaee62e5142e744"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Turn intermittent failures into a history\n\nPing Monitor runs a short Linux ping test against each configured host, parses packet counts and minimum, average, maximum, and deviation latency, then stores each result with its target and timestamp in SQLite. Instead of only asking whether the network feels slow right now, the accumulated data shows whether latency spikes, packet loss, or jitter keep returning.",
+        "type": "text"
+      },
+      {
+        "commands": [
+          {
+            "command": "python main.py query --host 1.1.1.1 --hours 24",
+            "output": "Timestamp            | Host           | Loss% | Avg(ms) | Jitter\n2026-01-26T21:01:29 | 1.1.1.1        |   0.0 |    63.7 | 57.3\n2026-01-26T21:00:55 | 1.1.1.1        |   0.0 |    15.4 | 1.7"
+          },
+          {
+            "command": "python main.py stats --host 1.1.1.1 --hours 24",
+            "output": "{\n  \"1.1.1.1\": {\n    \"samples\": 4137,\n    \"avg_loss_percent\": 0.21,\n    \"avg_latency_ms\": 26.21,\n    \"min_latency_ms\": 12.62,\n    \"max_latency_ms\": 824.66,\n    \"avg_jitter_ms\": 10.81,\n    \"failed_tests\": 6,\n    \"uptime_percent\": 99.85\n  }\n}"
+          }
+        ],
+        "description": "Both commands read the same SQLite samples written by the monitoring loop.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "terminal"
+      },
+      {
+        "description": "Ping Monitor visualization with latency, packet-loss, jitter, and uptime views. Stored measurements reveal latency spikes, packet-loss bursts, jitter, and overall uptime side by side.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_16-37-03.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep collection and diagnosis consistent\n\nThe service loop and one-off `ping` command use the same measurement parser. Configuration controls the targets, interval, packets per test, timeout, and retention period, while hourly cleanup bounds the stored history. The included Settings Hub schema exposes those controls without introducing a second configuration format.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/screenshot_2026-02-28_16-37-03.png": {
+        "media_type": "image/png",
+        "width": 1022,
+        "height": 642
+      }
+    }
+  }
+}

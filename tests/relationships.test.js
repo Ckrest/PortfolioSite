@@ -12,9 +12,9 @@ const contract = {
   },
 };
 
-function update(slug, relations = {}) {
+function update(key, relations = {}) {
   return {
-    slug, folder: slug, title: slug, summary: `${slug} summary`,
+    key, title: key, summary: `${key} summary`,
     date: '2026-08-20', prominence: 'medium', related_to: [], ...relations,
   };
 }
@@ -33,8 +33,8 @@ test('an authored target is pending until it joins the exact pool, then resolves
   const resolved = resolveUpdateRelationships(together, contract);
   assert.deepEqual(resolved.errors, []);
   assert.equal(resolved.resolutions[0].status, 'resolved');
-  assert.deepEqual(together[0].relationships.related.map(item => item.slug), ['ping-monitor']);
-  assert.deepEqual(together[1].relationships.related.map(item => item.slug), ['settings-hub']);
+  assert.deepEqual(together[0].relationships.related, ['ping-monitor']);
+  assert.deepEqual(together[1].relationships.related, ['settings-hub']);
 
   const withdrawn = [update('settings-hub', { related_to: ['ping-monitor'] })];
   assert.equal(resolveUpdateRelationships(withdrawn, contract).resolutions[0].status, 'pending');
@@ -48,9 +48,9 @@ test('typed links activate inverse and latest relationships only inside the exac
   ];
   const result = resolveUpdateRelationships(values, contract);
   assert.deepEqual(result.errors, []);
-  assert.deepEqual(values[0].relationships.parts.map(item => item.slug), ['part']);
-  assert.deepEqual(values[1].relationships.superseded_by.map(item => item.slug), ['replacement']);
-  assert.equal(values[1].relationships.latest.slug, 'replacement');
+  assert.deepEqual(values[0].relationships.parts, ['part']);
+  assert.deepEqual(values[1].relationships.superseded_by, ['replacement']);
+  assert.equal(values[1].relationships.latest, 'replacement');
 });
 
 test('relationship structure rejects self links, overlap, duplicates, and typed cycles', () => {

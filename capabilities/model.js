@@ -12,11 +12,11 @@ export function connectCapabilities(capabilities, updates) {
   const byUpdate = new Map();
   for (const capability of capabilities) {
     for (const update of capability.evidence) {
-      byUpdate.set(update.slug, [...(byUpdate.get(update.slug) || []), capabilityCard(capability)]);
+      byUpdate.set(update.key, [...(byUpdate.get(update.key) || []), capability.slug]);
     }
   }
   for (const update of updates) {
-    const connected = byUpdate.get(update.slug) || [];
+    const connected = byUpdate.get(update.key) || [];
     if (connected.length) update.capabilities = connected;
   }
 }

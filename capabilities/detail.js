@@ -1,6 +1,6 @@
 /** Capability detail entry point for the capability-owned narrative renderer. */
 
-import { loadJson } from '../js/data-store.js';
+import { loadJson, loadUpdateIndex } from '../js/data-store.js';
 import {
   renderCapability,
   renderCapabilityBlocksOnly,
@@ -98,11 +98,8 @@ async function loadFooter() {
 }
 
 async function loadCatalog() {
-  const manifest = await loadJson('../updates/catalog.json');
-  if (!manifest || manifest.schema !== 'portfolio-update-catalog@1' || !Array.isArray(manifest.updates)) {
-    throw new Error('Update catalog must use portfolio-update-catalog@1');
-  }
-  setUpdateCatalog(manifest.updates);
+  const index = await loadUpdateIndex('../updates/index.json');
+  setUpdateCatalog(index.updates);
 }
 
 window.__currentCapability = null;

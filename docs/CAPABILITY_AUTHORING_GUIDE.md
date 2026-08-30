@@ -108,7 +108,7 @@ unless the page defines and substantiates them—which will rarely be useful.
 
 ### 4. Select representative evidence
 
-The capability owns the `evidence` list. Add update slugs to the capability;
+The capability owns the `evidence` list. Add stable update IDs to the capability;
 never add reverse capability fields to update settings. The build generates
 update backlinks and the public "Capabilities demonstrated" section.
 
@@ -182,13 +182,12 @@ evidence later. A capability can evolve as the body of work grows.
 
 - Link to a repository or external page only when it supports the capability as
   a whole; project-specific links belong on updates.
-- Use capability-relative media and meaningful alt text. Captions should tell
-  the reader what to notice and how it supports the claim.
-- Use an editable `evidenceQualifier` when time, version, or a limitation
-  materially affects what a viewer should conclude. Raw provenance stays in
-  private authoring records and does not belong in public capability settings.
-- Use a small set of consistent public topics. Tags aid discovery; they are not
-  a substitute for a clear capability title.
+- Use capability-relative media and one meaningful public description that
+  tells the reader what to notice and how it supports the claim.
+- Include any material time, version, or limitation context in that description.
+  Raw provenance stays in private authoring records.
+- Use concise free-form public topics. Tags aid browsing; they are not a
+  substitute for a clear capability title or subject to a controlled vocabulary.
 - Keep internal graph terms, draft notes, private source identities, absolute
   paths, and publication bookkeeping out of public settings.
 
@@ -230,8 +229,8 @@ grow, narrow, or gain better evidence over time.
 
 - [ ] The strongest explanation appears before optional technical material.
 - [ ] Headings describe the content and follow semantic order.
-- [ ] Visuals synthesize or substantiate the capability and include useful alt
-      text and captions.
+- [ ] Visuals synthesize or substantiate the capability and include one useful
+      public description.
 - [ ] Selected-work links resolve and the corresponding update backlinks build.
 - [ ] The title and summary work on both the homepage card and detail page.
 - [ ] Long content wraps and scans well on narrow and wide layouts.
@@ -240,7 +239,7 @@ grow, narrow, or gain better evidence over time.
 
 Capability records are authored in `capabilities/<slug>/settings.yaml`. A
 capability requires `kind: capability`, `slug`, `title`, `summary`, and one or
-more update slugs in `evidence`. It may use capability-relative public links,
+more stable update IDs in `evidence`. It may use capability-relative public links,
 media, tags, and `content.blocks` declared in
 `capabilities/_capability-schema.yaml`.
 
@@ -252,7 +251,7 @@ slug: build-a-useful-capability
 title: Build a useful capability
 summary: Explain the ability's practical scope and value.
 evidence:
-  - supporting-update-slug
+  - doc_0123456789abcdef0123456789abcdef
 tags:
   - Public topic
 content:
@@ -265,8 +264,7 @@ content:
 Media paths are relative to the capability directory. A supplied preview should
 include `previewAlt`; when it does not, review reports an advisory and the
 renderer uses the capability title. Every image or gallery item still needs
-meaningful alternative text because those blocks have no safe contextual
-fallback. Give authored blocks stable unique IDs. The independent
+one meaningful public description. Give authored blocks stable unique IDs. The independent
 `capabilities/_asset-contract.json` graph resolves all deployable capability
 dependencies, and generated `portfolio-capability@4` payloads carry the exact
 asset manifest consumed by `dist/`.

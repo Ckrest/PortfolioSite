@@ -1,0 +1,73 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_b7183ef2af925346b9755252150a46e0",
+    "title": "Made ComfyUI workflows callable from external tools",
+    "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
+    "date": "2026-01-13",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/comfyui-conduit",
+    "preview": {
+      "src": "preview.png",
+      "description": "ComfyUI Conduit node workflow",
+      "width": 902,
+      "height": 652
+    },
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "API Design"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_9042fc61c7645236825a709ad3e2474a"
+      ],
+      "related": [
+        "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad",
+        "doc_06f2ddd4fc5a564f95089d16dbab3ffd"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Turn socket tags into an API\n\nConduit now adds interface tagging directly to ComfyUI. A workflow author can expose a socket, give it a unique tag, and save the workflow from the Conduit sidebar. The saved record pairs the complete execution graph with a smaller schema describing its active tags, types, defaults, and constraints.\n\nExternal callers can inspect that schema and submit values to `POST /conduit/run/{workflow_name}` using tag names. They do not need node identifiers or the complete editor document.",
+        "type": "text"
+      },
+      {
+        "description": "ComfyUI KSampler node with its steps input and latent output marked as Conduit tags. Socket tags mark the inputs and outputs that become the workflow’s external interface.",
+        "presentation": "intrinsic",
+        "src": "preview.png",
+        "type": "image"
+      },
+      {
+        "body": "## Prepare caller values without exposing the graph\n\nMissing or `null` values leave the workflow defaults in place. Supported primitive values are coerced and injected into a copy of the graph, while numeric values are clamped to the node’s declared constraints.\n\nUnknown tags, unrecognized node definitions, and mismatched options produce warnings rather than turning the gateway into a strict compiler. Conduit reports the drift and still lets ComfyUI make the final execution decision.\n\nA bounded mimicry layer reproduces known browser transformations such as control-widget seed changes, dynamic prompt choices, and array wrapping. Explicit caller values bypass control-widget randomization, increment, and decrement; dynamic prompt expansion and array wrapping still apply when enabled.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Graph[Saved workflow graph] --> Schema[Active socket tags and schema]\n  Caller[External caller] --> Resolve[Resolve values by tag]\n  Schema --> Resolve\n  Resolve --> Transform[Coerce values and apply supported transforms]\n  Transform --> Queue[Submit prepared graph to ComfyUI]\n  Queue --> Capture[Capture tagged outputs]\n  Capture --> Response[Outputs, warnings and run IDs]\n  Capture --> Handlers[Optional output handlers]",
+        "description": "The tagged schema guides input preparation and output capture without exposing the complete graph to callers.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Capture only declared results\n\nBefore queueing the graph, Conduit injects capture nodes for the tagged output sockets. A caller can wait for completion or receive queued identifiers immediately. Completed requests return the declared outputs together with applied and defaulted inputs, validation warnings, and any automatic transformations.\n\nConfigured handlers can receive the same output bundle and caller context as JSON, allowing another local tool to react without learning the workflow’s internal graph.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "preview.png": {
+        "media_type": "image/png",
+        "width": 902,
+        "height": 652
+      }
+    }
+  }
+}

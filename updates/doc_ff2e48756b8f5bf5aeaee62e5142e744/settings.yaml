@@ -1,0 +1,85 @@
+blocks:
+- body: '## Bring the Wayfire desktop settings into one place
+
+
+    I built Settings Hub as a GTK4 and libadwaita control panel for a desktop assembled
+    from independent tools. This version puts appearance controls, GPU statistics,
+    network monitoring, and package-supplied settings behind one adaptive sidebar
+    instead of making each capability a separate command or window.
+
+
+    ## Let modules supply the controls
+
+
+    The Hub discovers built-in Python modules and packages that declare a settings
+    schema. Each module supplies its name, description, icon, category, priority,
+    visibility requirements, and presentation mode. The loader filters unavailable
+    modules, handles requests to merge package settings into a built-in page, sorts
+    the results, and adds them to a shared navigation surface.
+
+
+    Integrated modules render their own controls. Package modules use a shared schema
+    parser and UI builder to generate controls against the package’s existing configuration
+    file. Launcher and hybrid module types leave room for tools that still need their
+    own window.'
+  id: blk_settings_hub_story
+  type: text
+- description: Settings Hub Appearance page with sidebar navigation and controls for
+    wallpaper, theme, icons, and font. Appearance controls share one page for wallpaper
+    mode, interface theme, icons, and fonts.
+  id: 8ab06a92-b863-4791-87cd-436206e6d1d3
+  presentation: intrinsic
+  src: assets/screenshot_2026-02-12_00-12-30.png
+  type: image
+- body: '## Keep the backends where they belong
+
+
+    The Hub does not replace the systems that own each value. Its dconf and xfconf
+    adapters read and write those stores directly, and composite backends apply one
+    visible choice—such as a GTK theme—across both when the desktop expects matching
+    values. Package settings stay in their package configuration, with a restart prompt
+    when a service needs to reload them.
+
+
+    The result is one consistent place to find and operate desktop settings while
+    modules and packages keep responsibility for the behavior behind them.'
+  id: 84f62cca-8ff6-49a4-9c38-e72d91d38e88
+  type: text
+- code: "flowchart LR\n  BuiltIn[Built-in Python modules] --> Loader[Module loader]\n\
+    \  Packages[Packages with settings schemas] --> Loader\n  Loader --> Sidebar[Adaptive\
+    \ sidebar]\n  Loader --> Controls[Integrated and generated controls]\n  Dconf[dconf]\
+    \ --> Composite[Composite settings]\n  Xfconf[xfconf] --> Composite\n  Composite\
+    \ --> Controls\n  Controls --> Config[Package configuration files]"
+  description: Built-in modules and package settings flow through one loader; the
+    Hub owns navigation while existing backends keep the values.
+  id: blk_settings_modules
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- description: Settings Hub GPU page with sidebar navigation, VRAM and temperature
+    gauges, and utilization history. The same navigation shell also carries live system
+    modules, including GPU memory, temperature, and utilization history.
+  id: c9b6473a-f408-4152-8b38-1d728267162a
+  presentation: intrinsic
+  src: assets/screenshot_2026-02-12_00-12-41.png
+  type: image
+date: '2025-11-26'
+external_url: https://github.com/Ckrest/settings-hub
+preview:
+  description: Settings Hub GPU page with sidebar navigation, VRAM and temperature
+    gauges, and utilization history
+  src: media/screenshot_2026-02-12_00-12-41.png
+prominence: high
+related_to:
+- doc_aa793128a2075e32a8dea215c096de7c
+- doc_c9cdd79a861a5739aa99c3d1f3da27dc
+- doc_df23e97310c4507ba4aa8c1a5f2e2853
+summary: Built a GTK4 control center that discovers built-in and package settings,
+  renders them in one adaptive interface, and writes changes through their existing
+  backends.
+tags:
+- Python
+- GTK
+- Architecture
+- Desktop Environment
+title: Built a modular desktop settings hub

@@ -11,8 +11,7 @@ import {
 
 test('homepage entries render visibly without observer-owned reveal state', async () => {
   const markup = renderEntry({
-    slug: 'visible-update',
-    folder: 'visible-update',
+    key: 'doc_visible',
     title: 'Visible update',
     date: '2026-08-14',
     prominence: 'medium',

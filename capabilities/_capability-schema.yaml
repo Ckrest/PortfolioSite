@@ -47,7 +47,7 @@ fields:
     type: updates
     label: Selected work
     required: true
-    help: "Update slugs that demonstrate this capability. Backlinks are generated automatically; do not add them to updates."
+    help: "Stable update IDs that demonstrate this capability. Backlinks are generated automatically; do not add them to updates."
 
   github:
     type: url

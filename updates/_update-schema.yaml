@@ -1,7 +1,7 @@
 # Portfolio Update Schema
 # Shared by Portfolio Site and Portfolio Editor.
 
-version: 4
+version: 7
 
 relationshipContract: _relationship-contract.json
 reviewPolicy: _review-policy.json
@@ -10,7 +10,7 @@ sections:
   - id: metadata
     label: Details
     collapsed: false
-    fields: [title, summary, date, prominence, discovery]
+    fields: [title, summary, date, prominence]
 
   - id: relationships
     label: Relationships
@@ -20,12 +20,12 @@ sections:
   - id: links
     label: Links
     collapsed: false
-    fields: [github, externalUrl]
+    fields: [external_url]
 
   - id: media
     label: Media
     collapsed: true
-    fields: [preview, previewAlt, icon]
+    fields: [preview]
 
   - id: tags
     label: Tags
@@ -59,24 +59,16 @@ fields:
     layout: half
     help: "High and medium updates get more space; low updates appear as compact recent activity."
 
-  discovery:
-    type: enum
-    label: Discovery
-    values: [listed, unlisted]
-    default: listed
-    layout: half
-    help: "Unlisted updates retain a direct page but do not appear in the homepage or sitemap."
-
   part_of:
     type: update
     label: Part of
-    placeholder: "Slug of the larger update"
+    placeholder: "Update ID of the larger update"
     help: "Use on a newer, smaller update to point at the larger body of work it belongs to. The connection appears when both updates are in the portfolio."
 
   supersedes:
     type: update
     label: Supersedes
-    placeholder: "Slug of the older version"
+    placeholder: "Update ID of the older version"
     help: "Use on a new version; the older update gets a newer-version link when both updates are in the portfolio."
 
   related_to:
@@ -84,34 +76,18 @@ fields:
     label: Related updates
     help: "Optional general relationships. Connections and backlinks appear when the updates are in the portfolio."
 
-  github:
+  external_url:
     type: url
-    label: GitHub URL
-    placeholder: "https://github.com/username/repo"
-
-  externalUrl:
-    type: url
-    label: External URL
+    label: External link
     placeholder: "https://example.com"
+    help: "One public destination. GitHub links receive GitHub-specific presentation on the site."
 
   preview:
-    type: asset
-    label: Preview image
-    placeholder: "Optional — a generated preview is used when empty"
-    default: ''
+    type: preview
+    label: Preview
+    placeholder: "Optional future high/medium preview"
     assetType: image
-
-  previewAlt:
-    type: text
-    label: Preview alt text
-    help: Optional. When omitted, the preview uses the update title as its accessibility text.
-
-  icon:
-    type: asset
-    label: Icon
-    placeholder: icon.svg
-    required: true
-    assetType: image
+    help: "Optional image with a required description. It is retained at every prominence and appears automatically when a low-prominence update is promoted."
 
   tags:
     type: tags

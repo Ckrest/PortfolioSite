@@ -987,14 +987,6 @@ figure img {
   justify-content: center;
 }
 
-.evidence-caption,
-.evidence-qualifier {
+.evidence-description {
   display: block;
-}
-}
-
-.evidence-qualifier {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 0.875rem;
 }

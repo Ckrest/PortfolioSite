@@ -133,7 +133,7 @@ function renderExternalIcon(update, opts) {
 
 function renderNavigationAttributes(update, opts) {
   const anchor = opts.anchorId ? ` id="${escapeHtml(opts.anchorId)}"` : '';
-  return `${anchor} data-viewport-key="update-${escapeHtml(update.slug)}"`;
+  return `${anchor} data-viewport-key="update-${escapeHtml(update.key)}"`;
 }
 
 function prefixUpdatePath(path, opts) {
@@ -155,12 +155,12 @@ function renderLarge(update, opts) {
   const linkAttrs = getLinkAttrs(update);
   const previewPath = prefixUpdatePath(getPreviewPath(update), opts);
   const placeholderDataUri = generatePlaceholderDataUri(update.title);
-  const altText = escapeHtml(update.previewAlt || update.title);
+  const altText = escapeHtml(update.preview?.description || update.title);
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
   const headingLevel = opts.headingLevel === 3 ? 3 : 4;
 
   return `
-    <a class="${classPrefix} ${classPrefix}--large" href="${linkUrl}" ${linkAttrs} data-slug="${update.slug}" data-prominence="high"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
+    <a class="${classPrefix} ${classPrefix}--large" href="${linkUrl}" ${linkAttrs} data-key="${update.key}" data-prominence="high"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
       <div class="${classPrefix}__header">
         ${renderDate(update, opts)}
         <h${headingLevel} class="${classPrefix}__title">${escapeHtml(update.title)}${renderExternalIcon(update, opts)}</h${headingLevel}>
@@ -169,8 +169,8 @@ function renderLarge(update, opts) {
         ${renderMedia(previewPath, altText, placeholderDataUri, classPrefix, {
           loading: opts.imageLoading,
           fetchPriority: opts.fetchPriority,
-          width: update.previewWidth,
-          height: update.previewHeight,
+          width: update.preview?.width,
+          height: update.preview?.height,
         })}
       </div>
       <div class="${classPrefix}__body">
@@ -192,12 +192,12 @@ function renderMedium(update, opts) {
   const linkAttrs = getLinkAttrs(update);
   const previewPath = prefixUpdatePath(getPreviewPath(update), opts);
   const placeholderDataUri = generatePlaceholderDataUri(update.title);
-  const altText = escapeHtml(update.previewAlt || update.title);
+  const altText = escapeHtml(update.preview?.description || update.title);
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
   const headingLevel = opts.headingLevel === 3 ? 3 : 4;
 
   return `
-    <a class="${classPrefix} ${classPrefix}--medium" href="${linkUrl}" ${linkAttrs} data-slug="${update.slug}" data-prominence="medium"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
+    <a class="${classPrefix} ${classPrefix}--medium" href="${linkUrl}" ${linkAttrs} data-key="${update.key}" data-prominence="medium"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
       <div class="${classPrefix}__header">
         ${renderDate(update, opts)}
         <h${headingLevel} class="${classPrefix}__title">${escapeHtml(update.title)}${renderExternalIcon(update, opts)}</h${headingLevel}>
@@ -206,8 +206,8 @@ function renderMedium(update, opts) {
         ${renderMedia(previewPath, altText, placeholderDataUri, classPrefix, {
           loading: opts.imageLoading,
           fetchPriority: opts.fetchPriority,
-          width: update.previewWidth,
-          height: update.previewHeight,
+          width: update.preview?.width,
+          height: update.preview?.height,
         })}
       </div>
       <div class="${classPrefix}__body">
@@ -232,7 +232,7 @@ function renderSmall(update, opts) {
   const headingLevel = opts.headingLevel === 3 ? 3 : 4;
 
   return `
-    <a class="${classPrefix} ${classPrefix}--small" href="${linkUrl}" ${linkAttrs} data-slug="${update.slug}" data-prominence="low"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
+    <a class="${classPrefix} ${classPrefix}--small" href="${linkUrl}" ${linkAttrs} data-key="${update.key}" data-prominence="low"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
       ${renderDate(update, opts)}
       <div class="${classPrefix}__content">
         <img src="${iconPath}" alt="" width="32" height="32" loading="lazy" decoding="async" class="${classPrefix}__icon" onerror="this.style.opacity='0.3'; this.onerror=null;">

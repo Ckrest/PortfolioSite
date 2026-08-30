@@ -1,0 +1,30 @@
+{
+  "message_index": 1,
+  "phases": {
+    "extract_chars": {
+      "worker": "character_analyst",
+      "rounds": 5,
+      "tool_calls": 7,
+      "success": true
+    },
+    "extract_scene": {
+      "worker": "scene_analyst",
+      "rounds": 2,
+      "tool_calls": 1,
+      "success": true
+    }
+  },
+  "changes_applied": [
+    "[extract_chars] Created character 'Kael' with id 'kael'."
+  ],
+  "processing_time_ms": 44753.2,
+  "state_snapshot": {
+    "entities": {
+      "kael": {
+        "entity_type": "character",
+        "in_scene": true
+      }
+    },
+    "message_count": 1
+  }
+}

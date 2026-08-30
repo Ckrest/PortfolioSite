@@ -53,17 +53,16 @@ test('homepage locations do not interpret unsupported URL formats', () => {
 });
 
 test('timeline rendering supplies one stable update anchor and return marker', () => {
-  const slug = 'ping-monitor';
+  const key = 'ping-monitor';
   const markup = renderEntry({
-    slug,
-    folder: slug,
+    key,
     title: 'Ping monitor',
     date: '2026-01-01',
     prominence: 'low',
     tags: [],
   }, {
     variant: 'timeline',
-    anchorId: getUpdateAnchorId(slug),
+    anchorId: getUpdateAnchorId(key),
   });
 
   assert.match(markup, /id="update-ping-monitor"/);

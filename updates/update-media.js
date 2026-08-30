@@ -18,30 +18,22 @@ function enrichItemData(itemData) {
     height: naturalHeight,
     w: naturalWidth,
     h: naturalHeight,
-    alt: String(trigger.dataset.pswpAlt || image?.alt || ''),
-    caption: String(trigger.dataset.pswpCaption || ''),
-    qualifier: String(trigger.dataset.pswpQualifier || ''),
+    alt: String(trigger.dataset.pswpDescription || image?.alt || ''),
+    description: String(trigger.dataset.pswpDescription || image?.alt || ''),
   };
 }
 
 function renderCaption(container, pswp) {
   const data = pswp.currSlide?.data || {};
-  const caption = String(data.caption || '').trim();
-  const qualifier = String(data.qualifier || '').trim();
+  const description = String(data.description || '').trim();
   container.replaceChildren();
-  if (caption) {
+  if (description) {
     const text = document.createElement('span');
-    text.className = 'media-viewer-caption-text';
-    text.textContent = caption;
+    text.className = 'media-viewer-description';
+    text.textContent = description;
     container.append(text);
   }
-  if (qualifier) {
-    const text = document.createElement('span');
-    text.className = 'media-viewer-caption-qualifier';
-    text.textContent = qualifier;
-    container.append(text);
-  }
-  container.hidden = !caption && !qualifier;
+  container.hidden = !description;
 }
 
 export function initializeMediaViewer(root = document) {

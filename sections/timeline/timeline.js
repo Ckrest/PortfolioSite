@@ -104,7 +104,9 @@ export async function init(section, config) {
     // Group by phase and store for re-rendering
     updatesByPhase = {};
     for (const update of updates) {
-      const phaseId = update.phase || 1;
+      const observed = new Date(`${update.date}T00:00:00Z`);
+      const phaseId = phases.find((phase) => observed >= new Date(phase.startDate)
+        && observed <= new Date(phase.endDate))?.id ?? 1;
       if (!updatesByPhase[phaseId]) updatesByPhase[phaseId] = [];
       updatesByPhase[phaseId].push(update);
     }
@@ -414,7 +416,7 @@ function renderTimelineEntry(update, itemId, overrides = {}) {
       hiddenTags: tagConfig.hiddenTags,
     },
     itemId,
-    anchorId: getUpdateAnchorId(update.slug),
+    anchorId: getUpdateAnchorId(update.key),
     ...overrides,
   });
 }
@@ -432,7 +434,7 @@ function renderBundle(displayItem) {
 
   const iconsHtml = items.map((item) => {
     const icon = item.update.icon || 'icon.svg';
-    const iconPath = `updates/${item.update.folder}/${icon}`;
+    const iconPath = `updates/${item.update.key}/${icon}`;
     return `<img src="${escapeHtml(iconPath)}" alt="" aria-hidden="true" title="${escapeHtml(item.update.title || '')}" width="28" height="28" loading="lazy" decoding="async" class="bundle-icon" onerror="this.style.opacity='0.25'; this.onerror=null;">`;
   }).join('');
 

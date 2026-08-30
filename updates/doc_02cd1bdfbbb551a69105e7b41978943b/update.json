@@ -1,0 +1,48 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_02cd1bdfbbb551a69105e7b41978943b",
+    "title": "Proposed a three stage project for applied AI integration",
+    "summary": "Turned an open-ended interest in applied AI into a three-stage engineering proposal, with practical prototypes, review points, documentation, and evaluation built into the plan.",
+    "date": "2025-09-15",
+    "prominence": "medium",
+    "preview": {
+      "src": "preview.png",
+      "description": "First page of the independent AI integration program proposal",
+      "width": 1224,
+      "height": 984
+    },
+    "tags": [
+      "AI",
+      "Architecture",
+      "Documentation"
+    ],
+    "blocks": [
+      {
+        "body": "## Turn an open-ended goal into a staged program\n\nI wrote this proposal to turn a broad interest in applied AI into a concrete engineering project with phased work, review points, and deliverables. It paired research with implementation: identify useful integration boundaries, build local tools and prototypes, document decisions, and evaluate each stage before expanding the scope.\n\nRather than commit the program to a single model or product, I organized it around three stages that could adapt as the work progressed. Early milestones would establish infrastructure and working methods; later ones would apply them to larger integrations and consolidate the results into reusable systems and documentation. The proposal treated risk, evaluation, and communication as part of the work from the beginning. ",
+        "type": "text"
+      },
+      {
+        "description": "The proposal defines the staged work, deliverables, risks, and evaluation plan.",
+        "presentation": "content",
+        "src": "proposal.pdf",
+        "type": "pdf"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "preview.png": {
+        "media_type": "image/png",
+        "width": 1224,
+        "height": 984
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_38811c0e3f5d564f8b840821d6ea52b5",
+    "title": "Redesigned Settings Hub around declarative catalogs",
+    "summary": "Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer, conditional visibility, command-backed controls, and isolated diagnostics.",
+    "date": "2026-02-12",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/settings-hub",
+    "preview": {
+      "src": "media/settings-hub-v2.png",
+      "description": "Settings Hub Appearance page with a colorful selected background and catalog-rendered controls",
+      "width": 1080,
+      "height": 740
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Architecture",
+      "Desktop Environment"
+    ],
+    "relationships": {
+      "supersedes": "doc_ff2e48756b8f5bf5aeaee62e5142e744",
+      "parts": [
+        "doc_2ae1e22a4ed957048348c988b376312f"
+      ],
+      "related": [
+        "doc_aa793128a2075e32a8dea215c096de7c",
+        "doc_df23e97310c4507ba4aa8c1a5f2e2853"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Move package settings into validated tile sets\n\nSettings Hub now loads versioned YAML catalogs instead of requiring every integration to construct its own GTK page. Core definitions establish the shared tabs; each package contributes one or more tile sets, assigns them through `tab_id`, and declares the controls that belong there.\n\nA catalog loader merges built-in and package definitions, validates their structure before rendering, and evaluates visibility conditions at the tab, tile-set, and tile levels. Packages can add focused settings surfaces without taking over navigation or duplicating the application shell.",
+        "type": "text"
+      },
+      {
+        "description": "Settings Hub architecture flowing from core tab definitions and package tile-set catalogs through loading, validation, visibility planning, shared tile handlers, and a GTK page stack. Core tabs provide navigation, package catalogs contribute validated tile sets, and the shared runtime renders them through reusable GTK handlers.",
+        "presentation": "intrinsic",
+        "src": "media/catalog-runtime.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Render controls through a shared vocabulary\n\nOne renderer now handles headers, text and information panels, images, buttons, toggles, selects, text and numeric inputs, lists, time, font, file and color pickers, graphs, gauges, separators, switchable panels, and reorderable lists.\n\nA tile set can declare a configuration file, then bind ordinary controls through section and key properties. Monitoring tiles can read command, file, SQLite, or static providers and poll when live values are useful. The package still owns the command or configuration surface; Settings Hub owns the consistent control and presentation.",
+        "type": "text"
+      },
+      {
+        "description": "Settings Hub Tile showcase tab with a dropdown, enabled toggle, numeric stepper, color picker, and action button. The presentation tab renders a select, toggle, numeric input, color picker, and action from one catalog-defined tile set.",
+        "presentation": "intrinsic",
+        "src": "media/settings-hub-v2-showcase.png",
+        "type": "image"
+      },
+      {
+        "description": "A package assigns its tile set to an existing tab and keeps command-backed data inside the tile that consumes it.",
+        "filename": "extension-catalog.example.txt",
+        "language": "yaml",
+        "presentation": "content",
+        "sourceMode": "attached",
+        "src": "media/extension-catalog.example.txt",
+        "type": "code"
+      },
+      {
+        "body": "## Keep failures contained\n\nStructural validation runs before page creation, and visibility checks keep unavailable integrations out of the interface. An unknown tile, invalid definition, unavailable provider, or failed command stays local to the affected integration instead of collapsing the window.\n\nPages render lazily into a stable stack and remain cached as navigation changes. Tab visibility and order remain adjustable, while provider work runs away from the GTK event loop and reports failures through the interface. This gives package-owned settings and monitoring views one predictable shell without making Settings Hub responsible for each package's operational logic.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/catalog-runtime.svg": {
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 720
+      },
+      "media/settings-hub-v2-showcase.png": {
+        "media_type": "image/png",
+        "width": 1080,
+        "height": 740
+      },
+      "media/settings-hub-v2.png": {
+        "media_type": "image/png",
+        "width": 1080,
+        "height": 740
+      }
+    }
+  }
+}

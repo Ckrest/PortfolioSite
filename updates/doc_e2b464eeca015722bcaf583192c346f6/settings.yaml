@@ -1,0 +1,45 @@
+blocks:
+- body: '## Give each timeline item the right amount of space
+
+
+    I replaced the timeline’s one-size-fits-all markup with a shared entry renderer
+    used by the timeline, featured work, and standalone cards. Projects can now appear
+    as a full media card, a compact preview, or a small icon-and-title row, while
+    GIF and video previews follow the same media path as static images.'
+  id: blk_editorial_site-update-2026-01-16
+  type: text
+- code: "flowchart LR\n  Data[Project data] --> Entry[Shared entry renderer]\n  Entry\
+    \ --> Large[Large media card]\n  Entry --> Compact[Compact preview]\n  Entry -->\
+    \ Small[Small icon row]\n  Small --> Bundle[Expandable bundle]\n  Timeline[Filters\
+    \ and selection] --> Bundle\n  Timeline --> URL[Shareable URL state]"
+  description: Shared project data controls presentation depth, while timeline filters
+    and selections remain addressable through the URL.
+  id: blk_timeline_media
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Keep filtering and bundling in sync
+
+
+    Older small entries can now combine into expandable bundles with an icon strip.
+    Bundling is recalculated after filters are applied, so a narrow result returns
+    to a normal entry instead of leaving a misleading group. The chosen tags, connection
+    mode, group, and project are written into the URL, allowing the same timeline
+    view to be reopened directly.'
+  id: blk_timeline_filtering
+  type: text
+date: '2026-01-16'
+external_url: https://github.com/Ckrest/PortfolioSite
+part_of: doc_1a3826668acb53688961faa991a157f1
+preview:
+  description: Historical Portfolio Site timeline with compact update rows and a full
+    media card
+  src: media/timeline-live-state.png
+prominence: medium
+summary: Timeline entries now adapt to each project’s importance, support animated
+  previews and expandable icon bundles, and preserve filters and selections in shareable
+  URLs.
+tags:
+- Frontend
+- JavaScript
+title: Made the portfolio timeline richer and easier to navigate

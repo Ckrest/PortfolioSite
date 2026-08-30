@@ -1,0 +1,44 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_9b5b1d7144ed5ad8be0381baf2ebfd6e",
+    "title": "Automated the browser extension reload loop",
+    "summary": "Built a loopback bridge and browser helper that let local tools inspect unpacked extensions, queue reload or enable-state changes, and refresh the active test tab.",
+    "date": "2026-01-15",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/extension-dev-connector",
+    "tags": [
+      "Python",
+      "JavaScript",
+      "Browser Extension",
+      "Automation"
+    ],
+    "blocks": [
+      {
+        "body": "## Put the browser-only step behind an API\n\nExtension work still stopped at the browser after every source change: find the unpacked extension, reload it, and refresh the page under test. I split that interaction between a small loopback HTTP connector and a companion browser extension, giving local tools a way to inspect development extensions and queue those browser-only actions.",
+        "type": "text"
+      },
+      {
+        "code": "sequenceDiagram\n  participant Tool as Local tool\n  participant Bridge as Loopback connector\n  participant Helper as Browser helper\n  participant Browser as Browser APIs\n\n  Tool->>Bridge: Queue reload or refresh\n  Helper->>Bridge: Sync extensions and poll\n  Bridge-->>Helper: Return pending commands\n  Helper->>Browser: Toggle extension and refresh tab\n  Helper->>Bridge: Report result",
+        "description": "The loopback service queues requests; the browser helper performs the permissioned work during its next sync.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Let the browser perform the privileged work\n\nThe helper periodically synchronizes extension metadata and asks the connector for pending commands. To reload an unpacked extension, it briefly disables and re-enables it; a combined command can then refresh the active tab and report the result. The connector stays local and holds only transient state, while the helper remains the component with browser permissions.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

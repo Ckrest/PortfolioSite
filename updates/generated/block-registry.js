@@ -4,7 +4,7 @@
  * Regenerate: npm run sync:block-registry
  */
 
-export const BLOCK_REGISTRY_VERSION = 7;
+export const BLOCK_REGISTRY_VERSION = 8;
 
 export const BLOCK_FIELD_DEFINITIONS = {
   "id": {
@@ -52,55 +52,20 @@ export const BLOCK_FIELD_DEFINITIONS = {
     "visibility": "structural",
     "description": "Selects stack, split, or grid child layout."
   },
-  "title": {
-    "label": "Public title",
-    "visibility": "public-visible",
-    "description": "Visible and accessible title for the media or document."
+  "description": {
+    "label": "Description",
+    "visibility": "public-visible-accessibility",
+    "description": "The single public explanation for evidence, used visibly and by assistive technology without duplicate announcements."
   },
   "label": {
-    "label": "Accessible label",
-    "visibility": "public-accessibility",
-    "description": "Names a control, transcript, or compact reference."
-  },
-  "summary": {
-    "label": "Accessible summary",
-    "visibility": "public-accessibility",
-    "description": "Explains non-text evidence for assistive technology and alternate views."
-  },
-  "alt": {
-    "label": "Accessibility text",
-    "visibility": "public-accessibility",
-    "description": "Describes image content to assistive technology and when the image cannot load."
-  },
-  "caption": {
-    "label": "Public caption",
+    "label": "Label",
     "visibility": "public-visible",
-    "description": "Visible beneath the evidence block or gallery item."
-  },
-  "evidenceQualifier": {
-    "label": "Public evidence qualifier",
-    "visibility": "public-visible",
-    "description": "Optional concise context when an evidence limitation must be disclosed."
-  },
-  "capturedAt": {
-    "label": "Captured at",
-    "visibility": "authoring-private",
-    "description": "Private evidence metadata; never valid inside a published block."
-  },
-  "representsVersion": {
-    "label": "Represents version",
-    "visibility": "authoring-private",
-    "description": "Private evidence metadata; never valid inside a published block."
-  },
-  "evidenceNote": {
-    "label": "Evidence note",
-    "visibility": "authoring-private",
-    "description": "Private evidence metadata; never valid inside a published block."
+    "description": "A short structural label where two named parts must be distinguished."
   },
   "images": {
     "label": "Gallery images",
     "visibility": "public-visible",
-    "description": "Ordered visible images with accessibility text and optional captions."
+    "description": "Ordered visible images, each with one description."
   },
   "blocks": {
     "label": "Child blocks",
@@ -130,12 +95,12 @@ export const BLOCK_FIELD_DEFINITIONS = {
   "before": {
     "label": "Before image",
     "visibility": "public-visible",
-    "description": "Before image with required public label and accessibility text."
+    "description": "Before image with a label and description."
   },
   "after": {
     "label": "After image",
     "visibility": "public-visible",
-    "description": "After image with required public label and accessibility text."
+    "description": "After image with a label and description."
   },
   "chartType": {
     "label": "Chart type",
@@ -152,10 +117,10 @@ export const BLOCK_FIELD_DEFINITIONS = {
     "visibility": "public-visible",
     "description": "Series rendered in both the chart and accessible data table."
   },
-  "slug": {
+  "updateId": {
     "label": "Referenced update",
     "visibility": "structural",
-    "description": "Resolves the public target for a related update link."
+    "description": "Stable ID of the referenced update."
   }
 };
 
@@ -194,13 +159,11 @@ export const CANONICAL_BLOCK_META = {
     "label": "Image",
     "icon": "🖼",
     "description": "Dimension-aware zoomable image",
-    "hint": "Attach an image and describe it",
+    "hint": "Attach and describe an image",
     "fields": [
       "src",
-      "alt",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -210,14 +173,12 @@ export const CANONICAL_BLOCK_META = {
     "label": "Video",
     "icon": "▶",
     "description": "Local, YouTube, or Vimeo video",
-    "hint": "Choose a source and add a title",
+    "hint": "Choose a source and describe it",
     "fields": [
       "sourceMode",
       "src",
-      "title",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -232,8 +193,7 @@ export const CANONICAL_BLOCK_META = {
       "images",
       "fit",
       "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -255,13 +215,11 @@ export const CANONICAL_BLOCK_META = {
     "label": "PDF",
     "icon": "📋",
     "description": "Embedded PDF with direct actions",
-    "hint": "Attach and title a PDF",
+    "hint": "Attach and describe a PDF",
     "fields": [
       "src",
-      "title",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -284,16 +242,15 @@ export const CANONICAL_BLOCK_META = {
     "label": "Code",
     "icon": "💻",
     "description": "Highlighted source with copy and wrap controls",
-    "hint": "Add inline or attached source",
+    "hint": "Add source and describe why it matters",
     "fields": [
       "sourceMode",
       "language",
       "filename",
       "src",
       "code",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -303,15 +260,13 @@ export const CANONICAL_BLOCK_META = {
     "label": "Mermaid",
     "icon": "🧩",
     "description": "Inspectable Mermaid diagram",
-    "hint": "Add diagram source and an accessible summary",
+    "hint": "Add diagram source and one description",
     "fields": [
       "sourceMode",
       "src",
       "code",
-      "summary",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -321,15 +276,13 @@ export const CANONICAL_BLOCK_META = {
     "label": "Terminal",
     "icon": "＞",
     "description": "Accessible terminal transcript",
-    "hint": "Add commands or attach a transcript",
+    "hint": "Add commands and describe the result",
     "fields": [
       "sourceMode",
       "src",
       "commands",
-      "label",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -343,9 +296,8 @@ export const CANONICAL_BLOCK_META = {
     "fields": [
       "before",
       "after",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -355,17 +307,15 @@ export const CANONICAL_BLOCK_META = {
     "label": "Graph",
     "icon": "📊",
     "description": "Chart with an accessible data table",
-    "hint": "Add chart data and a summary",
+    "hint": "Add chart data and one description",
     "fields": [
       "sourceMode",
       "src",
       "chartType",
       "labels",
       "datasets",
-      "summary",
-      "presentation",
-      "caption",
-      "evidenceQualifier"
+      "description",
+      "presentation"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -377,7 +327,7 @@ export const CANONICAL_BLOCK_META = {
     "description": "Compact contextual update link",
     "hint": "Link to a nearby update",
     "fields": [
-      "slug",
+      "updateId",
       "label"
     ],
     "allowInGroup": true,
@@ -390,7 +340,7 @@ export const CANONICAL_BLOCK_META = {
     "description": "Standalone related update card",
     "hint": "Reference another update",
     "fields": [
-      "slug"
+      "updateId"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -417,7 +367,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "allowEmptySave": true,
     "renderRequiredAll": [
       "src",
-      "alt",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -437,7 +387,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "renderRequiredAll": [
       "sourceMode",
       "src",
-      "title",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -506,7 +456,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "allowEmptySave": true,
     "renderRequiredAll": [
       "src",
-      "title",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -542,6 +492,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "renderRequiredAll": [
       "sourceMode",
       "language",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -571,7 +522,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "allowEmptySave": true,
     "renderRequiredAll": [
       "sourceMode",
-      "summary",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -601,7 +552,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "allowEmptySave": true,
     "renderRequiredAll": [
       "sourceMode",
-      "label",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -632,10 +583,10 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "renderRequiredAll": [
       "before.src",
       "before.label",
-      "before.alt",
+      "before.description",
       "after.src",
       "after.label",
-      "after.alt",
+      "after.description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -654,7 +605,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
     "allowEmptySave": true,
     "renderRequiredAll": [
       "sourceMode",
-      "summary",
+      "description",
       "presentation"
     ],
     "renderRequiredAny": [],
@@ -684,7 +635,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
   "related-mini": {
     "allowEmptySave": true,
     "renderRequiredAll": [
-      "slug"
+      "updateId"
     ],
     "renderRequiredAny": [],
     "skipRenderIfIncomplete": false,
@@ -692,7 +643,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
       "update-picker",
       "text-input"
     ],
-    "referenceField": "slug",
+    "referenceField": "updateId",
     "referenceType": "update",
     "allowSelfReference": false,
     "sourceModes": null
@@ -700,7 +651,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
   "reference-card": {
     "allowEmptySave": true,
     "renderRequiredAll": [
-      "slug"
+      "updateId"
     ],
     "renderRequiredAny": [],
     "skipRenderIfIncomplete": false,
@@ -708,7 +659,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
       "update-picker",
       "text-input"
     ],
-    "referenceField": "slug",
+    "referenceField": "updateId",
     "referenceType": "update",
     "allowSelfReference": false,
     "sourceModes": null

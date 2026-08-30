@@ -1,0 +1,62 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_a4499baf70965526bf7fd8dbd0dd686a",
+    "title": "Shared the active Wayland output with session services",
+    "summary": "Built a Bash startup script that waits for Wayland, selects the first enabled output from wlr-randr, and publishes it through both systemd and a runtime file.",
+    "date": "2026-01-15",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/monitor-detect",
+    "tags": [
+      "Bash",
+      "Wayland",
+      "Systemd",
+      "Desktop Environment"
+    ],
+    "relationships": {
+      "related": [
+        "doc_3a6495dd303a5286b238144d478fa5df"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Publish one output name for the session\n\nUser services needed a Wayland connector name, but hardcoding one tied them to a particular display setup. I added a startup script that waits for the Wayland socket, asks `wlr-randr` for enabled outputs, and selects the first one marked `Enabled: yes`.",
+        "type": "text"
+      },
+      {
+        "commands": [
+          {
+            "command": "./monitor-detect.sh",
+            "output": "Detected primary monitor: DP-3\nExported: PRIMARY_MONITOR=DP-3\nWrote: /run/user/1000/primary-monitor"
+          },
+          {
+            "command": "systemctl --user show-environment",
+            "output": "...\nPRIMARY_MONITOR=DP-3\n..."
+          },
+          {
+            "command": "cat \"$XDG_RUNTIME_DIR/primary-monitor\"",
+            "output": "DP-3"
+          }
+        ],
+        "description": "Representative output showing the environment and runtime-file forms of the detected connector.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "terminal"
+      },
+      {
+        "body": "## Serve both systemd and file-based consumers\n\nThe script publishes the connector as `PRIMARY_MONITOR` in the systemd user environment and writes the same value to `$XDG_RUNTIME_DIR/primary-monitor`. Wallpaper Service reads the runtime file during startup, while other user services can consume the environment value after detection completes.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

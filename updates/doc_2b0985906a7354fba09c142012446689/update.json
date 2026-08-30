@@ -1,0 +1,50 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_2b0985906a7354fba09c142012446689",
+    "title": "Recorded generated outputs with their producing operations",
+    "summary": "Stored each generated file’s descriptor on the successful operation that produced it, then aligned discovery and block mappings across the supported evidence types.",
+    "date": "2026-02-22",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Python",
+      "Architecture"
+    ],
+    "relationships": {
+      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
+      "related": [
+        "doc_3e2b31469eb25cd6a2100944e0e261cc"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Keep outputs beside their provenance\n\nSuccessful tool operations carry `_outputs` descriptors in their configuration, including the generated file’s path, type, and metadata. Work Report discovers evidence candidates from those descriptors instead of joining through a separate row created for every generated file.\n\nThe artifact table remains reserved for material explicitly attached to a Work Report, separating generated outputs from curated evidence.",
+        "type": "text"
+      },
+      {
+        "description": "A successful operation carries the descriptor Work Report uses to discover its generated file.",
+        "filename": "operation-output.json",
+        "language": "json",
+        "presentation": "content",
+        "sourceMode": "attached",
+        "src": "media/operation-output.json",
+        "type": "code"
+      },
+      {
+        "body": "## Carry each type through the same vocabulary\n\nHandler configuration identifies which tool operation can produce evidence, the source registry defines how that evidence is captured, and the artifact-to-block map selects its Portfolio Editor presentation. The aligned mappings cover code, terminal output, documents, generated images, audio, and Mermaid diagrams.\n\nThe registries still serve different responsibilities; the improvement is that supported types match from discovery through presentation, while unknown or missing outputs remain explicit.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

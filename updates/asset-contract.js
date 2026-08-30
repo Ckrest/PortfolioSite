@@ -82,7 +82,7 @@ export async function collectDeclaredAssets(entity, contract, { root }) {
     }
   }
 
-  const visitBlocks = (blocks, path = 'content.blocks') => {
+  const visitBlocks = (blocks, path = 'blocks') => {
     for (const [index, block] of (Array.isArray(blocks) ? blocks : []).entries()) {
       if (!block || typeof block !== 'object') continue;
       for (const declaration of contract.blocks[block.type] || []) {
@@ -97,7 +97,8 @@ export async function collectDeclaredAssets(entity, contract, { root }) {
       if (block.type === 'group') visitBlocks(block.blocks, `${path}[${index}].blocks`);
     }
   };
-  visitBlocks(entity?.content?.blocks);
+  if (Array.isArray(entity?.blocks)) visitBlocks(entity.blocks);
+  else visitBlocks(entity?.content?.blocks, 'content.blocks');
 
   const visitedMarkdown = new Set();
   while (markdownQueue.length) {

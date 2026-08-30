@@ -1,0 +1,46 @@
+blocks:
+- body: '## Correct the complete report record
+
+
+    `work-report edit` can change narrative fields, tags, effort, duration, repository
+    links, commit metadata, status, timestamps, Git statistics, and artifacts. The
+    matching automation tool exposes the same arguments, so manual and agent-driven
+    corrections run through the application instead of writing database rows directly.'
+  id: blk_editorial_work-report-full-edit-su
+  type: text
+- code: "work-report edit 123 \\\n  --summary \"Corrected public summary\" \\\n  --files-changed\
+    \ 8 \\\n  --lines-added 120 \\\n  --lines-removed 42 \\\n  --clear github,diff_stat"
+  description: One command can replace values and explicitly clear optional fields
+    without touching omitted fields.
+  filename: work-report edit
+  id: blk_report_edit_semantics
+  language: bash
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Keep corrections inside shared guardrails
+
+
+    The shared core validates titles, tags, effort, duration, commit format, status,
+    timestamps, nonnegative Git counts, and artifact structure before writing. Archived
+    reports must be unarchived before editing, and tests cover both accepted corrections
+    and rejected values.
+
+
+    Successful changes emit a `report.edited` event listing the fields that were updated.'
+  id: blk_report_edit_guardrails
+  type: text
+date: '2026-02-22'
+part_of: doc_24971e45f3cb5b5489b4d221cbcfdcef
+prominence: low
+related_to:
+- doc_a67b241ca49f5f12ba0dcb4badd5ceac
+summary: Expanded one validated edit path to cover report text, tags, timing, commit
+  metadata, Git statistics, status, and artifacts through both the CLI and automation
+  interface.
+tags:
+- Infrastructure
+- Python
+- Refactoring
+- Documentation
+title: Made Work Report records fully editable

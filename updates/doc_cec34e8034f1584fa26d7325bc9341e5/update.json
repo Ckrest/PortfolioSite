@@ -1,0 +1,79 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_cec34e8034f1584fa26d7325bc9341e5",
+    "title": "Ported Docklike to Wayland with live window previews",
+    "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
+    "date": "2026-01-18",
+    "prominence": "high",
+    "preview": {
+      "src": "media/docklike-live-window-previews.png",
+      "description": "Docklike panel menu showing live previews for two open file manager windows",
+      "width": 740,
+      "height": 347
+    },
+    "tags": [
+      "Wayland",
+      "C++",
+      "XFCE",
+      "Window Capture"
+    ],
+    "relationships": {
+      "parts": [
+        "doc_57d88fbcb0345f9ea34a25c70cefb981",
+        "doc_8a5a62eb3d715b5faad4d314849ae7c1",
+        "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a",
+        "doc_c84281d5fa3b56b5a063455815ed6cc8"
+      ],
+      "related": [
+        "doc_8cfd107748445dcf8674dabc5865d0ff"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Rebuild the taskbar around Wayland\n\nDocklike now follows Wayland events for window creation, titles, application identity, state changes, activation, and removal. Application identifiers are matched to desktop entries so open windows remain grouped beneath the correct pinned launcher.\n\nTaskbar actions—including activation, minimizing, maximizing, and closing—now operate through this Wayland-backed model.",
+        "type": "text"
+      },
+      {
+        "body": "## Add a dedicated preview pipeline\n\nA new capture manager owns image-copy sessions, queues requests, converts compositor buffers into thumbnails, and delivers them to the panel menu. Keeping capture separate from window tracking allows one or several live previews to appear beneath an application without blocking the panel.",
+        "type": "text"
+      },
+      {
+        "description": "Docklike panel menu showing live previews for two open file manager windows. Each open window appears as a distinct live preview beneath its grouped application.",
+        "presentation": "intrinsic",
+        "src": "media/docklike-live-window-previews.png",
+        "type": "image"
+      },
+      {
+        "body": "## Preserve the Docklike workflow\n\nLayer-shell menus remain anchored to the panel and present each application’s pinned state, grouped windows, titles, close controls, and previews. The result keeps Docklike’s compact launcher and taskbar workflow while moving its window handling to Wayland.",
+        "type": "text"
+      },
+      {
+        "description": "Docklike panel demonstrating pinned applications, grouped windows, reordering, and quick switching. Pinned applications, grouped windows, reordering, and quick switching remain available directly from the XFCE panel.",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-03-01_20-15-00.png",
+        "type": "image"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/docklike-live-window-previews.png": {
+        "media_type": "image/png",
+        "width": 740,
+        "height": 347
+      },
+      "media/screenshot_2026-03-01_20-15-00.png": {
+        "media_type": "image/png",
+        "width": 680,
+        "height": 459
+      }
+    }
+  }
+}

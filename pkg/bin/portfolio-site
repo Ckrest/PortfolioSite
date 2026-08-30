@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="9.0.0"
+VERSION="11.0.1"
 SITE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)"
 CONSTELLATION_ROOT="${CONSTELLATION_ROOT:-}"
 if [[ -z "$CONSTELLATION_ROOT" ]]; then
   CONSTELLATION_ROOT="$(cd "$SITE_ROOT/../../.." && pwd)"
 fi
-CONSTELLATION_CORE="$CONSTELLATION_ROOT/infra/constellation/worktree"
+CONSTELLATION_BIN="${CONSTELLATION_BIN:-$(command -v constellation || true)}"
 STATE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site"
 ACTIVE_ROOT="$STATE_ROOT/active"
 REQUEST_PATH="$STATE_ROOT/realization-request.json"
@@ -49,11 +49,11 @@ temporary_file() {
 }
 
 constellation_command() {
-  if [[ ! -d "$CONSTELLATION_CORE/src/constellation" ]]; then
-    echo "Constellation core is unavailable; set CONSTELLATION_ROOT to the Constellation checkout." >&2
+  if [[ -z "$CONSTELLATION_BIN" || ! -x "$CONSTELLATION_BIN" ]]; then
+    echo "Installed Constellation command is unavailable." >&2
     return 1
   fi
-  PYTHONPATH="$CONSTELLATION_CORE/src" python3 -m constellation --root "$CONSTELLATION_ROOT" "$@"
+  "$CONSTELLATION_BIN" --root "$CONSTELLATION_ROOT" "$@"
 }
 
 editor_available() {
@@ -139,7 +139,7 @@ write_claimed_request() {
   local claim_response="$1" temporary
   temporary="$(mktemp "$STATE_ROOT/.realization-request.XXXXXX")"
   TEMPORARY_FILES+=("$temporary")
-  jq -e '.data.request | select(.schema == "portfolio-site/pool-build@4")' \
+  jq -e '.data.request | select(.schema == "portfolio-site/pool-build@5")' \
     "$claim_response" >"$temporary"
   chmod 600 "$temporary"
   mv -f "$temporary" "$REQUEST_PATH"
@@ -162,7 +162,7 @@ refresh_locked() {
 
   for _transition in {1..4}; do
     portfolio-editor-cli pool-get >"$pool_response"
-    jq -e '.ok == true and .data.schema == "portfolio-editor/accepted-pool@3"' \
+    jq -e '.ok == true and .data.schema == "portfolio-editor/accepted-pool@4"' \
       "$pool_response" >/dev/null
     revision="$(jq -er '.data.revision' "$pool_response")"
     if [[ "$revision" == "0" ]]; then

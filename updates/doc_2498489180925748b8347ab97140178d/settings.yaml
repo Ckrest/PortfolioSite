@@ -1,0 +1,68 @@
+blocks:
+- body: '## Read the evidence before choosing a block
+
+
+    Obvious artifacts such as images, code, and terminal transcripts already mapped
+    directly to matching blocks. Structured `data` artifacts were ambiguous: the same
+    kind could describe a chart, an image gallery, or a before-and-after comparison.
+
+
+    I added shape detection so Portfolio Editor selects the presentation from the
+    payload itself. Unknown structures fall back to a readable text block with a warning
+    instead of producing an empty or misleading graph.'
+  id: blk_editorial_portfolio-editor-artifac
+  type: text
+- code: 'data.images[]                -> gallery block
+
+    data.before + data.after     -> comparison block
+
+    data.labels / data.datasets -> graph block
+
+    unrecognized data           -> text fallback + warning
+
+    direct artifact kinds       -> existing block mapping'
+  description: Structured evidence is mapped by recognizable content shape; direct
+    artifact kinds keep their established mappings.
+  filename: artifact-mapping.txt
+  id: blk_shape_mapping
+  language: text
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Trace each conversion
+
+
+    The report preview can return a step-by-step trace alongside its editable project
+    candidate. It records which report fields were included, how many artifacts were
+    examined, each detected shape, the selected block type, the output fields, and
+    any fallback warnings.
+
+
+    Browser drag-and-drop and backend conversion follow equivalent rules, with parity
+    tests protecting the two paths from drifting apart.'
+  id: blk_artifact_conversion_trace
+  type: text
+- body: '## Repair earlier imports safely
+
+
+    A dry-run-first migration identifies known empty graph blocks created by the older
+    mapping. Apply mode copies each affected settings file before replacing supported
+    mismatches with gallery, comparison, or readable text blocks.'
+  id: blk_artifact_import_migration
+  type: text
+date: '2026-02-22'
+external_url: https://github.com/Ckrest/PortfolioSite
+part_of: doc_77ba7c83a9375f088f4ea19e1eca1ace
+prominence: low
+related_to:
+- doc_45e24fee0f645130a7d9ce1685a5af01
+- doc_a67b241ca49f5f12ba0dcb4badd5ceac
+summary: Made Portfolio Editor inspect structured artifact content before choosing
+  a block, so galleries, comparisons, and charts imported correctly while unknown
+  shapes remained reviewable.
+tags:
+- Debugging
+- Refactoring
+- Python
+- JavaScript
+title: Mapped Work Report evidence into the right portfolio blocks

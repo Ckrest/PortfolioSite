@@ -1,0 +1,50 @@
+blocks:
+- body: '## Create evidence when review finds a gap
+
+
+    Verification questions now identify tools that can capture a screenshot, create
+    a diagram, or register another file. An agent can act on missing evidence without
+    leaving the report flow or carrying an opaque artifact ID between tools.'
+  id: blk_editorial_enable-agents-to-create-
+  type: text
+- code: "flowchart LR\n  Review[Review report evidence] --> Gap{Useful candidate available?}\n\
+    \  Gap -->|Yes| Candidates[Candidate artifacts]\n  Gap -->|No| Create[Create screenshot,\
+    \ diagram, or data]\n  Create --> Event[Publish artifact event]\n  Event --> Candidates\n\
+    \  Candidates --> Decide[Review and select]\n  Decide --> Attach[Attach to report]"
+  description: Review can create missing material, return it through artifact discovery,
+    and preserve the final selection boundary. Creating missing evidence feeds the
+    same candidate review instead of bypassing it.
+  id: blk_create_during_review
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Feed new material back into discovery
+
+
+    Screenshot capture publishes an artifact event, while a generic registration tool
+    accepts files created elsewhere. Both routes place the result in the active session’s
+    candidates, where it follows the same review and attachment step as existing evidence.'
+  id: blk_artifact_discovery_return
+  type: text
+- body: '## Keep creation and reporting decoupled
+
+
+    Artifact publication is best-effort during capture, so reporting does not control
+    whether the source operation succeeds. Review remains the boundary that determines
+    what becomes part of the report.'
+  id: blk_artifact_creation_boundary
+  type: text
+date: '2026-02-17'
+part_of: doc_0b8d60db909c54b7aad85f168788ca3f
+prominence: low
+related_to:
+- doc_79633f0172065a5aaef2a5c4f8d70359
+- doc_6ce28cd7f7165a4cab2913e4bcdac533
+- doc_a67b241ca49f5f12ba0dcb4badd5ceac
+summary: Extended Work Report review so agents could create missing evidence, register
+  it through artifact events, and return it to the same selection flow.
+tags:
+- Infrastructure
+- Python
+- MCP
+title: Let agents create evidence during Work Reports

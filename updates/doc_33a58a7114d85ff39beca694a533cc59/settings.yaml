@@ -1,0 +1,42 @@
+blocks:
+- body: '## Make repository status package-scoped
+
+
+    VCSH keeps repository metadata outside the shared worktree. Relative `core.excludesFile`
+    values were therefore resolved from the metadata directory instead of the package
+    workspace, leaving the intended exclusions unused and filling repository status
+    with unrelated files.'
+  id: blk_editorial_fix-vcsh-excludes-system
+  type: text
+- code: "[core]\n  excludesFile = /resolved/path/to/package-excludes\n\n# The generated\
+    \ file contains package-scoped patterns.\n# It is not resolved relative to the\
+    \ repository metadata directory."
+  description: Using a resolved file location removed an assumption that differed
+    between an ordinary Git repository and an overlaid VCSH repository.
+  filename: git-config-example.ini
+  id: blk_vcsh_excludes
+  language: ini
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Generate and verify every package’s exclusions
+
+
+    Synchronization now writes a resolved exclude location and generates package-specific
+    patterns for common build output and Constellation-managed files. Status checks
+    surface missing or mismatched configuration so repository state remains aligned
+    with package ownership.'
+  id: blk_vcsh_exclude_generation
+  type: text
+date: '2026-02-17'
+part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
+prominence: low
+related_to:
+- doc_ed9b9a567c7c4d589dbe92c7abbf3eb6
+summary: Corrected VCSH exclude paths and generated package-specific ignore rules
+  so repository status reflected owned changes instead of unrelated files.
+tags:
+- Infrastructure
+- Debugging
+- VCSH
+title: Repaired VCSH excludes across the Constellation registry

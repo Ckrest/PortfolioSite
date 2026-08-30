@@ -1,0 +1,49 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_cffb55d093aa560f98a27693edf6655b",
+    "title": "Made nested blocks easier to edit",
+    "summary": "Added an always-visible child control, click-outside deselection, and drag cleanup so groups follow the same editing rules as top-level blocks.",
+    "date": "2026-01-27",
+    "prominence": "low",
+    "tags": [
+      "JavaScript",
+      "Frontend",
+      "Interaction Design"
+    ],
+    "relationships": {
+      "part_of": "doc_45e24fee0f645130a7d9ce1685a5af01"
+    },
+    "blocks": [
+      {
+        "body": "## Add content directly inside a group\n\nEvery group now ends with an always-visible **Add sub-block** control. It opens the same block picker used elsewhere and inserts the selected block at the chosen position, including when the group is empty. A stronger accent edge keeps the group boundary visible while composing the page.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio Editor preview showing two child blocks inside a purple-accented group with an always-visible Add sub-block control. The permanent control keeps the next action visible at the end of every group, including after its current children.",
+        "presentation": "wide",
+        "src": "media/nested-block-editing.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep the preview interaction state clean\n\nThe live preview runs inside an iframe, so direct interactions pass through a small bridge to the Editor. Its click handler now yields to the injected add and insertion controls, empty-space clicks clear the current selection, and leaving the preview during a drag removes stale targets and insertion feedback.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/nested-block-editing.png": {
+        "media_type": "image/png",
+        "width": 1084,
+        "height": 666
+      }
+    }
+  }
+}

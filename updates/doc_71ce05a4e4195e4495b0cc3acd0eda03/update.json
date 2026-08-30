@@ -1,0 +1,56 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_71ce05a4e4195e4495b0cc3acd0eda03",
+    "title": "Built a shared agent config generator",
+    "summary": "Built a small CLI that combines shared working conventions with agent-specific instructions, then previews, diffs, or writes the resulting configuration files.",
+    "date": "2026-01-08",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/agent-config-generator",
+    "tags": [
+      "Python",
+      "CLI"
+    ],
+    "relationships": {
+      "related": [
+        "doc_2c2680838c31548ca09c5f5f79aeb890"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Generate every configuration from shared instructions\n\nI built Agent Config Generator around a single `AGENTS.md` containing the conventions that should reach every coding agent. For each supported target, the CLI prepends any target-specific instructions and writes the combined text to the filename that tool expects.\n\nThe initial catalog covers three agent configurations. Output destinations can be moved with an optional YAML file, while the supported target definitions remain explicit in the script.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Shared[Shared AGENTS.md] --> Combine[Combine instructions]\n  Target[Target-specific file] --> Combine\n  Combine --> Preview[Dry run or diff]\n  Combine --> Write[Write target config]\n  Mapping[Optional output mapping] --> Write",
+        "description": "Each target reuses the shared conventions while keeping its own preamble and destination.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Review the fan-out before writing\n\nThe CLI can generate every supported target or one selected target, list the configured destinations, print generated content without writing, and show a unified diff against the file already on disk. Its output remains ordinary text, so each synchronization can be inspected and versioned like any other change.\n\nAdding another agent requires an explicit target definition and, when needed, a small target-specific file; the shared conventions stay untouched.",
+        "type": "text"
+      },
+      {
+        "code": "python main.py --list\npython main.py --target claude --diff\npython main.py --dry-run",
+        "description": "Listing, diffing, and dry-run modes expose the generated fan-out before files are changed.",
+        "filename": "agent-config-generator.sh",
+        "language": "shell",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

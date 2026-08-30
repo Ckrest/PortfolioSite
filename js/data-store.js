@@ -49,11 +49,21 @@ export async function loadPhases(config) {
 }
 
 export async function loadUpdates(config) {
-  const manifest = await loadJson(config.data.updates);
-  if (!manifest || !Array.isArray(manifest.updates)) {
-    throw new Error('Update manifest must contain an updates array');
+  const index = await loadJson(config.data.updates);
+  if (!index || index.schema !== 'portfolio-update-index@2'
+      || !Array.isArray(index.updates)) {
+    throw new Error('Update index must use portfolio-update-index@2');
   }
-  return manifest.updates;
+  return index.updates;
+}
+
+export async function loadUpdateIndex(path = './index.json') {
+  const index = await loadJson(path);
+  if (!index || index.schema !== 'portfolio-update-index@2'
+      || !Array.isArray(index.updates)) {
+    throw new Error('Update index must use portfolio-update-index@2');
+  }
+  return index;
 }
 
 export async function loadCapabilities(config) {

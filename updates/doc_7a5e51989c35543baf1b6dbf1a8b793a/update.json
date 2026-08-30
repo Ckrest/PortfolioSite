@@ -1,0 +1,53 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_7a5e51989c35543baf1b6dbf1a8b793a",
+    "title": "Added reliable defaults and validation to portfolio detail pages",
+    "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+    "date": "2026-01-27",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "tags": [
+      "Frontend",
+      "JavaScript",
+      "Validation"
+    ],
+    "relationships": {
+      "part_of": "doc_9503340b85e059238577a3ec79bbc0b9",
+      "related": [
+        "doc_45e24fee0f645130a7d9ce1685a5af01"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Start every detail page with usable structure\n\nDetail pages now place preview media, tags, and links inside one metadata wrapper, keeping the transition into page content consistent when optional fields are absent. When a project has no explicit content blocks, the renderer looks for its README and uses it as the page body. New Portfolio Editor drafts begin with a README block so the same starting point is visible while authoring.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio detail page showing JavaScript, Frontend, and CSS tags with a GitHub link above README content headed PortfolioSite. With no explicit content blocks configured, the detail page renders the project README beneath its metadata.",
+        "presentation": "wide",
+        "src": "media/detail-readme-fallback.png",
+        "type": "image"
+      },
+      {
+        "body": "## Catch incomplete content before publication\n\nThe validation path now distinguishes objective errors from editorial warnings. Missing link destinations and invalid required fields stop the save or build, while placeholder summaries and empty detail content are surfaced for review. Optional page fields remain flexible without letting incomplete source data pass silently.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/detail-readme-fallback.png": {
+        "media_type": "image/png",
+        "width": 1150,
+        "height": 830
+      }
+    }
+  }
+}

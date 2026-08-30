@@ -22,22 +22,20 @@ const projectIndex = new Map();
 export function setUpdateCatalog(updates) {
   projectIndex.clear();
   for (const update of Array.isArray(updates) ? updates : []) {
-    if (update?.slug) projectIndex.set(update.slug, update);
-    if (update?.folder) projectIndex.set(update.folder, update);
+    if (update?.key) projectIndex.set(update.key, update);
   }
 }
 
-function relatedProject(slug, current) {
-  const key = String(slug || '').trim();
+function relatedProject(updateId, current) {
+  const key = String(updateId || '').trim();
   if (!key || key === current.slug || key === current.folder) return null;
   return projectIndex.get(key) || null;
 }
 
-function evidenceCaption(block) {
-  const caption = String(block?.caption || '').trim();
-  const qualifier = String(block?.evidenceQualifier || '').trim();
-  if (!caption && !qualifier) return '';
-  return `<figcaption>${caption ? `<span class="evidence-caption">${html(caption)}</span>` : ''}${qualifier ? `<span class="evidence-qualifier">${html(qualifier)}</span>` : ''}</figcaption>`;
+function evidenceDescription(block, { ariaHidden = false } = {}) {
+  const description = String(block?.description || '').trim();
+  if (!description) return '';
+  return `<figcaption${ariaHidden ? ' aria-hidden="true"' : ''}><span class="evidence-description">${html(description)}</span></figcaption>`;
 }
 
 function renderText(block) {
@@ -46,7 +44,7 @@ function renderText(block) {
 
 function renderImage(block, update) {
   const src = resolveUpdateAsset(block.src, update);
-  return `<figure><img src="${html(src)}" alt="${html(block.alt)}" loading="lazy" decoding="async">${evidenceCaption(block)}</figure>`;
+  return `<figure><img src="${html(src)}" alt="${html(block.description)}" loading="lazy" decoding="async">${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function parseYouTubeStart(value) {
@@ -93,16 +91,16 @@ function normalizeVideoSource(value, update) {
 function renderVideo(block, update) {
   const source = normalizeVideoSource(block.embed, update);
   if (source.kind === 'embed') {
-    return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.caption || 'Update video')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceCaption(block)}</figure>`;
+    return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.description)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
   }
-  return `<figure><video controls preload="metadata" src="${html(source.url)}"></video>${evidenceCaption(block)}</figure>`;
+  return `<figure><video controls preload="metadata" src="${html(source.url)}" aria-label="${html(block.description)}"></video>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function renderGallery(block, update) {
   const images = Array.isArray(block.images) ? block.images : [];
   const columns = images.length <= 2 ? Math.max(images.length, 1) : images.length <= 4 ? 2 : 3;
-  const items = images.map((item) => `<div class="gallery-item"><img src="${html(resolveUpdateAsset(item?.src, update))}" alt="${html(item?.alt)}" loading="lazy" decoding="async"></div>`).join('');
-  return `<figure class="gallery-figure"><div class="gallery-grid gallery-cols-${columns}">${items}</div>${evidenceCaption(block)}</figure>`;
+  const items = images.map((item) => `<div class="gallery-item"><img src="${html(resolveUpdateAsset(item?.src, update))}" alt="${html(item?.description)}" loading="lazy" decoding="async"></div>`).join('');
+  return `<figure class="gallery-figure"><div class="gallery-grid gallery-cols-${columns}">${items}</div>${evidenceDescription(block)}</figure>`;
 }
 
 function renderReadme() {
@@ -127,7 +125,7 @@ async function hydrateReadme(element, block, update) {
 
 function renderPdf(block, update) {
   const src = resolveUpdateAsset(block.src, update);
-  return `<figure><object data="${html(src)}" type="application/pdf" class="pdf-embed" aria-label="${html(block.caption || 'Embedded PDF document')}"><div class="pdf-fallback"><p>This browser cannot embed the PDF.</p><a href="${html(src)}" class="button" target="_blank" rel="noopener noreferrer">Download PDF →</a></div></object>${evidenceCaption(block)}</figure>`;
+  return `<figure><object data="${html(src)}" type="application/pdf" class="pdf-embed" aria-label="${html(block.description)}"><div class="pdf-fallback"><p>This browser cannot embed the PDF.</p><a href="${html(src)}" class="button" target="_blank" rel="noopener noreferrer">Download PDF →</a></div></object>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function renderCode(block) {
@@ -135,7 +133,7 @@ function renderCode(block) {
   const title = block.filename || block.language || (attached ? block.src : '') || '';
   const header = title ? `<div class="code-block-header"><span class="code-block-title">${html(title)}</span>${block.filename && block.language ? `<span class="code-block-lang">${html(block.language)}</span>` : ''}<button class="code-copy-btn" type="button">Copy</button></div>` : '';
   const pending = attached ? '// Loading source file…' : (block.code || '');
-  return `<figure>${header}<pre class="code-block-pre"><code>${html(pending)}</code></pre>${evidenceCaption(block)}</figure>`;
+  return `<figure>${header}<pre class="code-block-pre"><code>${html(pending)}</code></pre>${evidenceDescription(block)}</figure>`;
 }
 
 async function hydrateCode(element, block, update) {
@@ -166,7 +164,7 @@ function renderTerminal(block) {
     return `<span class="terminal-prompt">${html(command?.prompt || '$ ')}</span><span class="terminal-command">${html(command?.command)}</span>${output}`;
   }).join('\n');
   const pending = attached ? '# Loading terminal transcript…' : commands;
-  return `<figure><div class="terminal-window"><div class="terminal-titlebar" aria-hidden="true"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div><pre class="terminal-body"><code>${pending}</code></pre></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="terminal-window" role="region" aria-label="Terminal transcript"><div class="terminal-titlebar" aria-hidden="true"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div><pre class="terminal-body"><code>${pending}</code></pre></div>${evidenceDescription(block)}</figure>`;
 }
 
 async function hydrateTerminal(element, block, update) {
@@ -181,12 +179,12 @@ async function hydrateTerminal(element, block, update) {
 function renderComparison(block, update) {
   const beforeLabel = block.before?.label || 'Before';
   const afterLabel = block.after?.label || 'After';
-  const side = (value, label) => value?.src ? `<div class="comparison-side"><div class="comparison-label">${html(label)}</div><img src="${html(resolveUpdateAsset(value.src, update))}" alt="${html(label)}" loading="lazy" decoding="async"></div>` : '';
-  return `<figure><div class="comparison-container">${side(block.before, beforeLabel)}${side(block.after, afterLabel)}</div>${evidenceCaption(block)}</figure>`;
+  const side = (value, label) => value?.src ? `<div class="comparison-side"><div class="comparison-label">${html(label)}</div><img src="${html(resolveUpdateAsset(value.src, update))}" alt="${html(value.description)}" loading="lazy" decoding="async"><p aria-hidden="true">${html(value.description)}</p></div>` : '';
+  return `<figure><div class="comparison-container">${side(block.before, beforeLabel)}${side(block.after, afterLabel)}</div>${evidenceDescription(block)}</figure>`;
 }
 
 function renderGraph(block, _project, context) {
-  return `<figure><div class="graph-container"><canvas id="graph-${html(context.path.replaceAll('.', '-'))}"></canvas></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="graph-container"><canvas id="graph-${html(context.path.replaceAll('.', '-'))}" aria-label="${html(block.description)}"></canvas></div>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function parseGraph(text, path) {
@@ -234,7 +232,7 @@ function renderMermaid(block) {
   const source = getBlockSourceMode(block) === 'attached'
     ? 'graph TD\n  Loading --> Source'
     : (block.code || '');
-  return `<figure><pre class="mermaid-code">${html(source)}</pre><div class="mermaid-diagram"></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><pre class="mermaid-code">${html(source)}</pre><div class="mermaid-diagram" aria-label="${html(block.description)}"></div>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 async function hydrateMermaid(element, block, update) {
@@ -258,10 +256,9 @@ async function hydrateMermaid(element, block, update) {
 }
 
 function renderUpdateReference(block, update, variant) {
-  const target = relatedProject(block.slug, update);
-  if (!target) return window.__portfolioBridge ? `<div class="related-update-${variant} related-update-invalid">Unknown update: ${html(block.slug || '(missing)')}</div>` : '';
-  const folder = encodeURIComponent(target.folder || target.slug);
-  const href = `../updates/${folder}/detail.html`;
+  const target = relatedProject(block.updateId, update);
+  if (!target) return window.__portfolioBridge ? `<div class="related-update-${variant} related-update-invalid">Unknown update: ${html(block.updateId || '(missing)')}</div>` : '';
+  const href = `../updates/${encodeURIComponent(target.key)}/detail.html`;
   if (variant === 'mini') return `<a class="related-update-mini" href="${href}">${html(target.title)}</a>`;
   return `<a class="reference-update-card" href="${href}"><h3>${html(target.title)}</h3><p>${html(target.summary)}</p></a>`;
 }
@@ -375,7 +372,7 @@ function renderEvidence(capability) {
   if (!evidence.length) return '';
   const entries = evidence.map((update) => {
     const context = encodeURIComponent(capability.slug || capability.folder || '');
-    const folder = encodeURIComponent(update.folder || update.slug);
+    const folder = encodeURIComponent(update.key);
     return renderEntry(update, {
       variant: 'timeline',
       showDate: true,

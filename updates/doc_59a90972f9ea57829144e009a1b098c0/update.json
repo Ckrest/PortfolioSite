@@ -1,0 +1,50 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_59a90972f9ea57829144e009a1b098c0",
+    "title": "Reorganized Work Report around a package boundary",
+    "summary": "Moved Work Report’s command, agent flow, evidence handlers, artifact mapping, and database migrations into one installable Python package with explicit artifact review and provenance handling.",
+    "date": "2026-02-11",
+    "prominence": "low",
+    "tags": [
+      "Refactoring",
+      "Python",
+      "PostgreSQL",
+      "Migration"
+    ],
+    "relationships": {
+      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
+    },
+    "blocks": [
+      {
+        "body": "## Give Work Report one package boundary\n\nI moved the command, curation, machine-readable agent flow, evidence handlers, artifact mappings, and migration code under a single installable `work_report` package. The CLI and agent flow now import the same application modules instead of depending on adjacent scripts or the checkout’s working directory.",
+        "type": "text"
+      },
+      {
+        "description": "Work Report package boundary connecting its command entry point, report flow, typed evidence handlers, artifact mapping, and versioned database migrations. The refactor placed command flow, evidence conversion, and database evolution inside one package boundary.",
+        "presentation": "intrinsic",
+        "src": "media/package-boundary.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Make artifact and schema transitions explicit\n\nOrdered migrations remove the obsolete `project` fields from reports and sessions after preserving report grouping through tags. The agent flow previews discovered evidence, requires an explicit review selection before completion, and accepts narrowed or manually added artifacts.\n\nConfigurable exclusions filter known noise, while source identifiers and normalized paths record provenance and keep previously used artifacts from being rediscovered. Screenshot, document, gallery, comparison, data, video, terminal, code, and Git-diff handlers all feed the same artifact-to-block mapping.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/package-boundary.svg": {
+        "media_type": "image/svg+xml",
+        "width": 563,
+        "height": 406
+      }
+    }
+  }
+}

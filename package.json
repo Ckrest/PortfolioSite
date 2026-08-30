@@ -1,6 +1,6 @@
 {
   "name": "portfolio-site",
-  "version": "9.0.0",
+  "version": "11.0.1",
   "type": "module",
   "description": "Independent static portfolio site with modular update pages",
   "scripts": {

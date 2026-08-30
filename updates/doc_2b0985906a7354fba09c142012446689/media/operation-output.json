@@ -1,0 +1,16 @@
+{
+  "tool_name": "system-visualizer",
+  "operation_type": "system_flowchart",
+  "status": "success",
+  "config": {
+    "_outputs": [
+      {
+        "file_path": "/tmp/flowchart.mmd",
+        "file_type": "mermaid",
+        "metadata": {
+          "name": "system boundary"
+        }
+      }
+    ]
+  }
+}

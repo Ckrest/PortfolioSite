@@ -14,7 +14,7 @@ const ROOT_FILES = [
 ];
 const ROOT_DIRS = ['css', 'js', 'data', 'sections'];
 const UPDATE_RUNTIME = [
-  'manifest.json', 'catalog.json', 'detail.js', 'update-renderer.js', 'update-media.js',
+  'index.json', 'detail.js', 'update-renderer.js', 'update-media.js',
   'runtime-utils.js', 'update-base.css', 'update-blocks.css', 'generated', 'vendor',
 ];
 const CAPABILITY_RUNTIME = [
@@ -32,6 +32,15 @@ function declaredAssets(payload) {
   return payload.asset_manifest.assets;
 }
 
+function updateAssets(inventory, key) {
+  const assets = inventory?.updates?.[key];
+  if (inventory?.schema !== 'portfolio-site/update-asset-inventory@1'
+      || !Array.isArray(assets) || assets.some((item) => typeof item !== 'string')) {
+    throw new Error(`Generated update is missing its build asset inventory: ${key}`);
+  }
+  return assets;
+}
+
 async function copyExisting(source, target) {
   try { await stat(source); }
   catch { return false; }
@@ -41,6 +50,7 @@ async function copyExisting(source, target) {
 }
 
 async function buildDist() {
+  const updateAssetInventory = JSON.parse(await readFile(join(UPDATES, '_asset-inventory.json'), 'utf8'));
   await rm(DIST, { recursive: true, force: true });
   await mkdir(join(DIST, 'updates'), { recursive: true });
   await mkdir(join(DIST, 'capabilities'), { recursive: true });
@@ -57,13 +67,13 @@ async function buildDist() {
     let payload;
     try { payload = JSON.parse(await readFile(payloadPath, 'utf8')); }
     catch { continue; }
-    if (payload.schema !== 'portfolio-update@5' || !payload.update
+    if (payload.schema !== 'portfolio-update@7' || !payload.update
         || payload.media?.schema !== 'portfolio-site/media-metadata@1') continue;
     const target = join(DIST, 'updates', entry.name);
     await mkdir(target, { recursive: true });
     await cp(payloadPath, join(target, 'update.json'));
     await cp(join(UPDATES, entry.name, 'detail.html'), join(target, 'detail.html'));
-    for (const asset of declaredAssets(payload)) {
+    for (const asset of updateAssets(updateAssetInventory, entry.name)) {
       await copyExisting(join(UPDATES, entry.name, asset), join(target, asset));
     }
     count += 1;

@@ -1,0 +1,48 @@
+blocks:
+- body: '## Make the package own its repository paths
+
+
+    Portfolio Editor’s tracked files now use paths relative to its worktree. Repository
+    commands describe the package itself, while runtime configuration reads the shared
+    workspace root through one boundary instead of duplicating path resolution inside
+    the editor.'
+  id: blk_editorial_portfolio-editor-worktre
+  type: text
+- id: blk_ref_portfolio_editor_v2_architecture_and_feature_compl
+  type: reference-card
+  updateId: doc_99838d724f435e5188804413bb06c96e
+- code: 'Before: tracked paths depended on a shared home-directory worktree
+
+    After:  repository root contains package-relative paths
+
+
+    Application paths come from package configuration.
+
+    Test imports come from declared test configuration.'
+  description: The migration aligned version-control identity, runtime configuration,
+    and tests around the same package root.
+  filename: repository-boundary.txt
+  id: blk_editor_boundary
+  language: text
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Keep editor records easy to cross-reference
+
+
+    Report cards now show the stable ID used by report commands and logs. The sidebar,
+    CLI, and diagnostics can point to the same record without relying on title matching.'
+  id: blk_editor_report_identity
+  type: text
+date: '2026-02-17'
+prominence: low
+related_to:
+- doc_99838d724f435e5188804413bb06c96e
+- doc_ed9b9a567c7c4d589dbe92c7abbf3eb6
+summary: Re-rooted tracked files and configuration around the package worktree, then
+  clarified report identities in the editor interface.
+tags:
+- VCSH
+- Refactoring
+- Frontend
+title: Moved Portfolio Editor into its managed worktree

@@ -1,0 +1,44 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
+    "title": "Made registry traits define their own API behavior",
+    "summary": "Moved Constellation Framework trait schemas, resolution, queries, aggregation, and API projections out of hardcoded transforms and into declarative registry definitions.",
+    "date": "2026-02-04",
+    "prominence": "low",
+    "tags": [
+      "Architecture",
+      "Refactoring"
+    ],
+    "relationships": {
+      "part_of": "doc_d05b27abd50b40f9907f78c8a2988d4e"
+    },
+    "blocks": [
+      {
+        "body": "## Put the complete contract in each trait definition\n\nWithin the Constellation Framework’s registry, I moved package trait data out of the main manifests and into focused `trait_<name>.yaml` files. Each trait definition now declares the data schema, resolution rules, aggregations, queries, and public projection that govern those files.\n\nThe migration covered more than 50 packages and introduced traits for fork lineage, path dependencies, publishing, standalone repositories, and untracked state.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Definition[Trait definition] --> Schema[Data schema]\n  Definition --> Resolve[Resolution rules]\n  Definition --> Query[Queries and aggregation]\n  Definition --> Output[API projection]\n  Package[Package trait data] --> Schema\n  Schema --> Engine[Shared registry engine]\n  Resolve --> Engine\n  Query --> Engine\n  Output --> Engine",
+        "description": "A trait definition carries schema, resolution, query, aggregation, and output rules into the shared registry engine.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Serve every trait through one engine\n\nPackages provide their own data, while the shared registry engine loads the selected definition, validates each package file, resolves references, runs declared queries or aggregations, and produces the API response. Adding or removing a trait now changes its definition and data files instead of requiring another hardcoded transform.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

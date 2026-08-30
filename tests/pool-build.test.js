@@ -11,7 +11,13 @@ import { sourceIdentityForRoot } from '../updates/_pool-build.js';
 
 const root = resolve(import.meta.dirname, '..');
 const identityFields = [
-  'document_id', 'slug', 'document_revision', 'candidate_digest', 'tree_digest',
+  'document_id', 'document_revision', 'candidate_digest', 'tree_digest',
+];
+const projects = [
+  ['ai-integration-project-proposal', 'doc_11111111111111111111111111111111'],
+  ['postgresql-history-database', 'doc_e76b0f81dd7b5b93a11e8f357b63ffb8'],
+  ['process-manager', 'doc_33333333333333333333333333333333'],
+  ['rebuilt-screenshot-tool-as-persistent-capture-service', 'doc_44444444444444444444444444444444'],
 ];
 
 function run(args) {
@@ -42,36 +48,30 @@ async function candidateDigest(directory) {
 
 function poolDigest(members) {
   const identity = [...members]
-    .sort((left, right) => left.slug.localeCompare(right.slug))
+    .sort((left, right) => left.document_id.localeCompare(right.document_id))
     .map(member => Object.fromEntries(identityFields.map(key => [key, member[key]])));
   return `sha256:${createHash('sha256').update(JSON.stringify(canonical(identity))).digest('hex')}`;
 }
 
 async function oneMemberPool(temporary) {
-  const slugs = [
-    'ai-integration-project-proposal',
-    'postgresql-history-database',
-    'process-manager',
-    'rebuilt-screenshot-tool-as-persistent-capture-service',
-  ];
   const members = [];
-  for (const [index, slug] of slugs.entries()) {
+  for (const [index, [, documentId]] of projects.entries()) {
     const candidate = join(temporary, `candidate-${index}`);
-    await mkdir(candidate);
-    await writeFile(join(candidate, 'icon.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
+    await mkdir(join(candidate, 'assets'), { recursive: true });
+    await writeFile(join(candidate, 'assets/icon.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
     await writeFile(join(candidate, 'settings.yaml'), YAML.stringify({
-      kind: 'update', slug, title: `Boundary Project ${index}`, summary: 'Exact boundary fixture',
-      date: '2026-08-20', prominence: 'medium', discovery: 'listed', icon: 'icon.svg',
-      tags: ['Test'], content: { blocks: [{ id: `blk_boundary_${index}`, type: 'text', body: 'Evidence.' }] },
+      title: `Boundary Project ${index}`, summary: 'Exact boundary fixture',
+      date: '2026-08-20', prominence: 'medium',
+      tags: ['Test'], blocks: [{ id: `blk_boundary_${index}`, type: 'text', body: 'Evidence.' }],
     }));
     members.push({
-      document_id: `doc_boundary_${index}`, slug, document_revision: 1,
+      document_id: documentId, document_revision: 1,
       candidate_digest: `sha256:candidate-boundary-${index}`,
       tree_digest: await candidateDigest(candidate), source: candidate,
     });
   }
   return {
-    schema: 'portfolio-site/project-pool@1',
+    schema: 'portfolio-site/project-pool@2',
     digest: poolDigest(members),
     members,
   };
@@ -113,7 +113,7 @@ test('pool build rejects retired single-candidate contracts', async () => {
     }));
     const result = run(['--input', input, '--output', join(temporary, 'output')]);
     assert.notEqual(result.status, 0);
-    assert.equal(result.value.schema, 'portfolio-site/pool-build-result@4');
+    assert.equal(result.value.schema, 'portfolio-site/pool-build-result@5');
     assert.equal(result.value.state, 'failed');
     assert.match(result.value.validation.issues[0].message, /project-pool/);
   } finally {
@@ -182,33 +182,26 @@ test('artifact realization does not activate the local preview', async () => {
 test('pool build output contains only exact requested members', async () => {
   const temporary = await mkdtemp(join(tmpdir(), 'portfolio-site-closed-pool-'));
   try {
-    const slugs = [
-      'ai-integration-project-proposal',
-      'postgresql-history-database',
-      'process-manager',
-      'rebuilt-screenshot-tool-as-persistent-capture-service',
-    ];
     const members = [];
-    for (const [index, slug] of slugs.entries()) {
-      const candidate = join(temporary, slug);
-      await mkdir(candidate);
-      await writeFile(join(candidate, 'icon.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
+    for (const [index, [, documentId]] of projects.entries()) {
+      const candidate = join(temporary, documentId);
+      await mkdir(join(candidate, 'assets'), { recursive: true });
+      await writeFile(join(candidate, 'assets/icon.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>\n');
       await writeFile(join(candidate, 'settings.yaml'), YAML.stringify({
-        kind: 'update',
-        slug,
         title: `Project ${index + 1}`,
         summary: `Closed pool fixture ${index + 1}`,
         date: '2026-08-18',
         prominence: 'medium',
-        discovery: index === 0 ? 'unlisted' : 'listed',
-        icon: 'icon.svg',
         tags: ['Test'],
-        ...(index === 0 ? { related_to: ['pending-workspace-candidate'] } : {}),
-        content: { blocks: [{ id: `blk_fixture_${index}`, type: 'text', body: 'Evidence.' }] },
+        ...(index === 0 ? { related_to: ['doc_ffffffffffffffffffffffffffffffff'] } : {}),
+        blocks: index === 0 ? [{
+          id: 'blk_inline_source', type: 'code', sourceMode: 'inline', language: 'python',
+          description: 'Published source example.', src: 'private/dormant.py',
+          code: 'print("published")', presentation: 'content',
+        }] : [{ id: `blk_fixture_${index}`, type: 'text', body: 'Evidence.' }],
       }));
       members.push({
-        document_id: `doc_${index}`,
-        slug,
+        document_id: documentId,
         document_revision: 1,
         candidate_digest: `sha256:candidate-${index}`,
         tree_digest: await candidateDigest(candidate),
@@ -217,10 +210,10 @@ test('pool build output contains only exact requested members', async () => {
     }
     const input = join(temporary, 'request.json');
     await writeFile(input, JSON.stringify({
-      schema: 'portfolio-site/pool-build@4',
+      schema: 'portfolio-site/pool-build@5',
       purpose: 'test',
       pool: {
-        schema: 'portfolio-site/project-pool@1',
+        schema: 'portfolio-site/project-pool@2',
         digest: poolDigest(members),
         members,
       },
@@ -228,37 +221,41 @@ test('pool build output contains only exact requested members', async () => {
     const output = join(temporary, 'output');
     const result = run(['--input', input, '--output', output]);
     assert.equal(result.status, 0, result.value.output || result.stderr);
-    const manifest = JSON.parse(await readFile(join(output, 'dist/updates/manifest.json'), 'utf8'));
-    const updates = Array.isArray(manifest) ? manifest : manifest.updates;
-    assert.deepEqual(updates.map(item => item.slug).sort(), slugs.slice(1));
-    const catalog = JSON.parse(await readFile(join(output, 'dist/updates/catalog.json'), 'utf8'));
-    assert.deepEqual(catalog.updates.map(item => item.slug).sort(), slugs);
+    const index = JSON.parse(await readFile(join(output, 'dist/updates/index.json'), 'utf8'));
+    assert.equal(index.schema, 'portfolio-update-index@2');
+    assert.deepEqual(index.updates.map((item) => item.key).sort(), projects.map(([, id]) => id).sort());
     assert.deepEqual(
-      result.value.relationship_resolution.filter(item => item.target === 'pending-workspace-candidate'),
+      result.value.relationship_resolution.filter(item => item.target === 'doc_ffffffffffffffffffffffffffffffff'),
       [{
-        source: slugs[0], source_type: 'update', kind: 'related_to',
-        target: 'pending-workspace-candidate', location: 'metadata.related_to', status: 'pending',
+        source: projects[0][1], source_type: 'update', kind: 'related_to',
+        target: 'doc_ffffffffffffffffffffffffffffffff', location: 'metadata.related_to', status: 'pending',
       }],
     );
     assert.equal(await readFile(join(output, 'public-source/.nojekyll'), 'utf8'), '\n');
     assert.equal(await readFile(join(output, 'dist/.nojekyll'), 'utf8'), '\n');
+    const detail = JSON.parse(await readFile(
+      join(output, `dist/updates/${projects[0][1]}/update.json`), 'utf8',
+    ));
+    assert.equal(detail.update.blocks[0].code, 'print("published")');
+    assert.equal('src' in detail.update.blocks[0], false);
+    assert.equal('id' in detail.update.blocks[0], false);
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
 });
 
-test('review validation distinguishes advisory preview fallback from required image alt text', async () => {
+test('review validation requires preview and block public descriptions', async () => {
   const temporary = await mkdtemp(join(tmpdir(), 'portfolio-site-review-validation-'));
   try {
     const pool = await oneMemberPool(temporary);
     const member = pool.members[0];
     const settingsPath = join(member.source, 'settings.yaml');
     const settings = YAML.parse(await readFile(settingsPath, 'utf8'));
-    settings.preview = 'preview.png';
+    settings.preview = { src: 'preview.png', description: 'Portfolio preview' };
     await writeFile(join(member.source, 'preview.png'), 'not-a-real-image');
-    settings.content.blocks.push({
+    settings.blocks.push({
       id: 'blk_viewbox_svg', type: 'image', src: 'flow.svg',
-      alt: 'Wide workflow', presentation: 'intrinsic',
+      description: 'Wide workflow', presentation: 'intrinsic',
     });
     await writeFile(
       join(member.source, 'flow.svg'),
@@ -269,38 +266,34 @@ test('review validation distinguishes advisory preview fallback from required im
     pool.digest = poolDigest(pool.members);
     const input = join(temporary, 'request.json');
     await writeFile(input, JSON.stringify({
-      schema: 'portfolio-site/pool-build@4', purpose: 'test', pool,
+      schema: 'portfolio-site/pool-build@5', purpose: 'test', pool,
     }));
     const warning = run(['--input', input, '--output', join(temporary, 'warning-output')]);
     assert.equal(warning.status, 0, warning.stderr);
     assert.equal(warning.value.state, 'ready');
-    assert.equal(
-      warning.value.validation.issues.find(issue => issue.code === 'preview-alt-fallback').outcome,
-      'warning',
-    );
     const generated = JSON.parse(await readFile(
-      join(temporary, 'warning-output/dist/updates/ai-integration-project-proposal/update.json'),
+      join(temporary, `warning-output/dist/updates/${member.document_id}/update.json`),
       'utf8',
     ));
     assert.deepEqual(generated.media.items['flow.svg'], {
       media_type: 'image/svg+xml', width: 1686, height: 198,
     });
 
-    settings.content.blocks.push({
-      id: 'blk_missing_alt', type: 'image', src: 'preview.png', alt: '', presentation: 'intrinsic',
+    settings.blocks.push({
+      id: 'blk_missing_description', type: 'image', src: 'preview.png', description: '', presentation: 'intrinsic',
     });
     await writeFile(settingsPath, YAML.stringify(settings));
     member.tree_digest = await candidateDigest(member.source);
     pool.digest = poolDigest(pool.members);
     await writeFile(input, JSON.stringify({
-      schema: 'portfolio-site/pool-build@4', purpose: 'test', pool,
+      schema: 'portfolio-site/pool-build@5', purpose: 'test', pool,
     }));
     const blocked = run(['--input', input, '--output', join(temporary, 'blocked-output')]);
     assert.equal(blocked.status, 0, blocked.stderr);
     assert.equal(blocked.value.state, 'blocked');
-    const issue = blocked.value.validation.issues.find(item => item.code === 'image-alt-required');
+    const issue = blocked.value.validation.issues.find(item => item.code === 'image-description-required');
     assert.equal(issue.owner, 'workspace-document');
-    assert.equal(issue.location.block_id, 'blk_missing_alt');
+    assert.equal(issue.location.block_id, 'blk_missing_description');
     assert.equal(issue.action.kind, 'edit-block');
   } finally {
     await rm(temporary, { recursive: true, force: true });
@@ -314,14 +307,14 @@ test('accepted realization refuses reviewed-output drift before replacing active
     const input = join(temporary, 'request.json');
     const output = join(temporary, 'output');
     await writeFile(input, JSON.stringify({
-      schema: 'portfolio-site/pool-build@4', purpose: 'test', pool,
+      schema: 'portfolio-site/pool-build@5', purpose: 'test', pool,
     }));
     const baseline = run(['--input', input, '--output', output]);
     assert.equal(baseline.status, 0, baseline.value.output || baseline.stderr);
     const installedBefore = await readFile(join(output, 'manifest.json'), 'utf8');
 
     await writeFile(input, JSON.stringify({
-      schema: 'portfolio-site/pool-build@4', purpose: 'accepted', pool_revision: 1, pool,
+      schema: 'portfolio-site/pool-build@5', purpose: 'accepted', pool_revision: 1, pool,
       expected: {
         approval_bundle_id: 'approval_boundary',
         approval_manifest_digest: 'sha256:manifest',
@@ -346,11 +339,11 @@ test('output verification detects installed artifact corruption', async () => {
     const input = join(temporary, 'request.json');
     const output = join(temporary, 'output');
     await writeFile(input, JSON.stringify({
-      schema: 'portfolio-site/pool-build@4', purpose: 'test', pool,
+      schema: 'portfolio-site/pool-build@5', purpose: 'test', pool,
     }));
     assert.equal(run(['--input', input, '--output', output]).status, 0);
     assert.equal(run(['--verify-output', output]).value.valid, true);
-    await writeFile(join(output, 'dist/updates/process-manager/update.json'), '{"tampered":true}\n');
+    await writeFile(join(output, `dist/updates/${projects[2][1]}/update.json`), '{"tampered":true}\n');
     const verification = run(['--verify-output', output]);
     assert.notEqual(verification.status, 0);
     assert.equal(verification.value.valid, false);

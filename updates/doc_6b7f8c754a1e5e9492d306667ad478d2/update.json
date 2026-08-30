@@ -1,0 +1,59 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_6b7f8c754a1e5e9492d306667ad478d2",
+    "title": "Rebuilt the portfolio from independent page sections",
+    "summary": "Split a 900-line homepage into independent section modules and shared style layers, then made section order and visibility configurable.",
+    "date": "2026-01-15",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "src": "media/modular-portfolio-homepage.png",
+      "description": "Dark portfolio homepage showing a large Nick Young heading and a featured Diagram Tool project card.",
+      "width": 2224,
+      "height": 1276
+    },
+    "tags": [
+      "JavaScript",
+      "CSS",
+      "Frontend",
+      "Architecture",
+      "Refactoring"
+    ],
+    "relationships": {
+      "supersedes": "doc_1a3826668acb53688961faa991a157f1",
+      "related": [
+        "doc_9503340b85e059238577a3ec79bbc0b9",
+        "doc_bcdd9d2b5fee4d5b99ce3cd33c6357c2"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Compose the page from independent sections\n\nI split the page into independent modules for the header, hero, featured work, roadmap, timeline, contact, and footer. Each section owns its HTML, CSS, and JavaScript, while shared layers handle design tokens, themes, backgrounds, base elements, and layout.\n\nA site configuration controls which sections load and in what order. A small section loader reads that configuration and assembles the homepage.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Config[Section order and visibility] --> Loader[Section loader]\n  Header[Header module] --> Loader\n  Hero[Hero module] --> Loader\n  Work[Featured, roadmap, and timeline modules] --> Loader\n  Contact[Contact and footer modules] --> Loader\n  Styles[Shared tokens, themes, and layout] --> Loader\n  Loader --> Page[Composed homepage]",
+        "description": "Section configuration, independent modules, and shared visual layers meet in the composed homepage.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      },
+      "media/modular-portfolio-homepage.png": {
+        "media_type": "image/png",
+        "width": 2224,
+        "height": 1276
+      }
+    }
+  }
+}

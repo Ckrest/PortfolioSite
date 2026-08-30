@@ -1,0 +1,46 @@
+{
+  "schema": "portfolio-update@7",
+  "update": {
+    "key": "doc_2c2680838c31548ca09c5f5f79aeb890",
+    "title": "Unified Claude Code configuration across AI backends",
+    "summary": "Kept every backend on one Claude Code configuration, preserving history and integrations while focused hooks guarded shell commands and credential access.",
+    "date": "2026-02-16",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Refactoring"
+    ],
+    "relationships": {
+      "related": [
+        "doc_71ce05a4e4195e4495b0cc3acd0eda03"
+      ]
+    },
+    "blocks": [
+      {
+        "body": "## Keep one configuration across backends\n\nBackend selection now happens through launcher environment variables. Every launch path uses the same Claude Code directory, so authentication, history, integrations, skills, and settings stay together.\n\nSwitching providers changes the endpoint without opening a separate environment or requiring another login.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Launch[Launch command] --> Select[Select backend with environment]\n  Config[Shared configuration] --> Session[Agent session]\n  Select --> Session\n  Session --> Edit[Read and edit tools]\n  Session --> Consequential[Shell or credential access]\n  Edit --> BuiltIn[Built-in edit permissions]\n  Consequential --> Hooks[Focused pre-execution hooks]\n  Hooks --> Decision[Allow or block]",
+        "description": "One shared configuration supports backend selection at launch, built-in editing permissions, and focused checks around shell and credential access. Backend selection changes the endpoint without creating a separate configuration identity; focused hooks guard consequential operations.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Simplify allow and deny rules\n\nPermissions now use a clearer balance of broad defaults and focused allow and deny rules. Routine actions stay out of the way, while higher-risk commands and sensitive paths remain behind explicit checks.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@1",
+    "items": {
+      "assets/icon.svg": {
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96
+      }
+    }
+  }
+}

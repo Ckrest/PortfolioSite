@@ -79,7 +79,7 @@ the information the title cannot carry.
 The summary is not a miniature technical specification. Move background,
 tradeoffs, and mechanism into the narrative.
 
-### 4. Choose prominence and discovery
+### 4. Choose prominence
 
 Prominence changes presentation, not the required quality of the writing.
 
@@ -93,11 +93,9 @@ Suggested narrative ranges are approximately 100–300 words for low, 300–700
 for medium, and 700–1,500 for high. Do not pad a simple story or shorten a
 complex one to satisfy a number.
 
-Use `discovery: unlisted` when a valid public page should remain directly
-shareable but should not appear in the homepage, related-work catalog, or
-sitemap. Unlisted is not privacy protection. Private, unsafe, misleading, or
-unfinished material belongs in private authoring state and should not be
-published.
+Every accepted update is part of the public portfolio, indexes, and sitemap.
+Private, unsafe, misleading, or unfinished material belongs in private
+authoring state and should not be accepted.
 
 ### 5. Build the narrative
 
@@ -156,17 +154,15 @@ it. Useful forms include:
 - a test, measurement, or observed behavior; and
 - a focused code or terminal excerpt when implementation is the point.
 
-Every visual needs a reason to exist. Use its caption to tell the reader what
-to notice and why it matters. Alt text communicates the image's meaningful
-information to someone who cannot see it; it should not merely repeat the
-caption or filename.
+Every visual needs a reason to exist. Give it one concise public `description`
+that tells the reader what the evidence shows and what to notice. The renderer
+uses that same meaning visibly and for assistive technology without announcing
+duplicated alt text, captions, or qualifiers.
 
-Raw capture date, represented version, and evidence notes are authoring metadata.
-Portfolio Editor keeps them in its private draft and does not publish them. When
-a limitation materially changes what a viewer should conclude, write a short,
-viewer-facing `evidenceQualifier`; do not publish intake boilerplate or an
-artifact-audit trail. A qualifier complements a useful caption instead of
-repeating it.
+Raw capture date, represented version, source IDs, and evidence notes are
+authoring metadata. Portfolio Editor keeps useful internal context private and
+does not publish it. If a limitation materially changes what a viewer should
+conclude, include it directly in the evidence description.
 
 Do not expose private data, absolute local paths, tokens, internal notes,
 irrelevant debug output, or evidence that has not been reviewed. More artifacts
@@ -178,14 +174,14 @@ the reading measure, and `wide` only when comparison or visual detail benefits
 from the larger canvas. Galleries default to `fit: contain`, which preserves the
 complete image; select `cover` only when consistent cropped tiles convey the
 content correctly. Images, gallery items, comparisons, and supplied previews
-open in PhotoSwipe for keyboard-accessible inspection and zoom. Captions remain
+open in PhotoSwipe for keyboard-accessible inspection and zoom. Descriptions remain
 visible on the page and in the viewer. Detail-page previews use one consistent
 16:9 cover frame; block-image presentation does not change that header frame.
-Artifact captions are left-aligned with the artifact rather than independently
-centered on the page. An intrinsic image and its caption share a centered
+Artifact descriptions are left-aligned with the artifact rather than independently
+centered on the page. An intrinsic image and its description share a centered
 footprint: the footprint follows the image width when practical and keeps a
-small minimum reading width for captions beneath unusually narrow images. A
-shared responsive inset moves caption text slightly inside that footprint while
+small minimum reading width for descriptions beneath unusually narrow images. A
+shared responsive inset moves description text slightly inside that footprint while
 keeping its outer edges aligned with the artifact.
 PhotoSwipe fades between the page and viewer because block images can be
 cropped, intrinsic, or transparent; zooming remains available inside the open
@@ -229,13 +225,14 @@ narrative.
 - `related_to` connects work that is useful context but is neither structural
   nor a version sequence.
 - A target may be an active Workspace candidate that is not accepted yet. Its
-  authored slug stays in source, while the public link and inverse relationship
+  authored stable document ID stays in source, while the public link and inverse relationship
   remain absent until both updates are in the accepted pool.
 - Capability backlinks are never authored on an update. A capability owns its
   evidence list, and the build derives "Capabilities demonstrated."
 
-Use a small set of consistent, public-facing tags that help someone browse the
-work. Prefer recognizable topics over internal package labels. Do not attach a
+Use concise public-facing tags that help someone browse the work. Tags are
+free-form; there is no controlled vocabulary or normalization gate. Prefer
+recognizable topics over internal package labels, and do not attach a
 technology merely because it appears incidentally in the implementation.
 
 ### 10. Keep named work and version history navigable
@@ -255,8 +252,8 @@ describes a meaningful earlier or later milestone:
 - explain a before-state directly when it was only context and never warranted
   its own portfolio update; and
 - keep later screenshots, READMEs, and reconstructed examples from being
-  mistaken for release-day evidence by adding a concise public qualifier when
-  that distinction materially affects the claim.
+  mistaken for release-day evidence by stating that distinction in its public
+  description when it materially affects the claim.
 
 Do not embed a live README in a historical milestone unless the README is an
 immutable copy from the represented version. A maintained README can change
@@ -266,20 +263,22 @@ the meaning of an old page without changing the update itself.
 
 Public prose explains the work. It must not explain how the portfolio entry was
 edited, which artifacts were rejected, what was moved to a backup, why a page
-was retained, or what still needs review. Put those facts in private notes or
-explicit approval assertions.
+was retained, or what still needs review. Put useful internal context in private
+notes; review confirmations are reserved for concrete public-content warnings.
 
 Evidence limitations that a reader needs in order to interpret a displayed
-artifact belong in an editable `evidenceQualifier`. Raw provenance belongs in
-private Editor/Work Report metadata. Human-only confirmation needs belong in an
-`artifact`, `infrastructure`, or `owner-review` approval assertion. None belong as a
-closing paragraph about “this page” or “this update.”
+artifact belong in its public description. Raw provenance and Work Report
+associations remain private Editor context. Ambiguous public content is handled
+as an explicit, digest-bound confirmation in the owner review. None belongs as
+a closing paragraph about “this page” or “this update.”
 
 ## Source format and generated boundary
 
 Portfolio updates are authored in Portfolio Editor's revisioned Workspace. The
 exact local approval build materializes the public snapshot as
-`updates/<slug>/settings.yaml` plus only the assets that file references. Do not
+`updates/<stable-document-id>/settings.yaml` plus only the assets that file references. The
+directory name is the update's canonical public ID; it is not duplicated in
+`settings.yaml`. Do not
 edit a Workspace-managed update in this repository as a round-trip authoring
 workflow. Independent Site changes are a separate input: the next approval
 bundle snapshots them exactly together with the selected Workspace candidate
@@ -288,34 +287,37 @@ for a future Constellation-owned publication handoff.
 The materialized public source has this shape:
 
 ```yaml
-kind: update
-slug: example-update
 title: Added a concrete result
 summary: Explain what changed and why it matters to someone outside the project.
 date: 'YYYY-MM-DD'
 prominence: medium
-discovery: listed
+external_url: https://github.com/example/project
+preview:
+  src: preview.png
+  description: The finished interface shows the complete review workflow.
 tags:
   - Public topic
-content:
-  blocks:
-    - id: blk_example
-      type: text
-      body: Explain the work and its evidence.
+blocks:
+  - id: blk_example
+    type: text
+    body: Explain the work and its evidence.
 ```
 
-`kind`, `slug`, `title`, `summary`, an ISO date, and an icon are required.
-Relationships, public links, tags, previews, and narrative blocks are optional
-when they add value. Media paths are relative to the update directory. A supplied
-preview should include `previewAlt`; when it does not, review reports an advisory
-and the renderer uses the update title. Every image or gallery item still needs
-meaningful alternative text because those blocks have no safe contextual fallback.
+`title`, `summary`, an ISO date, prominence, and the fixed `assets/icon.svg` are
+required. Portfolio Editor creates and owns the icon automatically when an
+update is first saved. Relationships, the single external link, free-form tags,
+preview, and narrative blocks are optional when they add value. Preview data is
+retained at every prominence so promotion from low to medium or high immediately
+activates it without another media edit. Media paths are relative
+to the update directory. A supplied preview requires one meaningful public
+description. Every image or gallery item likewise needs one description.
 The build resolves deployable files through `updates/_asset-contract.json`,
 including metadata media, nested group blocks, explicit attached source files,
-and local files linked by Markdown document blocks. Generated
-`portfolio-update@5` payloads carry that exact asset manifest plus dimension
-metadata for inspectable images; `dist/` copies only those declared
-dependencies.
+and local files linked by Markdown document blocks. The asset inventory remains
+build-only. Generated `portfolio-update@7` detail payloads include preview
+dimensions but not the asset inventory or authoring block IDs; `dist/` copies
+only declared dependencies. `updates/index.json` is the sole public update
+index.
 
 `updates/_update-schema.yaml` is authoritative for metadata fields, enum values,
 form help, and advisory warnings. `updates/_block-registry.json` is
@@ -326,7 +328,7 @@ Code, Mermaid, terminal, and graph blocks set `sourceMode` to `inline` or
 `attached`. Inline mode renders the block's authored content; attached mode
 renders `src`. Video blocks set `sourceMode` to `local`, `youtube`, or `vimeo`.
 Review requires an explicit mode; do not rely on inference or two competing
-sources. Mermaid and graph blocks also require a concise accessible `summary`.
+sources. Evidence block types use the same concise public `description` field.
 
 The build rejects unknown fields, malformed blocks, duplicate IDs, unsafe or
 missing assets, privacy-pattern matches, invalid relationship structure, and
@@ -364,10 +366,10 @@ Review the card, detail page, and connections together.
 
 - [ ] At least one useful example, result, or artifact supports substantial
       claims.
-- [ ] Every visual has meaningful alt text and, when needed, an interpretive
-      caption.
+- [ ] Every visual has one meaningful public description that works visibly
+      and for assistive technology.
 - [ ] Evidence whose date, represented version, or limitations materially affect
-      the claim includes a concise public qualifier; raw provenance stays private.
+      the claim is stated in that description; raw provenance stays private.
 - [ ] Technical excerpts are focused and explained.
 - [ ] Public assets and prose contain no private or irrelevant material.
 - [ ] A maintained README is not used as the content of an older milestone.
@@ -379,7 +381,8 @@ Review the card, detail page, and connections together.
 - [ ] The prominence matches the update's role in the portfolio.
 - [ ] The narrative has no empty, repetitive, or layout-driven sections.
 - [ ] Relationships use the correct semantic type and point forward.
-- [ ] Tags are consistent and useful for public browsing.
+- [ ] Tags are concise and useful for public browsing without being forced into
+      a controlled vocabulary.
 - [ ] Links and related records resolve.
 - [ ] Every named portfolio item that is important to the explanation has the
       correct graph relationship and a nearby `reference-card`; incidental
@@ -392,7 +395,7 @@ Review the card, detail page, and connections together.
 ### Presentation
 
 - [ ] The title and summary read well on both a card and the detail page.
-- [ ] The page remains understandable when scanned by headings and captions.
+- [ ] The page remains understandable when scanned by headings and evidence descriptions.
 - [ ] Long titles and paragraphs wrap naturally on narrow and wide layouts.
 - [ ] The strongest information appears before optional technical depth.
 

@@ -17,47 +17,54 @@ import {
 } from './runtime-utils.js';
 
 const projectIndex = new Map();
+const capabilityIndex = new Map();
 
 export function setUpdateCatalog(updates) {
   projectIndex.clear();
   for (const update of Array.isArray(updates) ? updates : []) {
-    if (update?.slug) projectIndex.set(update.slug, update);
-    if (update?.folder) projectIndex.set(update.folder, update);
+    if (update?.key) projectIndex.set(update.key, update);
   }
 }
 
-function relatedProject(slug, current) {
-  const key = String(slug || '').trim();
-  if (!key || key === current.slug || key === current.folder) return null;
+export function setCapabilityCatalog(capabilities) {
+  capabilityIndex.clear();
+  for (const capability of Array.isArray(capabilities) ? capabilities : []) {
+    if (capability?.slug) capabilityIndex.set(capability.slug, capability);
+  }
+}
+
+function relatedProject(updateId, current) {
+  const key = String(updateId || '').trim();
+  if (!key || key === current.key) return null;
   return projectIndex.get(key) || null;
 }
 
-function evidenceCaption(block) {
-  const caption = String(block?.caption || '').trim();
-  const qualifier = String(block?.evidenceQualifier || '').trim();
-  if (!caption && !qualifier) return '';
-  return `<figcaption>${caption ? `<span class="evidence-caption">${html(caption)}</span>` : ''}${qualifier ? `<span class="evidence-qualifier">${html(qualifier)}</span>` : ''}</figcaption>`;
+function evidenceDescription(block, { ariaHidden = false } = {}) {
+  const description = String(block?.description || '').trim();
+  if (!description) return '';
+  return `<figcaption${ariaHidden ? ' aria-hidden="true"' : ''}><span class="evidence-description">${html(description)}</span></figcaption>`;
 }
 
 function mediaMetadata(src, update) {
   const path = normalizeUpdatePath(String(src || ''));
   const item = path ? update?.media?.items?.[path] : null;
   if (item && Number.isInteger(item.width) && Number.isInteger(item.height)) return item;
-  if (path && path === normalizeUpdatePath(update?.preview)
-      && Number.isInteger(update?.previewWidth) && Number.isInteger(update?.previewHeight)) {
-    return { width: update.previewWidth, height: update.previewHeight };
+  if (path && path === normalizeUpdatePath(update?.preview?.src)
+      && Number.isInteger(update?.preview?.width) && Number.isInteger(update?.preview?.height)) {
+    return { width: update.preview.width, height: update.preview.height };
   }
   return null;
 }
 
-function mediaTrigger(item, update, { caption = '', qualifier = '', className = '' } = {}) {
+function mediaTrigger(item, update, { className = '' } = {}) {
   const src = resolveUpdateAsset(item?.src, update);
   const metadata = mediaMetadata(item?.src, update);
   const width = metadata?.width || 1;
   const height = metadata?.height || 1;
   const dimensions = metadata ? ` width="${width}" height="${height}"` : '';
   const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${width}px"` : '';
-  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} aria-label="Open image: ${html(item?.alt)}" data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-alt="${html(item?.alt)}" data-pswp-caption="${html(caption)}" data-pswp-qualifier="${html(qualifier)}"><img src="${html(src)}" alt="${html(item?.alt)}"${dimensions} loading="lazy" decoding="async"></a>`;
+  const description = String(item?.description || '').trim();
+  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} aria-label="Open image: ${html(description)}" data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-description="${html(description)}"><img src="${html(src)}" alt="${html(description)}"${dimensions} loading="lazy" decoding="async"></a>`;
 }
 
 function renderText(block) {
@@ -67,7 +74,7 @@ function renderText(block) {
 function renderImage(block, update) {
   const metadata = mediaMetadata(block.src, update);
   const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${metadata.width}px"` : '';
-  return `<figure class="media-gallery"${intrinsicWidth}>${mediaTrigger(block, update, block)}${evidenceCaption(block)}</figure>`;
+  return `<figure class="media-gallery"${intrinsicWidth}>${mediaTrigger(block, update)}${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function parseYouTubeStart(value) {
@@ -123,20 +130,16 @@ function renderVideo(block, update) {
   const source = normalizeVideoSource(block, update);
   if (!source) return '<p class="render-warning">The video source is invalid for its selected provider.</p>';
   if (source.kind === 'embed') {
-    return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.title)}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceCaption(block)}</figure>`;
+    return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.description)}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
   }
-  return `<figure><video controls preload="metadata" src="${html(source.url)}" aria-label="${html(block.title)}"></video>${evidenceCaption(block)}</figure>`;
+  return `<figure><video controls preload="metadata" src="${html(source.url)}" aria-label="${html(block.description)}"></video>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function renderGallery(block, update) {
   const images = Array.isArray(block.images) ? block.images : [];
   const columns = images.length <= 2 ? Math.max(images.length, 1) : images.length <= 4 ? 2 : 3;
-  const items = images.map((item) => mediaTrigger(item, update, {
-    caption: item?.caption || block.caption || '',
-    qualifier: block.evidenceQualifier || '',
-    className: 'gallery-item',
-  })).join('');
-  return `<figure class="gallery-figure media-gallery" data-gallery-fit="${html(block.fit)}"><div class="gallery-grid gallery-cols-${columns}">${items}</div>${evidenceCaption(block)}</figure>`;
+  const items = images.map((item) => mediaTrigger(item, update, { className: 'gallery-item' })).join('');
+  return `<figure class="gallery-figure media-gallery" data-gallery-fit="${html(block.fit)}"><div class="gallery-grid gallery-cols-${columns}">${items}</div>${evidenceDescription(block)}</figure>`;
 }
 
 function renderMarkdownDocument(block, update) {
@@ -164,14 +167,14 @@ async function hydrateMarkdownDocument(element, block, update) {
 
 function renderPdf(block, update) {
   const src = resolveUpdateAsset(block.src, update);
-  return `<figure><div class="pdf-actions"><strong>${html(block.title)}</strong><span><a href="${html(src)}" class="button" target="_blank" rel="noopener noreferrer">Open PDF →</a><a href="${html(src)}" class="button" download>Download PDF</a></span></div><object data="${html(src)}" type="application/pdf" class="pdf-embed" aria-label="${html(block.title)}"><p class="pdf-embed-message">This browser cannot embed the PDF. Use the Open or Download action above.</p></object>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="pdf-actions"><strong>PDF document</strong><span><a href="${html(src)}" class="button" target="_blank" rel="noopener noreferrer">Open PDF →</a><a href="${html(src)}" class="button" download>Download PDF</a></span></div><object data="${html(src)}" type="application/pdf" class="pdf-embed" aria-label="${html(block.description)}"><p class="pdf-embed-message">This browser cannot embed the PDF. Use the Open or Download action above.</p></object>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function renderCode(block) {
   const attached = getBlockSourceMode(block) === 'attached';
   const title = block.filename || block.language || (attached ? block.src : '') || '';
   const pending = attached ? '// Loading source file…' : (block.code || '');
-  return `<figure><div class="code-block-header"><span class="code-block-title">${html(title)}</span>${block.filename && block.language ? `<span class="code-block-lang">${html(block.language)}</span>` : ''}<span class="source-actions"><button class="source-wrap-btn" type="button" aria-pressed="false">Wrap</button><button class="code-copy-btn" type="button">Copy</button></span></div><pre class="code-block-pre"><code class="language-${html(block.language)}">${html(pending)}</code></pre>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="code-block-header"><span class="code-block-title">${html(title)}</span>${block.filename && block.language ? `<span class="code-block-lang">${html(block.language)}</span>` : ''}<span class="source-actions"><button class="source-wrap-btn" type="button" aria-pressed="false">Wrap</button><button class="code-copy-btn" type="button">Copy</button></span></div><pre class="code-block-pre"><code class="language-${html(block.language)}">${html(pending)}</code></pre>${evidenceDescription(block)}</figure>`;
 }
 
 async function copySource(button, text) {
@@ -217,7 +220,7 @@ function renderTerminal(block) {
     return `<span class="terminal-prompt">${html(command?.prompt || '$ ')}</span><span class="terminal-command">${html(command?.command)}</span>${output}`;
   }).join('\n');
   const pending = attached ? '# Loading terminal transcript…' : commands;
-  return `<figure><div class="terminal-window" role="region" aria-label="${html(block.label)}"><div class="terminal-titlebar"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></span><span class="source-actions"><button class="source-wrap-btn" type="button" aria-pressed="false">Wrap</button><button class="terminal-copy-btn" type="button">Copy</button></span></div><pre class="terminal-body"><code>${pending}</code></pre></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="terminal-window" role="region" aria-label="Terminal transcript"><div class="terminal-titlebar"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></span><span class="source-actions"><button class="source-wrap-btn" type="button" aria-pressed="false">Wrap</button><button class="terminal-copy-btn" type="button">Copy</button></span></div><pre class="terminal-body"><code>${pending}</code></pre></div>${evidenceDescription(block)}</figure>`;
 }
 
 async function hydrateTerminal(element, block, update) {
@@ -232,8 +235,8 @@ async function hydrateTerminal(element, block, update) {
 }
 
 function renderComparison(block, update) {
-  const side = (value) => value?.src ? `<div class="comparison-side"><div class="comparison-label">${html(value.label)}</div>${mediaTrigger(value, update, { caption: value.label, qualifier: block.evidenceQualifier || '' })}</div>` : '';
-  return `<figure class="media-gallery"><div class="comparison-container">${side(block.before)}${side(block.after)}</div>${evidenceCaption(block)}</figure>`;
+  const side = (value) => value?.src ? `<div class="comparison-side"><div class="comparison-label">${html(value.label)}</div>${mediaTrigger(value, update)}<p class="comparison-description" aria-hidden="true">${html(value.description)}</p></div>` : '';
+  return `<figure class="media-gallery"><div class="comparison-container">${side(block.before)}${side(block.after)}</div>${evidenceDescription(block)}</figure>`;
 }
 
 function graphTable(payload) {
@@ -241,12 +244,12 @@ function graphTable(payload) {
   const datasets = Array.isArray(payload.datasets) ? payload.datasets : [];
   const head = datasets.map((set) => `<th scope="col">${html(set.label)}</th>`).join('');
   const rows = labels.map((label, index) => `<tr><th scope="row">${html(label)}</th>${datasets.map((set) => `<td>${html(set.data?.[index] ?? '')}</td>`).join('')}</tr>`).join('');
-  return `<div class="graph-data"><table><caption>${html(payload.summary)}</caption><thead><tr><th scope="col">Label</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="graph-data"><table><caption>${html(payload.description)}</caption><thead><tr><th scope="col">Label</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function renderGraph(block, _project, context) {
   const table = getBlockSourceMode(block) === 'inline' ? graphTable(block) : '<div class="graph-data"><p>Loading chart data…</p></div>';
-  return `<figure><p class="sr-only">${html(block.summary)}</p><div class="graph-container"><canvas id="graph-${html(context.path.replaceAll('.', '-'))}" aria-hidden="true"></canvas></div>${table}${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="graph-container"><canvas id="graph-${html(context.path.replaceAll('.', '-'))}" aria-hidden="true"></canvas></div>${table}</figure>`;
 }
 
 function parseGraph(text, path) {
@@ -271,7 +274,7 @@ async function hydrateGraph(element, block, update) {
     const payload = getBlockSourceMode(block) === 'attached'
       ? parseGraph(await fetchUpdateText(block.src, update), block.src)
       : block;
-    payload.summary = block.summary;
+    payload.description = block.description;
     const colors = ['#ff8662', '#f4ba72', '#7fb7a3', '#b89bd9', '#7fa8d8'];
     new window.Chart(element.querySelector('canvas').getContext('2d'), {
       type: payload.chartType || 'bar',
@@ -293,7 +296,7 @@ async function hydrateGraph(element, block, update) {
 }
 
 function renderMermaid(block) {
-  return `<figure><p class="sr-only">${html(block.summary)}</p><div class="diagram-toolbar" role="toolbar" aria-label="Diagram zoom controls"><button type="button" data-diagram-action="out" aria-label="Zoom out" title="Zoom out"><span aria-hidden="true">−</span></button><button type="button" class="diagram-zoom-reset" data-diagram-action="reset" aria-label="Reset diagram zoom to 100%"><span aria-hidden="true">100%</span></button><button type="button" data-diagram-action="in" aria-label="Zoom in" title="Zoom in"><span aria-hidden="true">+</span></button></div><div class="mermaid-frame"><div class="mermaid-viewport" tabindex="0" aria-label="Scrollable diagram: ${html(block.summary)}"><div class="mermaid-diagram"></div></div></div>${evidenceCaption(block)}</figure>`;
+  return `<figure><div class="diagram-toolbar" role="toolbar" aria-label="Diagram zoom controls"><button type="button" data-diagram-action="out" aria-label="Zoom out" title="Zoom out"><span aria-hidden="true">−</span></button><button type="button" class="diagram-zoom-reset" data-diagram-action="reset" aria-label="Reset diagram zoom to 100%"><span aria-hidden="true">100%</span></button><button type="button" data-diagram-action="in" aria-label="Zoom in" title="Zoom in"><span aria-hidden="true">+</span></button></div><div class="mermaid-frame"><div class="mermaid-viewport" tabindex="0" aria-label="Scrollable diagram: ${html(block.description)}"><div class="mermaid-diagram"></div></div></div>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 async function hydrateMermaid(element, block, update) {
@@ -337,7 +340,7 @@ async function hydrateMermaid(element, block, update) {
       const reset = element.querySelector('[data-diagram-action="reset"]');
       reset.querySelector('span').textContent = `${percentage}%`;
       reset.setAttribute('aria-label', `Reset diagram zoom to 100% (currently ${percentage}%)`);
-      viewport?.setAttribute('aria-label', `Scrollable diagram at ${percentage}%: ${block.summary}`);
+      viewport?.setAttribute('aria-label', `Scrollable diagram at ${percentage}%: ${block.description}`);
       element.querySelector('[data-diagram-action="out"]').setAttribute('aria-disabled', String(scale <= 0.5));
       element.querySelector('[data-diagram-action="in"]').setAttribute('aria-disabled', String(scale >= 3));
     };
@@ -379,10 +382,9 @@ async function hydrateMermaid(element, block, update) {
 }
 
 function renderUpdateReference(block, update, variant) {
-  const target = relatedProject(block.slug, update);
-  if (!target) return window.__portfolioBridge ? `<div class="related-update-${variant} related-update-invalid">Unknown update: ${html(block.slug || '(missing)')}</div>` : '';
-  const folder = encodeURIComponent(target.folder || target.slug);
-  const href = `${folder}/detail.html`;
+  const target = relatedProject(block.updateId, update);
+  if (!target) return window.__portfolioBridge ? `<div class="related-update-${variant} related-update-invalid">Unknown update: ${html(block.updateId || '(missing)')}</div>` : '';
+  const href = `${encodeURIComponent(target.key)}/detail.html`;
   if (variant === 'mini') return `<a class="related-update-mini" href="${href}"><span>${html(block.label || target.title)}</span><span aria-hidden="true">→</span></a>`;
   return `<a class="reference-update-card" href="${href}"><span class="reference-update-eyebrow">Related update${target.date ? ` · ${html(formatUpdateDate(target.date))}` : ''}</span><h3>${html(target.title)}</h3><p>${html(target.summary)}</p><span class="reference-update-link">Read update <span aria-hidden="true">→</span></span></a>`;
 }
@@ -478,11 +480,10 @@ async function hydrateBlocks(root, blocks, update, parentPath = '') {
 function renderPreview(update) {
   if (update.prominence === 'low') return '';
   const placeholderSource = generatePlaceholderDataUri(update.title);
-  const width = Number.isInteger(update.previewWidth) ? update.previewWidth : 640;
-  const height = Number.isInteger(update.previewHeight) ? update.previewHeight : 360;
-  if (update.preview) {
-    const trigger = mediaTrigger({ src: update.preview, alt: update.previewAlt || update.title }, update, {
-      caption: update.previewAlt || update.title,
+  const width = Number.isInteger(update.preview?.width) ? update.preview.width : 640;
+  const height = Number.isInteger(update.preview?.height) ? update.preview.height : 360;
+  if (update.preview?.src) {
+    const trigger = mediaTrigger(update.preview, update, {
       className: 'update-preview-trigger',
     }).replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
     return `<section class="update-preview"><figure class="media-gallery">${trigger}</figure></section>`;
@@ -493,20 +494,23 @@ function renderPreview(update) {
 function renderHeaderExtras(update) {
   const tags = (Array.isArray(update.tags) ? update.tags : []).map((tag) => `<span class="tag">${html(tag)}</span>`).join('');
   const links = [];
-  const github = safeExternalUrl(update.github);
-  const external = safeExternalUrl(update.externalUrl);
-  if (github) links.push(`<a href="${html(github)}" class="button" target="_blank" rel="noopener noreferrer">View on GitHub</a>`);
-  if (external) links.push(`<a href="${html(external)}" class="button" target="_blank" rel="noopener noreferrer">View live →</a>`);
+  const external = safeExternalUrl(update.external_url);
+  if (external) {
+    const hostname = new URL(external, document.baseURI).hostname.toLowerCase().replace(/^www\./, '');
+    const label = hostname === 'github.com' ? 'View on GitHub' : 'View live →';
+    links.push(`<a href="${html(external)}" class="button" target="_blank" rel="noopener noreferrer">${label}</a>`);
+  }
   const metadata = `${tags ? `<div class="tag-row">${tags}</div>` : ''}${links.length ? `<div class="button-row">${links.join('')}</div>` : ''}`;
   return `<div class="update-overview">${renderPreview(update)}${metadata ? `<div class="update-overview-meta">${metadata}</div>` : ''}</div>`;
 }
 
 function relationshipLink(item) {
-  if (!item) return '';
-  const date = formatUpdateDate(item.date);
+  const target = projectIndex.get(String(item || ''));
+  if (!target) return '';
+  const date = formatUpdateDate(target.date);
   return `
-    <a class="update-relationship-link" href="${encodeURIComponent(item.folder || item.slug)}/detail.html">
-      <span class="update-relationship-title">${html(item.title)}</span>
+    <a class="update-relationship-link" href="${encodeURIComponent(target.key)}/detail.html">
+      <span class="update-relationship-title">${html(target.title)}</span>
       ${date ? `<span class="update-relationship-date">${html(date)}</span>` : ''}
       <span class="update-relationship-arrow" aria-hidden="true">→</span>
     </a>
@@ -541,10 +545,9 @@ function renderVersionNotice(update) {
 
 function renderVersionHistory(update) {
   const relationships = update.relationships || {};
-  const identity = (item) => String(item?.slug || item?.folder || '').trim();
-  const latestIdentity = identity(relationships.latest);
+  const latestIdentity = String(relationships.latest || '');
   const otherLaterVersions = (relationships.superseded_by || [])
-    .filter((item) => identity(item) !== latestIdentity);
+    .filter((item) => item !== latestIdentity);
   const groups = [
     relationshipGroup('Earlier version', relationships.supersedes),
     relationshipGroup('Other later versions', otherLaterVersions),
@@ -579,7 +582,7 @@ function renderRelationshipList(update) {
 function renderCapabilityList(update) {
   const capabilities = Array.isArray(update.capabilities) ? update.capabilities : [];
   if (!capabilities.length) return '';
-  const cards = capabilities.map((capability) => {
+  const cards = capabilities.map((key) => capabilityIndex.get(String(key || ''))).filter(Boolean).map((capability) => {
     const folder = encodeURIComponent(capability.folder || capability.slug);
     const count = Number.isInteger(capability.evidenceCount) ? capability.evidenceCount : null;
     const evidence = count == null ? '' : `<span class="update-capability-count">Supported by ${count} example${count === 1 ? '' : 's'}</span>`;
@@ -602,14 +605,14 @@ function updateMetadata(update) {
   document.getElementById('update-title').textContent = update.title;
   document.getElementById('update-summary').textContent = update.summary || '';
   const kind = document.getElementById('update-kind');
-  if (kind) kind.textContent = update.prominence === 'low' ? 'Work update' : 'Project';
+  if (kind) kind.textContent = 'Update';
   const date = document.getElementById('update-date');
   if (date) date.textContent = formatUpdateDate(update.date);
 }
 
 export async function renderUpdate(update) {
   updateMetadata(update);
-  const blocks = Array.isArray(update.content?.blocks) ? update.content.blocks : [];
+  const blocks = Array.isArray(update.blocks) ? update.blocks : [];
   const editor = Boolean(window.__portfolioBridge);
   const content = blocks.map((block, index) => renderBlock(block, update, { path: String(index), topIndex: index, childIndex: null, parentId: null })).join('');
   const main = document.getElementById('main-content');

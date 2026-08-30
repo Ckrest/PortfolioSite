@@ -23,7 +23,7 @@ trap cleanup EXIT
 portfolio-editor-cli pool-get >"$pool_response"
 jq -e '
   .ok == true
-  and .data.schema == "portfolio-editor/accepted-pool@3"
+  and .data.schema == "portfolio-editor/accepted-pool@4"
   and .data.revision > 0
   and (.data.bundle.id | type == "string" and length > 0)
 ' "$pool_response" >/dev/null
