@@ -3,38 +3,46 @@ blocks:
 
 
     I added Ollama Query to send a prompt and optional system prompt to a local Ollama
-    server from inside ComfyUI. The node exposed sampling, context, reproducibility,
-    and connection settings directly in the graph, then returned the response text,
+    server from inside ComfyUI. The node exposes sampling, context, reproducibility,
+    and connection settings directly in the graph, then returns the response text,
     raw JSON, and token count for downstream use.'
   id: blk_editorial_comfyui-ollama-nodes
   type: text
-- description: Captures show the original Ollama Query controls and the separate node
-    used to list models from the configured endpoint.
-  fit: contain
+- description: Ollama Query keeps model selection, prompts, sampling controls, endpoint
+    settings, and response outputs visible in the ComfyUI graph.
   id: blk_ollama_gallery
-  images:
-  - description: Ollama Query node with model selection, prompt, system prompt, sampling,
-      seed, context, and endpoint controls
-    src: media/screenshot_2026-02-28_16-10-04-1.png
-  - description: Ollama Model List node with trigger, endpoint, model-list, and JSON
-      outputs
-    src: media/screenshot_2026-02-28_16-10-26.png
-  presentation: wide
-  type: gallery
+  kind: image
+  presentation: intrinsic
+  src: media/screenshot_2026-02-28_16-10-04-1.png
+  type: image
+- description: The compact Model List node exposes models from the configured Ollama
+    endpoint for use elsewhere in the workflow.
+  id: blk_ollama_model_list
+  kind: image
+  presentation: intrinsic
+  src: media/screenshot_2026-02-28_16-10-26.png
+  type: image
 - body: '## Pass chat history forward
 
 
-    Ollama Chat used the local `/api/chat` endpoint, accepted prior messages as JSON,
-    and returned the updated history alongside the response. Connecting that output
-    into another chat node kept the conversation explicit in the workflow instead
+    Ollama Chat uses the local `/api/chat` endpoint, accepts prior messages as JSON,
+    and returns the updated history alongside the response. Connecting that output
+    into another chat node keeps the conversation explicit in the workflow instead
     of storing it in a hidden global session.'
   id: blk_editorial_ollama-chat-history
   type: text
+- code: "flowchart LR\n  History[Prior messages JSON] --> Chat[Ollama Chat]\n  Prompt[New\
+    \ prompt] --> Chat\n  Chat --> Reply[Response text]\n  Chat --> Updated[Updated\
+    \ messages JSON]\n  Updated --> Next[Next chat node]"
+  description: Each chat node returns updated message history that can feed the next
+    graph step.
+  id: blk_ollama_chat_history_flow
+  presentation: content
+  sourceMode: inline
+  type: mermaid
 date: '2025-12-19'
 external_url: https://github.com/Ckrest/comfyui-ollama-nodes
 prominence: low
-related_to:
-- doc_5e23d3f9b0e0511d9474b29addc7d003
 summary: Added ComfyUI nodes for querying local Ollama models, passing chat history
   between graph steps, and listing the models available on a configured endpoint.
 tags:

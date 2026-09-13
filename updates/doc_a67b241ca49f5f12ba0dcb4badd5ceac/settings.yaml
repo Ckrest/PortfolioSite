@@ -38,6 +38,7 @@ blocks:
     detail view brings narrative, evidence references, tags, technologies, and Git
     statistics into one readable record.
   id: blk_work_report_cli
+  kind: image
   presentation: intrinsic
   src: media/work-report-cli.png
   type: image
@@ -55,10 +56,11 @@ external_url: https://github.com/Ckrest/work-report
 preview:
   description: 'Terminal output for Work Report #1 showing report metadata, summary,
     files, tags, technologies, and Git statistics.'
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/work-report-cli.png
 prominence: high
-related_to:
-- doc_e76b0f81dd7b5b93a11e8f357b63ffb8
 summary: Created a command-line reporting tool that records what changed, why it changed,
   project context, commit statistics, and file or image references as searchable PostgreSQL
   records.

@@ -20,6 +20,7 @@ blocks:
     JSON document and local recovery backup, with optional synchronization. One storage
     boundary writes the readable document and an independent recovery copy.
   id: blk_daily_storage_flow
+  kind: image
   presentation: intrinsic
   src: media/storage-flow.svg
   type: image
@@ -50,6 +51,9 @@ external_url: https://github.com/Ckrest/daily-checkin-app
 preview:
   description: Daily Check-In mobile form beside its matching portable JSON record
     and local backup
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/daily-checkin-overview.svg
 prominence: high
 summary: Built a local-first React Native app for daily ratings, notes, optional sleep

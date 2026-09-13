@@ -3,7 +3,7 @@ blocks:
 
 
     I replaced the timeline’s one-size-fits-all markup with a shared entry renderer
-    used by the timeline, featured work, and standalone cards. Projects can now appear
+    used by the timeline, featured work, and standalone cards. Projects can appear
     as a full media card, a compact preview, or a small icon-and-title row, while
     GIF and video previews follow the same media path as static images.'
   id: blk_editorial_site-update-2026-01-16
@@ -21,22 +21,25 @@ blocks:
 - body: '## Keep filtering and bundling in sync
 
 
-    Older small entries can now combine into expandable bundles with an icon strip.
-    Bundling is recalculated after filters are applied, so a narrow result returns
-    to a normal entry instead of leaving a misleading group. The chosen tags, connection
-    mode, group, and project are written into the URL, allowing the same timeline
-    view to be reopened directly.'
+    Small entries can combine into expandable bundles with an icon strip. Bundling
+    is recalculated after filters are applied, so a narrow result returns to a normal
+    entry instead of leaving a misleading group. The URL preserves the selected tags,
+    project group, and entry, along with whether connecting lines are shown by shared
+    tag, by project group, or hidden. The same timeline view can therefore be reopened
+    directly.'
   id: blk_timeline_filtering
   type: text
 date: '2026-01-16'
 external_url: https://github.com/Ckrest/PortfolioSite
-part_of: doc_1a3826668acb53688961faa991a157f1
 preview:
-  description: Historical Portfolio Site timeline with compact update rows and a full
-    media card
+  description: Portfolio Site timeline combining compact update rows with a full media
+    card.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/timeline-live-state.png
 prominence: medium
-summary: Timeline entries now adapt to each project’s importance, support animated
+summary: Reworked timeline entries to match each project’s prominence, support animated
   previews and expandable icon bundles, and preserve filters and selections in shareable
   URLs.
 tags:

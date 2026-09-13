@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_71ce05a4e4195e4495b0cc3acd0eda03",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Built a shared agent config generator",
     "summary": "Built a small CLI that combines shared working conventions with agent-specific instructions, then previews, diffs, or writes the resulting configuration files.",
     "date": "2026-01-08",
@@ -11,11 +15,6 @@
       "Python",
       "CLI"
     ],
-    "relationships": {
-      "related": [
-        "doc_2c2680838c31548ca09c5f5f79aeb890"
-      ]
-    },
     "blocks": [
       {
         "body": "## Generate every configuration from shared instructions\n\nI built Agent Config Generator around a single `AGENTS.md` containing the conventions that should reach every coding agent. For each supported target, the CLI prepends any target-specific instructions and writes the combined text to the filename that tool expects.\n\nThe initial catalog covers three agent configurations. Output destinations can be moved with an optional YAML file, while the supported target definitions remain explicit in the script.",
@@ -44,12 +43,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:beb5a1be4a29423ccb00112c6863fa31505982fdd68976ef763fc81135b4d4ba",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

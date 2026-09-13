@@ -1,5 +1,5 @@
 [Unit]
-Description=Portfolio Site reviewed-pool local-network preview
+Description=Portfolio Site command-controlled local preview (10 minute timeout)
 After=network.target
 
 [Service]

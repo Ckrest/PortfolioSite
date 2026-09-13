@@ -3,8 +3,8 @@ blocks:
 
 
     I built a command for batches of screenshots and images whose generated names
-    carried no meaning. It sent each supported image to a selected local Ollama vision
-    model, then converted the response into a short, filesystem-safe filename.'
+    carried no meaning. It sends each supported image to a selected local Ollama vision
+    model, then converts the response into a short, filesystem-safe filename.'
   id: blk_editorial_vision-rename
   type: text
 - commands:
@@ -22,8 +22,8 @@ blocks:
 date: '2025-12-14'
 external_url: https://github.com/Ckrest/vision-rename
 prominence: low
-summary: Created a batch command that asked a local Ollama vision model for short
-  descriptive filenames and copied each result without altering the originals.
+summary: Created a batch command that asks a local Ollama vision model for short descriptive
+  filenames and copies each result without altering the originals.
 tags:
 - AI
 - Python

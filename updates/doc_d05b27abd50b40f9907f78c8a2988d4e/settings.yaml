@@ -65,14 +65,14 @@ date: '2026-01-08'
 preview:
   description: Diagram showing a package manifest flowing through discovery into a
     generated package index.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/package-registry-preview.png
 prominence: high
-related_to:
-- doc_e76b0f81dd7b5b93a11e8f357b63ffb8
-- doc_c9cdd79a861a5739aa99c3d1f3da27dc
-summary: Each tool and service now carries its own manifest, letting the workspace
-  discover package identity, status, interfaces, runtime, and dependencies directly
-  from package directories.
+summary: Built a registry where each tool and service carries its own manifest, letting
+  the workspace discover package identity, status, interfaces, runtime, and dependencies
+  directly from package directories.
 tags:
 - Python
 - CLI

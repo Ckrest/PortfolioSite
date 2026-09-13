@@ -2,10 +2,10 @@ blocks:
 - body: '## Make hover behavior explicit
 
 
-    Docklike now coordinates the panel button, preview popup, and menu items through
-    a dedicated `HoverManager` with closed, opening, open, and grace-period states.
-    Pointer movement feeds one state machine, keeping the menu available while moving
-    into it and clearing the hover style when the interaction ends.'
+    I introduced a dedicated `HoverManager` to coordinate the panel button, preview
+    popup, and menu items. It moves through closed, opening, open, and grace-period
+    states. Pointer movement feeds the state machine, keeping the menu available while
+    moving into it and clearing the hover style when the interaction ends.'
   id: blk_editorial_fix-hover-state-and-capt
   type: text
 - code: "flowchart LR\n  Enter[Pointer enters] --> Open[Show preview]\n  Leave[Pointer\
@@ -22,15 +22,21 @@ blocks:
 - body: '## Share capture time fairly
 
 
-    Live refresh requests now use queue depth to choose how captures are admitted.
-    At normal load, every visible window can request a fresh thumbnail; when the queue
+    Live refresh requests use queue depth to decide how captures are admitted. At
+    normal load, every visible window can request a fresh thumbnail; when the queue
     becomes busy, round-robin selection rotates the next accepted request between
     windows.'
   id: blk_docklike_capture_fairness
   type: text
 date: '2026-01-20'
-part_of: doc_cec34e8034f1584fa26d7325bc9341e5
-prominence: low
+preview:
+  description: A stable hover state keeps the window popup open while fair capture
+    scheduling refreshes every visible preview.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/2026-09-08_01-55-00.png
+prominence: medium
 summary: Introduced a dedicated hover state machine and fair capture scheduling so
   preview menus close cleanly and every visible window keeps receiving live thumbnail
   updates.

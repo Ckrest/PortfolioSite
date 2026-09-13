@@ -1,15 +1,13 @@
 /**
  * Synchronize the canonical block registry into this site's generated module.
  *
- * Independent canonical sources:
+ * Shared canonical source:
  *   updates/_block-registry.json
- *   capabilities/_block-registry.json
  *
- * Each registry generates only its own runtime module. The capability copy is
- * intentionally not refreshed from the update copy.
+ * Updates, projects, and capabilities use this one narrative contract.
  */
 
-import { mkdir, readFile, writeFile } from 'fs/promises';
+import { mkdir, readFile, writeFile, rm } from 'fs/promises';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,11 +19,7 @@ const REGISTRIES = [
     source: join(__dirname, '_block-registry.json'),
     generated: join(__dirname, 'generated', 'block-registry.js'),
   },
-  {
-    label: 'capability',
-    source: join(ROOT, 'capabilities', '_block-registry.json'),
-    generated: join(ROOT, 'capabilities', 'generated', 'block-registry.js'),
-  },
+
 ];
 
 function normalizeStringArray(value) {
@@ -235,6 +229,12 @@ async function main() {
     });
   }
 
+  const media = JSON.parse(await readFile(join(__dirname, '_media-contract.json'), 'utf8'));
+  outputs.push({label: 'media', generated: join(ROOT, 'js/generated/media-contract.js'),
+    content: '// Generated from updates/_media-contract.json; do not edit.\nexport const MEDIA_CONTRACT = ' + JSON.stringify(media, null, 2) + ';\n'});
+  const relationships = JSON.parse(await readFile(join(__dirname, '_relationship-contract.json'), 'utf8'));
+  outputs.push({label: 'relationships', generated: join(ROOT, 'js/generated/relationship-contract.js'),
+    content: '// Generated from updates/_relationship-contract.json; do not edit.\nexport const RELATIONSHIP_CONTRACT = ' + JSON.stringify(relationships, null, 2) + ';\n'});
   if (process.argv.includes('--check')) {
     const stale = [];
     for (const output of outputs) {
@@ -244,7 +244,7 @@ async function main() {
     if (stale.length) {
       throw new Error(`Generated block registries are stale: ${stale.join(', ')}; run npm run sync:block-registry`);
     }
-    console.log('Generated update and capability block registries are current');
+    console.log('Shared portfolio block registry is current');
     return;
   }
 
@@ -258,3 +258,5 @@ main().catch((err) => {
   console.error('Block registry sync failed:', err);
   process.exit(1);
 });
+
+if (!process.argv.includes('--check')) await rm(join(ROOT, 'capabilities/generated'), { recursive: true, force: true });

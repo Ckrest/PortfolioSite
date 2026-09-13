@@ -1,0 +1,86 @@
+blocks:
+- body: '## Read the watch data locally
+
+
+    I built Gadgetbridge Sleep to turn a synced watch database into data that other
+    local tools can use. It reads activity samples from SQLite, classifies them, and
+    produces sleep sessions and daily activity totals.
+
+
+    I replaced its external import dependency with a Python port of Gadgetbridge’s
+    existing classification and aggregation algorithms. The tool owns the translation
+    from device records to structured results; a dashboard can consume those results
+    without reproducing the device rules.'
+  id: blk_watch_context
+  type: text
+- code: "flowchart TB\n DB[\"Synced Gadgetbridge database\"] --> TABLE{\"Activity\
+    \ table\"}\n TABLE --> MI[\"Mi Band: normalize flags and carry forward activity\"\
+    ]\n TABLE --> HU[\"Huami Extended: map explicit activity types\"]\n MI --> SAMPLES[\"\
+    Classified samples\"]\n HU --> SAMPLES\n SAMPLES --> SESSIONS[\"Sleep sessions\"\
+    ]\n SAMPLES --> TOTALS[\"Daily activity totals\"]\n SESSIONS --> USE[\"Local consumers\"\
+    ]\n TOTALS --> USE"
+  description: Two device-data paths converge on classified samples, which supply
+    both session detection and daily totals.
+  id: blk_watch_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Preserve the rules behind each sample
+
+
+    The two supported activity tables need different decoding paths. The Mi Band path
+    strips flag bits and carries the previous valid activity type across “no change”
+    samples. The Huami Extended path maps its explicit activity values directly.
+
+
+    I kept the corresponding Gadgetbridge Java sources alongside the port. That gives
+    the Python implementation an inspectable reference for the behavior it carries
+    across languages.'
+  id: blk_watch_classification
+  type: text
+- code: "for sample in samples:\n    raw = sample.raw_kind\n    if raw != TYPE_UNSET:\n\
+    \        raw &= 0xf  # Strip upper nibble\n        sample.raw_kind = raw\n\n \
+    \   if raw in (TYPE_NO_CHANGE, TYPE_IGNORE):\n        # Inherit last valid type\n\
+    \        if last_valid != TYPE_UNSET:\n            sample.raw_kind = last_valid\n\
+    \    else:\n        last_valid = raw"
+  description: The Mi Band preprocessing loop preserves continuity by carrying a valid
+    activity type across unchanged samples.
+  filename: classifier.py
+  id: blk_watch_source
+  language: python
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Return data that can be reused
+
+
+    Session detection and daily aggregation operate on the classified samples. The
+    command-line interface exposes the results independently of the presentation layer,
+    so the same local data can support a dashboard, an inspection command, or another
+    integration.
+
+
+    The result connects a device-specific record format to a reusable Python data
+    interface while retaining the upstream algorithm’s role in the implementation.'
+  id: blk_watch_result
+  type: text
+- id: blk_relationship_context_2ae1e22a4ed9
+  label: 'Sleep Tracker: day and week views that consume watch data'
+  type: related-mini
+  updateId: doc_2ae1e22a4ed957048348c988b376312f
+date: '2026-02-20'
+kind: update
+preview:
+  description: Keep device-specific decoding behind one data interface.
+  fit: contain
+  kind: image
+  placement: cards-only
+  src: media/watch-overview.svg
+prominence: low
+summary: Ported Gadgetbridge’s classification rules into a local Python tool that
+  reads watch samples and returns reusable sleep sessions and daily activity totals.
+tags:
+- Python
+- Data Pipelines
+- Integration
+title: Turned watch activity into reusable sleep-session data

@@ -3,8 +3,8 @@ blocks:
 
 
     Several windows can legitimately share a title and application ID. The capture
-    path now carries the underlying Wayfire view on each foreign-toplevel handle,
-    giving every request an exact window identity.
+    path carries the underlying Wayfire view on each foreign-toplevel handle, giving
+    every request an exact window identity.
 
 
     That direct handle-to-view link keeps each window attached to its own capture
@@ -25,7 +25,6 @@ blocks:
   type: mermaid
 date: '2026-01-18'
 external_url: https://github.com/Ckrest/wayfire-toplevel-capture
-part_of: doc_cec34e8034f1584fa26d7325bc9341e5
 prominence: low
 summary: Connected each foreign-toplevel handle directly to its Wayfire view so windows
   sharing a title and application ID still receive separate capture sources.

@@ -1,7 +1,16 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_2e4140eb93645e53954507d3aba8c374",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      ],
+      "display_projects": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      ]
+    },
     "title": "Made Desktop HUD profiles define complete scenes",
     "summary": "Moved each element’s renderer, data source, presentation, and geometry into layout profiles, allowing a profile switch to replace the complete HUD composition.",
     "date": "2026-02-23",
@@ -15,9 +24,6 @@
       "Desktop Environment",
       "Migration"
     ],
-    "relationships": {
-      "part_of": "doc_004858c24c955a1aa023a9e8eb9c3180"
-    },
     "blocks": [
       {
         "body": "## Let profiles define the elements\n\nThe main configuration selects profiles through `startup_profiles`, while each layout file carries the element records needed to build its scene. Type-specific settings such as renderer, provider, source, and opacity live beside position and size instead of being split across separate configuration layers.\n\nLoading a profile therefore creates its content and its arrangement from the same document.",
@@ -39,12 +45,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:a8c26e3831a4e486437e778398d3022bac47a3050a1be1c49f6f20b200b11b85",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

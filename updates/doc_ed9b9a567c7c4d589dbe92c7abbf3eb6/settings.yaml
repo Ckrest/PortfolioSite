@@ -29,26 +29,28 @@ blocks:
 - body: '## Make repository ownership explicit
 
 
-    Each package now has a defined VCSH repository identity, repository conventions,
-    and ignore rules. Git operations can target that identity instead of inferring
-    ownership from whichever directory happens to be active.
+    Each package has a defined VCSH repository identity, repository conventions, and
+    ignore rules. Git operations can target that identity instead of inferring ownership
+    from whichever directory happens to be active.
 
 
     This formalizes tracking across the workspace: changes can be found across packages,
     assigned to the repository that owns them, and committed without pulling neighboring
-    package work into the same history. The structure now covers 53 packages, including
-    10 forks with their own upstream configuration.'
+    package work into the same history. Forks retain their own upstream configuration
+    within the same structure.'
   id: blk_vcsh_structure
   type: text
 date: '2026-01-27'
-part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
 preview:
   description: An isometric shared workspace platform with distinct package modules
     connected to separate external history archives.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/vcsh-workspace-preview.png
 prominence: medium
-summary: Constellation now uses VCSH to track packages independently inside one shared
-  workspace, giving every package a formal Git ownership boundary without splitting
+summary: Adopted VCSH to track packages independently inside one shared Constellation
+  workspace, giving each package a formal Git ownership boundary without splitting
   apart the files that work together.
 tags:
 - Git

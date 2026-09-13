@@ -1,0 +1,93 @@
+blocks:
+- body: '## Keep useful evidence after the work ends
+
+
+    A screenshot, source change, chart, or terminal session can explain a result better
+    than a written summary. That evidence loses its value when the file disappears
+    or its context is forgotten.
+
+
+    I built the artifact pipeline to preserve those outputs with enough structure
+    to find, evaluate, and reuse them. It connects discovery and capture in Work Report
+    with the block model in Portfolio Editor. The broader Work-to-Portfolio Pipeline
+    uses this evidence layer to support its public narrative.'
+  id: blk_placeholder
+  type: text
+- body: '## Discover deliberately, retain durably
+
+
+    Evidence discovery starts from supplied paths, Git worktrees, or registered references.
+    A candidate can be inspected before it is selected for a report. Local files are
+    copied into the application-owned artifact corpus, while URLs keep their identity
+    as external references.
+
+
+    Each artifact carries a stable ID, semantic kind, storage state, source locator,
+    caption, and review state. Capture time, content digests, and file metadata provide
+    additional context for checking what the record represents.'
+  id: blk_artifact_project_capture
+  type: text
+- code: "flowchart TB\n INPUT[\"Supplied paths, Git worktrees, registered references\"\
+    ] --> CANDIDATE[\"Discover and inspect candidates\"]\n CANDIDATE --> SELECT[\"\
+    Select evidence for a report\"]\n SELECT --> RECORD[\"Stable artifact record +\
+    \ retained material\"]\n RECORD --> REPORT[\"Work Report: context and evidence\"\
+    ]\n REPORT --> EDITOR[\"Portfolio Editor: choose and edit a block\"]"
+  description: Discovery identifies candidates; deliberate selection creates a durable
+    report association before evidence is reused in a portfolio block.
+  id: blk_artifact_project_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Preserve meaning across formats
+
+
+    The artifact''s kind provides a useful starting point for presentation. Images
+    can become image blocks, source samples can become code blocks, terminal output
+    can retain its terminal presentation, and structured data can supply graphs or
+    comparisons.
+
+
+    Portfolio Editor inspects the material before choosing that representation. The
+    resulting block remains editable: I can adjust its caption, trim the explanation,
+    change its position, and decide whether it belongs on the public page.'
+  id: blk_artifact_project_reuse
+  type: text
+- body: '## Carry the evidence forward
+
+
+    This gives documentation a reusable evidence base. A report can retain the material
+    that supports its account even after the producing session ends, and a portfolio
+    page can draw from that material without reconstructing it by hand.
+
+
+    The project timeline records the engineering behind this boundary, including durable
+    capture, staging and curation, shared discovery, and a provenance migration that
+    retained 711 older artifacts.'
+  id: blk_artifact_project_result
+  type: text
+- id: blk_artifact_project_pipeline
+  label: 'Work-to-Portfolio Pipeline: the complete workflow'
+  type: related-mini
+  updateId: doc_40b975bbf0a752d28c9b6ad51d28544a
+- id: blk_artifact_project_report
+  label: 'Work Report System: the durable record and artifact corpus'
+  type: related-mini
+  updateId: doc_c20a72a1aab145e281e072087258ab88
+date: '2026-09-12'
+kind: project
+preview:
+  description: Typed evidence moves from Work Report artifacts into editable portfolio
+    blocks and a rendered page.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/artifact-pipeline-overview.svg
+summary: A shared path for discovering, retaining, and describing work evidence so
+  reports and portfolio pages can reuse the same artifacts.
+tags:
+- Python
+- Architecture
+- Documentation
+- Automation
+- Data Pipelines
+title: Work Evidence Pipeline

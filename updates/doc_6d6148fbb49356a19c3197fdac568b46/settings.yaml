@@ -12,11 +12,16 @@ blocks:
     its normal search, selection, and launch behavior inside the XFCE panel.'
   id: blk_editorial_whisker-wayfire-wayland-
   type: text
+- id: blk_relationship_context_8cfd10774844
+  label: 'XFCE migration: the panel and retained desktop forks'
+  type: related-mini
+  updateId: doc_8cfd107748445dcf8674dabc5865d0ff
 - description: Whisker Menu showing favorite applications alongside categories such
     as accessories, graphics, internet, multimedia, office, settings, and system.
     Whisker Menu combines favorites, recent applications, searchable programs, and
     category browsing in one launcher. Image from the XFCE Whisker Menu documentation.
   id: blk_whisker_menu_overview
+  kind: image
   presentation: intrinsic
   src: media/whisker-menu-favorites.png
   type: image
@@ -44,7 +49,6 @@ blocks:
   id: blk_whisker_wayland_focus_gap
   type: text
 date: '2026-02-11'
-part_of: doc_8cfd107748445dcf8674dabc5865d0ff
 prominence: low
 summary: Adapted XFCE’s searchable application launcher for a Wayland/Wayfire desktop,
   preserving its familiar menu workflow while adding compositor-aware focus handling.

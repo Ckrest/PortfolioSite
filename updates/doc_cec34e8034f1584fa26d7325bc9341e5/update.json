@@ -1,14 +1,29 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_cec34e8034f1584fa26d7325bc9341e5",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_a230ccdc63be48a886be340d751cad33"
+      ],
+      "projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6"
+      ],
+      "display_projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6"
+      ]
+    },
     "title": "Ported Docklike to Wayland with live window previews",
     "summary": "Rebuilt Docklike’s window model around Wayland protocols, preserving grouped taskbar controls while adding asynchronous live previews for each application’s open windows.",
     "date": "2026-01-18",
     "prominence": "high",
     "preview": {
-      "src": "media/docklike-live-window-previews.png",
       "description": "Docklike panel menu showing live previews for two open file manager windows",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/docklike-live-window-previews.png",
       "width": 740,
       "height": 347
     },
@@ -18,20 +33,9 @@
       "XFCE",
       "Window Capture"
     ],
-    "relationships": {
-      "parts": [
-        "doc_57d88fbcb0345f9ea34a25c70cefb981",
-        "doc_8a5a62eb3d715b5faad4d314849ae7c1",
-        "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a",
-        "doc_c84281d5fa3b56b5a063455815ed6cc8"
-      ],
-      "related": [
-        "doc_8cfd107748445dcf8674dabc5865d0ff"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Rebuild the taskbar around Wayland\n\nDocklike now follows Wayland events for window creation, titles, application identity, state changes, activation, and removal. Application identifiers are matched to desktop entries so open windows remain grouped beneath the correct pinned launcher.\n\nTaskbar actions—including activation, minimizing, maximizing, and closing—now operate through this Wayland-backed model.",
+        "body": "## Rebuild the taskbar around Wayland\n\nI rebuilt Docklike’s window model around Wayland. It follows Wayland events for window creation, titles, application identity, state changes, activation, and removal. Application identifiers are matched to desktop entries so open windows remain grouped beneath the correct pinned launcher.\n\nTaskbar actions—including activation, minimizing, maximizing, and closing—operate through this Wayland-backed model.",
         "type": "text"
       },
       {
@@ -40,6 +44,7 @@
       },
       {
         "description": "Docklike panel menu showing live previews for two open file manager windows. Each open window appears as a distinct live preview beneath its grouped application.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/docklike-live-window-previews.png",
         "type": "image"
@@ -50,6 +55,7 @@
       },
       {
         "description": "Docklike panel demonstrating pinned applications, grouped windows, reordering, and quick switching. Pinned applications, grouped windows, reordering, and quick switching remain available directly from the XFCE panel.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/screenshot_2026-03-01_20-15-00.png",
         "type": "image"
@@ -57,22 +63,34 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:eea53a3bb44c20346f0dcba873abe27bd845ab37fa71563b6cfa09392503b09d",
+        "byte_size": 500,
+        "animated": false
       },
       "media/docklike-live-window-previews.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 740,
-        "height": 347
+        "height": 347,
+        "digest": "sha256:bce57eeabe523039fa52b073ff8399f6e56d83a244de504d2b621238db6961d2",
+        "byte_size": 82403,
+        "animated": false
       },
       "media/screenshot_2026-03-01_20-15-00.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 680,
-        "height": 459
+        "height": 459,
+        "digest": "sha256:41e005b0e422a718818b265b1e168de5822c2326366fde4bd577895e9a86057e",
+        "byte_size": 142010,
+        "animated": false
       }
     }
   }

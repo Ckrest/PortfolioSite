@@ -21,7 +21,7 @@ A presentable capability lets an outside reader determine:
 1. **What can I do?** State a specific, reusable ability.
 2. **Why is it valuable?** Connect the ability to a user, team, or
    organizational result.
-3. **What work demonstrates it?** Select convincing updates.
+3. **What work demonstrates it?** Select convincing projects or updates.
 4. **Why does that work count as evidence?** Explain the relevant contribution,
    decision, or result instead of making the reader infer the connection.
 5. **How broad is the claim?** Show range across situations or state the
@@ -38,7 +38,7 @@ A strong capability is:
 - **Useful:** A reader can understand the practical value it creates.
 - **Specific:** It is narrower than a profession or generic trait.
 - **Transferable:** The underlying judgment can apply in more than one context.
-- **Demonstrated:** Concrete updates support the claim.
+- **Demonstrated:** Concrete projects or updates support the claim.
 - **Owned:** The page makes your contribution and recurring decisions clear.
 
 Strong capability titles combine an action with a useful object or constraint:
@@ -61,9 +61,9 @@ Avoid titles that are only:
 
 ### 1. Start with evidence
 
-Review the updates before naming the capability. Look for a repeated pattern in
-what you did, the constraints you handled, the decisions you made, and the
-value produced.
+Review the projects and updates before naming the capability. Look for a
+repeated pattern in what you did, the constraints you handled, the decisions
+you made, and the value produced.
 
 Ask:
 
@@ -108,11 +108,13 @@ unless the page defines and substantiates them—which will rarely be useful.
 
 ### 4. Select representative evidence
 
-The capability owns the `evidence` list. Add stable update IDs to the capability;
-never add reverse capability fields to update settings. The build generates
-update backlinks and the public "Capabilities demonstrated" section.
+In Portfolio Editor, select projects or updates under **Demonstrated work**.
+The same connection can be selected from a project's or update's capabilities
+field. Each connection is stored once in the accepted ledger, independently of
+page content; Site derives both the evidence timeline and the public
+"Capabilities demonstrated" links.
 
-Usually select two to five strong updates. More may be appropriate when each
+Usually select two to five strong examples. More may be appropriate when each
 one proves a distinct part of the capability, but the goal is a persuasive
 selection rather than a complete inventory.
 
@@ -161,9 +163,10 @@ These are questions, not mandatory headings. Use the shortest narrative that
 makes the claim and its support clear. The renderer supplies the page H1, so
 authored narrative headings begin at H2 and follow the real hierarchy.
 
-Capability blocks use a capability-owned copy of the update narrative
-framework. Use text for the argument and add diagrams, comparisons, examples,
-or other media only when they help establish the capability. Capability visuals
+Capability blocks share the update narrative framework; capability headers,
+footers, and navigation have independent templates. Use text for the argument
+and add diagrams, comparisons, examples, or other media only when they help
+establish the capability. Capability visuals
 should synthesize a pattern; project-specific evidence usually belongs on the
 corresponding update page.
 
@@ -193,13 +196,16 @@ evidence later. A capability can evolve as the body of work grows.
 
 ## Evidence relationship model
 
-The relationship is directional in authored data and bidirectional in the
-public experience:
+Evidence is a typed connection shared by both endpoints:
 
-- A capability lists the updates that support it.
-- The build derives a backlink on each supporting update.
-- One capability can use several updates.
-- One update can support several capabilities.
+- A capability can select supporting projects or updates, and either type can
+  select the capability.
+- Either endpoint can propose adding or removing the connection. The proposal
+  stays private to that page until review and acceptance commit it.
+- Site derives navigation in both directions when both endpoints are public.
+- One capability can use several projects or updates, and each can support
+  several capabilities.
+- Project membership does not automatically make its updates capability evidence.
 - A small update does not need to support any capability.
 - An older update never needs editing merely because a new capability is
   recognized.
@@ -218,11 +224,12 @@ grow, narrow, or gain better evidence over time.
 
 ### Evidence
 
-- [ ] Each selected update materially supports the capability.
+- [ ] Each selected project or update materially supports the capability.
 - [ ] The narrative explains why the important examples count as evidence.
 - [ ] The selection shows depth, range, results, or ownership rather than mere
       topical similarity.
-- [ ] Project details remain on update pages instead of being duplicated here.
+- [ ] Project details remain on project or update pages instead of being
+      duplicated here.
 - [ ] Any limitation needed to prevent overclaiming is stated clearly.
 
 ### Structure and presentation
@@ -231,63 +238,57 @@ grow, narrow, or gain better evidence over time.
 - [ ] Headings describe the content and follow semantic order.
 - [ ] Visuals synthesize or substantiate the capability and include one useful
       public description.
-- [ ] Selected-work links resolve and the corresponding update backlinks build.
+- [ ] Selected-work links resolve and the corresponding backlinks build.
 - [ ] The title and summary work on both the homepage card and detail page.
 - [ ] Long content wraps and scans well on narrow and wide layouts.
 
 ## Source workflow and generated boundary
 
-Capability records are authored in `capabilities/<slug>/settings.yaml`. A
-capability requires `kind: capability`, `slug`, `title`, `summary`, and one or
-more stable update IDs in `evidence`. It may use capability-relative public links,
-media, tags, and `content.blocks` declared in
-`capabilities/_capability-schema.yaml`.
+Author capabilities through Portfolio Editor or its CLI/MCP tools. The current
+creation contract is `portfolio-workspace/document-input@7`: `public` contains
+`kind: capability`, `title`, `summary`, the **As of** `date`, and `blocks`.
+Initial evidence selections belong in `connections.evidence`, outside `public`,
+and target stable project or update document IDs. Evidence can be added during
+later editing; it is an editorial requirement for a persuasive finished page,
+not a required field for creating a draft.
 
-A minimal source looks like:
+Page review renders the candidate against accepted context. Acceptance commits
+the reviewed content and its connection proposals together. Site release
+preparation then exports accepted pages and a separate `data/connections.json`
+using `portfolio-site/connections@2`. Do not edit exported page YAML or
+connections directly. The Editor's
+[page-type contract](https://github.com/Ckrest/portfolio-editor/blob/main/docs/PAGE_TYPES.md)
+documents creation and guarded connection transactions.
 
-```yaml
-kind: capability
-slug: build-a-useful-capability
-title: Build a useful capability
-summary: Explain the ability's practical scope and value.
-evidence:
-  - doc_0123456789abcdef0123456789abcdef
-tags:
-  - Public topic
-content:
-  blocks:
-    - id: blk_example
-      type: text
-      body: Explain the recurring judgment and what the evidence proves.
-```
-
-Media paths are relative to the capability directory. A supplied preview should
-include `previewAlt`; when it does not, review reports an advisory and the
-renderer uses the capability title. Every image or gallery item still needs
-one meaningful public description. Give authored blocks stable unique IDs. The independent
-`capabilities/_asset-contract.json` graph resolves all deployable capability
-dependencies, and generated `portfolio-capability@4` payloads carry the exact
+Media paths are relative to the capability directory. Every image, gallery
+item, and preview needs a meaningful public description. Give authored blocks
+stable unique IDs. The shared `updates/_asset-contract.json` resolves deployable
+dependencies, and generated `portfolio-capability@7` payloads carry the exact
 asset manifest consumed by `dist/`.
 
-`capabilities/_block-registry.json` is authoritative for capability blocks. It
-is independent from the update registry; changes to either contract must be
-made explicitly and never propagate to the other.
+Capability metadata uses `capabilities/_capability-schema.yaml` version 6.
+All page types use `updates/_block-registry.json` version 9, the shared asset
+contract version 2, and the shared media contract version 1. Capability page
+composition remains independent in `capabilities/page.js` and `page.css`.
 
 Generated `capability.json`, `detail.html`, manifest entries, dimensions,
 resolved evidence cards, backlinks, generated registry modules, sitemap state,
 and `dist/` files are build output. Do not author them. The build rejects
 unknown fields, malformed blocks, duplicate IDs, unsafe or missing assets,
-privacy-pattern matches, and broken evidence targets.
+privacy-pattern matches, and invalid public connections. Pending or inactive
+connections remain private until both endpoints can be exported.
 
 ## Related contracts and research basis
 
-- `UPDATE_AUTHORING_GUIDE.md` defines the concrete work records capabilities
-  use as evidence.
+- The
+  [Portfolio Update Workflow](https://github.com/Ckrest/portfolio-editor/blob/main/docs/PORTFOLIO_UPDATE_WORKFLOW.md)
+  defines how the concrete update evidence used by capabilities is researched,
+  written, and reviewed.
 - The repository `README.md` defines public terminology, generated boundaries,
   semantic presentation, and responsive requirements.
-- `capabilities/_capability-schema.yaml` and
-  `capabilities/_block-registry.json` are authoritative for the capability
-  format.
+- `capabilities/_capability-schema.yaml`, `updates/_block-registry.json`, and
+  `updates/_asset-contract.json` define capability metadata, shared blocks, and
+  shared asset dependencies.
 
 The guidance is informed by [Nielsen Norman Group portfolio and hiring
 research](https://media.nngroup.com/media/reports/free/UserExperienceCareers_2nd_Edition.pdf),
@@ -297,4 +298,4 @@ review](https://www.oecd.org/en/publications/a-skills-first-labour-market_2e1b85
 and [W3C accessible-writing guidance](https://www.w3.org/WAI/tips/writing/).
 Together they favor demonstrated reasoning, contribution, results, and concrete
 work samples over unsupported labels. The local recommendation of two to five
-evidence updates is an editorial target, not a publication rule.
+evidence examples is an editorial target, not a publication rule.

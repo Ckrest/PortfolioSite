@@ -14,6 +14,7 @@ function installDocument(main) {
   ]);
   globalThis.window = {};
   globalThis.document = {
+    body: { dataset: {} },
     baseURI: 'https://example.test/updates/current/detail.html',
     title: '',
     getElementById: (id) => nodes.get(id) || null,
@@ -30,8 +31,7 @@ function createMain() {
 
 test('registries classify field visibility and exclude raw provenance from public blocks', async () => {
   for (const [relative, version] of [
-    ['../updates/_block-registry.json', 8],
-    ['../capabilities/_block-registry.json', 7],
+    ['../updates/_block-registry.json', 9],
   ]) {
     const registry = JSON.parse(await readFile(new URL(relative, import.meta.url), 'utf8'));
     assert.equal(registry.version, version);
@@ -57,7 +57,7 @@ test('renderer shows editable public copy and never renders raw provenance', asy
     summary: 'Current summary',
     media: { items: { 'media/example.png': { width: 91, height: 62 } } },
     blocks: [{
-      type: 'image',
+      type: 'image', kind: 'image',
       src: 'media/example.png',
       description: 'The useful public description.',
       presentation: 'intrinsic',
@@ -74,7 +74,7 @@ test('detail media and diagram controls use the current compact interaction patt
   const [renderer, mediaSource, styles] = await Promise.all([
     readFile(new URL('../updates/update-renderer.js', import.meta.url), 'utf8'),
     readFile(new URL('../updates/update-media.js', import.meta.url), 'utf8'),
-    readFile(new URL('../updates/update-blocks.css', import.meta.url), 'utf8'),
+    readFile(new URL('../css/document-blocks.css', import.meta.url), 'utf8'),
   ]);
 
   assert.match(renderer, /role="toolbar" aria-label="Diagram zoom controls"/);

@@ -15,6 +15,7 @@ blocks:
     authored content. The repository link remains available inside the item’s authored
     detail page.
   id: 87947a8f-21e2-4c45-aa75-f7bd2e08f329
+  kind: image
   presentation: intrinsic
   src: media/screenshot_2026-02-28_13-21-49.png
   type: image
@@ -42,10 +43,7 @@ blocks:
   type: text
 date: '2026-02-20'
 external_url: https://github.com/Ckrest/PortfolioSite
-part_of: doc_1a3826668acb53688961faa991a157f1
 prominence: low
-related_to:
-- doc_9503340b85e059238577a3ec79bbc0b9
 summary: Gave every portfolio item its own detail page while keeping repository and
   external links available, then made dropped preview images save cleanly into project
   media.

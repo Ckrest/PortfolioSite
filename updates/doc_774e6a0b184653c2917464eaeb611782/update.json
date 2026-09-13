@@ -1,54 +1,49 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_774e6a0b184653c2917464eaeb611782",
-    "title": "Automated display warmth and bedtime transitions",
-    "summary": "Built an event-driven night-mode service that coordinated scheduled blue-light filtering, temporary overrides, and bedtime reminders.",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Scheduled display warmth and bedtime reminders",
+    "summary": "Built Night Mode to run display warmth and bedtime reminders from one overnight schedule and one configuration.",
     "date": "2026-01-02",
     "prominence": "medium",
     "external_url": "https://github.com/Ckrest/night-mode",
     "preview": {
-      "src": "night-mode-settings.png",
       "description": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "night-mode-settings.png",
       "width": 727,
       "height": 484
     },
     "tags": [
       "Desktop Environment",
       "Python",
-      "Event-Driven Architecture"
+      "Wayland"
     ],
-    "relationships": {
-      "related": [
-        "doc_3a6495dd303a5286b238144d478fa5df",
-        "doc_ff2e48756b8f5bf5aeaee62e5142e744"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Coordinate the overnight schedule\n\nI built Night Mode around explicit blue-light, bedtime, and wake times rather than location-based sunrise or sunset calculations. The daemon evaluates schedules that cross midnight, starts `wlsunset` with the configured day and night temperatures, and schedules bedtime and warning notifications from the same TOML file.\n\nInstead of repeatedly checking the clock, the service calculates its next boundary and sleeps until an alarm or manual-change signal wakes it.",
+        "body": "## Coordinate the overnight schedule\n\nI built Night Mode around explicit blue-light, bedtime, and wake times. The service handles schedules that cross midnight, starts `wlsunset` with the configured day and night temperatures, and keeps the overnight behavior in one place.",
         "type": "text"
       },
       {
-        "description": "Night Mode settings panel showing a 6500K current temperature and Warmer Now, Normal Now, and Auto controls. The Night Mode panel exposes the schedule’s current state and temporary warmer, normal, and automatic choices.",
-        "presentation": "intrinsic",
-        "src": "night-mode-settings.png",
-        "type": "image"
-      },
-      {
-        "body": "## Let manual choices expire automatically\n\nThe command surface reports the current state and can temporarily force either warm or normal display behavior. A warm override ends at the next wake boundary; a normal override ends at the next blue-light start. Each one-time choice therefore returns to the schedule without becoming a permanent hidden setting.\n\nSettings Hub exposes the same state-aware control while the daemon keeps the `wlsunset` process, schedule calculations, and notification timers behind one service boundary.",
+        "body": "## Keep reminders on the same timeline\n\nThe configuration also holds the blue-light message, bedtime warning offset, and bedtime message. Bringing those values together makes the complete display-and-reminder sequence easy to read and adjust.",
         "type": "text"
       },
       {
-        "code": "stateDiagram-v2\n  Day --> Night: blue-light start\n  Night --> Day: wake time\n  Day --> ForcedNight: warm now\n  ForcedNight --> Day: wake time\n  Night --> ForcedDay: normal now\n  ForcedDay --> Night: blue-light start",
-        "description": "Scheduled and temporary modes meet at the same explicit day and night boundaries.",
+        "code": "flowchart LR\n  Day[Normal display] -->|blue-light start| Warm[Warm display]\n  Warm --> Warning[Bedtime warning]\n  Warning --> Bedtime[Bedtime reminder]\n  Bedtime -->|wake time| Day",
+        "description": "The configured overnight window connects display warmth and reminders in one sequence.",
         "presentation": "content",
         "sourceMode": "inline",
         "type": "mermaid"
       },
       {
         "code": "[schedule]\nblue_light_start = \"00:00\"\nbedtime = \"02:00\"\nwake_time = \"10:00\"\ntransition_minutes = 5\n\n[temperature]\nday = 6500\nnight = 3000\n\n[notifications]\nenabled = true\nblue_light_message = \"Blue light filter activated - winding down\"\nbedtime_message = \"Bedtime! Time to wrap up and rest\"\nbedtime_warning_minutes = 15",
-        "description": "The original configuration keeps the overnight window, target temperatures, and notification timing together.",
+        "description": "The configuration keeps the overnight window, target temperatures, and notification timing together.",
         "filename": "night-mode-config.toml",
         "language": "toml",
         "presentation": "content",
@@ -58,17 +53,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:c948e8e889a83a64a46d137776de3b27925f0dd53d776328bc48021001c76be4",
+        "byte_size": 500,
+        "animated": false
       },
       "night-mode-settings.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 727,
-        "height": 484
+        "height": 484,
+        "digest": "sha256:bb7690f46ea92ba75c925e6e4e7fd1eb186d72f36893929d0161cd96445542a1",
+        "byte_size": 35633,
+        "animated": false
       }
     }
   }

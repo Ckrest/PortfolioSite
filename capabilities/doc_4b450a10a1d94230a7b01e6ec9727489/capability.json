@@ -1,0 +1,71 @@
+{
+  "schema": "portfolio-capability@7",
+  "capability": {
+    "key": "doc_4b450a10a1d94230a7b01e6ec9727489",
+    "kind": "capability",
+    "connections": {
+      "evidence": [
+        "doc_9dedb7f7cf754d23a4142e12dc70271d",
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+        "doc_fb4ae0f652024b0092d89206152850b4",
+        "doc_0781ada08d314e838b421fd940a4158c",
+        "doc_1bae14a1f84f4b61998e3e2a1b494876",
+        "doc_9a812d18cf2d4221b0b5ed673f4cdd4f",
+        "doc_72c295c916de4a8288ff9625925f47c6",
+        "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50",
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_2c3e5c9689394489b1d0e555bd323474",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a",
+        "doc_928919e4fe6e482ca56ab6b4ced543e6",
+        "doc_7ee8d3e7e97d4c6ca3acff195440fb2b",
+        "doc_8456ce492a1e4e5d83dc017b1fa43dc4",
+        "doc_ea2d2467872d47a3968de829e69afdd6",
+        "doc_37bf2b794e6b4dfeac7a0d95c8384040",
+        "doc_a05b9a8145694765b27174afb9d6e7cb",
+        "doc_38811c0e3f5d564f8b840821d6ea52b5",
+        "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
+        "doc_ad539b8c8a6b4d659707514a7ade1427"
+      ],
+      "display_projects": []
+    },
+    "title": "Design and connect multi-tool software systems",
+    "summary": "I connect independently useful tools through explicit ownership, validated contracts, and shared interfaces that let each component evolve.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "blocks": [
+      {
+        "body": "## Decide what each tool owns\n\nMy projects often combine several applications, services, and data stores. I make the ownership boundaries explicit: which component retains the data, which interprets a command, which presents the interface, and which verifies the result.\n\nThat work appears in Constellation Framework's package contracts, Desktop Settings Hub's extensions, and the handoffs from retained evidence to a public portfolio page. The connections give the tools a shared workflow while keeping their individual roles understandable.",
+        "type": "text"
+      },
+      {
+        "body": "## Separate package facts from reusable behavior\n\nConstellation Framework resolves package declarations against shared definitions for discovery, services, builds, installation, and validation. Packages supply their identity and integration facts; common mechanisms interpret those facts and verify the requested effects.\n\nOne registry milestone moved trait schemas, resolution rules, queries, and API projections into declarative definitions across more than 50 packages. The shared engine could then serve those contracts without another hardcoded transform for each trait.",
+        "type": "text"
+      },
+      {
+        "body": "## Reuse an interface without absorbing every integration\n\nDesktop Settings Hub renders package-owned catalogs through a shared GTK4 shell. A package defines its controls and calls its own installed commands or public configuration surface. The Hub handles layout, navigation, and feedback.\n\nValidation happens before rendering, and an invalid extension can report a local problem while valid integrations continue to load. This supports both small preference panels and live dashboards without making the shell responsible for each package's operating rules.",
+        "type": "text"
+      },
+      {
+        "body": "## Give each handoff a clear result\n\nIn the Work-to-Portfolio Pipeline, Work Report System preserves the source record, Portfolio Editor selects and edits public content, and Portfolio Site renders accepted material. Stable document and artifact identities carry context across the boundaries.\n\nThe same approach lets Desktop Service Manager consume Constellation's inventory and lifecycle contracts, and lets ComfyUI Image Viewer use Conduit's workflow interface. A client can build on another tool's supported result while leaving its implementation and private state with the owner.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:27a854d51db501a72d81c3e84781dc28db3aacb1daf8ee94acc27a625f73344f",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

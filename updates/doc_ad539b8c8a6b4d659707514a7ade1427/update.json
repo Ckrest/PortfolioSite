@@ -1,0 +1,65 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_ad539b8c8a6b4d659707514a7ade1427",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Aligned tags across packages, Work Reports, and portfolio pages",
+    "summary": "Established a shared tag vocabulary and migrated existing metadata so package discovery, work records, and public portfolio pages use consistent names.",
+    "date": "2026-01-26",
+    "prominence": "low",
+    "tags": [
+      "Architecture",
+      "Python",
+      "Data Pipelines"
+    ],
+    "blocks": [
+      {
+        "body": "## Carry the same labels between tools\n\nPackage manifests, Work Reports, and portfolio pages describe overlapping work. I established a controlled tag vocabulary across all three and migrated their existing metadata to its canonical names.\n\nWork Report validates incoming tags against the shared vocabulary, normalizes recognized names to their defined capitalization, and suggests alternatives for unknown tags. That gives report authors a consistent set of labels to carry into the portfolio.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TB\n V[\"Shared tag vocabulary\"] --> P[\"Package manifests\"]\n V --> R[\"Work Reports\"]\n V --> S[\"Portfolio metadata\"]",
+        "description": "One vocabulary supplies consistent labels to the package registry, work records, and public pages.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Bring existing records into the same vocabulary\n\nI backfilled report tags, updated package manifests and portfolio metadata, and checked the migrated values for unknown names and capitalization mismatches. The reporting commands and documentation were updated alongside the data.\n\nThe result gives search, filtering, and future metadata-based features a common set of labels across the workflow.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:346b87b099b89dfd47413dd830d3266d8b952fae39add143b3888a2f83c16bff",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

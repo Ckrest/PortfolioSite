@@ -1,18 +1,94 @@
 {
-  "schema": "portfolio-site/asset-contract@1",
+  "schema": "portfolio-site/asset-contract@2",
   "metadata": [
-    {"path": "preview.src"}
+    {
+      "path": "preview.src"
+    },
+    {
+      "path": "preview.poster"
+    }
   ],
   "blocks": {
-    "image": [{"path": "src"}],
-    "video": [{"path": "src", "externalAllowed": true}],
-    "gallery": [{"path": "images[].src"}],
-    "markdown-document": [{"path": "path", "markdownDependencies": true}],
-    "pdf": [{"path": "src"}],
-    "code": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}],
-    "mermaid": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}],
-    "terminal": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}],
-    "comparison": [{"path": "before.src"}, {"path": "after.src"}],
-    "graph": [{"path": "src", "when": {"path": "sourceMode", "equals": "attached"}}]
+    "image": [
+      {
+        "path": "src"
+      }
+    ],
+    "video": [
+      {
+        "path": "src",
+        "when": {
+          "path": "sourceMode",
+          "equals": "local"
+        }
+      },
+      {
+        "path": "poster",
+        "when": {
+          "path": "sourceMode",
+          "equals": "local"
+        }
+      }
+    ],
+    "gallery": [
+      {
+        "path": "images[].src"
+      }
+    ],
+    "markdown-document": [
+      {
+        "path": "path",
+        "markdownDependencies": true
+      }
+    ],
+    "pdf": [
+      {
+        "path": "src"
+      }
+    ],
+    "code": [
+      {
+        "path": "src",
+        "when": {
+          "path": "sourceMode",
+          "equals": "attached"
+        }
+      }
+    ],
+    "mermaid": [
+      {
+        "path": "src",
+        "when": {
+          "path": "sourceMode",
+          "equals": "attached"
+        }
+      }
+    ],
+    "terminal": [
+      {
+        "path": "src",
+        "when": {
+          "path": "sourceMode",
+          "equals": "attached"
+        }
+      }
+    ],
+    "comparison": [
+      {
+        "path": "before.src"
+      },
+      {
+        "path": "after.src"
+      }
+    ],
+    "graph": [
+      {
+        "path": "src",
+        "when": {
+          "path": "sourceMode",
+          "equals": "attached"
+        }
+      }
+    ]
   }
 }

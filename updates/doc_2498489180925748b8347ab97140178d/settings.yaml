@@ -52,14 +52,10 @@ blocks:
   type: text
 date: '2026-02-22'
 external_url: https://github.com/Ckrest/PortfolioSite
-part_of: doc_77ba7c83a9375f088f4ea19e1eca1ace
 prominence: low
-related_to:
-- doc_45e24fee0f645130a7d9ce1685a5af01
-- doc_a67b241ca49f5f12ba0dcb4badd5ceac
 summary: Made Portfolio Editor inspect structured artifact content before choosing
-  a block, so galleries, comparisons, and charts imported correctly while unknown
-  shapes remained reviewable.
+  a block, so galleries, comparisons, and charts import correctly while unknown shapes
+  remain reviewable.
 tags:
 - Debugging
 - Refactoring

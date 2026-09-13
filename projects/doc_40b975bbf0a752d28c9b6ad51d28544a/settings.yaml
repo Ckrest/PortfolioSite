@@ -1,0 +1,206 @@
+blocks:
+- body: '## Turn completed work into something people can understand
+
+
+    Completed work leaves evidence scattered across commits, screenshots, terminal
+    sessions, and generated files. Reconstructing that work later means finding the
+    material again and remembering why the decisions mattered.
+
+
+    I built Portfolio Pipeline to connect evidence capture, structured reporting,
+    page composition, and publication. My work spans the handoffs between these stages:
+    preserving artifacts, carrying their context into Work Reports, mapping useful
+    material into editable blocks, and reviewing the page that Portfolio Site will
+    render.
+
+
+    Artifact Pipeline, Work Report, Portfolio Editor, and Portfolio Site provide the
+    four components. This project brings them together as one repeatable workflow.'
+  id: blk_pipeline_story
+  type: text
+- code: "flowchart TB\n  CAPTURE[\"1. Capture<br/>Artifact Pipeline<br/>Evidence +\
+    \ source records\"]\n  REPORT[\"2. Assemble<br/>Work Report<br/>Structured account\
+    \ + retained artifacts\"]\n  CURATE[\"3. Curate<br/>Portfolio Editor<br/>Select\
+    \ evidence + compose blocks\"]\n  REVIEW[\"4. Review and publish<br/>Portfolio\
+    \ Site validates and builds\"]\n  ACCEPT[\"Owner accepts the exact page\"]\n \
+    \ PUBLISH[\"Constellation publishes the reviewed site\"]\n\n  CAPTURE --> REPORT\n\
+    \  REPORT --> CURATE\n  CURATE --> REVIEW\n  REVIEW --> ACCEPT\n  ACCEPT --> PUBLISH"
+  description: Evidence moves through capture, structured reporting, page composition,
+    and exact Site review. Owner acceptance precedes the separate publication step.
+  id: blk_pipeline_diagram
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## 1. Capture evidence close to the work
+
+
+    Artifact Pipeline collects outputs from development and visual tools, including
+    source changes, screenshots, diagrams, terminal sessions, recordings, and generated
+    files. Records retain the connection between each artifact and the operation that
+    produced it.
+
+
+    Work Report copies selected evidence into durable storage. A useful work record
+    can therefore outlive a temporary output folder or the session that created it.
+    The examples below are artifacts retained with the report behind this page.'
+  id: blk_pipeline_capture
+  type: text
+- description: Examples of the different kinds of evidence the capture stage can preserve.
+  fit: contain
+  id: blk_pipeline_capture_gallery
+  images:
+  - description: A code diff showing added and removed lines, configuration changes,
+      and a new data-processing class.
+    kind: image
+    src: media/pipeline-code-diff.png
+  - description: A folder containing several evidence formats, including video, an
+      image, a PDF, structured data, terminal output, and source code.
+    kind: image
+    src: media/pipeline-artifact-types.png
+  - description: A temperature graph showing that measured behavior can be preserved
+      alongside implementation evidence.
+    kind: image
+    src: media/pipeline-graph.png
+  - description: Two small 3D-printed models showing that physical results can be
+      included in the same work record.
+    kind: image
+    src: media/pipeline-physical-result.jpg
+  presentation: wide
+  type: gallery
+- id: blk_ref_evidence_pipeline
+  label: Work Evidence Pipeline — capture and provenance
+  type: related-mini
+  updateId: doc_21878f357de740b59b064fd59ea40121
+- body: '## 2. Assemble a structured Work Report
+
+
+    Work Report brings the selected evidence together with the description, reasoning,
+    tags, and development context. AI helps synthesize these inputs into a draft that
+    can be checked against its attached artifacts.
+
+
+    The report behind this project page gathers architecture notes, a captured source
+    change, and images of the pipeline''s inputs and interfaces. It supplies both
+    the technical account and the material from which the public explanation is composed.'
+  id: blk_pipeline_aggregate
+  type: text
+- description: The Work Report behind Portfolio Pipeline retains its architecture
+    account, reasoning, and 19 attached artifacts as source material for the project
+    page.
+  id: blk_pipeline_report_detail
+  kind: image
+  presentation: intrinsic
+  src: media/pipeline-source-report-2026-09-12.png
+  type: image
+- id: blk_ref_work_report
+  label: Work Report System — structured records and retained evidence
+  type: related-mini
+  updateId: doc_c20a72a1aab145e281e072087258ab88
+- body: '## 3. Compose the public page
+
+
+    Portfolio Editor places source reports beside the rendered page. Its Reports,
+    Pages, and Blocks views support selecting evidence, rewriting the title and summary,
+    arranging the explanation, and connecting the page to projects, capabilities,
+    or milestones.
+
+
+    Browser and agent edits share a revisioned Workspace with autosave and undo. Text,
+    images, galleries, code, diagrams, and other blocks let the page use the form
+    that best explains each claim. The preview uses Portfolio Site''s renderer as
+    the page takes shape.'
+  id: blk_pipeline_curate
+  type: text
+- description: 'Portfolio Pipeline in the block editor: the palette and ordered page
+    structure sit beside the rendered project overview.'
+  id: blk_pipeline_editor
+  kind: image
+  presentation: wide
+  src: media/pipeline-editor-2026-09-12.png
+  type: image
+- id: blk_ref_v1_portfolio_editor_with_work_report_integration
+  label: Portfolio Editor — page composition and review
+  type: related-mini
+  updateId: doc_9f1f9fa959cb4018a7439b07ca6d241f
+- body: '## 4. Review and publish the selected result
+
+
+    Review project asks Portfolio Site to validate and build the exact proposed page.
+    The owner can inspect its content, assets, and connection changes before accepting
+    that version.
+
+
+    Acceptance prepares the reviewed content for the site. Constellation handles the
+    separate publication step. The public build contains the selected narrative and
+    evidence. The reporting and authoring tools retain the supporting private context.'
+  id: blk_pipeline_publish
+  type: text
+- description: A saved working page is ready for Review project, which builds the
+    exact candidate for owner inspection.
+  id: blk_pipeline_publish_controls
+  kind: image
+  presentation: intrinsic
+  src: media/pipeline-review-controls-2026-09-12.png
+  type: image
+- id: blk_ref_portfolio_site
+  label: Portfolio Site — validation, rendering, and public pages
+  type: related-mini
+  updateId: doc_0e5d867b381b4cccb0683a20781be5a5
+- body: '## Keep evidence, authorship, and publication distinct
+
+
+    I designed the stages to retain different kinds of context. Capture preserves
+    useful work outputs. Reports organize their meaning. The editor selects what a
+    visitor needs to see. The site renders that selected representation.
+
+
+    AI assists with synthesis; I retain responsibility for checking claims, choosing
+    evidence, and shaping the explanation. Autosave preserves that work as it develops,
+    while exact review fixes the content and assets being considered for acceptance.
+    Publication follows that editorial decision.
+
+
+    These boundaries also keep the components useful independently: Work Report can
+    preserve work without creating a portfolio page, and Portfolio Editor can author
+    a page without importing a report.'
+  id: blk_pipeline_design_choices
+  type: text
+- body: '## What the pipeline delivers
+
+
+    The result is a reusable path from completed work to a public explanation. Evidence
+    remains attached to its source, reports retain technical context, and the editor
+    turns selected material into pages with an explicit review boundary.
+
+
+    The retained artifacts and source account come from the Work Report behind this
+    page. Alongside them, the editor views show how that material is composed into
+    a project overview with a focused narrative, selected visuals, and links to its
+    components and milestones.
+
+
+    The project timeline records how those pieces came together, from the reporting
+    tool and portfolio site through artifact capture, block mapping, and provenance
+    checks.'
+  id: blk_pipeline_close
+  type: text
+date: '2026-09-12'
+kind: project
+preview:
+  description: Illustrated overview of evidence moving through capture, AI-assisted
+    Work Reports, human curation in Portfolio Editor, and publication to Portfolio
+    Site.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/pipeline-stages.png
+summary: A workflow that captures development evidence, uses AI to assemble Work Reports,
+  and turns reviewed material into public portfolio pages.
+tags:
+- Architecture
+- Automation
+- Documentation
+- AI
+- Python
+- PostgreSQL
+title: Work-to-Portfolio Pipeline

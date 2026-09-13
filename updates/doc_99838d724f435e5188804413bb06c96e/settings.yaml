@@ -11,31 +11,31 @@ blocks:
 
     Observer updates and delegated DOM events replaced circular imports and listeners
     that could multiply after each render. A form edit, block move, or project switch
-    now follows the same state path, giving every visible surface one source of truth.'
+    follows the same state path, giving every visible surface one source of truth.'
   id: blk_v2_editor_story
   type: text
-- description: Portfolio Editor v2 state flow from report, form, block, and preview
-    events through explicit actions and one store to focused renderers and the iframe
-    bridge. Explicit actions and one store replaced distributed mutable state while
-    the preview bridge remained a controlled input and output.
+- description: Portfolio Editor routes report, form, block, and preview events through
+    explicit actions and one shared store before focused renderers update the workspace.
   id: blk_v2_editor_state
+  kind: image
   presentation: intrinsic
   src: media/state-flow.svg
   type: image
 - body: '## Keep long editing sessions predictable
 
 
-    Original snapshots drive dirty state, and undo and redo operate on the same project
-    model. Preview commands wait for the iframe bridge to become ready, while asynchronous
-    report loads verify the current selection before updating the panel. Panel width
-    and preview scroll stay in place between edits, so the workspace preserves context
-    instead of resetting it.'
+    The loaded project snapshot establishes dirty state, and undo and redo operate
+    on the same project model. Preview commands wait for the iframe bridge to become
+    ready, while asynchronous report loads verify the current selection before updating
+    the panel. Panel width and preview scroll stay in place between edits, so the
+    workspace preserves context instead of resetting it.'
   id: blk_v2_editor_session
   type: text
 - description: Portfolio Editor text block controls beside the selected block in the
     live portfolio preview. Selecting a block exposes its controls beside the corresponding
     region of the live preview.
   id: blk_v2_editor_live_editing
+  kind: image
   presentation: wide
   src: media/screenshot_2026-01-30_18-19-41.png
   type: image
@@ -61,15 +61,19 @@ blocks:
   images:
   - description: Portfolio Editor report browser with searchable report cards and
       archive controls
+    kind: image
     src: media/screenshot_2026-01-30_18-14-54.png
   - description: Expanded work report showing its content, artifacts, and metadata
       inside Portfolio Editor
+    kind: image
     src: media/screenshot_2026-01-30_18-15-24.png
   - description: Portfolio Editor palette listing the supported portfolio content
       block types
+    kind: image
     src: media/screenshot_2026-01-30_18-15-44.png
   - description: Portfolio Editor metadata controls for title, summary, status, links,
       media, tags, and source information
+    kind: image
     src: media/screenshot_2026-01-30_18-17-26.png
   presentation: wide
   type: gallery
@@ -77,15 +81,14 @@ date: '2026-01-30'
 preview:
   description: Portfolio Editor project metadata beside the rendered portfolio page
     in the split editing workspace
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/screenshot_2026-01-30_18-16-28.png
-prominence: medium
-related_to:
-- doc_a67b241ca49f5f12ba0dcb4badd5ceac
-- doc_1a3826668acb53688961faa991a157f1
+prominence: high
 summary: Centralized Portfolio Editor state and actions, then connected report browsing,
   project import, block editing, live preview, and undo and redo into one reliable
   workspace.
-supersedes: doc_45e24fee0f645130a7d9ce1685a5af01
 tags:
 - Python
 - Flask

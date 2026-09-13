@@ -1,0 +1,71 @@
+blocks:
+- body: '## Render the background inside one process
+
+
+    I replaced the Python daemon’s handoff between `swaybg` and `mpvpaper` with one
+    native Wayland process. I adapted mpvpaper’s layer-shell, EGL/OpenGL, and libmpv
+    rendering path so the service can draw images, looping video, or solid color directly
+    on the selected output.
+
+
+    The output selector ignores compositor placeholder outputs and can move the background
+    surface between real connectors.'
+  id: blk_wallpaper_native_story
+  type: text
+- id: blk_relationship_context_3a6495dd303a
+  label: 'Wallpaper Service: the process-handoff design this replaced'
+  type: related-mini
+  updateId: doc_3a6495dd303a5286b238144d478fa5df
+- code: "flowchart LR\n  CLI[wallpaper-service CLI] --> DBus[Session D-Bus API]\n\
+    \  DBus --> State[Validate and save state]\n  State --> Renderer[Native renderer]\n\
+    \  Media[Image, video, or color] --> Renderer\n  Renderer --> Surface[Layer-shell\
+    \ surface on selected output]\n  Renderer --> Observe[Properties and change signal]"
+  description: Wallpaper changes cross the D-Bus boundary, are validated and saved,
+    then reach the active native layer-shell surface.
+  id: blk_wallpaper_native_flow
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Control the live surface through D-Bus
+
+
+    The renderer also owns a session D-Bus API. The command-line client can change
+    the media, color, or output, reload configuration, inspect state, and stop the
+    service without coordinating child processes.
+
+
+    Mutating calls validate and save the requested state before applying it to the
+    active layer-shell surface. Properties and a wallpaper-changed signal expose the
+    selected source, output, pending transition, and renderer statistics.'
+  id: blk_wallpaper_native_contract
+  type: text
+- commands:
+  - command: wallpaper-service set-image background.png --output DP-3
+    output: ''
+  - command: wallpaper-service set-video loop.mp4 --output DP-3
+    output: ''
+  - command: wallpaper-service set-color '#203040' --output DP-3
+    output: ''
+  description: Image, video, and solid-color changes use the same D-Bus service boundary.
+  id: blk_wallpaper_native_commands
+  presentation: content
+  sourceMode: inline
+  type: terminal
+date: '2026-05-24'
+external_url: https://github.com/Ckrest/wallpaper-service
+preview:
+  description: Wallpaper rendering moves from separate managed programs into one native
+    service controlled through D-Bus.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/wallpaper-native-architecture-simple-v2.svg
+prominence: medium
+summary: Moved image, video, and solid-color rendering into one native Wayland service,
+  with a D-Bus interface for applying live changes without restarting the renderer.
+tags:
+- C
+- Wayland
+- D-Bus
+- Desktop Environment
+title: Rebuilt Wallpaper Service around a native Wayland renderer

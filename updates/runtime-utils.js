@@ -1,3 +1,4 @@
+import { documentCollection } from '../js/document-model.js';
 import { escapeHtml } from '../js/utils.js';
 
 const ALLOWED_MARKDOWN_TAGS = new Set([
@@ -66,7 +67,7 @@ export function resolveUpdateAsset(value, update) {
   if (!key) return '';
   const folder = encodeURIComponent(key);
   const version = String(update.asset_versions?.[path] || '').trim();
-  return `${folder}/${encodedPath(path)}${version ? `${path.includes('?') ? '&' : '?'}v=${encodeURIComponent(version)}` : ''}`;
+  return `../${documentCollection(update)}/${folder}/${encodedPath(path)}${version ? `${path.includes('?') ? '&' : '?'}v=${encodeURIComponent(version)}` : ''}`;
 }
 
 export async function fetchUpdateText(value, update) {

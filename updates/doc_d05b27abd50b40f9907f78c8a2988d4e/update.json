@@ -1,14 +1,26 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_d05b27abd50b40f9907f78c8a2988d4e",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ]
+    },
     "title": "Built a discovery-based registry for a software workspace",
-    "summary": "Each tool and service now carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
+    "summary": "Built a registry where each tool and service carries its own manifest, letting the workspace discover package identity, status, interfaces, runtime, and dependencies directly from package directories.",
     "date": "2026-01-08",
     "prominence": "high",
     "preview": {
-      "src": "media/package-registry-preview.png",
       "description": "Diagram showing a package manifest flowing through discovery into a generated package index.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/package-registry-preview.png",
       "width": 1200,
       "height": 675
     },
@@ -17,19 +29,6 @@
       "CLI",
       "Architecture"
     ],
-    "relationships": {
-      "parts": [
-        "doc_33a58a7114d85ff39beca694a533cc59",
-        "doc_6b15f8dd9ad157659549c358b6c33eaa",
-        "doc_add123234fda58f990931774fda8436e",
-        "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
-        "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6"
-      ],
-      "related": [
-        "doc_e76b0f81dd7b5b93a11e8f357b63ffb8",
-        "doc_c9cdd79a861a5739aa99c3d1f3da27dc"
-      ]
-    },
     "blocks": [
       {
         "body": "## Let packages register themselves\n\nI built the package registry for Constellation Framework, my package-and-service workspace. Instead of maintaining a separate inventory, each tool or service carries a `manifest.yaml` beside its own files. Scanning the workspace produces the package index, so adding a manifest makes a package discoverable without another registration step.\n\nThe schema gives desktop, AI, infrastructure, and tools packages a common way to declare their identity, status, interfaces, runtime, triggers, dependencies, and repository details.",
@@ -67,17 +66,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:fcfa48fe25945122b03d3b8ad3493c9d011458d8a676291433df7b0fca047608",
+        "byte_size": 500,
+        "animated": false
       },
       "media/package-registry-preview.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1200,
-        "height": 675
+        "height": 675,
+        "digest": "sha256:e1ee9e5f251eba8d78ce8b4225e8efbd0a52de4f98c145c66bb284735c893c9d",
+        "byte_size": 108878,
+        "animated": false
       }
     }
   }

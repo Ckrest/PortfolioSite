@@ -1,0 +1,82 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_15c718df74405387aac2f6da97bba8bb",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_2b1d59fc95f8495e9ace806dc189f849"
+      ],
+      "projects": [
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065"
+      ],
+      "display_projects": [
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065"
+      ]
+    },
+    "title": "Made ComfyUI Conduit runs durable and retry-safe",
+    "summary": "Replaced request-bound generation with persistent run resources that survive retries and restarts, expose each execution phase, and return completed outputs through immutable artifact links.",
+    "date": "2026-07-31",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/comfyui-conduit",
+    "preview": {
+      "description": "An interrupted request loses its outcome, while a durable run keeps the same identity through execution, finalization, and artifact retrieval.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/conduit-durable-run-preview.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "API Design",
+      "Reliability"
+    ],
+    "blocks": [
+      {
+        "body": "## Give every generation a durable identity\n\nConduit creates a run record before sending the prepared workflow to ComfyUI. The response returns immediately with the run ID and status URL, while a required idempotency key makes the same request resolve to the same run instead of starting another generation.\n\nThe record remains available after the initiating request ends. Clients can reconnect, poll, or cancel it, and Conduit can reconcile unfinished work against the ComfyUI queue and history after a restart.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Create[Create run] --> Run[Accepted run ID]\n  Run --> Admit[Admission]\n  Admit --> Execute[Execution]\n  Execute --> Finalize[Finalize artifacts]\n  Finalize --> Complete[Immutable completion]\n  Retry[Retry or reconnect] -. same run .-> Run\n  Restart[Service restart] -. reconcile .-> Execute\n  Complete --> Files[Checksummed download links]",
+        "description": "Retries return to the accepted run, while unfinished execution can be reconciled after a service restart.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep failure boundaries visible\n\nAdmission, execution, artifact capture, and optional delivery each keep their own state. A caller can tell whether work was rejected before queueing, failed inside ComfyUI, reached an ambiguous upstream outcome, or encountered trouble while finalizing outputs.",
+        "type": "text"
+      },
+      {
+        "body": "## Return artifacts instead of server paths\n\nTagged outputs become a manifest containing identity, media type, byte size, checksum, and a scoped download link. Workflow inputs, caller context, handler output, and absolute filesystem paths stay behind the service boundary.\n\nComfy Viewer and other clients retrieve results through the run resource instead of depending on blocking wait fields, “latest output” state, or ComfyUI’s folder layout.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:8c634ff33ba7780cc944b2112708d80ea3e43c12a816be2a55fa2244bf89dbfa",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/conduit-durable-run-preview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:568d9c429de72264ab27a0ce58641aeef10098e0db0f80afeb80ea557c21d6a8",
+        "byte_size": 6100,
+        "animated": false
+      }
+    }
+  }
+}

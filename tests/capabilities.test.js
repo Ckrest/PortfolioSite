@@ -1,106 +1,95 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { documentUrl } from '../js/document-model.js';
+import { connectionIdentity, applyConnectionViews, resolveConnections } from '../js/connection-model.js';
+import { renderDocumentTimeline } from '../js/components/document-timeline.js';
 
-import { connectCapabilities, capabilityCard } from '../capabilities/model.js';
-import { renderEntry } from '../js/components/update-entry.js';
+const id=n=>`doc_${String(n).padStart(32,'0')}`;
+const [P,C,O,N]=[1,2,3,4].map(id);
+const fixture=()=>[
+  {key:P,kind:'project',title:'Current project',date:'2026-09-02'},
+  {key:C,kind:'capability',title:'An ability'},
+  {key:O,kind:'update',title:'Earlier work',date:'2026-08-01'},
+  {key:N,kind:'update',title:'Later work',date:'2026-09-01'},
+];
+const edge=(kind,source,target)=>({...connectionIdentity({kind,source,target}),origin:source,present:true});
+const connections=()=>[edge('project_membership',O,P),edge('project_membership',N,P),
+  edge('demonstrates',P,C),edge('demonstrates',O,C),edge('demonstrates',N,C)];
+function resolve(documents,edges=connections()) {
+  const result=resolveConnections(documents,edges);
+  applyConnectionViews(documents,result.views);
+  return result;
+}
 
-test('capabilities own evidence and updates receive derived backlinks', () => {
-  const updates = [
-    { key: 'registry', title: 'Registry' },
-    { key: 'editor', title: 'Editor' },
-    { key: 'unrelated', title: 'Unrelated' },
-  ];
-  const capabilities = [{
-    slug: 'connect-systems',
-    folder: 'connect-systems',
-    title: 'Connect systems',
-    summary: 'Capability summary',
-    evidence: [updates[0], updates[1]],
-  }];
-
-  connectCapabilities(capabilities, updates);
-
-  assert.deepEqual(updates[0].capabilities, ['connect-systems']);
-  assert.deepEqual(updates[1].capabilities, ['connect-systems']);
-  assert.equal('capabilities' in updates[2], false);
+test('connections derive reciprocal timelines once without transitive capability claims',()=>{
+  const documents=fixture(),edges=connections();
+  assert.deepEqual(resolve(documents,edges).errors,[]);
+  assert.deepEqual(documents[0].connections.items,[N,O]);
+  assert.deepEqual(documents[1].connections.evidence,[P,N,O]);
+  assert.deepEqual(documents[2].connections.projects,[P]);
+  assert.deepEqual(documents[2].connections.capabilities,[C]);
+  edges.find(edge=>edge.kind==='demonstrates'&&edge.source===O).present=false;
+  resolve(documents,edges);
+  assert.equal(documents[2].connections.capabilities,undefined);
 });
 
-test('one update can support several capabilities', () => {
-  const update = { key: 'shared-evidence', title: 'Shared evidence' };
-  const capabilities = [
-    { slug: 'first', folder: 'first', title: 'First', summary: 'First capability', evidence: [update] },
-    { slug: 'second', folder: 'second', title: 'Second', summary: 'Second capability', evidence: [update] },
-  ];
-
-  connectCapabilities(capabilities, [update]);
-
-  assert.deepEqual(update.capabilities, ['first', 'second']);
+test('withdrawal defers both directions and reacceptance restores connections',()=>{
+  const documents=fixture();documents[0].accepted=false;
+  const result=resolve(documents);
+  assert.deepEqual(result.errors,[]);
+  assert.equal(result.resolutions.find(item=>item.kind==='project_membership').status,'pending');
+  assert.equal(documents[3].connections.projects,undefined);
+  documents[0].accepted=true;resolve(documents);
+  assert.deepEqual(documents[3].connections.projects,[P]);
 });
 
-test('capability evidence can use timeline entries without losing its return context', () => {
-  const markup = renderEntry({
-    key: 'shared-evidence',
-    title: 'Shared evidence',
-    summary: 'A useful result.',
-    date: '2026-08-14',
-    prominence: 'medium',
-    preview: { src: 'preview.png', description: 'Shared evidence preview' },
-    tags: ['Constellation'],
-  }, {
-    variant: 'timeline',
-    headingLevel: 3,
-    pathPrefix: '../',
-    linkUrl: '../updates/shared-evidence/detail.html?from-capability=connect-systems',
-  });
-
-  assert.match(markup, /class="update-entry update-entry--medium"/);
-  assert.match(markup, /href="\.\.\/updates\/shared-evidence\/detail\.html\?from-capability=connect-systems"/);
-  assert.match(markup, /src="\.\.\/updates\/shared-evidence\/preview\.png"/);
-  assert.match(markup, /<h3 class="update-entry__title">Shared evidence<\/h3>/);
+test('malformed connection endpoints and duplicate records fail validation',()=>{
+  const good=connections()[0];
+  for(const bad of [{...good,target:good.source},{...good,target:42},good]) {
+    assert.ok(resolve(fixture(),[good,bad]).errors.length);
+  }
 });
 
-test('capability cards carry enough context to set expectations before navigation', () => {
-  const capability = {
-    slug: 'durable-pipelines',
-    folder: 'durable-pipelines',
-    title: 'Durable pipelines',
-    summary: 'Evidence stays connected.',
-    evidence: [{ key: 'doc_one' }, { key: 'doc_two' }],
-  };
-
-  assert.deepEqual(capabilityCard(capability), {
-    slug: 'durable-pipelines',
-    folder: 'durable-pipelines',
-    title: 'Durable pipelines',
-    summary: 'Evidence stays connected.',
-    evidenceCount: 2,
-  });
+test('mixed capability timelines use the same chronological entries with typed routes', () => {
+  const documents = fixture();
+  const markup = renderDocumentTimeline([documents[2], documents[0], documents[3]], 'Demonstrated work', documents[1]);
+  assert.ok(markup.indexOf('Current project') < markup.indexOf('Later work'));
+  assert.ok(markup.indexOf('Later work') < markup.indexOf('Earlier work'));
+  assert.ok(markup.includes(`projects/${P}/detail.html?from-capability=${C}`));
+  assert.ok(markup.includes(`updates/${O}/detail.html`));
+  assert.match(markup, /document-timeline-kind">project/);
+  assert.equal(documentUrl(documents[1]), `capabilities/${C}/detail.html`);
 });
 
-test('generated public contracts use capability terminology throughout', async () => {
-  const build = await readFile(new URL('../updates/_build.js', import.meta.url), 'utf8');
-  assert.match(build, /portfolio-capability-manifest@3/);
-  assert.match(build, /portfolio-capability@4/);
-  assert.doesNotMatch(build, /outcome-manifest|portfolio-outcome/);
+test('projects and capabilities own page composition and share narrative rendering', async () => {
+  for (const collection of ['projects', 'capabilities']) {
+    const template = await readFile(new URL(`../${collection}/detail.html`, import.meta.url), 'utf8');
+    const page = await readFile(new URL(`../${collection}/page.js`, import.meta.url), 'utf8');
+    assert.match(template, /\.\.\/updates\/detail.js/);
+    assert.match(template, /href="page.css"/);
+    assert.match(page, /timeline\(/);
+  }
 });
 
-test('capabilities own an independent narrative framework', async () => {
-  const [template, renderer, generatedRegistry] = await Promise.all([
-    readFile(new URL('../capabilities/detail.html', import.meta.url), 'utf8'),
-    readFile(new URL('../capabilities/capability-renderer.js', import.meta.url), 'utf8'),
-    readFile(new URL('../capabilities/generated/block-registry.js', import.meta.url), 'utf8'),
-  ]);
+test('date-only timeline dates keep their authored month in western time zones', async () => {
+  const { formatDate } = await import('../js/utils.js');
+  const previous = process.env.TZ;
+  process.env.TZ = 'America/Los_Angeles';
+  try { assert.equal(formatDate('2026-09-01'), 'Sep 2026'); }
+  finally { if (previous == null) delete process.env.TZ; else process.env.TZ = previous; }
+});
 
-  assert.match(template, /capability-base\.css/);
-  assert.match(template, /capability-layout\.css/);
-  assert.match(template, /css\/components\/update-entry\.css/);
-  assert.match(template, /css\/components\/timeline-entry\.css/);
-  assert.doesNotMatch(template, /\.\.\/updates\/update-(?:renderer|layout)/);
-  assert.match(renderer, /\.\/generated\/block-registry\.js/);
-  assert.match(renderer, /renderEntry\(update, \{/);
-  assert.match(renderer, /variant: 'timeline'/);
-  assert.doesNotMatch(renderer, /capability-evidence-card/);
-  assert.doesNotMatch(renderer, /\.\.\/updates\/update-renderer\.js/);
-  assert.match(generatedRegistry, /Source: capabilities\/_block-registry\.json/);
+
+test('changing a target type keeps authored associations inactive until compatible again', () => {
+  const documents = fixture();
+  documents[0].kind = 'capability';
+  const result = resolve(documents);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.resolutions.find(item => item.kind === 'project_membership').status, 'inactive');
+  assert.equal(documents[3].connections.projects, undefined);
+  assert.equal(connections().filter(edge=>edge.target===P).length,2);
+  documents[0].kind = 'project';
+  resolve(documents);
+  assert.deepEqual(documents[3].connections.projects, [P]);
 });

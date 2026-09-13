@@ -1,0 +1,80 @@
+blocks:
+- body: '## Put service diagnosis in one workspace
+
+
+    Process Manager is an on-demand desktop console for user services managed by Constellation.
+    Its current Tauri application combines a Rust backend with a React and TypeScript
+    interface, bringing service state, controls, runtime properties, and journal output
+    together.
+
+
+    The project evolved from a Python and GTK dashboard through the Tauri interface
+    shown above. The maintained version organizes services in a sortable process list
+    with stable status, PID, memory, and uptime columns, then opens the selected service’s
+    controls and recent operations alongside it.'
+  id: blk_placeholder
+  type: text
+- body: '## Use the same service contracts as the rest of the system
+
+
+    Membership and metadata come from Constellation’s current user-service inventory
+    projection. Available actions follow each service’s declared activation contract
+    and run through the public Constellation CLI. On-demand services can be started
+    and stopped without being offered an unsupported start-at-login setting.
+
+
+    Raw unit-file state remains visible, with linked installation distinguished from
+    enabled startup. Archived packages and packages awaiting migration can still be
+    inspected while their mutation controls remain unavailable.'
+  id: blk_process_project_inventory
+  type: text
+- body: '## Separate observation from control
+
+
+    The backend gathers live state in one batched systemd observation and emits a
+    complete snapshot when membership or runtime state changes. The frontend consumes
+    those events and requests only incremental journal entries, avoiding a second
+    competing service observer.
+
+
+    Per-unit action coordination keeps lifecycle requests attached to the correct
+    service. Projection diagnostics and action receipts give the operator an explanation
+    when discovery or an operation cannot complete.'
+  id: blk_process_project_observe
+  type: text
+- body: '## Keep investigation focused
+
+
+    The all-services journal view includes only discovered managed units. Service
+    selection, severity filters, text search, and controlled scrolling help narrow
+    the stream while retaining context.
+
+
+    Status-first ordering puts failed and indeterminate services near the top. At
+    smaller window sizes the interface progressively hides lower-value columns before
+    stacking the panes, preserving service names and state for as long as possible.'
+  id: blk_process_project_logs
+  type: text
+- id: blk_process_project_framework
+  label: 'Constellation Framework: service inventory and lifecycle contracts'
+  type: related-mini
+  updateId: doc_0781ada08d314e838b421fd940a4158c
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/process-manager
+kind: project
+preview:
+  description: The March 2026 Tauri interface brought service controls, runtime properties,
+    and live logs into one workspace.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/process-manager-tauri-milestone.png
+summary: A desktop console for inspecting managed user services, issuing contract-aware
+  lifecycle actions, and following scoped logs through Constellation.
+tags:
+- Rust
+- Tauri
+- React
+- TypeScript
+- Systemd
+title: Desktop Service Manager

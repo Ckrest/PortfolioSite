@@ -38,8 +38,11 @@ test('work timeline continues the learning roadmap without its own primary headi
   assert.doesNotMatch(timeline, /class="section-heading"/);
 });
 
-test('homepage presentation keeps secondary indexes hidden and phase three current', () => {
-  assert.ok(config.disabled.includes('capabilities'));
+test('homepage presentation hides projects and capabilities with phase three current', () => {
+  for (const name of ['projects', 'capabilities']) {
+    assert.ok(config.sections.some(section => section.name === name));
+    assert.equal(config.disabled.includes(name), true);
+  }
   assert.equal(config.activePhase, 3);
   assert.equal(config.timeline.showLatestActivity, false);
 });

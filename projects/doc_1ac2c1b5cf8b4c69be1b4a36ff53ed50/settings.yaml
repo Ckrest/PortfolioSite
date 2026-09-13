@@ -1,0 +1,88 @@
+blocks:
+- body: '## Carry scene continuity between narrative observations
+
+
+    Scene Tracker provides structured memory for SceneGen. A caller supplies its current
+    scene snapshot, one narrative observation, bounded supporting evidence, and optional
+    context. The backend returns an updated snapshot describing the scene, characters,
+    and physical interactions, together with the processing record.
+
+
+    The maintained API is stateless: the caller owns persistence and decides which
+    returned snapshot to keep. Bootstrap initializes an opening scene, while tracking
+    applies a new observation through the same request and response contract.'
+  id: blk_placeholder
+  type: text
+- code: "flowchart TB\n  Input[\"Caller-owned snapshot + observation\"] --> Operation[\"\
+    Bootstrap or track\"]\n  Operation --> Workers[\"Configured worker pipeline\"\
+    ]\n  Workers --> Tools[\"Validated state tools\"]\n  Tools --> Commit[\"Commit\
+    \ successful transactions\"]\n  Commit --> Output[\"Updated snapshot + changes\
+    \ + trace\"]\n  Output --> Caller[\"Caller retains scene memory\"]"
+  description: The backend transforms a supplied snapshot; storage and conversation
+    ownership remain with the caller.
+  id: blk_scene_project_flow
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Turn model findings into controlled state changes
+
+
+    Configured workers use constrained tools to propose changes. Failed steps discard
+    their transactional mutations. Successful character workers can commit independently,
+    merging only the top-level fields each instance changed.
+
+
+    The reported changes describe the canonical difference in the committed snapshot.
+    Supporting evidence and invocation context guide processing without being copied
+    into persistent scene memory.'
+  id: blk_scene_project_transactions
+  type: text
+- body: '## Make the complete execution inspectable
+
+
+    The processing endpoint streams ordered NDJSON events for the request, steps,
+    workers, models, and tool calls. A terminal completed or failed event tells the
+    caller whether the stream produced a valid result; an interrupted stream is incomplete.
+
+
+    Diagnostics describe rejected candidates, recoveries, degraded outcomes, and failures
+    with machine-readable codes and locations. The retained trace records model rounds,
+    tool feedback, timing, and whether each transaction committed.'
+  id: blk_scene_project_trace
+  type: text
+- body: '## Bound orchestration across service boundaries
+
+
+    One deadline covers the processing request, including worker fan-outs and provider
+    calls. Caller disconnection cancels the processing task. Correlation IDs pass
+    into downstream model requests and return in the trace.
+
+
+    The Model Manager adapter uses its versioned catalog to distinguish an absent
+    model from an unavailable provider. Strict configuration, request validation,
+    and bounded protocol repair keep unexpected model behavior visible.'
+  id: blk_scene_project_bounds
+  type: text
+- id: blk_scene_project_gateway
+  label: 'AI Model Gateway: model discovery and provider routing'
+  type: related-mini
+  updateId: doc_9dedb7f7cf754d23a4142e12dc70271d
+date: '2026-09-12'
+kind: project
+preview:
+  description: An early illustration pairs a narrative scene with structured character
+    details to explain the scene-memory concept.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/scene-tracker-concept.png
+summary: A stateless AI backend that turns narrative observations into structured
+  scene and character memory, returning the updated snapshot with a detailed execution
+  trace.
+tags:
+- Python
+- AI
+- API Design
+- Workflow Orchestration
+- Reliability
+title: Narrative Scene Tracker

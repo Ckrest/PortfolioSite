@@ -1,15 +1,30 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_004858c24c955a1aa023a9e8eb9c3180",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762"
+      ],
+      "projects": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      ],
+      "display_projects": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      ]
+    },
     "title": "Built an editable desktop HUD for Wayland",
     "summary": "Placed images, looping video, and live Graph Library widgets on a transparent desktop surface with in-place editing, reusable layouts, and runtime control.",
     "date": "2026-02-22",
     "prominence": "high",
     "external_url": "https://github.com/Ckrest/desktop-hud",
     "preview": {
-      "src": "media/screenshot_2026-03-01_19-08-39.png",
       "description": "Images, live charts, gauges, and a looping fire effect composed across the desktop.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/screenshot_2026-03-01_19-08-39.png",
       "width": 2560,
       "height": 1440
     },
@@ -20,28 +35,20 @@
       "Desktop Environment",
       "Data Visualization"
     ],
-    "relationships": {
-      "parts": [
-        "doc_2e4140eb93645e53954507d3aba8c374"
-      ],
-      "related": [
-        "doc_aa793128a2075e32a8dea215c096de7c",
-        "doc_a529e0dc25c854d0b1921f8b2006a9f2"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Assemble the desktop from elements\n\nI built Desktop HUD as a transparent GTK4 layer-shell surface that placed images, looping video, and live Graph Library widgets directly on the Wayland desktop. Each element shared identity, position, size, opacity, and visibility fields while its renderer handled type-specific behavior.\n\nOutside edit mode, the overlay cleared its input region, keeping the desktop click-through. Image and video playback remained inside their own elements while the HUD coordinated composition, lifecycle, and placement.",
+        "body": "## Assemble the desktop from elements\n\nI built Desktop HUD as a transparent GTK4 layer-shell surface that places images, looping video, and live Graph Library widgets directly on the Wayland desktop. Each element shares identity, position, size, opacity, and visibility fields while its renderer handles type-specific behavior.\n\nOutside edit mode, the overlay clears its input region, keeping the desktop click-through. Image and video playback remain inside their own elements while the HUD coordinates composition, lifecycle, and placement.",
         "type": "text"
       },
       {
-        "description": "Two different looping fire versions: an opaque treatment and an alpha-transparent version that kept the desktop visible through the flames.",
+        "description": "Two different looping fire versions: an opaque treatment and an alpha-transparent version that keeps the desktop visible through the flames.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/screenshot_2026-03-01_19-08-52.png",
         "type": "image"
       },
       {
-        "body": "## Bring live data into the overlay\n\nGraph Library supplied gauges and line charts as embeddable GTK widgets. Desktop HUD selected a renderer and provider, scheduled refreshes, and placed the result beside image and video elements without absorbing Graph Library’s data history or drawing logic.\n\nBy changing only the provider and renderer configuration, the same element model hosted command-backed gauges, rolling line charts, and static demonstration data.",
+        "body": "## Bring live data into the overlay\n\nGraph Library supplies gauges and line charts as embeddable GTK widgets. Desktop HUD selects a renderer and provider, schedules refreshes, and places the result beside image and video elements without absorbing Graph Library’s data history or drawing logic.\n\nBy changing only the provider and renderer configuration, the same element model hosts command-backed gauges, rolling line charts, and static demonstration data.",
         "type": "text"
       },
       {
@@ -51,33 +58,36 @@
       },
       {
         "description": "Live system-load and CPU-temperature line charts rendered through Graph Library.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/screenshot_2026-03-01_19-08-56.png",
         "type": "image"
       },
       {
         "description": "Compact CPU and memory gauges using the same graph element contract.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/screenshot_2026-03-01_19-09-09.png",
         "type": "image"
       },
       {
-        "body": "## Edit the layout in place\n\nEdit mode turned the rendered overlay itself into the design surface. Selecting an element revealed an outline and corner handles; dragging moved it, the handles resized it, and snapping aligned it with screen or neighboring element edges.\n\nEach interaction updated the active element and visible widget together. Leaving edit mode removed the selection chrome and restored click-through behavior.",
+        "body": "## Edit the layout in place\n\nEdit mode turns the rendered overlay itself into the design surface. Selecting an element reveals an outline and corner handles; dragging moves it, the handles resize it, and snapping aligns it with screen or neighboring element edges.\n\nEach interaction updates the active element and visible widget together. Leaving edit mode removes the selection chrome and restores click-through behavior.",
         "type": "text"
       },
       {
-        "description": "Edit mode exposed the selected element’s outline and resize handles directly on the rendered overlay.",
+        "description": "Edit mode exposes the selected element’s outline and resize handles directly on the rendered overlay.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/desktop-hud-edit-mode.png",
         "type": "image"
       },
       {
-        "body": "## Control the same model at runtime\n\nA local HTTP API exposed explicit operations to list, add, update, and remove elements; reload configuration; toggle edit mode; check health; and manage profiles. It dispatched GTK mutations onto the application thread with a bounded wait, giving launchers and automation structured operations instead of arbitrary code execution.\n\nProfile operations saved, restored, switched, and combined named arrangements through the same runtime surface.",
+        "body": "## Control the same model at runtime\n\nA local HTTP API exposes explicit operations to list, add, update, and remove elements; reload configuration; toggle edit mode; check health; and manage profiles. It dispatches GTK mutations onto the application thread with a bounded wait, giving launchers and automation structured operations instead of arbitrary code execution.\n\nProfile operations save, restore, switch, and combine named arrangements through the same runtime surface.",
         "type": "text"
       },
       {
         "code": "flowchart LR\n  Profiles[Layout profiles] --> Model[Live element model]\n  API[Local HTTP API] --> Model\n  Editor[Drag resize snap] --> Model\n  Model --> Image[Image elements]\n  Model --> Video[Looping video]\n  Model --> Graph[Graph Library widgets]\n  Image --> Surface[GTK4 layer-shell surface]\n  Video --> Surface\n  Graph --> Surface",
-        "description": "Profiles, runtime commands, and direct manipulation converged on the element model rendered on the layer-shell surface.",
+        "description": "Profiles, runtime commands, and direct manipulation converge on the element model rendered on the layer-shell surface.",
         "presentation": "content",
         "sourceMode": "inline",
         "type": "mermaid"
@@ -85,37 +95,61 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:bb73b25d9d141bd6217622ed9e07882aa9771d4daafcfb7114b850b80e4b1263",
+        "byte_size": 500,
+        "animated": false
       },
       "media/desktop-hud-edit-mode.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 540,
-        "height": 650
+        "height": 650,
+        "digest": "sha256:5e8a3a470b49b08873c0401b1458a8215f0576a0d1b5bf40ead3ab3aadf112ea",
+        "byte_size": 186872,
+        "animated": false
       },
       "media/screenshot_2026-03-01_19-08-39.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 2560,
-        "height": 1440
+        "height": 1440,
+        "digest": "sha256:bd5443e23d4867ef2557ed1fd908bd5296308adee9c108132b95bc9b5b876f96",
+        "byte_size": 437900,
+        "animated": false
       },
       "media/screenshot_2026-03-01_19-08-52.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1016,
-        "height": 1012
+        "height": 1012,
+        "digest": "sha256:08ca1425f70cc7c6c26b3a855f30db230e369e9df5b1073c6a37b1c8aaa64281",
+        "byte_size": 326099,
+        "animated": false
       },
       "media/screenshot_2026-03-01_19-08-56.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1121,
-        "height": 256
+        "height": 256,
+        "digest": "sha256:399f7c1c6a67bea4453ca053d33c4deee3cd24c7b6619338b488bac117facd31",
+        "byte_size": 23881,
+        "animated": false
       },
       "media/screenshot_2026-03-01_19-09-09.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 307,
-        "height": 448
+        "height": 448,
+        "digest": "sha256:bc9742d0f8b2d9632fd7e6f80d58145f0f8268e79a84319efbb565370b39adae",
+        "byte_size": 10779,
+        "animated": false
       }
     }
   }

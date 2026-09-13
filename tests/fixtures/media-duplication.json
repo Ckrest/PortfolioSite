@@ -1,0 +1,644 @@
+[
+  {
+    "name": "update-low",
+    "document": {
+      "kind": "update",
+      "prominence": "low",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "update-medium",
+    "document": {
+      "kind": "update",
+      "prominence": "medium",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "update-high",
+    "document": {
+      "kind": "update",
+      "prominence": "high",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "project-low",
+    "document": {
+      "kind": "project",
+      "prominence": "low",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "project-medium",
+    "document": {
+      "kind": "project",
+      "prominence": "medium",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "project-high",
+    "document": {
+      "kind": "project",
+      "prominence": "high",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "capability-low",
+    "document": {
+      "kind": "capability",
+      "prominence": "low",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "capability-medium",
+    "document": {
+      "kind": "capability",
+      "prominence": "medium",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "capability-high",
+    "document": {
+      "kind": "capability",
+      "prominence": "high",
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:same",
+      "media/b.png": "sha256:same"
+    },
+    "matches": [
+      "gallery:images[1]",
+      "comparison:before"
+    ]
+  },
+  {
+    "name": "cards-only",
+    "document": {
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-only",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "group",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "gallery",
+              "type": "gallery",
+              "images": [
+                {
+                  "kind": "image",
+                  "src": "media/z.png",
+                  "description": "Screenshot"
+                },
+                {
+                  "kind": "image",
+                  "src": "media/b.png",
+                  "description": "Screenshot"
+                }
+              ]
+            },
+            {
+              "id": "comparison",
+              "type": "comparison",
+              "before": {
+                "kind": "image",
+                "src": "media/a.png",
+                "description": "Screenshot"
+              },
+              "after": {
+                "kind": "image",
+                "src": "media/c.png",
+                "description": "Screenshot"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {},
+    "matches": []
+  },
+  {
+    "name": "different-bytes",
+    "document": {
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "image",
+          "type": "image",
+          "kind": "image",
+          "src": "media/b.png",
+          "description": "Screenshot"
+        }
+      ]
+    },
+    "assets": {
+      "media/a.png": "sha256:one",
+      "media/b.png": "sha256:two"
+    },
+    "matches": []
+  },
+  {
+    "name": "poster-is-not-video",
+    "document": {
+      "preview": {
+        "kind": "image",
+        "src": "./media/a.png",
+        "description": "Screenshot",
+        "placement": "cards-and-detail",
+        "fit": "cover"
+      },
+      "blocks": [
+        {
+          "id": "video",
+          "type": "video",
+          "kind": "video",
+          "sourceMode": "local",
+          "src": "media/a.png",
+          "poster": "media/a.png"
+        }
+      ]
+    },
+    "assets": {},
+    "matches": []
+  }
+]

@@ -1,3 +1,4 @@
+import { wrapMediaCard } from '../media-view.js';
 /**
  * Update Card Component
  *
@@ -56,12 +57,14 @@ function renderLargeCard(update, options) {
     <span class="update-card__external" aria-hidden="true">↗</span>
   ` : '';
 
-  return `
+  return wrapMediaCard(`
     <article class="update-card update-card--large" data-key="${update.key}" data-size="large">
       <a class="update-card__link" href="${linkUrl}" ${linkAttrs}>
         <div class="update-card__media">
           ${renderMedia(previewPath, altText, placeholderDataUri, 'update-card', {
-            width: update.preview?.width,
+            media: update.preview, key: `${update.key}:card`,
+          poster: update.preview?.poster ? getPreviewPath({...update, preview: {src: update.preview.poster}}) : '',
+          width: update.preview?.width,
             height: update.preview?.height,
           })}
         </div>
@@ -73,7 +76,7 @@ function renderLargeCard(update, options) {
         </div>
       </a>
     </article>
-  `;
+  `, update.preview);
 }
 
 // =============================================================================
@@ -92,7 +95,7 @@ function renderMediumCard(update, options) {
     <span class="update-card__external" aria-hidden="true">↗</span>
   ` : '';
 
-  return `
+  return wrapMediaCard(`
     <article class="update-card update-card--medium" data-key="${update.key}" data-size="medium">
       <a class="update-card__link" href="${linkUrl}" ${linkAttrs}>
         <div class="update-card__content">
@@ -103,7 +106,9 @@ function renderMediumCard(update, options) {
         <div class="update-card__expanded">
           <div class="update-card__media">
             ${renderMedia(previewPath, altText, placeholderDataUri, 'update-card', {
-              width: update.preview?.width,
+              media: update.preview, key: `${update.key}:card`,
+          poster: update.preview?.poster ? getPreviewPath({...update, preview: {src: update.preview.poster}}) : '',
+          width: update.preview?.width,
               height: update.preview?.height,
             })}
           </div>
@@ -111,7 +116,7 @@ function renderMediumCard(update, options) {
         </div>
       </a>
     </article>
-  `;
+  `, update.preview);
 }
 
 // =============================================================================

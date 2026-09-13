@@ -1,0 +1,84 @@
+blocks:
+- body: '## Turn evidence into a deliberate public page
+
+
+    Portfolio Editor is the private workspace between a record of completed work and
+    the public portfolio. A person or agent can start from a Work Report or create
+    an update, project, or capability directly, then select evidence, rewrite the
+    story, and arrange the page.
+
+
+    The block palette supports text, images, video, galleries, documents, code, diagrams,
+    terminal recordings, comparisons, charts, and references. A live preview uses
+    the actual Portfolio Site renderer, so authoring decisions are visible in the
+    layout that readers will receive.'
+  id: blk_placeholder
+  type: text
+- body: '## Let people and agents work in the same history
+
+
+    The browser, CLI, and MCP interface edit one revisioned Workspace. Each saved
+    action records a meaningful transaction with conflict checks and durable undo
+    and redo. Agent edits first flush pending browser changes, and overlapping edits
+    are rejected instead of overwriting newer work.
+
+
+    File intake commits the owned asset and its page reference together. Selection,
+    panels, and scroll position remain interface state, keeping the document history
+    focused on content.'
+  id: blk_editor_project_history
+  type: text
+- body: '## Review exactly what will change
+
+
+    The owner can compare the working page with its last accepted version, inspect
+    changed fields and blocks, and restore individual pieces through guarded edits.
+    Exact review freezes the candidate’s content, media, and connections and asks
+    Portfolio Site to validate and render it against accepted context.
+
+
+    Applying that review accepts the identified page and its connections together.
+    A later edit to the candidate or relevant context requires another review. This
+    keeps unrelated drafts outside a page’s approval.'
+  id: blk_editor_project_review
+  type: text
+- body: '## Keep evidence, approval, and publication separate
+
+
+    Imported Work Reports remain independent source records. Private notes and provenance
+    stay in the Workspace, while only reviewed public material enters the accepted
+    portfolio. Asset intake sanitizes embedded metadata and records a receipt tied
+    to the retained bytes.
+
+
+    Acceptance queues a durable release for preparation. Constellation realizes the
+    prepared site and handles explicit publication as a separate step, allowing the
+    authoring workspace to focus on curation and review.'
+  id: blk_editor_project_evidence
+  type: text
+- id: blk_editor_project_pipeline
+  label: 'Work-to-Portfolio Pipeline: the complete workflow'
+  type: related-mini
+  updateId: doc_40b975bbf0a752d28c9b6ad51d28544a
+- id: blk_editor_project_site
+  label: 'Portfolio Site: public schemas, rendering, and static releases'
+  type: related-mini
+  updateId: doc_0e5d867b381b4cccb0683a20781be5a5
+date: '2026-09-12'
+kind: project
+preview:
+  description: The block palette and page structure sit beside the Portfolio Site
+    renderer in the Editor.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/portfolio-editor-authoring.png
+summary: A shared authoring workspace where people and agents curate evidence into
+  portfolio pages, compare changes, and review the exact public result.
+tags:
+- Python
+- JavaScript
+- Frontend
+- Architecture
+- Documentation
+title: Portfolio Editor

@@ -1,15 +1,30 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_1a911fdf0fc453de94a7cc5537694883",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762"
+      ],
+      "projects": [
+        "doc_d8241fe11819473ebf0a236b0a423da2"
+      ],
+      "display_projects": [
+        "doc_d8241fe11819473ebf0a236b0a423da2"
+      ]
+    },
     "title": "Rebuilt Screenshot Tool as a persistent capture service",
-    "summary": "Replaced per-hotkey application startup with a persistent GTK4 service, then added precise frozen-region selection and exact identity matching for same-titled windows.",
+    "summary": "Reworked Screenshot Tool into a persistent GTK4 service that keeps frames unencoded through selection and matches same-titled windows through exact Wayland identities.",
     "date": "2026-08-15",
     "prominence": "medium",
     "external_url": "https://github.com/Ckrest/screenshot-tool",
     "preview": {
-      "src": "media/selector-region-magnifier.png",
       "description": "Screenshot Tool frozen-region selector with live dimensions, keyboard guidance, crosshairs, and a magnified pointer view",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/selector-region-magnifier.png",
       "width": 1800,
       "height": 1050
     },
@@ -21,17 +36,11 @@
     ],
     "blocks": [
       {
-        "body": "## Keep capture ready between hotkeys\n\nI replaced the one-process-per-hotkey interactive path with a GTK4 service that stays available on the session bus. The `screenshot` command became a thin client: it sends an explicit request while the service moves through idle, freezing, selecting, and saving states. Fullscreen, fixed-region, and named-window capture remained scriptable through the same command.\n\nThe service captures a cursor-free desktop frame before opening the selector. It creates the overlay only for the active request and destroys it after saving or cancellation. Pressing the hotkey again while the service is freezing or selecting saves the already frozen frame fullscreen instead of starting competing work. Cancellation clears the request and returns the service to idle.\n\n## Select the exact window and pixels\n\nI joined Wayfire's window geometry to the capture backend through the standard opaque foreign-toplevel identifier. App IDs and titles remained useful labels, but they were no longer identity fallbacks. Two windows with the same title therefore remained distinct, while a window without an exact match stayed visible but could not be captured by guesswork.\n\nRegion selection gained live dimensions, one-pixel keyboard movement, a crosshair, and an enlarged eight-times magnifier. Because the selector displays a frozen frame rather than the changing desktop, its target cannot move beneath the pointer.",
+        "body": "## Keep capture ready between hotkeys\n\nI replaced per-hotkey startup with a background service that stays ready between captures. The `screenshot` command sends it interactive, fullscreen, region, or window requests, while one clear lifecycle prevents captures from competing with each other.\n\nPressing the hotkey again during an interactive capture reuses the same frozen screen and saves it fullscreen instead of opening another selector. The same shortcut therefore supports both deliberate selection and quick fullscreen capture: press once to choose a target, or press again to save the frozen screen.",
         "type": "text"
       },
       {
-        "description": "Screenshot Tool's frozen selector over an abstract landscape, with a cyan 1038 by 814 selection box, keyboard guidance, crosshairs, and a circular magnifier. The request-scoped selector kept the desktop frozen while showing live region dimensions, keyboard guidance, and a magnified crosshair.",
-        "presentation": "intrinsic",
-        "src": "media/selector-region-magnifier.png",
-        "type": "image"
-      },
-      {
-        "body": "## Separate capture from output\n\nI removed the package's embedded protocol client and native capture helper and consumed the versioned `wayland-capture/frame@1` raw-frame contract instead. The service validates the frame and output layout before using the pixels. Regions are cropped from the frozen frame; selected windows receive a fresh capture through their exact identifier after the overlay closes.\n\nBoth paths then use the same output layer for atomic file saving, clipboard format, notifications, structured JSON, sound, and optional post-save hooks. That preserved the output boundary established by the earlier Screenshot Tool version while replacing its per-invocation coordination.",
+        "body": "## Keep selection fast and direct\n\nInstead of turning the first capture into a finished image and reopening it, the service keeps the captured pixels available while a region or window is selected. Only the chosen result is converted into an image and passed to the usual save, clipboard, notification, and automation options.\n\nThis keeps the interaction focused on the selection itself: the frozen screen appears quickly, remains stable beneath the pointer, and reaches its destination without an extra image conversion.",
         "type": "text"
       },
       {
@@ -40,6 +49,15 @@
         "presentation": "content",
         "sourceMode": "inline",
         "type": "mermaid"
+      },
+      {
+        "body": "## Refine the frozen selector\n\nI matched Wayfire's window geometry to the capture backend through opaque foreign-toplevel identities, keeping same-titled windows distinct. Window capture proceeds only when both sides identify the same target.\n\nThe existing dimensions, crosshair, and one-pixel keyboard control remain in place. I expanded the magnifier into a 480-pixel circular view at 8× zoom and made the instruction label dismiss as the pointer approaches it.",
+        "type": "text"
+      },
+      {
+        "label": "Wayfire capture: why exact window identity matters",
+        "type": "related-mini",
+        "updateId": "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a"
       },
       {
         "commands": [
@@ -60,17 +78,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:ea4055193631d4021ecace9cd1906bdbdbae93dd0d8290e527505020d9f69ef8",
+        "byte_size": 500,
+        "animated": false
       },
       "media/selector-region-magnifier.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1800,
-        "height": 1050
+        "height": 1050,
+        "digest": "sha256:efe235debc65f2595224ef79f9206acc2ae274489f8f2c80e822c69aa8bcc557",
+        "byte_size": 2467903,
+        "animated": false
       }
     }
   }

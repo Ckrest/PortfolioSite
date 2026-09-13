@@ -1,9 +1,13 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_5e23d3f9b0e0511d9474b29addc7d003",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Renamed images with local vision models",
-    "summary": "Created a batch command that asked a local Ollama vision model for short descriptive filenames and copied each result without altering the originals.",
+    "summary": "Created a batch command that asks a local Ollama vision model for short descriptive filenames and copies each result without altering the originals.",
     "date": "2025-12-14",
     "prominence": "low",
     "external_url": "https://github.com/Ckrest/vision-rename",
@@ -12,14 +16,9 @@
       "Python",
       "CLI"
     ],
-    "relationships": {
-      "related": [
-        "doc_88921a05dc4b5621aa8671b9e48d82dc"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Turn image folders into searchable names\n\nI built a command for batches of screenshots and images whose generated names carried no meaning. It sent each supported image to a selected local Ollama vision model, then converted the response into a short, filesystem-safe filename.",
+        "body": "## Turn image folders into searchable names\n\nI built a command for batches of screenshots and images whose generated names carried no meaning. It sends each supported image to a selected local Ollama vision model, then converts the response into a short, filesystem-safe filename.",
         "type": "text"
       },
       {
@@ -37,12 +36,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:95b1e03ea629b79b5936632c32caaae132cbc1d0740dc225596a0ca91cbcf67f",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

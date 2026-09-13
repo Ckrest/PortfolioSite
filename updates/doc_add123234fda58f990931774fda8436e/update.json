@@ -1,7 +1,19 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_add123234fda58f990931774fda8436e",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_a230ccdc63be48a886be340d751cad33"
+      ],
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ]
+    },
     "title": "Modernized Python packaging across the tool fleet",
     "summary": "Replaced runtime path-manipulating launchers with declared Python entry points, then updated services and integrations to call stable installed commands.",
     "date": "2026-02-16",
@@ -12,12 +24,9 @@
       "Python",
       "DevOps"
     ],
-    "relationships": {
-      "part_of": "doc_d05b27abd50b40f9907f78c8a2988d4e"
-    },
     "blocks": [
       {
-        "body": "## Give each tool a declared command\n\nPython command tools now expose their CLIs through `pyproject.toml` entry points and editable installs. Source edits remain immediately available, while callers use stable command names instead of launcher scripts that rewrite Python’s import path.",
+        "body": "## Give each tool a declared command\n\nPython command tools expose their CLIs through `pyproject.toml` entry points and editable installs. Source edits remain immediately available, while callers use stable command names instead of launcher scripts that rewrite Python’s import path.",
         "type": "text"
       },
       {
@@ -30,7 +39,7 @@
         "type": "code"
       },
       {
-        "body": "## Move consumers onto the command boundary\n\nSystemd units, MCP definitions, desktop launchers, and validation now resolve installed commands through `PATH`. Obsolete shims, broken symlinks, and hardcoded source paths are removed as each consumer moves to the package-owned entry point.",
+        "body": "## Move consumers onto the command boundary\n\nSystemd units, MCP definitions, desktop launchers, and validation resolve installed commands through `PATH`. Obsolete shims, broken symlinks, and hardcoded source paths are removed as each consumer moves to the package-owned entry point.",
         "type": "text"
       },
       {
@@ -40,12 +49,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:8f21f899b327343a477d617fa26b645d755ceb8c9e1f1ce924c562ea737518da",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

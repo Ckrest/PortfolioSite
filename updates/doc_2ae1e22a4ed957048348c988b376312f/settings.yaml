@@ -7,14 +7,20 @@ blocks:
     payload instead of duplicating presentation rules.
 
 
-    The views combine available session, diary, override, and environmental data.
-    Missing measurements remain gaps rather than becoming misleading zeroes.'
+    The views combine watch-recorded sleep, diary ratings, manual corrections to bed
+    and wake times, and environmental readings. Missing measurements remain gaps rather
+    than becoming misleading zeroes.'
   id: blk_sleep_views_story
   type: text
+- id: blk_relationship_context_e82215dd546e
+  label: 'Daily Check-In: the portable diary input'
+  type: related-mini
+  updateId: doc_e82215dd546e5acdb4d3a52e36be3ad3
 - description: Sleep data flow from parallel provider refresh through typed collection
     and repository storage into day, week, and Settings Hub views. Refresh, collection,
     view formatting, and desktop rendering remain separate, observable stages.
   id: blk_sleep_views_flow
+  kind: image
   presentation: intrinsic
   src: media/provider-flow.svg
   type: image
@@ -48,14 +54,21 @@ blocks:
 
     Settings Hub defines the seven date tabs, trend view, dynamic labels, and polling
     behavior. Sleep Tracker owns date resolution, ratings, duration, score, and environmental
-    summaries, keeping domain logic out of the desktop shell.'
+    summaries, keeping domain logic out of the desktop shell.
+
+
+    A custom 0–100 score combines sleep duration, time asleep relative to time in
+    bed, sleep-stage balance, and the diary quality rating. The felt-quality trend
+    shows the diary rating on its own.'
   id: blk_sleep_declarative_dashboard
   type: text
 date: '2026-02-18'
-part_of: doc_38811c0e3f5d564f8b840821d6ea52b5
 preview:
   description: Settings Hub Sleep page showing seven-day score, duration, and felt-quality
     trends
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/sleep-dashboard-synthetic.png
 prominence: medium
 summary: Separated sleep presentation from collection, added on-demand multi-provider

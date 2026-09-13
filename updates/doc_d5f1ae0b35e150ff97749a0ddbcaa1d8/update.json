@@ -1,15 +1,22 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_d5f1ae0b35e150ff97749a0ddbcaa1d8",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Built a declarative engine for AI evaluation flows",
     "summary": "Created a JSON-defined dataflow engine with typed runtime inputs, reusable components and composites, nested loops, validation, and checkpointed resume for long-running evaluations.",
     "date": "2025-12-19",
     "prominence": "high",
     "external_url": "https://github.com/Ckrest/modular-flow-engine",
     "preview": {
-      "src": "media/modular-flow-engine-overview.svg",
       "description": "Modular Flow Engine plan validation, execution, results, and optional checkpoint-resume architecture",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/modular-flow-engine-overview.svg",
       "width": 1600,
       "height": 900
     },
@@ -18,15 +25,6 @@
       "AI",
       "Architecture"
     ],
-    "relationships": {
-      "parts": [
-        "doc_4abf6b7ba46e5908b5a274b4b8eeac50"
-      ],
-      "related": [
-        "doc_2318c76c788c5637af0e620ae4ef352c",
-        "doc_185a5d2f4d2051c098c591e4ac240a1b"
-      ]
-    },
     "blocks": [
       {
         "body": "## Describe evaluation pipelines as data\n\nI built the engine around JSON plans that declare inputs, component instances, and execution steps. Sources load values, transforms process them, sinks collect or write results, and loops express repeated work without requiring a custom Python script for every evaluation.",
@@ -59,17 +57,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:870753248635337fdf55e62d9cdcdb0288c346a93d873fc0efe16a3fce6e3c87",
+        "byte_size": 499,
+        "animated": false
       },
       "media/modular-flow-engine-overview.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 1600,
-        "height": 900
+        "height": 900,
+        "digest": "sha256:c82de2c3e492c8395f6069f95b98f921ccad9e4531c1bdbe2ec140950fb72696",
+        "byte_size": 7221,
+        "animated": false
       }
     }
   }

@@ -1,0 +1,67 @@
+blocks:
+- body: '## Give every generation a durable identity
+
+
+    Conduit creates a run record before sending the prepared workflow to ComfyUI.
+    The response returns immediately with the run ID and status URL, while a required
+    idempotency key makes the same request resolve to the same run instead of starting
+    another generation.
+
+
+    The record remains available after the initiating request ends. Clients can reconnect,
+    poll, or cancel it, and Conduit can reconcile unfinished work against the ComfyUI
+    queue and history after a restart.'
+  id: blk_conduit_durable_story
+  type: text
+- code: "flowchart LR\n  Create[Create run] --> Run[Accepted run ID]\n  Run --> Admit[Admission]\n\
+    \  Admit --> Execute[Execution]\n  Execute --> Finalize[Finalize artifacts]\n\
+    \  Finalize --> Complete[Immutable completion]\n  Retry[Retry or reconnect] -.\
+    \ same run .-> Run\n  Restart[Service restart] -. reconcile .-> Execute\n  Complete\
+    \ --> Files[Checksummed download links]"
+  description: Retries return to the accepted run, while unfinished execution can
+    be reconciled after a service restart.
+  id: blk_conduit_durable_run
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Keep failure boundaries visible
+
+
+    Admission, execution, artifact capture, and optional delivery each keep their
+    own state. A caller can tell whether work was rejected before queueing, failed
+    inside ComfyUI, reached an ambiguous upstream outcome, or encountered trouble
+    while finalizing outputs.'
+  id: blk_conduit_durable_failures
+  type: text
+- body: '## Return artifacts instead of server paths
+
+
+    Tagged outputs become a manifest containing identity, media type, byte size, checksum,
+    and a scoped download link. Workflow inputs, caller context, handler output, and
+    absolute filesystem paths stay behind the service boundary.
+
+
+    Comfy Viewer and other clients retrieve results through the run resource instead
+    of depending on blocking wait fields, “latest output” state, or ComfyUI’s folder
+    layout.'
+  id: blk_conduit_durable_artifacts
+  type: text
+date: '2026-07-31'
+external_url: https://github.com/Ckrest/comfyui-conduit
+preview:
+  description: An interrupted request loses its outcome, while a durable run keeps
+    the same identity through execution, finalization, and artifact retrieval.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/conduit-durable-run-preview.svg
+prominence: medium
+summary: Replaced request-bound generation with persistent run resources that survive
+  retries and restarts, expose each execution phase, and return completed outputs
+  through immutable artifact links.
+tags:
+- ComfyUI
+- Python
+- API Design
+- Reliability
+title: Made ComfyUI Conduit runs durable and retry-safe

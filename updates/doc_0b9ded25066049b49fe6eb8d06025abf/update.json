@@ -1,0 +1,111 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_0b9ded25066049b49fe6eb8d06025abf",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ],
+      "display_projects": [
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ]
+    },
+    "title": "Stabilized Comfy Viewer for large libraries and live updates",
+    "summary": "Reworked gallery paging, live image delivery, and focused-viewer swaps so large collections stay ordered, new results appear once, and rapid navigation keeps images and metadata together.",
+    "date": "2026-03-30",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/comfy-viewer",
+    "preview": {
+      "description": "Stable cursor pages and a shared live-image record keep the library and focused viewer synchronized.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/comfy-viewer-stability-preview.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "JavaScript",
+      "Frontend",
+      "Reliability"
+    ],
+    "blocks": [
+      {
+        "body": "## Keep a growing library in stable order\n\nI replaced offset paging with cursors built from each image’s creation time and registration ID. Older and newer pages preserve their position while new results arrive, and direct lookup supports images stored in nested output folders.\n\nThe focused viewer loads a nearby window instead of requesting the entire registration history.",
+        "type": "text"
+      },
+      {
+        "blocks": [
+          {
+            "description": "Offset paging: a live insertion shifts the numbered boundary and repeats an image.",
+            "kind": "image",
+            "presentation": "content",
+            "src": "media/comfy-viewer-offset-paging.svg",
+            "type": "image"
+          },
+          {
+            "description": "Cursor paging: the next page stays anchored after the last delivered image.",
+            "kind": "image",
+            "presentation": "content",
+            "src": "media/comfy-viewer-cursor-paging.svg",
+            "type": "image"
+          }
+        ],
+        "layout": "split",
+        "type": "group"
+      },
+      {
+        "body": "## Use one image contract everywhere\n\nGallery pages, direct lookups, and WebSocket events all return the same normalized image record. The library and focused viewer deduplicate those records by stable identity, while superseded requests are ignored before they can change the page.",
+        "type": "text"
+      },
+      {
+        "body": "## Run as a standalone viewer\n\nI added a web app manifest and mobile viewport handling so Comfy Viewer can open from a tablet home screen as a standalone app. Lazy thumbnail loading, cache headers, and original-image fallbacks make browsing more resilient across different clients.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:3921b07fd227e7ee174779ebeee000e984b2be237b3528902a318aa0d36513d6",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/comfy-viewer-cursor-paging.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1100,
+        "height": 720,
+        "digest": "sha256:eca7b4757050c9367b1ccf7ce32572eb965d88a7a55d106bec70a4f994e2feed",
+        "byte_size": 5637,
+        "animated": false
+      },
+      "media/comfy-viewer-offset-paging.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1100,
+        "height": 720,
+        "digest": "sha256:df57c6c4d0e83b028357fcdf8306c2d5de0030afde9024b861b1c716e291f233",
+        "byte_size": 5392,
+        "animated": false
+      },
+      "media/comfy-viewer-stability-preview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:7d5819196402f995480e5c6381226b4a818e8581109d4e9078d6f54a27b76220",
+        "byte_size": 9093,
+        "animated": false
+      }
+    }
+  }
+}

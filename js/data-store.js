@@ -50,18 +50,27 @@ export async function loadPhases(config) {
 
 export async function loadUpdates(config) {
   const index = await loadJson(config.data.updates);
-  if (!index || index.schema !== 'portfolio-update-index@2'
+  if (!index || index.schema !== 'portfolio-update-index@3'
       || !Array.isArray(index.updates)) {
-    throw new Error('Update index must use portfolio-update-index@2');
+    throw new Error('Update index must use portfolio-update-index@3');
   }
   return index.updates;
 }
 
+export async function loadDocuments(config) {
+  const catalog = await loadJson(config.data.documents);
+  if (!catalog || catalog.schema !== 'portfolio-document-index@2'
+      || !Array.isArray(catalog.documents)) {
+    throw new Error('Document catalog must use portfolio-document-index@2');
+  }
+  return catalog.documents;
+}
+
 export async function loadUpdateIndex(path = './index.json') {
   const index = await loadJson(path);
-  if (!index || index.schema !== 'portfolio-update-index@2'
+  if (!index || index.schema !== 'portfolio-update-index@3'
       || !Array.isArray(index.updates)) {
-    throw new Error('Update index must use portfolio-update-index@2');
+    throw new Error('Update index must use portfolio-update-index@3');
   }
   return index;
 }

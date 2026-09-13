@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_6d6148fbb49356a19c3197fdac568b46",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Ported XFCE’s Whisker Menu to Wayfire",
     "summary": "Adapted XFCE’s searchable application launcher for a Wayland/Wayfire desktop, preserving its familiar menu workflow while adding compositor-aware focus handling.",
     "date": "2026-02-11",
@@ -14,16 +18,19 @@
       "Desktop Environment",
       "Migration"
     ],
-    "relationships": {
-      "part_of": "doc_8cfd107748445dcf8674dabc5865d0ff"
-    },
     "blocks": [
       {
         "body": "## Bring the XFCE application launcher into Wayfire\n\nWhisker Menu provides the XFCE panel with searchable applications, categories, favorites, and a recent-launch list. I kept that familiar launcher while moving the desktop to Wayfire, adapting the maintained plugin rather than replacing its application model.\n\nThe port uses the plugin’s GTK layer-shell support for Wayland placement and preserves its normal search, selection, and launch behavior inside the XFCE panel.",
         "type": "text"
       },
       {
+        "label": "XFCE migration: the panel and retained desktop forks",
+        "type": "related-mini",
+        "updateId": "doc_8cfd107748445dcf8674dabc5865d0ff"
+      },
+      {
         "description": "Whisker Menu showing favorite applications alongside categories such as accessories, graphics, internet, multimedia, office, settings, and system. Whisker Menu combines favorites, recent applications, searchable programs, and category browsing in one launcher. Image from the XFCE Whisker Menu documentation.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/whisker-menu-favorites.png",
         "type": "image"
@@ -42,17 +49,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:611a017c493977f00c37ca9203588698438407c960d93164582c0f5ca0fc0afc",
+        "byte_size": 500,
+        "animated": false
       },
       "media/whisker-menu-favorites.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 450,
-        "height": 500
+        "height": 500,
+        "digest": "sha256:d7c805602973eecceacda6dc5ab0c732152bfc37c19343d780dcd0b36f8a3cb3",
+        "byte_size": 46535,
+        "animated": false
       }
     }
   }

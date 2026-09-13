@@ -1,0 +1,49 @@
+blocks:
+- body: '## Put guidance where the work happens
+
+
+    Work Report separates recording what happened from choosing the evidence that
+    supports it. I added guidance to the responses from both stages so an agent receives
+    the next useful action with the result it just created.
+
+
+    Creation reports uncommitted changes as a nonblocking warning and points to evidence
+    curation. Curation returns the full set of follow-up questions and instructions
+    for reviewing the attached artifacts.'
+  id: blk_guidance_context
+  type: text
+- code: "ARTIFACT_REVIEW_INSTRUCTIONS = [\n    \"Review every attached artifact one-by-one\
+    \ before finalizing the report.\",\n    \"Remove irrelevant artifacts (duplicates,\
+    \ noise, unrelated captures).\",\n    \"For each kept artifact, ensure it clearly\
+    \ supports what changed.\",\n]"
+  description: The curation response tells the agent to inspect each artifact, remove
+    irrelevant material, and keep evidence that supports the reported change.
+  filename: core.py
+  id: blk_guidance_source
+  language: python
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Make evidence review actionable
+
+
+    The follow-up guidance explains how to inspect, detach, edit, or recapture evidence
+    and repeat curation when material is missing. Shared instructions replace stale
+    references to the retired report wizard.
+
+
+    I added regression checks for creation warnings and curation responses. The resulting
+    workflow preserves direct report creation while making the evidence-review step
+    explicit.'
+  id: blk_guidance_result
+  type: text
+date: '2026-02-22'
+kind: update
+prominence: low
+summary: Added warnings about uncommitted changes and explicit evidence-review instructions,
+  giving automated report creation clear next actions at each stage.
+tags:
+- Automation
+- Python
+- MCP
+title: Added actionable guidance to Work Report creation and curation

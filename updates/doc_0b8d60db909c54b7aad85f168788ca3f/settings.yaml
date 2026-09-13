@@ -2,7 +2,7 @@ blocks:
 - body: '## Capture evidence as typed artifacts
 
 
-    Work Report now attaches screenshots, code samples, terminal output, comparisons,
+    Work Report attaches screenshots, code samples, terminal output, comparisons,
     and structured data as typed artifacts. Each record identifies the kind of evidence
     and carries the content needed to use it again.
 
@@ -56,20 +56,19 @@ blocks:
     the same type-specific presentation on the detail page.
 
 
-    Daily work can now move from report evidence to finished portfolio content without
+    Daily work can move from report evidence to finished portfolio content without
     being rebuilt by hand.'
   id: blk_render_evidence_on_page
   type: text
 date: '2026-01-28'
-part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
 preview:
   description: Diagram showing typed Work Report artifacts mapped to editable Portfolio
     Editor blocks and rendered on a portfolio page
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/artifact-pipeline-preview.svg
 prominence: high
-related_to:
-- doc_45e24fee0f645130a7d9ce1685a5af01
-- doc_1a3826668acb53688961faa991a157f1
 summary: Preserved screenshots, code, terminal output, comparisons, and data as typed
   Work Report artifacts, then mapped them into editable blocks for portfolio pages.
 tags:

@@ -1,0 +1,77 @@
+blocks:
+- body: '## Save the work while its content is taking shape
+
+
+    A portfolio draft often begins with a block whose image, source, or link has not
+    been chosen yet. I made those incomplete blocks saveable with warnings that explain
+    what they still need.
+
+
+    Structural errors, such as an unknown block type or malformed group, remain separate
+    from missing content. The author can keep arranging the page while incomplete
+    material stays visible for editing.'
+  id: blk_portfolio_context
+  type: text
+- code: "flowchart TB\n REGISTRY[\"Shared block contract\"] --> EDITOR[\"Editor fields\
+    \ and validation\"]\n REGISTRY --> SITE[\"Public rendering rules\"]\n EDITOR -->\
+    \ SHAPE{\"Valid structure?\"}\n SHAPE -->|No| ERROR[\"Explain the structural error\"\
+    ]\n SHAPE -->|Yes| SAVE[\"Save the draft\"]\n SAVE --> MISSING{\"Required content\
+    \ present?\"}\n MISSING -->|No| WARNING[\"Show an editable placeholder and warning\"\
+    ]\n MISSING -->|Yes| RENDER[\"Render the complete block\"]\n SITE --> RENDER\n\
+    \ WARNING --> OMIT[\"Omit incomplete block from live output\"]"
+  description: One contract distinguishes malformed structure from missing draft content
+    and defines how each block appears during authoring and public rendering.
+  id: blk_portfolio_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Give the editor and renderer the same rules
+
+
+    I introduced canonical block contracts that describe required content and supported
+    ways to fill a block. Generated definitions feed the editor and backend, reducing
+    the chance that one surface accepts a shape another cannot interpret.
+
+
+    The authoring preview keeps incomplete placeholders available for selection. The
+    live renderer omits blocks that lack their required content, using the same contract
+    to make that decision.'
+  id: blk_portfolio_contract
+  type: text
+- description: A compact related-work link and a fuller card present the same target
+    through two block layouts.
+  id: blk_portfolio_references
+  kind: image
+  presentation: wide
+  src: media/related-work-blocks.png
+  type: image
+- body: '## Select related work from the page collection
+
+
+    I added a searchable picker for related-page blocks, so the author can choose
+    an existing target instead of entering its identifier manually. Validation explains
+    missing targets, unknown references, and self-links beside the block.
+
+
+    Together, these changes make drafts easier to compose while keeping the public
+    representation tied to explicit, shared block rules.'
+  id: blk_portfolio_links
+  type: text
+date: '2026-03-02'
+kind: update
+preview:
+  description: Draft completeness and structural validity have distinct rules.
+  fit: contain
+  kind: image
+  placement: cards-only
+  src: media/portfolio-overview.svg
+prominence: low
+summary: Unified block rules across Portfolio Editor and Portfolio Site, allowing
+  incomplete drafts to be saved with useful warnings while keeping rendering behavior
+  consistent.
+tags:
+- Python
+- JavaScript
+- Architecture
+- Authoring
+title: Kept portfolio drafts editable while flagging incomplete content

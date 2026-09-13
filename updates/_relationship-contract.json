@@ -1,30 +1,82 @@
 {
-  "version": 1,
-  "targetType": "update",
-  "metadata": {
-    "part_of": {
-      "cardinality": "one",
-      "publicEndpoint": "optional",
-      "inverse": "parts",
-      "acyclic": true
-    },
-    "supersedes": {
-      "cardinality": "one",
-      "publicEndpoint": "optional",
-      "inverse": "superseded_by",
-      "acyclic": true
-    },
-    "related_to": {
-      "cardinality": "many",
-      "publicEndpoint": "optional",
-      "inverse": "related",
-      "acyclic": false
-    }
-  },
+  "version": 3,
   "blocks": {
     "publicEndpoint": "optional"
   },
-  "capabilityEvidence": {
-    "publicEndpoint": "required"
+  "associations": {
+    "projects": {
+      "sourceKinds": [
+        "update",
+        "project"
+      ],
+      "targetKinds": [
+        "project"
+      ],
+      "inverse": "items",
+      "cardinality": "many",
+      "publicEndpoint": "optional"
+    },
+    "capabilities": {
+      "sourceKinds": [
+        "update",
+        "project"
+      ],
+      "targetKinds": [
+        "capability"
+      ],
+      "inverse": "evidence",
+      "cardinality": "many",
+      "publicEndpoint": "optional"
+    },
+    "evidence": {
+      "sourceKinds": [
+        "capability"
+      ],
+      "targetKinds": [
+        "update",
+        "project"
+      ],
+      "inverse": "capabilities",
+      "cardinality": "many",
+      "publicEndpoint": "optional"
+    },
+    "items": {
+      "sourceKinds": [
+        "project"
+      ],
+      "targetKinds": [
+        "update",
+        "project"
+      ],
+      "inverse": "projects",
+      "cardinality": "many",
+      "publicEndpoint": "optional"
+    }
+  },
+  "typeMismatch": "inactive",
+  "connections": {
+    "project_membership": {
+      "source": [
+        "update",
+        "project"
+      ],
+      "target": [
+        "project"
+      ],
+      "field": "projects",
+      "inverse": "items",
+      "acyclic": true
+    },
+    "demonstrates": {
+      "source": [
+        "update",
+        "project"
+      ],
+      "target": [
+        "capability"
+      ],
+      "field": "capabilities",
+      "inverse": "evidence"
+    }
   }
 }

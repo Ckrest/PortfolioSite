@@ -1,32 +1,259 @@
 #!/usr/bin/python3
-"""Serve the currently realized Portfolio Site on the local IPv4 network."""
+"""Serve complete verified portfolio snapshots while the installed files change."""
 
 from __future__ import annotations
 
+import hashlib
+import io
+import json
+import logging
 import os
-from functools import partial
+import re
+import sys
+import threading
+from dataclasses import dataclass
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+from urllib.parse import unquote, urlsplit, urlunsplit
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'lib'))
+from portfolio_site_session import Session
+
+CLIENT = Path(__file__).resolve().parents[1] / 'lib/local-preview.js'
 
 
 HOST = "0.0.0.0"
 PORT = 9742
 
 
-def active_distribution() -> Path:
-    state_home = Path(
-        os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")
-    ).expanduser()
-    distribution = state_home / "portfolio-site/active/dist"
-    if not (distribution / "index.html").is_file():
-        raise SystemExit(f"Reviewed Portfolio Site is not realized: {distribution}")
-    return distribution
+def active_output() -> Path:
+    state_home = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state"))
+    return state_home.expanduser() / "portfolio-site/active"
+
+
+def digest(value: bytes) -> str:
+    return "sha256:" + hashlib.sha256(value).hexdigest()
+
+
+@dataclass(frozen=True)
+class Snapshot:
+    files: dict[str, bytes]
+    result_digest: str
+    manifest_bytes: bytes
+
+    @classmethod
+    def load(cls, root: Path) -> Snapshot:
+        manifest_bytes = (root / "manifest.json").read_bytes()
+        manifest = json.loads(manifest_bytes)
+        if not isinstance(manifest, dict) or manifest.get("schema") != "portfolio-site/release@2" or manifest.get("state") != "ready":
+            raise ValueError("Portfolio Site requires a successful current build receipt")
+        identity={key:manifest.get(key) for key in ('accepted_revision','snapshot_digest','site_source_digest','public_source_digest','result_digest')}
+        if digest(json.dumps(identity,sort_keys=True,separators=(",", ":")).encode())!=manifest.get('release_id'):
+            raise ValueError('Portfolio Site release identity differs from its receipt')
+        distribution = root / "dist"
+        files: dict[str, bytes] = {}
+        inventory = []
+        for entry in manifest["files"]:
+            name = entry["path"]
+            path = PurePosixPath(name)
+            if path.is_absolute() or str(path) != name or ".." in path.parts or not path.parts:
+                raise ValueError(f"Unsafe distribution path: {name}")
+            source = distribution / name
+            if entry["kind"] != "file" or any(p.is_symlink() for p in (source, *source.parents)):
+                raise ValueError(f"Distribution must contain ordinary files: {name}")
+            if name in files:
+                raise ValueError(f"Duplicate distribution path: {name}")
+            data = source.read_bytes()
+            observed = {
+                "path": name,
+                "kind": "file",
+                "mode": "executable" if source.stat().st_mode & 0o111 else "file",
+                "digest": digest(data),
+            }
+            if observed != entry:
+                raise ValueError(f"Distribution does not match its receipt: {name}")
+            inventory.append(observed)
+            files[name] = data
+        actual = {p.relative_to(distribution).as_posix() for p in distribution.rglob("*")
+                  if p.is_symlink() or not p.is_dir()}
+        if actual != files.keys() or "index.html" not in files:
+            raise ValueError("Distribution inventory does not match its receipt")
+        inventory.sort(key=lambda entry: entry["path"].encode("utf-16-be"))
+        result_digest = digest(json.dumps(inventory, ensure_ascii=False, separators=(",", ":")).encode())
+        if result_digest != manifest["result_digest"]:
+            raise ValueError("Distribution identity does not match its receipt")
+        if (root / "manifest.json").read_bytes() != manifest_bytes:
+            raise ValueError("Portfolio Site changed while loading its distribution")
+        return cls(files, result_digest, manifest_bytes)
+
+
+class PortfolioServer(ThreadingHTTPServer):
+    daemon_threads = True
+
+    def __init__(self, address: tuple[str, int], root: Path, session=None):
+        self.root = root
+        self.session = session
+        self.generation = session.status()['generation'] if session else None
+        self._lock = threading.Lock()
+        self._snapshot = Snapshot.load(root)
+        self._last_error = None
+        super().__init__(address, PortfolioHandler)
+        logging.info("Serving verified Portfolio Site %s", self._snapshot.result_digest)
+
+    def snapshot(self) -> Snapshot:
+        # Uptake happens on access, with no watcher, timer, signal, or service restart.
+        # The installer may be partway through its per-file writes. A failed load
+        # leaves all existing request bytes intact and is retried on the next access.
+        with self._lock:
+            try:
+                if (self.root / "manifest.json").read_bytes() != self._snapshot.manifest_bytes:
+                    candidate = Snapshot.load(self.root)
+                    if self.session:
+                        state = self.session.status()
+                        selected = state.get('release') or {}
+                        if not self.session.current(state, self.generation) or selected.get('result_digest') != candidate.result_digest:
+                            return self._snapshot
+                    self._snapshot = candidate
+                    self._last_error = None
+                    logging.info("Serving verified Portfolio Site %s", candidate.result_digest)
+            except (OSError, ValueError, KeyError, TypeError) as error:
+                message = str(error)
+                if message != self._last_error:
+                    logging.warning("Keeping previous verified Portfolio Site: %s", message)
+                    self._last_error = message
+            return self._snapshot
+
+    def service_actions(self):
+        if self.session:
+            state = self.session.status()
+            if not self.session.current(state, self.generation):
+                self.session.stop(generation=self.generation, expired=True)
+                # serve_forever calls this on its own thread; shutdown must use another.
+                threading.Thread(target=self.shutdown, daemon=True).start()
+
+    def preview_status(self, path='/'):
+        snapshot = self.snapshot()
+        state = self.session.status() if self.session else {'active': True}
+        if self.session:
+            state['active'] = self.session.current(state, self.generation)
+            state['generation'] = self.generation
+        name = str(PurePosixPath(unquote(urlsplit(path).path).lstrip('/')))
+        exists = name in snapshot.files or (f'{name}/index.html' if name != '.' else 'index.html') in snapshot.files
+        return {key: value for key, value in {**state, 'error': bool(state.get('error')), 'path_exists': exists,
+                'result_digest': snapshot.result_digest}.items()
+                if key in {'active', 'state', 'generation', 'remaining_seconds', 'expires_at',
+                           'error', 'preparing', 'stopped_reason', 'result_digest', 'path_exists'}}
+
+
+class PortfolioHandler(SimpleHTTPRequestHandler):
+    server: PortfolioServer
+
+    def log_request(self, code='-', size='-'):
+        if code == 200 and urlsplit(self.path).path == '/__portfolio_preview/status':
+            return
+        super().log_request(code, size)
+
+    def send_head(self):
+        snapshot = self.server.snapshot()
+        parts = urlsplit(self.path)
+        if parts.path == '/__portfolio_preview/status':
+            from urllib.parse import parse_qs
+            path = parse_qs(parts.query).get('path', ['/'])[0]
+            return self.preview_response(json.dumps(self.server.preview_status(path)).encode(), 'application/json')
+        if parts.path == '/__portfolio_preview/client.js':
+            return self.preview_response(CLIENT.read_bytes(), 'text/javascript')
+        decoded = unquote(parts.path)
+        path = PurePosixPath(decoded.lstrip("/"))
+        if ".." in path.parts:
+            self.send_error(404)
+            return None
+        name = str(path) if path.parts else ""
+        index = f"{name}/index.html" if name else "index.html"
+        if index in snapshot.files:
+            if not parts.path.endswith("/"):
+                self.send_response(301)
+                self.send_header("Location", urlunsplit(parts._replace(path=parts.path + "/")))
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return None
+            name = index
+        data = snapshot.files.get(name)
+        if data is None:
+            self.send_error(404)
+            return None
+        if self.server.session and name.endswith('.html'):
+            # Full documents only. Section fragments are consumed by the page
+            # loader and must retain their original roots and exact bytes.
+            # The artifact and publication tree also retain their exact bytes.
+            head_end = re.search(br'</head\s*>', data, re.IGNORECASE)
+            if head_end:
+                tag = ('<script src="/__portfolio_preview/client.js" defer data-release="' +
+                       snapshot.result_digest + '"></script>').encode()
+                data = data[:head_end.start()] + tag + data[head_end.start():]
+        etag = '"' + snapshot.result_digest.removeprefix('sha256:') + '-' + hashlib.sha256(name.encode()).hexdigest()[:16] + '"'
+        first, last = 0, len(data) - 1
+        status = 200
+        requested = self.headers.get('Range')
+        if requested and self.headers.get('If-Range', etag) == etag:
+            match = re.fullmatch(r'bytes=(\d*)-(\d*)', requested.strip())
+            try:
+                if not match or not any(match.groups()) or not data:
+                    raise ValueError
+                start, end = match.groups()
+                if start:
+                    first = int(start)
+                    last = min(int(end), last) if end else last
+                else:
+                    length = int(end)
+                    if length <= 0:
+                        raise ValueError
+                    first = max(0, len(data) - length)
+                if first > last or first >= len(data):
+                    raise ValueError
+                status = 206
+            except ValueError:
+                self.send_response(416)
+                self.send_header('Content-Range', f'bytes */{len(data)}')
+                self.send_header('Content-Length', '0')
+                self.end_headers()
+                return None
+        self.send_response(status)
+        self.send_header('Content-Type', self.guess_type(name))
+        self.send_header('Content-Length', str(last - first + 1))
+        self.send_header('Accept-Ranges', 'bytes')
+        self.send_header('ETag', etag)
+        if status == 206:
+            self.send_header('Content-Range', f'bytes {first}-{last}/{len(data)}')
+        self.send_header('Cache-Control', 'no-cache')
+        self.send_header('X-Portfolio-Result-Digest', snapshot.result_digest)
+        self.end_headers()
+        return io.BytesIO(data[first:last + 1])
+
+    def preview_response(self, data, content_type):
+        self.send_response(200)
+        self.send_header('Content-Type', content_type)
+        self.send_header('Content-Length', str(len(data)))
+        self.send_header('Cache-Control', 'no-store')
+        self.end_headers()
+        return io.BytesIO(data)
+
 
 
 def main() -> None:
-    handler = partial(SimpleHTTPRequestHandler, directory=str(active_distribution()))
-    server = ThreadingHTTPServer((HOST, PORT), handler)
-    server.serve_forever()
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    try:
+        session = Session()
+        state = session.status()
+        if not state['active']:
+            logging.info('No active preview session; use portfolio-site open.')
+            return
+        server = PortfolioServer((HOST, PORT), active_output(), session)
+        if (state.get('release') or {}).get('result_digest') != server.snapshot().result_digest:
+            raise ValueError('Installed release has not been activated for this session')
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        raise SystemExit(f"No verified Portfolio Site can be served: {error}") from error
+    with server:
+        server.serve_forever()
 
 
 if __name__ == "__main__":

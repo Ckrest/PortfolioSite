@@ -1,9 +1,23 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_f1ecee3798b75a698060af0d6fd26b53",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec"
+      ],
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Added artifact staging and curation to Work Reports",
-    "summary": "Work Report now gathers captured evidence into a staging pool where it can be scored, captioned, approved, or rejected before the approved set is copied into report-owned storage.",
+    "summary": "Added a Work Report staging pool where captured evidence can be scored, captioned, approved, or rejected before the approved set is copied into report-owned storage.",
     "date": "2026-01-29",
     "prominence": "low",
     "tags": [
@@ -11,16 +25,9 @@
       "PostgreSQL",
       "AI"
     ],
-    "relationships": {
-      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
-      "related": [
-        "doc_24971e45f3cb5b5489b4d221cbcfdcef",
-        "doc_582dd26679fb5519a5a4bf771863f5a6"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Stage evidence before attachment\n\nWork Report now gathers discovered evidence in a PostgreSQL staging pool instead of attaching every nearby file immediately. Each candidate enters as pending with its source path, artifact type, metadata, and an optional link to the shared artifact record.\n\nFiles can also be added directly, so discovered and explicitly supplied material move through the same curation flow.",
+        "body": "## Stage evidence before attachment\n\nWork Report gathers discovered evidence in a PostgreSQL staging pool instead of attaching every nearby file immediately. Each candidate enters as pending with its source path, artifact type, metadata, and an optional link to the shared artifact record.\n\nFiles can also be added directly, so discovered and explicitly supplied material move through the same curation flow.",
         "type": "text"
       },
       {
@@ -37,12 +44,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:1a4eb765b9376fd43ae2c198584e464a815e6e782f4dfbe59458fefc2a40d14b",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

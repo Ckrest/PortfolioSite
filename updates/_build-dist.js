@@ -1,13 +1,12 @@
+import { reuseFile, reuseTree } from './_artifact-io.js';
+import { documentPayloadName, documentPayloadSchema } from '../js/document-model.js';
 /** Materialize an allowlisted deployment directory from generated update output. */
 
 import { cp, mkdir, readFile, readdir, rm, stat } from 'fs/promises';
-import { dirname, join } from 'path';
+import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-const UPDATES = dirname(fileURLToPath(import.meta.url));
-const ROOT = dirname(UPDATES);
-const CAPABILITIES = join(ROOT, 'capabilities');
-const DIST = join(ROOT, 'dist');
+const DEFAULT_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const ROOT_FILES = [
   '.nojekyll', 'index.html', 'site.config.js', 'favicon.svg', 'robots.txt', '_headers',
   'sitemap.xml',
@@ -17,21 +16,6 @@ const UPDATE_RUNTIME = [
   'index.json', 'detail.js', 'update-renderer.js', 'update-media.js',
   'runtime-utils.js', 'update-base.css', 'update-blocks.css', 'generated', 'vendor',
 ];
-const CAPABILITY_RUNTIME = [
-  'manifest.json', 'detail.js', 'capability-renderer.js', 'runtime-utils.js',
-  'capability-base.css', 'capability-layout.css', 'capability.css',
-  'generated', 'vendor',
-];
-
-function declaredAssets(payload) {
-  if (payload?.asset_manifest?.schema !== 'portfolio-site/asset-manifest@1'
-      || !Array.isArray(payload.asset_manifest.assets)
-      || payload.asset_manifest.assets.some((item) => typeof item !== 'string')) {
-    throw new Error('Generated entity is missing its current asset manifest');
-  }
-  return payload.asset_manifest.assets;
-}
-
 function updateAssets(inventory, key) {
   const assets = inventory?.updates?.[key];
   if (inventory?.schema !== 'portfolio-site/update-asset-inventory@1'
@@ -41,62 +25,63 @@ function updateAssets(inventory, key) {
   return assets;
 }
 
-async function copyExisting(source, target) {
+async function copyExisting(source, target, cache) {
   try { await stat(source); }
   catch { return false; }
   await mkdir(dirname(target), { recursive: true });
-  await cp(source, target, { recursive: true });
+  if ((await stat(source)).isDirectory()) await reuseTree(source, target, cache);
+  else await reuseFile(source, target, cache);
   return true;
 }
 
-async function buildDist() {
+export async function copyRuntime(ROOT, DIST, cache = null) {
+  for (const file of ROOT_FILES) await copyExisting(join(ROOT, file), join(DIST, file), cache);
+  for (const directory of ROOT_DIRS) await copyExisting(join(ROOT, directory), join(DIST, directory), cache);
+  for (const path of UPDATE_RUNTIME) await copyExisting(join(ROOT, 'updates', path), join(DIST, 'updates', path), cache);
+  for (const collection of ['projects', 'capabilities']) {
+    await mkdir(join(DIST, collection), { recursive: true });
+    await copyExisting(join(ROOT, collection, 'page.js'), join(DIST, collection, 'page.js'), cache);
+    await copyExisting(join(ROOT, collection, 'page.css'), join(DIST, collection, 'page.css'), cache);
+  }
+}
+
+export async function buildDist({ root: ROOT = DEFAULT_ROOT, output = null, cache = null } = {}) {
+  const UPDATES = join(ROOT, 'updates');
+  const CAPABILITIES = join(ROOT, 'capabilities');
+  const DIST = output || join(ROOT, 'dist');
   const updateAssetInventory = JSON.parse(await readFile(join(UPDATES, '_asset-inventory.json'), 'utf8'));
   await rm(DIST, { recursive: true, force: true });
   await mkdir(join(DIST, 'updates'), { recursive: true });
   await mkdir(join(DIST, 'capabilities'), { recursive: true });
-  for (const file of ROOT_FILES) await copyExisting(join(ROOT, file), join(DIST, file));
-  for (const directory of ROOT_DIRS) await copyExisting(join(ROOT, directory), join(DIST, directory));
-  for (const path of UPDATE_RUNTIME) await copyExisting(join(UPDATES, path), join(DIST, 'updates', path));
-  for (const path of CAPABILITY_RUNTIME) await copyExisting(join(CAPABILITIES, path), join(DIST, 'capabilities', path));
+  await copyRuntime(ROOT, DIST, cache);
+  await copyExisting(join(CAPABILITIES, 'manifest.json'), join(DIST, 'capabilities/manifest.json'), cache);
 
-  const entries = await readdir(UPDATES, { withFileTypes: true });
+  const entries = [];
+  for (const collection of ['updates', 'projects', 'capabilities']) {
+    for (const entry of await readdir(join(ROOT, collection), { withFileTypes: true })) entries.push({ name: entry.name, collection, isDirectory: () => entry.isDirectory() });
+  }
   let count = 0;
   for (const entry of entries) {
     if (!entry.isDirectory() || entry.name.startsWith('_') || ['generated', 'vendor'].includes(entry.name)) continue;
-    const payloadPath = join(UPDATES, entry.name, 'update.json');
+    const kind = { updates: 'update', projects: 'project', capabilities: 'capability' }[entry.collection];
+    const filename = documentPayloadName({ kind });
+    const payloadPath = join(ROOT, entry.collection, entry.name, filename);
     let payload;
     try { payload = JSON.parse(await readFile(payloadPath, 'utf8')); }
     catch { continue; }
-    if (payload.schema !== 'portfolio-update@7' || !payload.update
-        || payload.media?.schema !== 'portfolio-site/media-metadata@1') continue;
-    const target = join(DIST, 'updates', entry.name);
+    if (payload.schema !== documentPayloadSchema({ kind }) || !payload[kind]
+        || payload.media?.schema !== 'portfolio-site/media-metadata@2') continue;
+    const target = join(DIST, entry.collection, entry.name);
     await mkdir(target, { recursive: true });
-    await cp(payloadPath, join(target, 'update.json'));
-    await cp(join(UPDATES, entry.name, 'detail.html'), join(target, 'detail.html'));
+    await reuseFile(payloadPath, join(target, filename), cache);
+    await reuseFile(join(ROOT, entry.collection, entry.name, 'detail.html'), join(target, 'detail.html'), cache);
     for (const asset of updateAssets(updateAssetInventory, entry.name)) {
-      await copyExisting(join(UPDATES, entry.name, asset), join(target, asset));
+      await copyExisting(join(ROOT, entry.collection, entry.name, asset), join(target, asset), cache);
     }
     count += 1;
   }
 
-  const capabilityEntries = await readdir(CAPABILITIES, { withFileTypes: true });
-  let capabilityCount = 0;
-  for (const entry of capabilityEntries) {
-    if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
-    const payloadPath = join(CAPABILITIES, entry.name, 'capability.json');
-    let payload;
-    try { payload = JSON.parse(await readFile(payloadPath, 'utf8')); }
-    catch { continue; }
-    if (payload.schema !== 'portfolio-capability@4' || !payload.capability) continue;
-    const target = join(DIST, 'capabilities', entry.name);
-    await mkdir(target, { recursive: true });
-    await cp(payloadPath, join(target, 'capability.json'));
-    await cp(join(CAPABILITIES, entry.name, 'detail.html'), join(target, 'detail.html'));
-    for (const asset of declaredAssets(payload)) {
-      await copyExisting(join(CAPABILITIES, entry.name, asset), join(target, asset));
-    }
-    capabilityCount += 1;
-  }
+
 
   const forbidden = [];
   const walk = async (directory) => {
@@ -109,7 +94,7 @@ async function buildDist() {
   };
   await walk(DIST);
   if (forbidden.length) throw new Error(`Forbidden deployment files: ${forbidden.join(', ')}`);
-  console.log(`Built allowlisted dist with ${count} update pages and ${capabilityCount} capability pages.`);
+  console.log(`Built allowlisted dist with ${count} portfolio pages.`);
 }
 
-await buildDist();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await buildDist();

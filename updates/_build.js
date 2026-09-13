@@ -1,7 +1,11 @@
+import { inspectMedia } from './_inspect-media.js';
+import { resolveConnections, applyConnectionViews } from '../js/connection-model.js';
+import { valueDigest, writeAtomic, reuseFile } from './_artifact-io.js';
+import { mediaErrors, mediaUsages, previewDuplication, MEDIA_CONTRACT } from '../js/media-model.js';
 /** Build and validate the current-only public update format. */
 
-import { readdir, readFile, rename, stat, unlink, writeFile } from 'fs/promises';
-import { dirname, extname, join } from 'path';
+import { mkdir, readdir, readFile, rename, stat, unlink, writeFile } from 'fs/promises';
+import { dirname, extname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { parse as parseYaml } from 'yaml';
 import {
@@ -11,15 +15,8 @@ import {
   getBlockSourceMode,
   getMissingRenderFields,
 } from './generated/block-registry.js';
-import {
-  CANONICAL_BLOCK_ORDER as CAPABILITY_BLOCK_ORDER,
-  CANONICAL_BLOCK_META as CAPABILITY_BLOCK_META,
-  getBlockContract as getCapabilityBlockContract,
-  getMissingRenderFields as getMissingCapabilityRenderFields,
-} from '../capabilities/generated/block-registry.js';
-import { connectCapabilities, capabilityCard } from '../capabilities/model.js';
+import { documentCollection, documentKind, documentPayloadName, documentPayloadSchema, chronological } from '../js/document-model.js';
 import { getUpdateAnchorId } from '../js/homepage-location.js';
-import { referenceResolution, resolveUpdateRelationships } from './relationship-model.js';
 import { validationIssue, validationResult } from './review-validation.js';
 import {
   collectDeclaredAssets,
@@ -27,26 +24,10 @@ import {
   safeRelativeAssetPath as safeRelativePath,
 } from './asset-contract.js';
 
-const UPDATES_DIR = dirname(fileURLToPath(import.meta.url));
-const ROOT = dirname(UPDATES_DIR);
-const CAPABILITIES_DIR = join(ROOT, 'capabilities');
-const INDEX_PATH = join(UPDATES_DIR, 'index.json');
-const ASSET_INVENTORY_PATH = join(UPDATES_DIR, '_asset-inventory.json');
-const CAPABILITY_MANIFEST_PATH = join(CAPABILITIES_DIR, 'manifest.json');
-const SITEMAP_PATH = join(ROOT, 'sitemap.xml');
-const SCHEMA_PATH = join(UPDATES_DIR, '_update-schema.yaml');
-const CAPABILITY_SCHEMA_PATH = join(CAPABILITIES_DIR, '_capability-schema.yaml');
-const SITE_PATH = join(ROOT, 'data', 'site.json');
-const DETAIL_TEMPLATE_PATH = join(UPDATES_DIR, 'detail.html');
-const CAPABILITY_DETAIL_TEMPLATE_PATH = join(CAPABILITIES_DIR, 'detail.html');
-const ASSET_POLICY_PATH = join(UPDATES_DIR, '_public-asset-policy.json');
-const RELATIONSHIP_CONTRACT_PATH = join(UPDATES_DIR, '_relationship-contract.json');
-const REVIEW_POLICY_PATH = join(UPDATES_DIR, '_review-policy.json');
-const ASSET_CONTRACT_PATH = join(UPDATES_DIR, '_asset-contract.json');
-const CAPABILITY_ASSET_CONTRACT_PATH = join(CAPABILITIES_DIR, '_asset-contract.json');
+const DEFAULT_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 
 const SUMMARY_FIELDS = [
-  'key', 'title', 'summary', 'date', 'prominence', 'icon', 'preview', 'tags',
+  'key', 'kind', 'connections', 'title', 'summary', 'date', 'prominence', 'icon', 'preview', 'tags',
 ];
 function matchesFieldType(value, type) {
   if (type === 'string') return typeof value === 'string';
@@ -113,25 +94,6 @@ function updateIssue(issues, documentId, code, message, {
   }));
 }
 
-function capabilityIssue(issues, slug, code, message, {
-  outcome = 'fail', consequence, field, location, evidence,
-} = {}) {
-  issues.push(validationIssue({
-    code,
-    outcome,
-    consequence,
-    stage: 'site-source',
-    owner: 'portfolio-site-source',
-    subject: { kind: 'capability', id: slug, slug, label: slug.replaceAll('-', ' ') },
-    location: location || (field ? {
-      kind: 'site-source', field, source_path: `capabilities/${slug}/settings.yaml`,
-    } : { kind: 'site-source', source_path: `capabilities/${slug}/settings.yaml` }),
-    message,
-    evidence,
-    action: { kind: 'edit-site-source' },
-  }));
-}
-
 function siteSourceIssue(issues, code, message, evidence = undefined) {
   issues.push(validationIssue({
     code,
@@ -168,13 +130,8 @@ function validateSchemaFields(settings, schema, addIssue) {
     const type = definition.type;
     if (['text', 'textarea', 'asset', 'update'].includes(type) && typeof value !== 'string') {
       addIssue('field-type-invalid', `${definition.label || field} must be text`, { field });
-    } else if (type === 'preview' && (
-      !value || typeof value !== 'object' || Array.isArray(value)
-      || Object.keys(value).some((key) => !['src', 'description'].includes(key))
-      || !safeRelativePath(value.src)
-      || !String(value.description || '').trim()
-    )) {
-      addIssue('preview-invalid', `${definition.label || field} must contain an update-relative src and meaningful description`, { field });
+    } else if (type === 'preview') {
+      for (const message of mediaErrors(value, { preview: true })) addIssue('preview-invalid', message, { field });
     } else if (type === 'date' && !isValidDate(value)) {
       addIssue('date-invalid', `${definition.label || field} must be a valid YYYY-MM-DD date`, { field });
     } else if (type === 'url' && !isValidPublicUrl(value)) {
@@ -202,95 +159,6 @@ function encodeUrlPath(value) {
   return String(value || '').split('/').map(encodeURIComponent).join('/');
 }
 
-function imageMediaType(path) {
-  const extension = extname(path).toLowerCase();
-  return ({
-    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
-    '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml',
-  })[extension] || null;
-}
-
-async function readImageDimensions(path) {
-  try {
-    const data = await readFile(path);
-    if (data.length >= 24 && data.subarray(0, 8).equals(
-      Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
-    )) {
-      return { width: data.readUInt32BE(16), height: data.readUInt32BE(20) };
-    }
-    if (data.length >= 10 && data.subarray(0, 6).toString('ascii').match(/^GIF8[79]a$/)) {
-      return { width: data.readUInt16LE(6), height: data.readUInt16LE(8) };
-    }
-    if (data.length >= 30 && data.subarray(0, 4).toString('ascii') === 'RIFF'
-        && data.subarray(8, 12).toString('ascii') === 'WEBP') {
-      const kind = data.subarray(12, 16).toString('ascii');
-      if (kind === 'VP8X') {
-        return {
-          width: 1 + data.readUIntLE(24, 3),
-          height: 1 + data.readUIntLE(27, 3),
-        };
-      }
-      if (kind === 'VP8L') {
-        const bits = data.readUInt32LE(21);
-        return {
-          width: 1 + (bits & 0x3fff),
-          height: 1 + ((bits >> 14) & 0x3fff),
-        };
-      }
-      if (kind === 'VP8 ') {
-        const marker = data.indexOf(Buffer.from([0x9d, 0x01, 0x2a]), 20);
-        if (marker >= 0 && marker + 7 <= data.length) {
-          return {
-            width: data.readUInt16LE(marker + 3) & 0x3fff,
-            height: data.readUInt16LE(marker + 5) & 0x3fff,
-          };
-        }
-      }
-    }
-    if (data.length >= 4 && data[0] === 0xff && data[1] === 0xd8) {
-      const markers = new Set([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf]);
-      let offset = 2;
-      while (offset + 8 < data.length) {
-        if (data[offset] !== 0xff) { offset += 1; continue; }
-        const marker = data[offset + 1];
-        if (markers.has(marker)) {
-          return { width: data.readUInt16BE(offset + 7), height: data.readUInt16BE(offset + 5) };
-        }
-        if (marker === 0xd8 || marker === 0xd9) { offset += 2; continue; }
-        const length = data.readUInt16BE(offset + 2);
-        if (length < 2) break;
-        offset += 2 + length;
-      }
-    }
-    if (extname(path).toLowerCase() === '.svg') {
-      const source = data.toString('utf8');
-      const root = source.match(/<svg\b[^>]*>/i)?.[0] || '';
-      const number = (name) => {
-        const raw = root.match(new RegExp(
-          `\\b${name}\\s*=\\s*["']\\s*([0-9]+(?:\\.[0-9]+)?)(?:px)?\\s*["']`,
-          'i',
-        ))?.[1];
-        return raw ? Math.round(Number(raw)) : 0;
-      };
-      let width = number('width');
-      let height = number('height');
-      if (!width || !height) {
-        const viewBox = root.match(/\bviewBox\s*=\s*["']\s*[-+0-9.e]+[ ,]+[-+0-9.e]+[ ,]+([-+0-9.e]+)[ ,]+([-+0-9.e]+)/i);
-        width ||= Math.round(Number(viewBox?.[1] || 0));
-        height ||= Math.round(Number(viewBox?.[2] || 0));
-      }
-      if (width > 0 && height > 0) return { width, height };
-    }
-  } catch { /* normal asset validation reports missing files */ }
-  return null;
-}
-
-async function readMediaMetadata(path) {
-  const mediaType = imageMediaType(path);
-  if (!mediaType) return null;
-  const dimensions = await readImageDimensions(path);
-  return dimensions ? { media_type: mediaType, ...dimensions } : null;
-}
 
 function compactSummary(update) {
   return Object.fromEntries(SUMMARY_FIELDS
@@ -331,6 +199,8 @@ function compactObject(value) {
 function publishedUpdate(update) {
   return compactObject({
     key: update.key,
+    kind: documentKind(update),
+    connections: update.connections,
     title: update.title,
     summary: update.summary,
     date: update.date,
@@ -338,18 +208,17 @@ function publishedUpdate(update) {
     external_url: update.external_url,
     preview: update.preview,
     tags: update.tags,
-    relationships: compactObject(update.relationships || {}),
-    capabilities: update.capabilities,
     blocks: update.blocks?.length ? stripBlockIds(update.blocks) : undefined,
   });
 }
 
 function renderDetailPage(template, update, site) {
   const origin = String(site.url || '').replace(/\/$/, '');
-  const route = `/updates/${encodeURIComponent(update.key)}/detail.html`;
+  const route = `/${documentCollection(update)}/${encodeURIComponent(update.key)}/detail.html`;
   const canonical = `${origin}${route}`;
   const title = `${update.title} — ${site.name}`;
-  const image = update.preview?.src ? `${origin}/updates/${encodeUrlPath(`${update.key}/${update.preview.src}`)}` : '';
+  const socialSource = update.preview?.kind === 'video' ? update.preview.poster : update.preview?.src;
+  const image = socialSource ? `${origin}/${documentCollection(update)}/${encodeUrlPath(`${update.key}/${socialSource}`)}` : '';
   const metadata = [
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
     '<meta property="og:type" content="article" />',
@@ -373,46 +242,9 @@ function renderDetailPage(template, update, site) {
     .replace('<p id="update-summary"></p>', `<p id="update-summary">${escapeHtml(update.summary)}</p>`);
 }
 
-function renderCapabilityDetailPage(template, capability, site) {
+function renderSitemap(documents, _capabilities, site) {
   const origin = String(site.url || '').replace(/\/$/, '');
-  const route = `/capabilities/${encodeURIComponent(capability.folder)}/detail.html`;
-  const canonical = `${origin}${route}`;
-  const title = `${capability.title} — ${site.name}`;
-  const image = capability.preview
-    ? `${origin}/capabilities/${encodeUrlPath(`${capability.folder}/${capability.preview}`)}`
-    : '';
-  const metadata = [
-    `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
-    '<meta property="og:type" content="article" />',
-    `<meta property="og:title" content="${escapeHtml(title)}" />`,
-    `<meta property="og:description" content="${escapeHtml(capability.summary)}" />`,
-    `<meta property="og:url" content="${escapeHtml(canonical)}" />`,
-    image ? `<meta property="og:image" content="${escapeHtml(image)}" />` : '',
-  ].filter(Boolean).join('\n  ');
-  return template
-    .replace('<!-- portfolio:base -->', '<base href="../" />')
-    .replace('<!-- portfolio:metadata -->', metadata)
-    .replace('<title id="page-title">Capability — Nick Young</title>', `<title id="page-title">${escapeHtml(title)}</title>`)
-    .replace('<meta name="description" id="page-description" content="" />', `<meta name="description" id="page-description" content="${escapeHtml(capability.summary)}" />`)
-    .replace('<meta name="portfolio-capability" content="" />', `<meta name="portfolio-capability" content="${escapeHtml(capability.slug)}" />`)
-    .replace('<meta name="portfolio-capability-folder" content="" />', `<meta name="portfolio-capability-folder" content="${escapeHtml(capability.folder)}" />`)
-    .replace('<span id="breadcrumb-title">Loading...</span>', `<span id="breadcrumb-title">${escapeHtml(capability.title)}</span>`)
-    .replace('<h1 id="capability-title">Loading...</h1>', `<h1 id="capability-title">${escapeHtml(capability.title)}</h1>`)
-    .replace('<p id="capability-summary"></p>', `<p id="capability-summary">${escapeHtml(capability.summary)}</p>`);
-}
-
-function renderSitemap(updates, capabilities, site) {
-  const origin = String(site.url || '').replace(/\/$/, '');
-  const urls = [
-    `  <url><loc>${escapeHtml(`${origin}/`)}</loc></url>`,
-    ...capabilities.map((capability) =>
-      `  <url><loc>${escapeHtml(`${origin}/capabilities/${encodeURIComponent(capability.folder)}/detail.html`)}</loc></url>`
-    ),
-    ...updates.map((update) =>
-      `  <url><loc>${escapeHtml(`${origin}/updates/${encodeURIComponent(update.key)}/detail.html`)}</loc><lastmod>${escapeHtml(update.date)}</lastmod></url>`
-    ),
-  ];
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${escapeHtml(origin + '/')}</loc></url>\n${documents.map(item => `  <url><loc>${escapeHtml(`${origin}/${documentCollection(item)}/${encodeURIComponent(item.key)}/detail.html`)}</loc></url>`).join('\n')}\n</urlset>\n`;
 }
 
 async function writeAtomicIfChanged(path, content) {
@@ -424,44 +256,82 @@ async function writeAtomicIfChanged(path, content) {
   return true;
 }
 
-async function build() {
+export async function build(options = {}) {
+  const ROOT = options.mechanicsRoot || DEFAULT_ROOT;
+  const OUT = options.outputRoot || ROOT;
+  const UPDATES_DIR = join(ROOT, 'updates');
+  const SCHEMA_PATH = join(UPDATES_DIR, '_update-schema.yaml');
+  const CAPABILITY_SCHEMA_PATH = join(ROOT, 'capabilities/_capability-schema.yaml');
+  const SITE_PATH = join(ROOT, 'data/site.json');
+  const DETAIL_TEMPLATE_PATH = join(UPDATES_DIR, 'detail.html');
+  const ASSET_POLICY_PATH = join(UPDATES_DIR, '_public-asset-policy.json');
+  const RELATIONSHIP_CONTRACT_PATH = join(UPDATES_DIR, '_relationship-contract.json');
+  const REVIEW_POLICY_PATH = join(UPDATES_DIR, '_review-policy.json');
+  const ASSET_CONTRACT_PATH = join(UPDATES_DIR, '_asset-contract.json');
+  const INDEX_PATH = join(OUT, 'updates/index.json');
+  const ASSET_INVENTORY_PATH = join(OUT, 'updates/_asset-inventory.json');
+  const CAPABILITY_MANIFEST_PATH = join(OUT, 'capabilities/manifest.json');
+  const SITEMAP_PATH = join(OUT, 'sitemap.xml');
+  const selected = options.selected ? new Set(options.selected) : null;
+  const requested = new Map((options.documents || []).map(item => [item.document_id, item]));
+  const documentRoot = update => requested.get(update.key)?.source || join(ROOT, documentCollection(update), update.key);
+  const validatePage = id => !selected || selected.has(id);
+  const stats = { pages_validated: 0, pages_compiled: 0, pages_reused: 0 };
+  const validationKey = update => options.cacheRoot && requested.get(update.key)?.candidate_digest
+    ? valueDigest({ candidate: requested.get(update.key).candidate_digest, mechanics: options.mechanicsDigest }) : null;
+  const readCache = async (kind, key) => {
+    if(!key) return null;
+    try {
+      const cached=JSON.parse(await readFile(join(options.cacheRoot,kind,key.slice(7)+'.json'),'utf8'));
+      return cached.schema==='portfolio-site/cache-entry@1' && cached.key===key && cached.kind===kind
+        && cached.digest===valueDigest(cached.value) ? cached.value : null;
+    } catch(error) {
+      if(error.code==='ENOENT' || error instanceof SyntaxError || error instanceof TypeError) return null;
+      throw error;
+    }
+  };
+  const writeCache=async(kind,key,value)=> {
+    if(key) await writeAtomic(join(options.cacheRoot,kind,key.slice(7)+'.json'),JSON.stringify({
+      schema:'portfolio-site/cache-entry@1',kind,key,digest:valueDigest(value),value}));
+  };
+  async function media(path, expected) {
+    const key = options.cacheRoot && expected ? valueDigest({ digest: expected, extension: extname(path), mechanics: options.mechanicsDigest }) : null;
+    const cached = await readCache('media', key);
+    if (cached) return cached;
+    const value = await inspectMedia(path);
+    if (value && expected && value.digest !== expected) throw new Error('Media bytes changed after verification');
+    if (value) await writeCache('media', key, value);
+    return value;
+  }
+
   const schema = parseYaml(await readFile(SCHEMA_PATH, 'utf8'));
   const capabilitySchema = parseYaml(await readFile(CAPABILITY_SCHEMA_PATH, 'utf8'));
+  const projectSchema = parseYaml(await readFile(join(ROOT, 'projects/_project-schema.yaml'), 'utf8'));
+  const schemas = { update: schema, project: projectSchema, capability: capabilitySchema };
   const assetPolicy = JSON.parse(await readFile(ASSET_POLICY_PATH, 'utf8'));
   const relationshipContract = JSON.parse(await readFile(RELATIONSHIP_CONTRACT_PATH, 'utf8'));
   const reviewPolicy = JSON.parse(await readFile(REVIEW_POLICY_PATH, 'utf8'));
   const assetContract = await loadAssetContract(ASSET_CONTRACT_PATH);
-  const capabilityAssetContract = await loadAssetContract(CAPABILITY_ASSET_CONTRACT_PATH);
-  if (schema?.version !== 7) throw new Error('update schema must use version 7');
+  if (schema?.version !== 10) throw new Error('update schema must use version 10');
   if (schema?.relationshipContract !== '_relationship-contract.json') {
     throw new Error('update schema must declare the current relationship contract');
   }
-  if (schema?.reviewPolicy !== '_review-policy.json' || reviewPolicy?.version !== 3) {
-    throw new Error('update schema must declare current review policy version 3');
+  if (schema?.reviewPolicy !== '_review-policy.json' || reviewPolicy?.version !== 4) {
+    throw new Error('update schema must declare current review policy version 4');
   }
-  if (capabilitySchema?.version !== 3) throw new Error('capability schema must use version 3');
+  if (capabilitySchema?.version !== 7 || projectSchema?.version !== 4) throw new Error('page metadata schemas are not current');
   if (assetPolicy?.version !== 3 || !Array.isArray(assetPolicy.allowedExtensions)) {
     throw new Error('public asset policy must use version 3');
   }
-  if (relationshipContract?.version !== 1 || relationshipContract?.targetType !== 'update') {
-    throw new Error('relationship contract must use version 1 for update targets');
-  }
-  for (const [kind, policy] of Object.entries(relationshipContract.metadata || {})) {
-    if (
-      !['one', 'many'].includes(policy?.cardinality)
-      || policy.publicEndpoint !== 'optional'
-      || typeof policy.acyclic !== 'boolean'
-      || (policy.acyclic && policy.cardinality !== 'one')
-    ) throw new Error(`relationship contract has an invalid metadata policy: ${kind}`);
-  }
+  if (relationshipContract?.version !== 3) throw new Error('connection contract must use version 3');
   if (
     relationshipContract.blocks?.publicEndpoint !== 'optional'
-    || relationshipContract.capabilityEvidence?.publicEndpoint !== 'required'
+    || !relationshipContract.associations
   ) throw new Error('relationship contract has an invalid endpoint policy');
   const allowedAssetExtensions = new Set(
     assetPolicy.allowedExtensions.map((value) => String(value).toLowerCase()),
   );
-  if (reviewPolicy?.version !== 3) throw new Error('review policy must use version 3');
+  if (reviewPolicy?.version !== 4) throw new Error('review policy must use version 4');
   const privacyPatterns = (reviewPolicy.privacyPatterns || []).map(item => ({
     code: String(item.code || ''),
     pattern: new RegExp(String(item.source || ''), String(item.flags || '')),
@@ -474,16 +344,22 @@ async function build() {
   const blockFieldTypes = reviewPolicy.blockFieldTypes || {};
   const site = JSON.parse(await readFile(SITE_PATH, 'utf8'));
   const template = await readFile(DETAIL_TEMPLATE_PATH, 'utf8');
-  const capabilityTemplate = await readFile(CAPABILITY_DETAIL_TEMPLATE_PATH, 'utf8');
-  const publicFields = [...Object.keys(schema.fields || {}), 'blocks'];
-  const allowedFields = new Set(publicFields);
-  const publicCapabilityFields = [
-    'kind', 'slug', ...Object.keys(capabilitySchema.fields || {}), 'content',
-  ].filter((field) => field !== 'evidence');
-  const allowedCapabilityFields = new Set([
-    ...publicCapabilityFields, 'evidence',
-  ]);
-  const entries = await readdir(UPDATES_DIR, { withFileTypes: true });
+  const templates = { update: template,
+    project: await readFile(join(ROOT, 'projects/detail.html'), 'utf8'),
+    capability: await readFile(join(ROOT, 'capabilities/detail.html'), 'utf8') };
+  const entries = [];
+  if (options.documents) {
+    for (const item of options.documents) {
+      const settings = item.public || parseYaml(await readFile(join(item.source, 'settings.yaml'), 'utf8'));
+      entries.push({ name: item.document_id, kind: documentKind(settings), collection: documentCollection(settings), settings, isDirectory: () => true });
+    }
+  } else {
+    for (const [kind, collection] of Object.entries({ update: 'updates', project: 'projects', capability: 'capabilities' })) {
+      for (const entry of await readdir(join(ROOT, collection), { withFileTypes: true })) {
+        entries.push({ name: entry.name, kind, collection, isDirectory: () => entry.isDirectory() });
+      }
+    }
+  }
   const updates = [];
   const updateAssetManifests = new Map();
   const updateMediaMetadata = new Map();
@@ -492,9 +368,11 @@ async function build() {
 
   for (const entry of entries) {
     if (!entry.isDirectory() || entry.name.startsWith('_') || ['generated', 'vendor'].includes(entry.name)) continue;
-    const path = join(UPDATES_DIR, entry.name, 'settings.yaml');
+    const publicFields = [...Object.keys(schemas[entry.kind].fields), 'blocks'];
+    const allowedFields = new Set(publicFields);
+    const path = join(ROOT, entry.collection, entry.name, 'settings.yaml');
     let settings;
-    try { settings = parseYaml(await readFile(path, 'utf8')); }
+    try { settings = entry.settings ? structuredClone(entry.settings) : parseYaml(await readFile(path, 'utf8')); }
     catch (error) {
       if (error.code !== 'ENOENT') updateIssue(issues, entry.name, 'settings-parse-failed', error.message);
       continue;
@@ -503,14 +381,13 @@ async function build() {
       updateIssue(issues, entry.name, 'settings-shape-invalid', 'Settings must be an object');
       continue;
     }
-    const addUpdateIssue = (code, message, options = {}) => updateIssue(
-      issues, entry.name, code, message, options,
-    );
+    const addUpdateIssue = (code, message, options = {}) => { if (validatePage(entry.name)) updateIssue(issues, entry.name, code, message, options); };
     const unknown = Object.keys(settings).filter((field) => !allowedFields.has(field));
     if (unknown.length) addUpdateIssue('public-fields-unsupported', `Unsupported public fields: ${unknown.join(', ')}`, {
       field: unknown[0], evidence: { fields: unknown },
     });
-    validateSchemaFields(settings, schema, addUpdateIssue);
+    validateSchemaFields(settings, schemas[entry.kind], addUpdateIssue);
+    if (documentKind(settings) !== entry.kind) addUpdateIssue('kind-invalid', 'Page kind must match its source collection', { field: 'kind' });
     if (/[\r\n]/.test(String(settings.title || ''))) addUpdateIssue(
       'title-manual-line-break', 'Title contains a manual line break',
       { outcome: 'warning', field: 'title' },
@@ -540,230 +417,44 @@ async function build() {
 
     const preview = settings.preview || null;
     const previewPath = preview ? safeRelativePath(preview.src) : null;
-    const dimensions = previewPath ? await readImageDimensions(join(UPDATES_DIR, entry.name, previewPath)) : null;
+    const dimensions = null; // Verified metadata is attached after the asset graph is inspected.
     updates.push({
       ...Object.fromEntries(publicFields.filter((field) => settings[field] != null).map((field) => [field, settings[field]])),
       key: entry.name,
+      kind: entry.kind,
       prominence,
-      related_to: settings.related_to || [],
       icon: 'assets/icon.svg',
       ...(preview ? { preview: {
-        src: preview.src,
-        description: preview.description,
+        ...preview,
         ...(dimensions || {}),
       } } : {}),
     });
   }
 
-  updates.sort((a, b) => new Date(b.date) - new Date(a.date));
+  updates.splice(0, updates.length, ...chronological(updates));
+  if (new Set(updates.map(item => item.key)).size !== updates.length) siteSourceIssue(issues, 'document-id-duplicate', 'Document IDs must be unique across page types');
   const index = new Map(updates.map((update) => [update.key, update]));
 
-  const capabilityEntries = await readdir(CAPABILITIES_DIR, { withFileTypes: true });
-  const capabilities = [];
-  const capabilityAssetManifests = new Map();
-  for (const entry of capabilityEntries) {
-    if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
-    const path = join(CAPABILITIES_DIR, entry.name, 'settings.yaml');
-    let settings;
-    try { settings = parseYaml(await readFile(path, 'utf8')); }
-    catch (error) {
-      if (error.code !== 'ENOENT') capabilityIssue(issues, entry.name, 'settings-parse-failed', error.message);
-      continue;
-    }
-    if (!settings || typeof settings !== 'object' || Array.isArray(settings)) {
-      capabilityIssue(issues, entry.name, 'settings-shape-invalid', 'Settings must be an object');
-      continue;
-    }
-    const addCapabilityIssue = (code, message, options = {}) => capabilityIssue(
-      issues, entry.name, code, message, options,
-    );
-    const unknown = Object.keys(settings).filter((field) => !allowedCapabilityFields.has(field));
-    if (unknown.length) addCapabilityIssue('public-fields-unsupported', `Unsupported public fields: ${unknown.join(', ')}`, {
-      field: unknown[0], evidence: { fields: unknown },
-    });
-    validateSchemaFields(settings, capabilitySchema, addCapabilityIssue);
-    if (/[\r\n]/.test(String(settings.title || ''))) addCapabilityIssue(
-      'title-manual-line-break', 'Title contains a manual line break',
-      { outcome: 'warning', field: 'title' },
-    );
-    if (/\r?\n\s*\r?\n/.test(String(settings.summary || ''))) addCapabilityIssue(
-      'summary-multiple-paragraphs', 'Summary contains multiple paragraphs',
-      { outcome: 'warning', field: 'summary' },
-    );
-    if (settings.kind !== 'capability') addCapabilityIssue('kind-invalid', 'Kind must be "capability"', { field: 'kind' });
-    const evidenceRefs = Array.isArray(settings.evidence) ? settings.evidence : [];
-    if (!evidenceRefs.length) addCapabilityIssue('evidence-required', 'Evidence must contain at least one update ID', { field: 'evidence' });
-    if (settings.evidence != null && (!Array.isArray(settings.evidence)
-      || settings.evidence.some((value) => typeof value !== 'string'))) {
-      addCapabilityIssue('evidence-type-invalid', 'Evidence must be an array of update IDs', { field: 'evidence' });
-    }
-    if (settings.content != null && (!settings.content
-      || typeof settings.content !== 'object'
-      || !Array.isArray(settings.content.blocks))) {
-      addCapabilityIssue('content-shape-invalid', 'Content blocks must be an array', { field: 'content' });
-    }
-    if (settings.preview && !String(settings.previewAlt || '').trim()) {
-      addCapabilityIssue(
-        'preview-alt-fallback',
-        'Preview uses the capability title as its accessibility text; add custom text when the image needs a different description',
-        { outcome: 'warning', field: 'previewAlt' },
-      );
-    }
-    const duplicateEvidence = evidenceRefs.filter((slug, position) => evidenceRefs.indexOf(slug) !== position);
-    if (duplicateEvidence.length) addCapabilityIssue('evidence-duplicate', `Duplicate evidence targets: ${[...new Set(duplicateEvidence)].join(', ')}`, {
-      field: 'evidence', evidence: { targets: [...new Set(duplicateEvidence)] },
-    });
-    const evidence = evidenceRefs.map((slug) => index.get(slug)).filter(Boolean).map(evidenceEntry);
-    for (const slug of evidenceRefs) {
-      if (!index.has(slug)) addCapabilityIssue('evidence-target-missing', `Evidence update "${slug}" does not exist`, {
-        field: 'evidence', evidence: { target: slug },
-      });
-    }
-    const preview = settings.preview || null;
-    const previewPath = preview ? safeRelativePath(preview) : null;
-    const dimensions = previewPath
-      ? await readImageDimensions(join(CAPABILITIES_DIR, entry.name, previewPath))
-      : null;
-    const capability = {
-      ...Object.fromEntries(publicCapabilityFields
-        .filter((field) => settings[field] != null)
-        .map((field) => [field, settings[field]])),
-      kind: 'capability',
-      slug: settings.slug || entry.name,
-      folder: entry.name,
-      preview,
-      previewAlt: settings.previewAlt || settings.title,
-      ...(dimensions ? { previewWidth: dimensions.width, previewHeight: dimensions.height } : {}),
-      evidence,
-    };
-
-    const blocks = capability.content?.blocks || [];
-    const seenIds = new Set();
-    const validateCapabilityBlocks = async (items, blockPath = 'content.blocks') => {
-      for (let position = 0; position < items.length; position += 1) {
-        const block = items[position];
-        const location = {
-          kind: 'site-source',
-          source_path: `capabilities/${entry.name}/settings.yaml`,
-          path: `${blockPath}[${position}]`,
-          ...(block?.id ? { block_id: block.id } : {}),
-        };
-        const addBlockIssue = (code, message, options = {}) => addCapabilityIssue(
-          code, message, {
-            ...options,
-            location: { ...location, ...(options.field ? { field: options.field } : {}) },
-          },
-        );
-        if (!block || typeof block !== 'object' || !CAPABILITY_BLOCK_ORDER.includes(block.type)) {
-          addBlockIssue('block-unsupported', 'Block type is missing or unsupported', { field: 'type' });
-          continue;
-        }
-        if (block.id && seenIds.has(block.id)) addBlockIssue('block-id-duplicate', `Duplicate block ID "${block.id}"`, { field: 'id' });
-        if (block.id) seenIds.add(block.id);
-        const missing = getMissingCapabilityRenderFields(block, block.type);
-        if (missing.length) addBlockIssue('block-render-data-missing', `Block will be omitted because render fields are missing: ${missing.join(', ')}`, {
-          outcome: 'warning', field: missing[0], evidence: { fields: missing },
-        });
-        if (block.type === 'image' && !String(block.description || '').trim()) {
-          addBlockIssue('image-description-required', 'Image description is required', { field: 'description' });
-        }
-        if (block.type === 'gallery') {
-          for (const [imageIndex, imageItem] of (block.images || []).entries()) {
-            if (imageItem && typeof imageItem === 'object' && !String(imageItem.description || '').trim()) {
-              addCapabilityIssue('gallery-image-description-required', 'Gallery image description is required', {
-                location: { ...location, field: 'description', item_index: imageIndex },
-              });
-            }
-          }
-        }
-        const contract = getCapabilityBlockContract(block.type);
-        validateBlockContractShape(
-          block,
-          CAPABILITY_BLOCK_META[block.type],
-          contract,
-          blockFieldTypes,
-          addBlockIssue,
-        );
-        if (contract.referenceField && contract.referenceType === 'update') {
-          const target = String(block[contract.referenceField] || '').trim();
-          if (target) {
-            relationshipResolutions.push(referenceResolution(
-              'capability', capability.slug, block.type, target, `${blockPath}[${position}]`, index,
-            ));
-          }
-        }
-        if (block.type === 'group') {
-          if (!Array.isArray(block.blocks)) addBlockIssue('group-blocks-required', 'Group requires a blocks array', { field: 'blocks' });
-          else await validateCapabilityBlocks(block.blocks, `${blockPath}[${position}].blocks`);
-        }
-      }
-    };
-    await validateCapabilityBlocks(blocks);
-    const { evidence: _evidence, ...capabilityOwnedContent } = capability;
-    const capabilityAssets = await collectDeclaredAssets(
-      capabilityOwnedContent,
-      capabilityAssetContract,
-      { root: join(CAPABILITIES_DIR, capability.folder) },
-    );
-    capabilityAssetManifests.set(capability.slug, capabilityAssets.assets);
-    for (const invalid of capabilityAssets.invalid) {
-      addCapabilityIssue('asset-path-unsafe', `Public asset path must be capability-relative: "${invalid.value}"`, {
-        location: {
-          kind: 'site-source', source_path: `capabilities/${entry.name}/settings.yaml`,
-          path: invalid.path,
-        },
-      });
-    }
-    for (const relative of capabilityAssets.assets) {
-      if (!allowedAssetExtensions.has(extname(relative).toLowerCase())) {
-        addCapabilityIssue('asset-type-disallowed', `Public asset type is not allowed: "${relative}"`, {
-          location: { kind: 'site-source', source_path: `capabilities/${entry.name}/settings.yaml`, path: relative },
-        });
-        continue;
-      }
-      const assetPath = join(CAPABILITIES_DIR, capability.folder, relative);
-      try {
-        const assetStat = await stat(assetPath);
-        if (relative.toLowerCase().endsWith('.svg')) {
-          const svg = await readFile(assetPath, 'utf8');
-          if (/<script|\son[a-z]+\s*=|javascript:/i.test(svg)) {
-            addCapabilityIssue('svg-unsafe', `SVG asset contains unsafe active content: "${relative}"`, {
-              location: { kind: 'site-source', source_path: `capabilities/${entry.name}/${relative}`, path: relative },
-            });
-          }
-        }
-      } catch {
-        addCapabilityIssue('asset-missing', `Referenced asset is missing: "${relative}"`, {
-          location: { kind: 'site-source', source_path: `capabilities/${entry.name}/${relative}`, path: relative },
-        });
-      }
-    }
-    for (const privacy of privacyPatterns) {
-      if (privacy.pattern.test(JSON.stringify(capability))) addCapabilityIssue(
-        `privacy-${privacy.code}`, privacy.message,
-        {
-          outcome: privacy.disposition === 'confirm' ? 'warning' : 'fail',
-          consequence: privacy.disposition === 'confirm' ? 'advisory' : 'required-gate',
-          field: 'content',
-          evidence: { pattern: privacy.code, review_requirement: privacy.disposition },
-          action: privacy.disposition === 'confirm'
-            ? { kind: 'acknowledge-publication-risk' }
-            : { kind: 'edit-capability' },
-        },
-      );
-    }
-    capabilities.push(capability);
-  }
-  const capabilitySlugs = new Set();
-  for (const capability of capabilities) {
-    if (capabilitySlugs.has(capability.slug)) capabilityIssue(issues, capability.slug, 'capability-slug-duplicate', 'Capability slug is duplicated', { field: 'slug' });
-    capabilitySlugs.add(capability.slug);
-  }
-  capabilities.sort((a, b) => a.title.localeCompare(b.title));
-  if (!capabilitySchema?.fields?.evidence) siteSourceIssue(issues, 'capability-schema-evidence-missing', 'Capability schema must define its evidence field');
-  connectCapabilities(capabilities, updates);
-
   for (const update of updates) {
+    const key = validationKey(update);
+    const cached = await readCache('validation', key);
+    if (cached) {
+      if (update.preview && cached.preview) update.preview = cached.preview;
+      updateAssetManifests.set(update.key, cached.assets);
+      updateMediaMetadata.set(update.key, cached.media);
+      if (validatePage(update.key)) issues.push(...cached.issues);
+      continue;
+    }
+    if (!validatePage(update.key)) {
+      if (update.preview) {
+        const expected = requested.get(update.key)?.assets?.find(item => item.path === update.preview.src)?.digest;
+        const metadata = await media(join(documentRoot(update), update.preview.src), expected);
+        if (metadata) Object.assign(update.preview, { width: metadata.width, height: metadata.height });
+      }
+      continue;
+    }
+    stats.pages_validated += 1;
+    const issueStart = issues.length;
     const blocks = update.blocks || [];
     if (!blocks.length) updateIssue(
       issues, update.key, 'detail-without-content', 'Detail page has no content blocks',
@@ -845,9 +536,7 @@ async function build() {
             if (!contract.allowSelfReference && update.key === target) {
               addBlockIssue('relationship-self', 'Relationship cannot reference its source update', { field: contract.referenceField });
             }
-            relationshipResolutions.push(referenceResolution(
-              'update', update.key, block.type, target, `${path}[${position}]`, index,
-            ));
+
           }
         }
         if (block.type === 'group') {
@@ -857,6 +546,21 @@ async function build() {
       }
     };
     await validateBlocks(blocks);
+    const checkVideo = blocks => { for (const block of blocks || []) {
+      if (block.type === 'video' && (!MEDIA_CONTRACT.playback.includes(block.playback)
+        || !['local','youtube','vimeo'].includes(block.sourceMode)
+        || block.kind !== 'video' || (block.sourceMode !== 'local' && (block.playback !== 'player' || Object.hasOwn(block,'poster'))))) {
+        updateIssue(issues,update.key,'media-invalid','Video requires an explicit source and supported playback mode; provider videos use Player without a local poster',{location:{kind:'block-field',block_id:block.id,field:'playback'}});
+      }
+      if (block.type === 'group') checkVideo(block.blocks);
+    }};
+    checkVideo(update.blocks);
+    for (const usage of mediaUsages(update)) {
+      for (const message of mediaErrors(usage.media, {kind: usage.block_type === 'video' ? 'video' : 'image', slot: Boolean(usage.slot)})) {
+        updateIssue(issues, update.key, 'media-invalid', message, {location: {kind: 'block-field', block_id: usage.block_id, path: usage.path, field: 'src'}});
+      }
+    }
+
     const dimensionRequiredAssets = new Set();
     const collectDimensionRequiredAssets = (items) => {
       for (const block of items || []) {
@@ -880,7 +584,7 @@ async function build() {
     const updateAssets = await collectDeclaredAssets(
       update,
       assetContract,
-      { root: join(UPDATES_DIR, update.key) },
+      { root: documentRoot(update) },
     );
     const declaredUpdateAssets = [...new Set(['assets/icon.svg', ...updateAssets.assets])].sort();
     updateAssetManifests.set(update.key, declaredUpdateAssets);
@@ -897,10 +601,12 @@ async function build() {
         });
         continue;
       }
-      const assetPath = join(UPDATES_DIR, update.key, relative);
+      const assetPath = join(documentRoot(update), relative);
       try {
         const assetStat = await stat(assetPath);
-        const metadata = await readMediaMetadata(assetPath);
+        const expected = requested.get(update.key)?.assets?.find(item => item.path === relative)?.digest;
+        const metadata = await media(assetPath, expected);
+        if (metadata?.animated) updateIssue(issues, update.key, 'animated-image-unsupported', 'Prepare animated images as looping clips before review', {location:{kind:'asset',path:relative}});
         if (dimensionRequiredAssets.has(relative) && !metadata) {
           updateIssue(issues, update.key, 'image-dimensions-unavailable', `Image dimensions could not be determined: "${relative}"`, {
             location: { kind: 'asset', path: relative },
@@ -930,22 +636,56 @@ async function build() {
             });
           }
         }
-      } catch {
-        updateIssue(issues, update.key, 'asset-missing', `Referenced asset is missing: "${relative}"`, {
+      } catch (error) {
+        updateIssue(issues, update.key, error.code === 'ENOENT' ? 'asset-missing' : 'asset-invalid', `Asset \"${relative}\": ${error.message}`, {
           location: { kind: 'asset', path: relative },
         });
       }
     }
+    const references = [...mediaUsages(update), ...(update.preview ? [{media: update.preview, path: 'preview'}] : [])];
+    for (const usage of references) {
+      const metadata = mediaItems[safeRelativePath(usage.media.src)];
+      const poster = usage.media.poster ? mediaItems[safeRelativePath(usage.media.poster)] : null;
+      let problem = !metadata || metadata.kind !== usage.media.kind ? 'Media bytes do not match the selected kind' : null;
+      if (metadata?.animated) problem = 'Animated images must be prepared as looping video';
+      if (metadata?.kind === 'video' && !(MEDIA_CONTRACT.playableFormats[extname(usage.media.src).toLowerCase()] || []).includes(metadata.codec)) problem = 'Unsupported video codec';
+      if (usage.media.kind === 'video' && poster?.kind !== 'image') problem = 'Video requires a valid still poster';
+      const looping = usage.path === 'preview' || usage.media.playback === 'loop';
+      if (looping && metadata?.kind === 'video' && (metadata.codec !== 'h264' || metadata.has_audio || !usage.media.src.endsWith('.mp4'))) problem = 'Looping clips must be silent MP4/H.264';
+      if (problem) updateIssue(issues, update.key, 'media-invalid', problem, {location: {kind: 'asset', path: usage.media.src}});
+    }
+    if (update.preview) {
+      const item = mediaItems[safeRelativePath(update.preview.src)];
+      if (item) Object.assign(update.preview, {width: item.width, height: item.height});
+    }
+    const duplicate = previewDuplication(update, mediaItems);
+    if (duplicate) updateIssue(issues, update.key, duplicate.code, duplicate.message, {outcome: 'warning', field: 'preview', evidence: {matches: duplicate.matches, fingerprint: duplicate.fingerprint}});
     updateMediaMetadata.set(update.key, mediaItems);
+    if (!issues.slice(issueStart).some(item => item.outcome === 'fail' || item.outcome === 'conflicting')) {
+      await writeCache('validation', key, { preview: update.preview, assets: declaredUpdateAssets, media: mediaItems, issues: issues.slice(issueStart) });
+    }
   }
-  const metadataRelationships = resolveUpdateRelationships(updates, relationshipContract);
-  for (const error of metadataRelationships.errors) {
-    updateIssue(issues, String(error.source || 'portfolio-site'), `relationship-${error.code || 'invalid'}`, error.message || 'Relationship is invalid', {
-      location: { kind: 'relationship', field: error.kind, target: error.target },
-      evidence: error,
-    });
+  let edges = options.connections;
+  if (!edges) {
+    const input = JSON.parse(await readFile(join(ROOT, 'data/connections.json'), 'utf8'));
+    if (input.schema !== 'portfolio-site/connections@2' || !Array.isArray(input.connections)) throw new Error('Canonical connections input is required');
+    edges = input.connections;
   }
-  relationshipResolutions.push(...metadataRelationships.resolutions);
+  const scope = options.scope ? [...options.scope] : selected ? [...selected] : updates.map(item => item.key);
+  const graph = resolveConnections([...(options.nodes || []).filter(item => !index.has(item.key)), ...updates], edges, { scope });
+  for (const error of graph.errors) updateIssue(issues, error.source, `relationship-${error.code}`, error.message, {
+    location: { kind: 'relationship', field: error.kind, target: error.target }, evidence: error,
+  });
+  relationshipResolutions.push(...graph.resolutions);
+  applyConnectionViews(updates, graph.views);
+  for (const relation of relationshipResolutions.filter(item => item.status === 'inactive')) {
+    updateIssue(issues, relation.source, 'relationship-inactive',
+      `${relation.kind}: the link to "${index.get(relation.target)?.title || relation.target}" is inactive because its page type is incompatible. The authored reference is retained.`, {
+        outcome: 'warning', location: { kind: 'relationship', field: relation.kind, target: relation.target },
+        evidence: relation,
+      });
+  }
+
 
   const validation = validationResult(issues, { kind: 'portfolio-site-source' });
   const validationIndex = process.argv.indexOf('--validation-report');
@@ -959,14 +699,13 @@ async function build() {
     for (const issue of issues.filter(item => item.consequence === 'required-gate' && item.outcome !== 'pass')) {
       console.error(`  ✗ ${issue.subject.id}: ${issue.message}`);
     }
-    process.exitCode = 1;
-    return;
+    return { state: 'blocked', validation, relationship_resolution: relationshipResolutions, dependencies: graph.dependencies, stats };
   }
 
   const updateIndex = {
-    schema: 'portfolio-update-index@2',
+    schema: 'portfolio-update-index@3',
     _generated: { warning: 'DO NOT EDIT', source: 'updates/*/settings.yaml' },
-    updates: updates.map(compactSummary),
+    updates: updates.filter(item => documentKind(item) === 'update').map(compactSummary),
   };
   const assetInventory = {
     schema: 'portfolio-site/update-asset-inventory@1',
@@ -974,53 +713,48 @@ async function build() {
       update.key, updateAssetManifests.get(update.key) || [],
     ])),
   };
+  const capabilities = updates.filter(item => documentKind(item) === 'capability');
   const capabilityManifest = {
-    schema: 'portfolio-capability-manifest@3',
+    schema: 'portfolio-capability-manifest@4',
     _generated: { warning: 'DO NOT EDIT', source: 'capabilities/*/settings.yaml' },
-    capabilities: capabilities.map(capabilityCard),
+    capabilities: capabilities.map(item => ({ ...compactSummary(item), slug: item.key, folder: item.key,
+      evidenceCount: item.connections?.evidence?.length || 0 })),
   };
-  const generated = updates.flatMap((update) => [
-    [join(UPDATES_DIR, update.key, 'update.json'), `${JSON.stringify({
-      schema: 'portfolio-update@7',
-      update: publishedUpdate(update),
-      media: {
-        schema: 'portfolio-site/media-metadata@1',
-        items: updateMediaMetadata.get(update.key) || {},
-      },
-    }, null, 2)}\n`],
-    [join(UPDATES_DIR, update.key, 'detail.html'), renderDetailPage(template, update, site)],
-  ]);
-  const generatedCapabilities = capabilities.flatMap((capability) => [
-    [join(CAPABILITIES_DIR, capability.folder, 'capability.json'), `${JSON.stringify({
-      schema: 'portfolio-capability@4',
-      capability,
-      asset_manifest: {
-        schema: 'portfolio-site/asset-manifest@1',
-        assets: capabilityAssetManifests.get(capability.slug) || [],
-      },
-    }, null, 2)}\n`],
-    [join(CAPABILITIES_DIR, capability.folder, 'detail.html'), renderCapabilityDetailPage(capabilityTemplate, capability, site)],
-  ]);
+  const generated = [];
+  for (const update of updates.filter(item => validatePage(item.key))) {
+    const renderKey = options.cacheRoot ? valueDigest({ candidate: validationKey(update), public: update, media: updateMediaMetadata.get(update.key), template: templates[documentKind(update)], site }) : null;
+    const cached = await readCache('render', renderKey);
+    let payload, detail;
+    if (cached) { ({ payload, detail } = cached); stats.pages_reused += 1; }
+    else {
+      payload = `${JSON.stringify({ schema: documentPayloadSchema(update), [documentKind(update)]: publishedUpdate(update),
+        media: { schema: 'portfolio-site/media-metadata@2', items: updateMediaMetadata.get(update.key) || {} } }, null, 2)}\n`;
+      detail = renderDetailPage(templates[documentKind(update)], update, site);
+      stats.pages_compiled += 1;
+      await writeCache('render', renderKey, { payload, detail });
+    }
+    generated.push([join(OUT, documentCollection(update), update.key, documentPayloadName(update)), payload],
+      [join(OUT, documentCollection(update), update.key, 'detail.html'), detail]);
+  }
   const outputs = [
     [INDEX_PATH, `${JSON.stringify(updateIndex, null, 2)}\n`],
+    [join(OUT, 'data/documents.json'), `${JSON.stringify({ schema: 'portfolio-document-index@2', documents: updates.map(compactSummary) }, null, 2)}\n`],
     [ASSET_INVENTORY_PATH, `${JSON.stringify(assetInventory, null, 2)}\n`],
     [CAPABILITY_MANIFEST_PATH, `${JSON.stringify(capabilityManifest, null, 2)}\n`],
-    [SITEMAP_PATH, renderSitemap(updates, capabilities, site)],
-    ...generated,
-    ...generatedCapabilities,
+    [SITEMAP_PATH, renderSitemap(updates, capabilities, site)], ...generated,
   ];
   if (process.argv.includes('--check')) {
     const stale = [];
     for (const [path, content] of outputs) if (await readFile(path, 'utf8').catch(() => '') !== content) stale.push(path.replace(`${ROOT}/`, ''));
     if (stale.length) { stale.forEach((path) => console.error(`Stale: ${path}`)); process.exitCode = 1; }
-    else console.log(`Portfolio manifests are current (${updates.length} updates, ${capabilities.length} capabilities).`);
+    else console.log(`Portfolio manifests are current (${updates.length} pages).`);
     return;
   }
   await Promise.all([
-    unlink(join(UPDATES_DIR, 'manifest.json')).catch(() => {}),
-    unlink(join(UPDATES_DIR, 'catalog.json')).catch(() => {}),
+    unlink(join(OUT, 'updates/manifest.json')).catch(() => {}),
+    unlink(join(OUT, 'updates/catalog.json')).catch(() => {}),
   ]);
-  for (const [path, content] of outputs) await writeAtomicIfChanged(path, content);
+  for (const [path, content] of outputs) { await mkdir(dirname(path), { recursive: true }); await writeAtomicIfChanged(path, content); }
   const reportIndex = process.argv.indexOf('--relationship-report');
   if (reportIndex >= 0) {
     const reportPath = process.argv[reportIndex + 1];
@@ -1030,7 +764,11 @@ async function build() {
       relationships: relationshipResolutions,
     }, null, 2)}\n`);
   }
-  console.log(`Built ${updates.length} updates and ${capabilities.length} capabilities.`);
+  return { state: 'ready', validation, relationship_resolution: relationshipResolutions, dependencies: graph.dependencies, stats, documents: updates.map(compactSummary), asset_inventory: assetInventory };
 }
 
-await build();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const result = await build();
+  if (result?.state === 'blocked') process.exitCode = 1;
+  if (result?.state === 'ready') console.log(`Built ${result.stats.pages_compiled} portfolio pages.`);
+}

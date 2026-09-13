@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+SITE_ROOT="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
+ACTIVE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site/active"
+NODE_BIN="${PORTFOLIO_SITE_NODE:-$(command -v node)}"
+POOL="$(mktemp)"
+VERIFICATION="$(mktemp)"
+trap 'rm -f "$POOL" "$VERIFICATION"' EXIT
+portfolio-editor-cli pool-get >"$POOL"
+jq -e '.ok and .data.schema == "portfolio-editor/accepted-content@1" and (.data.installed.release_revision > 0)' "$POOL" >/dev/null
+"$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$ACTIVE_ROOT" >"$VERIFICATION"
+jq -e --slurpfile pool "$POOL" '.valid and .receipt.release_revision == $pool[0].data.installed.release_revision and .receipt.snapshot_digest == $pool[0].data.installed.snapshot_digest and .receipt.site_source_digest == $pool[0].data.installed.site_source_digest and .receipt.result_digest == $pool[0].data.installed.result_digest' "$VERIFICATION" >/dev/null
+jq -r '.receipt | "prepared_release=R\(.release_revision) \(.release_id)"' "$VERIFICATION"

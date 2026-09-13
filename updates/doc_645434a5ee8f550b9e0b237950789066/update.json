@@ -1,9 +1,22 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_645434a5ee8f550b9e0b237950789066",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
     "title": "Let agents create evidence during Work Reports",
-    "summary": "Extended Work Report review so agents could create missing evidence, register it through artifact events, and return it to the same selection flow.",
+    "summary": "Extended Work Report review so agents can create missing evidence, register it through artifact events, and return it to the same selection flow.",
     "date": "2026-02-17",
     "prominence": "low",
     "tags": [
@@ -11,17 +24,9 @@
       "Python",
       "MCP"
     ],
-    "relationships": {
-      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
-      "related": [
-        "doc_79633f0172065a5aaef2a5c4f8d70359",
-        "doc_6ce28cd7f7165a4cab2913e4bcdac533",
-        "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Create evidence when review finds a gap\n\nVerification questions now identify tools that can capture a screenshot, create a diagram, or register another file. An agent can act on missing evidence without leaving the report flow or carrying an opaque artifact ID between tools.",
+        "body": "## Create evidence when review finds a gap\n\nVerification questions identify tools that can capture a screenshot, create a diagram, or register another file. An agent can act on missing evidence without leaving the report flow or carrying an opaque artifact ID between tools.",
         "type": "text"
       },
       {
@@ -42,12 +47,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:1991c5d189b8750bcf66d61bd78fb2b5e4e7a2b4e3b57af143fda657ba06071e",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

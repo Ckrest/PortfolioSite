@@ -1,0 +1,55 @@
+blocks:
+- body: '## Sleep until something changes
+
+
+    I replaced repeated clock checks with an event-driven loop. Night Mode calculates
+    the next schedule boundary, sets an alarm, and pauses until that alarm or a manual-change
+    signal wakes it. Each wake-up reconciles the display state, then schedules the
+    next one.'
+  id: blk_night_mode_event_loop
+  type: text
+- id: blk_relationship_context_774e6a0b1846
+  label: 'Night Mode: the overnight schedule and reminder sequence'
+  type: related-mini
+  updateId: doc_774e6a0b184653c2917464eaeb611782
+- description: Settings Hub shows the current temperature and schedule state beside
+    temporary Warmer Now, Normal Now, and Auto actions.
+  id: blk_night_mode_override_controls
+  kind: image
+  presentation: intrinsic
+  src: media/night-mode-overrides.png
+  type: image
+- body: '## Return temporary choices to the schedule
+
+
+    Warmer Now lasts until the next wake boundary, while Normal Now lasts until the
+    next blue-light start. The available actions change with the current state, and
+    Auto hands control back to the schedule without leaving a hidden permanent setting.'
+  id: blk_night_mode_override_rules
+  type: text
+- code: "flowchart LR\n  Config[Schedule and state] --> Next[Calculate next boundary]\n\
+    \  Next --> Pause[Set alarm and pause]\n  Pause -->|alarm or manual action| Apply[Reconcile\
+    \ display state]\n  Apply --> Next"
+  description: Scheduled alarms and manual actions enter the same state-reconciliation
+    loop.
+  id: blk_night_mode_event_flow
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+date: '2026-01-22'
+external_url: https://github.com/Ckrest/night-mode
+preview:
+  description: Scheduled boundaries and manual actions wake the same display-state
+    loop before the service returns to sleep.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/night-mode-event-preview-v2.svg
+prominence: medium
+summary: Changed Night Mode to sleep until the next scheduled boundary and added temporary
+  warm, normal, and automatic controls through Settings Hub.
+tags:
+- Desktop Environment
+- Python
+- Event-Driven Architecture
+title: Made Night Mode event-driven with manual overrides

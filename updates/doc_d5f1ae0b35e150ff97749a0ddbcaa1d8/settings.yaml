@@ -61,6 +61,9 @@ external_url: https://github.com/Ckrest/modular-flow-engine
 preview:
   description: Modular Flow Engine plan validation, execution, results, and optional
     checkpoint-resume architecture
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/modular-flow-engine-overview.svg
 prominence: high
 summary: Created a JSON-defined dataflow engine with typed runtime inputs, reusable

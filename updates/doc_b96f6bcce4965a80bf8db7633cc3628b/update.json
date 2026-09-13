@@ -1,7 +1,18 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_b96f6bcce4965a80bf8db7633cc3628b",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ]
+    },
     "title": "Gave every portfolio item a detail page",
     "summary": "Gave every portfolio item its own detail page while keeping repository and external links available, then made dropped preview images save cleanly into project media.",
     "date": "2026-02-20",
@@ -13,12 +24,6 @@
       "Flask",
       "Frontend"
     ],
-    "relationships": {
-      "part_of": "doc_1a3826668acb53688961faa991a157f1",
-      "related": [
-        "doc_9503340b85e059238577a3ec79bbc0b9"
-      ]
-    },
     "blocks": [
       {
         "body": "## Keep the page and its external links\n\nEvery timeline item opens a stable detail page with its authored blocks. Repository and external URLs remain available as actions inside the page, so linking to the work does not replace the space used to explain it.\n\nPortfolio Editor follows the same rule: block controls and the rendered page preview stay available for every item.",
@@ -26,6 +31,7 @@
       },
       {
         "description": "Portfolio detail page with title, summary, tags, repository link, and authored content. The repository link remains available inside the item’s authored detail page.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/screenshot_2026-02-28_13-21-49.png",
         "type": "image"
@@ -44,17 +50,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:75ca156a33e073392f97d07f195f6b0643a06d995fef101e737862fed064bc92",
+        "byte_size": 500,
+        "animated": false
       },
       "media/screenshot_2026-02-28_13-21-49.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1399,
-        "height": 1291
+        "height": 1291,
+        "digest": "sha256:15282f5a5a550264e8e6829ae52841616c4dd165f9e77a17a244c649bf898921",
+        "byte_size": 265545,
+        "animated": false
       }
     }
   }

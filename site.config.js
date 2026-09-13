@@ -21,6 +21,7 @@ export default {
     // Content sections - rearrange these freely!
     { name: 'hero', navLabel: null },           // No nav link (it's the intro)
     { name: 'featured', navLabel: 'Featured' },
+    { name: 'projects', navLabel: 'Projects' },
     { name: 'capabilities', navLabel: 'Capabilities' },
     { name: 'roadmap', navLabel: null },        // Phase progress indicator
     { name: 'timeline', navLabel: 'Work' },      // Continues the roadmap
@@ -35,9 +36,10 @@ export default {
   // Add section names here to hide them without deleting files
 
   disabled: [
+    'projects',
+    'capabilities',
     // 'hero',      // Uncomment to hide hero
     // 'featured',  // Uncomment to hide featured
-    'capabilities', // Detail pages remain public; hide direct homepage links
     // 'timeline',  // Uncomment to hide timeline
   ],
 
@@ -51,11 +53,11 @@ export default {
   // ═══════════════════════════════════════════════════════════════════════════
   // FEATURED SECTION
   // ═══════════════════════════════════════════════════════════════════════════
-  // Control which updates appear in the featured section
-  // Updates are identified by their stable document ID.
+  // Control which updates, projects, or capabilities appear in Featured.
+  // Items are identified by their stable document ID in data/documents.json.
 
   featured: {
-    // List of update IDs to feature (in display order)
+    // List of document IDs to feature (in display order)
     // Leave empty or comment out items to show "coming soon" message
     items: [
       'doc_38811c0e3f5d564f8b840821d6ea52b5',
@@ -123,6 +125,7 @@ export default {
   data: {
     site: 'data/site.json',
     updates: 'updates/index.json',  // Generated from update folders
+    documents: 'data/documents.json',  // Generated catalog of all document types
     capabilities: 'capabilities/manifest.json',
     phases: 'data/phases.json',
   },

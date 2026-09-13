@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-label="Package intent flows through resolution into verified managed outcomes">
+<rect width="1200" height="640" rx="28" fill="#13191f"/>
+<text x="64" y="78" fill="#e7b96b" font-family="sans-serif" font-size="18" letter-spacing="4">CONSTELLATION FRAMEWORK</text>
+<text x="64" y="135" fill="#f6f2e9" font-family="sans-serif" font-size="38" font-weight="700">From package intent to verified outcomes</text>
+<g font-family="sans-serif" text-anchor="middle">
+<g fill="#202b35" stroke="#475b6b" stroke-width="2"><rect x="64" y="204" width="254" height="84" rx="16"/><rect x="64" y="308" width="254" height="84" rx="16"/><rect x="64" y="412" width="254" height="84" rx="16"/></g>
+<g fill="#f6f2e9" font-size="24"><text x="191" y="255">Package facts</text><text x="191" y="359">Shared definitions</text><text x="191" y="463">Relationships</text></g>
+<path d="M318 246H366V350H414M318 350H414M318 454H366V350" fill="none" stroke="#e7b96b" stroke-width="3"/>
+<path d="M404 342L420 350L404 358Z" fill="#e7b96b"/>
+<rect x="420" y="258" width="300" height="184" rx="22" fill="#2e2b24" stroke="#e7b96b" stroke-width="2"/>
+<text x="570" y="311" fill="#f6f2e9" font-size="28" font-weight="700">Resolve the request</text>
+<g fill="#d7c9ad" font-size="22"><text x="570" y="354">Inputs · authority · effects</text><text x="570" y="391">Plan · validation · recovery</text></g>
+<path d="M720 350H800" stroke="#e7b96b" stroke-width="3"/><path d="M790 342L806 350L790 358Z" fill="#e7b96b"/>
+<rect x="808" y="258" width="328" height="184" rx="22" fill="#1a302c" stroke="#73bda7" stroke-width="2"/>
+<text x="972" y="311" fill="#f6f2e9" font-size="28" font-weight="700">Execute and verify</text>
+<g fill="#bcd7ce" font-size="22"><text x="972" y="354">Build · install · operate</text><text x="972" y="391">Evidence for the outcome</text></g>
+</g>
+<text x="64" y="570" fill="#9cafbd" font-family="sans-serif" font-size="22">Explicit package boundaries. Reusable behavior. Inspectable results.</text>
+</svg>

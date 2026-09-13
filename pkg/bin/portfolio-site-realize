@@ -1,0 +1,243 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SITE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../.." && pwd)"
+CONSTELLATION_ROOT="${CONSTELLATION_ROOT:-}"
+if [[ -z "$CONSTELLATION_ROOT" ]]; then
+  CONSTELLATION_ROOT="$(cd "$SITE_ROOT/../../.." && pwd)"
+fi
+CONSTELLATION_BIN="${CONSTELLATION_BIN:-$(command -v constellation || true)}"
+STATE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site"
+ACTIVE_ROOT="$STATE_ROOT/active"
+REQUEST_PATH="$STATE_ROOT/realization-request.json"
+LOCK_PATH="$STATE_ROOT/realization.lock"
+SESSION_COMMAND="$SITE_ROOT/pkg/bin/portfolio-site"
+SESSION_GENERATION="${PORTFOLIO_SITE_SESSION_GENERATION:-}"
+NODE_BIN="${PORTFOLIO_SITE_NODE:-}"
+NODE_ENVIRONMENT="${XDG_CONFIG_HOME:-$HOME/.config}/portfolio-site/environment"
+if [[ -z "$NODE_BIN" && -r "$NODE_ENVIRONMENT" ]]; then
+  while IFS='=' read -r key value; do
+    if [[ "$key" == "PORTFOLIO_SITE_NODE" ]]; then
+      NODE_BIN="$value"
+      break
+    fi
+  done <"$NODE_ENVIRONMENT"
+fi
+if [[ -z "$NODE_BIN" ]]; then
+  NODE_BIN="$(command -v node || true)"
+fi
+TEMPORARY_FILES=()
+REQUEST_OWNED=false
+CLAIM_REVISION=""
+CLAIM_ATTEMPT=""
+
+cleanup() {
+  local status=$? path
+  if [[ -n "$CLAIM_ATTEMPT" ]]; then
+    complete_attempt "$CLAIM_REVISION" "$CLAIM_ATTEMPT" "" interrupted \
+      '{"message":"Local realization exited before completing the claimed release; run portfolio-site refresh to retry"}' || true
+  fi
+  for path in "${TEMPORARY_FILES[@]}"; do
+    [[ -n "$path" ]] && rm -f -- "$path"
+  done
+  if [[ "$REQUEST_OWNED" == "true" ]]; then
+    rm -f -- "$REQUEST_PATH"
+  fi
+  return "$status"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+temporary_file() {
+  local variable="$1" path
+  path="$(mktemp)"
+  TEMPORARY_FILES+=("$path")
+  printf -v "$variable" '%s' "$path"
+}
+
+constellation_command() {
+  if [[ -z "$CONSTELLATION_BIN" || ! -x "$CONSTELLATION_BIN" ]]; then
+    echo "Installed Constellation command is unavailable." >&2
+    return 1
+  fi
+  "$CONSTELLATION_BIN" --root "$CONSTELLATION_ROOT" "$@"
+}
+
+editor_available() {
+  portfolio-editor-cli status >/dev/null 2>&1
+}
+
+verify_local_output() {
+  local destination="$1"
+  [[ -x "$NODE_BIN" ]] || return 1
+  "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$ACTIVE_ROOT" \
+    >"$destination"
+}
+
+active_matches_pool() {
+  local pool_response="$1" verification="$2"
+  verify_local_output "$verification" || return 1
+  jq -e --slurpfile pool "$pool_response" '
+    .valid == true
+    and .receipt.release_revision == $pool[0].data.releases[0].revision
+    and .receipt.snapshot_digest == $pool[0].data.releases[0].snapshot_digest
+    and .receipt.site_source_digest == $pool[0].data.releases[0].site_source_digest
+    and .receipt.result_digest == $pool[0].data.releases[0].result_digest
+  ' "$verification" >/dev/null
+}
+
+active_matches_request() {
+  local verification="$1"
+  verify_local_output "$verification" || return 1
+  jq -e --slurpfile request "$REQUEST_PATH" '
+    .valid == true
+    and .receipt.release_revision == $request[0].release_revision
+    and .receipt.snapshot_digest == $request[0].snapshot.digest
+    and .receipt.site_source_digest == $request[0].site_source_digest
+  ' "$verification" >/dev/null
+}
+
+complete_attempt() {
+  local revision="$1" attempt="$2" result_digest="$3" stage="$4" diagnostics="$5"
+  local receipt_path="${6:-$ACTIVE_ROOT/manifest.json}"
+  local args=(release-complete "$revision" "$attempt" --stage "$stage" --diagnostics-json "$diagnostics")
+  if [[ -n "$result_digest" ]]; then
+    args+=(--receipt "$receipt_path")
+  fi
+  portfolio-editor-cli "${args[@]}" >/dev/null || return
+  CLAIM_REVISION=""
+  CLAIM_ATTEMPT=""
+}
+
+write_claimed_request() {
+  local claim_response="$1" temporary
+  temporary="$(mktemp "$STATE_ROOT/.realization-request.XXXXXX")"
+  TEMPORARY_FILES+=("$temporary")
+  jq -e '.data.request | select(.schema == "portfolio-site/release-input@2")' \
+    "$claim_response" >"$temporary"
+  chmod 600 "$temporary"
+  mv -f "$temporary" "$REQUEST_PATH"
+  REQUEST_OWNED=true
+}
+
+refresh_locked() {
+  local pool_response claim_response install_output verification
+  local revision handoff_state attempt_id result_digest diagnostics artifact_root
+  local -a repair
+  temporary_file pool_response
+  temporary_file claim_response
+  temporary_file install_output
+  temporary_file verification
+
+  if ! editor_available; then
+    echo "Portfolio Editor is unavailable; start it before realizing the accepted content." >&2
+    return 1
+  fi
+
+  for _transition in {1..4}; do
+    portfolio-editor-cli pool-get >"$pool_response"
+    jq -e '.ok == true and .data.schema == "portfolio-editor/accepted-content@1"' \
+      "$pool_response" >/dev/null
+    revision="$(jq -er '.data.releases[0].revision // 0' "$pool_response")"
+    if [[ "$revision" == "0" ]]; then
+      echo "No accepted Portfolio release exists yet; nothing to realize."
+      return 0
+    fi
+    handoff_state="$(jq -er --argjson revision "$revision" '
+      .data.releases[] | select(.revision == $revision) | .state
+    ' "$pool_response")"
+
+    if [[ "$handoff_state" == "prepared" && -z "$SESSION_GENERATION" ]]; then
+      return 0
+    fi
+
+    if [[ "$handoff_state" == "realized" ]] \
+      && active_matches_pool "$pool_response" "$verification"; then
+      if [[ -n "$SESSION_GENERATION" ]]; then
+        "$SESSION_COMMAND" _activate "$SESSION_GENERATION" "$ACTIVE_ROOT/manifest.json"
+      fi
+      return 0
+    fi
+
+    repair=()
+    if [[ "$handoff_state" == "realized" ]]; then
+      repair=(--repair)
+    fi
+    portfolio-editor-cli release-begin "$revision" --executor-pid "$$" "${repair[@]}" >"$claim_response"
+    if [[ "$(jq -r '.data.claimed' "$claim_response")" != "true" ]]; then
+      case "$(jq -r '.data.reason' "$claim_response")" in
+        already-realized|superseded)
+          continue
+          ;;
+        already-claimed)
+          echo "Accepted Portfolio release R$revision has an outstanding realization claim; retry refresh after that attempt finishes or expires." >&2
+          return 1
+          ;;
+        *)
+          echo "Portfolio release R$revision could not be claimed." >&2
+          return 1
+          ;;
+      esac
+    fi
+    attempt_id="$(jq -er '.data.attempt.id' "$claim_response")"
+    CLAIM_REVISION="$revision"
+    CLAIM_ATTEMPT="$attempt_id"
+    write_claimed_request "$claim_response"
+
+    artifact_root="$(jq -er '.artifact_root' "$REQUEST_PATH")"
+    if "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$artifact_root" >"$verification" 2>/dev/null \
+      && jq -e --slurpfile request "$REQUEST_PATH" '.valid and .receipt.release_revision == $request[0].release_revision and .receipt.snapshot_digest == $request[0].snapshot.digest and .receipt.site_source_digest == $request[0].site_source_digest' "$verification" >/dev/null; then
+      :
+    elif ! "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --input "$REQUEST_PATH" --output "$artifact_root" >"$install_output" 2>&1; then
+      diagnostics="$(jq -cRs '{message:"Site release preparation failed",output:(.[-12000:])}' <"$install_output")"
+      complete_attempt "$revision" "$attempt_id" "" preparation "$diagnostics" || true
+      cat "$install_output" >&2
+      return 1
+    fi
+    portfolio-editor-cli pool-get >"$pool_response"
+    if [[ "$(jq -er '.data.releases[0].revision' "$pool_response")" != "$revision" ]]; then
+      complete_attempt "$revision" "$attempt_id" "" superseded '{"message":"A newer release was requested before installation"}'
+      continue
+    fi
+    if [[ -z "$SESSION_GENERATION" ]] || ! "$SESSION_COMMAND" _current "$SESSION_GENERATION"; then
+      result_digest="$(jq -er '.result_digest' "$artifact_root/manifest.json")"
+      complete_attempt "$revision" "$attempt_id" "$result_digest" prepared '{"message":"New release is prepared; no current preview session requested activation"}' "$artifact_root/manifest.json"
+      return 0
+    fi
+    if active_matches_request "$verification"; then
+      :
+    elif ! constellation_command install portfolio-site --rebuild >"$install_output" 2>&1; then
+      diagnostics="$(jq -cRs '{message:"Constellation could not install the prepared release",output:(.[-12000:])}' <"$install_output")"
+      complete_attempt "$revision" "$attempt_id" "" constellation-install "$diagnostics" || true
+      cat "$install_output" >&2
+      return 1
+    elif ! "$NODE_BIN" "$SITE_ROOT/scripts/retire-installed-output.js" "$ACTIVE_ROOT" "$REQUEST_PATH" "$STATE_ROOT/retired-output" \
+      || ! active_matches_request "$verification"; then
+      complete_attempt "$revision" "$attempt_id" "" installed-verification '{"message":"Installed output differs from the prepared release"}' || true
+      return 1
+    fi
+
+    result_digest="$(jq -er '.receipt.result_digest' "$verification")"
+    "$SESSION_COMMAND" _activate "$SESSION_GENERATION" "$ACTIVE_ROOT/manifest.json"
+    diagnostics='{"message":"Accepted reviewed artifact installed and verified"}'
+    complete_attempt "$revision" "$attempt_id" "$result_digest" "installed-verification" "$diagnostics"
+
+    portfolio-editor-cli pool-get >"$pool_response"
+    if [[ "$(jq -er '.data.releases[0].revision' "$pool_response")" == "$revision" ]]; then
+      return 0
+    fi
+  done
+
+  echo "Accepted Portfolio release changed repeatedly during realization; run refresh again." >&2
+  return 1
+}
+
+mkdir -p "$STATE_ROOT"
+chmod 700 "$STATE_ROOT"
+exec 9>"$LOCK_PATH"
+if ! flock -w 30 9; then
+  echo "Another Portfolio Site preparation is still running." >&2
+  exit 1
+fi
+refresh_locked

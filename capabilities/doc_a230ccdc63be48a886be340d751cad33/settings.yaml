@@ -1,0 +1,62 @@
+blocks:
+- body: '## Treat existing behavior as a migration constraint
+
+
+    My modernization work starts from the workflows and integration points a replacement
+    must continue to support. That includes taskbar grouping, installed command names,
+    service controls, and the handling of unsaved work.
+
+
+    I separate those responsibilities from the implementation being replaced, then
+    update the consumers that depend on the changed boundary. Docklike''s Wayland
+    port, Constellation''s packaging work, and Portfolio Editor''s backend restructuring
+    show this at different scales.'
+  id: blk_placeholder
+  type: text
+- body: '## Replace the platform layer while preserving interaction
+
+
+    I ported the upstream Docklike taskbar to Wayland by rebuilding its window model
+    around compositor events and protocol-based actions. Pinned launchers, grouped
+    windows, activation, minimizing, maximizing, and closing remain part of the same
+    compact taskbar workflow.
+
+
+    Live previews use a dedicated asynchronous capture manager. Separating capture
+    from window tracking makes the added functionality fit the existing panel interaction
+    and gives timing problems a focused place to be corrected.'
+  id: blk_outcome_modernize_platform
+  type: text
+- body: '## Move integrations onto supported commands
+
+
+    Across the Python tool collection, I replaced launchers that manipulated import
+    paths with declared package entry points. Systemd units, desktop launchers, automation
+    definitions, and validation were moved to the installed command boundary together.
+
+
+    The migration also accounted for tools with colliding generic module names by
+    giving their integrations an explicit source command. That detail keeps module
+    resolution deterministic while the surrounding packaging structure changes.'
+  id: blk_outcome_modernize_commands
+  type: text
+- body: '## Restructure around workflows that can be checked
+
+
+    In Portfolio Editor, I separated request routes from services for report intake,
+    page mutation, builds, and runtime control. Tests covered the extracted boundaries,
+    while gallery, graph, comparison, and terminal edits were brought into one unsaved-change
+    path.
+
+
+    Desktop Service Manager likewise evolved from a Python/GTK dashboard into a Tauri
+    application while retaining service inspection, lifecycle controls, and journal
+    access. The maintained app takes those actions from Constellation''s declared
+    service contracts, keeping the interface tied to the operations each service supports.'
+  id: blk_outcome_modernize_structure
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I replace platform and application internals while preserving the commands,
+  interactions, and integration contracts that existing users and tools rely on.
+title: Modernize software without losing existing behavior

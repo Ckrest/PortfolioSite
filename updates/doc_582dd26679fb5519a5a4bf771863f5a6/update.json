@@ -1,29 +1,27 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_582dd26679fb5519a5a4bf771863f5a6",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Turned Work Report creation into a guided wizard",
-    "summary": "Work Report now guides creation through required facts, evidence review, handler-defined verification prompts, and final confirmation before saving the report and its selected evidence.",
+    "summary": "Reworked Work Report creation into four visible phases: required facts, evidence review, handler-defined verification, and final confirmation before saving the report and selected evidence.",
     "date": "2026-01-30",
     "prominence": "low",
     "tags": [
       "Python",
       "CLI"
     ],
-    "relationships": {
-      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-      "superseded_by": [
-        "doc_24971e45f3cb5b5489b4d221cbcfdcef"
-      ],
-      "related": [
-        "doc_f1ecee3798b75a698060af0d6fd26b53",
-        "doc_093c398e1d445c8da81519e03e64f233"
-      ],
-      "latest": "doc_24971e45f3cb5b5489b4d221cbcfdcef"
-    },
     "blocks": [
       {
-        "body": "## Separate report facts from evidence discovery\n\nWork Report creation now begins with the project, title, tags, and an explicit duration. The duration records active work time independently of file timestamps.\n\nRegistered evidence handlers then search the work session and present candidates with their type and source path visible.",
+        "body": "## Separate report facts from evidence discovery\n\nWork Report creation begins with the project, title, tags, and an explicit duration. The duration records active work time independently of file timestamps.\n\nRegistered evidence handlers then search the work session and present candidates with their type and source path visible.",
         "type": "text"
       },
       {
@@ -40,12 +38,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:21b0aec4985568b9e788f67062e8ab0adfbb8d72c3dd56b2df1362ea090e74e5",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

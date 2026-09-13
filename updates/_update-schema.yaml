@@ -1,114 +1,117 @@
-# Portfolio Update Schema
-# Shared by Portfolio Site and Portfolio Editor.
-
-version: 7
-
+version: 10
 relationshipContract: _relationship-contract.json
 reviewPolicy: _review-policy.json
-
 sections:
-  - id: metadata
-    label: Details
-    collapsed: false
-    fields: [title, summary, date, prominence]
-
-  - id: relationships
-    label: Relationships
-    collapsed: false
-    fields: [part_of, supersedes, related_to]
-
-  - id: links
-    label: Links
-    collapsed: false
-    fields: [external_url]
-
-  - id: media
-    label: Media
-    collapsed: true
-    fields: [preview]
-
-  - id: tags
-    label: Tags
-    collapsed: false
-    fields: [tags]
-
+- id: metadata
+  label: Details
+  collapsed: false
+  fields:
+  - title
+  - summary
+  - date
+  - prominence
+- id: connections
+  label: Connections
+  collapsed: false
+  fields:
+  - projects
+  - capabilities
+- id: links
+  label: Links
+  collapsed: false
+  fields:
+  - external_url
+- id: media
+  label: Media
+  collapsed: true
+  fields:
+  - preview
+- id: tags
+  label: Tags
+  collapsed: false
+  fields:
+  - tags
 fields:
   title:
     type: text
     label: Title
     required: true
-    help: "Concrete, sentence-case name that works on both a card and its detail page. Do not add manual line breaks."
-
+    help: Concrete, sentence-case name that works on both a card and its detail page. Do not
+      add manual line breaks.
   summary:
     type: textarea
     label: Summary
     required: true
-    help: "One compact explanation of what changed and why it matters. Add context instead of repeating the title."
-
+    help: One compact explanation of what changed and why it matters. Add context instead
+      of repeating the title.
   date:
     type: date
     label: Date
     required: true
     layout: half
-
   prominence:
     type: enum
     label: Prominence
-    values: [high, medium, low]
+    values:
+    - high
+    - medium
+    - low
     default: medium
     layout: half
-    help: "High and medium updates get more space; low updates appear as compact recent activity."
-
-  part_of:
-    type: update
-    label: Part of
-    placeholder: "Update ID of the larger update"
-    help: "Use on a newer, smaller update to point at the larger body of work it belongs to. The connection appears when both updates are in the portfolio."
-
-  supersedes:
-    type: update
-    label: Supersedes
-    placeholder: "Update ID of the older version"
-    help: "Use on a new version; the older update gets a newer-version link when both updates are in the portfolio."
-
-  related_to:
-    type: updates
-    label: Related updates
-    help: "Optional general relationships. Connections and backlinks appear when the updates are in the portfolio."
-
+    help: Prominence controls presentation weight. Medium updates normally include a useful
+      preview; low updates appear as compact activity.
   external_url:
     type: url
     label: External link
-    placeholder: "https://example.com"
-    help: "One public destination. GitHub links receive GitHub-specific presentation on the site."
-
+    placeholder: https://example.com
+    help: One public destination. GitHub links receive GitHub-specific presentation on the
+      site.
   preview:
     type: preview
     label: Preview
-    placeholder: "Optional future high/medium preview"
-    assetType: image
-    help: "Optional image with a required description. It is retained at every prominence and appears automatically when a low-prominence update is promoted."
-
+    placeholder: Choose an image or looping clip
+    assetType: media
+    help: An image or silent looping clip, with a public description. Choose card framing
+      and whether it also appears on the detail page.
   tags:
     type: tags
     label: Tags
-    help: "Public topics visitors can use to filter the timeline."
-
+    help: Public topics visitors can use to filter the timeline.
+  kind:
+    type: enum
+    label: Page type
+    values:
+    - update
+    default: update
 warnings:
-  - id: detail-without-content
-    message: "Detail page has no content blocks"
-    check:
-      field: _blocks
-      condition: empty-array
-
-  - id: title-manual-line-break
-    message: "Title contains a manual line break; let the page wrap it for each viewport"
-    check:
-      field: title
-      condition: contains-line-break
-
-  - id: summary-multiple-paragraphs
-    message: "Summary contains multiple paragraphs; keep the lead compact and move detail into content blocks"
-    check:
-      field: summary
-      condition: multiple-paragraphs
+- id: detail-without-content
+  message: Detail page has no content blocks
+  check:
+    field: _blocks
+    condition: empty-array
+- id: title-manual-line-break
+  message: Title contains a manual line break; let the page wrap it for each viewport
+  check:
+    field: title
+    condition: contains-line-break
+- id: summary-multiple-paragraphs
+  message: Summary contains multiple paragraphs; keep the lead compact and move detail into
+    content blocks
+  check:
+    field: summary
+    condition: multiple-paragraphs
+mediaContract: ../updates/_media-contract.json
+connectionFields:
+  projects:
+    type: updates
+    label: Projects
+    targetKinds:
+    - project
+    help: Select projects this update belongs to. Their timelines and links back here are
+      generated automatically.
+  capabilities:
+    type: updates
+    label: Capabilities demonstrated
+    targetKinds:
+    - capability
+    help: Select abilities demonstrated by this work. Each capability timeline updates automatically.

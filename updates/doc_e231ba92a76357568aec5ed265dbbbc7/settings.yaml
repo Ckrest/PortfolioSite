@@ -31,10 +31,7 @@ blocks:
   id: blk_report_edit_guardrails
   type: text
 date: '2026-02-22'
-part_of: doc_24971e45f3cb5b5489b4d221cbcfdcef
 prominence: low
-related_to:
-- doc_a67b241ca49f5f12ba0dcb4badd5ceac
 summary: Expanded one validated edit path to cover report text, tags, timing, commit
   metadata, Git statistics, status, and artifacts through both the CLI and automation
   interface.

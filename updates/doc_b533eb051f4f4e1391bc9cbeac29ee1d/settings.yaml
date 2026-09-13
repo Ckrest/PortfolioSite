@@ -1,0 +1,53 @@
+blocks:
+- body: '## Drop more than images
+
+
+    Portfolio Editor could already turn dropped images into image or gallery blocks.
+    This update extended the same interaction to PDFs, videos, Markdown files, source
+    code, Mermaid diagrams, and structured chart data.
+
+
+    Each file is matched by extension and inserted at the drop position as the corresponding
+    block.'
+  id: blk_portfolio_editor_drop_formats
+  type: text
+- code: 'README.md   → README block
+
+    demo.mp4    → video block
+
+    diagram.mmd → Mermaid block
+
+    data.csv    → graph block
+
+    script.py   → code block'
+  description: The file extension selects the block type and populates its file-backed
+    field.
+  filename: file-to-block-mapping.txt
+  id: blk_portfolio_editor_file_mapping
+  language: text
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Attach files from the block editor
+
+
+    I also added attachment controls to file-backed fields for images, galleries,
+    videos, READMEs, PDFs, code, Mermaid diagrams, terminal transcripts, comparisons,
+    and graph data.
+
+
+    Choosing a file populates the open block and refreshes the preview without requiring
+    a path to be entered by hand.'
+  id: blk_portfolio_editor_manual_attach
+  type: text
+date: '2026-03-02'
+external_url: https://github.com/Ckrest/PortfolioSite
+prominence: low
+summary: Added drag-and-drop and attachment controls for documents, videos, source
+  files, diagrams, and chart data, while keeping files temporary until Save.
+tags:
+- Python
+- JavaScript
+- Frontend
+- UX
+title: Expanded Portfolio Editor drag-and-drop beyond images

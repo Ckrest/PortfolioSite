@@ -1,0 +1,59 @@
+blocks:
+- body: '## Make preparation repeatable and decisions visible
+
+
+    The Work-to-Portfolio Pipeline turns completed development work into material
+    a reader can understand. Tools collect evidence, organize report facts, and help
+    assemble a draft. I keep the decisions about relevance, accuracy, and public presentation
+    available to the person reviewing that work.
+
+
+    That separation lets automation reduce the effort of preparing a page while preserving
+    a clear account of what was selected and accepted.'
+  id: blk_placeholder
+  type: text
+- body: '## Choose evidence before attaching it
+
+
+    In Work Report System, discovery produces candidates that can be inspected before
+    they become part of a report. I introduced a staging flow with captions, relevance
+    scores, and explicit approval or rejection, then separated report creation from
+    evidence curation so recording the facts could proceed independently.
+
+
+    The maintained workflow attaches exact selections and allows detachment without
+    destroying the retained material. Finding a file, choosing it as evidence, and
+    deciding to show it publicly remain separate actions.'
+  id: blk_outcome_automation_selection
+  type: text
+- body: '## Keep people and agents in the same editing history
+
+
+    Portfolio Editor gives browser, CLI, and agent edits one revisioned document.
+    Pending browser changes are flushed before an agent mutation, and conflict checks
+    stop an older read from overwriting newer work. Undo, redo, and comparisons with
+    the last accepted page keep revisions inspectable.
+
+
+    The generated draft remains ordinary editable content: its explanation, evidence,
+    order, and connections can all be changed before acceptance.'
+  id: blk_outcome_automation_authorship
+  type: text
+- body: '## Review the result that will be accepted
+
+
+    Exact review freezes the selected page, assets, and connection changes and renders
+    them through Portfolio Site. Acceptance applies that identified result; a later
+    edit requires a fresh review. Publication is a separate operation.
+
+
+    Together, these boundaries make the pipeline useful for assisted authoring: preparation
+    can be automated, decisions stay attributable, and the reviewer can inspect the
+    public result before it moves forward.'
+  id: blk_outcome_automation_review
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I automate evidence collection and draft assembly while keeping evidence
+  selection, editing, and final acceptance under human control.
+title: Automate complex processes without losing human review

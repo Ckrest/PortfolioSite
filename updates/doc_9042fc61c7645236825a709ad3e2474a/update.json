@@ -1,9 +1,23 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_9042fc61c7645236825a709ad3e2474a",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "projects": [
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ],
+      "display_projects": [
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ]
+    },
     "title": "Restored live gallery updates from ComfyUI Conduit",
-    "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.",
+    "summary": "Corrected the optional Constellation Framework event adapter so completed Conduit outputs publish Redis events and appear immediately in Comfy Viewer.",
     "date": "2026-01-21",
     "prominence": "low",
     "external_url": "https://github.com/Ckrest/comfyui-conduit",
@@ -12,12 +26,6 @@
       "Debugging",
       "ComfyUI"
     ],
-    "relationships": {
-      "part_of": "doc_b7183ef2af925346b9755252150a46e0",
-      "related": [
-        "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad"
-      ]
-    },
     "blocks": [
       {
         "body": "## Repair the event handoff\n\nComfyUI Conduit was still saving completed outputs, but Comfy Viewer was not receiving the event that refreshes its gallery. I traced the break to the local Constellation Framework adapter: its import path still pointed at the former location of the event package.\n\nI corrected the adapter to load the event publisher from its managed location and verified the complete route from saved output through Redis to the gallery. The adapter remains outside Conduit’s package boundary, keeping the host integration optional while the public package stays self-contained.",
@@ -33,12 +41,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:70d4dd4580af93727988e969bf05718714b6375686014777dc03f6ad9a022d57",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

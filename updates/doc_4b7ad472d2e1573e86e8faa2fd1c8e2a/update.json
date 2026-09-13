@@ -1,7 +1,21 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6",
+        "doc_559a57eb4da2406a9711faaf5796bac7"
+      ],
+      "display_projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6",
+        "doc_559a57eb4da2406a9711faaf5796bac7"
+      ]
+    },
     "title": "Kept same-named window previews distinct",
     "summary": "Connected each foreign-toplevel handle directly to its Wayfire view so windows sharing a title and application ID still receive separate capture sources.",
     "date": "2026-01-18",
@@ -13,12 +27,9 @@
       "Wayfire",
       "Image Capture"
     ],
-    "relationships": {
-      "part_of": "doc_cec34e8034f1584fa26d7325bc9341e5"
-    },
     "blocks": [
       {
-        "body": "## Give every window a stable capture identity\n\nSeveral windows can legitimately share a title and application ID. The capture path now carries the underlying Wayfire view on each foreign-toplevel handle, giving every request an exact window identity.\n\nThat direct handle-to-view link keeps each window attached to its own capture source and preview. Titles and application IDs remain useful display metadata, while compositor identity selects the frames.",
+        "body": "## Give every window a stable capture identity\n\nSeveral windows can legitimately share a title and application ID. The capture path carries the underlying Wayfire view on each foreign-toplevel handle, giving every request an exact window identity.\n\nThat direct handle-to-view link keeps each window attached to its own capture source and preview. Titles and application IDs remain useful display metadata, while compositor identity selects the frames.",
         "type": "text"
       },
       {
@@ -31,12 +42,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:aad9bbf86c4247299a3593cf0549db45841f1e4eed85d319bf8b906c7d869e26",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

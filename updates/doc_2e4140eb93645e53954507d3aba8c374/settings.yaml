@@ -39,7 +39,6 @@ blocks:
   type: text
 date: '2026-02-23'
 external_url: https://github.com/Ckrest/desktop-hud
-part_of: doc_004858c24c955a1aa023a9e8eb9c3180
 prominence: low
 summary: Moved each element’s renderer, data source, presentation, and geometry into
   layout profiles, allowing a profile switch to replace the complete HUD composition.

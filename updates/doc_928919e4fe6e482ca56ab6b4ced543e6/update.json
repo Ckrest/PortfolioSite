@@ -1,0 +1,98 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_928919e4fe6e482ca56ab6b4ced543e6",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "projects": [
+        "doc_72c295c916de4a8288ff9625925f47c6",
+        "doc_2c3e5c9689394489b1d0e555bd323474"
+      ],
+      "display_projects": [
+        "doc_72c295c916de4a8288ff9625925f47c6",
+        "doc_2c3e5c9689394489b1d0e555bd323474"
+      ]
+    },
+    "title": "Built live dashboards from package-owned data sources",
+    "summary": "Extended Desktop Settings Hub with package-owned command sources, richer charts, responsive actions, and live bindings that reconnect when cached tabs are reopened.",
+    "date": "2026-03-02",
+    "prominence": "low",
+    "preview": {
+      "description": "A shared interface for independently maintained tools.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-only",
+      "src": "media/dashboards-overview.svg",
+      "width": 1200,
+      "height": 675
+    },
+    "tags": [
+      "GTK",
+      "Python",
+      "Data Visualization",
+      "Architecture"
+    ],
+    "blocks": [
+      {
+        "body": "## Give independent tools one live dashboard interface\n\nI extended Desktop Settings Hub so packages can provide named data sources and actions through their own commands. The shared GTK interface binds those results to charts, statistics, tables, and controls.\n\nNight Mode, the network monitor, and Soundboard gained machine-readable status interfaces for that model. Each package retains its operating rules while the Hub supplies the common presentation and interaction.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TB\n PKG[\"Package commands\"] --> SOURCES[\"Named data sources\"]\n SOURCES --> VIEW[\"Charts, tables, and status tiles\"]\n USER[\"User action\"] --> ACTION[\"Background command with progress feedback\"]\n ACTION --> PKG\n TAB[\"Tab activation\"] --> BIND[\"Bind live subscriptions\"]\n BIND --> VIEW\n LEAVE[\"Tab deactivation\"] --> RELEASE[\"Release subscriptions\"]\n RELEASE --> TAB",
+        "description": "Commands provide data and actions, while tab lifecycle controls the subscriptions that keep the shared views current.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Make the data and controls readable\n\nGraph and gauge tiles gained configurable axes, labels, ranges, thresholds, and annotations. Missing measurements break the plotted line rather than being drawn through as if data existed.\n\nLong-running actions execute away from the GTK event loop and show running, success, or failure feedback. Dynamic tab labels can display dates from their source data, allowing the same layout to present a changing set of day views.",
+        "type": "text"
+      },
+      {
+        "label": "Sleep Tracker: a dashboard using shared day and week data",
+        "type": "related-mini",
+        "updateId": "doc_2ae1e22a4ed957048348c988b376312f"
+      },
+      {
+        "body": "## Keep cached pages live when revisited\n\nI traced a refresh inconsistency to subscriptions that were released when a tab closed and never rebound when its cached page returned. A shared lifecycle hook recreates those subscriptions on activation and clears them on deactivation.\n\nThe page keeps its cached widgets while its live connections follow whether it is active. Regression checks cover rebinding and redundant activation, keeping navigation from silently disconnecting the dashboard.",
+        "type": "text"
+      },
+      {
+        "code": "def _activate():\n    if state[\"active\"]:\n        return\n    unsubscribers: list[Callable[[], None]] = []\n    try:\n        unsubscribers = setup_subscriptions() or []\n    except Exception:\n        # Keep state inactive so a future activate can retry.\n        raise\n    state[\"unsubscribers\"] = list(unsubscribers)\n    state[\"active\"] = True",
+        "description": "The activation callback restores subscriptions once and leaves failed setup retryable.",
+        "filename": "helpers.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:5c5c5710415109fc5e65db02d43298810f987795baf943b9cb700245400478ce",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/dashboards-overview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 675,
+        "digest": "sha256:efef4bce4ab43b1365dab8f08adcb600c5f4256f2a14c1ccb61ce9514369e146",
+        "byte_size": 2093,
+        "animated": false
+      }
+    }
+  }
+}

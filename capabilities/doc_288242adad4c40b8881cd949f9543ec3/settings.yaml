@@ -1,0 +1,62 @@
+blocks:
+- body: '## Follow the operation across its boundaries
+
+
+    An integration can appear healthy at one end while failing at the next: an image
+    is saved but never reaches the gallery, or a window is listed but supplies the
+    wrong preview. I investigate the complete route from the initiating action to
+    the visible result.
+
+
+    The fixes below span compositor identity, capture negotiation, and event delivery.
+    Each gives a concrete boundary responsibility for the behavior that went wrong.'
+  id: blk_placeholder
+  type: text
+- body: '## Make the capture source unambiguous
+
+
+    Several windows can share an application ID and title. I connected each foreign-toplevel
+    handle to its exact Wayfire view so those windows retain separate capture sources
+    and previews.
+
+
+    A separate preview failure required explicit buffer-format negotiation between
+    the compositor and image-copy client before copying a frame. The maintained capture
+    implementation also reports unavailable views and copy failures through the protocol.
+    Selecting the source, agreeing on the buffer, and completing the frame each have
+    a defined outcome.'
+  id: blk_outcome_reliability_capture
+  type: text
+- body: '## Verify the result reaches its consumer
+
+
+    ComfyUI Conduit was saving generated outputs while ComfyUI Image Viewer stopped
+    receiving live updates. I traced the break to an optional event adapter whose
+    import still targeted the former package location.
+
+
+    After correcting the adapter, I verified the route from saved output through Redis
+    to the gallery. The repair kept the host integration outside Conduit''s package
+    boundary, preserving the optional connection between the independently useful
+    tools.'
+  id: blk_outcome_reliability_events
+  type: text
+- body: '## Keep incomplete work distinguishable from success
+
+
+    I carry that same approach into service and AI integrations. Conduit''s run records
+    separate admission, execution, artifact capture, and delivery. AI Model Gateway
+    retains discovery freshness and execution identifiers, while Narrative Scene Tracker
+    records committed mutations and a terminal processing outcome.
+
+
+    Those records make a timeout, unavailable provider, rejected request, and uncertain
+    upstream result distinguishable. They also give the next investigation a concrete
+    place to start instead of requiring the entire failure to be reconstructed.'
+  id: blk_outcome_reliability_operations
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I trace failures across application, service, and protocol boundaries, then
+  make identity, completion, and failure behavior explicit.
+title: Diagnose and harden cross-layer integrations

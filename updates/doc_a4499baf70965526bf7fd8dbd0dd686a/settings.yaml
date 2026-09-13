@@ -38,11 +38,13 @@ blocks:
     environment value after detection completes.'
   id: blk_monitor_consumers
   type: text
+- id: blk_relationship_context_3a6495dd303a
+  label: 'Wallpaper Service: a consumer of the detected output'
+  type: related-mini
+  updateId: doc_3a6495dd303a5286b238144d478fa5df
 date: '2026-01-15'
 external_url: https://github.com/Ckrest/monitor-detect
 prominence: low
-related_to:
-- doc_3a6495dd303a5286b238144d478fa5df
 summary: Built a Bash startup script that waits for Wayland, selects the first enabled
   output from wlr-randr, and publishes it through both systemd and a runtime file.
 tags:

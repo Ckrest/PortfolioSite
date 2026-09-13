@@ -2,8 +2,8 @@ blocks:
 - body: '## Turn socket tags into an API
 
 
-    Conduit now adds interface tagging directly to ComfyUI. A workflow author can
-    expose a socket, give it a unique tag, and save the workflow from the Conduit
+    I added interface tagging directly to ComfyUI through Conduit. A workflow author
+    can expose a socket, give it a unique tag, and save the workflow from the Conduit
     sidebar. The saved record pairs the complete execution graph with a smaller schema
     describing its active tags, types, defaults, and constraints.
 
@@ -16,6 +16,7 @@ blocks:
     as Conduit tags. Socket tags mark the inputs and outputs that become the workflow’s
     external interface.
   id: blk_conduit_preview
+  kind: image
   presentation: intrinsic
   src: preview.png
   type: image
@@ -68,10 +69,11 @@ date: '2026-01-13'
 external_url: https://github.com/Ckrest/comfyui-conduit
 preview:
   description: ComfyUI Conduit node workflow
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: preview.png
 prominence: high
-related_to:
-- doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad
 summary: Built a ComfyUI gateway that turns tagged workflow sockets into a typed external
   API, prepares caller values against saved defaults, and returns only declared outputs.
 tags:

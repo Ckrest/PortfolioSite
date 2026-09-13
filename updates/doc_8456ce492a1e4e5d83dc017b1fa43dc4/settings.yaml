@@ -1,0 +1,71 @@
+blocks:
+- body: '## Get a useful result from a workspace-wide check
+
+
+    Constellation Framework checks package declarations, repository ownership, and
+    integration requirements across the workspace. As that work grew, repeated expensive
+    lookups pushed the validation operation beyond its calling tool’s timeout.
+
+
+    I traced the repeated work, cached shared repository facts, and reused the validation
+    executor. The affected operation could then complete and return package findings
+    instead of ending at the timeout boundary.'
+  id: blk_validation_context
+  type: text
+- code: "flowchart TB\n PACKAGES[\"Selected packages and applicable rules\"] --> SHARED[\"\
+    Reuse shared repository facts\"]\n SHARED --> WORK[\"Bounded parallel validation\"\
+    ]\n CACHE[\"Cached validation results\"] --> WORK\n WORK --> A[\"Package checks\"\
+    ]\n WORK --> B[\"Package checks\"]\n WORK --> C[\"Package checks\"]\n A --> RESULT[\"\
+    Findings and rule timings\"]\n B --> RESULT\n C --> RESULT\n TIMEOUT[\"Per-package\
+    \ timeout boundary\"] --> WORK\n RESULT --> NEXT[\"Inspect the slow or failing\
+    \ boundary\"]"
+  description: Shared facts and cached results reduce repeated work, while bounded
+    parallel checks retain findings and timing information for inspection.
+  id: blk_validation_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Share the expensive work and bound execution
+
+
+    The first improvements reused tracked-file and ownership information across checks.
+    A follow-up added configurable parallel workers, validation-result caching, and
+    per-package timeout controls.
+
+
+    These mechanisms address different costs: shared facts avoid repeated setup, parallelism
+    lets independent checks proceed together, and timeout boundaries keep a slow package
+    from consuming an unbounded validation run.'
+  id: blk_validation_work
+  type: text
+- body: '## Make slow checks identifiable
+
+
+    Per-rule duration tracking exposes where validation spends time alongside the
+    findings it produces. That gives the maintainer a way to distinguish an expensive
+    check from the package problem it reports.
+
+
+    The resulting validation path supports both broad workspace checks and focused
+    investigation. Performance work becomes part of an inspectable maintenance interface,
+    with the package findings preserved as the useful result.'
+  id: blk_validation_diagnostics
+  type: text
+date: '2026-03-02'
+kind: update
+preview:
+  description: Reuse shared work and expose where validation spends time.
+  fit: contain
+  kind: image
+  placement: cards-only
+  src: media/validation-overview.svg
+prominence: low
+summary: Reduced repeated work in Constellation Framework validation and added parallel
+  checks, caching, rule timings, and package timeouts to make fleet-wide results easier
+  to obtain and diagnose.
+tags:
+- Python
+- Infrastructure
+- Performance
+- Reliability
+title: Made workspace validation faster and easier to diagnose

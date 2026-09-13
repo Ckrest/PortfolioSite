@@ -1,15 +1,22 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_e82215dd546e5acdb4d3a52e36be3ad3",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Built an Android app for daily sleep-tracking",
     "summary": "Built a local-first React Native app for daily ratings, notes, optional sleep times, reminders, and portable JSON storage.",
     "date": "2026-02-18",
     "prominence": "high",
     "external_url": "https://github.com/Ckrest/daily-checkin-app",
     "preview": {
-      "src": "media/daily-checkin-overview.svg",
       "description": "Daily Check-In mobile form beside its matching portable JSON record and local backup",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/daily-checkin-overview.svg",
       "width": 1600,
       "height": 900
     },
@@ -19,11 +26,6 @@
       "Frontend",
       "Mobile"
     ],
-    "relationships": {
-      "parts": [
-        "doc_c36b489eb68052409d72d967f78df646"
-      ]
-    },
     "blocks": [
       {
         "body": "## Make daily tracking quick to enter\n\nDaily Check-In brings sleep quality, alertness, mood, dreams, notes, and optional sleep times into a focused Android form. Large rating controls and date-based entries keep the routine direct without turning it into a long questionnaire.",
@@ -35,6 +37,7 @@
       },
       {
         "description": "Daily Check-In entry form writing through a storage layer to a user-selected JSON document and local recovery backup, with optional synchronization. One storage boundary writes the readable document and an independent recovery copy.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/storage-flow.svg",
         "type": "image"
@@ -55,22 +58,34 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:b025d372c6dc5f72b21a4eb44ea816ba707dedfa7ecc49d88a2b8e39147747b0",
+        "byte_size": 497,
+        "animated": false
       },
       "media/daily-checkin-overview.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 1600,
-        "height": 900
+        "height": 900,
+        "digest": "sha256:952e65832199adb6628bc0f259645d563b038606e5168eec4ecd72c992a7dc22",
+        "byte_size": 8752,
+        "animated": false
       },
       "media/storage-flow.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 1600,
-        "height": 700
+        "height": 700,
+        "digest": "sha256:7323cc70195493e33658f7d818c106ed57c8b77c47b3fe0ab7fd836e05216ce8",
+        "byte_size": 4377,
+        "animated": false
       }
     }
   }

@@ -76,10 +76,11 @@ blocks:
 date: '2026-02-15'
 preview:
   description: Illustrated tavern scene beside structured scene-state JSON
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/stitched.png
 prominence: medium
-related_to:
-- doc_d5f1ae0b35e150ff97749a0ddbcaa1d8
 summary: Built an agent pipeline that turns narrative messages into typed scene state
   through focused worker loops and constrained tool calls.
 tags:

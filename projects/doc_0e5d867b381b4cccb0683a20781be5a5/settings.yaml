@@ -1,0 +1,83 @@
+blocks:
+- body: '## Present a body of work at several levels
+
+
+    Portfolio Site turns reviewed content into a complete static portfolio. Project
+    pages explain an ongoing body of work, dated updates record individual milestones,
+    and capability pages collect evidence of an ability. The homepage brings these
+    views together through cards, timelines, and topic navigation.
+
+
+    All three page types share a block renderer for text, media, documents, code,
+    diagrams, and other evidence. Each retains its own page layout and purpose.'
+  id: blk_placeholder
+  type: text
+- body: '## Derive navigation from one relationship model
+
+
+    Canonical connections link updates to projects and connect demonstrated work to
+    capabilities. The build derives timelines and navigation in both directions, using
+    stable document identities instead of manually maintained duplicate links.
+
+
+    Validation checks the complete public graph alongside page fields, block identities,
+    assets, and image descriptions. An optional connection resolves only when its
+    endpoints belong to the accepted public content, allowing references to remain
+    pending during authoring.'
+  id: blk_site_project_graph
+  type: text
+- body: '## Build the same public model that the owner reviews
+
+
+    Portfolio Editor sends a frozen candidate to the Site’s page-review boundary.
+    That boundary renders the selected page against accepted context using the same
+    mechanics as a full release. Other pages’ working drafts remain outside it.
+
+
+    Release preparation assembles the homepage, detail pages, assets, indexes, and
+    sitemap, reusing unchanged compiled results. A release receipt binds the accepted
+    snapshot, renderer, verified public source, and deployable output to reproducible
+    identities.'
+  id: blk_site_project_build
+  type: text
+- body: '## Make the output independent of the authoring system
+
+
+    The deployable directory contains an allowlisted public artifact. Private notes,
+    report-store identities, databases, logs, and unused evidence remain outside it.
+    Once built, the site needs an ordinary static host and has no runtime dependency
+    on Portfolio Editor or Work Report.
+
+
+    The local preview activates a complete verified release atomically and can keep
+    serving the previous complete snapshot if preparation fails. Constellation installs
+    the prepared bytes and handles explicit publication separately.'
+  id: blk_site_project_boundary
+  type: text
+- id: blk_site_project_editor
+  label: 'Portfolio Editor: curate and approve the public content'
+  type: related-mini
+  updateId: doc_9f1f9fa959cb4018a7439b07ca6d241f
+- id: blk_site_project_pipeline
+  label: 'Work-to-Portfolio Pipeline: from evidence to published pages'
+  type: related-mini
+  updateId: doc_40b975bbf0a752d28c9b6ad51d28544a
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/PortfolioSite
+kind: project
+preview:
+  description: Featured work uses responsive cards with imagery, summaries, and topic
+    tags.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/portfolio-site-featured.png
+summary: The public rendering and build system for portfolio projects, updates, and
+  capabilities, producing verified static releases from accepted content.
+tags:
+- JavaScript
+- CSS
+- Frontend
+- Architecture
+- Documentation
+title: Portfolio Site

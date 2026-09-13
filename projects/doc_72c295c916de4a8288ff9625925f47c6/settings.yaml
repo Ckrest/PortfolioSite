@@ -1,0 +1,79 @@
+blocks:
+- body: '## Give independent desktop tools a shared settings home
+
+
+    Settings Hub brings package settings and monitoring views into one GTK4 interface.
+    Instead of building a separate window for each integration, packages contribute
+    versioned catalogs that describe tabs, tile sets, controls, and sources.
+
+
+    The shared renderer handles ordinary forms alongside tables, repeated items, statistics,
+    badges, progress displays, sparklines, and JSON views. Layout primitives support
+    tabs, split panes, and responsive columns, allowing both a small preference panel
+    and a live dashboard to use the same shell.'
+  id: blk_placeholder
+  type: text
+- body: '## Let packages own the behavior behind their controls
+
+
+    Each extension declares its owning package and is explicitly installed into Settings
+    Hub’s catalog directory. The catalog calls stable installed commands or binds
+    to an intentional public configuration file. Changes requiring operational logic
+    or validation go through the package’s action or service API.
+
+
+    This keeps the Hub responsible for consistent presentation while the integrated
+    tool remains responsible for interpreting and applying its settings.'
+  id: blk_settings_project_ownership
+  type: text
+- body: '## Keep navigation stable and live work bounded
+
+
+    Catalog loading, validation, visibility planning, and rendering form distinct
+    stages. An invalid extension reports an issue while valid records continue to
+    load. A tab with no currently visible tile sets retains its sidebar position as
+    unavailable until the user explicitly hides it.
+
+
+    Pages are built on first activation and reused in a stable GTK stack. Source polling
+    and runtime hooks follow the active top-level tab, preserving page state without
+    leaving every dashboard polling in the background.'
+  id: blk_settings_project_runtime
+  type: text
+- body: '## Reuse the shell across settings and monitoring
+
+
+    Screenshot Tool contributes capture preferences through its installed catalog.
+    The sleep dashboard uses domain-owned day and week views while Settings Hub supplies
+    date tabs, trends, and navigation. In both cases the data and operating rules
+    remain with the package.
+
+
+    Named data sources can feed display tiles, and successful actions can refresh
+    those sources and show inline results. That gives an operator visible feedback
+    within the same settings page.'
+  id: blk_settings_project_examples
+  type: text
+- id: blk_settings_project_capture
+  label: 'Wayland Screenshot Tool: one package-owned settings integration'
+  type: related-mini
+  updateId: doc_d8241fe11819473ebf0a236b0a423da2
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/settings-hub
+kind: project
+preview:
+  description: A catalog-rendered Appearance page demonstrates shared controls for
+    backgrounds, themes, fonts, and interface preferences.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/settings-hub-catalog-controls.png
+summary: A GTK4 settings shell that renders package-owned controls and live dashboards
+  from validated extension catalogs.
+tags:
+- Python
+- GTK
+- Architecture
+- Desktop Environment
+- Data Visualization
+title: Desktop Settings Hub

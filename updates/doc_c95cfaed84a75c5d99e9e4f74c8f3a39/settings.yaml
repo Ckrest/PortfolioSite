@@ -4,7 +4,7 @@ blocks:
 
     Within the Constellation Framework’s registry, I moved package trait data out
     of the main manifests and into focused `trait_<name>.yaml` files. Each trait definition
-    now declares the data schema, resolution rules, aggregations, queries, and public
+    declares the data schema, resolution rules, aggregations, queries, and public
     projection that govern those files.
 
 
@@ -28,12 +28,11 @@ blocks:
 
     Packages provide their own data, while the shared registry engine loads the selected
     definition, validates each package file, resolves references, runs declared queries
-    or aggregations, and produces the API response. Adding or removing a trait now
-    changes its definition and data files instead of requiring another hardcoded transform.'
+    or aggregations, and produces the API response. Adding or removing a trait changes
+    its definition and data files instead of requiring another hardcoded transform.'
   id: blk_trait_engine
   type: text
 date: '2026-02-04'
-part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
 prominence: low
 summary: Moved Constellation Framework trait schemas, resolution, queries, aggregation,
   and API projections out of hardcoded transforms and into declarative registry definitions.

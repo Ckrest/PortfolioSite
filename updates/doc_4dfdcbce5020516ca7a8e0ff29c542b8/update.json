@@ -1,7 +1,18 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_4dfdcbce5020516ca7a8e0ff29c542b8",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Collected artifacts created during Work Report sessions",
     "summary": "Made report completion find artifacts created during the active session and added a direct attachment path for evidence added afterward.",
     "date": "2026-02-19",
@@ -11,12 +22,6 @@
       "Debugging",
       "Infrastructure"
     ],
-    "relationships": {
-      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-      "related": [
-        "doc_24971e45f3cb5b5489b4d221cbcfdcef"
-      ]
-    },
     "blocks": [
       {
         "body": "## Collect evidence created during the session\n\nArtifacts registered while answering report questions exist independently from the active report. At completion, Work Report searches the bounded session window and adds newly created artifacts to the candidate set, so callers do not have to carry identifiers through every tool call.",
@@ -36,12 +41,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:68efd87c44dd5ed826f7419f00bfbbc7fd8cb18d3e3f91d207612aaff612a518",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

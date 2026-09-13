@@ -1,3 +1,7 @@
+import { renderVisualMedia, refreshMedia } from '../js/media-view.js';
+import { detailPreviewVisible } from '../js/media-model.js';
+import { documentKind, documentUrl } from '../js/document-model.js';
+import { renderDocumentTimeline } from '../js/components/document-timeline.js';
 import { generatePlaceholderDataUri } from '../js/utils.js';
 import {
   CANONICAL_BLOCK_ORDER,
@@ -61,10 +65,9 @@ function mediaTrigger(item, update, { className = '' } = {}) {
   const metadata = mediaMetadata(item?.src, update);
   const width = metadata?.width || 1;
   const height = metadata?.height || 1;
-  const dimensions = metadata ? ` width="${width}" height="${height}"` : '';
-  const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${width}px"` : '';
+    const intrinsicWidth = metadata ? ` style="--media-intrinsic-width: ${width}px"` : '';
   const description = String(item?.description || '').trim();
-  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} aria-label="Open image: ${html(description)}" data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-description="${html(description)}"><img src="${html(src)}" alt="${html(description)}"${dimensions} loading="lazy" decoding="async"></a>`;
+  return `<a class="media-trigger ${html(className)}" href="${html(src)}"${intrinsicWidth} aria-label="Open image: ${html(description)}" data-pswp-src="${html(src)}" data-pswp-width="${width}" data-pswp-height="${height}" data-pswp-description="${html(description)}">${renderVisualMedia(item, {src,width,height,fit:item.fit || 'contain'})}</a>`;
 }
 
 function renderText(block) {
@@ -126,13 +129,13 @@ function normalizeVideoSource(block, update) {
   return null;
 }
 
-function renderVideo(block, update) {
+function renderVideo(block, update, context) {
   const source = normalizeVideoSource(block, update);
   if (!source) return '<p class="render-warning">The video source is invalid for its selected provider.</p>';
   if (source.kind === 'embed') {
     return `<figure><div class="video-embed-wrapper"><iframe src="${html(source.url)}" title="${html(block.description)}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
   }
-  return `<figure><video controls preload="metadata" src="${html(source.url)}" aria-label="${html(block.description)}"></video>${evidenceDescription(block, { ariaHidden: true })}</figure>`;
+  return `<figure>${renderVisualMedia(block, {src: source.url, poster: resolveUpdateAsset(block.poster, update), playback: block.playback, key: `${update.key}:${block.id || context.path}`, ...mediaMetadata(block.src, update)})}${evidenceDescription(block, { ariaHidden: true })}</figure>`;
 }
 
 function renderGallery(block, update) {
@@ -384,9 +387,9 @@ async function hydrateMermaid(element, block, update) {
 function renderUpdateReference(block, update, variant) {
   const target = relatedProject(block.updateId, update);
   if (!target) return window.__portfolioBridge ? `<div class="related-update-${variant} related-update-invalid">Unknown update: ${html(block.updateId || '(missing)')}</div>` : '';
-  const href = `${encodeURIComponent(target.key)}/detail.html`;
+  const href = `../${documentUrl(target)}`;
   if (variant === 'mini') return `<a class="related-update-mini" href="${href}"><span>${html(block.label || target.title)}</span><span aria-hidden="true">→</span></a>`;
-  return `<a class="reference-update-card" href="${href}"><span class="reference-update-eyebrow">Related update${target.date ? ` · ${html(formatUpdateDate(target.date))}` : ''}</span><h3>${html(target.title)}</h3><p>${html(target.summary)}</p><span class="reference-update-link">Read update <span aria-hidden="true">→</span></span></a>`;
+  return `<a class="reference-update-card" href="${href}"><span class="reference-update-eyebrow">Related ${html(documentKind(target))}${target.date ? ` · ${html(formatUpdateDate(target.date))}` : ''}</span><h3>${html(target.title)}</h3><p>${html(target.summary)}</p><span class="reference-update-link">Read ${html(documentKind(target))} <span aria-hidden="true">→</span></span></a>`;
 }
 
 const RENDERERS = {
@@ -478,20 +481,16 @@ async function hydrateBlocks(root, blocks, update, parentPath = '') {
 }
 
 function renderPreview(update) {
-  if (update.prominence === 'low') return '';
-  const placeholderSource = generatePlaceholderDataUri(update.title);
-  const width = Number.isInteger(update.preview?.width) ? update.preview.width : 640;
-  const height = Number.isInteger(update.preview?.height) ? update.preview.height : 360;
-  if (update.preview?.src) {
-    const trigger = mediaTrigger(update.preview, update, {
-      className: 'update-preview-trigger',
-    }).replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
-    return `<section class="update-preview"><figure class="media-gallery">${trigger}</figure></section>`;
-  }
-  return `<section class="update-preview"><figure><img src="${html(placeholderSource)}" alt="" width="${width}" height="${height}" loading="eager" decoding="async" fetchpriority="high"></figure></section>`;
+  if (!detailPreviewVisible(update)) return '';
+  const preview = update.preview;
+  const media = preview.kind === 'video' ? renderVisualMedia(preview, {
+    src: resolveUpdateAsset(preview.src, update), poster: resolveUpdateAsset(preview.poster, update),
+    key: `${update.key}:preview`, fit: preview.fit, width: preview.width, height: preview.height,
+  }) : mediaTrigger(preview, update, {className: 'update-preview-trigger'}).replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
+  return `<section class="update-preview" data-media-fit="${html(preview.fit)}"><figure class="${preview.kind === 'image' ? 'media-gallery' : ''}">${media}</figure></section>`;
 }
 
-function renderHeaderExtras(update) {
+export function renderHeaderExtras(update) {
   const tags = (Array.isArray(update.tags) ? update.tags : []).map((tag) => `<span class="tag">${html(tag)}</span>`).join('');
   const links = [];
   const external = safeExternalUrl(update.external_url);
@@ -504,83 +503,27 @@ function renderHeaderExtras(update) {
   return `<div class="update-overview">${renderPreview(update)}${metadata ? `<div class="update-overview-meta">${metadata}</div>` : ''}</div>`;
 }
 
-function relationshipLink(item) {
+function projectLink(item) {
   const target = projectIndex.get(String(item || ''));
   if (!target) return '';
   const date = formatUpdateDate(target.date);
   return `
-    <a class="update-relationship-link" href="${encodeURIComponent(target.key)}/detail.html">
-      <span class="update-relationship-title">${html(target.title)}</span>
-      ${date ? `<span class="update-relationship-date">${html(date)}</span>` : ''}
-      <span class="update-relationship-arrow" aria-hidden="true">→</span>
+    <a class="project-link" href="../${documentUrl(target)}">
+      <span class="project-title">${html(target.title)}</span>
+      ${date ? `<span class="project-date">${html(date)}</span>` : ''}
+      <span class="project-arrow" aria-hidden="true">→</span>
     </a>
   `;
 }
 
-function relationshipGroup(label, items, className = '') {
-  const connected = (Array.isArray(items) ? items : [items]).filter(Boolean);
-  if (!connected.length) return '';
-  const count = connected.length > 1 ? `<span>${connected.length}</span>` : '';
-  return `
-    <section class="update-relationship-group ${className}">
-      <h3>${html(label)}${count}</h3>
-      <div class="update-relationship-links">${connected.map(relationshipLink).join('')}</div>
-    </section>
-  `;
+export function renderProjectNotice(update) {
+  const links = (update.connections?.display_projects || []).map(projectLink).join('');
+  if (!links) return '';
+  return `<aside class="project-context" aria-label="Part of a larger project"><div><span>Part of a larger project</span><strong>Explore the wider work.</strong></div><div class="project-links">${links}</div></aside>`;
 }
 
-function renderVersionNotice(update) {
-  const latest = update.relationships?.latest;
-  if (!latest) return '';
-  return `
-    <aside class="update-version-notice" aria-label="Newer version available">
-      <div>
-        <span>Newer version available</span>
-        <strong>Continue with the latest version of this work.</strong>
-      </div>
-      ${relationshipLink(latest)}
-    </aside>
-  `;
-}
-
-function renderVersionHistory(update) {
-  const relationships = update.relationships || {};
-  const latestIdentity = String(relationships.latest || '');
-  const otherLaterVersions = (relationships.superseded_by || [])
-    .filter((item) => item !== latestIdentity);
-  const groups = [
-    relationshipGroup('Earlier version', relationships.supersedes),
-    relationshipGroup('Other later versions', otherLaterVersions),
-  ].filter(Boolean).join('');
-  return groups ? `
-    <nav class="update-history" aria-labelledby="update-history-title">
-      <div class="update-history-heading">
-        <h2 id="update-history-title">Project history</h2>
-      </div>
-      <div class="update-relationship-groups">${groups}</div>
-    </nav>
-  ` : '';
-}
-
-function renderRelationshipList(update) {
-  const relationships = update.relationships || {};
-  const groups = [];
-  groups.push(relationshipGroup('Larger project', relationships.part_of));
-  groups.push(relationshipGroup('Project updates', relationships.parts, relationships.parts?.length > 3 ? 'is-wide' : ''));
-  groups.push(relationshipGroup('Related work', relationships.related, relationships.related?.length > 3 ? 'is-wide' : ''));
-  const content = groups.filter(Boolean).join('');
-  return content ? `
-    <nav class="update-relationships" aria-labelledby="update-relationships-title">
-      <div class="update-relationships-heading">
-        <h2 id="update-relationships-title">More from this work</h2>
-      </div>
-      <div class="update-relationship-groups">${content}</div>
-    </nav>
-  ` : '';
-}
-
-function renderCapabilityList(update) {
-  const capabilities = Array.isArray(update.capabilities) ? update.capabilities : [];
+export function renderCapabilityList(update) {
+  const capabilities = update.connections?.capabilities || [];
   if (!capabilities.length) return '';
   const cards = capabilities.map((key) => capabilityIndex.get(String(key || ''))).filter(Boolean).map((capability) => {
     const folder = encodeURIComponent(capability.folder || capability.slug);
@@ -589,6 +532,11 @@ function renderCapabilityList(update) {
     return `<a class="update-capability-card" href="../capabilities/${folder}/detail.html"><h3>${html(capability.title)}</h3><p>${html(capability.summary)}</p>${evidence}<span class="update-capability-link">Explore this capability <span aria-hidden="true">→</span></span></a>`;
   }).join('');
   return `<section class="update-capabilities" aria-labelledby="update-capabilities-title"><div class="update-capabilities-heading"><h2 id="update-capabilities-title">Capabilities demonstrated</h2></div><div class="update-capabilities-grid">${cards}</div></section>`;
+}
+
+export function renderProjectLinks(update) {
+  const links = (update.connections?.display_projects || []).map(projectLink).join('');
+  return links ? `<nav class="page-projects" aria-label="Projects"><h2>Explore the projects</h2><div class="project-links">${links}</div></nav>` : '';
 }
 
 function formatUpdateDate(value) {
@@ -605,9 +553,9 @@ function updateMetadata(update) {
   document.getElementById('update-title').textContent = update.title;
   document.getElementById('update-summary').textContent = update.summary || '';
   const kind = document.getElementById('update-kind');
-  if (kind) kind.textContent = 'Update';
+  if (kind) kind.textContent = documentKind(update)[0].toUpperCase() + documentKind(update).slice(1);
   const date = document.getElementById('update-date');
-  if (date) date.textContent = formatUpdateDate(update.date);
+  if (date) date.textContent = `${documentKind(update) === 'update' ? '' : 'As of '}${formatUpdateDate(update.date)}`;
 }
 
 export async function renderUpdate(update) {
@@ -616,11 +564,22 @@ export async function renderUpdate(update) {
   const editor = Boolean(window.__portfolioBridge);
   const content = blocks.map((block, index) => renderBlock(block, update, { path: String(index), topIndex: index, childIndex: null, parentId: null })).join('');
   const main = document.getElementById('main-content');
-  main.innerHTML = `${renderVersionNotice(update)}<div class="update-overview-region" data-editor-region="header" data-editor-region-part="overview">${renderHeaderExtras(update)}</div>${content}${renderCapabilityList(update)}${renderVersionHistory(update)}${renderRelationshipList(update)}`;
+  const kind = documentKind(update);
+  document.body.dataset.documentKind = kind;
+  const overview = `<div class="update-overview-region" data-editor-region="header" data-editor-region-part="overview">${renderHeaderExtras(update)}</div>`;
+  const capabilities = renderCapabilityList(update);
+  const timeline = (field, title) => renderDocumentTimeline((update.connections?.[field] || []).map(key => projectIndex.get(key)).filter(Boolean), title, update);
+  if (kind === 'update') {
+    main.innerHTML = `${renderProjectNotice(update)}${overview}${content}${renderProjectLinks(update)}${capabilities}`;
+  } else {
+    const page = kind === 'project' ? await import('../projects/page.js') : await import('../capabilities/page.js');
+    main.innerHTML = page.renderPage({ update, overview, content, capabilities, timeline, projectNotice: renderProjectNotice(update), projectLinks: renderProjectLinks(update) });
+  }
   main.querySelectorAll('img[data-placeholder]').forEach((image) => image.addEventListener('error', () => {
     image.src = image.dataset.placeholder;
     image.removeAttribute('data-placeholder');
   }, { once: true }));
+  refreshMedia(main);
   await hydrateBlocks(main, blocks, update);
   main.querySelectorAll(':scope > [data-block-index]').forEach((element) => {
     const index = Number.parseInt(element.dataset.blockIndex, 10);

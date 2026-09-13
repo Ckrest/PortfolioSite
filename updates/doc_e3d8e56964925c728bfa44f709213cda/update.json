@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_e3d8e56964925c728bfa44f709213cda",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Added screen freeze controls to Wayfire",
     "summary": "Built a Wayfire plugin that captures the final compositor frame into a GPU texture and presents it—or solid black—until an IPC unfreeze request.",
     "date": "2025-12-06",
@@ -12,39 +16,22 @@
       "C++",
       "Wayland"
     ],
-    "relationships": {
-      "related": [
-        "doc_6a23e1a43eda5ff9966831b235c28b21"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Freeze compositor output, not applications\n\nI built Screen Freeze as a Wayfire compositor plugin for moments when the visible desktop must stop changing immediately, especially while a shutdown or logout effect establishes its final covered frame. A freeze request installed a post-render hook and marked the next frame for capture. Inside that hook, the plugin copied the rendered output into an OpenGL texture and presented the captured texture in place of later live frames.\n\nApplications and services continued running behind the held frame. No screenshot was written and no overlay window raced the compositor. Unfreezing removed the post-render hook, released the texture, and resumed normal presentation. A separate black mode installed an output overlay hook that cleared the presented frame to solid black.",
+        "body": "## Hold the compositor's presented frame\n\nI built Screen Freeze as a Wayfire plugin that captures an output's final rendered frame into a GPU texture and presents that texture in place of later frames. Applications continue running underneath because the compositor freezes only what it displays. A separate black state clears the presented output to solid black, and unfreezing releases the renderer state and resumes live presentation.\n\nWayfire IPC can target one named output or every active output, while status reports each output's exact normal, frozen, or black state.",
         "type": "text"
       },
       {
-        "code": "stateDiagram-v2\n  [*] --> Normal\n  Normal --> Frozen: freeze / install post hook and capture next frame\n  Frozen --> Normal: unfreeze / remove hook and release texture\n  Normal --> Black: black / install overlay hook\n  Black --> Normal: unfreeze / remove overlay hook\n  Frozen --> [*]: output removed\n  Black --> [*]: output removed",
-        "description": "Per-output renderer state changes only the presented result; applications continue running underneath.",
+        "code": "flowchart LR\n  Normal[Live output] -->|freeze| Frozen[Captured GPU texture]\n  Frozen -->|unfreeze| Normal\n  Normal -->|black| Black[Solid black]\n  Black -->|unfreeze| Normal",
+        "description": "Each output moves independently between live presentation, a captured texture, and solid black.",
         "presentation": "content",
         "sourceMode": "inline",
         "type": "mermaid"
       },
       {
-        "body": "## Add output-scoped IPC methods\n\nWayfire IPC exposed `screen-freeze/freeze`, `screen-freeze/unfreeze`, `screen-freeze/black`, and `screen-freeze/status`. Freeze, unfreeze, and black accepted an optional output name; without one, the operation applied to every active output. Status returned the current state of every output so an integrating effect could confirm the presentation state before continuing.",
-        "type": "text"
-      },
-      {
         "commands": [
           {
-            "command": "wf-msg screen-freeze/freeze",
-            "output": "{\"ok\":true}"
-          },
-          {
             "command": "wf-msg screen-freeze/freeze '{\"output\": \"DP-1\"}'",
-            "output": "{\"ok\":true}"
-          },
-          {
-            "command": "wf-msg screen-freeze/black",
             "output": "{\"ok\":true}"
           },
           {
@@ -52,28 +39,28 @@
             "output": "{\n  \"ok\": true,\n  \"outputs\": [\n    {\"name\": \"DP-1\", \"state\": \"frozen\"},\n    {\"name\": \"HDMI-A-1\", \"state\": \"normal\"}\n  ]\n}"
           },
           {
-            "command": "wf-msg screen-freeze/unfreeze",
+            "command": "wf-msg screen-freeze/unfreeze '{\"output\": \"DP-1\"}'",
             "output": "{\"ok\":true}"
           }
         ],
-        "description": "State-changing methods return a simple acknowledgement; status returns the output names and their exact states.",
+        "description": "A scoped request freezes DP-1 while the other output stays live, then releases the same output.",
         "presentation": "content",
         "sourceMode": "inline",
         "type": "terminal"
-      },
-      {
-        "body": "## Release output-scoped renderer state\n\nWhen an output disappeared, removing its per-output object released any captured texture. During plugin shutdown, Screen Freeze deactivated every output, cleared its output data, and unregistered all four IPC methods. That explicit lifecycle handling mattered because the feature lived inside the compositor renderer rather than beside it.",
-        "type": "text"
       }
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:d9957b439f4c182c16c005ef0e9255868a2939b4f283bb6facd2bd1c1c9d9863",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

@@ -1,0 +1,72 @@
+blocks:
+- body: '## Carry a familiar taskbar workflow onto Wayland
+
+
+    Docklike is a compact launcher and taskbar for the XFCE panel. This project is
+    my Wayland port of the upstream xfce4-docklike-plugin by nsz32. I rebuilt window
+    tracking and preview capture while preserving pinned applications, grouped windows,
+    reordering, and quick switching.
+
+
+    The window model follows compositor events for creation, titles, application identity,
+    state changes, and removal. Matching application identifiers to desktop entries
+    keeps open windows under the appropriate pinned launcher. Activation, minimizing,
+    maximizing, and closing operate through that model.'
+  id: blk_placeholder
+  type: text
+- body: '## Keep preview capture separate from panel interaction
+
+
+    A dedicated capture manager owns image-copy sessions, queues requests, converts
+    compositor buffers into thumbnails, and delivers completed images to the panel
+    menu. The panel can show several live windows for one application without waiting
+    synchronously for each capture.
+
+
+    Layer-shell menus stay anchored to the panel and combine previews with titles
+    and close controls. The taskbar uses wlr-foreign-toplevel-management and ext-foreign-toplevel-list
+    for its Wayland window integration.'
+  id: blk_dock_project_capture
+  type: text
+- body: '## Make the handoff into a preview predictable
+
+
+    A HoverManager coordinates the panel button, popup, and menu items through closed,
+    opening, open, and grace-period states. Moving from the launcher into its menu
+    keeps the interaction active; leaving it clears the hover state and closes the
+    popup.
+
+
+    Capture scheduling also responds to queue pressure. Under normal load each visible
+    window can refresh. When the queue is busy, round-robin admission shares the next
+    capture opportunities between windows, preventing one preview from monopolizing
+    the work.'
+  id: blk_dock_project_hover
+  type: text
+- body: '## Preserve behavior while replacing the platform layer
+
+
+    The central design decision was to separate application grouping, hover behavior,
+    and capture scheduling from the compositor-facing implementation. That makes the
+    Wayland transition visible as familiar taskbar behavior with live previews, while
+    giving timing and capture failures a specific place to be diagnosed.'
+  id: blk_dock_project_scope
+  type: text
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/docklike-wayland
+kind: project
+preview:
+  description: Two live window previews remain grouped beneath their application in
+    the XFCE panel.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/docklike-live-previews.png
+summary: A Wayland port of the XFCE Docklike taskbar, preserving grouped launchers
+  and window controls while adding asynchronous live previews.
+tags:
+- C++
+- Wayland
+- XFCE
+- Window Capture
+title: 'Docklike: Wayland Taskbar'

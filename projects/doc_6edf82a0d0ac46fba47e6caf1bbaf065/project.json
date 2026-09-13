@@ -1,0 +1,95 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_2b1d59fc95f8495e9ace806dc189f849",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "items": [
+        "doc_15c718df74405387aac2f6da97bba8bb",
+        "doc_9042fc61c7645236825a709ad3e2474a",
+        "doc_b7183ef2af925346b9755252150a46e0"
+      ],
+      "display_projects": []
+    },
+    "title": "ComfyUI Conduit: Workflow Gateway",
+    "summary": "A ComfyUI gateway that turns tagged workflow sockets into typed inputs, durable runs, and downloadable output artifacts.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/comfyui-conduit",
+    "preview": {
+      "description": "Tagged KSampler inputs and outputs define the workflow interface that an external caller can use.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/conduit-socket-tags.png",
+      "width": 902,
+      "height": 652
+    },
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "API Design",
+      "Reliability",
+      "Architecture"
+    ],
+    "blocks": [
+      {
+        "body": "## Make a workflow callable from another tool\n\nA useful ComfyUI workflow can contain a large graph even when its caller needs to provide only a prompt, a few settings, and an output destination. I built Conduit to give that graph an explicit external interface.\n\nWorkflow authors tag input and output sockets and save the definition. Conduit exposes their names, types, defaults, and constraints so a client can prepare a request without depending on internal node IDs.",
+        "type": "text"
+      },
+      {
+        "body": "## Give each request a durable run\n\nA valid request creates a run record before submission to ComfyUI and returns a status resource immediately. The required idempotency key lets a caller retry the same submitted work and recover its existing run.\n\nAdmission, execution, artifact capture, and optional delivery have separate states. A client can distinguish a rejected request from failed execution or incomplete delivery. Reconciliation checks the ComfyUI queue and history when an unfinished run's outcome remains observable.",
+        "type": "text"
+      },
+      {
+        "code": "POST /conduit/runs/MyWorkflow\nX-Conduit-Version: 1\nX-Conduit-Caller: portfolio-example\nIdempotency-Key: render-001\nContent-Type: application/json\n\n{\"inputs\":{\"prompt\":\"a sunset over mountains\",\"steps\":30}}",
+        "description": "An illustrative caller supplies tagged inputs and a stable request identity, then follows the returned run resource.",
+        "language": "http",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Validate inputs and preserve the outcome\n\nUnknown request fields, inputs, and handlers are rejected at the gateway. Saved defaults supply omitted values, and supported coercions and workflow transformations prepare the graph before ComfyUI admission.\n\nThe run retains its workflow revision and lifecycle record. An uncertain upstream or handler outcome remains visible as unknown, allowing the caller to investigate without an automatic duplicate generation or repeated delivery.",
+        "type": "text"
+      },
+      {
+        "body": "## Return portable artifacts\n\nTagged outputs become a manifest with artifact identities, media information, byte sizes, checksums, and download links. Clients retrieve the declared results through the run resource. Server paths and private request context stay behind the service boundary.\n\nComfy Viewer uses this interface for its optional workflow controls. Other local tools can use the same contract, while registered handlers provide a separate integration point for completed outputs.",
+        "type": "text"
+      },
+      {
+        "label": "ComfyUI Image Viewer: browsing and running workflows",
+        "type": "related-mini",
+        "updateId": "doc_fb4ae0f652024b0092d89206152850b4"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:c5f03550e22bd3e5810fe8c6f56645aa25ead6ca1a530beff449a6513127821d",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/conduit-socket-tags.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 902,
+        "height": 652,
+        "digest": "sha256:edbfba4e1dc12fa2ca5a00a1a6c916a1db21b11b31b5702dbc671a2b3f73436b",
+        "byte_size": 78307,
+        "animated": false
+      }
+    }
+  }
+}

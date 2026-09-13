@@ -1,0 +1,59 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_b533eb051f4f4e1391bc9cbeac29ee1d",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ]
+    },
+    "title": "Expanded Portfolio Editor drag-and-drop beyond images",
+    "summary": "Added drag-and-drop and attachment controls for documents, videos, source files, diagrams, and chart data, while keeping files temporary until Save.",
+    "date": "2026-03-02",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "tags": [
+      "Python",
+      "JavaScript",
+      "Frontend",
+      "UX"
+    ],
+    "blocks": [
+      {
+        "body": "## Drop more than images\n\nPortfolio Editor could already turn dropped images into image or gallery blocks. This update extended the same interaction to PDFs, videos, Markdown files, source code, Mermaid diagrams, and structured chart data.\n\nEach file is matched by extension and inserted at the drop position as the corresponding block.",
+        "type": "text"
+      },
+      {
+        "code": "README.md   → README block\ndemo.mp4    → video block\ndiagram.mmd → Mermaid block\ndata.csv    → graph block\nscript.py   → code block",
+        "description": "The file extension selects the block type and populates its file-backed field.",
+        "filename": "file-to-block-mapping.txt",
+        "language": "text",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Attach files from the block editor\n\nI also added attachment controls to file-backed fields for images, galleries, videos, READMEs, PDFs, code, Mermaid diagrams, terminal transcripts, comparisons, and graph data.\n\nChoosing a file populates the open block and refreshes the preview without requiring a path to be entered by hand.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:0d8bd2f05f2a3d4b1a825fc264ea26e78deb5aeb26a1c74c1728dc6d5425d032",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_d27d1ee2f1425241a9abb038d8ef3ea7",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Rebuilt Wallpaper Service around a native Wayland renderer",
+    "summary": "Moved image, video, and solid-color rendering into one native Wayland service, with a D-Bus interface for applying live changes without restarting the renderer.",
+    "date": "2026-05-24",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/wallpaper-service",
+    "preview": {
+      "description": "Wallpaper rendering moves from separate managed programs into one native service controlled through D-Bus.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/wallpaper-native-architecture-simple-v2.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "C",
+      "Wayland",
+      "D-Bus",
+      "Desktop Environment"
+    ],
+    "blocks": [
+      {
+        "body": "## Render the background inside one process\n\nI replaced the Python daemon’s handoff between `swaybg` and `mpvpaper` with one native Wayland process. I adapted mpvpaper’s layer-shell, EGL/OpenGL, and libmpv rendering path so the service can draw images, looping video, or solid color directly on the selected output.\n\nThe output selector ignores compositor placeholder outputs and can move the background surface between real connectors.",
+        "type": "text"
+      },
+      {
+        "label": "Wallpaper Service: the process-handoff design this replaced",
+        "type": "related-mini",
+        "updateId": "doc_3a6495dd303a5286b238144d478fa5df"
+      },
+      {
+        "code": "flowchart LR\n  CLI[wallpaper-service CLI] --> DBus[Session D-Bus API]\n  DBus --> State[Validate and save state]\n  State --> Renderer[Native renderer]\n  Media[Image, video, or color] --> Renderer\n  Renderer --> Surface[Layer-shell surface on selected output]\n  Renderer --> Observe[Properties and change signal]",
+        "description": "Wallpaper changes cross the D-Bus boundary, are validated and saved, then reach the active native layer-shell surface.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Control the live surface through D-Bus\n\nThe renderer also owns a session D-Bus API. The command-line client can change the media, color, or output, reload configuration, inspect state, and stop the service without coordinating child processes.\n\nMutating calls validate and save the requested state before applying it to the active layer-shell surface. Properties and a wallpaper-changed signal expose the selected source, output, pending transition, and renderer statistics.",
+        "type": "text"
+      },
+      {
+        "commands": [
+          {
+            "command": "wallpaper-service set-image background.png --output DP-3",
+            "output": ""
+          },
+          {
+            "command": "wallpaper-service set-video loop.mp4 --output DP-3",
+            "output": ""
+          },
+          {
+            "command": "wallpaper-service set-color '#203040' --output DP-3",
+            "output": ""
+          }
+        ],
+        "description": "Image, video, and solid-color changes use the same D-Bus service boundary.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "terminal"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:e2be789fe25c03c93dc72001d3623abfcab7319b4fa15225e4abd3053e143718",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/wallpaper-native-architecture-simple-v2.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:2ce4beb33550ec4e4f7995cd4786f4b8f65035ecf58fc9549f68ed6edd9f4a25",
+        "byte_size": 6120,
+        "animated": false
+      }
+    }
+  }
+}

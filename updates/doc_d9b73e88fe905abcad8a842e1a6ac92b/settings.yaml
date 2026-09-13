@@ -15,10 +15,14 @@ blocks:
     beneath the interaction layer. '
   id: blk_editorial_desktop-layer
   type: text
-- description: Configured Desktop Layer menu open over a wallpaper with application
-    shortcuts and nested Tools and Settings submenus. Capture shows the configured
-    right-click menu over the wallpaper, including nested Tools and Settings groups.
+- id: blk_relationship_context_3a6495dd303a
+  label: 'Wallpaper Service: the separate background renderer'
+  type: related-mini
+  updateId: doc_3a6495dd303a5286b238144d478fa5df
+- description: The configurable right-click menu combines application shortcuts, nested
+    Tools and Settings groups, and a power action.
   id: blk_desktop_menu_capture
+  kind: image
   presentation: intrinsic
   src: media/screenshot_2026-02-28_15-57-19.png
   type: image
@@ -73,10 +77,11 @@ date: '2025-11-26'
 external_url: https://github.com/Ckrest/desktop-layer
 preview:
   description: Right click menu
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/abf932f2-6e56-44fd-865e-674ba7af8067.png
 prominence: medium
-related_to:
-- doc_3a6495dd303a5286b238144d478fa5df
 summary: Built a transparent GTK3 layer-shell surface that makes the Wayland desktop
   clickable, clears application focus, and opens a configurable command menu at the
   pointer.

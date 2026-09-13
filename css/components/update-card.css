@@ -128,9 +128,7 @@
 }
 
 /* Hide broken image icon while loading */
-.update-card__image:not(.loaded):not(.fallback) {
-  background: var(--color-bg);
-}
+
 
 /* =============================================================================
    LEVEL 1: LARGE CARD

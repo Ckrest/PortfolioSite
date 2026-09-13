@@ -3,11 +3,11 @@ blocks:
 
 
     I audited three XFCE components before moving the desktop to the 4.20 line. The
-    clipboard-manager copy matched upstream, so I archived it. The panel still needed
-    three focused patches—for a fixed-size child, configurable show-desktop width,
-    and Wayland pointer safety—so I rebased those changes onto the newer upstream
-    branch. The libxfce4ui fork stayed in place because its systemd-scope launching
-    still had no upstream equivalent.'
+    clipboard manager matched upstream, so I archived it. The panel still required
+    three changes: fixed pixel sizes for individual panel items, a configurable show-desktop
+    button width, and crash fixes for pointer events during plugin removal. I rebased
+    those changes onto XFCE 4.20. The `libxfce4ui` fork stayed because its systemd-scoped
+    launcher had no upstream equivalent.'
   id: blk_editorial_migrate-xfce-components-
   type: text
 - code: "flowchart TD\n  Audit[Audit each component] --> Difference{Local behavior\
@@ -24,15 +24,10 @@ blocks:
 - body: '## Preserve the panel behavior on the new base
 
 
-    The rebase kept the thin-strip layout, the 10-pixel show-desktop width, and the
-    Wayland crash fixes while taking the upstream changes around them. I backed up
-    the live XFCE configuration, built the custom panel, loaded all 15 plugins, verified
-    the button-width property, and observed the migrated session without errors.
-
-
-    The result is a smaller, explicit maintenance surface: no fork where there is
-    no difference, three isolated panel patches where the layout still depends on
-    them, and one retained library fork for systemd-scoped application launches.'
+    The custom panel loaded its complete plugin set and preserved the compact layout
+    and 10-pixel show-desktop button after the rebase. The resulting maintenance boundary
+    keeps only the deltas the desktop needs: three panel patches and one systemd integration
+    fork.'
   id: blk_xfce_panel_verification
   type: text
 date: '2026-01-17'

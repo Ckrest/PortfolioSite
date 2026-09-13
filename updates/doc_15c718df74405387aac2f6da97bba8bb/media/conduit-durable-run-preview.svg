@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">A durable ComfyUI Conduit run outlives its request</title>
+  <desc id="desc">A request-bound generation ends ambiguously at a timeout, while a durable request returns a run ID that continues through execution, finalization, and artifact retrieval.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#121722"/>
+      <stop offset="1" stop-color="#151219"/>
+    </linearGradient>
+    <linearGradient id="run" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17332f"/>
+      <stop offset="1" stop-color="#122825"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#fff" stroke-opacity=".035"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" rx="34" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="34" fill="url(#grid)"/>
+
+  <g font-family="Inter, Segoe UI, sans-serif">
+    <text x="78" y="74" fill="#9a8cff" font-size="18" font-weight="800" letter-spacing="2.2">COMFYUI CONDUIT</text>
+    <text x="78" y="138" fill="#f7f4ee" font-size="47" font-weight="770">The request can end. The run continues.</text>
+    <text x="78" y="181" fill="#aaa9b1" font-size="22">One run ID keeps retries, restarts, and completed artifacts on the same record.</text>
+
+    <rect x="78" y="230" width="1444" height="188" rx="26" fill="#1c1b22" stroke="#514b57" stroke-width="2"/>
+    <rect x="108" y="258" width="184" height="38" rx="19" fill="#33252a" stroke="#754752"/>
+    <text x="200" y="283" text-anchor="middle" fill="#eda1ae" font-size="15" font-weight="800" letter-spacing="1.4">REQUEST-BOUND</text>
+
+    <rect x="340" y="275" width="244" height="94" rx="18" fill="#25232a" stroke="#615a66"/>
+    <text x="462" y="313" text-anchor="middle" fill="#aaa5b1" font-size="14" font-weight="800" letter-spacing="1.2">CALLER</text>
+    <text x="462" y="346" text-anchor="middle" fill="#f0edf2" font-size="21" font-weight="730">POST /run</text>
+
+    <path d="M584 322h112" stroke="#8d8792" stroke-width="4"/>
+    <path d="M696 308v28l30-14z" fill="#8d8792"/>
+
+    <rect x="738" y="275" width="244" height="94" rx="18" fill="#25232a" stroke="#615a66"/>
+    <text x="860" y="313" text-anchor="middle" fill="#aaa5b1" font-size="14" font-weight="800" letter-spacing="1.2">CONNECTION</text>
+    <text x="860" y="346" text-anchor="middle" fill="#f0edf2" font-size="21" font-weight="730">Waiting…</text>
+
+    <path d="M982 322h112" stroke="#8d8792" stroke-width="4"/>
+    <circle cx="1129" cy="322" r="30" fill="#3a2026" stroke="#b65366" stroke-width="2"/>
+    <path d="M1118 311l22 22M1140 311l-22 22" stroke="#f07f91" stroke-width="5" stroke-linecap="round"/>
+    <text x="1190" y="316" fill="#f2e8ea" font-size="20" font-weight="750">Timeout</text>
+    <text x="1190" y="346" fill="#a99da1" font-size="16">Outcome unclear</text>
+
+    <rect x="78" y="458" width="1444" height="340" rx="28" fill="url(#run)" stroke="#43887f" stroke-width="2"/>
+    <rect x="108" y="486" width="164" height="38" rx="19" fill="#173c37" stroke="#4f9d93"/>
+    <text x="190" y="511" text-anchor="middle" fill="#96eee4" font-size="15" font-weight="800" letter-spacing="1.4">DURABLE RUN</text>
+
+    <rect x="116" y="558" width="194" height="94" rx="18" fill="#11211f" stroke="#3d756e"/>
+    <text x="213" y="596" text-anchor="middle" fill="#8ce9de" font-size="14" font-weight="800" letter-spacing="1.2">CREATE</text>
+    <text x="213" y="629" text-anchor="middle" fill="#f0f9f6" font-size="21" font-weight="730">POST /runs</text>
+
+    <path d="M310 605h64" stroke="#60d8cb" stroke-width="4"/>
+    <path d="M374 591v28l30-14z" fill="#60d8cb"/>
+
+    <rect x="416" y="542" width="250" height="126" rx="20" fill="#182b38" stroke="#568cb0" stroke-width="2"/>
+    <text x="541" y="579" text-anchor="middle" fill="#8fcaee" font-size="14" font-weight="800" letter-spacing="1.2">202 ACCEPTED</text>
+    <text x="541" y="616" text-anchor="middle" fill="#f1f7fc" font-size="24" font-weight="780">RUN 7F2A</text>
+    <text x="541" y="644" text-anchor="middle" fill="#96adbd" font-size="15">same key · same identity</text>
+
+    <path d="M666 605h64" stroke="#60d8cb" stroke-width="4"/>
+    <path d="M730 591v28l30-14z" fill="#60d8cb"/>
+
+    <rect x="772" y="542" width="482" height="126" rx="20" fill="#11211f" stroke="#3d756e"/>
+    <circle cx="827" cy="595" r="12" fill="#70b9f1"/>
+    <path d="M839 595h114" stroke="#417f79" stroke-width="4"/>
+    <circle cx="969" cy="595" r="12" fill="#e1a75c"/>
+    <path d="M981 595h114" stroke="#417f79" stroke-width="4"/>
+    <circle cx="1111" cy="595" r="12" fill="#62d5c8"/>
+    <text x="827" y="638" text-anchor="middle" fill="#cce5f5" font-size="14" font-weight="750">RUNNING</text>
+    <text x="969" y="638" text-anchor="middle" fill="#f2d7af" font-size="14" font-weight="750">FINALIZING</text>
+    <text x="1111" y="638" text-anchor="middle" fill="#c4f5ef" font-size="14" font-weight="750">COMPLETE</text>
+
+    <path d="M1254 605h54" stroke="#60d8cb" stroke-width="4"/>
+    <path d="M1308 591v28l30-14z" fill="#60d8cb"/>
+
+    <rect x="1350" y="542" width="142" height="126" rx="20" fill="#222137" stroke="#746ab9"/>
+    <rect x="1381" y="568" width="34" height="42" rx="5" fill="#a797ff"/>
+    <path d="M1405 568v12h10" fill="none" stroke="#d9d2ff" stroke-width="3"/>
+    <rect x="1428" y="582" width="34" height="28" rx="5" fill="#6d62bb"/>
+    <text x="1421" y="640" text-anchor="middle" fill="#e1dcff" font-size="14" font-weight="750">ARTIFACTS</text>
+
+    <rect x="416" y="702" width="838" height="48" rx="24" fill="#153a36" stroke="#4b9188"/>
+    <text x="835" y="733" text-anchor="middle" fill="#b8f0e9" font-size="16" font-weight="800" letter-spacing="1.2">RETRY OR RECONNECT → RETURN TO RUN 7F2A</text>
+
+    <text x="78" y="855" fill="#dedbe6" font-size="20" font-weight="700">Execution survives the HTTP request. Completion stays inspectable.</text>
+  </g>
+</svg>

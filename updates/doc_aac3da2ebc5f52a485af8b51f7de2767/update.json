@@ -1,9 +1,18 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_aac3da2ebc5f52a485af8b51f7de2767",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Made Work Report Git tracking package-aware",
-    "summary": "Work Report now uses the report’s project identity as the repository context for commit metadata, diff statistics, and captured Git evidence, routing VCSH-backed packages through their independent histories.",
+    "summary": "Routed commit metadata, diff statistics, and captured Git evidence through the repository selected by each report’s project identity, including VCSH-backed packages.",
     "date": "2026-01-30",
     "prominence": "low",
     "tags": [
@@ -11,16 +20,15 @@
       "Git",
       "Infrastructure"
     ],
-    "relationships": {
-      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-      "related": [
-        "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Use the report’s project as repository context\n\nWork Report now carries the project named on a report into every Git lookup. When that project maps to a VCSH repository, Git runs through `vcsh <project>`; conventional repositories continue through Git directly.\n\nThis connects reporting to Constellation’s package ownership structure, so the report selects the repository responsible for the work instead of treating the shared filesystem as one Git boundary.",
+        "body": "## Use the report’s project as repository context\n\nWork Report carries the project named on a report into every Git lookup. When that project maps to a VCSH repository, Git runs through `vcsh <project>`; conventional repositories continue through Git directly.\n\nThis connects reporting to Constellation’s package ownership structure, so the report selects the repository responsible for the work instead of treating the shared filesystem as one Git boundary.",
         "type": "text"
+      },
+      {
+        "label": "Package histories: the VCSH ownership model",
+        "type": "related-mini",
+        "updateId": "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6"
       },
       {
         "code": "flowchart LR\n  Report[Report project identity] --> Route{Repository adapter}\n  Route -->|Standard repository| Git[Direct Git]\n  Route -->|VCSH package| VCSH[Package VCSH repository]\n  Git & VCSH --> Facts[Commit + diff facts]\n  Facts --> Evidence[Stored report evidence]",
@@ -30,18 +38,22 @@
         "type": "mermaid"
       },
       {
-        "body": "## Keep every recorded Git fact on the same route\n\nThe statistics collector and Git evidence handler now use the same repository context for commit lookup, file changes, diff text, and commit messages. The numerical summary and retained evidence therefore come from the same package history.",
+        "body": "## Keep every recorded Git fact on the same route\n\nThe statistics collector and Git evidence handler use the same repository context for commit lookup, file changes, diff text, and commit messages. The numerical summary and retained evidence therefore come from the same package history.",
         "type": "text"
       }
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:354a145cd131b1cd2ac86055fdb1d3c6fd72999444c49fa12b3c2aacf4c38aa3",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

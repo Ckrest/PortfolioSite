@@ -7,12 +7,12 @@ blocks:
     quick to recognize and play without digging through filenames.'
   id: blk_editorial_soundboard
   type: text
-- description: Soundboard window showing a searchable grid of image-backed sound cards.
-    Search, tabs, output status, and Stop All keep the desktop library easy to navigate
-    and control.
+- description: The workflow turns audio imports into named, illustrated cards that
+    can be found and played without relying on filenames.
   id: blk_soundboard_preview
+  kind: image
   presentation: intrinsic
-  src: preview.png
+  src: media/soundboard-library-workflow.svg
   type: image
 - body: '## Add voice chat as another output
 
@@ -35,8 +35,12 @@ blocks:
 date: '2026-01-13'
 external_url: https://github.com/Ckrest/soundboard
 preview:
-  description: Soundboard window showing a searchable grid of image-backed sound cards
-  src: preview.png
+  description: A populated sound library keeps search, tabs, output status, Stop All,
+    and recognizable clip cards visible together.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/soundboard-library-preview.png
 prominence: medium
 summary: Turned more than 250 clips into a searchable GTK soundboard for desktop playback,
   with an optional virtual-microphone route for voice chat.

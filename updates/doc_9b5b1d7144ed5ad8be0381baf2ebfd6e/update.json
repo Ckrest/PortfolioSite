@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_9b5b1d7144ed5ad8be0381baf2ebfd6e",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Automated the browser extension reload loop",
     "summary": "Built a loopback bridge and browser helper that let local tools inspect unpacked extensions, queue reload or enable-state changes, and refresh the active test tab.",
     "date": "2026-01-15",
@@ -32,12 +36,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:b55e89e7c694a140aece2baad04e5d8ca7c0e4db3476b1554e3f32f6d8500637",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

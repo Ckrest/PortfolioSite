@@ -2,7 +2,7 @@ blocks:
 - body: '## Move package settings into validated tile sets
 
 
-    Settings Hub now loads versioned YAML catalogs instead of requiring every integration
+    Settings Hub loads versioned YAML catalogs instead of requiring every integration
     to construct its own GTK page. Core definitions establish the shared tabs; each
     package contributes one or more tile sets, assigns them through `tab_id`, and
     declares the controls that belong there.
@@ -20,15 +20,16 @@ blocks:
     contribute validated tile sets, and the shared runtime renders them through reusable
     GTK handlers.
   id: blk_settings_hub_architecture
+  kind: image
   presentation: intrinsic
   src: media/catalog-runtime.svg
   type: image
 - body: '## Render controls through a shared vocabulary
 
 
-    One renderer now handles headers, text and information panels, images, buttons,
-    toggles, selects, text and numeric inputs, lists, time, font, file and color pickers,
-    graphs, gauges, separators, switchable panels, and reorderable lists.
+    One renderer handles headers, text and information panels, images, buttons, toggles,
+    selects, text and numeric inputs, lists, time, font, file and color pickers, graphs,
+    gauges, separators, switchable panels, and reorderable lists.
 
 
     A tile set can declare a configuration file, then bind ordinary controls through
@@ -43,6 +44,7 @@ blocks:
     toggle, numeric input, color picker, and action from one catalog-defined tile
     set.
   id: blk_settings_hub_v2_ui
+  kind: image
   presentation: intrinsic
   src: media/settings-hub-v2-showcase.png
   type: image
@@ -84,14 +86,13 @@ external_url: https://github.com/Ckrest/settings-hub
 preview:
   description: Settings Hub Appearance page with a colorful selected background and
     catalog-rendered controls
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/settings-hub-v2.png
 prominence: high
-related_to:
-- doc_aa793128a2075e32a8dea215c096de7c
-- doc_df23e97310c4507ba4aa8c1a5f2e2853
 summary: Rebuilt Settings Hub around validated YAML tile-set catalogs, a shared renderer,
   conditional visibility, command-backed controls, and isolated diagnostics.
-supersedes: doc_ff2e48756b8f5bf5aeaee62e5142e744
 tags:
 - Python
 - GTK

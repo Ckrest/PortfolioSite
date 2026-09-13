@@ -1,15 +1,27 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_b7183ef2af925346b9755252150a46e0",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065"
+      ],
+      "display_projects": [
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065"
+      ]
+    },
     "title": "Made ComfyUI workflows callable from external tools",
     "summary": "Built a ComfyUI gateway that turns tagged workflow sockets into a typed external API, prepares caller values against saved defaults, and returns only declared outputs.",
     "date": "2026-01-13",
     "prominence": "high",
     "external_url": "https://github.com/Ckrest/comfyui-conduit",
     "preview": {
-      "src": "preview.png",
       "description": "ComfyUI Conduit node workflow",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "preview.png",
       "width": 902,
       "height": 652
     },
@@ -18,22 +30,14 @@
       "Python",
       "API Design"
     ],
-    "relationships": {
-      "parts": [
-        "doc_9042fc61c7645236825a709ad3e2474a"
-      ],
-      "related": [
-        "doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad",
-        "doc_06f2ddd4fc5a564f95089d16dbab3ffd"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Turn socket tags into an API\n\nConduit now adds interface tagging directly to ComfyUI. A workflow author can expose a socket, give it a unique tag, and save the workflow from the Conduit sidebar. The saved record pairs the complete execution graph with a smaller schema describing its active tags, types, defaults, and constraints.\n\nExternal callers can inspect that schema and submit values to `POST /conduit/run/{workflow_name}` using tag names. They do not need node identifiers or the complete editor document.",
+        "body": "## Turn socket tags into an API\n\nI added interface tagging directly to ComfyUI through Conduit. A workflow author can expose a socket, give it a unique tag, and save the workflow from the Conduit sidebar. The saved record pairs the complete execution graph with a smaller schema describing its active tags, types, defaults, and constraints.\n\nExternal callers can inspect that schema and submit values to `POST /conduit/run/{workflow_name}` using tag names. They do not need node identifiers or the complete editor document.",
         "type": "text"
       },
       {
         "description": "ComfyUI KSampler node with its steps input and latent output marked as Conduit tags. Socket tags mark the inputs and outputs that become the workflow’s external interface.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "preview.png",
         "type": "image"
@@ -56,17 +60,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:2727d3e5f9343a0b8bf06bb2c4b2cc09adbe23f09b5971e65580244d4f2bf766",
+        "byte_size": 498,
+        "animated": false
       },
       "preview.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 902,
-        "height": 652
+        "height": 652,
+        "digest": "sha256:edbfba4e1dc12fa2ca5a00a1a6c916a1db21b11b31b5702dbc671a2b3f73436b",
+        "byte_size": 78307,
+        "animated": false
       }
     }
   }

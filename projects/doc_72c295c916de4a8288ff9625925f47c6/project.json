@@ -1,0 +1,87 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_72c295c916de4a8288ff9625925f47c6",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_4b450a10a1d94230a7b01e6ec9727489"
+      ],
+      "items": [
+        "doc_928919e4fe6e482ca56ab6b4ced543e6",
+        "doc_2ae1e22a4ed957048348c988b376312f",
+        "doc_38811c0e3f5d564f8b840821d6ea52b5",
+        "doc_ff2e48756b8f5bf5aeaee62e5142e744"
+      ],
+      "display_projects": []
+    },
+    "title": "Desktop Settings Hub",
+    "summary": "A GTK4 settings shell that renders package-owned controls and live dashboards from validated extension catalogs.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/settings-hub",
+    "preview": {
+      "description": "A catalog-rendered Appearance page demonstrates shared controls for backgrounds, themes, fonts, and interface preferences.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/settings-hub-catalog-controls.png",
+      "width": 1080,
+      "height": 740
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Architecture",
+      "Desktop Environment",
+      "Data Visualization"
+    ],
+    "blocks": [
+      {
+        "body": "## Give independent desktop tools a shared settings home\n\nSettings Hub brings package settings and monitoring views into one GTK4 interface. Instead of building a separate window for each integration, packages contribute versioned catalogs that describe tabs, tile sets, controls, and sources.\n\nThe shared renderer handles ordinary forms alongside tables, repeated items, statistics, badges, progress displays, sparklines, and JSON views. Layout primitives support tabs, split panes, and responsive columns, allowing both a small preference panel and a live dashboard to use the same shell.",
+        "type": "text"
+      },
+      {
+        "body": "## Let packages own the behavior behind their controls\n\nEach extension declares its owning package and is explicitly installed into Settings Hub’s catalog directory. The catalog calls stable installed commands or binds to an intentional public configuration file. Changes requiring operational logic or validation go through the package’s action or service API.\n\nThis keeps the Hub responsible for consistent presentation while the integrated tool remains responsible for interpreting and applying its settings.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep navigation stable and live work bounded\n\nCatalog loading, validation, visibility planning, and rendering form distinct stages. An invalid extension reports an issue while valid records continue to load. A tab with no currently visible tile sets retains its sidebar position as unavailable until the user explicitly hides it.\n\nPages are built on first activation and reused in a stable GTK stack. Source polling and runtime hooks follow the active top-level tab, preserving page state without leaving every dashboard polling in the background.",
+        "type": "text"
+      },
+      {
+        "body": "## Reuse the shell across settings and monitoring\n\nScreenshot Tool contributes capture preferences through its installed catalog. The sleep dashboard uses domain-owned day and week views while Settings Hub supplies date tabs, trends, and navigation. In both cases the data and operating rules remain with the package.\n\nNamed data sources can feed display tiles, and successful actions can refresh those sources and show inline results. That gives an operator visible feedback within the same settings page.",
+        "type": "text"
+      },
+      {
+        "label": "Wayland Screenshot Tool: one package-owned settings integration",
+        "type": "related-mini",
+        "updateId": "doc_d8241fe11819473ebf0a236b0a423da2"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:a0e9d0f7789e4ddbf9fb21e8049ea2eb5e2693d842fb867385ec712189e0e96e",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/settings-hub-catalog-controls.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1080,
+        "height": 740,
+        "digest": "sha256:35ad97ac947931e98572337bebcb97277294071740694c0564cc8cc00d07dc4c",
+        "byte_size": 194464,
+        "animated": false
+      }
+    }
+  }
+}

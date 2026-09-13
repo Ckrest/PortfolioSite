@@ -1,17 +1,17 @@
 blocks:
-- body: '## Expose the engine as a service
+- body: '## Call the same flows over HTTP
 
 
-    Modular Flow Engine now exposes the same JSON flows through a FastAPI service.
-    Clients can list available flows, inspect their inputs and components, validate
-    a request, execute a flow, and check service health without importing engine internals
-    or spawning the CLI themselves.
-
-
-    The CLI and HTTP service use the same execution engine, so a flow remains one
-    portable document rather than gaining a separate server-specific format.'
+    I exposed the engine’s JSON flows through a FastAPI service. Clients can list
+    flows, inspect their inputs and components, validate a request, execute a flow,
+    and check service health without importing engine internals. The CLI and HTTP
+    service share one execution engine and one flow format.'
   id: blk_editorial_unified-output-destinati
   type: text
+- id: blk_relationship_context_d5f1ae0b35e1
+  label: 'Modular Flow Engine: JSON plans, components, and resume'
+  type: related-mini
+  updateId: doc_d5f1ae0b35e150ff97749a0ddbcaa1d8
 - code: "flowchart TD\n  Request[HTTP execute request] --> Check{Return destination?}\n\
     \  Check -->|Yes| Wait[Wait for result]\n  Check -->|No| Accept[Accept background\
     \ run]\n  Wait --> Engine[Shared flow engine]\n  Accept --> Engine\n  Engine -->\
@@ -23,20 +23,13 @@ blocks:
   presentation: content
   sourceMode: inline
   type: mermaid
-- body: '## Let sinks define where results go
+- body: '## Let sinks choose result delivery
 
 
-    Each collector or JSON writer names one or more destinations for its finalized
-    value. `return` adds data to the HTTP response, `file` writes JSON beneath the
-    run’s output directory, and `console` prints it for command-line use. The execution
-    context owns these writers, so sinks share one delivery contract and nested flow
-    scopes can contribute to one response.
-
-
-    The service inspects those declarations before execution. A flow with a `return`
-    destination waits and sends the collected value back; a file- or console-only
-    flow is accepted for background execution. Callers can override the default wait
-    behavior explicitly.'
+    A collector or JSON writer declares one or more destinations: `return`, `file`,
+    or `console`. The service inspects those declarations before execution. A flow
+    that returns data waits by default, while file- or console-only work can continue
+    in the background; callers can override that choice explicitly.'
   id: blk_flow_engine_sink_delivery
   type: text
 - code: "{\n  \"type\": \"sink/collector\",\n  \"config\": {\n    \"destinations\"\
@@ -51,13 +44,11 @@ blocks:
   type: code
 date: '2026-01-24'
 external_url: https://github.com/Ckrest/modular-flow-engine
-part_of: doc_d5f1ae0b35e150ff97749a0ddbcaa1d8
 prominence: low
-summary: Added a FastAPI service for inspecting, validating, and executing JSON flows,
-  while sink-owned return, file, and console destinations define how completed results
-  are delivered.
+summary: Exposed JSON flows through FastAPI and let sink destinations determine whether
+  completed results return in the response, write to a file, or print to the console.
 tags:
 - Python
 - FastAPI
 - API Design
-title: Made Modular Flow Engine callable over HTTP
+title: Exposed Modular Flow Engine over HTTP with sink-defined results

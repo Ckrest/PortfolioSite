@@ -4,51 +4,52 @@
   <meta charset="utf-8" />
   <!-- portfolio:base -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title id="page-title">Capability — Nick Young</title>
+  <title id="page-title">Update — Nick Young</title>
   <meta name="description" id="page-description" content="" />
-  <meta name="portfolio-capability" content="" />
-  <meta name="portfolio-capability-folder" content="" />
+  <meta name="portfolio-update" content="" />
   <!-- portfolio:metadata -->
   <meta name="color-scheme" content="dark" />
   <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="capability-base.css" />
+  <link rel="stylesheet" href="../updates/vendor/photoswipe.css" />
+  <link rel="stylesheet" href="../updates/vendor/highlight.css" />
+  <link rel="stylesheet" href="../css/document-base.css" />
+  <link rel="stylesheet" href="../css/document-blocks.css" />
   <link rel="stylesheet" href="../css/tokens.css" />
-  <link rel="stylesheet" href="capability-layout.css" />
   <link rel="stylesheet" href="../css/components/update-entry.css" />
   <link rel="stylesheet" href="../css/components/timeline-entry.css" />
-  <link rel="stylesheet" href="capability.css" />
+  <link rel="stylesheet" href="../css/components/document-timeline.css" />
+  <link rel="stylesheet" href="page.css" />
 </head>
-<body id="page-top">
+<body id="page-top" data-document-kind="capability">
   <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="../index.html">Portfolio</a>
-    <span class="breadcrumb-separator" aria-hidden="true">/</span>
-    <a class="breadcrumb-context" href="../index.html#capabilities">Capabilities</a>
+    <a id="portfolio-breadcrumb" href="../index.html#featured">Portfolio</a>
     <span class="breadcrumb-separator" aria-hidden="true">/</span>
     <span id="breadcrumb-title">Loading...</span>
   </nav>
 
-  <header class="update-masthead capability-masthead">
+  <header class="update-masthead capability-masthead" data-block-id="header" data-block-path="header" data-block-type="header" data-editor-region="header" data-editor-region-part="masthead">
     <div class="hero">
-      <p class="update-kicker">Capability</p>
-      <h1 id="capability-title">Loading...</h1>
-      <p id="capability-summary"></p>
+      <p class="update-kicker"><span id="update-kind">Capability</span> <span id="update-date"></span></p>
+      <h1 id="update-title">Loading...</h1>
+      <p id="update-summary"></p>
     </div>
   </header>
 
   <main id="main-content">
+    <!-- Content loaded dynamically -->
     <section id="loading-section">
-      <p class="capability-status">Loading supporting work…</p>
+      <p style="color: var(--muted); text-align: center;">Loading capability...</p>
     </section>
     <noscript>
       <style>#loading-section { display: none; }</style>
       <section>
-        <p class="render-warning">The capability summary is available above. Its supporting work requires JavaScript.</p>
+        <p class="render-warning">The summary is available above. Full project content requires JavaScript.</p>
       </section>
     </noscript>
   </main>
 
   <div id="footer-slot"></div>
 
-  <script src="detail.js" type="module"></script>
+  <script src="../updates/detail.js" type="module"></script>
 </body>
 </html>

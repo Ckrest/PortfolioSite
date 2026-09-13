@@ -2,10 +2,10 @@ blocks:
 - body: '## Audit ownership across the fleet
 
 
-    A fleet-wide audit now checks repository health, integration-file ownership, and
-    commands from outside the workspace root. It exposes add commands that depend
-    on the caller’s current directory and local hook or configuration files that are
-    not recognized by package ownership rules.'
+    A fleet-wide audit checks repository health, integration-file ownership, and commands
+    from outside the workspace root. It exposes add commands that depend on the caller’s
+    current directory and local hook or configuration files that are not recognized
+    by package ownership rules.'
   id: blk_editorial_full-repo-health-audit-v
   type: text
 - code: "flowchart LR\n  Observe[Observe repository state] --> Classify[Classify ownership]\n\
@@ -21,10 +21,11 @@ blocks:
 - body: '## Fix the rule at the right level
 
 
-    VCSH commands now establish their working directory, while discovery recognizes
-    the local integration-file forms used by packages. Output locations, stale paths,
-    ignores, and preview resolution are repaired in the package that owns them rather
-    than hidden by a fleet-wide exception.'
+    VCSH commands establish their working directory, while discovery recognizes the
+    local integration-file forms used by packages. I repaired output locations, stale
+    paths, and ignore rules in the packages that owned them. Package-specific repairs
+    also corrected Portfolio Site’s preview-image paths so detail pages and editor
+    previews could load the intended images.'
   id: blk_repo_audit_repairs
   type: text
 - code: 'packages valid               63 / 63
@@ -43,10 +44,7 @@ blocks:
   sourceMode: inline
   type: code
 date: '2026-02-17'
-part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
 prominence: low
-related_to:
-- doc_ed9b9a567c7c4d589dbe92c7abbf3eb6
 summary: Repaired VCSH command paths, brought overlooked integration files under ownership,
   and resolved package issues discovered by a full registry audit.
 tags:

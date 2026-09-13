@@ -31,12 +31,12 @@ blocks:
     sources can implement the same `fetch()` interface and optional streaming hooks.'
   id: blk_graph_sources
   type: text
-- description: GTK4 Graph Library showcase with labeled and compact line charts plus
-    circular gauges. One widget API produces labeled time series, compact filled charts,
-    point traces, and threshold-colored gauges.
+- description: The GTK4 showcase combines labeled and compact line charts, point traces,
+    filled areas, current values, and threshold-colored gauges.
   id: blk_graph_showcase
+  kind: image
   presentation: intrinsic
-  src: media/screenshot_2026-02-28_16-26-37-1.png
+  src: media/graph-library-showcase-contrast.png
   type: image
 - body: '## Tune the display at runtime
 
@@ -50,11 +50,13 @@ blocks:
 date: '2026-01-13'
 external_url: https://github.com/Ckrest/graph-lib
 preview:
-  description: Graph Library chart examples
-  src: media/screenshot_2026-02-28_16-26-37-1.png
+  description: Complete line-chart, filled-chart, and gauge widgets demonstrate the
+    shared GTK rendering surface.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/graph-library-preview.png
 prominence: medium
-related_to:
-- doc_004858c24c955a1aa023a9e8eb9c3180
 summary: Built a GTK4 graph library that pairs interchangeable data providers with
   reusable Cairo line-chart and gauge renderers, with runtime styling and refresh
   controls.

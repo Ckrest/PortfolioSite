@@ -8,7 +8,7 @@ blocks:
 
 
     The folder name identifies the project, while its settings define the title, summary,
-    display level, phase, status, links, tags, and content mode. Adding work now means
+    display level, phase, status, links, tags, and content mode. Adding work means
     adding one project module that carries its page source with it.'
   id: blk_project_modules
   type: text
@@ -62,10 +62,11 @@ external_url: https://github.com/Ckrest/PortfolioSite
 preview:
   description: Diagram showing a self-contained project folder flowing through a shared
     renderer into a page composed from reusable content regions
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/project-module-architecture.svg
 prominence: high
-related_to:
-- doc_6b7f8c754a1e5e9492d306667ad478d2
 summary: Moved each portfolio project into a self-contained folder with its own metadata,
   assets, and content configuration, then used one shared renderer to assemble README,
   PDF, structured, and minimal project pages.

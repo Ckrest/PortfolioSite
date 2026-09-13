@@ -3,9 +3,9 @@ blocks:
 
 
     I built Settings Hub as a GTK4 and libadwaita control panel for a desktop assembled
-    from independent tools. This version puts appearance controls, GPU statistics,
-    network monitoring, and package-supplied settings behind one adaptive sidebar
-    instead of making each capability a separate command or window.
+    from independent tools. The Hub puts appearance controls, GPU statistics, network
+    monitoring, and package-supplied settings behind one adaptive sidebar instead
+    of making each capability a separate command or window.
 
 
     ## Let modules supply the controls
@@ -20,14 +20,16 @@ blocks:
 
     Integrated modules render their own controls. Package modules use a shared schema
     parser and UI builder to generate controls against the package’s existing configuration
-    file. Launcher and hybrid module types leave room for tools that still need their
-    own window.'
+    file. The module design also supports launcher pages that open a separate settings
+    app, and hybrid pages that combine quick controls in the Hub with a button for
+    advanced settings in that app.'
   id: blk_settings_hub_story
   type: text
 - description: Settings Hub Appearance page with sidebar navigation and controls for
     wallpaper, theme, icons, and font. Appearance controls share one page for wallpaper
     mode, interface theme, icons, and fonts.
   id: 8ab06a92-b863-4791-87cd-436206e6d1d3
+  kind: image
   presentation: intrinsic
   src: assets/screenshot_2026-02-12_00-12-30.png
   type: image
@@ -60,6 +62,7 @@ blocks:
     gauges, and utilization history. The same navigation shell also carries live system
     modules, including GPU memory, temperature, and utilization history.
   id: c9b6473a-f408-4152-8b38-1d728267162a
+  kind: image
   presentation: intrinsic
   src: assets/screenshot_2026-02-12_00-12-41.png
   type: image
@@ -68,12 +71,11 @@ external_url: https://github.com/Ckrest/settings-hub
 preview:
   description: Settings Hub GPU page with sidebar navigation, VRAM and temperature
     gauges, and utilization history
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/screenshot_2026-02-12_00-12-41.png
 prominence: high
-related_to:
-- doc_aa793128a2075e32a8dea215c096de7c
-- doc_c9cdd79a861a5739aa99c3d1f3da27dc
-- doc_df23e97310c4507ba4aa8c1a5f2e2853
 summary: Built a GTK4 control center that discovers built-in and package settings,
   renders them in one adaptive interface, and writes changes through their existing
   backends.

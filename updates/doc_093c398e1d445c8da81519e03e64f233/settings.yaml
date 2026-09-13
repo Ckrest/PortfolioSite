@@ -27,10 +27,7 @@ blocks:
   id: blk_structured_evidence
   type: text
 date: '2026-02-15'
-part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
 prominence: low
-related_to:
-- doc_582dd26679fb5519a5a4bf771863f5a6
 summary: Moved Work Report operations into one reusable core and gave YAML, JSON,
   and CSV evidence a shared loading path.
 tags:

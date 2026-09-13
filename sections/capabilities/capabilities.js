@@ -31,7 +31,7 @@ export async function init(sectionEl, config) {
     container.setAttribute('aria-busy', 'false');
     if (status) {
       status.hidden = capabilities.length > 0;
-      if (capabilities.length > 0) status.textContent = '';
+      status.textContent = capabilities.length > 0 ? '' : 'Capabilities will appear here as they are added.';
     }
   } catch (error) {
     console.error('Capability index error:', error);

@@ -1,0 +1,45 @@
+blocks:
+- body: '## Carry the same labels between tools
+
+
+    Package manifests, Work Reports, and portfolio pages describe overlapping work.
+    I established a controlled tag vocabulary across all three and migrated their
+    existing metadata to its canonical names.
+
+
+    Work Report validates incoming tags against the shared vocabulary, normalizes
+    recognized names to their defined capitalization, and suggests alternatives for
+    unknown tags. That gives report authors a consistent set of labels to carry into
+    the portfolio.'
+  id: blk_tags_context
+  type: text
+- code: "flowchart TB\n V[\"Shared tag vocabulary\"] --> P[\"Package manifests\"]\n\
+    \ V --> R[\"Work Reports\"]\n V --> S[\"Portfolio metadata\"]"
+  description: One vocabulary supplies consistent labels to the package registry,
+    work records, and public pages.
+  id: blk_tags_map
+  presentation: content
+  sourceMode: inline
+  type: mermaid
+- body: '## Bring existing records into the same vocabulary
+
+
+    I backfilled report tags, updated package manifests and portfolio metadata, and
+    checked the migrated values for unknown names and capitalization mismatches. The
+    reporting commands and documentation were updated alongside the data.
+
+
+    The result gives search, filtering, and future metadata-based features a common
+    set of labels across the workflow.'
+  id: blk_tags_result
+  type: text
+date: '2026-01-26'
+kind: update
+prominence: low
+summary: Established a shared tag vocabulary and migrated existing metadata so package
+  discovery, work records, and public portfolio pages use consistent names.
+tags:
+- Architecture
+- Python
+- Data Pipelines
+title: Aligned tags across packages, Work Reports, and portfolio pages

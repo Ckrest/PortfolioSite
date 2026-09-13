@@ -27,6 +27,7 @@ blocks:
     marks the pixel beneath the pointer while the surrounding grid makes neighboring
     edges easy to compare.
   id: blk_screenshot_magnifier_detail
+  kind: image
   presentation: intrinsic
   src: media/screenshot-tool-magnifier-detail.png
   type: image
@@ -55,6 +56,9 @@ external_url: https://github.com/Ckrest/screenshot-tool
 preview:
   description: Screenshot Tool selector over a woodland scene with controls, a drawn
     region, live dimensions, a crosshair, and a circular magnifier
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/screenshot-tool-selector.png
 prominence: medium
 summary: Built a hotkey-driven Wayland screenshot tool with frozen region selection,

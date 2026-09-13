@@ -1,0 +1,79 @@
+blocks:
+- body: '## Make a sound library quick to find and play
+
+
+    Soundboard turns audio files into named, illustrated cards organized through search,
+    favorites, and custom collections. Drag-and-drop imports, reordering, and a shared
+    artwork editor keep the library usable as it grows.
+
+
+    Imports are inspected by content before registration, retaining the original encoded
+    audio with verified duration and format metadata. Sound and collection artwork
+    keep a bounded editing source plus a small final preview, so browsing does not
+    repeatedly decode full-size images.'
+  id: blk_placeholder
+  type: text
+- body: '## Edit the clip without losing its identity
+
+
+    Each sound has a permanent UUID independent of its filename, display name, collection,
+    or position. Replacing the source audio preserves that identity and its artwork
+    and collection membership.
+
+
+    The sound editor combines trim edges, per-edge softening, and a volume modifier.
+    Edge auditions make the cut audible before saving, while the machine API exposes
+    the same editing operations with revision guards.'
+  id: blk_soundboard_project_edit
+  type: text
+- body: '## Coordinate playback through a shared service
+
+
+    Cards, CLI calls, hotkeys, and editing auditions submit playback through Discord
+    Injection. That service owns decoding, physical routing, and synchronized outputs;
+    Soundboard controls its library and session preferences. Local speakers and Discord
+    have independent enable and volume settings.
+
+
+    Service events distinguish an accepted request from actual playback and report
+    unavailable outputs. Exact per-sound stop and Stop All stay scoped to Soundboard’s
+    session. Closing the window preserves active jobs and the headless runtime.'
+  id: blk_soundboard_project_playback
+  type: text
+- body: '## Expose the same library to desktop automation
+
+
+    A dynamic Wayfire hotkey provider exports sounds, collections, and bounded artwork
+    previews. Stable UUID-based actions survive renaming, reordering, and restarts.
+    Settings Hub and Wayfire Keybindings own the bindings, while activation enters
+    the same playback path as a card click.
+
+
+    The service is the single writer for supported edits. It persists changes before
+    publishing revisioned deltas to open windows, and an editor with unsaved changes
+    becomes stale when a conflicting backend edit arrives.'
+  id: blk_soundboard_project_integration
+  type: text
+- id: blk_soundboard_project_hud
+  label: 'Desktop HUD: display dynamic hotkey actions and artwork'
+  type: related-mini
+  updateId: doc_1bae14a1f84f4b61998e3e2a1b494876
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/soundboard
+kind: project
+preview:
+  description: An illustrative library preview shows recognizable sound cards, search,
+    favorites, and Stop All.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/soundboard-library-concept.png
+summary: A GTK4 sound library with precise clip editing, searchable collections, stable
+  hotkey actions, and shared playback to Discord, local speakers, or both.
+tags:
+- Python
+- GTK
+- Audio
+- D-Bus
+- Desktop Environment
+title: Soundboard

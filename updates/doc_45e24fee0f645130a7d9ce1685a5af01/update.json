@@ -1,14 +1,28 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_45e24fee0f645130a7d9ce1685a5af01",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
     "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
-    "summary": "Portfolio Editor now combines Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+    "summary": "Built Portfolio Editor to combine Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
     "date": "2026-01-27",
     "prominence": "high",
     "preview": {
-      "src": "media/portfolio-editor-block-assembly-preview.png",
       "description": "Portfolio Editor block palette with colored routes connecting Text, Image, and Gallery blocks to matching sections in a live portfolio page preview",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/portfolio-editor-block-assembly-preview.png",
       "width": 1600,
       "height": 1000
     },
@@ -18,25 +32,6 @@
       "JavaScript",
       "Frontend"
     ],
-    "relationships": {
-      "parts": [
-        "doc_315d02ff658e5615bd31fa3c6f37b793",
-        "doc_cffb55d093aa560f98a27693edf6655b"
-      ],
-      "superseded_by": [
-        "doc_99838d724f435e5188804413bb06c96e"
-      ],
-      "related": [
-        "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-        "doc_1a3826668acb53688961faa991a157f1",
-        "doc_2498489180925748b8347ab97140178d",
-        "doc_34a72e56c32a5cbbae2587ef72aed19d",
-        "doc_0b8d60db909c54b7aad85f168788ca3f",
-        "doc_35acc634705754a2b846a4951e00470a",
-        "doc_7a5e51989c35543baf1b6dbf1a8b793a"
-      ],
-      "latest": "doc_77ba7c83a9375f088f4ea19e1eca1ace"
-    },
     "blocks": [
       {
         "body": "## Turn portfolio site authoring into a visual workflow\n\nPortfolio Editor brings completed Work Reports, project metadata, content blocks, and the rendered detail page into one web application. Its Flask backend reads report records from PostgreSQL and manages Portfolio Site project sources, while the browser keeps those inputs visible within one editing session.\n\nThe interface is divided into Reports, Projects, Blocks, and a live preview. Project source becomes forms and composable blocks, so the page can be shaped and inspected through the same interface that holds its supporting material.",
@@ -63,6 +58,7 @@
       },
       {
         "description": "Screenshot_2026-08-26_15-34-39_Region.png. An expanded Work Report exposes draggable content, artifacts, and metadata beside the portfolio page being assembled.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "assets/Screenshot_2026-08-26_15-34-39_Region.png",
         "type": "image"
@@ -81,10 +77,12 @@
         "images": [
           {
             "description": "Portfolio Editor Projects tab with project metadata controls beside the rendered portfolio page",
+            "kind": "image",
             "src": "media/screenshot_2026-01-27_20-40-46.png"
           },
           {
             "description": "Portfolio Editor Blocks tab with text, image, video, gallery, README, PDF, and group controls beside the rendered detail page",
+            "kind": "image",
             "src": "media/screenshot_2026-01-27_20-40-07.png"
           }
         ],
@@ -98,32 +96,52 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/Screenshot_2026-08-26_15-34-39_Region.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 527,
-        "height": 898
+        "height": 898,
+        "digest": "sha256:d8aa634354efeba80f07c5f8709c4a6c55afaf3f2e7da713fee1eddce159c415",
+        "byte_size": 111316,
+        "animated": false
       },
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:27ed2bd6e821e04b59bac76724e0f57178e223c8025235516b87cd3fcc3582df",
+        "byte_size": 499,
+        "animated": false
       },
       "media/portfolio-editor-block-assembly-preview.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1600,
-        "height": 1000
+        "height": 1000,
+        "digest": "sha256:35722fe907ef6e5d1f70e43112980eef7b11038bc8be96ea01a13f7bbf26e196",
+        "byte_size": 173046,
+        "animated": false
       },
       "media/screenshot_2026-01-27_20-40-07.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1362,
-        "height": 1327
+        "height": 1327,
+        "digest": "sha256:da7bc4b4f5f34a2b18d20d02871a9127086024c5e2285c2abc2baeaffb3a5dad",
+        "byte_size": 167503,
+        "animated": false
       },
       "media/screenshot_2026-01-27_20-40-46.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1362,
-        "height": 1326
+        "height": 1326,
+        "digest": "sha256:3b5b27ed187fffb79b1e1500123f87621a42e07e02da3b3c0f3f319d55c933c0",
+        "byte_size": 184437,
+        "animated": false
       }
     }
   }

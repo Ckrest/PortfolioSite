@@ -1,14 +1,26 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_ed9b9a567c7c4d589dbe92c7abbf3eb6",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ]
+    },
     "title": "Separated package histories with VCSH",
-    "summary": "Constellation now uses VCSH to track packages independently inside one shared workspace, giving every package a formal Git ownership boundary without splitting apart the files that work together.",
+    "summary": "Adopted VCSH to track packages independently inside one shared Constellation workspace, giving each package a formal Git ownership boundary without splitting apart the files that work together.",
     "date": "2026-01-27",
     "prominence": "medium",
     "preview": {
-      "src": "media/vcsh-workspace-preview.png",
       "description": "An isometric shared workspace platform with distinct package modules connected to separate external history archives.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/vcsh-workspace-preview.png",
       "width": 1536,
       "height": 1024
     },
@@ -17,15 +29,6 @@
       "Architecture",
       "Infrastructure"
     ],
-    "relationships": {
-      "part_of": "doc_d05b27abd50b40f9907f78c8a2988d4e",
-      "related": [
-        "doc_33a58a7114d85ff39beca694a533cc59",
-        "doc_37b9d3920c2b5cf3844a9a57a98f602b",
-        "doc_6b15f8dd9ad157659549c358b6c33eaa",
-        "doc_aac3da2ebc5f52a485af8b51f7de2767"
-      ]
-    },
     "blocks": [
       {
         "body": "## Track one workspace package by package\n\nConstellation Framework keeps related tools and services together in one filesystem so they can share integrations and be worked on as a connected environment. A single repository would combine unrelated package histories, while nested repositories would introduce Git boundaries throughout the workspace.\n\nVCSH keeps repository metadata outside the package tree and lets each repository track selected paths inside the shared worktree. A package can stay exactly where the rest of the workspace expects it while retaining its own commits, branches, and remotes.",
@@ -39,23 +42,31 @@
         "type": "mermaid"
       },
       {
-        "body": "## Make repository ownership explicit\n\nEach package now has a defined VCSH repository identity, repository conventions, and ignore rules. Git operations can target that identity instead of inferring ownership from whichever directory happens to be active.\n\nThis formalizes tracking across the workspace: changes can be found across packages, assigned to the repository that owns them, and committed without pulling neighboring package work into the same history. The structure now covers 53 packages, including 10 forks with their own upstream configuration.",
+        "body": "## Make repository ownership explicit\n\nEach package has a defined VCSH repository identity, repository conventions, and ignore rules. Git operations can target that identity instead of inferring ownership from whichever directory happens to be active.\n\nThis formalizes tracking across the workspace: changes can be found across packages, assigned to the repository that owns them, and committed without pulling neighboring package work into the same history. Forks retain their own upstream configuration within the same structure.",
         "type": "text"
       }
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:d66dca22f93e511d7841778675c49a37c754c1910f0828e31174ea45b65613c9",
+        "byte_size": 500,
+        "animated": false
       },
       "media/vcsh-workspace-preview.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1536,
-        "height": 1024
+        "height": 1024,
+        "digest": "sha256:b5887c2f5c13199a432040f3db5be13cc3d1217b4d7cfbd7005f1a49530bc3d4",
+        "byte_size": 2420533,
+        "animated": false
       }
     }
   }

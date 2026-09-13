@@ -1,7 +1,16 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_e231ba92a76357568aec5ed265dbbbc7",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Made Work Report records fully editable",
     "summary": "Expanded one validated edit path to cover report text, tags, timing, commit metadata, Git statistics, status, and artifacts through both the CLI and automation interface.",
     "date": "2026-02-22",
@@ -12,12 +21,6 @@
       "Refactoring",
       "Documentation"
     ],
-    "relationships": {
-      "part_of": "doc_24971e45f3cb5b5489b4d221cbcfdcef",
-      "related": [
-        "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
-      ]
-    },
     "blocks": [
       {
         "body": "## Correct the complete report record\n\n`work-report edit` can change narrative fields, tags, effort, duration, repository links, commit metadata, status, timestamps, Git statistics, and artifacts. The matching automation tool exposes the same arguments, so manual and agent-driven corrections run through the application instead of writing database rows directly.",
@@ -39,12 +42,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:73d8a749947a04214d8bd1392fbbb4bd7ab4c608423fb8d9c80895869e599385",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

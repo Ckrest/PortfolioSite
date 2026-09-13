@@ -1,0 +1,62 @@
+blocks:
+- body: '## Give model output a usable application boundary
+
+
+    A local model becomes more useful when another tool can discover what it supports,
+    supply valid inputs, retrieve the result, and understand a failure. I build those
+    surrounding interfaces as part of the AI workflow.
+
+
+    My work includes local Ollama nodes for ComfyUI, a gateway for saved generation
+    graphs, a model-routing service, and structured narrative memory. Each makes a
+    model capability available through an explicit application contract.'
+  id: blk_placeholder
+  type: text
+- body: '## Make generation repeatable and recoverable
+
+
+    ComfyUI Conduit exposes tagged workflow sockets as named inputs and outputs with
+    types, defaults, and constraints. A caller can submit a generation without depending
+    on internal node IDs.
+
+
+    I extended that interface with durable run records and idempotency keys so retrying
+    the same request retrieves its existing run. Admission, execution, artifact capture,
+    and delivery have separate states. Completed outputs have checksums and download
+    links; an uncertain outcome remains visible for investigation. ComfyUI Image Viewer
+    brings those workflows into the same place where results are browsed and reviewed.'
+  id: blk_outcome_ai_generation
+  type: text
+- body: '## Turn narrative observations into controlled state changes
+
+
+    Narrative Scene Tracker uses focused workers and constrained tool calls to update
+    scene and character memory. Its maintained API accepts a caller-owned snapshot
+    and returns the revised snapshot with a processing trace.
+
+
+    Failed steps discard their mutations. Successful changes are reported as the difference
+    in committed state, and ordered execution events expose model rounds, tool feedback,
+    and completion. This gives a caller both usable memory and a record of how it
+    was produced.'
+  id: blk_outcome_ai_state
+  type: text
+- body: '## Make model selection inspectable
+
+
+    AI Model Gateway discovers configured providers and exposes operation-specific
+    routes for chat, speech, transcription, and embeddings. It checks a request against
+    the supported provider contract and distinguishes stale discovery data from a
+    successful empty catalog.
+
+
+    Local Ollama nodes also carry prompts, generation settings, and chat history explicitly
+    through a ComfyUI graph. Across these tools, the surrounding state and interfaces
+    remain available to the application using the model.'
+  id: blk_outcome_ai_routing
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I turn local models and ComfyUI graphs into callable workflows with validated
+  inputs, durable results, and traces that make failures inspectable.
+title: Build useful AI workflows that run locally

@@ -1,18 +1,18 @@
 /**
  * Featured Section
- * Displays selected updates using the same card styling as timeline
+ * Displays selected documents using the same card styling as timeline
  *
  * Configuration is in site.config.js under `featured`:
- *   items: ['doc_…', 'doc_…', ...]  - Stable update IDs to feature
+ *   items: ['doc_…', 'doc_…', ...]  - Stable document IDs to feature
  *   maxItems: 3                      - Maximum items to display
  *   showDate, showTags, showSummary  - Display options
  */
 
 import { renderEntry } from '../../js/components/update-entry.js';
-import { loadUpdates } from '../../js/data-store.js';
+import { loadDocuments } from '../../js/data-store.js';
 
 export async function init(sectionEl, config) {
-  const container = sectionEl.querySelector('#featured-update');
+  const container = sectionEl.querySelector('#featured-items');
   const status = sectionEl.querySelector('#featured-status');
 
   if (!container) return;
@@ -24,7 +24,7 @@ export async function init(sectionEl, config) {
 
   if (featuredIds.length === 0) {
     if (status) {
-      status.textContent = 'Featured updates coming soon.';
+      status.textContent = 'Featured work coming soon.';
       status.hidden = false;
     }
     container.setAttribute('aria-busy', 'false');
@@ -32,28 +32,29 @@ export async function init(sectionEl, config) {
   }
 
   try {
-    const updates = await loadUpdates(config);
+    const documents = await loadDocuments(config);
+    const documentsById = new Map(documents.map(item => [item.key, item]));
 
-    // Find featured updates by stable ID, maintaining config order
-    const featuredUpdates = featuredIds
-      .slice(0, maxItems)
-      .map(key => updates.find(update => update.key === key))
-      .filter(Boolean); // Remove any not found
+    // Find public documents by stable ID, maintaining config order.
+    const featuredItems = featuredIds
+      .map(key => documentsById.get(key))
+      .filter(Boolean)
+      .slice(0, maxItems);
 
-    if (featuredUpdates.length === 0) {
+    if (featuredItems.length === 0) {
       if (status) {
-        status.textContent = 'Featured updates coming soon.';
+        status.textContent = 'Featured work coming soon.';
         status.hidden = false;
       }
       container.setAttribute('aria-busy', 'false');
       return;
     }
 
-    // Render each featured update using timeline-entry styling
-    const html = featuredUpdates.map(update => {
-      return renderEntry(update, {
+    // All document types share the same entry renderer and resolve their own routes.
+    const html = featuredItems.map(item => {
+      return renderEntry(item, {
         variant: 'timeline',  // Use timeline styling
-        prominence: update.prominence ?? 'medium',
+        prominence: item.prominence ?? 'medium',
         showDate: featuredConfig.showDate ?? true,
         showTags: featuredConfig.showTags ?? true,
         showSummary: featuredConfig.showSummary ?? true,
@@ -75,7 +76,7 @@ export async function init(sectionEl, config) {
   } catch (err) {
     console.error('Featured section error:', err);
     if (status) {
-      status.textContent = 'Unable to load featured updates.';
+      status.textContent = 'Unable to load featured work.';
       status.hidden = false;
     }
     container.setAttribute('aria-busy', 'false');

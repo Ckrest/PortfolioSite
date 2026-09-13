@@ -1,0 +1,37 @@
+blocks:
+- body: '## Load the resolution the gallery needs
+
+
+    The library’s four tile-size presets controlled the layout, but every card still
+    loaded the same thumbnail resolution. I added the selected preset to each thumbnail
+    request. Changing it refreshes the images already visible in the grid.
+
+
+    Compact layouts load smaller WebP previews, while larger tiles request additional
+    detail.'
+  id: blk_comfy_thumbnail_resolution
+  type: text
+- body: '## Cache each size independently
+
+
+    The thumbnail service generates separate cached files for each resolution across
+    both local and remote image sources. Returning to a previously used size can reuse
+    its cached preview, while cache cleanup preserves every valid size variant.
+
+
+    Tests cover preset fallback, distinct cache entries, output dimensions, cache
+    statistics, and cleanup behavior.'
+  id: blk_comfy_thumbnail_cache
+  type: text
+date: '2026-03-02'
+external_url: https://github.com/Ckrest/comfy-viewer
+prominence: low
+summary: Connected Comfy Viewer’s library-size presets to thumbnail generation and
+  caching, letting dense grids load smaller previews while larger tiles retain more
+  detail.
+tags:
+- ComfyUI
+- Python
+- Frontend
+- Performance
+title: Matched Comfy Viewer thumbnail resolution to tile size

@@ -41,10 +41,7 @@ blocks:
   id: blk_artifact_type_alignment
   type: text
 date: '2026-02-22'
-part_of: doc_0b8d60db909c54b7aad85f168788ca3f
 prominence: low
-related_to:
-- doc_3e2b31469eb25cd6a2100944e0e261cc
 summary: Stored each generated file’s descriptor on the successful operation that
   produced it, then aligned discovery and block mappings across the supported evidence
   types.

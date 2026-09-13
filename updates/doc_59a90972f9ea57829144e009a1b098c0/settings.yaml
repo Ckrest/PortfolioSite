@@ -4,8 +4,8 @@ blocks:
 
     I moved the command, curation, machine-readable agent flow, evidence handlers,
     artifact mappings, and migration code under a single installable `work_report`
-    package. The CLI and agent flow now import the same application modules instead
-    of depending on adjacent scripts or the checkout’s working directory.'
+    package. The CLI and agent flow import the same application modules instead of
+    depending on adjacent scripts or the checkout’s working directory.'
   id: blk_work_report_package_story
   type: text
 - description: Work Report package boundary connecting its command entry point, report
@@ -13,6 +13,7 @@ blocks:
     The refactor placed command flow, evidence conversion, and database evolution
     inside one package boundary.
   id: blk_work_report_package_map
+  kind: image
   presentation: intrinsic
   src: media/package-boundary.svg
   type: image
@@ -32,7 +33,6 @@ blocks:
   id: blk_work_report_explicit_transitions
   type: text
 date: '2026-02-11'
-part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
 prominence: low
 summary: Moved Work Report’s command, agent flow, evidence handlers, artifact mapping,
   and database migrations into one installable Python package with explicit artifact

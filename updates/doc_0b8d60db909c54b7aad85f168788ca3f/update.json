@@ -1,14 +1,34 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_0b8d60db909c54b7aad85f168788ca3f",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
     "title": "Built an evidence pipeline from Work Reports to portfolio pages",
     "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
     "date": "2026-01-28",
     "prominence": "high",
     "preview": {
-      "src": "media/artifact-pipeline-preview.svg",
       "description": "Diagram showing typed Work Report artifacts mapped to editable Portfolio Editor blocks and rendered on a portfolio page",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/artifact-pipeline-preview.svg",
       "width": 1600,
       "height": 900
     },
@@ -20,28 +40,9 @@
       "CLI",
       "Migration"
     ],
-    "relationships": {
-      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-      "parts": [
-        "doc_2b0985906a7354fba09c142012446689",
-        "doc_1eb2699b9ef651bd8a19c482f35276f2",
-        "doc_645434a5ee8f550b9e0b237950789066",
-        "doc_3e2b31469eb25cd6a2100944e0e261cc",
-        "doc_472b46319d6948c6bcca4533b716a802",
-        "doc_f1ecee3798b75a698060af0d6fd26b53",
-        "doc_35acc634705754a2b846a4951e00470a",
-        "doc_79abb20a49725d63a0fd541a1aec30d8"
-      ],
-      "related": [
-        "doc_45e24fee0f645130a7d9ce1685a5af01",
-        "doc_1a3826668acb53688961faa991a157f1",
-        "doc_34a72e56c32a5cbbae2587ef72aed19d",
-        "doc_77ba7c83a9375f088f4ea19e1eca1ace"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Capture evidence as typed artifacts\n\nWork Report now attaches screenshots, code samples, terminal output, comparisons, and structured data as typed artifacts. Each record identifies the kind of evidence and carries the content needed to use it again.\n\nThat turns material produced during daily work into structured input for documentation and portfolio authoring.",
+        "body": "## Capture evidence as typed artifacts\n\nWork Report attaches screenshots, code samples, terminal output, comparisons, and structured data as typed artifacts. Each record identifies the kind of evidence and carries the content needed to use it again.\n\nThat turns material produced during daily work into structured input for documentation and portfolio authoring.",
         "type": "text"
       },
       {
@@ -60,23 +61,31 @@
         "type": "text"
       },
       {
-        "body": "## Render the same evidence on the portfolio page\n\nPortfolio Site adds renderers for code, terminal sessions, comparisons, and graphs, along with file handling that carries attached material into the project’s media. Once the editor places and adjusts an artifact, the resulting block renders with the same type-specific presentation on the detail page.\n\nDaily work can now move from report evidence to finished portfolio content without being rebuilt by hand.",
+        "body": "## Render the same evidence on the portfolio page\n\nPortfolio Site adds renderers for code, terminal sessions, comparisons, and graphs, along with file handling that carries attached material into the project’s media. Once the editor places and adjusts an artifact, the resulting block renders with the same type-specific presentation on the detail page.\n\nDaily work can move from report evidence to finished portfolio content without being rebuilt by hand.",
         "type": "text"
       }
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:37d5bb76fef55c5ff02801629595994f21c9d7b2e1097ba71312f45d9fbdb830",
+        "byte_size": 500,
+        "animated": false
       },
       "media/artifact-pipeline-preview.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 1600,
-        "height": 900
+        "height": 900,
+        "digest": "sha256:ee55867a3951c25a1b8045ef5380d6a185491ad508d38d85d379818b095b596c",
+        "byte_size": 13911,
+        "animated": false
       }
     }
   }

@@ -1,23 +1,216 @@
 {
-  "schema": "portfolio-capability-manifest@3",
+  "schema": "portfolio-capability-manifest@4",
   "_generated": {
     "warning": "DO NOT EDIT",
     "source": "capabilities/*/settings.yaml"
   },
   "capabilities": [
     {
-      "slug": "design-connect-multi-tool-systems",
-      "folder": "design-connect-multi-tool-systems",
-      "title": "Design and connect multi-tool software systems",
-      "summary": "This temporary shell connects the registries, desktop services, data stores, reporting tools, and publishing systems that demonstrate this capability.",
-      "evidenceCount": 1
+      "key": "doc_e487482d737e4df7b2287dd2e7adcaec",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+          "doc_0e5d867b381b4cccb0683a20781be5a5",
+          "doc_21878f357de740b59b064fd59ea40121",
+          "doc_c20a72a1aab145e281e072087258ab88",
+          "doc_40b975bbf0a752d28c9b6ad51d28544a",
+          "doc_7ee8d3e7e97d4c6ca3acff195440fb2b",
+          "doc_0a063e0c837f46f99fdad242bca08ca7",
+          "doc_3d1230e329304fae93e2d07de1d3dad4",
+          "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+          "doc_f1ecee3798b75a698060af0d6fd26b53"
+        ],
+        "display_projects": []
+      },
+      "title": "Automate complex processes without losing human review",
+      "summary": "I automate evidence collection and draft assembly while keeping evidence selection, editing, and final acceptance under human control.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_e487482d737e4df7b2287dd2e7adcaec",
+      "folder": "doc_e487482d737e4df7b2287dd2e7adcaec",
+      "evidenceCount": 10
     },
     {
-      "slug": "design-durable-data-evidence-pipelines",
-      "folder": "design-durable-data-evidence-pipelines",
+      "key": "doc_400ced4c989845d69968e64360b7f762",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_1bae14a1f84f4b61998e3e2a1b494876",
+          "doc_72c295c916de4a8288ff9625925f47c6",
+          "doc_f10013d665284f0eab4b31aed67e63c6",
+          "doc_2c3e5c9689394489b1d0e555bd323474",
+          "doc_559a57eb4da2406a9711faaf5796bac7",
+          "doc_d8241fe11819473ebf0a236b0a423da2",
+          "doc_1a911fdf0fc453de94a7cc5537694883",
+          "doc_ea2d2467872d47a3968de829e69afdd6",
+          "doc_004858c24c955a1aa023a9e8eb9c3180",
+          "doc_cc21de6d5b264a068c50022f2200374b"
+        ],
+        "display_projects": []
+      },
+      "title": "Build and extend Linux and Wayland desktop systems",
+      "summary": "I build Linux desktop tools that connect compositor protocols, native interfaces, and local services into precise capture, taskbar, and overlay workflows.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_400ced4c989845d69968e64360b7f762",
+      "folder": "doc_400ced4c989845d69968e64360b7f762",
+      "evidenceCount": 10
+    },
+    {
+      "key": "doc_2b1d59fc95f8495e9ace806dc189f849",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_9dedb7f7cf754d23a4142e12dc70271d",
+          "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+          "doc_fb4ae0f652024b0092d89206152850b4",
+          "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50",
+          "doc_15c718df74405387aac2f6da97bba8bb",
+          "doc_a05b9a8145694765b27174afb9d6e7cb",
+          "doc_2318c76c788c5637af0e620ae4ef352c",
+          "doc_88921a05dc4b5621aa8671b9e48d82dc"
+        ],
+        "display_projects": []
+      },
+      "title": "Build useful AI workflows that run locally",
+      "summary": "I turn local models and ComfyUI graphs into callable workflows with validated inputs, durable results, and traces that make failures inspectable.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_2b1d59fc95f8495e9ace806dc189f849",
+      "folder": "doc_2b1d59fc95f8495e9ace806dc189f849",
+      "evidenceCount": 8
+    },
+    {
+      "key": "doc_4b450a10a1d94230a7b01e6ec9727489",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_9dedb7f7cf754d23a4142e12dc70271d",
+          "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+          "doc_fb4ae0f652024b0092d89206152850b4",
+          "doc_0781ada08d314e838b421fd940a4158c",
+          "doc_1bae14a1f84f4b61998e3e2a1b494876",
+          "doc_9a812d18cf2d4221b0b5ed673f4cdd4f",
+          "doc_72c295c916de4a8288ff9625925f47c6",
+          "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50",
+          "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+          "doc_0e5d867b381b4cccb0683a20781be5a5",
+          "doc_2c3e5c9689394489b1d0e555bd323474",
+          "doc_21878f357de740b59b064fd59ea40121",
+          "doc_c20a72a1aab145e281e072087258ab88",
+          "doc_40b975bbf0a752d28c9b6ad51d28544a",
+          "doc_928919e4fe6e482ca56ab6b4ced543e6",
+          "doc_7ee8d3e7e97d4c6ca3acff195440fb2b",
+          "doc_8456ce492a1e4e5d83dc017b1fa43dc4",
+          "doc_ea2d2467872d47a3968de829e69afdd6",
+          "doc_37bf2b794e6b4dfeac7a0d95c8384040",
+          "doc_a05b9a8145694765b27174afb9d6e7cb",
+          "doc_38811c0e3f5d564f8b840821d6ea52b5",
+          "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
+          "doc_ad539b8c8a6b4d659707514a7ade1427"
+        ],
+        "display_projects": []
+      },
+      "title": "Design and connect multi-tool software systems",
+      "summary": "I connect independently useful tools through explicit ownership, validated contracts, and shared interfaces that let each component evolve.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_4b450a10a1d94230a7b01e6ec9727489",
+      "folder": "doc_4b450a10a1d94230a7b01e6ec9727489",
+      "evidenceCount": 23
+    },
+    {
+      "key": "doc_1206d48b173c44a5a58fba6b48b0b2aa",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+          "doc_0e5d867b381b4cccb0683a20781be5a5",
+          "doc_21878f357de740b59b064fd59ea40121",
+          "doc_c20a72a1aab145e281e072087258ab88",
+          "doc_40b975bbf0a752d28c9b6ad51d28544a",
+          "doc_c16f94bae2aa4771a1352a7cea087bd5",
+          "doc_67721ba68f9e4a97b9f7cd91b31b787a",
+          "doc_2498489180925748b8347ab97140178d",
+          "doc_37bf2b794e6b4dfeac7a0d95c8384040",
+          "doc_79abb20a49725d63a0fd541a1aec30d8",
+          "doc_ad539b8c8a6b4d659707514a7ade1427"
+        ],
+        "display_projects": []
+      },
       "title": "Design durable data and evidence pipelines",
-      "summary": "This temporary shell connects capture-time storage, typed artifacts, shared history, editing, review, and publication into a durable evidence flow.",
-      "evidenceCount": 1
+      "summary": "I preserve evidence with stable identities, retained material, and provenance so it remains usable from the original work record through a reviewed public page.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_1206d48b173c44a5a58fba6b48b0b2aa",
+      "folder": "doc_1206d48b173c44a5a58fba6b48b0b2aa",
+      "evidenceCount": 11
+    },
+    {
+      "key": "doc_288242adad4c40b8881cd949f9543ec3",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_9dedb7f7cf754d23a4142e12dc70271d",
+          "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+          "doc_fb4ae0f652024b0092d89206152850b4",
+          "doc_0781ada08d314e838b421fd940a4158c",
+          "doc_9a812d18cf2d4221b0b5ed673f4cdd4f",
+          "doc_f10013d665284f0eab4b31aed67e63c6",
+          "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50",
+          "doc_2c3e5c9689394489b1d0e555bd323474",
+          "doc_559a57eb4da2406a9711faaf5796bac7",
+          "doc_d8241fe11819473ebf0a236b0a423da2",
+          "doc_c16f94bae2aa4771a1352a7cea087bd5",
+          "doc_928919e4fe6e482ca56ab6b4ced543e6",
+          "doc_8456ce492a1e4e5d83dc017b1fa43dc4",
+          "doc_3d1230e329304fae93e2d07de1d3dad4",
+          "doc_9042fc61c7645236825a709ad3e2474a",
+          "doc_c84281d5fa3b56b5a063455815ed6cc8",
+          "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a"
+        ],
+        "display_projects": []
+      },
+      "title": "Diagnose and harden cross-layer integrations",
+      "summary": "I trace failures across application, service, and protocol boundaries, then make identity, completion, and failure behavior explicit.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_288242adad4c40b8881cd949f9543ec3",
+      "folder": "doc_288242adad4c40b8881cd949f9543ec3",
+      "evidenceCount": 17
+    },
+    {
+      "key": "doc_a230ccdc63be48a886be340d751cad33",
+      "kind": "capability",
+      "connections": {
+        "evidence": [
+          "doc_0781ada08d314e838b421fd940a4158c",
+          "doc_9a812d18cf2d4221b0b5ed673f4cdd4f",
+          "doc_f10013d665284f0eab4b31aed67e63c6",
+          "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+          "doc_ea2d2467872d47a3968de829e69afdd6",
+          "doc_77ba7c83a9375f088f4ea19e1eca1ace",
+          "doc_37bf2b794e6b4dfeac7a0d95c8384040",
+          "doc_add123234fda58f990931774fda8436e",
+          "doc_cec34e8034f1584fa26d7325bc9341e5"
+        ],
+        "display_projects": []
+      },
+      "title": "Modernize software without losing existing behavior",
+      "summary": "I replace platform and application internals while preserving the commands, interactions, and integration contracts that existing users and tools rely on.",
+      "date": "2026-09-12",
+      "prominence": "medium",
+      "icon": "assets/icon.svg",
+      "slug": "doc_a230ccdc63be48a886be340d751cad33",
+      "folder": "doc_a230ccdc63be48a886be340d751cad33",
+      "evidenceCount": 9
     }
   ]
 }

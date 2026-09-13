@@ -103,8 +103,15 @@ async function loadSection(name) {
   const container = document.createElement('div');
   container.innerHTML = html;
 
-  // Return the section element
+  // A fragment must contain one content root with the requested identity.
+  // The timeline uses a div grouping beneath the roadmap's heading. In particular,
+  // never mistake an injected script or an HTML error response for page content.
   const section = container.firstElementChild;
+  if (container.children.length !== 1 || !['header', 'footer', 'section', 'div'].includes(section?.localName)
+      || section.dataset.section !== name) {
+    console.warn(`[site] Section "${name}" returned invalid markup.`);
+    return null;
+  }
   return { section, cssLoaded };
 }
 
@@ -193,7 +200,13 @@ export async function loadSite() {
   const mountRecord = (record, loaded) => {
     const { name } = record.sectionConfig;
     if (!loaded) {
-      record.marker?.remove();
+      const status = document.createElement('p');
+      status.className = 'status section-load-error';
+      status.dataset.sectionError = name;
+      status.setAttribute('role', 'status');
+      const label = name === 'hero' ? 'introduction' : name === 'timeline' ? 'work' : name;
+      status.textContent = `Unable to load ${label}. Refresh to try again.`;
+      record.marker?.replaceWith(status);
       outcomes.set(name, { mounted: false, cssLoaded: false });
       return;
     }

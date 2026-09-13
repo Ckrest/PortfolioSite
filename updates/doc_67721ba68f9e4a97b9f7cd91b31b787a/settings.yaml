@@ -1,0 +1,74 @@
+blocks:
+- body: '## Make every artifact traceable
+
+
+    Work Report began requiring three details for every artifact: the operation that
+    created it, its source path, and the version of the provenance rules it followed.
+    That makes an artifact’s origin a required part of its record instead of optional
+    metadata.
+
+
+    Screenshots, diagrams, diffs, and generated files can be traced back to their
+    source, while incomplete records are stopped before moving further through the
+    pipeline.'
+  id: blk_artifact_provenance_origin
+  type: text
+- id: blk_relationship_context_2b0985906a73
+  label: 'Operation output records: the source of evidence candidates'
+  type: related-mini
+  updateId: doc_2b0985906a7354fba09c142012446689
+- code: "flowchart LR\n  CAP[\"Captured\"] --> OP[\"Producing<br/>operation\"]\n \
+    \ HIST[\"Historical\"] --> BACK[\"Synthetic<br/>import\"]\n  OP --> ART[\"Artifact\
+    \ record<br/>operation + path + v2\"]\n  BACK --> ART\n  ART --> CHECK{\"Complete?\"\
+    }\n  CHECK -->|Yes| EDITOR[\"Portfolio Editor<br/>staged image intake\"]\n  CHECK\
+    \ -->|No| STOP[\"Stop save\"]"
+  description: Both captured and historical evidence must be traceable before Portfolio
+    Editor can save it.
+  id: blk_artifact_provenance_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Migrate history without discarding evidence
+
+
+    Hundreds of retained artifacts were created before those rules existed. The migration
+    kept them by creating consistent import records and linking each older artifact
+    to one.
+
+
+    It migrated 711 artifacts through 100 backfill operations with no unresolved rows
+    left. A validation command checked the full store and kept incomplete records
+    from returning.'
+  id: blk_artifact_provenance_history
+  type: text
+- body: '## Carry the same checks into Portfolio Editor
+
+
+    Dropped images appear in the preview immediately, before the files are saved.
+    When Save is pressed, the backend stores the images and replaces their temporary
+    references with durable paths.
+
+
+    If any image cannot be resolved, the save stops. This keeps drag-and-drop responsive
+    without letting temporary preview data enter the saved project.'
+  id: blk_artifact_provenance_editor
+  type: text
+date: '2026-02-28'
+preview:
+  description: Captured and historical evidence converging on an artifact record with
+    operation, source path, and provenance version fields before Portfolio Editor
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/artifact-provenance-contract.svg
+prominence: medium
+summary: Made every artifact traceable to its source, brought 711 older artifacts
+  into the same system, and stopped unresolved images from being saved.
+tags:
+- Python
+- PostgreSQL
+- Infrastructure
+- Architecture
+- Migration
+- Frontend
+title: Made every artifact traceable from source to portfolio

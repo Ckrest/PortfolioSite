@@ -1,0 +1,89 @@
+blocks:
+- body: '## Manage a connected workspace without losing package boundaries
+
+
+    My workspace combines desktop applications, command-line tools, AI services, and
+    the integrations between them. Keeping that collection coherent requires more
+    than a list of repositories: dependencies, installed commands, service state,
+    source ownership, and validation all affect what can run.
+
+
+    I built Constellation Framework to describe those facts explicitly and manage
+    the outcomes that depend on them. Packages provide their own intent and integration
+    facts; shared definitions supply reusable behavior.'
+  id: blk_placeholder
+  type: text
+- body: '## Separate package facts from shared behavior
+
+
+    A manifest declares a package''s identity, administrative state, worktree boundaries,
+    capabilities, and relationships. The framework resolves those declarations against
+    controlled definitions for services, environments, source updates, builds, installation,
+    and publication.
+
+
+    That gives different package types a common management model while preserving
+    their own runtimes and application data. A compatible improvement to shared behavior
+    can reach its consumers without repeating the implementation in every package.'
+  id: blk_constellation_project_contracts
+  type: text
+- body: '## Request an outcome, then verify its effects
+
+
+    A request identifies the work to pursue. Constellation resolves the relevant inputs,
+    dependencies, handler, authority, validation, and recovery boundary before a managed
+    change. Compatible prerequisite work can be shared, and sufficiently current evidence
+    can satisfy a requirement without repeating execution.
+
+
+    Producing a build is distinct from installing it or activating a consumer. Each
+    operation verifies the postcondition it claims, so a completed command can be
+    understood in terms of what actually changed.'
+  id: blk_constellation_project_outcomes
+  type: text
+- code: 'constellation find portfolio
+
+    constellation evaluate portfolio-editor
+
+    constellation inspect RUN_ID'
+  description: Discovery locates a package, evaluation records findings, and inspection
+    follows the evidence for a saved result. RUN_ID stands for the returned evaluation
+    identifier.
+  id: blk_constellation_project_cli
+  language: bash
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Make maintenance conclusions inspectable
+
+
+    Evaluation composes the applicable requirements for selected packages and records
+    the conclusions with supporting evidence. Findings distinguish conformance problems,
+    contextual constraints, and uncertainty. Their suggested responses help a maintainer
+    choose the next action.
+
+
+    The project''s evolution includes manifest-based discovery, independent package
+    histories, declarative registry behavior, installed Python command boundaries,
+    and fleet-wide ownership audits. Those milestones remain in the timeline while
+    this overview describes the maintained management model.'
+  id: blk_constellation_project_evidence
+  type: text
+date: '2026-09-12'
+kind: project
+preview:
+  description: Package facts, shared definitions, and relationships inform a request
+    plan whose managed outcome is executed and verified.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/constellation-overview.svg
+summary: A declarative framework for discovering, evaluating, and managing a software
+  workspace through explicit package contracts and verified outcomes.
+tags:
+- Python
+- Architecture
+- Infrastructure
+- CLI
+- Automation
+title: Constellation Framework

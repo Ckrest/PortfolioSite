@@ -1,0 +1,95 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_58be4e46150d43de9dcf8d6671b784c5",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9a812d18cf2d4221b0b5ed673f4cdd4f"
+      ],
+      "display_projects": [
+        "doc_9a812d18cf2d4221b0b5ed673f4cdd4f"
+      ]
+    },
+    "title": "Rebuilt Process Manager as a Tauri desktop app",
+    "summary": "Replaced the Python/GTK dashboard with a Rust-backed Tauri app and React interface, adding stable service selection, action feedback, and a shared journal workspace.",
+    "date": "2026-03-01",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/process-manager",
+    "preview": {
+      "description": "Tauri Process Manager interface with services, controls, properties, and live logs",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/screenshot_2026-03-01_15-25-23.png",
+      "width": 1492,
+      "height": 972
+    },
+    "tags": [
+      "Rust",
+      "Tauri",
+      "React",
+      "Systemd"
+    ],
+    "blocks": [
+      {
+        "body": "## Rebuild the desktop app around Tauri\n\nI replaced the Python and GTK interface with a Tauri desktop app backed by Rust and React. Systemd still owns the services themselves; Process Manager remains a console for discovering them, reading their state, and requesting lifecycle actions.\n\nRust places package discovery, systemd status, journal reads, and service controls behind typed Tauri commands. React uses those structured results to render the grouped service list and selected-service workspace without exposing shell calls in the browser layer.\n\nThe launcher was also updated to start the packaged interface from the correct application path, eliminating the stale development-server route that had produced connection failures.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Registry[\"Package manifests<br/>and service traits\"] --> Rust[\"Rust backend\"]\n  React[\"React interface\"] --> Commands[\"Typed Tauri commands\"]\n  Commands --> Rust\n  Rust --> Systemd[\"systemd user manager\"]\n  Rust --> Journal[\"journalctl\"]\n  Systemd --> State[\"Status + lifecycle actions\"]\n  Journal --> Logs[\"Selected or all-service logs\"]\n  State --> Workspace[\"Operator workspace\"]\n  Logs --> Workspace",
+        "description": "React handles the operator workspace while Rust translates typed commands into systemd status, controls, and journal reads.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep controls attached to the selected service\n\nThe Constellation Framework registry and service traits supply the managed units. As polling refreshes their status, the interface preserves the selected service instead of jumping back to the top of the list.\n\nStart, stop, restart, enable, and disable requests are serialized per unit and report their progress in the Action Center. State, properties, and controls therefore stay tied to the same service while an operation runs.",
+        "type": "text"
+      },
+      {
+        "description": "The combined log view brings entries from every discovered service into one filterable workspace.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/process-manager-all-services-logs.png",
+        "type": "image"
+      },
+      {
+        "body": "## Make the journal useful during diagnosis\n\nThe log workspace can follow the selected service or combine entries from every discovered unit. Severity buttons, text filtering, pause, and clear controls make the stream easier to narrow while investigating a failure.\n\nAnchored scrolling follows new entries only when the view is already at the bottom. If the operator scrolls upward, incoming logs do not pull the view away; an unseen-entry count provides a path back to the latest output.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:fbe78ea45e703b0da60709288bd0e39b82b3ae76b3d2ccd592c748e3107ab7e7",
+        "byte_size": 498,
+        "animated": false
+      },
+      "media/process-manager-all-services-logs.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1416,
+        "height": 222,
+        "digest": "sha256:fb3c103279fe6e34e917bb984707afa96875ab12ffd49d5accb9f6fc73caee48",
+        "byte_size": 57471,
+        "animated": false
+      },
+      "media/screenshot_2026-03-01_15-25-23.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1492,
+        "height": 972,
+        "digest": "sha256:2c60bb7f3b17efb1ca6e47a68eb30e656729c9f281509dc87b845f8426c55e91",
+        "byte_size": 213803,
+        "animated": false
+      }
+    }
+  }
+}

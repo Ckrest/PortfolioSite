@@ -1,0 +1,62 @@
+blocks:
+- body: '## Keep evidence useful after its source session ends
+
+
+    A screenshot, source sample, or terminal recording needs both retained material
+    and enough context to explain what it represents. I built the Work Evidence Pipeline
+    and Work Report System around those requirements.
+
+
+    Artifacts keep a stable identity, semantic kind, source locator, review state,
+    and content facts. Reports organize the explanation and selected evidence, while
+    Portfolio Editor can reuse that material in a public page.'
+  id: blk_placeholder
+  type: text
+- body: '## Retain the material when it becomes evidence
+
+
+    I introduced copying at attachment time so reports could retain images, documents,
+    code, terminal output, and structured data independently of temporary source paths.
+    The maintained store keeps local files in an owned corpus and distinguishes them
+    from external references or known-missing material.
+
+
+    Files are staged and moved atomically before the metadata transaction commits.
+    Detaching evidence removes an association while preserving the underlying material,
+    keeping editorial selection separate from storage ownership.'
+  id: blk_outcome_data_retention
+  type: text
+- body: '## Strengthen provenance without discarding history
+
+
+    A provenance migration required each artifact to identify its producing operation,
+    source path, and provenance-rule version. Older evidence was retained through
+    explicit import records: 711 artifacts were linked through 100 backfill operations,
+    with no unresolved rows left by that migration.
+
+
+    The same milestone added a save boundary in Portfolio Editor that stops unresolved
+    image references from entering a saved page. A responsive temporary preview could
+    remain available while durable storage was checked before saving.'
+  id: blk_outcome_data_provenance
+  type: text
+- body: '## Carry meaning into reuse and recovery
+
+
+    Portfolio Editor inspects artifact content before choosing a representation such
+    as a gallery, comparison, chart, or code block. The public page receives selected
+    owned material while the source report retains its private context.
+
+
+    Work Report System supports backups and portable exports that retain identities
+    and ordered associations, with validation of relationships, files, and optional
+    content digests. Portfolio Site builds a verified public artifact from accepted
+    content. These boundaries make the retained evidence useful for recovery as well
+    as presentation.'
+  id: blk_outcome_data_reuse
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I preserve evidence with stable identities, retained material, and provenance
+  so it remains usable from the original work record through a reviewed public page.
+title: Design durable data and evidence pipelines

@@ -26,10 +26,7 @@ blocks:
   id: blk_phone_source_identity
   type: text
 date: '2026-02-19'
-part_of: doc_0b8d60db909c54b7aad85f168788ca3f
 prominence: low
-related_to:
-- doc_a67b241ca49f5f12ba0dcb4badd5ceac
 summary: Extended Work Report’s screenshot collection to recognize phone captures
   as a distinct source while keeping them in the shared evidence-review flow.
 tags:

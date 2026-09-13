@@ -5,7 +5,7 @@ SCRIPT_PATH="$(readlink -f "$0")"
 ROOT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
 CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-BIN_HOME="${HOME}/.local/bin"
+BIN_HOME="${PORTFOLIO_SITE_BIN_HOME:-${HOME}/.local/bin}"
 PRIVATE_CONFIG="$CONFIG_HOME/portfolio-site"
 NODE_BIN="${PORTFOLIO_SITE_NODE:-}"
 if [[ -z "$NODE_BIN" ]]; then
@@ -33,8 +33,21 @@ ln -sfn "$ROOT_DIR/pkg/bin/portfolio-site" "$BIN_HOME/portfolio-site"
 ln -sfn "$ROOT_DIR/pkg/bin/portfolio-site-server" "$BIN_HOME/portfolio-site-server"
 ln -sfn "$ROOT_DIR/pkg/systemd/portfolio-site-local.service" \
   "$CONFIG_HOME/systemd/user/portfolio-site-local.service"
-ln -sfn "$ROOT_DIR/pkg/applications/portfolio-site.desktop" \
-  "$DATA_HOME/applications/portfolio-site.desktop"
+desktop_entry="$DATA_HOME/applications/portfolio-site.desktop"
+if [[ -e "$desktop_entry" || -L "$desktop_entry" ]]; then
+  if [[ -L "$desktop_entry" ]]; then
+    unlink "$desktop_entry"
+  else
+    mkdir -p "$PRIVATE_CONFIG/retired-launchers"
+    mv "$desktop_entry" "$PRIVATE_CONFIG/retired-launchers/portfolio-site-$(date +%s).desktop"
+  fi
+fi
+
+preview_state="${XDG_STATE_HOME:-$HOME/.local/state}/portfolio-site"
+if [[ -f "$preview_state/selected-release.json" ]]; then
+  mkdir -p "$preview_state/retired-selection"
+  mv "$preview_state/selected-release.json" "$preview_state/retired-selection/selected-release-$(date +%s).json"
+fi
 
 login_link="$CONFIG_HOME/systemd/user/default.target.wants/portfolio-site-local.service"
 if [[ -e "$login_link" || -L "$login_link" ]]; then
@@ -43,4 +56,4 @@ fi
 
 systemctl --user daemon-reload
 update-desktop-database "$DATA_HOME/applications" >/dev/null 2>&1 || true
-echo "Installed the on-demand Portfolio Site preview and accepted-pool realizer."
+echo "Installed the on-demand Portfolio Site preview and site release controller."

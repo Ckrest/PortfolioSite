@@ -1,7 +1,16 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_093c398e1d445c8da81519e03e64f233",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Unified Work Report logic across CLI and automation",
     "summary": "Moved Work Report operations into one reusable core and gave YAML, JSON, and CSV evidence a shared loading path.",
     "date": "2026-02-15",
@@ -11,12 +20,6 @@
       "Refactoring",
       "Python"
     ],
-    "relationships": {
-      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-      "related": [
-        "doc_582dd26679fb5519a5a4bf771863f5a6"
-      ]
-    },
     "blocks": [
       {
         "body": "## One core for every caller\n\nWork Report’s report creation, validation, Git inspection, artifact parsing, and storage operations moved into one reusable core. The CLI and automation tools call the same functions instead of carrying separate copies of report behavior.",
@@ -38,12 +41,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:dd267f015a591c56b41a16a72a4d331cd3c1a186648fc5c40f99d75d21dd2ff1",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

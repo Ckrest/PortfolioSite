@@ -1,0 +1,84 @@
+blocks:
+- body: '## Review a growing collection of generated images
+
+
+    ComfyUI can produce many iterations of an idea, but an output folder provides
+    little help with comparing results or finding a useful generation again. I built
+    Comfy Viewer as a local review interface for that collection.
+
+
+    The library combines cached image previews with searchable metadata. A focused
+    viewer provides nearby-image navigation, quicksave, flags, and ratings. These
+    review decisions stay associated with the image while the original output remains
+    available.'
+  id: blk_placeholder
+  type: text
+- description: The focused viewer keeps save, flag, rating, and navigation controls
+    beside the selected image.
+  id: blk_comfy_project_focus
+  kind: image
+  presentation: wide
+  src: media/comfy-viewer-focused.png
+  type: image
+- body: '## Keep live updates from interrupting review
+
+
+    File watching and server notifications bring completed generations into the library.
+    Stable ordering and cursor-based paging let a large collection grow while the
+    viewer keeps its place. Following the newest image receives fresh results; browsing
+    an older image preserves that selection.
+
+
+    The full-resolution image downloads and decodes before replacing the display.
+    Interrupted downloads retry, and superseded requests cannot replace a newer selection.
+    That keeps the image, metadata, and review actions attached to the same result.'
+  id: blk_comfy_project_live
+  type: text
+- body: '## Match the cost of browsing to the view
+
+
+    The library requests thumbnail resolutions that match its tile-size preset. Smaller
+    tiles can use smaller WebP previews, while larger tiles retain additional detail.
+    Separate cache entries make switching sizes inexpensive.
+
+
+    The browser loads a bounded portion of the collection and the focused viewer requests
+    nearby images. These choices keep the interface useful as the output library accumulates.'
+  id: blk_comfy_project_thumbnails
+  type: text
+- body: '## Bring generation controls into the same workspace
+
+
+    With ComfyUI Conduit connected, the viewer can discover configured workflows,
+    display their typed inputs, submit runs, and show generation status. Gallery browsing
+    and focused review retain their own application boundary.
+
+
+    The installable Python package owns configuration, file access, indexing, and
+    browser delivery. Metadata hooks and the optional workflow gateway extend that
+    core through explicit interfaces.'
+  id: blk_comfy_project_workflow
+  type: text
+- id: blk_comfy_project_conduit
+  label: 'ComfyUI Conduit: Workflow Gateway'
+  type: related-mini
+  updateId: doc_6edf82a0d0ac46fba47e6caf1bbaf065
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/comfy-viewer
+kind: project
+preview:
+  description: Comfy Viewer pairs a searchable image grid with optional workflow settings
+    and run controls.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/comfy-viewer-library.png
+summary: A local ComfyUI image library with searchable metadata, focused review, reliable
+  live updates, and optional workflow controls.
+tags:
+- ComfyUI
+- Python
+- JavaScript
+- Frontend
+- Reliability
+title: ComfyUI Image Viewer

@@ -1,15 +1,27 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_bcdd9d2b5fee4d5b99ce3cd33c6357c2",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ],
+      "display_projects": [
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ]
+    },
     "title": "Created a modular content system for portfolio project pages",
     "summary": "Moved each portfolio project into a self-contained folder with its own metadata, assets, and content configuration, then used one shared renderer to assemble README, PDF, structured, and minimal project pages.",
     "date": "2026-01-15",
     "prominence": "high",
     "external_url": "https://github.com/Ckrest/PortfolioSite",
     "preview": {
-      "src": "media/project-module-architecture.svg",
       "description": "Diagram showing a self-contained project folder flowing through a shared renderer into a page composed from reusable content regions",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/project-module-architecture.svg",
       "width": 1600,
       "height": 900
     },
@@ -19,14 +31,9 @@
       "Architecture",
       "Refactoring"
     ],
-    "relationships": {
-      "related": [
-        "doc_6b7f8c754a1e5e9492d306667ad478d2"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Make every project self-contained\n\nI replaced one shared project list and separately authored detail pages with a directory for each project. Each module keeps its `settings.yaml`, preview or icon, and optional README, PDF, screenshots, and other assets together.\n\nThe folder name identifies the project, while its settings define the title, summary, display level, phase, status, links, tags, and content mode. Adding work now means adding one project module that carries its page source with it.",
+        "body": "## Make every project self-contained\n\nI replaced one shared project list and separately authored detail pages with a directory for each project. Each module keeps its `settings.yaml`, preview or icon, and optional README, PDF, screenshots, and other assets together.\n\nThe folder name identifies the project, while its settings define the title, summary, display level, phase, status, links, tags, and content mode. Adding work means adding one project module that carries its page source with it.",
         "type": "text"
       },
       {
@@ -58,17 +65,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:95100473afa71b725d4de2ab80db7b525b3b55d38b90fef5ffe41ca61ab96ac5",
+        "byte_size": 500,
+        "animated": false
       },
       "media/project-module-architecture.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 1600,
-        "height": 900
+        "height": 900,
+        "digest": "sha256:73a375f788de97411587e802c171f289fe5dc13f6d2a6cf5078da52dec6d0b34",
+        "byte_size": 8858,
+        "animated": false
       }
     }
   }

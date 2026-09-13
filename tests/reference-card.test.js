@@ -17,6 +17,7 @@ function installDocument(main) {
 
   globalThis.window = {};
   globalThis.document = {
+    body: { dataset: {} },
     baseURI: 'https://example.test/updates/current/detail.html',
     title: '',
     getElementById: (id) => nodes.get(id) || null,
@@ -43,7 +44,7 @@ test('reference cards link to the selected update from update and capability pag
   installDocument(main);
 
   const updateRenderer = await import('../updates/update-renderer.js');
-  const capabilityRenderer = await import('../capabilities/capability-renderer.js');
+  const capabilityRenderer = updateRenderer;
   const catalog = [{
     key: 'doc_other',
     title: 'Other card',
@@ -60,18 +61,19 @@ test('reference cards link to the selected update from update and capability pag
 
   assert.match(
     main.innerHTML,
-    /class="reference-update-card" href="doc_other\/detail\.html"/,
+    /class="reference-update-card" href="\.\.\/updates\/doc_other\/detail\.html"/,
   );
   assert.match(main.innerHTML, /<h3>Other card<\/h3>/);
   assert.match(main.innerHTML, /<p>The referenced card summary\.<\/p>/);
 
   capabilityRenderer.setUpdateCatalog(catalog);
-  await capabilityRenderer.renderCapability({
+  await capabilityRenderer.renderUpdate({
+    kind: 'capability', key: 'current-capability',
     slug: 'current-capability',
     folder: 'current-capability',
     title: 'Current capability',
     summary: 'Capability summary',
-    content: { blocks: [{ type: 'reference-card', updateId: 'doc_other' }] },
+    blocks: [{ type: 'reference-card', updateId: 'doc_other' }],
   });
 
   assert.match(

@@ -2,7 +2,7 @@ blocks:
 - body: '## Advertise compatible capture formats
 
 
-    The capture source now tells image-copy clients exactly which buffers it can provide:
+    The capture source tells image-copy clients exactly which buffers it can provide:
     ARGB8888 or XRGB8888 through shared memory, or the same formats through DMA-BUF
     with a linear modifier. This gives the compositor and client a common format before
     the first frame is copied, restoring reliable window previews while preserving
@@ -21,10 +21,9 @@ blocks:
   type: code
 date: '2026-01-18'
 external_url: https://github.com/Ckrest/wayfire-toplevel-capture
-part_of: doc_cec34e8034f1584fa26d7325bc9341e5
 prominence: low
 summary: Advertised explicit shared-memory and linear DMA-BUF formats so the compositor
-  and capture client could agree on a frame buffer before copying a window preview.
+  and capture client can agree on a frame buffer before copying a window preview.
 tags:
 - C++
 - Wayland

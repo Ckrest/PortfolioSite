@@ -1,0 +1,47 @@
+blocks:
+- body: '## Look beyond the repository running the tool
+
+
+    An automated Work Report could pick up the MCP runner’s commit when the work had
+    happened in another package. I changed discovery to prefer recent VCSH package
+    commits before falling back to the caller’s working directory. Explicit commit
+    or repository choices keep priority.
+
+
+    This makes repository context less dependent on where the automation service happens
+    to run.'
+  id: blk_git_context
+  type: text
+- code: "commit_candidates = get_report_commit_candidates(\n    primary_commit=report.get(\"\
+    commit\"),\n    hours=hours,\n    reference_time=report.get(\"date\"),\n)"
+  description: Candidate discovery starts with the report’s stored commit and uses
+    its timestamp to search the relevant recent-work interval.
+  filename: core.py
+  id: blk_git_source
+  language: python
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Offer the relevant diff candidates for review
+
+
+    I expanded Git evidence discovery to accept multiple commits, remove duplicate
+    candidates, and retain the repository identity with each diff. Curation can therefore
+    consider several recent changes alongside the report’s selected commit.
+
+
+    Regression cases cover the package-versus-runner mismatch, ordering across repositories,
+    deduplication, and the report’s time window. The resulting evidence remains a
+    candidate set for review.'
+  id: blk_git_result
+  type: text
+date: '2026-03-30'
+kind: update
+prominence: low
+summary: Changed commit discovery to consider recent package work before the tool
+  runner’s repository and made several recent Git diffs available for evidence curation.
+tags:
+- Git
+- Python
+- Automation
+title: Improved commit attribution for automated Work Reports

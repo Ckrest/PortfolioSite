@@ -1,7 +1,18 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_2b0985906a7354fba09c142012446689",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Recorded generated outputs with their producing operations",
     "summary": "Stored each generated file’s descriptor on the successful operation that produced it, then aligned discovery and block mappings across the supported evidence types.",
     "date": "2026-02-22",
@@ -11,12 +22,6 @@
       "Python",
       "Architecture"
     ],
-    "relationships": {
-      "part_of": "doc_0b8d60db909c54b7aad85f168788ca3f",
-      "related": [
-        "doc_3e2b31469eb25cd6a2100944e0e261cc"
-      ]
-    },
     "blocks": [
       {
         "body": "## Keep outputs beside their provenance\n\nSuccessful tool operations carry `_outputs` descriptors in their configuration, including the generated file’s path, type, and metadata. Work Report discovers evidence candidates from those descriptors instead of joining through a separate row created for every generated file.\n\nThe artifact table remains reserved for material explicitly attached to a Work Report, separating generated outputs from curated evidence.",
@@ -38,12 +43,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:80512f5251a0ac612ece7ee8cdb7b71698168e251f2aad82d71ad29ec91bd448",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

@@ -1,0 +1,77 @@
+blocks:
+- body: '## Give local tools one model interface
+
+
+    Model Manager provides a local API for applications that use several AI backends.
+    Clients select a routed model ID without managing each provider’s URL, credentials,
+    or transport. The gateway supports a defined subset of OpenAI-shaped requests
+    for chat, speech, transcription, and embeddings.
+
+
+    The project began as an Ollama job scheduler. Its maintained design now centers
+    on a backend registry, model discovery, operation-aware routing, and provider
+    adapters. The earlier scheduler remains documented in the project timeline.'
+  id: blk_placeholder
+  type: text
+- body: '## Make model compatibility inspectable
+
+
+    A model’s advertised modalities are separate from its callable operations. A route
+    becomes available only when discovery supplies the necessary metadata and the
+    gateway has an operation contract, adapter, and response transport for it.
+
+
+    The management API exposes effective request contracts, route details, and metadata
+    coverage. Validation accounts for provider-specific limitations, translating supported
+    inputs and rejecting requests whose behavior cannot be represented. This includes
+    distinctions between transcription, translation, ordinary speech, and speech with
+    timestamps.'
+  id: blk_model_project_contracts
+  type: text
+- body: '## Preserve useful state when a provider is unavailable
+
+
+    Background discovery coalesces concurrent refreshes and retries failures with
+    bounded backoff. The catalog records whether each provider’s information is fresh,
+    stale, or unavailable, including the age and last successful refresh. A retained
+    catalog expires after 24 hours; a successful empty response removes that provider’s
+    models.
+
+
+    This makes discovery failures visible without presenting them as an empty successful
+    result.'
+  id: blk_model_project_discovery
+  type: text
+- body: '## Bound execution and retain diagnostics
+
+
+    Nonstreaming chat requests can carry correlation IDs and an absolute deadline.
+    The outgoing transport enforces the remaining total deadline, including when an
+    upstream response arrives slowly. On the installed server, caller disconnection
+    also cancels the outgoing transport; remote computation may still continue.
+
+
+    Request and execution IDs survive into logs and responses, and startup preserves
+    rotating diagnostics. These boundaries let other tools distinguish a deadline,
+    an unavailable provider, and a locally rejected request.'
+  id: blk_model_project_execution
+  type: text
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/model-manager
+kind: project
+preview:
+  description: The local gateway discovers and validates routes before dispatching
+    supported operations to configured providers.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/model-manager-gateway.svg
+summary: A local gateway that discovers configured AI models and routes chat, speech,
+  transcription, and embedding requests through explicit provider contracts.
+tags:
+- Python
+- AI
+- API Design
+- Reliability
+- Architecture
+title: AI Model Gateway

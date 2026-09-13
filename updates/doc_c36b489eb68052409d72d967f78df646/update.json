@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_c36b489eb68052409d72d967f78df646",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Polished Daily Check-In for fast, one-screen use",
     "summary": "Added flicker-free day navigation and guarded autosave, then simplified the mobile form so a complete check-in fits on one screen.",
     "date": "2026-02-19",
@@ -12,13 +16,15 @@
       "React Native",
       "UX"
     ],
-    "relationships": {
-      "part_of": "doc_e82215dd546e5acdb4d3a52e36be3ad3"
-    },
     "blocks": [
       {
         "body": "## Move between days without losing work\n\nDay changes use local state and cached entries, avoiding a full screen remount when the user swipes or taps between dates. A guarded two-second autosave records genuine edits, while navigation flushes pending changes before loading the next entry.",
         "type": "text"
+      },
+      {
+        "label": "Daily Check-In: the form and local document model",
+        "type": "related-mini",
+        "updateId": "doc_e82215dd546e5acdb4d3a52e36be3ad3"
       },
       {
         "code": "stateDiagram-v2\n  [*] --> Loading\n  Loading --> Ready: initialize without saving\n  Ready --> Dirty: user edit\n  Dirty --> Ready: debounced save\n  Dirty --> Loading: save before navigation\n  Ready --> Loading: change day",
@@ -38,12 +44,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:95dc3e03950222c39f9205002f93482c9384281b3094b1027791990581026ea9",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

@@ -1,3 +1,4 @@
+import { documentCollection, documentKind, documentUrl } from '../document-model.js';
 /**
  * Shared Update Rendering Utilities
  *
@@ -6,7 +7,8 @@
  * all update rendering contexts.
  */
 
-import { escapeHtml, getMediaType } from '../utils.js';
+import { escapeHtml } from '../utils.js';
+import { renderVisualMedia } from '../media-view.js';
 
 // =============================================================================
 // LINK HANDLING
@@ -19,7 +21,7 @@ import { escapeHtml, getMediaType } from '../utils.js';
  */
 export function getLinkUrl(update) {
   const key = encodeURIComponent(String(update.key || ''));
-  return `updates/${key}/detail.html`;
+  return documentUrl(update);
 }
 
 /**
@@ -46,7 +48,7 @@ export function isExternalLink(update) {
  * @returns {string} CTA text
  */
 export function getCTAText(update) {
-  return 'View update';
+  return `View ${documentKind(update)}`;
 }
 
 // =============================================================================
@@ -60,7 +62,7 @@ export function getCTAText(update) {
  */
 export function getPreviewPath(update) {
   if (!update.preview?.src) return null;
-  return `updates/${update.key}/${update.preview.src}`;
+  return `${documentCollection(update)}/${update.key}/${update.preview.src}`;
 }
 
 /**
@@ -70,7 +72,7 @@ export function getPreviewPath(update) {
  */
 export function getIconPath(update) {
   const icon = update.icon || 'icon.svg';
-  return `updates/${update.key}/${icon}`;
+  return `${documentCollection(update)}/${update.key}/${icon}`;
 }
 
 // =============================================================================
@@ -79,7 +81,6 @@ export function getIconPath(update) {
 
 /**
  * Render media element (image or video) with graceful fallback
- * Handles: jpg, png, gif, svg, webp, avif, mp4, webm
  *
  * @param {string} src - Media source path
  * @param {string} alt - Alt text for images
@@ -88,56 +89,11 @@ export function getIconPath(update) {
  * @returns {string} HTML string
  */
 export function renderMedia(src, alt, placeholder, classPrefix, options = {}) {
-  const mediaType = getMediaType(src);
-  const loading = options.loading === 'eager' ? 'eager' : 'lazy';
-  const priority = options.fetchPriority === 'high' ? ' fetchpriority="high"' : '';
-  const width = Number.isInteger(options.width) && options.width > 0 ? options.width : 640;
-  const height = Number.isInteger(options.height) && options.height > 0 ? options.height : 360;
-  const dimensions = ` width="${width}" height="${height}"`;
-
-  // No valid media - show placeholder
-  if (!src || !mediaType) {
-    return `
-      <img src="${placeholder}"
-           alt="${alt}"
-           ${dimensions}
-           loading="${loading}"
-           decoding="async"${priority}
-           class="${classPrefix}__media-fallback">
-    `;
-  }
-
-  if (mediaType === 'video') {
-    // Video: autoplay loop with poster fallback
-    return `
-      <video autoplay loop muted playsinline
-             poster="${placeholder}"
-             class="${classPrefix}__video"
-             oncanplay="this.classList.add('loaded')"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <source src="${src}" type="video/${src.split('.').pop()}">
-      </video>
-      <img src="${placeholder}"
-           alt="${alt}"
-           ${dimensions}
-           loading="lazy"
-           decoding="async"
-           class="${classPrefix}__media-fallback"
-           style="display: none;">
-    `;
-  }
-
-  // Image (including GIF): standard img with fallback
-  return `
-    <img src="${src}"
-         alt="${alt}"
-         ${dimensions}
-         loading="${loading}"
-         decoding="async"${priority}
-         class="${classPrefix}__image"
-         onload="this.classList.add('loaded')"
-         onerror="this.onerror=null; this.src='${placeholder}'; this.classList.add('fallback');">
-  `;
+  const media = options.media;
+  if (!src || !media) return `<img src="${placeholder}" alt="${alt}" width="640" height="360" loading="lazy" class="${classPrefix}__media-fallback">`;
+  return renderVisualMedia(media, {src, poster: options.poster, controls: false,
+    key: options.key, fit: media.fit, loading: options.loading, width: options.width, height: options.height,
+    className: `${classPrefix}__${media.kind === 'video' ? 'video' : 'image'}`});
 }
 
 // =============================================================================

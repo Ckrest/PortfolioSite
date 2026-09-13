@@ -16,13 +16,14 @@ blocks:
     between compact neighboring entries. The focused timeline entry expands while
     the surrounding work remains visible in sequence.
   id: blk_portfolio_snapshot
+  kind: image
   presentation: intrinsic
   src: timeline.png
   type: image
 - body: '## Keep publishing simple
 
 
-    Project metadata now lives in `projects/projects.json`. The homepage fetches that
+    I moved project metadata into `projects/projects.json`. The homepage fetches that
     file, selects the featured project, sorts the records by date, and renders the
     timeline.
 
@@ -47,6 +48,9 @@ external_url: https://github.com/Ckrest/PortfolioSite
 preview:
   description: Dark portfolio project timeline with one centered project entry expanded
     between compact neighboring entries
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: timeline.png
 prominence: high
 summary: Built a framework-free portfolio that loads project metadata from one JSON

@@ -1,15 +1,29 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_57d88fbcb0345f9ea34a25c70cefb981",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6",
+        "doc_559a57eb4da2406a9711faaf5796bac7"
+      ],
+      "display_projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6",
+        "doc_559a57eb4da2406a9711faaf5796bac7"
+      ]
+    },
     "title": "Made Wayfire window capture resilient and cursor-aware",
     "summary": "Added optional cursor compositing, reliable failure signaling, snapshot fallback for stalled outputs, and output rebinding as captured windows moved between monitors.",
     "date": "2026-02-22",
     "prominence": "medium",
     "external_url": "https://github.com/Ckrest/wayfire-toplevel-capture",
     "preview": {
-      "src": "media/capture-reliability.svg",
       "description": "Three guarded Wayfire capture paths: cursor compositing, watchdog snapshot fallback, and output listener rebinding",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/capture-reliability.svg",
       "width": 1600,
       "height": 900
     },
@@ -18,9 +32,6 @@
       "Wayfire",
       "Wayland"
     ],
-    "relationships": {
-      "part_of": "doc_cec34e8034f1584fa26d7325bc9341e5"
-    },
     "blocks": [
       {
         "body": "## Draw the cursor into captured windows\n\nWhen a capture session requests `paint_cursors`, the source remembers that preference. After each window snapshot, the plugin finds the first visible hardware cursor that intersects the view, converts its position from output coordinates using the cursor hotspot and output scale, and renders the cursor texture into the snapshot buffer.\n\nThe preference is cleared when the last capture session stops, so cursor inclusion remains explicit for the active source.",
@@ -48,17 +59,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:fed01e4515d3bda61216a3de0d6102f9778f30dc6e2d25c84c9c19f38c3b2ebc",
+        "byte_size": 500,
+        "animated": false
       },
       "media/capture-reliability.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 1600,
-        "height": 900
+        "height": 900,
+        "digest": "sha256:3006b4b286f3f5efc4ab79a35fffe4d7e548341a74dd8cce710061b81557461c",
+        "byte_size": 8160,
+        "animated": false
       }
     }
   }

@@ -25,12 +25,9 @@ blocks:
   type: mermaid
 date: '2026-01-21'
 external_url: https://github.com/Ckrest/comfyui-conduit
-part_of: doc_b7183ef2af925346b9755252150a46e0
 prominence: low
-related_to:
-- doc_1edbeaf3b33f5fec9d9b01cc8d66c3ad
 summary: Corrected the optional Constellation Framework event adapter so completed
-  Conduit outputs again published Redis events and appeared immediately in Comfy Viewer.
+  Conduit outputs publish Redis events and appear immediately in Comfy Viewer.
 tags:
 - Redis
 - Debugging

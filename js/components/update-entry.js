@@ -1,3 +1,4 @@
+import { wrapMediaCard } from '../media-view.js';
 /**
  * Update Entry Component
  *
@@ -153,13 +154,13 @@ function renderLarge(update, opts) {
   const { classPrefix, itemId } = opts;
   const linkUrl = resolveEntryLink(update, opts);
   const linkAttrs = getLinkAttrs(update);
-  const previewPath = prefixUpdatePath(getPreviewPath(update), opts);
+  const previewPath = opts.mediaUrl ? opts.mediaUrl(update.preview?.src) : prefixUpdatePath(getPreviewPath(update), opts);
   const placeholderDataUri = generatePlaceholderDataUri(update.title);
   const altText = escapeHtml(update.preview?.description || update.title);
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
   const headingLevel = opts.headingLevel === 3 ? 3 : 4;
 
-  return `
+  return wrapMediaCard(`
     <a class="${classPrefix} ${classPrefix}--large" href="${linkUrl}" ${linkAttrs} data-key="${update.key}" data-prominence="high"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
       <div class="${classPrefix}__header">
         ${renderDate(update, opts)}
@@ -169,6 +170,8 @@ function renderLarge(update, opts) {
         ${renderMedia(previewPath, altText, placeholderDataUri, classPrefix, {
           loading: opts.imageLoading,
           fetchPriority: opts.fetchPriority,
+          media: update.preview, key: `${update.key}:card`,
+          poster: update.preview?.poster ? (opts.mediaUrl ? opts.mediaUrl(update.preview.poster) : prefixUpdatePath(getPreviewPath({...update, preview: {src: update.preview.poster}}), opts)) : '',
           width: update.preview?.width,
           height: update.preview?.height,
         })}
@@ -179,7 +182,7 @@ function renderLarge(update, opts) {
       </div>
       ${renderTags(update.tags, opts)}
     </a>
-  `;
+  `, update.preview);
 }
 
 // =============================================================================
@@ -190,13 +193,13 @@ function renderMedium(update, opts) {
   const { classPrefix, itemId } = opts;
   const linkUrl = resolveEntryLink(update, opts);
   const linkAttrs = getLinkAttrs(update);
-  const previewPath = prefixUpdatePath(getPreviewPath(update), opts);
+  const previewPath = opts.mediaUrl ? opts.mediaUrl(update.preview?.src) : prefixUpdatePath(getPreviewPath(update), opts);
   const placeholderDataUri = generatePlaceholderDataUri(update.title);
   const altText = escapeHtml(update.preview?.description || update.title);
   const itemIdAttr = itemId ? ` data-item-id="${itemId}"` : '';
   const headingLevel = opts.headingLevel === 3 ? 3 : 4;
 
-  return `
+  return wrapMediaCard(`
     <a class="${classPrefix} ${classPrefix}--medium" href="${linkUrl}" ${linkAttrs} data-key="${update.key}" data-prominence="medium"${itemIdAttr}${renderNavigationAttributes(update, opts)}>
       <div class="${classPrefix}__header">
         ${renderDate(update, opts)}
@@ -206,6 +209,8 @@ function renderMedium(update, opts) {
         ${renderMedia(previewPath, altText, placeholderDataUri, classPrefix, {
           loading: opts.imageLoading,
           fetchPriority: opts.fetchPriority,
+          media: update.preview, key: `${update.key}:card`,
+          poster: update.preview?.poster ? (opts.mediaUrl ? opts.mediaUrl(update.preview.poster) : prefixUpdatePath(getPreviewPath({...update, preview: {src: update.preview.poster}}), opts)) : '',
           width: update.preview?.width,
           height: update.preview?.height,
         })}
@@ -216,7 +221,7 @@ function renderMedium(update, opts) {
       </div>
       ${renderTags(update.tags, opts)}
     </a>
-  `;
+  `, update.preview);
 }
 
 // =============================================================================

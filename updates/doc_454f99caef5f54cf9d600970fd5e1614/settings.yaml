@@ -4,14 +4,14 @@ blocks:
 
     I built the node set around a short iteration loop: define pools of prompt fragments,
     queue a generation, freeze the selections that worked, and rerun the rest. Frozen
-    values were stored in the workflow, so refining one part of a prompt did not require
+    values are stored in the workflow, so refining one part of a prompt does not require
     copying the whole combination into a new graph.'
   id: blk_editorial_comfyui-easy-randomize
   type: text
 - code: "flowchart LR\n  Pools[Define item pools] --> Select[Select values]\n  Select\
     \ --> Preview[Generate and preview]\n  Preview --> Freeze[Freeze useful choices]\n\
     \  Freeze --> Select\n  Preview --> Record[Record final selections]"
-  description: Each queue run changed only the selections that were not frozen.
+  description: Each queue run changes only the selections that are not frozen.
   id: blk_easy_randomize_flow
   presentation: content
   sourceMode: inline
@@ -19,30 +19,31 @@ blocks:
 - body: '## Keep the workflow explicit
 
 
-    Item Pool and Smart Selector nodes kept the available choices visible in the graph
-    and supported random or sequential selection. String joiners, template fillers,
-    and a freezable combiner assembled those choices into ordinary ComfyUI inputs
-    instead of hiding prompt construction inside one generator.'
+    Item Pool and Smart Selector nodes keep the available choices visible in the graph
+    and support random or sequential selection. String joiners, template fillers,
+    and a freezable combiner assemble those choices into ordinary ComfyUI inputs instead
+    of hiding prompt construction inside one generator.'
   id: blk_editorial_easy-randomize-workflow
   type: text
-- description: Later captures of the maintained interface show the original selection
-    nodes and the ten-input freezable combiner.
-  fit: contain
+- description: Easy Randomize exposes item pools, selection controls, templates, recording,
+    and image output as visible ComfyUI nodes.
   id: e7f5fe32-e7ef-436e-88c0-fe4becb90964
-  images:
-  - description: ComfyUI Easy Randomize nodes for item pools, random and smart selection,
-      templates, selection recording, and image output
-    src: media/screenshot_2026-02-28_16-56-44-1.png
-  - description: Freezable String Combiner node with ten string inputs, per-input
-      freeze controls, and a freeze-all control
-    src: media/screenshot_2026-02-28_16-57-32.png
-  presentation: wide
-  type: gallery
+  kind: image
+  presentation: intrinsic
+  src: media/screenshot_2026-02-28_16-56-44-1.png
+  type: image
+- description: The freezable combiner gives ten inputs independent freeze controls
+    plus one control for the full set.
+  id: blk_easy_randomize_combiner
+  kind: image
+  presentation: intrinsic
+  src: media/screenshot_2026-02-28_16-57-32.png
+  type: image
 - body: '## Save the choices with the image
 
 
-    Selection Recorder collected the chosen values as JSON, and Save Image with Selections
-    embedded that record in the PNG metadata. A successful generation kept both the
+    Selection Recorder collects the chosen values as JSON, and Save Image with Selections
+    embeds that record in the PNG metadata. A successful generation keeps both the
     image and the inputs that produced it, making the result reproducible without
     relying on memory or a screenshot of the graph.'
   id: blk_editorial_easy-randomize-metadata
@@ -51,6 +52,9 @@ date: '2025-12-19'
 external_url: https://github.com/Ckrest/comfyui-easy-randomize
 preview:
   description: Easy Randomize item pools and selection nodes in ComfyUI
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/screenshot_2026-02-28_16-56-44.png
 prominence: medium
 summary: Built a ComfyUI node set for defining prompt pools, freezing useful selections,

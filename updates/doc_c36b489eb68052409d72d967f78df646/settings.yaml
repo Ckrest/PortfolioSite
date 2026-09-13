@@ -8,6 +8,10 @@ blocks:
     entry.'
   id: blk_editorial_daily-check-in-app-ux-po
   type: text
+- id: blk_relationship_context_e82215dd546e
+  label: 'Daily Check-In: the form and local document model'
+  type: related-mini
+  updateId: doc_e82215dd546e5acdb4d3a52e36be3ad3
 - code: "stateDiagram-v2\n  [*] --> Loading\n  Loading --> Ready: initialize without\
     \ saving\n  Ready --> Dirty: user edit\n  Dirty --> Ready: debounced save\n  Dirty\
     \ --> Loading: save before navigation\n  Ready --> Loading: change day"
@@ -37,7 +41,6 @@ blocks:
   type: text
 date: '2026-02-19'
 external_url: https://github.com/Ckrest/daily-checkin-app
-part_of: doc_e82215dd546e5acdb4d3a52e36be3ad3
 prominence: low
 summary: Added flicker-free day navigation and guarded autosave, then simplified the
   mobile form so a complete check-in fits on one screen.

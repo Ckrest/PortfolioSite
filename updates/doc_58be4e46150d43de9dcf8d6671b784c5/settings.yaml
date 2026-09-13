@@ -1,0 +1,85 @@
+blocks:
+- body: '## Rebuild the desktop app around Tauri
+
+
+    I replaced the Python and GTK interface with a Tauri desktop app backed by Rust
+    and React. Systemd still owns the services themselves; Process Manager remains
+    a console for discovering them, reading their state, and requesting lifecycle
+    actions.
+
+
+    Rust places package discovery, systemd status, journal reads, and service controls
+    behind typed Tauri commands. React uses those structured results to render the
+    grouped service list and selected-service workspace without exposing shell calls
+    in the browser layer.
+
+
+    The launcher was also updated to start the packaged interface from the correct
+    application path, eliminating the stale development-server route that had produced
+    connection failures.'
+  id: blk_process_tauri_story
+  type: text
+- code: "flowchart LR\n  Registry[\"Package manifests<br/>and service traits\"] -->\
+    \ Rust[\"Rust backend\"]\n  React[\"React interface\"] --> Commands[\"Typed Tauri\
+    \ commands\"]\n  Commands --> Rust\n  Rust --> Systemd[\"systemd user manager\"\
+    ]\n  Rust --> Journal[\"journalctl\"]\n  Systemd --> State[\"Status + lifecycle\
+    \ actions\"]\n  Journal --> Logs[\"Selected or all-service logs\"]\n  State -->\
+    \ Workspace[\"Operator workspace\"]\n  Logs --> Workspace"
+  description: React handles the operator workspace while Rust translates typed commands
+    into systemd status, controls, and journal reads.
+  id: blk_process_tauri_boundary
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Keep controls attached to the selected service
+
+
+    The Constellation Framework registry and service traits supply the managed units.
+    As polling refreshes their status, the interface preserves the selected service
+    instead of jumping back to the top of the list.
+
+
+    Start, stop, restart, enable, and disable requests are serialized per unit and
+    report their progress in the Action Center. State, properties, and controls therefore
+    stay tied to the same service while an operation runs.'
+  id: blk_process_tauri_actions
+  type: text
+- description: The combined log view brings entries from every discovered service
+    into one filterable workspace.
+  id: blk_process_tauri_ui
+  kind: image
+  presentation: wide
+  src: media/process-manager-all-services-logs.png
+  type: image
+- body: '## Make the journal useful during diagnosis
+
+
+    The log workspace can follow the selected service or combine entries from every
+    discovered unit. Severity buttons, text filtering, pause, and clear controls make
+    the stream easier to narrow while investigating a failure.
+
+
+    Anchored scrolling follows new entries only when the view is already at the bottom.
+    If the operator scrolls upward, incoming logs do not pull the view away; an unseen-entry
+    count provides a path back to the latest output.'
+  id: blk_process_tauri_logs
+  type: text
+date: '2026-03-01'
+external_url: https://github.com/Ckrest/process-manager
+preview:
+  description: Tauri Process Manager interface with services, controls, properties,
+    and live logs
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/screenshot_2026-03-01_15-25-23.png
+prominence: medium
+summary: Replaced the Python/GTK dashboard with a Rust-backed Tauri app and React
+  interface, adding stable service selection, action feedback, and a shared journal
+  workspace.
+tags:
+- Rust
+- Tauri
+- React
+- Systemd
+title: Rebuilt Process Manager as a Tauri desktop app

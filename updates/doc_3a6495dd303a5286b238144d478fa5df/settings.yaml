@@ -8,12 +8,12 @@ blocks:
     the active Wayland output from the desktop session.'
   id: blk_editorial_wallpaper-service
   type: text
-- description: Desktop Appearance settings showing a live video wallpaper preview
-    and Image, Video, and Solid Color mode controls. Wallpaper controls expose the
-    daemon’s video, image, and solid-color modes while previewing the active background.
+- description: Desktop Appearance shows the active video wallpaper with its mode selector,
+    generic media filename, browse action, and looping control.
   id: blk_wallpaper_controls
+  kind: image
   presentation: intrinsic
-  src: media/wallpaper-controls.png
+  src: media/wallpaper-controls-sanitized.png
   type: image
 - body: '## Keep the last working background
 
@@ -27,11 +27,11 @@ blocks:
   type: text
 - code: "flowchart LR\n  Config[Video, image, or color config] --> Service[Wallpaper\
     \ daemon]\n  Output[Detected Wayland output] --> Service\n  Service --> Replacement[Start\
-    \ replacement renderer]\n  Replacement --> Verify[Verify it stays running]\n \
-    \ Verify --> Handoff[Stop previous renderer]\n  Handoff --> Active[New background\
-    \ active]"
-  description: The daemon brings up and verifies the replacement before releasing
-    the previous background.
+    \ replacement renderer]\n  Replacement --> Check[Check process is still running]\n\
+    \  Check --> Handoff[Stop previous renderer]\n  Handoff --> Active[Replacement\
+    \ remains active]"
+  description: The daemon starts the requested renderer and checks its process before
+    releasing the previous background.
   id: blk_wallpaper_original_flow
   presentation: content
   sourceMode: inline
@@ -39,16 +39,17 @@ blocks:
 date: '2025-12-22'
 external_url: https://github.com/Ckrest/wallpaper-service
 preview:
-  description: Wallpaper service settings hub preview.
-  src: media/wallpaper-controls.png
+  description: Desktop Appearance places the live wallpaper preview beside complete
+    video, image, and solid-color mode controls.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/wallpaper-controls-landscape.png
 prominence: medium
-related_to:
-- doc_d9b73e88fe905abcad8a842e1a6ac92b
-- doc_ff2e48756b8f5bf5aeaee62e5142e744
-summary: Built a Wayland wallpaper daemon that hot-swaps video, image, and solid-color
-  backgrounds without exposing a blank frame between changes.
+summary: Built a Wayland wallpaper daemon that switches among video, image, and solid-color
+  renderers by starting the replacement before releasing the previous background.
 tags:
 - Python
 - Desktop Environment
 - Wayland
-title: Built a wallpaper service with seamless switching
+title: Built a wallpaper service with guarded switching

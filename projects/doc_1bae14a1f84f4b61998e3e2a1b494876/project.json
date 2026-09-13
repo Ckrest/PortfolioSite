@@ -1,0 +1,97 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_1bae14a1f84f4b61998e3e2a1b494876",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_4b450a10a1d94230a7b01e6ec9727489"
+      ],
+      "items": [
+        "doc_ea2d2467872d47a3968de829e69afdd6",
+        "doc_2e4140eb93645e53954507d3aba8c374",
+        "doc_004858c24c955a1aa023a9e8eb9c3180"
+      ],
+      "display_projects": []
+    },
+    "title": "Desktop HUD",
+    "summary": "An editable Wayfire desktop overlay that combines media, live system data, and interactive hotkey panels in reusable scenes.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/desktop-hud",
+    "preview": {
+      "description": "Desktop HUD combines transparent media, graphs, and gauges over the desktop.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/desktop-hud-overview.png",
+      "width": 2560,
+      "height": 1440
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Wayland",
+      "Data Visualization",
+      "Desktop Environment"
+    ],
+    "blocks": [
+      {
+        "body": "## Compose information directly on the desktop\n\nDesktop HUD turns the Wayfire desktop into a configurable surface for images, video, live graphs, gauges, and hotkey panels. I built it to keep useful information and controls visible while leaving the desktop available for ordinary work.\n\nA transparent GTK4 layer-shell window hosts the scene. It normally lets pointer input pass through; edit mode makes elements directly movable and resizable, with handles and snapping to help arrange them.",
+        "type": "text"
+      },
+      {
+        "description": "Edit mode exposes element bounds and resize handles so a scene can be arranged in place.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/desktop-hud-edit-mode.png",
+        "type": "image"
+      },
+      {
+        "body": "## Make a profile describe the complete scene\n\nEach profile records an element’s renderer, data provider or media source, opacity, and geometry. Loading a profile replaces the active element set, so the scene can be reconstructed from its saved definition. Additive profiles merge elements by stable ID, allowing a shared base to support several arrangements.\n\nBundled layouts, user overrides, and the last-used layout have distinct storage roles. The command line and local HTTP API use the same scene model to load profiles and add, update, or remove elements.",
+        "type": "text"
+      },
+      {
+        "body": "## Give each element the right renderer\n\nImages use GdkPixbuf, video uses explicitly selected GStreamer backends, and graph-lib supplies chart and gauge rendering. Separating data providers from rendering lets the same scene combine system measurements with media.\n\nInteractive hotkey panels can show labels, icons, and provider-supplied thumbnails. Thumbnail decoding happens away from the UI thread and uses a cache, with text or icon fallback when a visual is unavailable.",
+        "type": "text"
+      },
+      {
+        "body": "## Treat compositor support as a requirement\n\nDesktop HUD checks Wayfire’s topmost-scene IPC support at startup. Its positioning and focus behavior depend on that integration, so the application reports missing support explicitly. Video also uses an explicit backend choice rather than silently changing playback behavior.\n\nThe result is a desktop composition tool with inspectable scene definitions, direct manipulation, and an API that other local tools can drive.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:39bb8138d5323787fdbaeaef899bd4bafe02c13fc7d1ba35e2e2ac6c0cf32b73",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/desktop-hud-edit-mode.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 540,
+        "height": 650,
+        "digest": "sha256:5e8a3a470b49b08873c0401b1458a8215f0576a0d1b5bf40ead3ab3aadf112ea",
+        "byte_size": 186872,
+        "animated": false
+      },
+      "media/desktop-hud-overview.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:bd5443e23d4867ef2557ed1fd908bd5296308adee9c108132b95bc9b5b876f96",
+        "byte_size": 437900,
+        "animated": false
+      }
+    }
+  }
+}

@@ -1,0 +1,113 @@
+version: 4
+blockRegistry: ../updates/_block-registry.json
+assetContract: ../updates/_asset-contract.json
+relationshipContract: ../updates/_relationship-contract.json
+sections:
+- id: metadata
+  label: Project details
+  fields:
+  - title
+  - summary
+  - date
+- id: connections
+  label: Connections
+  fields:
+  - projects
+  - items
+  - capabilities
+- id: links
+  label: Links
+  collapsed: false
+  fields:
+  - external_url
+- id: media
+  label: Media
+  collapsed: true
+  fields:
+  - preview
+- id: tags
+  label: Tags
+  collapsed: false
+  fields:
+  - tags
+fields:
+  kind:
+    type: enum
+    label: Page type
+    values:
+    - project
+    default: project
+    required: true
+  title:
+    type: text
+    label: Title
+    required: true
+    help: Concrete, sentence-case name that works on both a card and its detail page. Do not
+      add manual line breaks.
+  summary:
+    type: textarea
+    label: Summary
+    required: true
+    help: Describe the current scope and value of this project. Compose the full explanation
+      with blocks.
+  date:
+    type: date
+    label: As of
+    required: true
+    layout: half
+    help: Date represented by this current overview; used to order it in timelines.
+  external_url:
+    type: url
+    label: External link
+    placeholder: https://example.com
+    help: One public destination. GitHub links receive GitHub-specific presentation on the
+      site.
+  preview:
+    type: preview
+    label: Preview
+    placeholder: Choose an image or looping clip
+    assetType: media
+    help: An image or silent looping clip, with a public description. Choose card framing
+      and whether it also appears on the detail page.
+  tags:
+    type: tags
+    label: Tags
+    help: Public topics visitors can use to filter the timeline.
+warnings:
+- id: detail-without-content
+  message: Detail page has no content blocks
+  check:
+    field: _blocks
+    condition: empty-array
+- id: title-manual-line-break
+  message: Title contains a manual line break; let the page wrap it for each viewport
+  check:
+    field: title
+    condition: contains-line-break
+- id: summary-multiple-paragraphs
+  message: Summary contains multiple paragraphs; keep the lead compact and move detail into
+    content blocks
+  check:
+    field: summary
+    condition: multiple-paragraphs
+mediaContract: ../updates/_media-contract.json
+connectionFields:
+  capabilities:
+    type: updates
+    label: Capabilities demonstrated
+    targetKinds:
+    - capability
+    help: Select abilities demonstrated by this work. Each capability timeline updates automatically.
+  items:
+    type: updates
+    label: Project contents
+    targetKinds:
+    - update
+    - project
+    help: Select the updates and projects directly contained in this project.
+  projects:
+    type: updates
+    label: Parent projects
+    targetKinds:
+    - project
+    help: Select larger projects this project belongs to. Cycles are not allowed.

@@ -68,10 +68,12 @@ blocks:
   type: text
 date: '2026-02-22'
 external_url: https://github.com/Ckrest/wayfire-toplevel-capture
-part_of: doc_cec34e8034f1584fa26d7325bc9341e5
 preview:
   description: 'Three guarded Wayfire capture paths: cursor compositing, watchdog
     snapshot fallback, and output listener rebinding'
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/capture-reliability.svg
 prominence: medium
 summary: Added optional cursor compositing, reliable failure signaling, snapshot fallback

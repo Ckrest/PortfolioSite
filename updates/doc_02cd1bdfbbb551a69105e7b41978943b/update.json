@@ -1,14 +1,21 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_02cd1bdfbbb551a69105e7b41978943b",
-    "title": "Proposed a three stage project for applied AI integration",
-    "summary": "Turned an open-ended interest in applied AI into a three-stage engineering proposal, with practical prototypes, review points, documentation, and evaluation built into the plan.",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Proposed a three-stage project for applied AI integration",
+    "summary": "Proposed a three-stage engineering program spanning AI software, robotics hardware, and a final integration project, with reviews and deliverables guiding each phase.",
     "date": "2025-09-15",
     "prominence": "medium",
     "preview": {
-      "src": "preview.png",
       "description": "First page of the independent AI integration program proposal",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "preview.png",
       "width": 1224,
       "height": 984
     },
@@ -19,7 +26,7 @@
     ],
     "blocks": [
       {
-        "body": "## Turn an open-ended goal into a staged program\n\nI wrote this proposal to turn a broad interest in applied AI into a concrete engineering project with phased work, review points, and deliverables. It paired research with implementation: identify useful integration boundaries, build local tools and prototypes, document decisions, and evaluate each stage before expanding the scope.\n\nRather than commit the program to a single model or product, I organized it around three stages that could adapt as the work progressed. Early milestones would establish infrastructure and working methods; later ones would apply them to larger integrations and consolidate the results into reusable systems and documentation. The proposal treated risk, evaluation, and communication as part of the work from the beginning. ",
+        "body": "## Plan from software to physical systems\n\nI wrote the proposal to turn a broad interest in applied AI into a concrete engineering program with three connected phases:\n\n1. **AI & Software** — research practical uses, build local prototypes, and establish evaluation methods.\n2. **Robotics & Hardware** — apply that foundation to sensors, control, and physical engineering constraints.\n3. **Integration & Final Project** — combine the disciplines in a working system and document the result.",
         "type": "text"
       },
       {
@@ -31,17 +38,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:f07a0ccbe418b073ca86a2268f2acbe374608118cb05de7d6d38897ab27cc6e4",
+        "byte_size": 500,
+        "animated": false
       },
       "preview.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1224,
-        "height": 984
+        "height": 984,
+        "digest": "sha256:0c1ebe4e4d8fa681ad0f2f238b07c276bd4eb5a4ab6d40dd46986a19f67caf06",
+        "byte_size": 750589,
+        "animated": false
       }
     }
   }

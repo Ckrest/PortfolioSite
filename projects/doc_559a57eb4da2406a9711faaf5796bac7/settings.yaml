@@ -1,0 +1,79 @@
+blocks:
+- body: '## Make individual windows available to capture clients
+
+
+    Wayfire Window Capture connects the compositor’s window model to the ext image-capture
+    protocols. A client obtains a foreign-toplevel handle, creates a capture source
+    for that window, and requests frames through the image-copy protocol.
+
+
+    I developed the integration to support uses such as live taskbar previews and
+    window-specific screen sharing. The active implementation is now built inside
+    Wayfire Desktop. The original standalone package remains an archived source reference,
+    and its milestones are retained below.'
+  id: blk_placeholder
+  type: text
+- body: '## Use compositor identity to choose the window
+
+
+    The capture manager resolves the handle’s attached view pointer against the compositor’s
+    live views. A valid mapped view with an output becomes the source. Missing or
+    unavailable views produce an inert source instead of selecting another window
+    with a similar name.
+
+
+    That distinction matters when several windows share an application ID and title:
+    display metadata can describe them, while the handle selects the exact view that
+    supplies the pixels.'
+  id: blk_wayfire_project_identity
+  type: text
+- body: '## Keep the frame contract explicit
+
+
+    The maintained implementation snapshots the view when a frame is requested and
+    updates size constraints when its dimensions change. It currently advertises ARGB8888
+    and XRGB8888 shared-memory formats; DMA-BUF constraints are withheld until they
+    can be derived from the actual backing buffer.
+
+
+    Cursor inclusion is checked per frame and rendered into a separate snapshot when
+    requested. Unmapped views, missing buffers, and copy failures follow the protocol’s
+    failure path, giving clients a definite outcome.'
+  id: blk_wayfire_project_frames
+  type: text
+- body: '## Carry reliability work into compositor maintenance
+
+
+    Earlier milestones established distinct capture identities, explicit format negotiation,
+    optional cursors, and recovery during output stalls and monitor changes. Moving
+    the plugin in-tree brought it alongside the Wayfire and wlroots versions whose
+    lifetime and rendering APIs it uses.
+
+
+    The current source owns the capture-source manager and releases snapshot buffers
+    when the final session stops. The project’s history records how those boundaries
+    evolved, including mechanisms specific to the former standalone implementation.'
+  id: blk_wayfire_project_history
+  type: text
+- id: blk_wayfire_project_dock
+  label: 'Docklike: Wayland Taskbar — live previews as a capture client'
+  type: related-mini
+  updateId: doc_f10013d665284f0eab4b31aed67e63c6
+date: '2026-09-12'
+kind: project
+preview:
+  description: An exact toplevel handle resolves to a compositor snapshot and a ready
+    or failed image-copy frame.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/wayfire-capture-current.svg
+summary: A compositor-native Wayfire capture integration that binds each request to
+  an exact window and supplies protocol-managed frames with optional cursor inclusion.
+tags:
+- C++
+- Wayland
+- Wayfire
+- wlroots
+- Image Capture
+title: Wayfire Window Capture

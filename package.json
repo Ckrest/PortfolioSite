@@ -1,15 +1,15 @@
 {
   "name": "portfolio-site",
-  "version": "11.0.1",
+  "version": "16.0.0",
   "type": "module",
-  "description": "Independent static portfolio site with modular update pages",
+  "description": "Static portfolio with updates, projects, and capabilities",
   "scripts": {
     "sync:block-registry": "node updates/_sync-block-registry.js",
     "sync:vendor": "node updates/_sync-vendor.js",
     "check:block-registry": "node updates/_sync-block-registry.js --check",
     "test:unit": "node --test tests/*.test.js",
-    "build:pool": "node updates/_pool-build.js",
-    "test": "bash ./verify.sh"
+    "test": "bash ./verify.sh",
+    "build:release": "node updates/_release-build.js"
   },
   "dependencies": {
     "@highlightjs/cdn-assets": "11.11.1",

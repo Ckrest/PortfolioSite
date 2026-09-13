@@ -42,6 +42,7 @@ blocks:
     exposes draggable content, artifacts, and metadata beside the portfolio page being
     assembled.
   id: b32122ca-1403-406c-8fcd-4ea46d366245
+  kind: image
   presentation: intrinsic
   src: assets/Screenshot_2026-08-26_15-34-39_Region.png
   type: image
@@ -75,9 +76,11 @@ blocks:
   images:
   - description: Portfolio Editor Projects tab with project metadata controls beside
       the rendered portfolio page
+    kind: image
     src: media/screenshot_2026-01-27_20-40-46.png
   - description: Portfolio Editor Blocks tab with text, image, video, gallery, README,
       PDF, and group controls beside the rendered detail page
+    kind: image
     src: media/screenshot_2026-01-27_20-40-07.png
   presentation: wide
   type: gallery
@@ -98,13 +101,13 @@ date: '2026-01-27'
 preview:
   description: Portfolio Editor block palette with colored routes connecting Text,
     Image, and Gallery blocks to matching sections in a live portfolio page preview
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/portfolio-editor-block-assembly-preview.png
 prominence: high
-related_to:
-- doc_a67b241ca49f5f12ba0dcb4badd5ceac
-- doc_1a3826668acb53688961faa991a157f1
-summary: Portfolio Editor now combines Work Report material, structured project fields,
-  seven composable block types, and the Portfolio Site renderer in one split-pane
+summary: Built Portfolio Editor to combine Work Report material, structured project
+  fields, seven composable block types, and the Portfolio Site renderer in one split-pane
   authoring workflow.
 tags:
 - Python

@@ -4,7 +4,7 @@
  * Regenerate: npm run sync:block-registry
  */
 
-export const BLOCK_REGISTRY_VERSION = 8;
+export const BLOCK_REGISTRY_VERSION = 9;
 
 export const BLOCK_FIELD_DEFINITIONS = {
   "id": {
@@ -121,6 +121,21 @@ export const BLOCK_FIELD_DEFINITIONS = {
     "label": "Referenced update",
     "visibility": "structural",
     "description": "Stable ID of the referenced update."
+  },
+  "kind": {
+    "label": "Media kind",
+    "visibility": "structural",
+    "description": "Image or video media kind."
+  },
+  "poster": {
+    "label": "Video poster",
+    "visibility": "structural",
+    "description": "Owned still image displayed before playback."
+  },
+  "playback": {
+    "label": "Playback",
+    "visibility": "structural",
+    "description": "Conventional player or silent looping clip."
   }
 };
 
@@ -161,6 +176,7 @@ export const CANONICAL_BLOCK_META = {
     "description": "Dimension-aware zoomable image",
     "hint": "Attach and describe an image",
     "fields": [
+      "kind",
       "src",
       "description",
       "presentation"
@@ -175,10 +191,13 @@ export const CANONICAL_BLOCK_META = {
     "description": "Local, YouTube, or Vimeo video",
     "hint": "Choose a source and describe it",
     "fields": [
+      "kind",
       "sourceMode",
       "src",
       "description",
-      "presentation"
+      "presentation",
+      "poster",
+      "playback"
     ],
     "allowInGroup": true,
     "hidden": false
@@ -324,8 +343,8 @@ export const CANONICAL_BLOCK_META = {
     "type": "related-mini",
     "label": "Related Mini",
     "icon": "↗",
-    "description": "Compact contextual update link",
-    "hint": "Link to a nearby update",
+    "description": "Compact inline context for another update",
+    "hint": "Add context at this point in the page",
     "fields": [
       "updateId",
       "label"
@@ -337,8 +356,8 @@ export const CANONICAL_BLOCK_META = {
     "type": "reference-card",
     "label": "Reference Card",
     "icon": "↗",
-    "description": "Standalone related update card",
-    "hint": "Reference another update",
+    "description": "Expanded inline context for another update",
+    "hint": "Summarize a related update here",
     "fields": [
       "updateId"
     ],
@@ -366,6 +385,7 @@ export const CANONICAL_BLOCK_CONTRACTS = {
   "image": {
     "allowEmptySave": true,
     "renderRequiredAll": [
+      "kind",
       "src",
       "description",
       "presentation"
@@ -385,10 +405,12 @@ export const CANONICAL_BLOCK_CONTRACTS = {
   "video": {
     "allowEmptySave": true,
     "renderRequiredAll": [
+      "kind",
       "sourceMode",
       "src",
       "description",
-      "presentation"
+      "presentation",
+      "playback"
     ],
     "renderRequiredAny": [],
     "skipRenderIfIncomplete": false,
@@ -405,7 +427,8 @@ export const CANONICAL_BLOCK_CONTRACTS = {
       "default": "local",
       "modes": {
         "local": [
-          "src"
+          "src",
+          "poster"
         ],
         "youtube": [
           "src"

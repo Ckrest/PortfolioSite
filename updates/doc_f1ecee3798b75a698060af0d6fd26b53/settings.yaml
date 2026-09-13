@@ -2,8 +2,8 @@ blocks:
 - body: '## Stage evidence before attachment
 
 
-    Work Report now gathers discovered evidence in a PostgreSQL staging pool instead
-    of attaching every nearby file immediately. Each candidate enters as pending with
+    Work Report gathers discovered evidence in a PostgreSQL staging pool instead of
+    attaching every nearby file immediately. Each candidate enters as pending with
     its source path, artifact type, metadata, and an optional link to the shared artifact
     record.
 
@@ -35,11 +35,9 @@ blocks:
   id: blk_curate_candidate_set
   type: text
 date: '2026-01-29'
-part_of: doc_0b8d60db909c54b7aad85f168788ca3f
 prominence: low
-summary: Work Report now gathers captured evidence into a staging pool where it can
-  be scored, captioned, approved, or rejected before the approved set is copied into
-  report-owned storage.
+summary: Added a Work Report staging pool where captured evidence can be scored, captioned,
+  approved, or rejected before the approved set is copied into report-owned storage.
 tags:
 - Python
 - PostgreSQL

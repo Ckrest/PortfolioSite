@@ -1,0 +1,97 @@
+blocks:
+- body: '## Make a workflow callable from another tool
+
+
+    A useful ComfyUI workflow can contain a large graph even when its caller needs
+    to provide only a prompt, a few settings, and an output destination. I built Conduit
+    to give that graph an explicit external interface.
+
+
+    Workflow authors tag input and output sockets and save the definition. Conduit
+    exposes their names, types, defaults, and constraints so a client can prepare
+    a request without depending on internal node IDs.'
+  id: blk_placeholder
+  type: text
+- body: '## Give each request a durable run
+
+
+    A valid request creates a run record before submission to ComfyUI and returns
+    a status resource immediately. The required idempotency key lets a caller retry
+    the same submitted work and recover its existing run.
+
+
+    Admission, execution, artifact capture, and optional delivery have separate states.
+    A client can distinguish a rejected request from failed execution or incomplete
+    delivery. Reconciliation checks the ComfyUI queue and history when an unfinished
+    run''s outcome remains observable.'
+  id: blk_conduit_project_runs
+  type: text
+- code: 'POST /conduit/runs/MyWorkflow
+
+    X-Conduit-Version: 1
+
+    X-Conduit-Caller: portfolio-example
+
+    Idempotency-Key: render-001
+
+    Content-Type: application/json
+
+
+    {"inputs":{"prompt":"a sunset over mountains","steps":30}}'
+  description: An illustrative caller supplies tagged inputs and a stable request
+    identity, then follows the returned run resource.
+  id: blk_conduit_project_example
+  language: http
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Validate inputs and preserve the outcome
+
+
+    Unknown request fields, inputs, and handlers are rejected at the gateway. Saved
+    defaults supply omitted values, and supported coercions and workflow transformations
+    prepare the graph before ComfyUI admission.
+
+
+    The run retains its workflow revision and lifecycle record. An uncertain upstream
+    or handler outcome remains visible as unknown, allowing the caller to investigate
+    without an automatic duplicate generation or repeated delivery.'
+  id: blk_conduit_project_boundaries
+  type: text
+- body: '## Return portable artifacts
+
+
+    Tagged outputs become a manifest with artifact identities, media information,
+    byte sizes, checksums, and download links. Clients retrieve the declared results
+    through the run resource. Server paths and private request context stay behind
+    the service boundary.
+
+
+    Comfy Viewer uses this interface for its optional workflow controls. Other local
+    tools can use the same contract, while registered handlers provide a separate
+    integration point for completed outputs.'
+  id: blk_conduit_project_artifacts
+  type: text
+- id: blk_conduit_project_viewer
+  label: 'ComfyUI Image Viewer: browsing and running workflows'
+  type: related-mini
+  updateId: doc_fb4ae0f652024b0092d89206152850b4
+date: '2026-09-12'
+external_url: https://github.com/Ckrest/comfyui-conduit
+kind: project
+preview:
+  description: Tagged KSampler inputs and outputs define the workflow interface that
+    an external caller can use.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/conduit-socket-tags.png
+summary: A ComfyUI gateway that turns tagged workflow sockets into typed inputs, durable
+  runs, and downloadable output artifacts.
+tags:
+- ComfyUI
+- Python
+- API Design
+- Reliability
+- Architecture
+title: 'ComfyUI Conduit: Workflow Gateway'

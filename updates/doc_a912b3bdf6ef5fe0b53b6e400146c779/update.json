@@ -1,9 +1,13 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_a912b3bdf6ef5fe0b53b6e400146c779",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Added a keyboard toggle for the OBS virtual camera",
-    "summary": "Created a keyboard shortcut that started RVM background removal, launched OBS minimized with its virtual camera active, and stopped both processes on the next press.",
+    "summary": "Created a keyboard shortcut that starts the background-removal and OBS camera processes in order, then stops both from the same desktop action.",
     "date": "2025-12-08",
     "prominence": "low",
     "external_url": "https://github.com/Ckrest/virtual-camera-toggle",
@@ -11,27 +15,19 @@
       "Bash",
       "CLI"
     ],
-    "relationships": {
-      "related": [
-        "doc_51bf8adf26645d2e85771fe2390cd999"
-      ]
-    },
     "blocks": [
       {
-        "body": "## Make the camera a desktop action\n\nI bound the command to Super+O in Wayfire so I could control the camera without bringing OBS to the foreground. Desktop notifications confirmed when the pipeline was ready or stopped, leaving OBS minimized and the workflow out of the way.",
+        "body": "## Toggle the two-part camera pipeline\n\nI bound Super+O in Wayfire so the virtual camera can start and stop without bringing OBS to the foreground. On start, the script launches RVM, waits up to about five seconds for its output device to become active, warns if that bounded check times out, and then launches OBS minimized. The check sequences the handoff; it does not claim an end-to-end camera verification.\n\nIf either OBS or RVM is already running, the same shortcut stops OBS and then RVM. Process checks keep repeated presses from leaving one half of the pipeline behind, while desktop notifications report the requested transition.",
         "type": "text"
       },
       {
+        "label": "RVM Virtual Camera: the background-removal stage",
         "type": "related-mini",
         "updateId": "doc_51bf8adf26645d2e85771fe2390cd999"
       },
       {
-        "body": "## Coordinate the camera pipeline\n\nThe command waited for RVM’s output device before starting OBS, then shut the two processes down in reverse order. Process checks kept repeated shortcut presses from leaving either half of the camera pipeline running by itself.",
-        "type": "text"
-      },
-      {
-        "code": "flowchart TD\n  A[Press Super+O] --> B{Is the camera pipeline running?}\n\n  B -- No --> C[Start RVM background removal]\n  C --> D[Wait for the processed camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]",
-        "description": "The shortcut checked the camera pipeline, then started or stopped its two parts in order.",
+        "code": "flowchart LR\n  Press[Press Super+O] --> Running{OBS or RVM running?}\n  Running -- No --> StartRVM[Start RVM]\n  StartRVM --> Check[Bounded output-device check]\n  Check --> StartOBS[Launch OBS minimized]\n  Running -- Yes --> StopOBS[Stop OBS]\n  StopOBS --> StopRVM[Stop RVM]",
+        "description": "The shortcut starts the two processes in order or stops both when either half is already running.",
         "presentation": "content",
         "sourceMode": "inline",
         "type": "mermaid"
@@ -39,12 +35,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:c6418047bf7fd23c16572c1bfe164f99ad1c122c16d77352533d1ad8861c9264",
+        "byte_size": 499,
+        "animated": false
       }
     }
   }

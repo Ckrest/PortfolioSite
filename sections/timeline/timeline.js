@@ -530,5 +530,5 @@ function updateFilterSummary(container, visibleCount = getVisibleItemCount()) {
   const totalLabel = `${visibleCount} of ${totalUpdates} entries`;
   results.textContent = selectedTags.size > 0
     ? `Showing ${totalLabel} for ${Array.from(selectedTags).join(' or ')}`
-    : `Showing all ${totalUpdates} projects and updates`;
+    : `Showing all ${totalUpdates} update${totalUpdates === 1 ? '' : 's'}`;
 }

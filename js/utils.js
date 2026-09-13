@@ -3,27 +3,6 @@
  * Common functions used across the portfolio site
  */
 
-// Media type constants
-const VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov'];
-const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif', 'avif'];
-
-/**
- * Get media type from file path
- * @param {string} path - File path or URL
- * @returns {'video' | 'image' | null} Media type
- */
-export function getMediaType(path) {
-  if (!path) return null;
-
-  const ext = path.split('.').pop()?.toLowerCase();
-  if (!ext) return null;
-
-  if (VIDEO_EXTENSIONS.includes(ext)) return 'video';
-  if (IMAGE_EXTENSIONS.includes(ext)) return 'image';
-
-  return null;
-}
-
 /**
  * Escape HTML special characters
  */
@@ -41,7 +20,7 @@ export function escapeHtml(str) {
  */
 export function formatDate(isoString) {
   if (!isoString) return '';
-  const date = new Date(isoString);
+  const date = new Date(/^\d{4}-\d{2}-\d{2}$/.test(isoString) ? `${isoString}T00:00:00` : isoString);
   if (Number.isNaN(date.getTime())) return '';
   return new Intl.DateTimeFormat('en', {
     month: 'short',

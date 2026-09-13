@@ -1,14 +1,29 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_2318c76c788c5637af0e620ae4ef352c",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_2b1d59fc95f8495e9ace806dc189f849"
+      ],
+      "projects": [
+        "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50"
+      ],
+      "display_projects": [
+        "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50"
+      ]
+    },
     "title": "Built a local AI scene-tracking pipeline",
     "summary": "Built an agent pipeline that turns narrative messages into typed scene state through focused worker loops and constrained tool calls.",
     "date": "2026-02-15",
     "prominence": "medium",
     "preview": {
-      "src": "media/stitched.png",
       "description": "Illustrated tavern scene beside structured scene-state JSON",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/stitched.png",
       "width": 1405,
       "height": 1069
     },
@@ -19,11 +34,6 @@
       "API Design",
       "Workflow Orchestration"
     ],
-    "relationships": {
-      "related": [
-        "doc_d5f1ae0b35e150ff97749a0ddbcaa1d8"
-      ]
-    },
     "blocks": [
       {
         "body": "## Turn narrative input into structured state\n\nScene Tracker processes each message as a state-building task. It combines the message with the current chat state, runs the configured agents, and returns an updated scene.\n\nUseful details become typed characters, objects, locations, and scene context that the next message can reuse.",
@@ -60,17 +70,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:c393d32df2598ee40f1cf2408f162c5e399c90605face9430bf19dbcf3dfce25",
+        "byte_size": 499,
+        "animated": false
       },
       "media/stitched.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1405,
-        "height": 1069
+        "height": 1069,
+        "digest": "sha256:23c18609018f264e204bc9da3e7e1b03b3d9503aefbbbe0082a8c1b07217cc42",
+        "byte_size": 1287031,
+        "animated": false
       }
     }
   }

@@ -1,0 +1,87 @@
+blocks:
+- body: '## Give independent tools one live dashboard interface
+
+
+    I extended Desktop Settings Hub so packages can provide named data sources and
+    actions through their own commands. The shared GTK interface binds those results
+    to charts, statistics, tables, and controls.
+
+
+    Night Mode, the network monitor, and Soundboard gained machine-readable status
+    interfaces for that model. Each package retains its operating rules while the
+    Hub supplies the common presentation and interaction.'
+  id: blk_dash_context
+  type: text
+- code: "flowchart TB\n PKG[\"Package commands\"] --> SOURCES[\"Named data sources\"\
+    ]\n SOURCES --> VIEW[\"Charts, tables, and status tiles\"]\n USER[\"User action\"\
+    ] --> ACTION[\"Background command with progress feedback\"]\n ACTION --> PKG\n\
+    \ TAB[\"Tab activation\"] --> BIND[\"Bind live subscriptions\"]\n BIND --> VIEW\n\
+    \ LEAVE[\"Tab deactivation\"] --> RELEASE[\"Release subscriptions\"]\n RELEASE\
+    \ --> TAB"
+  description: Commands provide data and actions, while tab lifecycle controls the
+    subscriptions that keep the shared views current.
+  id: blk_dash_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Make the data and controls readable
+
+
+    Graph and gauge tiles gained configurable axes, labels, ranges, thresholds, and
+    annotations. Missing measurements break the plotted line rather than being drawn
+    through as if data existed.
+
+
+    Long-running actions execute away from the GTK event loop and show running, success,
+    or failure feedback. Dynamic tab labels can display dates from their source data,
+    allowing the same layout to present a changing set of day views.'
+  id: blk_dash_visuals
+  type: text
+- id: blk_relationship_context_2ae1e22a4ed9
+  label: 'Sleep Tracker: a dashboard using shared day and week data'
+  type: related-mini
+  updateId: doc_2ae1e22a4ed957048348c988b376312f
+- body: '## Keep cached pages live when revisited
+
+
+    I traced a refresh inconsistency to subscriptions that were released when a tab
+    closed and never rebound when its cached page returned. A shared lifecycle hook
+    recreates those subscriptions on activation and clears them on deactivation.
+
+
+    The page keeps its cached widgets while its live connections follow whether it
+    is active. Regression checks cover rebinding and redundant activation, keeping
+    navigation from silently disconnecting the dashboard.'
+  id: blk_dash_lifecycle
+  type: text
+- code: "def _activate():\n    if state[\"active\"]:\n        return\n    unsubscribers:\
+    \ list[Callable[[], None]] = []\n    try:\n        unsubscribers = setup_subscriptions()\
+    \ or []\n    except Exception:\n        # Keep state inactive so a future activate\
+    \ can retry.\n        raise\n    state[\"unsubscribers\"] = list(unsubscribers)\n\
+    \    state[\"active\"] = True"
+  description: The activation callback restores subscriptions once and leaves failed
+    setup retryable.
+  filename: helpers.py
+  id: blk_dash_source
+  language: python
+  presentation: content
+  sourceMode: inline
+  type: code
+date: '2026-03-02'
+kind: update
+preview:
+  description: A shared interface for independently maintained tools.
+  fit: contain
+  kind: image
+  placement: cards-only
+  src: media/dashboards-overview.svg
+prominence: low
+summary: Extended Desktop Settings Hub with package-owned command sources, richer
+  charts, responsive actions, and live bindings that reconnect when cached tabs are
+  reopened.
+tags:
+- GTK
+- Python
+- Data Visualization
+- Architecture
+title: Built live dashboards from package-owned data sources

@@ -46,10 +46,10 @@ function markdownReferences(markdown, markdownPath) {
 
 export async function loadAssetContract(path) {
   const contract = JSON.parse(await readFile(path, 'utf8'));
-  if (contract?.schema !== 'portfolio-site/asset-contract@1'
+  if (contract?.schema !== 'portfolio-site/asset-contract@2'
       || !Array.isArray(contract.metadata)
       || !contract.blocks || typeof contract.blocks !== 'object') {
-    throw new Error(`Asset contract must use portfolio-site/asset-contract@1: ${path}`);
+    throw new Error(`Asset contract must use portfolio-site/asset-contract@2: ${path}`);
   }
   return contract;
 }
@@ -97,8 +97,7 @@ export async function collectDeclaredAssets(entity, contract, { root }) {
       if (block.type === 'group') visitBlocks(block.blocks, `${path}[${index}].blocks`);
     }
   };
-  if (Array.isArray(entity?.blocks)) visitBlocks(entity.blocks);
-  else visitBlocks(entity?.content?.blocks, 'content.blocks');
+  visitBlocks(entity?.blocks);
 
   const visitedMarkdown = new Set();
   while (markdownQueue.length) {

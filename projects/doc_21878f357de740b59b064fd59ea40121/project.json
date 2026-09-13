@@ -1,0 +1,110 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_21878f357de740b59b064fd59ea40121",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "items": [
+        "doc_c16f94bae2aa4771a1352a7cea087bd5",
+        "doc_67721ba68f9e4a97b9f7cd91b31b787a",
+        "doc_34a72e56c32a5cbbae2587ef72aed19d",
+        "doc_2498489180925748b8347ab97140178d",
+        "doc_2b0985906a7354fba09c142012446689",
+        "doc_1eb2699b9ef651bd8a19c482f35276f2",
+        "doc_4dfdcbce5020516ca7a8e0ff29c542b8",
+        "doc_645434a5ee8f550b9e0b237950789066",
+        "doc_3e2b31469eb25cd6a2100944e0e261cc",
+        "doc_f1ecee3798b75a698060af0d6fd26b53",
+        "doc_472b46319d6948c6bcca4533b716a802",
+        "doc_0b8d60db909c54b7aad85f168788ca3f",
+        "doc_35acc634705754a2b846a4951e00470a",
+        "doc_79abb20a49725d63a0fd541a1aec30d8",
+        "doc_e76b0f81dd7b5b93a11e8f357b63ffb8"
+      ],
+      "display_projects": []
+    },
+    "title": "Work Evidence Pipeline",
+    "summary": "A shared path for discovering, retaining, and describing work evidence so reports and portfolio pages can reuse the same artifacts.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "preview": {
+      "description": "Typed evidence moves from Work Report artifacts into editable portfolio blocks and a rendered page.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/artifact-pipeline-overview.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "Python",
+      "Architecture",
+      "Documentation",
+      "Automation",
+      "Data Pipelines"
+    ],
+    "blocks": [
+      {
+        "body": "## Keep useful evidence after the work ends\n\nA screenshot, source change, chart, or terminal session can explain a result better than a written summary. That evidence loses its value when the file disappears or its context is forgotten.\n\nI built the artifact pipeline to preserve those outputs with enough structure to find, evaluate, and reuse them. It connects discovery and capture in Work Report with the block model in Portfolio Editor. The broader Work-to-Portfolio Pipeline uses this evidence layer to support its public narrative.",
+        "type": "text"
+      },
+      {
+        "body": "## Discover deliberately, retain durably\n\nEvidence discovery starts from supplied paths, Git worktrees, or registered references. A candidate can be inspected before it is selected for a report. Local files are copied into the application-owned artifact corpus, while URLs keep their identity as external references.\n\nEach artifact carries a stable ID, semantic kind, storage state, source locator, caption, and review state. Capture time, content digests, and file metadata provide additional context for checking what the record represents.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TB\n INPUT[\"Supplied paths, Git worktrees, registered references\"] --> CANDIDATE[\"Discover and inspect candidates\"]\n CANDIDATE --> SELECT[\"Select evidence for a report\"]\n SELECT --> RECORD[\"Stable artifact record + retained material\"]\n RECORD --> REPORT[\"Work Report: context and evidence\"]\n REPORT --> EDITOR[\"Portfolio Editor: choose and edit a block\"]",
+        "description": "Discovery identifies candidates; deliberate selection creates a durable report association before evidence is reused in a portfolio block.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Preserve meaning across formats\n\nThe artifact's kind provides a useful starting point for presentation. Images can become image blocks, source samples can become code blocks, terminal output can retain its terminal presentation, and structured data can supply graphs or comparisons.\n\nPortfolio Editor inspects the material before choosing that representation. The resulting block remains editable: I can adjust its caption, trim the explanation, change its position, and decide whether it belongs on the public page.",
+        "type": "text"
+      },
+      {
+        "body": "## Carry the evidence forward\n\nThis gives documentation a reusable evidence base. A report can retain the material that supports its account even after the producing session ends, and a portfolio page can draw from that material without reconstructing it by hand.\n\nThe project timeline records the engineering behind this boundary, including durable capture, staging and curation, shared discovery, and a provenance migration that retained 711 older artifacts.",
+        "type": "text"
+      },
+      {
+        "label": "Work-to-Portfolio Pipeline: the complete workflow",
+        "type": "related-mini",
+        "updateId": "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      },
+      {
+        "label": "Work Report System: the durable record and artifact corpus",
+        "type": "related-mini",
+        "updateId": "doc_c20a72a1aab145e281e072087258ab88"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:5fb2716e8c82c63f25ea393f70bff699dc1b806b572eb9744859e5c0d11d0a96",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/artifact-pipeline-overview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:ee55867a3951c25a1b8045ef5380d6a185491ad508d38d85d379818b095b596c",
+        "byte_size": 13911,
+        "animated": false
+      }
+    }
+  }
+}

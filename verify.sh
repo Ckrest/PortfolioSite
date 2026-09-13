@@ -7,6 +7,8 @@ cd "$SITE_ROOT"
 
 npm run check:block-registry
 npm run test:unit
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py'
+bash -n pkg/bin/portfolio-site-realize install-user.sh scripts/stage-prepared-release scripts/validate-installed-release
 
 while IFS= read -r source_file; do
   [[ "$source_file" == */vendor/* ]] && continue

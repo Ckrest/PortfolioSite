@@ -1,0 +1,81 @@
+blocks:
+- body: I built Power Manager as the controller between a desktop power menu and Linux
+    power actions. A menu or command can request shutdown, restart, or sleep; Power
+    Manager starts the selected visual transition and coordinates the handoff to the
+    operating system. The same controller also supports logout and hibernation.
+  id: blk_power_manager_overview
+  type: text
+- description: The animated path moves from a menu or command-line request, through
+    a transition that covers the display, to the selected system power action.
+  id: blk_power_manager_handoff_diagram
+  kind: image
+  presentation: wide
+  src: media/power-manager-handoff.svg
+  type: image
+- body: '## Time the action to the animation
+
+
+    Power Manager launches an effect through Shutdown Effect, the companion animation
+    system. It listens for `READY`, meaning the overlay is visible, and `BLACK`, meaning
+    the display is fully covered, to time the power-action handoff. The effect holds
+    its covered frame while the action proceeds.
+
+
+    I kept effect selection separate from the power commands, so changing the animation
+    does not require rewriting the shutdown or sleep workflow.'
+  id: blk_power_manager_handoff
+  type: text
+- id: blk_relationship_context_6a23e1a43eda
+  label: 'Shutdown Effect: the animation lifecycle and visual effects'
+  type: related-mini
+  updateId: doc_6a23e1a43eda5ff9966831b235c28b21
+- body: '## Preview a transition without powering off
+
+
+    I added a test mode that plays the selected animation, holds the covered frame
+    for a chosen duration, and then ends the effect without issuing a power action.
+    It also requests desktop and cursor cleanup, so animations can be checked from
+    the same controller used by the power menu.
+
+
+    An explicit `none` option skips the animation when an immediate action is preferred.'
+  id: blk_power_manager_preview
+  type: text
+- code: '# Preview the fade effect, then return to the desktop
+
+    power-manager test --animation fade --hold 3
+
+
+    # Restart with a fade transition
+
+    power-manager reboot --animation fade
+
+
+    # Suspend immediately, without an animation
+
+    power-manager suspend --animation none'
+  description: The same command supports an animation preview, an animated restart,
+    and sleep without a transition.
+  id: blk_power_manager_commands
+  language: bash
+  presentation: content
+  sourceMode: inline
+  type: code
+date: '2026-01-18'
+external_url: https://github.com/Ckrest/power-manager
+kind: update
+preview:
+  description: The desktop menu connected to Power Manager, with shutdown, sleep,
+    restart, logout, and Windows restart controls.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/power-manager-menu.png
+prominence: medium
+summary: Connected shutdown, restart, and sleep requests to visual transitions through
+  one command-line controller, with selectable effects and a preview mode.
+tags:
+- Python
+- Wayland
+- Wayfire
+title: Built Power Manager to coordinate desktop power actions

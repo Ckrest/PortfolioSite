@@ -2,8 +2,8 @@ blocks:
 - body: '## Separate report facts from evidence discovery
 
 
-    Work Report creation now begins with the project, title, tags, and an explicit
-    duration. The duration records active work time independently of file timestamps.
+    Work Report creation begins with the project, title, tags, and an explicit duration.
+    The duration records active work time independently of file timestamps.
 
 
     Registered evidence handlers then search the work session and present candidates
@@ -32,13 +32,10 @@ blocks:
   id: blk_wizard_relevant_followups
   type: text
 date: '2026-01-30'
-part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
 prominence: low
-related_to:
-- doc_f1ecee3798b75a698060af0d6fd26b53
-summary: Work Report now guides creation through required facts, evidence review,
-  handler-defined verification prompts, and final confirmation before saving the report
-  and its selected evidence.
+summary: 'Reworked Work Report creation into four visible phases: required facts,
+  evidence review, handler-defined verification, and final confirmation before saving
+  the report and selected evidence.'
 tags:
 - Python
 - CLI

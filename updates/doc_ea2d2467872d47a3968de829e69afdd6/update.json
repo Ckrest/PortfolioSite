@@ -1,0 +1,101 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_ea2d2467872d47a3968de829e69afdd6",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_a230ccdc63be48a886be340d751cad33"
+      ],
+      "projects": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      ],
+      "display_projects": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      ]
+    },
+    "title": "Made Desktop HUD usable outside Constellation",
+    "summary": "Removed Constellation-specific runtime dependencies from Desktop HUD, declared its package requirements, and improved media playback and live element updates.",
+    "date": "2026-03-01",
+    "prominence": "low",
+    "preview": {
+      "description": "Keep the desktop composition; separate the workspace wiring.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-only",
+      "src": "media/hud-card.svg",
+      "width": 1200,
+      "height": 675
+    },
+    "tags": [
+      "GTK",
+      "Wayland",
+      "Python",
+      "Packaging"
+    ],
+    "blocks": [
+      {
+        "body": "## Separate the overlay from the workspace that hosted it\n\nDesktop HUD combines images, video, and live widgets on a GTK4 layer-shell surface. I removed its Constellation-specific discovery and import helpers so the application’s runtime depends on its declared libraries instead of the surrounding development workspace.\n\nThe package retains the scene model, visual editing, profiles, and runtime API. User layouts and workspace-specific service files are kept outside the reusable application source.",
+        "type": "text"
+      },
+      {
+        "description": "The Desktop HUD showcase combines an image element, two video surfaces, live system charts, and gauges in one desktop composition.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/desktop-hud-showcase.png",
+        "type": "image"
+      },
+      {
+        "body": "## Declare the application’s dependencies\n\nI made graph-lib and Cairo ordinary package dependencies alongside the GTK bindings and configuration library. Dependency validation was updated to recognize properly declared installed libraries.\n\nThat gives installation and integration a visible boundary: the application declares what it imports, while the environment supplies its desktop services and user configuration.",
+        "type": "text"
+      },
+      {
+        "code": "dependencies = [\n    \"PyYAML\",\n    \"PyGObject\",\n    \"pycairo\",\n    \"graph-lib\",\n]",
+        "description": "The package declares the configuration, GTK, Cairo, and graph-library dependencies used by the overlay.",
+        "filename": "pyproject.toml",
+        "language": "toml",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Make the reusable package behave consistently\n\nI also corrected media source updates and profile serialization, made video backend selection explicit, and added a deterministic looping fallback for the simple video backend. Runtime changes can update the active elements without relying on a complete profile reload.\n\nThe showcase was exercised through service restarts, profile switching, and API changes. The result preserves the desktop composition while making its dependencies and media behavior easier to configure and inspect.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:c241bd6c87e7b1e4616df17d862f0219a791a96e279674e6381649bb7869ae84",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/desktop-hud-showcase.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:bd5443e23d4867ef2557ed1fd908bd5296308adee9c108132b95bc9b5b876f96",
+        "byte_size": 437900,
+        "animated": false
+      },
+      "media/hud-card.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 675,
+        "digest": "sha256:fd351322756c606c75100e13683f6954dd812ff6df57f6c59f29cfc82ca0a802",
+        "byte_size": 2098,
+        "animated": false
+      }
+    }
+  }
+}

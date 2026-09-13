@@ -8,12 +8,6 @@ blocks:
     or opens a picker when several are available.'
   id: blk_quicksave_story
   type: text
-- description: QuickSave control with a save icon in the ComfyUI toolbar. The toolbar
-    button made the save action available while reviewing generated images.
-  id: blk_quicksave_button
-  presentation: intrinsic
-  src: media/screenshot_2026-02-28_16-20-47.png
-  type: image
 - body: '## Avoid overwrites at the save boundary
 
 
@@ -24,17 +18,28 @@ blocks:
     a numeric suffix to other collisions. A toast reports the result in ComfyUI.'
   id: blk_quicksave-save-boundary
   type: text
-- description: QuickSave flow from the ComfyUI toolbar through preview discovery,
-    image selection, backend sanitization, duplicate checks, safe disk writing, and
-    visible feedback. A small frontend-to-backend path saves an existing preview without
-    changing the workflow graph.
+- code: "flowchart TD\n  Action[Choose QuickSave] --> Find[Collect visible previews]\n\
+    \  Find --> Choice{One image?}\n  Choice -- Yes --> Save[Send selected image]\n\
+    \  Choice -- No --> Picker[Choose from picker]\n  Picker --> Save\n  Save -->\
+    \ Safe[Sanitize name and path]\n  Safe --> Result[Skip duplicate or write safe\
+    \ file]\n  Result --> Toast[Show result]"
+  description: QuickSave chooses an existing preview, applies safe file handling,
+    and returns visible feedback without changing the workflow graph.
   id: blk_quicksave_flow
-  presentation: intrinsic
-  src: media/quicksave-flow.svg
-  type: image
+  presentation: content
+  sourceMode: inline
+  type: mermaid
 date: '2025-12-19'
 external_url: https://github.com/Ckrest/comfyui-quicksave
-prominence: low
+preview:
+  description: QuickSave adds a toolbar action beside a generated preview, keeps its
+    optional save path free of personal data, and reports a successful write in the
+    ComfyUI interface.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/quicksave-context.png
+prominence: medium
 summary: Added a ComfyUI toolbar action for saving an existing generated preview without
   changing the workflow, with safe filenames and duplicate-aware writes.
 tags:

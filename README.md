@@ -1,14 +1,50 @@
 # Portfolio Site
 
-Portfolio Site is an independent static website built from public update and
-capability sources. Its build produces a complete deployable directory; the
-published site has no server runtime, database, framework, or authoring-tool
-dependency.
+Portfolio Site is the public presentation and build system for portfolio
+updates, projects, and capabilities. It turns reviewed, public-only source into a complete
+deployable directory with the homepage, detail pages, relationship navigation,
+assets, indexes, and sitemap already assembled.
+
+[![Portfolio Site featured updates with project imagery, summaries, and topic tags](docs/images/portfolio-site-featured-updates.png)](docs/images/portfolio-site-featured-updates.png)
+
+*The homepage presents selected work as responsive cards. The same public data
+also drives the chronological work view, update detail pages, capability pages,
+and derived relationship links.*
+
+## Where it fits
+
+```mermaid
+flowchart LR
+    editor["Portfolio Editor<br/>frozen accepted content"] --> build["Portfolio Site<br/>validate + render"]
+    build --> source["Verified public source"]
+    build --> dist["Deployable dist/"]
+    source --> constellation["Constellation<br/>install locally<br/>publish explicitly"]
+    dist --> host["Static host"]
+```
+
+Portfolio Site owns the public contract and deterministic build mechanics.
+Portfolio Editor can ask it to render an exact proposed page for review, but the
+Site does not read Editor storage, Work Report records, or private notes. Once
+built, the website has no server runtime, database, framework, Portfolio
+Editor, or Work Report dependency.
 
 The repository owns the public content model, relationship graph, renderers,
 homepage, detail pages, generated indexes, and deployment output. Private notes,
 source-system identities, review state, absolute paths, and unused evidence are
 outside the public source contract.
+
+Its responsibilities are deliberately narrow:
+
+- validate update, project, and capability sources, relationships, assets, privacy
+  constraints, and the complete public graph;
+- render the same public model used by Portfolio Editor's authoring preview and
+  exact review;
+- emit allowlisted `public-source` and `dist/` artifacts with reproducible
+  identities; and
+- remain deployable on an ordinary static host.
+
+It does not decide which evidence belongs in a portfolio, keep private
+authoring context, accept an Editor review, or push publication on its own.
 
 ## Install and verify
 
@@ -20,37 +56,89 @@ npm test
 ./install-user.sh
 ```
 
-`portfolio-site open` reconciles the accepted pool when the Editor is available,
-starts the declared on-demand user service, waits for `http://127.0.0.1:9742/`,
-opens it, and prints both the loopback and current local-network URLs. The
-server listens on IPv4 port 9742 and serves only the generated public artifact;
-it does not expose the repository or private editor state. LAN access is
-unauthenticated, so it should remain limited to a trusted local network. When
-the Editor is offline it may serve only the last locally verified artifact.
-`portfolio-site refresh`, `status`, `stop`, and `logs` expose explicit
-management actions. Acceptance calls the Site-owned `dispatch` command,
-which enqueues one non-blocking realization job. There is no boot watcher,
-timer, polling loop, or filesystem signal; `portfolio-site refresh` is the
-explicit recovery command for an interrupted or missed dispatch. Installation
-records the selected Node interpreter in the private
-`~/.config/portfolio-site/environment` file, so interactive and dispatched
-realization use the same runtime without embedding a host path in public source.
-Lifecycle actions delegate to the installed `constellation` command against
-this checkout; launchers do not import an in-progress Constellation worktree.
-Artifact realization never activates the preview, and neither Site command
-starts or owns the Editor.
+Use **More → Open local site** in Portfolio Editor, or `portfolio-site open`.
+The command prepares the latest accepted content, starts the managed local
+server, and opens `http://127.0.0.1:9742/`. There is no Site desktop launcher.
+`start` performs the same operation without opening the browser; `stop` ends
+it immediately. `status --json` exposes the current session, deadline, and
+release; `logs` shows the server journal. Editor integration uses the same
+`portfolio-site/control@1` command interface.
 
-`npm test` checks both block registries, unit behavior, generated manifests,
-the deployable build, and JavaScript syntax without rewriting authored content.
+A session expires **600 seconds after the last qualifying control action**.
+Launch, explicit restart/refresh, and a new acceptance or withdrawal during an
+active session renew it. Browser interaction, reload checks, health/status
+reads, draft saves, reviews, and worker retries do not. Acceptance while stopped
+prepares content without starting the server. Delayed acceptance notifications
+retain their original timestamp, and duplicate notifications do not renew the
+timer. Build completion cannot restart a stopped or expired session.
+
+While running, the newest complete verified release activates automatically.
+Open tabs detect the new artifact and reload, preserving their route and scroll
+position where possible. A withdrawn page returns to the homepage. A local
+notice explains preparation failure or loss of the preview server. Refresh
+support is injected once into each full HTML page served locally. Section
+fragments remain unchanged. The generated distribution and published pages
+contain no injected preview client or notices. The homepage validates each
+section's root and shows an error when a section cannot be loaded.
+
+`portfolio-site refresh` requests the latest accepted content and renews an
+existing session. With no active session it prepares content without starting
+or changing the last installed preview. Background preparation follows the
+same rule. `open` can fall back to the last verified release if the Editor is
+offline or preparation fails; it reports that the latest content is unavailable.
+Closing the browser does not stop the server or extend its deadline.
+
+The server listens on IPv4 port 9742 and serves only verified public artifacts.
+The CLI and Editor own lifecycle control; the local server offers no mutating
+management API. Its read-only refresh status excludes private failure details.
+The complete distribution is held in memory and a new snapshot becomes visible
+only after complete verification and a current-session activation. An interrupted
+installation leaves the previous complete snapshot usable. Content changes need
+no service restart; maintained server-code changes use
+`constellation service portfolio-site restart` within an active session.
+
+The Editor owns one durable release dispatcher. The Site controller serializes
+builds, reuses immutable page/media/rendering caches, and installs prepared
+artifacts through Constellation without compiling twice. Session control has a
+separate lock so a slow build cannot block stop or timer renewal. Native
+installation residue is retained in private `retired-output/` recovery storage.
+Installation records the Node interpreter in
+`~/.config/portfolio-site/environment`.
+
+Publication remains explicit through Constellation. It validates the installed
+artifact, stages an export, and checks the staged tree against the planned tree
+before publication. Later local updates cannot change captured export bytes.
+`tests/test_publication_capture.py` checks the installed publisher's concurrent
+capture behavior without contacting a remote. No preview command accepts pages
+or publishes content.
+
+`npm test` checks public rendering, release preparation, command/session races,
+verified server updates, expiry, publication capture, and syntax using disposable
+fixtures. Authored content and live acceptance state are not test inputs to mutate.
+
+For the assembled homepage, start the local site and run:
+
+```bash
+playwright-cli -s=portfolio-homepage open http://127.0.0.1:9742/
+playwright-cli -s=portfolio-homepage run-code --filename=tests/browser_homepage_test.js
+playwright-cli -s=portfolio-homepage close
+```
+
+This checks startup, manual refresh, unchanged polling, narrow/wide rendering,
+and visible failures for malformed section responses. For release-change checks,
+`tests/preview_browser_fixture.py serve <temporary-directory> --site-output
+<verified-output>` serves a disposable copy of the real site on port 9743.
+Its `install <temporary-directory> 2` command activates changed homepage bytes
+so an already open tab must reload once and render the sections again.
 
 ## Source and generated boundaries
 
 Canonical public sources are:
 
 - `updates/<stable-document-id>/settings.yaml` and the assets referenced by that update;
-- `capabilities/<slug>/settings.yaml` and the assets referenced by that
-  capability;
-- the update and capability schemas and block registries;
+- `projects/<stable-document-id>/settings.yaml` and referenced project assets;
+- `capabilities/<stable-document-id>/settings.yaml` and referenced capability assets;
+- independent metadata schemas for all three types and the shared block registry;
 - homepage configuration and section source; and
 - shared JavaScript, CSS, and static assets.
 
@@ -62,60 +150,48 @@ generated output. Run the build after changing canonical sources.
 The build validates the complete public graph rather than one record in
 isolation. It rejects malformed or unknown fields, invalid block structures,
 duplicate block identities, unsafe or missing assets, missing public image
-descriptions, privacy-pattern matches, redundant relationship types, required
-capability evidence, and graph cycles. Optional update relationships whose
+descriptions, privacy-pattern matches, invalid connections and project cycles. Connections whose
 target is outside the exact pool remain authored but unresolved. The deployable directory is allowlisted by
 `updates/_public-asset-policy.json` and excludes YAML, databases, logs, private
-state, and unreferenced material. `updates/_asset-contract.json` and
-`capabilities/_asset-contract.json` are the independent declarative asset
-graphs for metadata, blocks, nested groups, explicit attached-source modes, and
+state, and unreferenced material. `updates/_asset-contract.json` is the shared declarative asset graph for all
+three page types, including metadata, nested blocks, attached sources, and
 Markdown dependencies. Validation, candidate identity, payload generation, and
-distribution copying consume that graph instead of maintaining separate block
-walkers.
+distribution copying use the same graph.
 
-The repository accepts only its current version 7 authored update schema,
-version 3 capability schema, version 8 update block registry, version 7
-capability block registry, version 1 asset contracts, version 7 generated
-update payloads, and version 4 generated capability payloads. Project content
-enters public source only through the exact closed-pool boundary below.
+The current contracts are update metadata version 9, project metadata version 3,
+capability metadata version 6, shared block registry version 9, asset contract
+version 2, and shared media contract version 1. Generated payloads are `portfolio-update@9`, `portfolio-project@3`, and
+`portfolio-capability@7`, in `update.json`, `project.json`, and `capability.json`.
+Every document enters public source through the exact closed-pool boundary.
 
-### Exact closed-pool builds
+### Exact page review and site release preparation
 
-`npm run build:pool -- --input <request.json> --output <directory>` is the shared
-Portfolio Editor and Constellation boundary. A `portfolio-site/pool-build@5` request
-contains one `portfolio-site/project-pool@2` with every digest-pinned member.
-The command snapshots current Git-visible Site mechanics, removes generated and
-retired project copies, installs only the requested members, runs the complete
-graph and distribution builds, and returns exact source, pool, public-source,
-and output identities. Review builds return one `portfolio/review-validation@1`
-result. A semantically blocked review exits successfully with actionable issue
-leaves and creates no output; unavailable build machinery returns a distinct
-failed state.
+Implementation reference: Site 16.0.0 and Editor 25.1.0.
 
-`node updates/_pool-build.js --source-identity` reports the same normalized Site
-mechanics identity without building. Retired update copies and regenerated
-payloads do not participate in that identity.
+`updates/_page-review.js` accepts `portfolio-site/page-review-input@2`. It pins
+current Site mechanics and renders only selected pages against accepted
+context, returning `portfolio-site/page-review-result@2` with validation,
+connection effects, dependency IDs and exact artifact identity. Working drafts
+from other pages never enter this boundary.
 
-The command does not read Editor storage, edit the caller's Site worktree,
-choose a publication scope, commit, push, or claim that output is live.
-Portfolio Editor retains review results as self-contained immutable pool
-bundles. Acceptance creates a durable handoff that pins the bundle manifest,
-Site source, public source, and result digests. A realizer atomically claims that
-handoff and receives its immutable candidate paths in the claim response;
-neither Constellation nor the Site re-read the mutable pool while building. The Site
-rebuilds the request and refuses to replace local output unless every reviewed
-identity matches. Constellation then installs and verifies that exact result.
+`npm run build:release -- --input <request.json> --output <directory>` accepts
+`portfolio-site/release-input@2`: an accepted-snapshot@1, immutable content
+pointers and a pinned Site renderer. It prepares complete public-source and
+dist trees, reusing unchanged page results. The `clean` request flag rebuilds
+compiled results as the parity reference. The `portfolio-site/release@2`
+receipt binds accepted revision, snapshot, Site source and both output digests
+into `release_id`. Operational statistics stay outside the public trees.
 
-`node updates/_pool-build.js --verify-output <directory>` recomputes the public
-source and distribution identities from an installed result. The local launcher
-uses this verifier before reporting realization, and publication validation
-requires the verified installed receipt to match the current
-`portfolio-editor/accepted-pool@4` and its realized handoff.
+`node updates/_release-build.js --verify-output <directory>` verifies both
+output trees and release identity. `scripts/stage-prepared-release` copies the
+verified artifact into Constellation's native stage; no additional compilation
+occurs. `scripts/validate-installed-release` compares the installed result to
+the Editor's installed receipt, independently of newer prepared content.
 
-The result contains an exact public-source tree, deployable `dist`, their file
-inventories and digests, and the pool and Site input identities. A failed graph
-or distribution build leaves the requested output untouched. Constellation owns
-activation of a successful result and any later publication.
+Site never accepts content, reads mutable Editor storage, or publishes on its
+own. Editor's [pipeline runbook](https://github.com/Ckrest/portfolio-editor/blob/main/docs/PIPELINE.md)
+describes the complete review, acceptance, recovery and release-selection flow.
+Old pool-build requests and readers have been removed.
 
 ## Public content model
 
@@ -126,7 +202,8 @@ field help live in `updates/_update-schema.yaml`; block contracts live in
 `updates/_block-registry.json`.
 
 - `prominence` controls presentation weight.
-- `part_of`, `supersedes`, and `related_to` are forward relationships.
+- Project membership connects updates and projects to their parent projects.
+- Demonstrated capabilities connect updates and projects to capability pages.
 - tags are free-form public browsing topics.
 - media paths are relative to the update directory.
 
@@ -135,29 +212,67 @@ stable document ID is its directory, payload identity, relationship target,
 and URL key. Every update has the fixed generated `assets/icon.svg`; an
 optional preview is retained regardless of prominence.
 
-The build derives backlinks, project-update lists, later-version links, and the
-newest version. Older records do not need editing when newer work creates a
-forward relationship. `updates/_relationship-contract.json` owns endpoint
+The build derives direct project contents, capability evidence, and project links.
+Updates and nested projects show the most specific available parent projects in
+a notice above the content and again below it. Capabilities remain the final
+substantive section. Reference blocks provide other narrative connections.
+`updates/_relationship-contract.json` owns endpoint
 policy. Metadata links and update-reference blocks resolve only when both
 updates are in the exact pool; otherwise they are omitted from public derived
 data and reported as pending to Portfolio Editor. Rebuilding after a target is
 accepted, withdrawn, or reaccepted activates or deactivates both directions
-without rewriting the source update. Capability evidence remains required.
+without rewriting the source update. Project membership and capability evidence follow that same optional endpoint policy.
 
-### Capabilities
+### Projects and capabilities
 
-A capability is a durable ability demonstrated by concrete updates. Its source
-contract lives in `capabilities/_capability-schema.yaml`, and it owns the list
-of stable update IDs used as evidence.
+A project is a current overview of a body of work, with a derived timeline of
+its dated updates. A capability describes an ability, with a derived timeline
+of the projects and updates that demonstrate it. Both use the same Editor
+blocks, assets, history, preview, and exact acceptance flow as updates.
 
-The build resolves selected-work cards for capability pages and derives the
-inverse capability links for supporting updates. One update may support several
-capabilities, and one capability may select several updates. Updates never
-author reverse capability fields.
+`public.kind` selects `update`, `project`, or `capability`; omitted kind means
+update for existing documents. All three use stable Workspace document IDs.
+Metadata belongs to `updates/_update-schema.yaml`,
+`projects/_project-schema.yaml`, and `capabilities/_capability-schema.yaml`.
+Project and capability `date` means **As of**, the date represented by the
+current overview, rather than a new update event.
 
-Capabilities and updates have independent schemas, block registries, generated
-registry modules, renderers, runtime helpers, and styles. A change to one format
-does not propagate implicitly to the other.
+The relationship contract declares four many-to-many association fields:
+
+| Authored on | Field | Target |
+| --- | --- | --- |
+| Update | `projects` | Projects |
+| Project | `updates` | Historical updates |
+| Update or project | `capabilities` | Capabilities demonstrated |
+| Capability | `evidence` | Projects or updates |
+
+Connections live in `data/connections.json` using `portfolio-site/connections@2`,
+separate from page YAML. Each typed pair is stored once and the shared
+`js/connection-model.js` resolver derives both navigation directions. Editor
+can add or remove a connection from either endpoint through that page's draft
+proposal. Pending or inactive intent remains in the private accepted ledger;
+only connections with both endpoints public are exported. Conversion retains
+incompatible connections for possible reactivation. Membership does not
+propagate through version links, hierarchy, tags, or project capabilities.
+
+`data/documents.json` is the complete typed public catalog; the update index
+continues to contain dated updates only. The homepage's **Featured** section can
+mix updates, projects, and capabilities using the same responsive cards. Select
+their stable document IDs in `site.config.js` under `featured.items`; order is
+preserved, unavailable IDs are skipped, and `maxItems` limits the visible cards.
+The separate Projects and Capabilities homepage sections and navigation links
+are hidden through `disabled`; their detail pages remain available. Detail
+timelines use the same entry component as the homepage and order evidence newest
+first, with deterministic title and ID ties.
+
+All page types share `updates/_block-registry.json`, its generated module,
+`updates/update-renderer.js` block rendering, and `css/document-*.css`. Each owns
+its detail template. `projects/page.js` and `capabilities/page.js` own their page
+composition and their `page.css` files own type-specific styling. The update
+composition remains in `renderUpdate`, with update stylesheet entry points in
+`updates/update-base.css` and `updates/update-blocks.css`. Put type-specific
+header, footer, and navigation changes in these page-owned files; change the
+shared block layer when a change should apply across all three types.
 
 ### Public terminology
 
@@ -165,15 +280,16 @@ Internal relationship fields describe graph direction, not interface copy. The
 public presentation uses:
 
 - **Capabilities demonstrated** from an update to its capabilities;
-- **Selected work** from a capability to supporting updates;
+- **Demonstrated work** from a capability to supporting projects and updates;
 - **Earlier version**, **Later versions**, and **Latest version** for version
   sequences;
-- **Larger project** and **Project updates** for structural relationships; and
+- **Project timeline** for a project’s associated updates;
+- **Larger project** and **Project updates** for existing update-to-update structure; and
 - **Related work** for general connections.
 
 ## Build and runtime architecture
 
-`updates/_build.js` reads both entity types, validates their canonical sources,
+`updates/_build.js` reads all three page types, validates their canonical sources,
 derives graph data, and writes a listed manifest, complete accepted catalog,
 payloads, detail pages, and sitemap state. `updates/_build-dist.js` assembles only deployable files into
 `dist/`. The package scripts are authoritative for the exact build sequence.
@@ -183,8 +299,8 @@ section order, enabled sections, featured selection, timeline behavior, and
 data-source locations. Runtime sections share the cached JSON loader and mount
 without making scroll position a loading or animation state.
 
-Update and capability detail pages load their entity payloads and render through
-their entity-owned renderer and block registry. Relationship navigation is
+All detail pages load their typed payloads and use the shared block renderer
+inside their page-owned templates and composition. Relationship navigation is
 derived from the built graph. Update cards use prominence-aware shared
 components across homepage and relationship contexts without changing the
 underlying content.
@@ -224,16 +340,18 @@ summary, section title, narrative heading, card title, body, compact body, and
 label. Components may adapt a role to their format, but should not invent an
 unrelated size or use metadata styling for text required to understand content.
 
-## Authoring guidance
+## Authoring boundaries
 
-- [Update Authoring Guide](docs/UPDATE_AUTHORING_GUIDE.md) defines the editorial
-  workflow, evidence standard, source format, and review checklist for updates.
-- [Capability Authoring Guide](docs/CAPABILITY_AUTHORING_GUIDE.md) defines
-  capability claims, evidence selection, source format, and review criteria.
+Portfolio update research, writing, evidence selection, relationships, and
+review follow the
+[Portfolio Update Workflow](https://github.com/Ckrest/portfolio-editor/blob/main/docs/PORTFOLIO_UPDATE_WORKFLOW.md)
+and are applied through Portfolio Editor. The
+[Capability Authoring Guide](docs/CAPABILITY_AUTHORING_GUIDE.md) defines
+capability claims, evidence selection, source format, and review criteria.
 
-Writing targets in those guides are advisory. Build failures are reserved for
-objective contract, safety, privacy, asset, and graph errors. Automated checks
-must not grade subjective prose or rewrite authored content.
+Build failures are reserved for objective contract, safety, privacy, asset,
+and graph errors. Automated checks do not grade subjective prose or rewrite
+authored content.
 
 ## External authoring boundary
 
@@ -289,3 +407,25 @@ still match that plan. Direct pushes from the Site worktree remain guarded. The
 administrative `--replace-history --allow-replacement` combination exists only
 for an intentional one-time public-history cutover; routine pool publications
 must not use it.
+
+
+## Explicit media and looping previews
+
+`updates/_media-contract.json` owns media kinds and preparation policy. Preview
+values require `kind`, `src`, `description`, `placement`, and `fit`; local video
+also requires `poster`. Image blocks and image slots explicitly use `kind:
+image`. Local video blocks select `playback: player` or `loop`; provider videos
+use Player. Old media shapes are rejected.
+
+The Editor prepares silent MP4/H.264 clips and still posters before review.
+Site builds inspect bytes with FFprobe, validate the clip policy, and copy
+exact reviewed assets. They never encode video. Generated metadata includes
+verified dimensions, duration, MIME/codec, and digest; social images use posters.
+Cards, detail previews, and blocks share media rendering and bounded playback.
+Loops pause offscreen and in hidden tabs, respect reduced motion, and keep
+accessible controls outside navigation links. Authoring rerenders preserve
+position and pause state. Image zoom and video inspection have separate viewers.
+
+The local snapshot server supports single byte ranges, suffix ranges, HEAD,
+and If-Range, all bound to one verified immutable snapshot. Media source or
+poster changes participate in exact review and realization identities.

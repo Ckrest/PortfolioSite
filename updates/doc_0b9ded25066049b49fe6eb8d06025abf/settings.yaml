@@ -1,0 +1,67 @@
+blocks:
+- body: '## Keep a growing library in stable order
+
+
+    I replaced offset paging with cursors built from each image’s creation time and
+    registration ID. Older and newer pages preserve their position while new results
+    arrive, and direct lookup supports images stored in nested output folders.
+
+
+    The focused viewer loads a nearby window instead of requesting the entire registration
+    history.'
+  id: blk_comfy_stability_order
+  type: text
+- blocks:
+  - description: 'Offset paging: a live insertion shifts the numbered boundary and
+      repeats an image.'
+    id: blk_comfy_stability_offset_image
+    kind: image
+    presentation: content
+    src: media/comfy-viewer-offset-paging.svg
+    type: image
+  - description: 'Cursor paging: the next page stays anchored after the last delivered
+      image.'
+    id: blk_comfy_stability_cursor_image
+    kind: image
+    presentation: content
+    src: media/comfy-viewer-cursor-paging.svg
+    type: image
+  id: blk_comfy_stability_paging_comparison
+  layout: split
+  type: group
+- body: '## Use one image contract everywhere
+
+
+    Gallery pages, direct lookups, and WebSocket events all return the same normalized
+    image record. The library and focused viewer deduplicate those records by stable
+    identity, while superseded requests are ignored before they can change the page.'
+  id: blk_comfy_stability_contract
+  type: text
+- body: '## Run as a standalone viewer
+
+
+    I added a web app manifest and mobile viewport handling so Comfy Viewer can open
+    from a tablet home screen as a standalone app. Lazy thumbnail loading, cache headers,
+    and original-image fallbacks make browsing more resilient across different clients.'
+  id: blk_comfy_stability_standalone
+  type: text
+date: '2026-03-30'
+external_url: https://github.com/Ckrest/comfy-viewer
+preview:
+  description: Stable cursor pages and a shared live-image record keep the library
+    and focused viewer synchronized.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
+  src: media/comfy-viewer-stability-preview.svg
+prominence: medium
+summary: Reworked gallery paging, live image delivery, and focused-viewer swaps so
+  large collections stay ordered, new results appear once, and rapid navigation keeps
+  images and metadata together.
+tags:
+- ComfyUI
+- Python
+- JavaScript
+- Frontend
+- Reliability
+title: Stabilized Comfy Viewer for large libraries and live updates

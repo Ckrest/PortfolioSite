@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Artifact provenance contract</title>
+  <desc id="desc">Captured and historical evidence pass through producing operations into an artifact record with operation, source path, and provenance version fields before Portfolio Editor accepts the artifact.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171714"/>
+      <stop offset="1" stop-color="#0b0d0d"/>
+    </linearGradient>
+    <linearGradient id="record" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbf7ed"/>
+      <stop offset="1" stop-color="#e9e2d2"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5eead4"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrow-cream" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f5efe2"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1490" cy="70" r="240" fill="#5eead4" opacity="0.05"/>
+  <circle cx="90" cy="850" r="270" fill="#fbbf24" opacity="0.045"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="72" y="84" fill="#8c918d" font-size="20" font-weight="700" letter-spacing="4">PROVENANCE CONTRACT</text>
+    <text x="72" y="145" fill="#f5efe2" font-size="48" font-weight="760">Every artifact carries its origin.</text>
+    <text x="72" y="185" fill="#aeb5b0" font-size="22">Two evidence paths converge on one enforced record.</text>
+
+    <text x="74" y="258" fill="#737a76" font-size="16" font-weight="700" letter-spacing="2.5">EVIDENCE</text>
+    <text x="447" y="258" fill="#737a76" font-size="16" font-weight="700" letter-spacing="2.5">PRODUCING OPERATION</text>
+    <text x="799" y="258" fill="#737a76" font-size="16" font-weight="700" letter-spacing="2.5">ENFORCED RECORD</text>
+
+    <g filter="url(#shadow)">
+      <rect x="72" y="286" width="310" height="138" rx="20" fill="#172a29" stroke="#5eead4" stroke-opacity="0.55" stroke-width="2"/>
+      <circle cx="112" cy="326" r="15" fill="#5eead4"/>
+      <path d="M105 326h14M112 319v14" stroke="#10201f" stroke-width="3" stroke-linecap="round"/>
+      <text x="142" y="333" fill="#e9fffb" font-size="24" font-weight="700">Captured evidence</text>
+      <text x="104" y="376" fill="#9dd8d0" font-size="18">Screenshot · diagram · output</text>
+      <text x="104" y="402" fill="#759c97" font-size="15">Recorded at creation</text>
+
+      <rect x="72" y="501" width="310" height="138" rx="20" fill="#2b2517" stroke="#fbbf24" stroke-opacity="0.6" stroke-width="2"/>
+      <circle cx="112" cy="541" r="15" fill="#fbbf24"/>
+      <path d="M104 537h16v11h-16zM108 532h8" fill="none" stroke="#2b2517" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="142" y="548" fill="#fff8dc" font-size="24" font-weight="700">Historical evidence</text>
+      <text x="104" y="591" fill="#dfc67b" font-size="18">Retained before the contract</text>
+      <text x="104" y="617" fill="#9f8c55" font-size="15">Preserved through migration</text>
+    </g>
+
+    <g>
+      <path d="M382 355 H445" fill="none" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow-teal)"/>
+      <path d="M382 570 H445" fill="none" stroke="#fbbf24" stroke-width="4" marker-end="url(#arrow-amber)"/>
+
+      <rect x="458" y="304" width="270" height="102" rx="51" fill="#11201f" stroke="#5eead4" stroke-width="2"/>
+      <text x="593" y="348" text-anchor="middle" fill="#e9fffb" font-size="18" font-weight="700">Producing</text>
+      <text x="593" y="374" text-anchor="middle" fill="#9dd8d0" font-size="18">operation</text>
+
+      <rect x="458" y="519" width="270" height="102" rx="51" fill="#251f12" stroke="#fbbf24" stroke-width="2"/>
+      <text x="593" y="563" text-anchor="middle" fill="#fff8dc" font-size="18" font-weight="700">Synthetic import</text>
+      <text x="593" y="589" text-anchor="middle" fill="#dfc67b" font-size="18">operation</text>
+
+      <path d="M728 355 C770 355 764 400 808 400" fill="none" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow-teal)"/>
+      <path d="M728 570 C770 570 764 525 808 525" fill="none" stroke="#fbbf24" stroke-width="4" marker-end="url(#arrow-amber)"/>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="820" y="286" width="365" height="354" rx="24" fill="url(#record)"/>
+      <rect x="820" y="286" width="365" height="76" rx="24" fill="#e6ded0"/>
+      <rect x="820" y="338" width="365" height="24" fill="#e6ded0"/>
+      <text x="856" y="334" fill="#292b28" font-size="25" font-weight="780">ARTIFACT RECORD</text>
+      <circle cx="1138" cy="324" r="13" fill="#5eead4"/>
+      <path d="M1131 324l5 5 10-12" fill="none" stroke="#16302d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <text x="856" y="408" fill="#6b6d68" font-size="15" font-weight="700" letter-spacing="1.5">OPERATION</text>
+      <text x="856" y="441" fill="#222522" font-size="22" font-weight="650">producing operation ID</text>
+      <line x1="856" y1="467" x2="1148" y2="467" stroke="#bbb4a7"/>
+
+      <text x="856" y="506" fill="#6b6d68" font-size="15" font-weight="700" letter-spacing="1.5">SOURCE PATH</text>
+      <text x="856" y="539" fill="#222522" font-size="22" font-weight="650">normalized source location</text>
+      <line x1="856" y1="565" x2="1148" y2="565" stroke="#bbb4a7"/>
+
+      <text x="856" y="604" fill="#6b6d68" font-size="15" font-weight="700" letter-spacing="1.5">PROVENANCE</text>
+      <text x="1052" y="605" fill="#087f71" font-size="20" font-weight="800">VERSION 2</text>
+    </g>
+
+    <path d="M1185 463 H1240" fill="none" stroke="#f5efe2" stroke-width="4" marker-end="url(#arrow-cream)"/>
+    <g>
+      <path d="M1306 387 L1372 463 L1306 539 L1240 463 Z" fill="#1d2020" stroke="#f5efe2" stroke-width="3"/>
+      <text x="1306" y="453" text-anchor="middle" fill="#f5efe2" font-size="16" font-weight="800">COMPLETE?</text>
+      <text x="1306" y="478" text-anchor="middle" fill="#aeb5b0" font-size="14">write-time gate</text>
+    </g>
+
+    <path d="M1372 463 H1408" fill="none" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow-teal)"/>
+    <text x="1392" y="441" text-anchor="middle" fill="#5eead4" font-size="14" font-weight="800">PASS</text>
+    <rect x="1420" y="392" width="142" height="142" rx="22" fill="#17302d" stroke="#5eead4" stroke-width="2"/>
+    <rect x="1452" y="425" width="78" height="52" rx="7" fill="none" stroke="#b8fff4" stroke-width="3"/>
+    <line x1="1464" y1="491" x2="1518" y2="491" stroke="#b8fff4" stroke-width="3" stroke-linecap="round"/>
+    <text x="1491" y="509" text-anchor="middle" fill="#e9fffb" font-size="13" font-weight="750" letter-spacing="0.8">PORTFOLIO</text>
+    <text x="1491" y="526" text-anchor="middle" fill="#e9fffb" font-size="13" font-weight="750" letter-spacing="0.8">EDITOR</text>
+
+    <path d="M1306 539 V596" fill="none" stroke="#f87171" stroke-width="3" marker-end="url(#arrow-amber)"/>
+    <rect x="1228" y="610" width="156" height="50" rx="25" fill="#321b19" stroke="#f87171" stroke-width="2"/>
+    <text x="1306" y="642" text-anchor="middle" fill="#fecaca" font-size="16" font-weight="800">STOP SAVE</text>
+
+    <g>
+      <rect x="72" y="752" width="1490" height="90" rx="24" fill="#111413" stroke="#353a37"/>
+      <text x="106" y="790" fill="#7e8580" font-size="15" font-weight="750" letter-spacing="2">REQUIRED AT WRITE TIME</text>
+      <rect x="106" y="806" width="255" height="26" rx="13" fill="#1c302e"/>
+      <text x="233" y="825" text-anchor="middle" fill="#9de9df" font-size="14" font-weight="700">PRODUCING OPERATION</text>
+      <rect x="382" y="806" width="214" height="26" rx="13" fill="#302817"/>
+      <text x="489" y="825" text-anchor="middle" fill="#f5cf64" font-size="14" font-weight="700">SOURCE PATH</text>
+      <rect x="617" y="806" width="221" height="26" rx="13" fill="#242329"/>
+      <text x="727" y="825" text-anchor="middle" fill="#d6ccff" font-size="14" font-weight="700">PROVENANCE V2</text>
+      <text x="1518" y="823" text-anchor="end" fill="#59605c" font-size="14">INCOMPLETE RECORDS DO NOT CROSS THE BOUNDARY</text>
+    </g>
+  </g>
+</svg>

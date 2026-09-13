@@ -1,0 +1,68 @@
+blocks:
+- body: '## Connect the desktop overlay to streaming transcription
+
+
+    Whisper Overlay pairs a Rust desktop client with a local speech service. I integrated
+    RealtimeSTT into my fork through a Python server that sends interim transcription
+    and completed text back to the client.
+
+
+    The server and overlay communicate through explicit messages for processing state
+    and results. Service integration gives the desktop client a managed backend to
+    connect to when transcription is needed.'
+  id: blk_speech_context
+  type: text
+- code: "flowchart TB\n CLIENT[\"Rust desktop overlay\"] --> REQUEST[\"Start a transcription\
+    \ request\"]\n REQUEST --> LOAD[\"Ensure models are loaded on the GPU\"]\n LOAD\
+    \ --> STT[\"RealtimeSTT processes audio\"]\n STT --> TEXT[\"Interim and completed\
+    \ text\"]\n TEXT --> CLIENT\n STT --> IDLE[\"Configured period of inactivity\"\
+    ]\n IDLE --> OFFLOAD[\"Offload models from GPU memory\"]\n OFFLOAD --> REQUEST"
+  description: The local speech service streams results to the overlay and manages
+    model residency across active and idle periods.
+  id: blk_speech_flow
+  presentation: wide
+  sourceMode: inline
+  type: mermaid
+- body: '## Release model memory between uses
+
+
+    Local transcription shares the GPU with other tools. I added a configurable idle
+    timer that asks the backend to offload its models after inactivity. The next transcription
+    request reloads them before processing the queued audio.
+
+
+    Status messages expose the model transition to the client. This makes GPU residency
+    part of the service lifecycle rather than a resource that stays occupied simply
+    because the server remains running.'
+  id: blk_speech_memory
+  type: text
+- body: '## Coordinate the client and service around the same request
+
+
+    The integration also carries waiting, active processing, interim text, and completed
+    results through the client/server boundary. Model reload is coordinated with the
+    incoming request, and the Python service owns the backend interaction.
+
+
+    The result combines the overlay’s desktop controls with RealtimeSTT’s streaming
+    engine and an explicit idle-resource policy, keeping those responsibilities in
+    the components that manage them.'
+  id: blk_speech_coordination
+  type: text
+date: '2026-02-17'
+kind: update
+preview:
+  description: Coordinate the desktop client, speech service, and GPU.
+  fit: contain
+  kind: image
+  placement: cards-only
+  src: media/speech-overview.svg
+prominence: low
+summary: Integrated RealtimeSTT with a Rust desktop overlay and added idle model offloading,
+  allowing local transcription to share GPU memory with other applications.
+tags:
+- AI
+- Speech-to-Text
+- Rust
+- Python
+title: Added streaming transcription that frees GPU memory when idle

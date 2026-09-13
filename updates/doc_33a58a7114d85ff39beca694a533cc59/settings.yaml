@@ -22,17 +22,14 @@ blocks:
 - body: '## Generate and verify every package’s exclusions
 
 
-    Synchronization now writes a resolved exclude location and generates package-specific
+    Synchronization writes a resolved exclude location and generates package-specific
     patterns for common build output and Constellation-managed files. Status checks
     surface missing or mismatched configuration so repository state remains aligned
     with package ownership.'
   id: blk_vcsh_exclude_generation
   type: text
 date: '2026-02-17'
-part_of: doc_d05b27abd50b40f9907f78c8a2988d4e
 prominence: low
-related_to:
-- doc_ed9b9a567c7c4d589dbe92c7abbf3eb6
 summary: Corrected VCSH exclude paths and generated package-specific ignore rules
   so repository status reflected owned changes instead of unrelated files.
 tags:

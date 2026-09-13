@@ -1,3 +1,5 @@
+import { documentKind, documentPayloadName, documentPayloadSchema } from '../js/document-model.js';
+import { applyConnectionViews, overlaySelections, resolveConnections } from '../js/connection-model.js';
 /**
  * Update detail entry point.
  *
@@ -18,6 +20,8 @@ import { initializeBackToTop } from '../sections/footer/footer.js';
 
 const dependencyRequests = new Map();
 let capabilityCatalog = [];
+let authoringCatalog = [];
+let authoringContract = null;
 
 function collectBlockTypes(blocks, types = new Set()) {
   for (const block of Array.isArray(blocks) ? blocks : []) {
@@ -74,9 +78,21 @@ async function loadRenderDependencies(blocks) {
 }
 
 async function renderUpdateWithDependencies(update) {
+  if (authoringContract) {
+    const documents = structuredClone(authoringCatalog.filter(item => item.key !== update.key));
+    const current = structuredClone(update);
+    documents.push(current);
+    current.accepted = true;
+    const edges = overlaySelections(current.key, authoringContract, current);
+    const graph = resolveConnections(documents, edges, { scope: [current.key] });
+    applyConnectionViews(documents, graph.views);
+    setUpdateCatalog(documents);
+    setCapabilityCatalog(documents.filter(item => documentKind(item) === 'capability').map(item => ({ ...item, slug: item.key, folder: item.key, evidenceCount: item.connections?.evidence?.length || 0 })));
+    update = current;
+  }
   await loadRenderDependencies(update?.blocks);
   const portfolioLink = document.getElementById('portfolio-breadcrumb');
-  if (portfolioLink && update?.key) {
+  if (portfolioLink && update?.key && documentKind(update) === 'update') {
     portfolioLink.href = `../index.html#${encodeURIComponent(getUpdateAnchorId(update.key))}`;
     portfolioLink.setAttribute('aria-label', `Back to this update in the portfolio: ${update.title}`);
   }
@@ -88,7 +104,7 @@ async function renderUpdateWithDependencies(update) {
 function applyCapabilityBreadcrumb(update) {
   const requestedCapability = new URLSearchParams(window.location.search).get('from-capability');
   if (!requestedCapability) return;
-  if (!(update?.capabilities || []).includes(requestedCapability)) return;
+  if (!(update?.connections?.capabilities || []).includes(requestedCapability)) return;
   const capability = capabilityCatalog.find((item) => item.slug === requestedCapability
     || item.folder === requestedCapability);
   if (!capability) return;
@@ -159,14 +175,15 @@ async function loadFooter() {
 
 async function loadCatalog() {
   const [index, capabilities] = await Promise.all([
-    loadUpdateIndex('./index.json'),
+    loadJson('../data/documents.json'),
     loadJson('../capabilities/manifest.json'),
   ]);
-  if (capabilities?.schema !== 'portfolio-capability-manifest@3'
+  if (capabilities?.schema !== 'portfolio-capability-manifest@4'
       || !Array.isArray(capabilities.capabilities)) {
-    throw new Error('Capability catalog must use portfolio-capability-manifest@3');
+    throw new Error('Capability catalog must use portfolio-capability-manifest@4');
   }
-  const updates = index.updates;
+  if (index?.schema !== 'portfolio-document-index@2' || !Array.isArray(index.documents)) throw new Error('Document catalog is unavailable');
+  const updates = index.documents;
   capabilityCatalog = capabilities.capabilities;
   setUpdateCatalog(updates);
   setCapabilityCatalog(capabilityCatalog);
@@ -175,18 +192,20 @@ async function loadCatalog() {
 
 async function loadProjectPayload(key) {
   const safeKey = encodeURIComponent(String(key || ''));
-  const payload = await loadJson(`./${safeKey}/update.json`);
-  if (!payload || payload.schema !== 'portfolio-update@7' || !payload.update
-      || payload.media?.schema !== 'portfolio-site/media-metadata@1') {
-    throw new Error('Update payload must use portfolio-update@7 with current media metadata');
+  const kind = document.body.dataset.documentKind || 'update';
+  const payload = await loadJson(`./${safeKey}/${documentPayloadName({ kind })}`);
+  if (!payload || payload.schema !== documentPayloadSchema({ kind }) || !payload[kind]
+      || payload.media?.schema !== 'portfolio-site/media-metadata@2') {
+    throw new Error('Update payload must use portfolio-update@9 with current media metadata');
   }
-  return { ...payload.update, media: payload.media };
+  return { ...payload[kind], media: payload.media };
 }
 
 // Stable editor API. It is installed before the catalog request completes so
 // an editor rerender can recover even when the requested update is unsaved.
 window.__renderUpdatePreview = renderUpdateWithDependencies;
 window.__setUpdateCatalog = setUpdateCatalog;
+window.__setDocumentCatalog = (documents, contract) => { authoringCatalog = documents; authoringContract = contract; };
 window.__setCapabilityCatalog = setCapabilityCatalog;
 window.__portfolioRenderReady = true;
 

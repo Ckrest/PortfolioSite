@@ -1,22 +1,37 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_8a5a62eb3d715b5faad4d314849ae7c1",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6"
+      ],
+      "display_projects": [
+        "doc_f10013d665284f0eab4b31aed67e63c6"
+      ]
+    },
     "title": "Fixed Docklike hover previews and capture throttling",
     "summary": "Introduced a dedicated hover state machine and fair capture scheduling so preview menus close cleanly and every visible window keeps receiving live thumbnail updates.",
     "date": "2026-01-20",
-    "prominence": "low",
+    "prominence": "medium",
+    "preview": {
+      "description": "A stable hover state keeps the window popup open while fair capture scheduling refreshes every visible preview.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/2026-09-08_01-55-00.png",
+      "width": 851,
+      "height": 309
+    },
     "tags": [
       "Wayland",
       "C++",
       "Debugging"
     ],
-    "relationships": {
-      "part_of": "doc_cec34e8034f1584fa26d7325bc9341e5"
-    },
     "blocks": [
       {
-        "body": "## Make hover behavior explicit\n\nDocklike now coordinates the panel button, preview popup, and menu items through a dedicated `HoverManager` with closed, opening, open, and grace-period states. Pointer movement feeds one state machine, keeping the menu available while moving into it and clearing the hover style when the interaction ends.",
+        "body": "## Make hover behavior explicit\n\nI introduced a dedicated `HoverManager` to coordinate the panel button, preview popup, and menu items. It moves through closed, opening, open, and grace-period states. Pointer movement feeds the state machine, keeping the menu available while moving into it and clearing the hover style when the interaction ends.",
         "type": "text"
       },
       {
@@ -27,18 +42,31 @@
         "type": "mermaid"
       },
       {
-        "body": "## Share capture time fairly\n\nLive refresh requests now use queue depth to choose how captures are admitted. At normal load, every visible window can request a fresh thumbnail; when the queue becomes busy, round-robin selection rotates the next accepted request between windows.",
+        "body": "## Share capture time fairly\n\nLive refresh requests use queue depth to decide how captures are admitted. At normal load, every visible window can request a fresh thumbnail; when the queue becomes busy, round-robin selection rotates the next accepted request between windows.",
         "type": "text"
       }
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:5f44f93b721519488fbdde53fb3d8c97001bc30b83b1cee8a3676c90f9cf4cb4",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/2026-09-08_01-55-00.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 851,
+        "height": 309,
+        "digest": "sha256:1c38a78e6046338ff2fee382404600b8056757f05d335c0268af6a12a83c8530",
+        "byte_size": 106730,
+        "animated": false
       }
     }
   }

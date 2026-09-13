@@ -118,9 +118,7 @@
 }
 
 /* Hide broken image icon while loading */
-.update-entry__image:not(.loaded):not(.fallback) {
-  background: var(--color-bg);
-}
+
 
 /* Icon (for small entries) */
 .update-entry__icon {

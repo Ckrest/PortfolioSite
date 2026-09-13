@@ -1,0 +1,76 @@
+blocks:
+- body: '## Separate the overlay from the workspace that hosted it
+
+
+    Desktop HUD combines images, video, and live widgets on a GTK4 layer-shell surface.
+    I removed its Constellation-specific discovery and import helpers so the application’s
+    runtime depends on its declared libraries instead of the surrounding development
+    workspace.
+
+
+    The package retains the scene model, visual editing, profiles, and runtime API.
+    User layouts and workspace-specific service files are kept outside the reusable
+    application source.'
+  id: blk_hud_context
+  type: text
+- description: The Desktop HUD showcase combines an image element, two video surfaces,
+    live system charts, and gauges in one desktop composition.
+  id: blk_hud_showcase
+  kind: image
+  presentation: wide
+  src: media/desktop-hud-showcase.png
+  type: image
+- body: '## Declare the application’s dependencies
+
+
+    I made graph-lib and Cairo ordinary package dependencies alongside the GTK bindings
+    and configuration library. Dependency validation was updated to recognize properly
+    declared installed libraries.
+
+
+    That gives installation and integration a visible boundary: the application declares
+    what it imports, while the environment supplies its desktop services and user
+    configuration.'
+  id: blk_hud_dependencies
+  type: text
+- code: "dependencies = [\n    \"PyYAML\",\n    \"PyGObject\",\n    \"pycairo\",\n\
+    \    \"graph-lib\",\n]"
+  description: The package declares the configuration, GTK, Cairo, and graph-library
+    dependencies used by the overlay.
+  filename: pyproject.toml
+  id: blk_hud_dependency_source
+  language: toml
+  presentation: content
+  sourceMode: inline
+  type: code
+- body: '## Make the reusable package behave consistently
+
+
+    I also corrected media source updates and profile serialization, made video backend
+    selection explicit, and added a deterministic looping fallback for the simple
+    video backend. Runtime changes can update the active elements without relying
+    on a complete profile reload.
+
+
+    The showcase was exercised through service restarts, profile switching, and API
+    changes. The result preserves the desktop composition while making its dependencies
+    and media behavior easier to configure and inspect.'
+  id: blk_hud_runtime
+  type: text
+date: '2026-03-01'
+kind: update
+preview:
+  description: Keep the desktop composition; separate the workspace wiring.
+  fit: contain
+  kind: image
+  placement: cards-only
+  src: media/hud-card.svg
+prominence: low
+summary: Removed Constellation-specific runtime dependencies from Desktop HUD, declared
+  its package requirements, and improved media playback and live element updates.
+tags:
+- GTK
+- Wayland
+- Python
+- Packaging
+title: Made Desktop HUD usable outside Constellation

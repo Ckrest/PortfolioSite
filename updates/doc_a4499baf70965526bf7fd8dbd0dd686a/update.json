@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_a4499baf70965526bf7fd8dbd0dd686a",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Shared the active Wayland output with session services",
     "summary": "Built a Bash startup script that waits for Wayland, selects the first enabled output from wlr-randr, and publishes it through both systemd and a runtime file.",
     "date": "2026-01-15",
@@ -13,11 +17,6 @@
       "Systemd",
       "Desktop Environment"
     ],
-    "relationships": {
-      "related": [
-        "doc_3a6495dd303a5286b238144d478fa5df"
-      ]
-    },
     "blocks": [
       {
         "body": "## Publish one output name for the session\n\nUser services needed a Wayland connector name, but hardcoding one tied them to a particular display setup. I added a startup script that waits for the Wayland socket, asks `wlr-randr` for enabled outputs, and selects the first one marked `Enabled: yes`.",
@@ -46,16 +45,25 @@
       {
         "body": "## Serve both systemd and file-based consumers\n\nThe script publishes the connector as `PRIMARY_MONITOR` in the systemd user environment and writes the same value to `$XDG_RUNTIME_DIR/primary-monitor`. Wallpaper Service reads the runtime file during startup, while other user services can consume the environment value after detection completes.",
         "type": "text"
+      },
+      {
+        "label": "Wallpaper Service: a consumer of the detected output",
+        "type": "related-mini",
+        "updateId": "doc_3a6495dd303a5286b238144d478fa5df"
       }
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:6f2e8efe0eba00dc767eb63294670c73945df91635fc84c15858d2795a37cd9d",
+        "byte_size": 500,
+        "animated": false
       }
     }
   }

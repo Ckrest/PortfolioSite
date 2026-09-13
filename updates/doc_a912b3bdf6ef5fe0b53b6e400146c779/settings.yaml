@@ -1,29 +1,29 @@
 blocks:
-- body: '## Make the camera a desktop action
+- body: '## Toggle the two-part camera pipeline
 
 
-    I bound the command to Super+O in Wayfire so I could control the camera without
-    bringing OBS to the foreground. Desktop notifications confirmed when the pipeline
-    was ready or stopped, leaving OBS minimized and the workflow out of the way.'
+    I bound Super+O in Wayfire so the virtual camera can start and stop without bringing
+    OBS to the foreground. On start, the script launches RVM, waits up to about five
+    seconds for its output device to become active, warns if that bounded check times
+    out, and then launches OBS minimized. The check sequences the handoff; it does
+    not claim an end-to-end camera verification.
+
+
+    If either OBS or RVM is already running, the same shortcut stops OBS and then
+    RVM. Process checks keep repeated presses from leaving one half of the pipeline
+    behind, while desktop notifications report the requested transition.'
   id: blk_editorial_virtual-camera-toggle
   type: text
-- id: ecf7e4d8-73af-40a5-9a83-30aae54cb971
+- id: blk_relationship_context_51bf8adf2664
+  label: 'RVM Virtual Camera: the background-removal stage'
   type: related-mini
   updateId: doc_51bf8adf26645d2e85771fe2390cd999
-- body: '## Coordinate the camera pipeline
-
-
-    The command waited for RVM’s output device before starting OBS, then shut the
-    two processes down in reverse order. Process checks kept repeated shortcut presses
-    from leaving either half of the camera pipeline running by itself.'
-  id: blk_editorial_virtual-camera-pipeline
-  type: text
-- code: "flowchart TD\n  A[Press Super+O] --> B{Is the camera pipeline running?}\n\
-    \n  B -- No --> C[Start RVM background removal]\n  C --> D[Wait for the processed\
-    \ camera feed]\n  D --> E[Start the OBS virtual camera]\n  E --> F[Camera ready]\n\
-    \n  B -- Yes --> G[Stop OBS]\n  G --> H[Stop RVM]\n  H --> I[Camera stopped]"
-  description: The shortcut checked the camera pipeline, then started or stopped its
-    two parts in order.
+- code: "flowchart LR\n  Press[Press Super+O] --> Running{OBS or RVM running?}\n \
+    \ Running -- No --> StartRVM[Start RVM]\n  StartRVM --> Check[Bounded output-device\
+    \ check]\n  Check --> StartOBS[Launch OBS minimized]\n  Running -- Yes --> StopOBS[Stop\
+    \ OBS]\n  StopOBS --> StopRVM[Stop RVM]"
+  description: The shortcut starts the two processes in order or stops both when either
+    half is already running.
   id: blk_camera_toggle
   presentation: content
   sourceMode: inline
@@ -31,11 +31,8 @@ blocks:
 date: '2025-12-08'
 external_url: https://github.com/Ckrest/virtual-camera-toggle
 prominence: low
-related_to:
-- doc_51bf8adf26645d2e85771fe2390cd999
-summary: Created a keyboard shortcut that started RVM background removal, launched
-  OBS minimized with its virtual camera active, and stopped both processes on the
-  next press.
+summary: Created a keyboard shortcut that starts the background-removal and OBS camera
+  processes in order, then stops both from the same desktop action.
 tags:
 - Bash
 - CLI

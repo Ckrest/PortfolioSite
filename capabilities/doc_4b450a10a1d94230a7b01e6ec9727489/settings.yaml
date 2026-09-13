@@ -1,0 +1,64 @@
+blocks:
+- body: '## Decide what each tool owns
+
+
+    My projects often combine several applications, services, and data stores. I make
+    the ownership boundaries explicit: which component retains the data, which interprets
+    a command, which presents the interface, and which verifies the result.
+
+
+    That work appears in Constellation Framework''s package contracts, Desktop Settings
+    Hub''s extensions, and the handoffs from retained evidence to a public portfolio
+    page. The connections give the tools a shared workflow while keeping their individual
+    roles understandable.'
+  id: blk_placeholder
+  type: text
+- body: '## Separate package facts from reusable behavior
+
+
+    Constellation Framework resolves package declarations against shared definitions
+    for discovery, services, builds, installation, and validation. Packages supply
+    their identity and integration facts; common mechanisms interpret those facts
+    and verify the requested effects.
+
+
+    One registry milestone moved trait schemas, resolution rules, queries, and API
+    projections into declarative definitions across more than 50 packages. The shared
+    engine could then serve those contracts without another hardcoded transform for
+    each trait.'
+  id: blk_outcome_systems_contracts
+  type: text
+- body: '## Reuse an interface without absorbing every integration
+
+
+    Desktop Settings Hub renders package-owned catalogs through a shared GTK4 shell.
+    A package defines its controls and calls its own installed commands or public
+    configuration surface. The Hub handles layout, navigation, and feedback.
+
+
+    Validation happens before rendering, and an invalid extension can report a local
+    problem while valid integrations continue to load. This supports both small preference
+    panels and live dashboards without making the shell responsible for each package''s
+    operating rules.'
+  id: blk_outcome_systems_extensions
+  type: text
+- body: '## Give each handoff a clear result
+
+
+    In the Work-to-Portfolio Pipeline, Work Report System preserves the source record,
+    Portfolio Editor selects and edits public content, and Portfolio Site renders
+    accepted material. Stable document and artifact identities carry context across
+    the boundaries.
+
+
+    The same approach lets Desktop Service Manager consume Constellation''s inventory
+    and lifecycle contracts, and lets ComfyUI Image Viewer use Conduit''s workflow
+    interface. A client can build on another tool''s supported result while leaving
+    its implementation and private state with the owner.'
+  id: blk_outcome_systems_handoffs
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I connect independently useful tools through explicit ownership, validated
+  contracts, and shared interfaces that let each component evolve.
+title: Design and connect multi-tool software systems

@@ -1,7 +1,19 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec"
+      ],
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
     "title": "Separated Work Report creation from evidence curation",
     "summary": "Reduced report creation to one direct operation and separated evidence review into a second curation step driven by completed tool operations.",
     "date": "2026-02-20",
@@ -12,17 +24,6 @@
       "Python",
       "Infrastructure"
     ],
-    "relationships": {
-      "part_of": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
-      "supersedes": "doc_582dd26679fb5519a5a4bf771863f5a6",
-      "parts": [
-        "doc_e231ba92a76357568aec5ed265dbbbc7"
-      ],
-      "related": [
-        "doc_4dfdcbce5020516ca7a8e0ff29c542b8",
-        "doc_f1ecee3798b75a698060af0d6fd26b53"
-      ]
-    },
     "blocks": [
       {
         "body": "## Create the factual record directly\n\nA single create operation writes the report’s required context as a complete record. The caller supplies the narrative and report facts together, without maintaining a server-side wizard session across several responses.\n\nEvidence remains a separate decision, so recording what happened does not depend on choosing every supporting artifact at the same time.",
@@ -42,12 +43,16 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:0a584e4b2f4a419d6601d4bed25248262a705976683b673cd8a8998721a1b01f",
+        "byte_size": 498,
+        "animated": false
       }
     }
   }

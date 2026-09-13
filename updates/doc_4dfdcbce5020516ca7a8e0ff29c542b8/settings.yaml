@@ -29,7 +29,6 @@ blocks:
   id: blk_posthoc_attachment
   type: text
 date: '2026-02-19'
-part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
 prominence: low
 summary: Made report completion find artifacts created during the active session and
   added a direct attachment path for evidence added afterward.

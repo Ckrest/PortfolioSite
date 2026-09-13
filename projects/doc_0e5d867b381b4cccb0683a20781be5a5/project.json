@@ -1,0 +1,101 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_0e5d867b381b4cccb0683a20781be5a5",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "items": [
+        "doc_7ee8d3e7e97d4c6ca3acff195440fb2b",
+        "doc_34a72e56c32a5cbbae2587ef72aed19d",
+        "doc_b96f6bcce4965a80bf8db7633cc3628b",
+        "doc_0b8d60db909c54b7aad85f168788ca3f",
+        "doc_35acc634705754a2b846a4951e00470a",
+        "doc_7a5e51989c35543baf1b6dbf1a8b793a",
+        "doc_9503340b85e059238577a3ec79bbc0b9",
+        "doc_ad539b8c8a6b4d659707514a7ade1427",
+        "doc_e2b464eeca015722bcaf583192c346f6",
+        "doc_bcdd9d2b5fee4d5b99ce3cd33c6357c2",
+        "doc_6b7f8c754a1e5e9492d306667ad478d2",
+        "doc_1a3826668acb53688961faa991a157f1"
+      ],
+      "display_projects": []
+    },
+    "title": "Portfolio Site",
+    "summary": "The public rendering and build system for portfolio projects, updates, and capabilities, producing verified static releases from accepted content.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "description": "Featured work uses responsive cards with imagery, summaries, and topic tags.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/portfolio-site-featured.png",
+      "width": 1600,
+      "height": 1000
+    },
+    "tags": [
+      "JavaScript",
+      "CSS",
+      "Frontend",
+      "Architecture",
+      "Documentation"
+    ],
+    "blocks": [
+      {
+        "body": "## Present a body of work at several levels\n\nPortfolio Site turns reviewed content into a complete static portfolio. Project pages explain an ongoing body of work, dated updates record individual milestones, and capability pages collect evidence of an ability. The homepage brings these views together through cards, timelines, and topic navigation.\n\nAll three page types share a block renderer for text, media, documents, code, diagrams, and other evidence. Each retains its own page layout and purpose.",
+        "type": "text"
+      },
+      {
+        "body": "## Derive navigation from one relationship model\n\nCanonical connections link updates to projects and connect demonstrated work to capabilities. The build derives timelines and navigation in both directions, using stable document identities instead of manually maintained duplicate links.\n\nValidation checks the complete public graph alongside page fields, block identities, assets, and image descriptions. An optional connection resolves only when its endpoints belong to the accepted public content, allowing references to remain pending during authoring.",
+        "type": "text"
+      },
+      {
+        "body": "## Build the same public model that the owner reviews\n\nPortfolio Editor sends a frozen candidate to the Site’s page-review boundary. That boundary renders the selected page against accepted context using the same mechanics as a full release. Other pages’ working drafts remain outside it.\n\nRelease preparation assembles the homepage, detail pages, assets, indexes, and sitemap, reusing unchanged compiled results. A release receipt binds the accepted snapshot, renderer, verified public source, and deployable output to reproducible identities.",
+        "type": "text"
+      },
+      {
+        "body": "## Make the output independent of the authoring system\n\nThe deployable directory contains an allowlisted public artifact. Private notes, report-store identities, databases, logs, and unused evidence remain outside it. Once built, the site needs an ordinary static host and has no runtime dependency on Portfolio Editor or Work Report.\n\nThe local preview activates a complete verified release atomically and can keep serving the previous complete snapshot if preparation fails. Constellation installs the prepared bytes and handles explicit publication separately.",
+        "type": "text"
+      },
+      {
+        "label": "Portfolio Editor: curate and approve the public content",
+        "type": "related-mini",
+        "updateId": "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      },
+      {
+        "label": "Work-to-Portfolio Pipeline: from evidence to published pages",
+        "type": "related-mini",
+        "updateId": "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:dcfc83ad4fce153c762587e7cdf49a86101e44f4fbd49dffa18f1b6f44f38374",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/portfolio-site-featured.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1600,
+        "height": 1000,
+        "digest": "sha256:8da1d75dad44fe397ee3860cf7378ad55e80cf380ea6722113083dcd86bdf6ce",
+        "byte_size": 186158,
+        "animated": false
+      }
+    }
+  }
+}

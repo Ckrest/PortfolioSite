@@ -1,0 +1,61 @@
+blocks:
+- body: '## Connect desktop interaction to the compositor
+
+
+    My Wayland work spans the pixels a compositor supplies, the service that coordinates
+    an operation, and the controls a person uses. I build across those layers to make
+    actions such as selecting a window, opening a taskbar preview, or arranging a
+    desktop overlay behave consistently.
+
+
+    Wayland Screenshot Tool, Docklike, Wayfire Window Capture, and Desktop HUD show
+    different parts of that work.'
+  id: blk_placeholder
+  type: text
+- body: '## Make capture precise from selection to saved image
+
+
+    I rebuilt Wayland Screenshot Tool as a persistent GTK4 service, keeping captured
+    pixels available while the user chooses a region or window. A frozen selector
+    provides live dimensions, magnification, and one-pixel keyboard movement. Interactive
+    and scripted requests share the same save, clipboard, and notification path.
+
+
+    Window selection uses an opaque compositor identity, so two windows with the same
+    title remain distinct. The Wayfire capture integration supplies frames from that
+    exact view and reports unavailable targets through the capture protocol.'
+  id: blk_outcome_desktop_capture
+  type: text
+- body: '## Carry familiar controls onto Wayland
+
+
+    My port of the upstream Docklike taskbar preserves pinned applications, grouped
+    windows, and window actions while replacing its platform integration with Wayland
+    protocols. A separate capture manager supplies asynchronous live previews without
+    making panel interaction wait for each image.
+
+
+    Explicit hover states manage the transition from launcher to popup, and capture
+    scheduling shares work among visible windows. These details make the protocol
+    integration usable as a daily desktop control.'
+  id: blk_outcome_desktop_taskbar
+  type: text
+- body: '## Make the desktop itself configurable
+
+
+    Desktop HUD combines images, video, graphs, gauges, and hotkey panels on a transparent
+    layer-shell surface. It normally passes pointer input through; edit mode enables
+    direct movement, resizing, and snapping.
+
+
+    Saved profiles reconstruct complete scenes, and the local API controls the same
+    element model as the editor. Reusable renderers and data providers let the overlay
+    combine live information with media while keeping each component''s responsibilities
+    clear.'
+  id: blk_outcome_desktop_overlay
+  type: text
+date: '2026-09-12'
+kind: capability
+summary: I build Linux desktop tools that connect compositor protocols, native interfaces,
+  and local services into precise capture, taskbar, and overlay workflows.
+title: Build and extend Linux and Wayland desktop systems

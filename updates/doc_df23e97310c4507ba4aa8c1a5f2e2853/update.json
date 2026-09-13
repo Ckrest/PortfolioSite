@@ -1,7 +1,11 @@
 {
-  "schema": "portfolio-update@7",
+  "schema": "portfolio-update@9",
   "update": {
     "key": "doc_df23e97310c4507ba4aa8c1a5f2e2853",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
     "title": "Built a lightweight network reliability monitor",
     "summary": "Built a small service that periodically pings configured hosts, records latency, loss, and jitter in SQLite, and summarizes connection reliability over time.",
     "date": "2026-01-13",
@@ -11,12 +15,6 @@
       "Python",
       "Infrastructure"
     ],
-    "relationships": {
-      "related": [
-        "doc_38811c0e3f5d564f8b840821d6ea52b5",
-        "doc_ff2e48756b8f5bf5aeaee62e5142e744"
-      ]
-    },
     "blocks": [
       {
         "body": "## Turn intermittent failures into a history\n\nPing Monitor runs a short Linux ping test against each configured host, parses packet counts and minimum, average, maximum, and deviation latency, then stores each result with its target and timestamp in SQLite. Instead of only asking whether the network feels slow right now, the accumulated data shows whether latency spikes, packet loss, or jitter keep returning.",
@@ -40,6 +38,7 @@
       },
       {
         "description": "Ping Monitor visualization with latency, packet-loss, jitter, and uptime views. Stored measurements reveal latency spikes, packet-loss bursts, jitter, and overall uptime side by side.",
+        "kind": "image",
         "presentation": "intrinsic",
         "src": "media/screenshot_2026-02-28_16-37-03.png",
         "type": "image"
@@ -51,17 +50,25 @@
     ]
   },
   "media": {
-    "schema": "portfolio-site/media-metadata@1",
+    "schema": "portfolio-site/media-metadata@2",
     "items": {
       "assets/icon.svg": {
+        "kind": "image",
         "media_type": "image/svg+xml",
         "width": 96,
-        "height": 96
+        "height": 96,
+        "digest": "sha256:54825416da34edb05563e654790b9071063c1e7e4908025d979b8a3daac839e6",
+        "byte_size": 499,
+        "animated": false
       },
       "media/screenshot_2026-02-28_16-37-03.png": {
+        "kind": "image",
         "media_type": "image/png",
         "width": 1022,
-        "height": 642
+        "height": 642,
+        "digest": "sha256:fe2f1ddb7888d8853f3b2fc6da4c9063a4536767c9da2231bdaf4ed241138691",
+        "byte_size": 74854,
+        "animated": false
       }
     }
   }

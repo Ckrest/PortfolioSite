@@ -1,0 +1,82 @@
+blocks:
+- body: '## Preserve the explanation alongside the work
+
+
+    Work Report records what was done, why it was done, and the evidence that supports
+    it. A report combines narrative, timing, effort, tags, package associations, and
+    ordered artifacts in a searchable local record.
+
+
+    Human and automated callers use the same installed command and application core.
+    The terminal interface stays concise, while machine mode returns a versioned JSON
+    envelope with structured errors and no interactive prompts.'
+  id: blk_placeholder
+  type: text
+- body: '## Retain evidence with its meaning and origin
+
+
+    Each artifact has a stable identity, semantic kind, media type, source locator,
+    descriptive text, review state, capture time, and content facts. Local attachments
+    are copied into an owned corpus; external references and known-missing material
+    keep their distinct states.
+
+
+    Registration can record an unassigned reference, attachment connects evidence
+    to a report, and detachment preserves the underlying material. Candidate discovery
+    examines explicitly supplied paths or Git worktrees, and curation mutates the
+    store only for exact selections.'
+  id: blk_report_project_evidence
+  type: text
+- body: '## Keep editing and organization explicit
+
+
+    Reports have increasing revisions so callers can guard changes against an earlier
+    read. Completion describes whether the narrative is ready, while archival independently
+    records whether a report has been dealt with. Neither operation triggers publication.
+
+
+    The maintained application uses SQLite with foreign keys, ordered associations,
+    and short transactions. Artifact files are staged and moved atomically before
+    their metadata transaction commits, with cleanup when a mutation fails.'
+  id: blk_report_project_revision
+  type: text
+- body: '## Make the record recoverable and reusable
+
+
+    Backups checkpoint the database and owned corpus with a manifest. Portable exports
+    preserve metadata, identities, and ordered links; imports restore into an empty
+    destination with the required material. Store validation checks relationships
+    and files, with an optional deep digest check.
+
+
+    Portfolio Editor can browse reports and copy selected material into a public draft.
+    That curation leaves the source report intact and keeps private details outside
+    the public Site contract.'
+  id: blk_report_project_recovery
+  type: text
+- id: blk_report_project_artifacts
+  label: 'Work Evidence Pipeline: discovery, ownership, and reusable evidence'
+  type: related-mini
+  updateId: doc_21878f357de740b59b064fd59ea40121
+- id: blk_report_project_editor
+  label: 'Portfolio Editor: turn selected report evidence into public pages'
+  type: related-mini
+  updateId: doc_9f1f9fa959cb4018a7439b07ca6d241f
+date: '2026-09-12'
+kind: project
+preview:
+  description: A documentation demonstration shows concise terminal records and a
+    versioned JSON response for automated callers.
+  fit: contain
+  kind: image
+  placement: cards-and-detail
+  src: media/work-report-cli-demonstration.png
+summary: A standalone CLI application for preserving completed work as searchable
+  records with revisioned narrative, curated artifacts, and portable evidence storage.
+tags:
+- Python
+- SQLite
+- CLI
+- Documentation
+- Data Pipelines
+title: Work Report System

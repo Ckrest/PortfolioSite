@@ -28,11 +28,13 @@ external_url: https://github.com/Ckrest/PortfolioSite
 preview:
   description: Dark portfolio homepage showing a large Nick Young heading and a featured
     Diagram Tool project card.
+  fit: cover
+  kind: image
+  placement: cards-and-detail
   src: media/modular-portfolio-homepage.png
 prominence: medium
 summary: Split a 900-line homepage into independent section modules and shared style
   layers, then made section order and visibility configurable.
-supersedes: doc_1a3826668acb53688961faa991a157f1
 tags:
 - JavaScript
 - CSS

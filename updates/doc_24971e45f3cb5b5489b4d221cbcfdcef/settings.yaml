@@ -35,14 +35,9 @@ blocks:
   id: blk_operation_evidence_curation
   type: text
 date: '2026-02-20'
-part_of: doc_a67b241ca49f5f12ba0dcb4badd5ceac
 prominence: low
-related_to:
-- doc_4dfdcbce5020516ca7a8e0ff29c542b8
-- doc_f1ecee3798b75a698060af0d6fd26b53
 summary: Reduced report creation to one direct operation and separated evidence review
   into a second curation step driven by completed tool operations.
-supersedes: doc_582dd26679fb5519a5a4bf771863f5a6
 tags:
 - Refactoring
 - Architecture

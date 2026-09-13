@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720" role="img" aria-labelledby="title desc">
+  <title id="title">Cursor paging after a live insertion</title>
+  <desc id="desc">A cursor anchored after image D keeps the second page stable at images C and B even after new image F joins the top of the feed.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a2328"/>
+      <stop offset="1" stop-color="#0e1519"/>
+    </linearGradient>
+    <linearGradient id="tileWarm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6bb68"/>
+      <stop offset="1" stop-color="#8d4b50"/>
+    </linearGradient>
+    <linearGradient id="tileCool" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#75d8d2"/>
+      <stop offset="1" stop-color="#36558f"/>
+    </linearGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#fff" stroke-opacity=".035"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1 1l9 5-9 5z" fill="#5dd6cb"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="720" rx="30" fill="url(#bg)"/>
+  <rect width="1100" height="720" rx="30" fill="url(#grid)"/>
+  <g font-family="Inter, Segoe UI, sans-serif">
+    <rect x="58" y="48" width="190" height="40" rx="20" fill="#183033" stroke="#387a76"/>
+    <text x="153" y="75" text-anchor="middle" fill="#90eee6" font-size="17" font-weight="750" letter-spacing="1.5">CURSOR PAGING</text>
+    <text x="58" y="134" fill="#f5f7fb" font-size="34" font-weight="750">The image boundary stays put</text>
+    <text x="58" y="172" fill="#a9b2c0" font-size="20">The next page begins after the last image already delivered.</text>
+
+    <text x="58" y="230" fill="#8692a2" font-size="16" font-weight="700" letter-spacing="1.4">PAGE 1 · NEWEST</text>
+    <rect x="58" y="254" width="428" height="152" rx="20" fill="#181d24" stroke="#38414f" stroke-width="2"/>
+    <g>
+      <rect x="82" y="278" width="86" height="104" rx="14" fill="url(#tileCool)"/>
+      <rect x="180" y="278" width="86" height="104" rx="14" fill="url(#tileWarm)"/>
+      <rect x="278" y="278" width="86" height="104" rx="14" fill="#343c49"/>
+      <rect x="376" y="278" width="86" height="104" rx="14" fill="#343c49"/>
+      <path d="M82 353l24-26 18 18 23-34 21 23v48H82z" fill="#193c5c" opacity=".6"/>
+      <path d="M180 353l25-31 20 22 19-30 22 26v42h-86z" fill="#56313d" opacity=".65"/>
+      <text x="125" y="340" text-anchor="middle" fill="#fff" font-size="28" font-weight="800">E</text>
+      <text x="223" y="340" text-anchor="middle" fill="#fff" font-size="28" font-weight="800">D</text>
+      <text x="321" y="340" text-anchor="middle" fill="#8c97a6" font-size="28" font-weight="800">C</text>
+      <text x="419" y="340" text-anchor="middle" fill="#8c97a6" font-size="28" font-weight="800">B</text>
+    </g>
+    <path d="M74 394h208" stroke="#61d5cb" stroke-width="4" stroke-linecap="round"/>
+    <rect x="181" y="418" width="190" height="40" rx="20" fill="#173236" stroke="#3f8580"/>
+    <text x="276" y="444" text-anchor="middle" fill="#9af0e9" font-size="15" font-weight="800">CURSOR AFTER D</text>
+
+    <path d="M520 329h77" stroke="#5dd6cb" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <rect x="503" y="265" width="112" height="42" rx="21" fill="#173236"/>
+    <text x="559" y="292" text-anchor="middle" fill="#9af0e9" font-size="14" font-weight="750">LIVE F</text>
+
+    <text x="640" y="230" fill="#8692a2" font-size="16" font-weight="700" letter-spacing="1.4">PAGE 2 · AFTER D</text>
+    <rect x="640" y="254" width="402" height="152" rx="20" fill="#181d24" stroke="#3f8580" stroke-width="2"/>
+    <g>
+      <rect x="664" y="278" width="82" height="104" rx="14" fill="url(#tileCool)"/>
+      <rect x="758" y="278" width="82" height="104" rx="14" fill="url(#tileWarm)"/>
+      <rect x="852" y="278" width="82" height="104" rx="14" fill="#343c49"/>
+      <rect x="946" y="278" width="72" height="104" rx="14" fill="#343c49"/>
+      <path d="M664 353l24-26 18 18 23-34 17 23v48h-82z" fill="#193c5c" opacity=".6"/>
+      <path d="M758 353l25-31 20 22 18-30 19 26v42h-82z" fill="#56313d" opacity=".65"/>
+      <text x="705" y="340" text-anchor="middle" fill="#fff" font-size="28" font-weight="800">C</text>
+      <text x="799" y="340" text-anchor="middle" fill="#fff" font-size="28" font-weight="800">B</text>
+      <text x="893" y="340" text-anchor="middle" fill="#8c97a6" font-size="28" font-weight="800">A</text>
+      <text x="982" y="340" text-anchor="middle" fill="#8c97a6" font-size="24" font-weight="800">…</text>
+    </g>
+    <path d="M656 394h200" stroke="#61d5cb" stroke-width="4" stroke-linecap="round"/>
+    <rect x="657" y="419" width="188" height="40" rx="20" fill="#173b3d" stroke="#3f8580"/>
+    <text x="751" y="445" text-anchor="middle" fill="#a1f3ec" font-size="15" font-weight="800">C, B STAY NEXT</text>
+
+    <rect x="58" y="503" width="984" height="144" rx="22" fill="#142729" stroke="#376f6d" stroke-width="2"/>
+    <circle cx="103" cy="551" r="15" fill="#5dd6cb"/>
+    <path d="M95 551l6 6 12-14" fill="none" stroke="#142729" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="138" y="558" fill="#d9fffb" font-size="23" font-weight="750">A live result can join above D without moving its cursor.</text>
+    <text x="138" y="598" fill="#9bc9c5" font-size="18">The next request still returns C and B, with no repeated tile.</text>
+  </g>
+</svg>
