@@ -1,0 +1,57 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_c95cfaed84a75c5d99e9e4f74c8f3a39",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_4b450a10a1d94230a7b01e6ec9727489"
+      ],
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ]
+    },
+    "title": "Made registry traits define their own API behavior",
+    "summary": "Moved Constellation Framework trait schemas, resolution, queries, aggregation, and API projections out of hardcoded transforms and into declarative registry definitions.",
+    "date": "2026-02-04",
+    "prominence": "low",
+    "tags": [
+      "Architecture",
+      "Refactoring"
+    ],
+    "blocks": [
+      {
+        "body": "## Put the complete contract in each trait definition\n\nWithin the Constellation Framework’s registry, I moved package trait data out of the main manifests and into focused `trait_<name>.yaml` files. Each trait definition declares the data schema, resolution rules, aggregations, queries, and public projection that govern those files.\n\nThe migration covered more than 50 packages and introduced traits for fork lineage, path dependencies, publishing, standalone repositories, and untracked state.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Definition[Trait definition] --> Schema[Data schema]\n  Definition --> Resolve[Resolution rules]\n  Definition --> Query[Queries and aggregation]\n  Definition --> Output[API projection]\n  Package[Package trait data] --> Schema\n  Schema --> Engine[Shared registry engine]\n  Resolve --> Engine\n  Query --> Engine\n  Output --> Engine",
+        "description": "A trait definition carries schema, resolution, query, aggregation, and output rules into the shared registry engine.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Serve every trait through one engine\n\nPackages provide their own data, while the shared registry engine loads the selected definition, validates each package file, resolves references, runs declared queries or aggregations, and produces the API response. Adding or removing a trait changes its definition and data files instead of requiring another hardcoded transform.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:d63d80b3572c3825c2e46cf60fee88e2030c6375b7f27ce7df12f7d9694c4dfb",
+        "byte_size": 498,
+        "animated": false
+      }
+    }
+  }
+}

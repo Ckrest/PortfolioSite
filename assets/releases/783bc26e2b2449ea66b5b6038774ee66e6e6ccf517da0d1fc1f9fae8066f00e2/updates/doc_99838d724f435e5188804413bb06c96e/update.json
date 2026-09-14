@@ -1,0 +1,168 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_99838d724f435e5188804413bb06c96e",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ]
+    },
+    "title": "Reworked Portfolio Editor architecture and editing flows",
+    "summary": "Centralized Portfolio Editor state and actions, then connected report browsing, project import, block editing, live preview, and undo and redo into one reliable workspace.",
+    "date": "2026-01-30",
+    "prominence": "high",
+    "preview": {
+      "description": "Portfolio Editor project metadata beside the rendered portfolio page in the split editing workspace",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/screenshot_2026-01-30_18-16-28.png",
+      "width": 1085,
+      "height": 1325
+    },
+    "tags": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "Frontend",
+      "Refactoring"
+    ],
+    "blocks": [
+      {
+        "body": "## Centralize editor state and actions\n\nAs the editor grew, project data, selection, dirty tracking, preview readiness, and undo history could drift across separate browser modules. I moved those concerns into one centralized store and routed changes through explicit actions. Focused render modules project the same state into the report browser, project form, block controls, and preview.\n\nObserver updates and delegated DOM events replaced circular imports and listeners that could multiply after each render. A form edit, block move, or project switch follows the same state path, giving every visible surface one source of truth.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio Editor routes report, form, block, and preview events through explicit actions and one shared store before focused renderers update the workspace.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/state-flow.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Keep long editing sessions predictable\n\nThe loaded project snapshot establishes dirty state, and undo and redo operate on the same project model. Preview commands wait for the iframe bridge to become ready, while asynchronous report loads verify the current selection before updating the panel. Panel width and preview scroll stay in place between edits, so the workspace preserves context instead of resetting it.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio Editor text block controls beside the selected block in the live portfolio preview. Selecting a block exposes its controls beside the corresponding region of the live preview.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/screenshot_2026-01-30_18-19-41.png",
+        "type": "image"
+      },
+      {
+        "body": "## Move from work report to portfolio page\n\nThe report browser can search, archive, restore, and expand records without loading every report up front. A report can create a project candidate in one step, or individual report sections can be dragged into the page as selected blocks.\n\nMetadata fields and tags come from the portfolio schema. The block palette exposes the available content types, while click-to-edit overlays connect rendered output back to its source field or block. Connection pooling keeps repeated report reads from exhausting PostgreSQL connections.",
+        "type": "text"
+      },
+      {
+        "description": "Report browsing, source inspection, the content palette, and schema-driven metadata controls keep the path from source material to page composition inside one interface.",
+        "fit": "contain",
+        "images": [
+          {
+            "description": "Portfolio Editor report browser with searchable report cards and archive controls",
+            "kind": "image",
+            "src": "media/screenshot_2026-01-30_18-14-54.png"
+          },
+          {
+            "description": "Expanded work report showing its content, artifacts, and metadata inside Portfolio Editor",
+            "kind": "image",
+            "src": "media/screenshot_2026-01-30_18-15-24.png"
+          },
+          {
+            "description": "Portfolio Editor palette listing the supported portfolio content block types",
+            "kind": "image",
+            "src": "media/screenshot_2026-01-30_18-15-44.png"
+          },
+          {
+            "description": "Portfolio Editor metadata controls for title, summary, status, links, media, tags, and source information",
+            "kind": "image",
+            "src": "media/screenshot_2026-01-30_18-17-26.png"
+          }
+        ],
+        "presentation": "wide",
+        "type": "gallery"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:b1fd256756fb52adee998eebdb6b51b066cd3c7182e2787ccbbac51107d17679",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/screenshot_2026-01-30_18-14-54.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1085,
+        "height": 1325,
+        "digest": "sha256:e2953ea9f44c9bd9b567c3eebfe4ab8a11be76c8b1ac85985a162ea3174aa82c",
+        "byte_size": 154736,
+        "animated": false
+      },
+      "media/screenshot_2026-01-30_18-15-24.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 400,
+        "height": 1116,
+        "digest": "sha256:405fb0a03693b28d29e82eb8b5a583f6902c8fcf967f0fb64ada4c9b42ac13ef",
+        "byte_size": 112637,
+        "animated": false
+      },
+      "media/screenshot_2026-01-30_18-15-44.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 392,
+        "height": 706,
+        "digest": "sha256:3ef78d91307235a4ee26372242b43943ea18c70e5af4f1fcf5fe9d63e83394a4",
+        "byte_size": 44109,
+        "animated": false
+      },
+      "media/screenshot_2026-01-30_18-16-28.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1085,
+        "height": 1325,
+        "digest": "sha256:5a15b34ea5d2da599dde04f572d33df498e2778455b8a21ba7fd4bcb6240da1c",
+        "byte_size": 205904,
+        "animated": false
+      },
+      "media/screenshot_2026-01-30_18-17-26.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 411,
+        "height": 1175,
+        "digest": "sha256:c5e80dd02205eaa978a953a34479d41561a4940d3d213eb4bc5808291dff35b2",
+        "byte_size": 72255,
+        "animated": false
+      },
+      "media/screenshot_2026-01-30_18-19-41.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1533,
+        "height": 1325,
+        "digest": "sha256:127452acada56f130389539b2dfb28f1731c4dc857bf0758a34f1d34bc9e3a1b",
+        "byte_size": 254193,
+        "animated": false
+      },
+      "media/state-flow.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1035,
+        "height": 510,
+        "digest": "sha256:72e8424ea71d7b9567d78a732e88f8bead386d89aac1d67f4262ebc2cedfc999",
+        "byte_size": 21460,
+        "animated": false
+      }
+    }
+  }
+}

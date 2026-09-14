@@ -266,7 +266,7 @@ stable unique IDs. The shared `updates/_asset-contract.json` resolves deployable
 dependencies, and generated `portfolio-capability@7` payloads carry the exact
 asset manifest consumed by `dist/`.
 
-Capability metadata uses `capabilities/_capability-schema.yaml` version 6.
+Capability metadata uses `capabilities/_capability-schema.yaml` version 7.
 All page types use `updates/_block-registry.json` version 9, the shared asset
 contract version 2, and the shared media contract version 1. Capability page
 composition remains independent in `capabilities/page.js` and `page.css`.

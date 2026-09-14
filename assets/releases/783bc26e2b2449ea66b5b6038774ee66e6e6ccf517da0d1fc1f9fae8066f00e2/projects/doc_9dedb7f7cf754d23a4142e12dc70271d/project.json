@@ -1,0 +1,80 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_9dedb7f7cf754d23a4142e12dc70271d",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_2b1d59fc95f8495e9ace806dc189f849",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "items": [
+        "doc_185a5d2f4d2051c098c591e4ac240a1b"
+      ],
+      "display_projects": []
+    },
+    "title": "AI Model Gateway",
+    "summary": "A local gateway that discovers configured AI models and routes chat, speech, transcription, and embedding requests through explicit provider contracts.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/model-manager",
+    "preview": {
+      "description": "The local gateway discovers and validates routes before dispatching supported operations to configured providers.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/model-manager-gateway.svg",
+      "width": 1200,
+      "height": 640
+    },
+    "tags": [
+      "Python",
+      "AI",
+      "API Design",
+      "Reliability",
+      "Architecture"
+    ],
+    "blocks": [
+      {
+        "body": "## Give local tools one model interface\n\nModel Manager provides a local API for applications that use several AI backends. Clients select a routed model ID without managing each provider’s URL, credentials, or transport. The gateway supports a defined subset of OpenAI-shaped requests for chat, speech, transcription, and embeddings.\n\nThe project began as an Ollama job scheduler. Its maintained design now centers on a backend registry, model discovery, operation-aware routing, and provider adapters. The earlier scheduler remains documented in the project timeline.",
+        "type": "text"
+      },
+      {
+        "body": "## Make model compatibility inspectable\n\nA model’s advertised modalities are separate from its callable operations. A route becomes available only when discovery supplies the necessary metadata and the gateway has an operation contract, adapter, and response transport for it.\n\nThe management API exposes effective request contracts, route details, and metadata coverage. Validation accounts for provider-specific limitations, translating supported inputs and rejecting requests whose behavior cannot be represented. This includes distinctions between transcription, translation, ordinary speech, and speech with timestamps.",
+        "type": "text"
+      },
+      {
+        "body": "## Preserve useful state when a provider is unavailable\n\nBackground discovery coalesces concurrent refreshes and retries failures with bounded backoff. The catalog records whether each provider’s information is fresh, stale, or unavailable, including the age and last successful refresh. A retained catalog expires after 24 hours; a successful empty response removes that provider’s models.\n\nThis makes discovery failures visible without presenting them as an empty successful result.",
+        "type": "text"
+      },
+      {
+        "body": "## Bound execution and retain diagnostics\n\nNonstreaming chat requests can carry correlation IDs and an absolute deadline. The outgoing transport enforces the remaining total deadline, including when an upstream response arrives slowly. On the installed server, caller disconnection also cancels the outgoing transport; remote computation may still continue.\n\nRequest and execution IDs survive into logs and responses, and startup preserves rotating diagnostics. These boundaries let other tools distinguish a deadline, an unavailable provider, and a locally rejected request.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:12c71c275361929f0b1af5885cc49d6718983ff09f28721526ba3d30dfdec4cb",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/model-manager-gateway.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 640,
+        "digest": "sha256:64dfdb149c5699c540aced1b20f19b92139d57577ddafe41432c730f700766b3",
+        "byte_size": 1587,
+        "animated": false
+      }
+    }
+  }
+}

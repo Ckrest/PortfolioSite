@@ -158,15 +158,15 @@ three page types, including metadata, nested blocks, attached sources, and
 Markdown dependencies. Validation, candidate identity, payload generation, and
 distribution copying use the same graph.
 
-The current contracts are update metadata version 9, project metadata version 3,
-capability metadata version 6, shared block registry version 9, asset contract
+The current contracts are update metadata version 10, project metadata version 4,
+capability metadata version 7, shared block registry version 9, asset contract
 version 2, and shared media contract version 1. Generated payloads are `portfolio-update@9`, `portfolio-project@3`, and
 `portfolio-capability@7`, in `update.json`, `project.json`, and `capability.json`.
 Every document enters public source through the exact closed-pool boundary.
 
 ### Exact page review and site release preparation
 
-Implementation reference: Site 16.0.0 and Editor 25.1.0.
+Implementation reference: Site 16.0.0 and Editor 27.0.0.
 
 `updates/_page-review.js` accepts `portfolio-site/page-review-input@2`. It pins
 current Site mechanics and renders only selected pages against accepted
@@ -175,7 +175,7 @@ connection effects, dependency IDs and exact artifact identity. Working drafts
 from other pages never enter this boundary.
 
 `npm run build:release -- --input <request.json> --output <directory>` accepts
-`portfolio-site/release-input@2`: an accepted-snapshot@1, immutable content
+`portfolio-site/release-input@2`: an accepted-snapshot@2, immutable content
 pointers and a pinned Site renderer. It prepares complete public-source and
 dist trees, reusing unchanged page results. The `clean` request flag rebuilds
 compiled results as the parity reference. The `portfolio-site/release@2`
@@ -217,8 +217,8 @@ Updates and nested projects show the most specific available parent projects in
 a notice above the content and again below it. Capabilities remain the final
 substantive section. Reference blocks provide other narrative connections.
 `updates/_relationship-contract.json` owns endpoint
-policy. Metadata links and update-reference blocks resolve only when both
-updates are in the exact pool; otherwise they are omitted from public derived
+policy. Connections and reference blocks resolve only when both
+pages are in the exact pool; otherwise they are omitted from public derived
 data and reported as pending to Portfolio Editor. Rebuilding after a target is
 accepted, withdrawn, or reaccepted activates or deactivates both directions
 without rewriting the source update. Project membership and capability evidence follow that same optional endpoint policy.
@@ -226,7 +226,7 @@ without rewriting the source update. Project membership and capability evidence 
 ### Projects and capabilities
 
 A project is a current overview of a body of work, with a derived timeline of
-its dated updates. A capability describes an ability, with a derived timeline
+its direct updates and child projects. A capability describes an ability, with a derived timeline
 of the projects and updates that demonstrate it. Both use the same Editor
 blocks, assets, history, preview, and exact acceptance flow as updates.
 
@@ -241,8 +241,8 @@ The relationship contract declares four many-to-many association fields:
 
 | Authored on | Field | Target |
 | --- | --- | --- |
-| Update | `projects` | Projects |
-| Project | `updates` | Historical updates |
+| Update or project | `projects` | Parent projects |
+| Project | `items` | Direct updates and child projects |
 | Update or project | `capabilities` | Capabilities demonstrated |
 | Capability | `evidence` | Projects or updates |
 
@@ -252,8 +252,8 @@ separate from page YAML. Each typed pair is stored once and the shared
 can add or remove a connection from either endpoint through that page's draft
 proposal. Pending or inactive intent remains in the private accepted ledger;
 only connections with both endpoints public are exported. Conversion retains
-incompatible connections for possible reactivation. Membership does not
-propagate through version links, hierarchy, tags, or project capabilities.
+incompatible connections for possible reactivation. Membership is explicit;
+parent projects and tags do not imply additional memberships or capabilities.
 
 `data/documents.json` is the complete typed public catalog; the update index
 continues to contain dated updates only. The homepage's **Featured** section can
@@ -281,11 +281,9 @@ public presentation uses:
 
 - **Capabilities demonstrated** from an update to its capabilities;
 - **Demonstrated work** from a capability to supporting projects and updates;
-- **Earlier version**, **Later versions**, and **Latest version** for version
-  sequences;
-- **Project timeline** for a project’s associated updates;
-- **Larger project** and **Project updates** for existing update-to-update structure; and
-- **Related work** for general connections.
+- **Project work** for a project's direct updates and child projects;
+- **Part of a larger project** for the parent-project notice; and
+- **Explore the projects** for parent-project links below the content.
 
 ## Build and runtime architecture
 
@@ -386,6 +384,10 @@ zoom steps, and an inset scrollport so scrollbars do not collide with the frame.
 
 ## Deployment
 
+See [Browser caching and release recovery](docs/BROWSER_CACHING.md) for the
+asset contract, 30-day retention policy, Cloudflare configuration, and rollout
+checks.
+
 Deploy the generated `dist/` directory to any static host that preserves the
 repository's relative paths. `_headers` supplies the intended cache and baseline
 security policy for hosts that support that file. `.nojekyll` keeps underscore
@@ -397,7 +399,7 @@ Constellation owns Git publication from the installed, verified `public-source`
 artifact. Review the exact export and its safety scan before publishing:
 
 ```bash
-constellation publish portfolio-site --plan-only
+constellation publish portfolio-site --preview
 constellation publish portfolio-site --message "Publish reviewed Portfolio pool"
 ```
 

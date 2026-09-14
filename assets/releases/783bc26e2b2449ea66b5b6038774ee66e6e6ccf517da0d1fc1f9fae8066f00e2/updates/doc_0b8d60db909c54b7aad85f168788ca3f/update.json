@@ -1,0 +1,92 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_0b8d60db909c54b7aad85f168788ca3f",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Built an evidence pipeline from Work Reports to portfolio pages",
+    "summary": "Preserved screenshots, code, terminal output, comparisons, and data as typed Work Report artifacts, then mapped them into editable blocks for portfolio pages.",
+    "date": "2026-01-28",
+    "prominence": "high",
+    "preview": {
+      "description": "Diagram showing typed Work Report artifacts mapped to editable Portfolio Editor blocks and rendered on a portfolio page",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/artifact-pipeline-preview.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "Python",
+      "JavaScript",
+      "Frontend",
+      "PostgreSQL",
+      "CLI",
+      "Migration"
+    ],
+    "blocks": [
+      {
+        "body": "## Capture evidence as typed artifacts\n\nWork Report attaches screenshots, code samples, terminal output, comparisons, and structured data as typed artifacts. Each record identifies the kind of evidence and carries the content needed to use it again.\n\nThat turns material produced during daily work into structured input for documentation and portfolio authoring.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep the material with the report\n\nFiles are copied into report-owned storage when they are captured, so the report does not depend on the original path remaining available. Text-based artifacts keep both a durable file and inline content: the editor can prefill an editable block while the site can render the same material from a file.\n\nThe report therefore preserves both the evidence and enough structure to reuse it.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Artifact[Typed artifact] --> Kind{Artifact type}\n  Kind -->|Screenshot| Image[Image block]\n  Kind -->|Code| Code[Code block]\n  Kind -->|Terminal| Terminal[Terminal block]\n  Kind -->|Comparison| Compare[Comparison block]\n  Kind -->|Data| Graph[Graph block]\n  Image & Code & Terminal & Compare & Graph --> Page[Editable project page]",
+        "description": "Artifact type selects the initial block while the editor keeps its content and placement editable.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Turn artifact types into editable blocks\n\nPortfolio Editor displays the artifacts attached to a report and maps each type to a matching content block. Dropping a code sample creates a code block; terminal output, comparisons, screenshots, and data receive their corresponding presentation.\n\nThe generated block is a starting point that can be moved, labeled, trimmed, or edited alongside the rest of the page.",
+        "type": "text"
+      },
+      {
+        "body": "## Render the same evidence on the portfolio page\n\nPortfolio Site adds renderers for code, terminal sessions, comparisons, and graphs, along with file handling that carries attached material into the project’s media. Once the editor places and adjusts an artifact, the resulting block renders with the same type-specific presentation on the detail page.\n\nDaily work can move from report evidence to finished portfolio content without being rebuilt by hand.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:37d5bb76fef55c5ff02801629595994f21c9d7b2e1097ba71312f45d9fbdb830",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/artifact-pipeline-preview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:ee55867a3951c25a1b8045ef5380d6a185491ad508d38d85d379818b095b596c",
+        "byte_size": 13911,
+        "animated": false
+      }
+    }
+  }
+}

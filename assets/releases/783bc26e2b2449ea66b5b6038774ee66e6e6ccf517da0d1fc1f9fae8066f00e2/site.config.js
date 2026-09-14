@@ -1,0 +1,132 @@
+/**
+ * Site Configuration
+ * ==================
+ * This is THE control file for your site layout.
+ *
+ * To rearrange sections: Move items in the `sections` array
+ * To disable a section:  Add its name to `disabled` array
+ * To add a new section:  Create folder in sections/, add to array
+ */
+
+export default {
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SECTION ORDER
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Sections render in this order. Just rearrange to change layout!
+
+  sections: [
+    // Fixed sections (header/footer stay in place)
+    { name: 'header', fixed: true },
+
+    // Content sections - rearrange these freely!
+    { name: 'hero', navLabel: null },           // No nav link (it's the intro)
+    { name: 'featured', navLabel: 'Featured' },
+    { name: 'projects', navLabel: 'Projects' },
+    { name: 'capabilities', navLabel: 'Capabilities' },
+    { name: 'roadmap', navLabel: null },        // Phase progress indicator
+    { name: 'timeline', navLabel: 'Work' },      // Continues the roadmap
+
+    // Footer always last (includes contact)
+    { name: 'footer', fixed: true, navLabel: 'Contact', anchor: 'contact' },
+  ],
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DISABLED SECTIONS
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Add section names here to hide them without deleting files
+
+  disabled: [
+    'projects',
+    'capabilities',
+    // 'hero',      // Uncomment to hide hero
+    // 'featured',  // Uncomment to hide featured
+    // 'timeline',  // Uncomment to hide timeline
+  ],
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ACTIVE PHASE
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Change this to switch which phase shows as "Current" (1, 2, or 3)
+
+  activePhase: 3,
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FEATURED SECTION
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Control which updates, projects, or capabilities appear in Featured.
+  // Items are identified by their stable document ID in data/documents.json.
+
+  featured: {
+    // List of document IDs to feature (in display order)
+    // Leave empty or comment out items to show "coming soon" message
+    items: [
+      'doc_38811c0e3f5d564f8b840821d6ea52b5',
+      'doc_45e24fee0f645130a7d9ce1685a5af01',
+      'doc_1a3826668acb53688961faa991a157f1',
+    ],
+
+    // How many items to show (will show up to this many from the list)
+    maxItems: 3,
+
+    // Display options
+    showDate: true,
+    showTags: true,
+    showSummary: true,
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TIMELINE SETTINGS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  timeline: {
+    // Keep recent small updates in the chronological archive instead of
+    // presenting them in a separate Latest activity feed.
+    showLatestActivity: false,
+
+    // Small updates inside this rolling window form the compact Latest
+    // activity list. The newest update date is the default reference so a
+    // delayed deploy still describes its actual latest work truthfully.
+    recentWindowDays: 7,
+    recentMaxItems: 8,
+
+    // Optional fixed reference date for testing the activity window.
+    // Set to a date string like '2026-03-01' to test how timeline looks at that point
+    // Remove or set to null to use the newest update date
+    // currentDate: '2026-07-01',
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // TAG DISPLAY
+    // ─────────────────────────────────────────────────────────────────────────
+    // Control how tags are displayed alongside timeline entries
+
+    tagDisplay: {
+      // Master toggle: set to false to hide all tag UI
+      enabled: true,
+
+      // Where to show tags on wide screens: 'inline' (on card) or 'margin' (sidecar)
+      wideMode: 'inline',
+
+      // Show aggregated tag strip (narrow: top, wide: in margin slot)
+      showTagStrip: true,
+
+      // Tags to highlight and filter on initial load (empty = show all)
+      activeTags: [],
+
+      // Tags to always hide from display
+      hiddenTags: [],
+    },
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DATA SOURCES
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Paths to data files that sections can use
+
+  data: {
+    site: 'data/site.json',
+    updates: 'updates/index.json',  // Generated from update folders
+    documents: 'data/documents.json',  // Generated catalog of all document types
+    capabilities: 'capabilities/manifest.json',
+    phases: 'data/phases.json',
+  },
+};

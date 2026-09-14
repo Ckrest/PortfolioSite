@@ -1,0 +1,86 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_9a812d18cf2d4221b0b5ed673f4cdd4f",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_288242adad4c40b8881cd949f9543ec3",
+        "doc_a230ccdc63be48a886be340d751cad33"
+      ],
+      "items": [
+        "doc_58be4e46150d43de9dcf8d6671b784c5",
+        "doc_c9cdd79a861a5739aa99c3d1f3da27dc"
+      ],
+      "display_projects": []
+    },
+    "title": "Desktop Service Manager",
+    "summary": "A desktop console for inspecting managed user services, issuing contract-aware lifecycle actions, and following scoped logs through Constellation.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/process-manager",
+    "preview": {
+      "description": "The March 2026 Tauri interface brought service controls, runtime properties, and live logs into one workspace.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/process-manager-tauri-milestone.png",
+      "width": 1492,
+      "height": 972
+    },
+    "tags": [
+      "Rust",
+      "Tauri",
+      "React",
+      "TypeScript",
+      "Systemd"
+    ],
+    "blocks": [
+      {
+        "body": "## Put service diagnosis in one workspace\n\nProcess Manager is an on-demand desktop console for user services managed by Constellation. Its current Tauri application combines a Rust backend with a React and TypeScript interface, bringing service state, controls, runtime properties, and journal output together.\n\nThe project evolved from a Python and GTK dashboard through the Tauri interface shown above. The maintained version organizes services in a sortable process list with stable status, PID, memory, and uptime columns, then opens the selected service’s controls and recent operations alongside it.",
+        "type": "text"
+      },
+      {
+        "body": "## Use the same service contracts as the rest of the system\n\nMembership and metadata come from Constellation’s current user-service inventory projection. Available actions follow each service’s declared activation contract and run through the public Constellation CLI. On-demand services can be started and stopped without being offered an unsupported start-at-login setting.\n\nRaw unit-file state remains visible, with linked installation distinguished from enabled startup. Archived packages and packages awaiting migration can still be inspected while their mutation controls remain unavailable.",
+        "type": "text"
+      },
+      {
+        "body": "## Separate observation from control\n\nThe backend gathers live state in one batched systemd observation and emits a complete snapshot when membership or runtime state changes. The frontend consumes those events and requests only incremental journal entries, avoiding a second competing service observer.\n\nPer-unit action coordination keeps lifecycle requests attached to the correct service. Projection diagnostics and action receipts give the operator an explanation when discovery or an operation cannot complete.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep investigation focused\n\nThe all-services journal view includes only discovered managed units. Service selection, severity filters, text search, and controlled scrolling help narrow the stream while retaining context.\n\nStatus-first ordering puts failed and indeterminate services near the top. At smaller window sizes the interface progressively hides lower-value columns before stacking the panes, preserving service names and state for as long as possible.",
+        "type": "text"
+      },
+      {
+        "label": "Constellation Framework: service inventory and lifecycle contracts",
+        "type": "related-mini",
+        "updateId": "doc_0781ada08d314e838b421fd940a4158c"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:ed5ed6c2277579df9740aefa99faa9bb215983492c09052765ca5c046592eed0",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/process-manager-tauri-milestone.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1492,
+        "height": 972,
+        "digest": "sha256:2c60bb7f3b17efb1ca6e47a68eb30e656729c9f281509dc87b845f8426c55e91",
+        "byte_size": 213803,
+        "animated": false
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Wayfire window capture reliability paths</title>
+  <desc id="desc">Three panels show cursor compositing, watchdog snapshot fallback, and output listener rebinding.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101d"/>
+      <stop offset="1" stop-color="#0d1830"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#20d9c2"/>
+      <stop offset="1" stop-color="#0aa1b6"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffc45d"/>
+      <stop offset="1" stop-color="#f07a3e"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9f8cff"/>
+      <stop offset="1" stop-color="#5d79f5"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#000814" flood-opacity=".45"/>
+    </filter>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#20d9c2"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ffc45d"/>
+    </marker>
+    <marker id="arrow-violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9f8cff"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#background)"/>
+  <circle cx="1450" cy="80" r="260" fill="#183059" opacity=".16"/>
+  <circle cx="110" cy="865" r="220" fill="#0aa1b6" opacity=".08"/>
+
+  <text x="80" y="92" fill="#f5f8ff" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="54" font-weight="760" letter-spacing="1.5">CAPTURE STAYS LIVE</text>
+  <text x="82" y="142" fill="#92a4c4" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="24">Three guarded paths inside Wayfire window capture</text>
+  <path d="M 80 174 H 1520" stroke="#243553" stroke-width="2"/>
+
+  
+  <g filter="url(#shadow)">
+    <rect x="80" y="220" width="440" height="540" rx="30" fill="#101e32" stroke="#1f4050" stroke-width="2"/>
+  </g>
+  <rect x="112" y="254" width="56" height="34" rx="17" fill="url(#teal)"/>
+  <text x="140" y="277" text-anchor="middle" fill="#041a1c" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="800">01</text>
+  <text x="112" y="332" fill="#20d9c2" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="760" letter-spacing="1.8">CURSOR REQUESTED</text>
+
+  <rect x="128" y="374" width="254" height="170" rx="15" fill="#0a1424" stroke="#45627a" stroke-width="3"/>
+  <rect x="150" y="400" width="210" height="110" rx="8" fill="#132a42"/>
+  <path d="M 290 430 L 290 500 L 312 482 L 328 516 L 344 508 L 328 476 L 356 474 Z" fill="#f6fbff" stroke="#07101d" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M 396 459 H 456" stroke="#20d9c2" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <rect x="418" y="420" width="62" height="78" rx="12" fill="#0b2730" stroke="#20d9c2" stroke-width="3"/>
+  <path d="M 434 444 H 464 M 434 458 H 464 M 434 472 H 454" stroke="#20d9c2" stroke-width="4" stroke-linecap="round"/>
+
+  <text x="112" y="612" fill="#f5f8ff" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="29" font-weight="700">Composite the visible cursor</text>
+  <text x="112" y="651" fill="#9cafca" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20">Positioned against the window bounds,</text>
+  <text x="112" y="681" fill="#9cafca" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20">hotspot, and output scale.</text>
+
+  
+  <g filter="url(#shadow)">
+    <rect x="580" y="220" width="440" height="540" rx="30" fill="#101e32" stroke="#4b382a" stroke-width="2"/>
+  </g>
+  <rect x="612" y="254" width="56" height="34" rx="17" fill="url(#amber)"/>
+  <text x="640" y="277" text-anchor="middle" fill="#2a1405" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="800">02</text>
+  <text x="612" y="332" fill="#ffc45d" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="760" letter-spacing="1.8">OUTPUT STALLED</text>
+
+  <circle cx="746" cy="461" r="86" fill="#171a23" stroke="#7f5b36" stroke-width="14"/>
+  <path d="M 746 375 A 86 86 0 1 1 674 414" fill="none" stroke="url(#amber)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M 746 420 V 461 L 784 483" fill="none" stroke="#fff5dc" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="746" y="523" text-anchor="middle" fill="#ffc45d" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="760">300 ms</text>
+  <path d="M 850 461 H 944" stroke="#ffc45d" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-amber)"/>
+  <rect x="900" y="420" width="76" height="82" rx="12" fill="#332418" stroke="#ffc45d" stroke-width="3"/>
+  <path d="M 916 480 L 934 454 L 948 470 L 960 450" fill="none" stroke="#fff5dc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="612" y="612" fill="#f5f8ff" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="29" font-weight="700">Take a fresh snapshot</text>
+  <text x="612" y="651" fill="#9cafca" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20">A repeating watchdog emits a frame</text>
+  <text x="612" y="681" fill="#9cafca" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20">instead of leaving stale pixels behind.</text>
+
+  
+  <g filter="url(#shadow)">
+    <rect x="1080" y="220" width="440" height="540" rx="30" fill="#101e32" stroke="#343b68" stroke-width="2"/>
+  </g>
+  <rect x="1112" y="254" width="56" height="34" rx="17" fill="url(#violet)"/>
+  <text x="1140" y="277" text-anchor="middle" fill="#10112b" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="800">03</text>
+  <text x="1112" y="332" fill="#9f8cff" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="760" letter-spacing="1.8">WINDOW MOVED</text>
+
+  <rect x="1124" y="394" width="116" height="132" rx="14" fill="#12182a" stroke="#68799c" stroke-width="3"/>
+  <rect x="1139" y="414" width="86" height="76" rx="7" fill="#1d2c47"/>
+  <circle cx="1182" cy="510" r="6" fill="#68799c"/>
+  <path d="M 1256 460 C 1280 414, 1322 414, 1346 460" fill="none" stroke="#9f8cff" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow-violet)"/>
+  <rect x="1360" y="394" width="116" height="132" rx="14" fill="#17172d" stroke="#9f8cff" stroke-width="3"/>
+  <rect x="1375" y="414" width="86" height="76" rx="7" fill="#282555"/>
+  <circle cx="1418" cy="510" r="6" fill="#9f8cff"/>
+  <circle cx="1274" cy="523" r="7" fill="#5d79f5"/>
+  <circle cx="1300" cy="534" r="7" fill="#7b82fb"/>
+  <circle cx="1326" cy="523" r="7" fill="#9f8cff"/>
+
+  <text x="1112" y="612" fill="#f5f8ff" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="29" font-weight="700">Rebind the capture source</text>
+  <text x="1112" y="651" fill="#9cafca" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20">Move listeners to the destination output</text>
+  <text x="1112" y="681" fill="#9cafca" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20">and refresh capture constraints.</text>
+
+  <rect x="80" y="804" width="1440" height="2" fill="#243553"/>
+  <text x="800" y="852" text-anchor="middle" fill="#7285a5" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" letter-spacing="1.2">ONE TRACKED VIEW  •  ONE CAPTURE SOURCE  •  EXPLICIT TEARDOWN</text>
+</svg>

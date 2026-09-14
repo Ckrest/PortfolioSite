@@ -1,0 +1,98 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_cc21de6d5b264a068c50022f2200374b",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762"
+      ],
+      "display_projects": []
+    },
+    "title": "Built Power Manager to coordinate desktop power actions",
+    "summary": "Connected shutdown, restart, and sleep requests to visual transitions through one command-line controller, with selectable effects and a preview mode.",
+    "date": "2026-01-18",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/power-manager",
+    "preview": {
+      "description": "The desktop menu connected to Power Manager, with shutdown, sleep, restart, logout, and Windows restart controls.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/power-manager-menu.png",
+      "width": 1260,
+      "height": 660
+    },
+    "tags": [
+      "Python",
+      "Wayland",
+      "Wayfire"
+    ],
+    "blocks": [
+      {
+        "body": "I built Power Manager as the controller between a desktop power menu and Linux power actions. A menu or command can request shutdown, restart, or sleep; Power Manager starts the selected visual transition and coordinates the handoff to the operating system. The same controller also supports logout and hibernation.",
+        "type": "text"
+      },
+      {
+        "description": "The animated path moves from a menu or command-line request, through a transition that covers the display, to the selected system power action.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/power-manager-handoff.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Time the action to the animation\n\nPower Manager launches an effect through Shutdown Effect, the companion animation system. It listens for `READY`, meaning the overlay is visible, and `BLACK`, meaning the display is fully covered, to time the power-action handoff. The effect holds its covered frame while the action proceeds.\n\nI kept effect selection separate from the power commands, so changing the animation does not require rewriting the shutdown or sleep workflow.",
+        "type": "text"
+      },
+      {
+        "label": "Shutdown Effect: the animation lifecycle and visual effects",
+        "type": "related-mini",
+        "updateId": "doc_6a23e1a43eda5ff9966831b235c28b21"
+      },
+      {
+        "body": "## Preview a transition without powering off\n\nI added a test mode that plays the selected animation, holds the covered frame for a chosen duration, and then ends the effect without issuing a power action. It also requests desktop and cursor cleanup, so animations can be checked from the same controller used by the power menu.\n\nAn explicit `none` option skips the animation when an immediate action is preferred.",
+        "type": "text"
+      },
+      {
+        "code": "# Preview the fade effect, then return to the desktop\npower-manager test --animation fade --hold 3\n\n# Restart with a fade transition\npower-manager reboot --animation fade\n\n# Suspend immediately, without an animation\npower-manager suspend --animation none",
+        "description": "The same command supports an animation preview, an animated restart, and sleep without a transition.",
+        "language": "bash",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:494b134ada52660daae476c7d1b3edf0169b97bc28c2f6900267781e2d06edca",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/power-manager-handoff.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 675,
+        "digest": "sha256:717e42c3d82ba564ad3e50793a0cd0a98ac9b689d02f31accb68bb9126c666a3",
+        "byte_size": 2135,
+        "animated": false
+      },
+      "media/power-manager-menu.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1260,
+        "height": 660,
+        "digest": "sha256:ab014e367259f0d78e52707179ecca4486717fa34f4c49129c5e39c05b9ab23d",
+        "byte_size": 42966,
+        "animated": false
+      }
+    }
+  }
+}

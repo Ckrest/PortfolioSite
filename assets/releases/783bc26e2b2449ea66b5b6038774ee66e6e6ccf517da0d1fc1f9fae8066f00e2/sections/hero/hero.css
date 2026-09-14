@@ -1,0 +1,58 @@
+/*
+ * Hero Section
+ * Clean, minimal intro
+ */
+
+[data-section="hero"] {
+  min-height: min(780px, calc(100svh - 68px));
+  display: grid;
+  align-items: center;
+  padding: clamp(72px, 10vw, 148px) 0;
+
+  .hero-layout {
+    display: block;
+  }
+
+  .hero-copy { max-width: 800px; }
+
+  .hero-kicker {
+    margin: 0 0 clamp(28px, 5vw, 56px);
+    color: var(--color-accent-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 9ch;
+    font-size: var(--type-display-size);
+    font-weight: 650;
+    line-height: 0.9;
+    margin: 0 0 clamp(28px, 4vw, 52px);
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .hero-tagline {
+    font-size: var(--type-body-size);
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: var(--measure-body);
+    line-height: var(--leading-relaxed);
+  }
+}
+
+@media (max-width: 760px) {
+  [data-section="hero"] {
+    min-height: auto;
+
+    .hero-kicker { max-width: 30ch; }
+  }
+}
+
+@media (max-width: 480px) {
+  [data-section="hero"] {
+    padding-block: 64px 72px;
+  }
+}

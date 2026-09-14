@@ -89,7 +89,7 @@ active_matches_pool() {
 
 active_matches_request() {
   local verification="$1"
-  verify_local_output "$verification" || return 1
+  "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$ACTIVE_ROOT" --request "$REQUEST_PATH" >"$verification" || return 1
   jq -e --slurpfile request "$REQUEST_PATH" '
     .valid == true
     and .receipt.release_revision == $request[0].release_revision
@@ -185,8 +185,16 @@ refresh_locked() {
     CLAIM_ATTEMPT="$attempt_id"
     write_claimed_request "$claim_response"
 
+    if ! "$NODE_BIN" "$SITE_ROOT/updates/_capture-web-retention.js" "$REQUEST_PATH" \
+      "${PORTFOLIO_SITE_PUBLICATION_REPOSITORY:-https://github.com/Ckrest/PortfolioSite.git}" >"$install_output" 2>&1; then
+      diagnostics="$(jq -cRs '{message:"Published asset history could not be captured",output:(.[-12000:])}' <"$install_output")"
+      complete_attempt "$revision" "$attempt_id" "" preparation "$diagnostics" || true
+      cat "$install_output" >&2
+      return 1
+    fi
+
     artifact_root="$(jq -er '.artifact_root' "$REQUEST_PATH")"
-    if "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$artifact_root" >"$verification" 2>/dev/null \
+    if "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$artifact_root" --request "$REQUEST_PATH" >"$verification" 2>/dev/null \
       && jq -e --slurpfile request "$REQUEST_PATH" '.valid and .receipt.release_revision == $request[0].release_revision and .receipt.snapshot_digest == $request[0].snapshot.digest and .receipt.site_source_digest == $request[0].site_source_digest' "$verification" >/dev/null; then
       :
     elif ! "$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --input "$REQUEST_PATH" --output "$artifact_root" >"$install_output" 2>&1; then

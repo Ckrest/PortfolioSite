@@ -1,0 +1,57 @@
+{
+  "schema": "portfolio-capability@7",
+  "capability": {
+    "key": "doc_a230ccdc63be48a886be340d751cad33",
+    "kind": "capability",
+    "connections": {
+      "evidence": [
+        "doc_0781ada08d314e838b421fd940a4158c",
+        "doc_9a812d18cf2d4221b0b5ed673f4cdd4f",
+        "doc_f10013d665284f0eab4b31aed67e63c6",
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_ea2d2467872d47a3968de829e69afdd6",
+        "doc_77ba7c83a9375f088f4ea19e1eca1ace",
+        "doc_37bf2b794e6b4dfeac7a0d95c8384040",
+        "doc_add123234fda58f990931774fda8436e",
+        "doc_cec34e8034f1584fa26d7325bc9341e5"
+      ],
+      "display_projects": []
+    },
+    "title": "Modernize software without losing existing behavior",
+    "summary": "I replace platform and application internals while preserving the commands, interactions, and integration contracts that existing users and tools rely on.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "blocks": [
+      {
+        "body": "## Treat existing behavior as a migration constraint\n\nMy modernization work starts from the workflows and integration points a replacement must continue to support. That includes taskbar grouping, installed command names, service controls, and the handling of unsaved work.\n\nI separate those responsibilities from the implementation being replaced, then update the consumers that depend on the changed boundary. Docklike's Wayland port, Constellation's packaging work, and Portfolio Editor's backend restructuring show this at different scales.",
+        "type": "text"
+      },
+      {
+        "body": "## Replace the platform layer while preserving interaction\n\nI ported the upstream Docklike taskbar to Wayland by rebuilding its window model around compositor events and protocol-based actions. Pinned launchers, grouped windows, activation, minimizing, maximizing, and closing remain part of the same compact taskbar workflow.\n\nLive previews use a dedicated asynchronous capture manager. Separating capture from window tracking makes the added functionality fit the existing panel interaction and gives timing problems a focused place to be corrected.",
+        "type": "text"
+      },
+      {
+        "body": "## Move integrations onto supported commands\n\nAcross the Python tool collection, I replaced launchers that manipulated import paths with declared package entry points. Systemd units, desktop launchers, automation definitions, and validation were moved to the installed command boundary together.\n\nThe migration also accounted for tools with colliding generic module names by giving their integrations an explicit source command. That detail keeps module resolution deterministic while the surrounding packaging structure changes.",
+        "type": "text"
+      },
+      {
+        "body": "## Restructure around workflows that can be checked\n\nIn Portfolio Editor, I separated request routes from services for report intake, page mutation, builds, and runtime control. Tests covered the extracted boundaries, while gallery, graph, comparison, and terminal edits were brought into one unsaved-change path.\n\nDesktop Service Manager likewise evolved from a Python/GTK dashboard into a Tauri application while retaining service inspection, lifecycle controls, and journal access. The maintained app takes those actions from Constellation's declared service contracts, keeping the interface tied to the operations each service supports.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:aaaaf1bffde23fadc9118abd17de0ac13cfa393c83678699682da32edf326e9d",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

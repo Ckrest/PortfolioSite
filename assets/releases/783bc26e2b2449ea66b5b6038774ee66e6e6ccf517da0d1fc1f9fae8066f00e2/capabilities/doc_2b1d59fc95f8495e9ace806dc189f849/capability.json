@@ -1,0 +1,56 @@
+{
+  "schema": "portfolio-capability@7",
+  "capability": {
+    "key": "doc_2b1d59fc95f8495e9ace806dc189f849",
+    "kind": "capability",
+    "connections": {
+      "evidence": [
+        "doc_9dedb7f7cf754d23a4142e12dc70271d",
+        "doc_6edf82a0d0ac46fba47e6caf1bbaf065",
+        "doc_fb4ae0f652024b0092d89206152850b4",
+        "doc_1ac2c1b5cf8b4c69be1b4a36ff53ed50",
+        "doc_15c718df74405387aac2f6da97bba8bb",
+        "doc_a05b9a8145694765b27174afb9d6e7cb",
+        "doc_2318c76c788c5637af0e620ae4ef352c",
+        "doc_88921a05dc4b5621aa8671b9e48d82dc"
+      ],
+      "display_projects": []
+    },
+    "title": "Build useful AI workflows that run locally",
+    "summary": "I turn local models and ComfyUI graphs into callable workflows with validated inputs, durable results, and traces that make failures inspectable.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "blocks": [
+      {
+        "body": "## Give model output a usable application boundary\n\nA local model becomes more useful when another tool can discover what it supports, supply valid inputs, retrieve the result, and understand a failure. I build those surrounding interfaces as part of the AI workflow.\n\nMy work includes local Ollama nodes for ComfyUI, a gateway for saved generation graphs, a model-routing service, and structured narrative memory. Each makes a model capability available through an explicit application contract.",
+        "type": "text"
+      },
+      {
+        "body": "## Make generation repeatable and recoverable\n\nComfyUI Conduit exposes tagged workflow sockets as named inputs and outputs with types, defaults, and constraints. A caller can submit a generation without depending on internal node IDs.\n\nI extended that interface with durable run records and idempotency keys so retrying the same request retrieves its existing run. Admission, execution, artifact capture, and delivery have separate states. Completed outputs have checksums and download links; an uncertain outcome remains visible for investigation. ComfyUI Image Viewer brings those workflows into the same place where results are browsed and reviewed.",
+        "type": "text"
+      },
+      {
+        "body": "## Turn narrative observations into controlled state changes\n\nNarrative Scene Tracker uses focused workers and constrained tool calls to update scene and character memory. Its maintained API accepts a caller-owned snapshot and returns the revised snapshot with a processing trace.\n\nFailed steps discard their mutations. Successful changes are reported as the difference in committed state, and ordered execution events expose model rounds, tool feedback, and completion. This gives a caller both usable memory and a record of how it was produced.",
+        "type": "text"
+      },
+      {
+        "body": "## Make model selection inspectable\n\nAI Model Gateway discovers configured providers and exposes operation-specific routes for chat, speech, transcription, and embeddings. It checks a request against the supported provider contract and distinguishes stale discovery data from a successful empty catalog.\n\nLocal Ollama nodes also carry prompts, generation settings, and chat history explicitly through a ComfyUI graph. Across these tools, the surrounding state and interfaces remain available to the application using the model.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:c1bb8f3076d140fe204d7bd668a2073dc678d9fd3355e88cbcaed409a93a40d2",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_02cd1bdfbbb551a69105e7b41978943b",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Proposed a three-stage project for applied AI integration",
+    "summary": "Proposed a three-stage engineering program spanning AI software, robotics hardware, and a final integration project, with reviews and deliverables guiding each phase.",
+    "date": "2025-09-15",
+    "prominence": "medium",
+    "preview": {
+      "description": "First page of the independent AI integration program proposal",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "preview.png",
+      "width": 1224,
+      "height": 984
+    },
+    "tags": [
+      "AI",
+      "Architecture",
+      "Documentation"
+    ],
+    "blocks": [
+      {
+        "body": "## Plan from software to physical systems\n\nI wrote the proposal to turn a broad interest in applied AI into a concrete engineering program with three connected phases:\n\n1. **AI & Software** — research practical uses, build local prototypes, and establish evaluation methods.\n2. **Robotics & Hardware** — apply that foundation to sensors, control, and physical engineering constraints.\n3. **Integration & Final Project** — combine the disciplines in a working system and document the result.",
+        "type": "text"
+      },
+      {
+        "description": "The proposal defines the staged work, deliverables, risks, and evaluation plan.",
+        "presentation": "content",
+        "src": "proposal.pdf",
+        "type": "pdf"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:f07a0ccbe418b073ca86a2268f2acbe374608118cb05de7d6d38897ab27cc6e4",
+        "byte_size": 500,
+        "animated": false
+      },
+      "preview.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1224,
+        "height": 984,
+        "digest": "sha256:0c1ebe4e4d8fa681ad0f2f238b07c276bd4eb5a4ab6d40dd46986a19f67caf06",
+        "byte_size": 750589,
+        "animated": false
+      }
+    }
+  }
+}

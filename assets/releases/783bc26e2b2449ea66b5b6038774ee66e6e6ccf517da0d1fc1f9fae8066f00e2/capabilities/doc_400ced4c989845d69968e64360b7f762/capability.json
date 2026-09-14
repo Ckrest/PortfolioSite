@@ -1,0 +1,58 @@
+{
+  "schema": "portfolio-capability@7",
+  "capability": {
+    "key": "doc_400ced4c989845d69968e64360b7f762",
+    "kind": "capability",
+    "connections": {
+      "evidence": [
+        "doc_1bae14a1f84f4b61998e3e2a1b494876",
+        "doc_72c295c916de4a8288ff9625925f47c6",
+        "doc_f10013d665284f0eab4b31aed67e63c6",
+        "doc_2c3e5c9689394489b1d0e555bd323474",
+        "doc_559a57eb4da2406a9711faaf5796bac7",
+        "doc_d8241fe11819473ebf0a236b0a423da2",
+        "doc_1a911fdf0fc453de94a7cc5537694883",
+        "doc_ea2d2467872d47a3968de829e69afdd6",
+        "doc_004858c24c955a1aa023a9e8eb9c3180",
+        "doc_cc21de6d5b264a068c50022f2200374b"
+      ],
+      "display_projects": []
+    },
+    "title": "Build and extend Linux and Wayland desktop systems",
+    "summary": "I build Linux desktop tools that connect compositor protocols, native interfaces, and local services into precise capture, taskbar, and overlay workflows.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "blocks": [
+      {
+        "body": "## Connect desktop interaction to the compositor\n\nMy Wayland work spans the pixels a compositor supplies, the service that coordinates an operation, and the controls a person uses. I build across those layers to make actions such as selecting a window, opening a taskbar preview, or arranging a desktop overlay behave consistently.\n\nWayland Screenshot Tool, Docklike, Wayfire Window Capture, and Desktop HUD show different parts of that work.",
+        "type": "text"
+      },
+      {
+        "body": "## Make capture precise from selection to saved image\n\nI rebuilt Wayland Screenshot Tool as a persistent GTK4 service, keeping captured pixels available while the user chooses a region or window. A frozen selector provides live dimensions, magnification, and one-pixel keyboard movement. Interactive and scripted requests share the same save, clipboard, and notification path.\n\nWindow selection uses an opaque compositor identity, so two windows with the same title remain distinct. The Wayfire capture integration supplies frames from that exact view and reports unavailable targets through the capture protocol.",
+        "type": "text"
+      },
+      {
+        "body": "## Carry familiar controls onto Wayland\n\nMy port of the upstream Docklike taskbar preserves pinned applications, grouped windows, and window actions while replacing its platform integration with Wayland protocols. A separate capture manager supplies asynchronous live previews without making panel interaction wait for each image.\n\nExplicit hover states manage the transition from launcher to popup, and capture scheduling shares work among visible windows. These details make the protocol integration usable as a daily desktop control.",
+        "type": "text"
+      },
+      {
+        "body": "## Make the desktop itself configurable\n\nDesktop HUD combines images, video, graphs, gauges, and hotkey panels on a transparent layer-shell surface. It normally passes pointer input through; edit mode enables direct movement, resizing, and snapping.\n\nSaved profiles reconstruct complete scenes, and the local API controls the same element model as the editor. Reusable renderers and data providers let the overlay combine live information with media while keeping each component's responsibilities clear.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:be106cc24c6ce2cbf7d2285a915b40f53e9bd4ac424d3d90cf0c15c33ff7db92",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@ jq -e '.schema == "portfolio-site/release-input@2" and (.release_revision > 0) a
 ARTIFACT_ROOT="$(jq -er '.artifact_root' "$REQUEST_PATH")"
 VERIFICATION="$(mktemp)"
 trap 'rm -f "$VERIFICATION"' EXIT
-"$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$ARTIFACT_ROOT" >"$VERIFICATION"
+"$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$ARTIFACT_ROOT" --request "$REQUEST_PATH" >"$VERIFICATION"
 jq -e --slurpfile request "$REQUEST_PATH" '.valid and .receipt.release_revision == $request[0].release_revision and .receipt.snapshot_digest == $request[0].snapshot.digest and .receipt.site_source_digest == $request[0].site_source_digest' "$VERIFICATION" >/dev/null
 OUTPUT_ROOT="$CONSTELLATION_NATIVE_ROOT/stage/portfolio-site"
 rm -rf -- "$OUTPUT_ROOT"
@@ -18,4 +18,4 @@ mkdir -p "$OUTPUT_ROOT"
 # Compilation already finished under the claimed release. Native installation
 # materializes those exact immutable bytes; it does not compile them again.
 cp -a --reflink=auto "$ARTIFACT_ROOT/." "$OUTPUT_ROOT/"
-"$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$OUTPUT_ROOT" >/dev/null
+"$NODE_BIN" "$SITE_ROOT/updates/_release-build.js" --verify-output "$OUTPUT_ROOT" --request "$REQUEST_PATH" >/dev/null

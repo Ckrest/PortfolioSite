@@ -4,6 +4,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { DigestCache, prepareMechanics, reuseFile, sourceIdentity, treeIdentity, valueDigest, verifyCandidate, verifyMechanics } from './_artifact-io.js';
 import { documentCollection } from '../js/document-model.js';
+import { documentMediaPaths, packageWebAssets } from './_web-assets.js';
 
 const argument = name => { const index = process.argv.indexOf(name); if (index < 0 || !process.argv[index + 1]) throw new Error(`${name} is required`); return process.argv[index + 1]; };
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -33,6 +34,7 @@ export async function reviewPage(request, output) {
     }
   }
   await verifyMechanics(request.mechanics_root, request.site_source_digest, cache);
+  if (result.state === 'ready') await packageWebAssets(output, { mediaPaths: await documentMediaPaths(output) });
   const artifact = result.state === 'ready' ? await treeIdentity(output, { cache }) : null;
   await cache.save();
   return { schema: 'portfolio-site/page-review-result@2', ...result, artifact,

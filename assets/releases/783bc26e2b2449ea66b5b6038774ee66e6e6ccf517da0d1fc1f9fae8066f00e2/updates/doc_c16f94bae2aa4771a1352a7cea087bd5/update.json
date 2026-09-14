@@ -1,0 +1,65 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_c16f94bae2aa4771a1352a7cea087bd5",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Improved commit attribution for automated Work Reports",
+    "summary": "Changed commit discovery to consider recent package work before the tool runner’s repository and made several recent Git diffs available for evidence curation.",
+    "date": "2026-03-30",
+    "prominence": "low",
+    "tags": [
+      "Git",
+      "Python",
+      "Automation"
+    ],
+    "blocks": [
+      {
+        "body": "## Look beyond the repository running the tool\n\nAn automated Work Report could pick up the MCP runner’s commit when the work had happened in another package. I changed discovery to prefer recent VCSH package commits before falling back to the caller’s working directory. Explicit commit or repository choices keep priority.\n\nThis makes repository context less dependent on where the automation service happens to run.",
+        "type": "text"
+      },
+      {
+        "code": "commit_candidates = get_report_commit_candidates(\n    primary_commit=report.get(\"commit\"),\n    hours=hours,\n    reference_time=report.get(\"date\"),\n)",
+        "description": "Candidate discovery starts with the report’s stored commit and uses its timestamp to search the relevant recent-work interval.",
+        "filename": "core.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Offer the relevant diff candidates for review\n\nI expanded Git evidence discovery to accept multiple commits, remove duplicate candidates, and retain the repository identity with each diff. Curation can therefore consider several recent changes alongside the report’s selected commit.\n\nRegression cases cover the package-versus-runner mismatch, ordering across repositories, deduplication, and the report’s time window. The resulting evidence remains a candidate set for review.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:bbda6af07ba360c139215f5f336c27b7b2ce41386b1d61d7cb5370a5ee9f3001",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

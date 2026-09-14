@@ -1,0 +1,85 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_559a57eb4da2406a9711faaf5796bac7",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "items": [
+        "doc_57d88fbcb0345f9ea34a25c70cefb981",
+        "doc_c84281d5fa3b56b5a063455815ed6cc8",
+        "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a"
+      ],
+      "display_projects": []
+    },
+    "title": "Wayfire Window Capture",
+    "summary": "A compositor-native Wayfire capture integration that binds each request to an exact window and supplies protocol-managed frames with optional cursor inclusion.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "preview": {
+      "description": "An exact toplevel handle resolves to a compositor snapshot and a ready or failed image-copy frame.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/wayfire-capture-current.svg",
+      "width": 1200,
+      "height": 640
+    },
+    "tags": [
+      "C++",
+      "Wayland",
+      "Wayfire",
+      "wlroots",
+      "Image Capture"
+    ],
+    "blocks": [
+      {
+        "body": "## Make individual windows available to capture clients\n\nWayfire Window Capture connects the compositor’s window model to the ext image-capture protocols. A client obtains a foreign-toplevel handle, creates a capture source for that window, and requests frames through the image-copy protocol.\n\nI developed the integration to support uses such as live taskbar previews and window-specific screen sharing. The active implementation is now built inside Wayfire Desktop. The original standalone package remains an archived source reference, and its milestones are retained below.",
+        "type": "text"
+      },
+      {
+        "body": "## Use compositor identity to choose the window\n\nThe capture manager resolves the handle’s attached view pointer against the compositor’s live views. A valid mapped view with an output becomes the source. Missing or unavailable views produce an inert source instead of selecting another window with a similar name.\n\nThat distinction matters when several windows share an application ID and title: display metadata can describe them, while the handle selects the exact view that supplies the pixels.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep the frame contract explicit\n\nThe maintained implementation snapshots the view when a frame is requested and updates size constraints when its dimensions change. It currently advertises ARGB8888 and XRGB8888 shared-memory formats; DMA-BUF constraints are withheld until they can be derived from the actual backing buffer.\n\nCursor inclusion is checked per frame and rendered into a separate snapshot when requested. Unmapped views, missing buffers, and copy failures follow the protocol’s failure path, giving clients a definite outcome.",
+        "type": "text"
+      },
+      {
+        "body": "## Carry reliability work into compositor maintenance\n\nEarlier milestones established distinct capture identities, explicit format negotiation, optional cursors, and recovery during output stalls and monitor changes. Moving the plugin in-tree brought it alongside the Wayfire and wlroots versions whose lifetime and rendering APIs it uses.\n\nThe current source owns the capture-source manager and releases snapshot buffers when the final session stops. The project’s history records how those boundaries evolved, including mechanisms specific to the former standalone implementation.",
+        "type": "text"
+      },
+      {
+        "label": "Docklike: Wayland Taskbar — live previews as a capture client",
+        "type": "related-mini",
+        "updateId": "doc_f10013d665284f0eab4b31aed67e63c6"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:18c1ebd061ed6b5c0219f33d0d49cfc43730f633e9d3347cdb45ac5dbcbd5416",
+        "byte_size": 498,
+        "animated": false
+      },
+      "media/wayfire-capture-current.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 640,
+        "digest": "sha256:1b94111212c387efde657f6634144e920581e9f34b4caecd8d43aeb6b1da0a4d",
+        "byte_size": 1450,
+        "animated": false
+      }
+    }
+  }
+}

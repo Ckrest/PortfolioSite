@@ -1,0 +1,132 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_6a23e1a43eda5ff9966831b235c28b21",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Added extensible shutdown animations to Wayfire",
+    "summary": "Built a shared animation protocol and discovery layer so power actions can coordinate a fire transition and plug in other visual effects through the same interface.",
+    "date": "2026-01-18",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/shutdown-effect",
+    "preview": {
+      "description": "Fire shutdown transition spreading across a Wayland desktop",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/2222screenshot_2026-03-01_14-03-36.png",
+      "width": 2560,
+      "height": 1440
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Wayland",
+      "Wayfire"
+    ],
+    "blocks": [
+      {
+        "body": "## Coordinate animations with power actions\n\nShutdown Effect gives each animation two explicit handoff points. `READY` means the overlay is visible, and `BLACK` means the display is fully covered. Power Manager, the companion controller for shutdown, restart, and sleep, listens for those signals before advancing to the selected power action.\n\nAfter `BLACK`, the animation holds its final frame through the handoff, keeping the display covered until the action takes over.",
+        "type": "text"
+      },
+      {
+        "label": "Power Manager: the controller for the animation handoff",
+        "type": "related-mini",
+        "updateId": "doc_cc21de6d5b264a068c50022f2200374b"
+      },
+      {
+        "body": "## Plug in different visual effects\n\nAnimation discovery gives packaged and custom effects the same interface. Each effect implements the shared lifecycle, allowing the renderer and visual style to change without changing the power workflow.\n\nThe fire effect uses that boundary to spread across the desktop, cover the prior scene, and hold the final black frame while the action proceeds. Other visual effects can hook into the same lifecycle.",
+        "type": "text"
+      },
+      {
+        "description": "The fire transition spreads across the desktop and holds a covered frame through the power-action handoff.",
+        "fit": "contain",
+        "images": [
+          {
+            "description": "Fire effect beginning along the lower edge of an aquarium desktop",
+            "kind": "image",
+            "src": "media/1111screenshot_2026-03-01_14-06-08.png"
+          },
+          {
+            "description": "Fire effect covering the left and center of the aquarium desktop",
+            "kind": "image",
+            "src": "media/screenshot_2026-03-01_14-04-13.png"
+          },
+          {
+            "description": "Dense fire effect spreading across the desktop",
+            "kind": "image",
+            "src": "media/3333screenshot_2026-03-01_14-06-26.png"
+          },
+          {
+            "description": "Solid black frame held at the end of the fire transition",
+            "kind": "image",
+            "src": "media/4444screenshot_2026-03-01_14-06-42.png"
+          }
+        ],
+        "presentation": "wide",
+        "type": "gallery"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:9a72e37e44f4ded65431c8867cc3a6b60ceeaf77c7cfabd836a348b73b819cf3",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/1111screenshot_2026-03-01_14-06-08.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:e657fa37f8240b0827c98867fa770536e3929822a696dc027269180ad69e5f6a",
+        "byte_size": 5640329,
+        "animated": false
+      },
+      "media/2222screenshot_2026-03-01_14-03-36.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:29fae93a0c72da1465c8961d7a573570a25558ac9e42cb381d42c03e0596ea06",
+        "byte_size": 4702870,
+        "animated": false
+      },
+      "media/3333screenshot_2026-03-01_14-06-26.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:aea234f75c1f27f0670fbc3d12d542cf313815ec4357625a05e5fd2715546b35",
+        "byte_size": 3470572,
+        "animated": false
+      },
+      "media/4444screenshot_2026-03-01_14-06-42.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:3b438c6b0a918fdabc1d117af20a6003b34f5e5bbb759007c05625b8aaf86965",
+        "byte_size": 404492,
+        "animated": false
+      },
+      "media/screenshot_2026-03-01_14-04-13.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2560,
+        "height": 1440,
+        "digest": "sha256:9b0bd32a9974f2d84db450884d03a85778b25b9308e6d5300dfee05c81751623",
+        "byte_size": 4951799,
+        "animated": false
+      }
+    }
+  }
+}

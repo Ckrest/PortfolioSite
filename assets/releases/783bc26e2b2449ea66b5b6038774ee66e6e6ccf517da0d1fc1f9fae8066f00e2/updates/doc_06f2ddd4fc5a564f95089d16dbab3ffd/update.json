@@ -1,0 +1,57 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_06f2ddd4fc5a564f95089d16dbab3ffd",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ],
+      "display_projects": [
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ]
+    },
+    "title": "Made ComfyUI Viewer independently installable",
+    "summary": "Reorganized ComfyUI Viewer into an installable Python package with explicit configuration, safer file access, structured events, and optional Conduit integration.",
+    "date": "2026-02-07",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/comfy-viewer",
+    "tags": [
+      "Refactoring",
+      "Architecture",
+      "Python",
+      "ComfyUI"
+    ],
+    "blocks": [
+      {
+        "body": "## Give the viewer its own package boundary\n\nI reorganized the application into a `src/comfy_viewer` package with a `pyproject.toml`, console entry point, package-owned dependencies, and a copyable configuration template. Runtime paths come from configuration, environment overrides, and platform data and cache directories instead of assumptions about the surrounding Constellation Framework checkout.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Viewer[Comfy Viewer core] --> Config[Package-owned configuration]\n  Viewer --> ComfyUI[Required ComfyUI connection]\n  Viewer -. optional .-> Conduit[Conduit workflow integration]\n  Viewer -. optional .-> Hooks[Host integration hooks]",
+        "description": "The installable core owns viewing and configuration, while Conduit and host hooks remain explicit integration points.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Keep integrations behind explicit boundaries\n\nThe gallery, focused viewer, file watching, thumbnails, search, and quicksave run through the core package. Conduit adds workflow browsing, run controls, and richer output metadata, while namespaced lifecycle hooks provide a separate extension point.\n\nI moved the Redis listener that adds completed Conduit images to the gallery into optional startup and shutdown hooks, keeping that workspace integration outside the viewer’s core package. I also added structured events and CLI introspection, packaged the browser client, and rejected file paths outside configured roots. Integrations can extend the viewer without becoming part of its startup contract.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:913e364aadb01ef1a6488842d2d509c40d190dbae3bd06bd4dbad0370fd0a3e3",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

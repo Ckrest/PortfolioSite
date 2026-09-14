@@ -1,0 +1,57 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_1eb2699b9ef651bd8a19c482f35276f2",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
+    "title": "Added phone screenshots to Work Reports",
+    "summary": "Extended Work Report’s screenshot collection to recognize phone captures as a distinct source while keeping them in the shared evidence-review flow.",
+    "date": "2026-02-19",
+    "prominence": "low",
+    "tags": [
+      "Python",
+      "Infrastructure",
+      "Automation"
+    ],
+    "blocks": [
+      {
+        "body": "## Add another capture source\n\nWork Report’s screenshot collection accepts phone captures alongside desktop screenshots. Both enter the same artifact discovery and review flow, avoiding a separate reporting path for each source.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Desktop[Desktop screenshots] --> Collection[Shared screenshot collection]\n  Phone[Phone screenshots] --> Collection\n  Collection --> Discovery[Work Report discovery]\n  Discovery --> Review[Evidence review]",
+        "description": "Desktop and phone screenshots enter the same Work Report collection, discovery, and evidence-review flow. Multiple screenshot sources converge on one Work Report collection and review path.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Preserve where evidence came from\n\nPhone captures retain a distinct `phone-screenshot` type and `Phone screenshot:` label during collection. Their origin stays visible during review without changing how the underlying image is copied or handled.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:df9a89feabc17460eb967e114de96d4b892c9273d50fc003f20cbac54750547b",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

@@ -3,22 +3,27 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 
-# HTML and generated indexes remain revalidated so a deployment is visible
-# immediately. Browser-managed caching still avoids duplicate requests within
-# a page load, and immutable page media can use the host's normal asset cache.
-/*.js
-  Cache-Control: public, max-age=0, must-revalidate
-/*.css
-  Cache-Control: public, max-age=0, must-revalidate
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate
-/updates/index.json
-  Cache-Control: public, max-age=0, must-revalidate
-/updates/*/update.json
-  Cache-Control: public, max-age=0, must-revalidate
-/capabilities/manifest.json
-  Cache-Control: public, max-age=0, must-revalidate
-/capabilities/*/capability.json
-  Cache-Control: public, max-age=0, must-revalidate
-/sitemap.xml
-  Cache-Control: public, max-age=0, must-revalidate
+# Entry documents and legacy paths revalidate. Patterns do not overlap the
+# immutable rules. Cloudflare Browser Cache TTL must Respect Existing Headers.
+/
+  Cache-Control: no-cache
+/:file
+  Cache-Control: no-cache
+/updates/*
+  Cache-Control: no-cache
+/projects/*
+  Cache-Control: no-cache
+/capabilities/*
+  Cache-Control: no-cache
+/js/*
+  Cache-Control: no-cache
+/css/*
+  Cache-Control: no-cache
+/sections/*
+  Cache-Control: no-cache
+/data/*
+  Cache-Control: no-cache
+/assets/releases/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/media/*
+  Cache-Control: public, max-age=31536000, immutable

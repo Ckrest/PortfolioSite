@@ -1,5 +1,6 @@
 import { reuseFile, reuseTree } from './_artifact-io.js';
 import { documentPayloadName, documentPayloadSchema } from '../js/document-model.js';
+import { documentMediaPaths, packageWebAssets } from './_web-assets.js';
 /** Materialize an allowlisted deployment directory from generated update output. */
 
 import { cp, mkdir, readFile, readdir, rm, stat } from 'fs/promises';
@@ -45,7 +46,7 @@ export async function copyRuntime(ROOT, DIST, cache = null) {
   }
 }
 
-export async function buildDist({ root: ROOT = DEFAULT_ROOT, output = null, cache = null } = {}) {
+export async function buildDist({ root: ROOT = DEFAULT_ROOT, output = null, cache = null, retention = null } = {}) {
   const UPDATES = join(ROOT, 'updates');
   const CAPABILITIES = join(ROOT, 'capabilities');
   const DIST = output || join(ROOT, 'dist');
@@ -94,6 +95,13 @@ export async function buildDist({ root: ROOT = DEFAULT_ROOT, output = null, cach
   };
   await walk(DIST);
   if (forbidden.length) throw new Error(`Forbidden deployment files: ${forbidden.join(', ')}`);
+  if (!retention) {
+    try {
+      const pinned = JSON.parse(await readFile(join(ROOT, '.web-retention.json'), 'utf8'));
+      retention = { ...pinned, root: join(ROOT, '.web-retention') };
+    } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  }
+  await packageWebAssets(DIST, { mediaPaths: await documentMediaPaths(DIST), retention });
   console.log(`Built allowlisted dist with ${count} portfolio pages.`);
 }
 

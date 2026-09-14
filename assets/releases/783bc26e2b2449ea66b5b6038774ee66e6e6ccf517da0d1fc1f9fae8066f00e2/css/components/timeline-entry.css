@@ -1,0 +1,125 @@
+/**
+ * Timeline presentation for shared update entries.
+ *
+ * Any ordered update list can opt into the same prominence-aware presentation
+ * by wrapping update-entry markup in .timeline-entry-surface.
+ */
+
+.timeline-entry-surface .update-entry {
+  --entry-accent: var(--phase-accent, var(--color-accent));
+  --entry-bg: color-mix(in oklab, var(--color-panel), transparent 24%);
+  --entry-bg-hover: color-mix(in oklab, var(--color-soft), transparent 14%);
+  --entry-stripe-width: 0;
+  background: var(--entry-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.timeline-entry-surface .update-entry:hover {
+  background: var(--entry-bg-hover);
+  border-color: color-mix(in oklab, var(--entry-accent), transparent 55%);
+  transform: translateY(-2px);
+}
+
+.timeline-entry-surface .update-entry--large {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.88fr) minmax(280px, 1.12fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "media header"
+    "media body"
+    "media tags";
+  min-height: 310px;
+}
+
+.timeline-entry-surface .update-entry--large .update-entry__media {
+  grid-area: media;
+  border-radius: 0;
+}
+
+.timeline-entry-surface .update-entry--large .update-entry__media img,
+.timeline-entry-surface .update-entry--large .update-entry__media video {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+
+.timeline-entry-surface .update-entry--large .update-entry__header {
+  grid-area: header;
+  padding: 30px 30px 0;
+}
+
+.timeline-entry-surface .update-entry--large .update-entry__body {
+  grid-area: body;
+  padding: 18px 30px;
+}
+
+.timeline-entry-surface .update-entry--large .update-entry__tags {
+  grid-area: tags;
+  padding: 0 30px 28px;
+}
+
+.timeline-entry-surface .update-entry--large .update-entry__title {
+  font-size: var(--text-xl);
+}
+
+.timeline-entry-surface .update-entry--medium {
+  grid-template-columns: minmax(0, 1fr) clamp(130px, 18vw, 190px);
+  padding: 22px;
+}
+
+.timeline-entry-surface .update-entry--medium .update-entry__media {
+  width: 100%;
+  height: 108px;
+}
+
+.timeline-entry-surface .update-entry--small {
+  --entry-bg: color-mix(in oklab, var(--color-panel), transparent 50%);
+  padding: 12px 16px;
+}
+
+.timeline-entry-surface .update-entry--small .update-entry__date {
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 760px) {
+  .timeline-entry-surface .update-entry--large {
+    grid-template-columns: 1fr;
+    grid-template-areas: "media" "header" "body" "tags";
+    min-height: 0;
+  }
+
+  .timeline-entry-surface .update-entry--large .update-entry__media {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-entry-surface .update-entry--medium {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: "media" "header" "body" "tags";
+    padding: 0;
+  }
+
+  .timeline-entry-surface .update-entry--medium .update-entry__media {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 7;
+  }
+
+  .timeline-entry-surface .update-entry--medium .update-entry__header { padding: 18px 18px 0; }
+  .timeline-entry-surface .update-entry--medium .update-entry__body { padding: 12px 18px 18px; }
+  .timeline-entry-surface .update-entry--medium .update-entry__tags { padding: 0 18px 18px; }
+
+  .timeline-entry-surface .update-entry--small .update-entry__date {
+    width: 64px;
+    margin: 0;
+  }
+}

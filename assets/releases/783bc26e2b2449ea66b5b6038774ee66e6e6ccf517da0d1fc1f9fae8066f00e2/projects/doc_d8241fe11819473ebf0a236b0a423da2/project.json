@@ -1,0 +1,86 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_d8241fe11819473ebf0a236b0a423da2",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "items": [
+        "doc_1a911fdf0fc453de94a7cc5537694883",
+        "doc_472b46319d6948c6bcca4533b716a802",
+        "doc_6ce28cd7f7165a4cab2913e4bcdac533"
+      ],
+      "display_projects": []
+    },
+    "title": "Wayland Screenshot Tool",
+    "summary": "A persistent Wayfire screenshot service with frozen selection, exact window identity, precise region controls, and one output pipeline for desktop and scripted use.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/screenshot-tool",
+    "preview": {
+      "description": "A frozen region selection shows live dimensions, crosshairs, and a magnified pointer view.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/screenshot-frozen-selector.png",
+      "width": 1800,
+      "height": 1050
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Wayland",
+      "Image Capture",
+      "Reliability"
+    ],
+    "blocks": [
+      {
+        "body": "## Make a screenshot a precise, repeatable action\n\nScreenshot Tool combines fullscreen, region, and individual-window capture in one hotkey-driven Wayfire workflow. The same modes are available through a command line for explicit destinations, silent captures, and structured results.\n\nThe interactive selector freezes the screen while a target is chosen. Live dimensions, a magnified pointer view, and one-image-pixel keyboard movement help place an exact boundary. A second interactive request saves the already frozen frame fullscreen.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep the service ready and the selector temporary\n\nA thin D-Bus client sends requests to a persistent GTK4 service. The service moves through idle, freezing, selecting, and saving states, creating the UI only for an active selection.\n\nThe capture backend supplies a cursor-free raw frame. The service validates its layout and pixel contract before displaying it, then keeps the frame unencoded until the chosen result reaches the shared output pipeline.",
+        "type": "text"
+      },
+      {
+        "body": "## Match the selected window exactly\n\nWindow selection joins Wayfire geometry to the capture backend using an opaque foreign-toplevel identifier. Same-titled windows remain distinct, and a missing identity makes the target unavailable. After the selector closes, the backend captures the chosen window directly.\n\nEach captured display has its own layer-shell surface and viewport into the shared frame. The output layout maps logical compositor coordinates across scaled and transformed displays.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep output behavior consistent\n\nInteractive and direct requests share encoding, naming, clipboard, notifications, sound, and post-save hooks. Files are encoded once and moved atomically into place. Directory organization can follow time or application identity, while explicit output paths take precedence.\n\nConfiguration reloads at request boundaries, so settings changes apply without restarting the service. Notifications can reveal the saved file through the standard file-manager interface, and executable hooks let other local workflows respond to a completed capture.",
+        "type": "text"
+      },
+      {
+        "label": "Desktop Settings Hub: configure capture behavior through a package catalog",
+        "type": "related-mini",
+        "updateId": "doc_72c295c916de4a8288ff9625925f47c6"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:71a03338897cf72dce45428f7aabacd188750122e689b079853330c579f3ade1",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/screenshot-frozen-selector.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1800,
+        "height": 1050,
+        "digest": "sha256:efe235debc65f2595224ef79f9206acc2ae274489f8f2c80e822c69aa8bcc557",
+        "byte_size": 2467903,
+        "animated": false
+      }
+    }
+  }
+}

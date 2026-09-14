@@ -1,0 +1,86 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_2c3e5c9689394489b1d0e555bd323474",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "items": [
+        "doc_928919e4fe6e482ca56ab6b4ced543e6",
+        "doc_2ae84d4904f755c5914f89bf76ae73e8"
+      ],
+      "display_projects": []
+    },
+    "title": "Soundboard",
+    "summary": "A GTK4 sound library with precise clip editing, searchable collections, stable hotkey actions, and shared playback to Discord, local speakers, or both.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/soundboard",
+    "preview": {
+      "description": "An illustrative library preview shows recognizable sound cards, search, favorites, and Stop All.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/soundboard-library-concept.png",
+      "width": 1640,
+      "height": 959
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Audio",
+      "D-Bus",
+      "Desktop Environment"
+    ],
+    "blocks": [
+      {
+        "body": "## Make a sound library quick to find and play\n\nSoundboard turns audio files into named, illustrated cards organized through search, favorites, and custom collections. Drag-and-drop imports, reordering, and a shared artwork editor keep the library usable as it grows.\n\nImports are inspected by content before registration, retaining the original encoded audio with verified duration and format metadata. Sound and collection artwork keep a bounded editing source plus a small final preview, so browsing does not repeatedly decode full-size images.",
+        "type": "text"
+      },
+      {
+        "body": "## Edit the clip without losing its identity\n\nEach sound has a permanent UUID independent of its filename, display name, collection, or position. Replacing the source audio preserves that identity and its artwork and collection membership.\n\nThe sound editor combines trim edges, per-edge softening, and a volume modifier. Edge auditions make the cut audible before saving, while the machine API exposes the same editing operations with revision guards.",
+        "type": "text"
+      },
+      {
+        "body": "## Coordinate playback through a shared service\n\nCards, CLI calls, hotkeys, and editing auditions submit playback through Discord Injection. That service owns decoding, physical routing, and synchronized outputs; Soundboard controls its library and session preferences. Local speakers and Discord have independent enable and volume settings.\n\nService events distinguish an accepted request from actual playback and report unavailable outputs. Exact per-sound stop and Stop All stay scoped to Soundboard’s session. Closing the window preserves active jobs and the headless runtime.",
+        "type": "text"
+      },
+      {
+        "body": "## Expose the same library to desktop automation\n\nA dynamic Wayfire hotkey provider exports sounds, collections, and bounded artwork previews. Stable UUID-based actions survive renaming, reordering, and restarts. Settings Hub and Wayfire Keybindings own the bindings, while activation enters the same playback path as a card click.\n\nThe service is the single writer for supported edits. It persists changes before publishing revisioned deltas to open windows, and an editor with unsaved changes becomes stale when a conflicting backend edit arrives.",
+        "type": "text"
+      },
+      {
+        "label": "Desktop HUD: display dynamic hotkey actions and artwork",
+        "type": "related-mini",
+        "updateId": "doc_1bae14a1f84f4b61998e3e2a1b494876"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:59657c554ee70bc265decdf9f754fe25c2810c77c80e102948acf753c78e04fd",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/soundboard-library-concept.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1640,
+        "height": 959,
+        "digest": "sha256:c982f1652902ea1bc40e5dae2715372bcde89fcf8b6a120e61dd696272007ea1",
+        "byte_size": 1185763,
+        "animated": false
+      }
+    }
+  }
+}

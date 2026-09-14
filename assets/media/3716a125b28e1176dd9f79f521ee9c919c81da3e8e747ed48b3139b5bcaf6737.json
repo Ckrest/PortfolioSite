@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "entries": {
+    "2026-01-01": {
+      "date": "2026-01-01",
+      "sleep_quality": 4,
+      "alertness": 3,
+      "mood": 4,
+      "dreams": "",
+      "notes": "Example entry",
+      "sleep_time": "00:30",
+      "wake_time": "08:45"
+    }
+  }
+}

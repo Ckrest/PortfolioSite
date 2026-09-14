@@ -1,0 +1,9 @@
+providers:
+  - name: watch
+    type: watch
+    command: watch-sleep-provider --date {date}
+    collect_command: watch-sleep-provider --refresh
+    collect_timeout: 60
+  - name: diary
+    type: subjective
+    command: daily-checkin-sleep-provider --date {date}

@@ -127,7 +127,7 @@ test('release preserves three page types, canonical timelines, media and private
     const payload=JSON.parse(await readFile(join(page,kind+'.json')));payloads.push(payload[kind]);
     assert.equal(payload.media.items['clip.mp4'].codec,'h264');
     assert.equal(payload.media.items['clip.mp4'].has_audio,false);
-    assert.match(await readFile(join(page,'detail.html'),'utf8'),/property="og:image"[^>]*poster\.jpg/);
+    assert.match(await readFile(join(page,'detail.html'),'utf8'),/property="og:image"[^>]*assets\/media\/[a-f0-9]{64}\.jpg/);
     assert.deepEqual(await readFile(join(page,'clip.mp4')),await readFile(clip));
     assert.deepEqual(await readFile(join(page,'poster.jpg')),await readFile(poster));
     assert.equal('id' in payload[kind].blocks[0],false);

@@ -1,0 +1,66 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_472b46319d6948c6bcca4533b716a802",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_d8241fe11819473ebf0a236b0a423da2",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_d8241fe11819473ebf0a236b0a423da2",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Connected visual tools to automatic artifact tracking",
+    "summary": "Added optional post-save adapters that publish Diagram Tool and Screenshot Tool outputs into artifact tracking, making the visuals discoverable by Work Report while keeping both tools independently runnable.",
+    "date": "2026-01-29",
+    "prominence": "low",
+    "tags": [
+      "Event-Driven Architecture",
+      "Python",
+      "Redis",
+      "PostgreSQL",
+      "Bash"
+    ],
+    "blocks": [
+      {
+        "body": "## Add integration at the save boundary\n\nDiagram Tool and Screenshot Tool expose post-save extension points instead of embedding artifact tracking in their core save paths. Diagram Tool calls registered Python callbacks after a successful save; Screenshot Tool runs executable scripts after writing the capture.",
+        "type": "text"
+      },
+      {
+        "label": "Diagram Tool: the editor behind the diagram save hook",
+        "type": "related-mini",
+        "updateId": "doc_79633f0172065a5aaef2a5c4f8d70359"
+      },
+      {
+        "code": "flowchart LR\n  Diagram[Diagram save] --> PythonHook[Python hook]\n  Screenshot[Screenshot save] --> ShellHook[Shell hook]\n  PythonHook & ShellHook --> Event[artifact.created]\n  Event --> Pipeline[Redis → DB logger → PostgreSQL]\n  Pipeline --> Reports[Work Report discovery]",
+        "description": "Python and shell hooks converge on one artifact event, then Redis and the database logger place the saved visual in PostgreSQL for Work Report discovery.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Route one event into the evidence pipeline\n\nWhen the Constellation Framework adapters are present, both hooks publish the same `artifact.created` event with the saved path and capture metadata. Redis carries the event to the database logger, which records the artifact in PostgreSQL for Work Report discovery.\n\nThis keeps each tool focused on producing its visual while the optional adapters handle workspace integration.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:f62cd7650d84f190da6341c34c8937dd9326cca6dfc2ee1ebd263b39d1c0dae8",
+        "byte_size": 497,
+        "animated": false
+      }
+    }
+  }
+}

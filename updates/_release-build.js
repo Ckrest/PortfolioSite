@@ -4,11 +4,12 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { DigestCache, reuseTree, treeIdentity, valueDigest, verifyCandidate, verifyMechanics } from './_artifact-io.js';
 import { documentCollection } from '../js/document-model.js';
+import { readRetention, retentionIdentity } from './_web-assets.js';
 
 export const RELEASE_SCHEMA = 'portfolio-site/release@2';
 export const releaseIdentity = receipt => valueDigest(Object.fromEntries(['accepted_revision','snapshot_digest','site_source_digest','public_source_digest','result_digest'].map(key => [key,receipt[key]])));
 
-export async function verifyOutput(directory, cache = new DigestCache()) {
+export async function verifyOutput(directory, cache = new DigestCache(), request = null) {
   const errors = [];
   let receipt;
   try {
@@ -17,6 +18,16 @@ export async function verifyOutput(directory, cache = new DigestCache()) {
     if (receipt.release_id !== releaseIdentity(receipt)) throw new Error('Release identity differs from its receipt');
     for (const [name, key] of [['public-source','public_source_digest'],['dist','result_digest']]) {
       if ((await treeIdentity(join(directory,name), { cache })).digest !== receipt[key]) errors.push(`${name} failed its digest check`);
+    }
+    let pin = null;
+    try { pin = JSON.parse(await readFile(join(directory, 'public-source/.web-retention.json'), 'utf8')); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (retentionIdentity(pin) !== (receipt.web_retention_digest ?? null)) errors.push('Retention input differs from its receipt');
+    if (request && (receipt.release_revision !== request.release_revision
+      || receipt.snapshot_digest !== request.snapshot.digest
+      || receipt.site_source_digest !== request.site_source_digest
+      || (receipt.web_retention_digest ?? null) !== retentionIdentity(request.retained_web_assets))) {
+      errors.push('Prepared release differs from the requested inputs');
     }
   } catch (error) { errors.push(error.message); }
   return { schema: 'portfolio-site/release-verification@1', valid: errors.length === 0, errors, receipt: receipt || null };
@@ -35,6 +46,12 @@ export async function buildRelease(request, output) {
     await verifyMechanics(mechanics, request.site_source_digest, cache);
     const publicSource = join(workspace, 'public-source');
     await reuseTree(mechanics, publicSource, cache);
+    if (request.retained_web_assets) {
+      await readRetention(request.retained_web_assets);
+      await reuseTree(request.retained_web_assets.root, join(publicSource, '.web-retention'), cache);
+      const { root: _root, ...pin } = request.retained_web_assets;
+      await writeFile(join(publicSource, '.web-retention.json'), JSON.stringify(pin, null, 2) + '\n');
+    }
     const documents = [];
     for (const member of request.documents) {
       await verifyCandidate(member, cache);
@@ -64,6 +81,12 @@ export async function buildRelease(request, output) {
     }
     const { buildDist } = await import(pathToFileURL(join(mechanics, 'updates/_build-dist.js')));
     await buildDist({ root: publicSource, output: join(workspace, 'dist'), cache });
+    // Publication carries its own archive for the next release. Build inputs
+    // live separately so a public checkout can reproduce this exact dist.
+    await reuseTree(join(workspace, 'dist/assets'), join(publicSource, 'assets'), cache);
+    for (const name of ['site-release.json', 'web-asset-history.json']) {
+      await writeFile(join(publicSource, name), await readFile(join(workspace, 'dist', name)));
+    }
     const publicIdentity = await treeIdentity(publicSource, { cache });
     const distribution = await treeIdentity(join(workspace, 'dist'), { cache });
     await verifyMechanics(mechanics, request.site_source_digest, cache);
@@ -71,6 +94,7 @@ export async function buildRelease(request, output) {
       accepted_revision: request.snapshot.revision, snapshot_digest: snapshotDigest,
       site_source_digest: request.site_source_digest, public_source_digest: publicIdentity.digest,
       result_digest: distribution.digest, public_source_files: publicIdentity.files, files: distribution.files,
+      web_retention_digest: retentionIdentity(request.retained_web_assets),
       validation: result.validation, stats: { ...result.stats, bytes_hashed: cache.bytesHashed, bytes_read_for_hashing: cache.bytesHashed, bytes_copied: cache.bytesCopied, bytes_linked: cache.bytesLinked } };
     receipt.release_id = releaseIdentity(receipt);
     await writeFile(join(workspace, 'manifest.json'), JSON.stringify(receipt, null, 2)+'\n');
@@ -88,7 +112,8 @@ export async function buildRelease(request, output) {
 const argument = name => { const index=process.argv.indexOf(name); if (index<0 || !process.argv[index+1]) throw new Error(`${name} is required`); return process.argv[index+1]; };
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    const result = process.argv.includes('--verify-output') ? await verifyOutput(resolve(argument('--verify-output')))
+    const result = process.argv.includes('--verify-output') ? await verifyOutput(resolve(argument('--verify-output')), undefined,
+      process.argv.includes('--request') ? JSON.parse(await readFile(argument('--request'), 'utf8')) : null)
       : await buildRelease(JSON.parse(await readFile(argument('--input'), 'utf8')), resolve(argument('--output')));
     console.log(JSON.stringify(result));
     if (result.valid === false || result.state && result.state !== 'ready') process.exitCode = 1;

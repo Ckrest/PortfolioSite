@@ -1,0 +1,62 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_0a063e0c837f46f99fdad242bca08ca7",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec"
+      ],
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Added actionable guidance to Work Report creation and curation",
+    "summary": "Added warnings about uncommitted changes and explicit evidence-review instructions, giving automated report creation clear next actions at each stage.",
+    "date": "2026-02-22",
+    "prominence": "low",
+    "tags": [
+      "Automation",
+      "Python",
+      "MCP"
+    ],
+    "blocks": [
+      {
+        "body": "## Put guidance where the work happens\n\nWork Report separates recording what happened from choosing the evidence that supports it. I added guidance to the responses from both stages so an agent receives the next useful action with the result it just created.\n\nCreation reports uncommitted changes as a nonblocking warning and points to evidence curation. Curation returns the full set of follow-up questions and instructions for reviewing the attached artifacts.",
+        "type": "text"
+      },
+      {
+        "code": "ARTIFACT_REVIEW_INSTRUCTIONS = [\n    \"Review every attached artifact one-by-one before finalizing the report.\",\n    \"Remove irrelevant artifacts (duplicates, noise, unrelated captures).\",\n    \"For each kept artifact, ensure it clearly supports what changed.\",\n]",
+        "description": "The curation response tells the agent to inspect each artifact, remove irrelevant material, and keep evidence that supports the reported change.",
+        "filename": "core.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Make evidence review actionable\n\nThe follow-up guidance explains how to inspect, detach, edit, or recapture evidence and repeat curation when material is missing. Shared instructions replace stale references to the retired report wizard.\n\nI added regression checks for creation warnings and curation responses. The resulting workflow preserves direct report creation while making the evidence-review step explicit.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:5ebee9819b4974fac070b24bd063d7a796a11f31a4e21d26280362225008376b",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

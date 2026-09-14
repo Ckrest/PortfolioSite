@@ -1,0 +1,103 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_1a911fdf0fc453de94a7cc5537694883",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762"
+      ],
+      "projects": [
+        "doc_d8241fe11819473ebf0a236b0a423da2"
+      ],
+      "display_projects": [
+        "doc_d8241fe11819473ebf0a236b0a423da2"
+      ]
+    },
+    "title": "Rebuilt Screenshot Tool as a persistent capture service",
+    "summary": "Reworked Screenshot Tool into a persistent GTK4 service that keeps frames unencoded through selection and matches same-titled windows through exact Wayland identities.",
+    "date": "2026-08-15",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/screenshot-tool",
+    "preview": {
+      "description": "Screenshot Tool frozen-region selector with live dimensions, keyboard guidance, crosshairs, and a magnified pointer view",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/selector-region-magnifier.png",
+      "width": 1800,
+      "height": 1050
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Wayland",
+      "Image Capture"
+    ],
+    "blocks": [
+      {
+        "body": "## Keep capture ready between hotkeys\n\nI replaced per-hotkey startup with a background service that stays ready between captures. The `screenshot` command sends it interactive, fullscreen, region, or window requests, while one clear lifecycle prevents captures from competing with each other.\n\nPressing the hotkey again during an interactive capture reuses the same frozen screen and saves it fullscreen instead of opening another selector. The same shortcut therefore supports both deliberate selection and quick fullscreen capture: press once to choose a target, or press again to save the frozen screen.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep selection fast and direct\n\nInstead of turning the first capture into a finished image and reopening it, the service keeps the captured pixels available while a region or window is selected. Only the chosen result is converted into an image and passed to the usual save, clipboard, notification, and automation options.\n\nThis keeps the interaction focused on the selection itself: the frozen screen appears quickly, remains stable beneath the pointer, and reaches its destination without an extra image conversion.",
+        "type": "text"
+      },
+      {
+        "code": "sequenceDiagram\n  participant C as CLI or hotkey\n  participant S as Persistent GTK service\n  participant W as Wayland capture boundary\n  participant O as Request-scoped selector\n  C->>S: Explicit capture request\n  S->>W: Capture cursor-free desktop\n  W-->>S: Frozen raw frame and output layout\n  S->>S: Join window geometry by opaque identity\n  S->>O: Create selector for this request\n  O-->>S: Region, fullscreen, or exact window\n  alt Region or fullscreen\n    S->>S: Crop or reuse the frozen frame\n  else Exact window\n    S->>W: Capture selected opaque identity\n    W-->>S: Exact window frame\n  end\n  S->>S: Apply shared output policy\n  S-->>C: File and structured output result",
+        "description": "The service persists across requests; the frozen selector exists only for the active request, and exact window capture remains distinct from region cropping.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Refine the frozen selector\n\nI matched Wayfire's window geometry to the capture backend through opaque foreign-toplevel identities, keeping same-titled windows distinct. Window capture proceeds only when both sides identify the same target.\n\nThe existing dimensions, crosshair, and one-pixel keyboard control remain in place. I expanded the magnifier into a 480-pixel circular view at 8× zoom and made the instruction label dismiss as the pointer approaches it.",
+        "type": "text"
+      },
+      {
+        "label": "Wayfire capture: why exact window identity matters",
+        "type": "related-mini",
+        "updateId": "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a"
+      },
+      {
+        "commands": [
+          {
+            "command": "screenshot --print-lifecycle",
+            "output": "{\n  \"states\": [\n    \"idle\",\n    \"freezing\",\n    \"selecting\",\n    \"saving\"\n  ]\n}"
+          },
+          {
+            "command": "PYTHONPATH=src pytest -q",
+            "output": "43 passed"
+          }
+        ],
+        "description": "Service lifecycle ran through its public command and passed its retained package suite.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "terminal"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:ea4055193631d4021ecace9cd1906bdbdbae93dd0d8290e527505020d9f69ef8",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/selector-region-magnifier.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1800,
+        "height": 1050,
+        "digest": "sha256:efe235debc65f2595224ef79f9206acc2ae274489f8f2c80e822c69aa8bcc557",
+        "byte_size": 2467903,
+        "animated": false
+      }
+    }
+  }
+}

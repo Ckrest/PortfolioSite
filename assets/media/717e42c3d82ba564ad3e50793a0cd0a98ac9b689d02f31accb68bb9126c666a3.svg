@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#142a32"/><stop offset="1" stop-color="#0b151e"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#72d9bd"/></marker>
+  </defs>
+  <rect width="1200" height="675" rx="0" fill="url(#bg)"/>
+  <g font-family="DejaVu Sans, sans-serif">
+    <text x="72" y="103" fill="#82e1c7" font-size="23" letter-spacing="3">DESKTOP POWER ACTIONS</text>
+    <text x="72" y="170" fill="#f4f8fa" font-size="54" font-weight="700">Power Manager</text>
+    <text x="72" y="216" fill="#bacbd3" font-size="27">Connect a request, a visual transition, and the power action.</text>
+    <rect x="72" y="278" width="300" height="218" rx="20" fill="#20353e" stroke="#44636e"/>
+    <rect x="450" y="278" width="300" height="218" rx="20" fill="#1d413f" stroke="#72d9bd" stroke-width="2"/>
+    <rect x="828" y="278" width="300" height="218" rx="20" fill="#20353e" stroke="#44636e"/>
+    <path d="M 388 387 H 431 M 766 387 H 809" stroke="#72d9bd" stroke-width="4" marker-end="url(#arrow)"/>
+    <g fill="#82e1c7" font-size="24" font-weight="700"><text x="100" y="325">01</text><text x="478" y="325">02</text><text x="856" y="325">03</text></g>
+    <g fill="#f4f8fa" font-size="36" font-weight="700"><text x="100" y="386">Request</text><text x="478" y="386">Animate</text><text x="856" y="386">Act</text></g>
+    <g fill="#cad8de" font-size="26"><text x="100" y="439">Menu or command</text><text x="478" y="439">Cover the display</text><text x="856" y="439">Shut down or sleep</text></g>
+    <path d="M 72 548 H 1128" stroke="#344d59"/>
+    <text x="72" y="603" fill="#bacbd3" font-size="27">Choose an effect</text><circle cx="346" cy="594" r="4" fill="#72d9bd"/>
+    <text x="376" y="603" fill="#bacbd3" font-size="27">Preview it</text><circle cx="563" cy="594" r="4" fill="#72d9bd"/>
+    <text x="593" y="603" fill="#bacbd3" font-size="27">Or skip the animation</text>
+  </g>
+</svg>

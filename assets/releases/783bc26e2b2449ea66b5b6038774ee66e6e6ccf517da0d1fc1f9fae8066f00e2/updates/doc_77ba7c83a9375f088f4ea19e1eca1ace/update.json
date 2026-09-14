@@ -1,0 +1,61 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_77ba7c83a9375f088f4ea19e1eca1ace",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_a230ccdc63be48a886be340d751cad33"
+      ],
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ]
+    },
+    "title": "Split Portfolio Editor into focused routes and services",
+    "summary": "Separated Portfolio Editor’s request handling and application work into focused Flask modules, with consistent unsaved-change tracking across block edits.",
+    "date": "2026-02-20",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "tags": [
+      "Refactoring",
+      "Architecture",
+      "Python",
+      "JavaScript",
+      "Frontend"
+    ],
+    "blocks": [
+      {
+        "body": "## Give each workflow a clear backend boundary\n\nPortfolio Editor starts through a Flask app factory and registers focused route modules for projects, reports, previews, and system operations. Routes handle requests and responses, while services own project conversion, mutation, site builds, and runtime control.\n\nThat separation makes individual workflows easier to change and test without constructing the entire application. A pytest suite covers the extracted route, build, configuration, and service boundaries.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Browser[Editor browser] --> Routes[Focused route modules]\n  Routes --> Projects[Projects and reports]\n  Routes --> System[Preview and system]\n  Projects --> Content[Conversion and mutation services]\n  System --> Runtime[Build and runtime services]\n  Content --> Data[Project data]\n  Runtime --> Site[Portfolio Site]",
+        "description": "Focused route modules coordinate requests while services own content changes, builds, and runtime work.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Make unsaved work harder to lose\n\nGallery, graph, comparison, and terminal edits all notify the same dirty-state path as the rest of the editor. The browser warns before closing only while work is unsaved, and explicit preview-refresh and shutdown controls make the editor’s runtime state easier to manage.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:367735451633a2625b93c1d01ecb32162e042beebcbe5075d9c9ad3c054f15a2",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

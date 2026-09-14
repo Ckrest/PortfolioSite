@@ -1,0 +1,538 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_315d02ff658e5615bd31fa3c6f37b793",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ]
+    },
+    "title": "Assigned portfolio icons automatically from tags",
+    "summary": "Made Portfolio Editor assign a shared icon when it created an update, prioritizing the subject of the work over technology and work-type labels.",
+    "date": "2026-02-22",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "preview": {
+      "description": "Portfolio updates with automatically assigned icons",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/screenshot_2026-02-28_00-00-07.png",
+      "width": 1372,
+      "height": 903
+    },
+    "tags": [
+      "Python",
+      "Flask",
+      "Automation"
+    ],
+    "blocks": [
+      {
+        "body": "## Give every imported update an icon\n\nPortfolio Editor had created compact updates without an icon, leaving their timeline cards with broken or generic presentation. I added a deterministic selector to the creation path. It checks domain tags first, skill tags second, and copies the selected asset from the shared icon library. When nothing matches, it uses the shared code icon as a valid fallback.\n\nWork-type labels such as “Feature” and “Bug Fix” are ignored because they describe the activity rather than its subject. A one-time backfill assigned icons to 24 existing updates that lacked them.",
+        "type": "text"
+      },
+      {
+        "description": "Domain, skill, and work-type tags pass through a fixed priority order before Portfolio Editor copies the selected shared icon into the update.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/tag-icon-selection-flow.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Make the choice repeatable\n\nThe selector lowercases incoming tags, classifies them with the shared tag registry, and walks fixed priority tables. The mapping order—not the order of the incoming tags—decides the winner. An update tagged with both Wayland and Python receives the desktop-layers icon because a domain match took priority over a skill match.\n\nBefore copying an icon, the selector verifies that the selected asset exists in the shared library.",
+        "type": "text"
+      },
+      {
+        "code": "1. Matched a domain tag such as Wayland, ComfyUI, or Audio\n2. Otherwise matched a technology or skill tag\n3. Ignored generic work-type tags\n4. Fell back to the shared code icon",
+        "description": "The priority order favors what the work was about over how the report classified the activity.",
+        "filename": "selection-priority.txt",
+        "language": "text",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Preserve editorial control\n\nAutomatic selection runs only when an update does not already have an icon and no custom icon path has been provided. Existing choices stay in place.\n\nBecause the selected SVG is copied into the update during creation, later changes to the mapping do not silently rewrite reviewed items. The automatic result remains an initial proposal that an editor can replace.",
+        "type": "text"
+      },
+      {
+        "description": "The maintained icon vocabulary and the resulting update cards show the deterministic mapping in use.",
+        "fit": "contain",
+        "images": [
+          {
+            "description": "AI (ai.svg)",
+            "kind": "image",
+            "src": "media/ai.svg"
+          },
+          {
+            "description": "API Design (api.svg)",
+            "kind": "image",
+            "src": "media/api.svg"
+          },
+          {
+            "description": "Bash (bash.svg)",
+            "kind": "image",
+            "src": "media/bash.svg"
+          },
+          {
+            "description": "Data Visualization (chart.svg)",
+            "kind": "image",
+            "src": "media/chart.svg"
+          },
+          {
+            "description": "Browser Extension (chrome.svg)",
+            "kind": "image",
+            "src": "media/chrome.svg"
+          },
+          {
+            "description": "Fallback (code.svg)",
+            "kind": "image",
+            "src": "media/code.svg"
+          },
+          {
+            "description": "Automation / Systemd (cog.svg)",
+            "kind": "image",
+            "src": "media/cog.svg"
+          },
+          {
+            "description": "C++ (cpp.svg)",
+            "kind": "image",
+            "src": "media/cpp.svg"
+          },
+          {
+            "description": "Infrastructure (cpu.svg)",
+            "kind": "image",
+            "src": "media/cpu.svg"
+          },
+          {
+            "description": "CSS (css.svg)",
+            "kind": "image",
+            "src": "media/css.svg"
+          },
+          {
+            "description": "PostgreSQL / Redis (database.svg)",
+            "kind": "image",
+            "src": "media/database.svg"
+          },
+          {
+            "description": "Document Processing (file.svg)",
+            "kind": "image",
+            "src": "media/file.svg"
+          },
+          {
+            "description": "Git Workflow (git.svg)",
+            "kind": "image",
+            "src": "media/git.svg"
+          },
+          {
+            "description": "Frontend (globe.svg)",
+            "kind": "image",
+            "src": "media/globe.svg"
+          },
+          {
+            "description": "Image Capture (image.svg)",
+            "kind": "image",
+            "src": "media/image.svg"
+          },
+          {
+            "description": "JavaScript (javascript.svg)",
+            "kind": "image",
+            "src": "media/javascript.svg"
+          },
+          {
+            "description": "Wayland / Desktop (layers.svg)",
+            "kind": "image",
+            "src": "media/layers.svg"
+          },
+          {
+            "description": "Hook System / D-Bus (link.svg)",
+            "kind": "image",
+            "src": "media/link.svg"
+          },
+          {
+            "description": "Speech-to-Text (microphone.svg)",
+            "kind": "image",
+            "src": "media/microphone.svg"
+          },
+          {
+            "description": "Architecture (package.svg)",
+            "kind": "image",
+            "src": "media/package.svg"
+          },
+          {
+            "description": "MCP (plugin.svg)",
+            "kind": "image",
+            "src": "media/plugin.svg"
+          },
+          {
+            "description": "ComfyUI (puzzle.svg)",
+            "kind": "image",
+            "src": "media/puzzle.svg"
+          },
+          {
+            "description": "Python / Flask (python.svg)",
+            "kind": "image",
+            "src": "media/python.svg"
+          },
+          {
+            "description": "React (react.svg)",
+            "kind": "image",
+            "src": "media/react.svg"
+          },
+          {
+            "description": "Rust (rust.svg)",
+            "kind": "image",
+            "src": "media/rust.svg"
+          },
+          {
+            "description": "Computer Vision (search.svg)",
+            "kind": "image",
+            "src": "media/search.svg"
+          },
+          {
+            "description": "Audio / TTS (speaker-wave.svg)",
+            "kind": "image",
+            "src": "media/speaker-wave.svg"
+          },
+          {
+            "description": "CLI (terminal.svg)",
+            "kind": "image",
+            "src": "media/terminal.svg"
+          },
+          {
+            "description": "Video Processing (video.svg)",
+            "kind": "image",
+            "src": "media/video.svg"
+          },
+          {
+            "description": "Bluetooth / Network (wifi.svg)",
+            "kind": "image",
+            "src": "media/wifi.svg"
+          },
+          {
+            "description": "Event-Driven (zap.svg)",
+            "kind": "image",
+            "src": "media/zap.svg"
+          }
+        ],
+        "presentation": "wide",
+        "type": "gallery"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:4be5967bcaca5f2ca6071c83ccfd2f2ed373af8e7dca78b3845171990e482758",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/ai.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:13c9932e80a358d2968a3d99101d39fa7f54ff6791b614a1bdcfbfa1e44a411b",
+        "byte_size": 722,
+        "animated": false
+      },
+      "media/api.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:3ed730ccbe50d4df8442545b0ef03e473708860d496ac9292fb01e7c523a0320",
+        "byte_size": 259,
+        "animated": false
+      },
+      "media/bash.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:45569bff71ebe79ff7f669dfbd62110ff18d95771898dd1621b4f81d4d7b0ab9",
+        "byte_size": 322,
+        "animated": false
+      },
+      "media/chart.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:c0676cc602926782f9a6226fee39b107ea0d3360534bcdf8b1cb591b2d8927c3",
+        "byte_size": 312,
+        "animated": false
+      },
+      "media/chrome.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:c1ff5307dc05cfcfe278c375e8bb72ba31da3a2219d05b2c89a26a60752af56f",
+        "byte_size": 388,
+        "animated": false
+      },
+      "media/code.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:fc2831d47a5aea9c939c180cf92b242b1b30b2d4081707cdaf7a8158a38717ca",
+        "byte_size": 266,
+        "animated": false
+      },
+      "media/cog.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:d98ad153459b3ac1471aa890e551d306761452db863faf3aa4c2af9ee0a41bbd",
+        "byte_size": 972,
+        "animated": false
+      },
+      "media/cpp.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:9431d59c13ab58bb2e7fdd0166fdbf8d051b7f46f761a3cb728483a298dc7418",
+        "byte_size": 393,
+        "animated": false
+      },
+      "media/cpu.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:494ca3d8c38e99701c36e7f410c54f67207fd2b6b076a65350a2b1cf0ad584ef",
+        "byte_size": 611,
+        "animated": false
+      },
+      "media/css.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:73936a0c6f6166c0104e417434072025482810c0a30e26ab31fa06452a6ae411",
+        "byte_size": 309,
+        "animated": false
+      },
+      "media/database.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:8a7beb521fe466adf48285f98c9d6d16e63f9125fec716843e377ac0524d30ac",
+        "byte_size": 329,
+        "animated": false
+      },
+      "media/file.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:522e28f603063813039f3e5c1a1fc720b3c59a8ad3eaff6047450762e432f082",
+        "byte_size": 300,
+        "animated": false
+      },
+      "media/git.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:7933bf8be2e482952c81554f2525e1ba511270c18a067a76765451c2a2c3f683",
+        "byte_size": 291,
+        "animated": false
+      },
+      "media/globe.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:a21bb54d5d81fc2ad6b1f4cfb6133602f78e817e404c6a6eedfa871db0515aaf",
+        "byte_size": 370,
+        "animated": false
+      },
+      "media/image.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:55563811a8901810c4aa3440921ec4729af2803c5fadb76935a6050ea2c11ca7",
+        "byte_size": 326,
+        "animated": false
+      },
+      "media/javascript.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:33e90f906d09fd73698b55afba9ead1f78ccca5ffa706a693aa81d654e0b917c",
+        "byte_size": 356,
+        "animated": false
+      },
+      "media/layers.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:56c266d45e54d6b8685ccae9b682e8cf33e19e11102bc23fadeb29a8d7f6bc06",
+        "byte_size": 316,
+        "animated": false
+      },
+      "media/link.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:4ff1c71cf7e00251d13cdb2219a44988a3bc9132797ee8a4d3617660a1f91ce8",
+        "byte_size": 338,
+        "animated": false
+      },
+      "media/microphone.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 2,
+        "height": 24,
+        "digest": "sha256:8d01f205baa837943ecd8e36baa521894b4398d19e75348edaa719746b6c7763",
+        "byte_size": 357,
+        "animated": false
+      },
+      "media/package.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:86eee83ea2be9fdd68e01eae839a0fd48d2cad67bccebfa9d40fc738d6628889",
+        "byte_size": 471,
+        "animated": false
+      },
+      "media/plugin.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:9729835bec5eef0874fd6a025b5e9b283d3292383ca484c74c9e146fd76a3fa0",
+        "byte_size": 306,
+        "animated": false
+      },
+      "media/puzzle.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:1cb094d9b4a85d19b7457880f41ff547ceadd3d64dfdaac83836293208243df7",
+        "byte_size": 1059,
+        "animated": false
+      },
+      "media/python.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:5ededddd78ddda3deb432a3c71eb39537c9ab2d99d403a783833a73b81240920",
+        "byte_size": 566,
+        "animated": false
+      },
+      "media/react.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:dba921770db90faa0681fc9153198104913d5ce11abee4baa28bdeb91885ada4",
+        "byte_size": 414,
+        "animated": false
+      },
+      "media/rust.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:46474bbe8e0f5a6d3fc93e00328fca07ce661b77738e8f6980b4093a22d0a40a",
+        "byte_size": 597,
+        "animated": false
+      },
+      "media/screenshot_2026-02-28_00-00-07.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1372,
+        "height": 903,
+        "digest": "sha256:7896d3d5fec3f3fd290164a9897a70183bb747da4c572e7442717493743ca6d4",
+        "byte_size": 66389,
+        "animated": false
+      },
+      "media/search.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:02db8ba261d5fafc1bec61e54e87f9f96cec339fc9648763d5eaf8bdfaa39a65",
+        "byte_size": 271,
+        "animated": false
+      },
+      "media/speaker-wave.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 2,
+        "height": 24,
+        "digest": "sha256:ac7afd8bf01135feb569004d6010289075deaad5cac9fff4243087dd701759d6",
+        "byte_size": 492,
+        "animated": false
+      },
+      "media/tag-icon-selection-flow.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:02d93873c0be0803cf9c381c71c901ad85b12fd3a3d1f30726f3b6637fb2f619",
+        "byte_size": 6772,
+        "animated": false
+      },
+      "media/terminal.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:b2f9a7341e625de827ac3c6ceccbcc26daa17520464d66db4963bc6cd2856bb8",
+        "byte_size": 269,
+        "animated": false
+      },
+      "media/video.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:ab96691de842a3d212384dcaed8da5de8954bd9c022ddba10dec76abd96fbbc1",
+        "byte_size": 292,
+        "animated": false
+      },
+      "media/wifi.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:729784d30c8fc899b963c1396bfb304c2d934faa3ee9c77aa01bd217b00536b6",
+        "byte_size": 362,
+        "animated": false
+      },
+      "media/zap.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 24,
+        "height": 24,
+        "digest": "sha256:e01d0210aa318bd86360d2ce835b62a37362192a0bec0008f22638413768c138",
+        "byte_size": 250,
+        "animated": false
+      }
+    }
+  }
+}
