@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Modular Flow Engine execution architecture</title>
+  <desc id="desc">A JSON plan is validated, executed through reusable components, and produces results. An optional run ID checkpoints completed work so an interrupted run can resume.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#11162b"/>
+    </linearGradient>
+    <linearGradient id="planAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="executeAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="resultAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#a3e635"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000814" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="42" fill="url(#background)"/>
+  <circle cx="1450" cy="90" r="230" fill="#38bdf8" opacity="0.045"/>
+  <circle cx="150" cy="820" r="280" fill="#a78bfa" opacity="0.05"/>
+
+  <text x="80" y="100" fill="#f8fafc" font-family="Arial, ui-sans-serif, sans-serif" font-size="48" font-weight="700">Modular Flow Engine</text>
+  <text x="82" y="145" fill="#91a4c2" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="21" letter-spacing="2.4">DECLARATIVE EXECUTION WITH OPTIONAL RESUME</text>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="245" width="300" height="220" rx="24" fill="#0d1b2d" stroke="#28405d" stroke-width="2"/>
+    <rect x="80" y="245" width="300" height="8" rx="4" fill="url(#planAccent)"/>
+    <text x="112" y="305" fill="#7dd3fc" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="700" letter-spacing="2">JSON PLAN</text>
+    <text x="112" y="355" fill="#f1f5f9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="650">Describe the work</text>
+    <text x="112" y="398" fill="#9fb0c9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">typed inputs</text>
+    <text x="112" y="430" fill="#9fb0c9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">components · flow steps</text>
+
+    <rect x="455" y="245" width="300" height="220" rx="24" fill="#0d1b2d" stroke="#28405d" stroke-width="2"/>
+    <rect x="455" y="245" width="300" height="8" rx="4" fill="#38bdf8"/>
+    <text x="487" y="305" fill="#7dd3fc" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="700" letter-spacing="2">VALIDATE</text>
+    <text x="487" y="355" fill="#f1f5f9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="650">Resolve contracts</text>
+    <text x="487" y="398" fill="#9fb0c9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">types · required values</text>
+    <text x="487" y="430" fill="#9fb0c9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">references · dry run</text>
+
+    <rect x="830" y="245" width="300" height="220" rx="24" fill="#13172e" stroke="#44386c" stroke-width="2"/>
+    <rect x="830" y="245" width="300" height="8" rx="4" fill="url(#executeAccent)"/>
+    <text x="862" y="305" fill="#c4b5fd" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="700" letter-spacing="2">EXECUTE</text>
+    <text x="862" y="355" fill="#f8fafc" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="650">Run the plan</text>
+    <text x="862" y="398" fill="#afa9cc" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">sources · transforms</text>
+    <text x="862" y="430" fill="#afa9cc" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">loops · sinks</text>
+
+    <rect x="1205" y="245" width="315" height="220" rx="24" fill="#0c211d" stroke="#265a4b" stroke-width="2"/>
+    <rect x="1205" y="245" width="315" height="8" rx="4" fill="url(#resultAccent)"/>
+    <text x="1237" y="305" fill="#6ee7b7" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="700" letter-spacing="2">RESULTS</text>
+    <text x="1237" y="355" fill="#f0fdf4" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="27" font-weight="650">Make output usable</text>
+    <text x="1237" y="398" fill="#a7c9bd" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">collected values</text>
+    <text x="1237" y="430" fill="#a7c9bd" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">files · reports</text>
+  </g>
+
+  <line x1="392" y1="355" x2="431" y2="355" stroke="#8aa4c6" stroke-width="5"/>
+  <path d="M 431 344 L 447 355 L 431 366 Z" fill="#8aa4c6"/>
+  <line x1="767" y1="355" x2="806" y2="355" stroke="#8aa4c6" stroke-width="5"/>
+  <path d="M 806 344 L 822 355 L 806 366 Z" fill="#8aa4c6"/>
+  <line x1="1142" y1="355" x2="1181" y2="355" stroke="#8aa4c6" stroke-width="5"/>
+  <path d="M 1181 344 L 1197 355 L 1181 366 Z" fill="#8aa4c6"/>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="590" width="800" height="180" rx="26" fill="#211a0b" stroke="#725a20" stroke-width="2"/>
+    <rect x="620" y="590" width="800" height="8" rx="4" fill="#fbbf24"/>
+    <text x="656" y="650" fill="#fcd34d" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="700" letter-spacing="2">OPTIONAL RUN STATE</text>
+    <text x="656" y="700" fill="#fffbeb" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="25" font-weight="650">Checkpoint completed calls and loop iterations</text>
+    <text x="656" y="738" fill="#d9c99d" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">Resume incomplete work after an interruption</text>
+  </g>
+
+  <line x1="945" y1="476" x2="945" y2="565" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 10"/>
+  <path d="M 934 561 L 945 578 L 956 561 Z" fill="#fbbf24"/>
+  <text x="786" y="535" fill="#fcd34d" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="650" letter-spacing="1.4">CHECKPOINT</text>
+  <line x1="1015" y1="578" x2="1015" y2="489" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 10"/>
+  <path d="M 1004 492 L 1015 475 L 1026 492 Z" fill="#fbbf24"/>
+  <text x="1038" y="535" fill="#fcd34d" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="650" letter-spacing="1.4">RESUME</text>
+
+  <rect x="80" y="808" width="770" height="52" rx="26" fill="#0d1b2d" stroke="#28405d"/>
+  <text x="111" y="841" fill="#9fb0c9" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="650" letter-spacing="1.6">SOURCES · TRANSFORMS · SINKS · COMPOSITES</text>
+</svg>
+

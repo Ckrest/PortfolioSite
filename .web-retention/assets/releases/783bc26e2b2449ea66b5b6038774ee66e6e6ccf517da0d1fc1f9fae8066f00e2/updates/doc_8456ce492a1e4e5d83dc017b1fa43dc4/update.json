@@ -1,0 +1,82 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_8456ce492a1e4e5d83dc017b1fa43dc4",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ]
+    },
+    "title": "Made workspace validation faster and easier to diagnose",
+    "summary": "Reduced repeated work in Constellation Framework validation and added parallel checks, caching, rule timings, and package timeouts to make fleet-wide results easier to obtain and diagnose.",
+    "date": "2026-03-02",
+    "prominence": "low",
+    "preview": {
+      "description": "Reuse shared work and expose where validation spends time.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-only",
+      "src": "media/validation-overview.svg",
+      "width": 1200,
+      "height": 675
+    },
+    "tags": [
+      "Python",
+      "Infrastructure",
+      "Performance",
+      "Reliability"
+    ],
+    "blocks": [
+      {
+        "body": "## Get a useful result from a workspace-wide check\n\nConstellation Framework checks package declarations, repository ownership, and integration requirements across the workspace. As that work grew, repeated expensive lookups pushed the validation operation beyond its calling tool’s timeout.\n\nI traced the repeated work, cached shared repository facts, and reused the validation executor. The affected operation could then complete and return package findings instead of ending at the timeout boundary.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TB\n PACKAGES[\"Selected packages and applicable rules\"] --> SHARED[\"Reuse shared repository facts\"]\n SHARED --> WORK[\"Bounded parallel validation\"]\n CACHE[\"Cached validation results\"] --> WORK\n WORK --> A[\"Package checks\"]\n WORK --> B[\"Package checks\"]\n WORK --> C[\"Package checks\"]\n A --> RESULT[\"Findings and rule timings\"]\n B --> RESULT\n C --> RESULT\n TIMEOUT[\"Per-package timeout boundary\"] --> WORK\n RESULT --> NEXT[\"Inspect the slow or failing boundary\"]",
+        "description": "Shared facts and cached results reduce repeated work, while bounded parallel checks retain findings and timing information for inspection.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Share the expensive work and bound execution\n\nThe first improvements reused tracked-file and ownership information across checks. A follow-up added configurable parallel workers, validation-result caching, and per-package timeout controls.\n\nThese mechanisms address different costs: shared facts avoid repeated setup, parallelism lets independent checks proceed together, and timeout boundaries keep a slow package from consuming an unbounded validation run.",
+        "type": "text"
+      },
+      {
+        "body": "## Make slow checks identifiable\n\nPer-rule duration tracking exposes where validation spends time alongside the findings it produces. That gives the maintainer a way to distinguish an expensive check from the package problem it reports.\n\nThe resulting validation path supports both broad workspace checks and focused investigation. Performance work becomes part of an inspectable maintenance interface, with the package findings preserved as the useful result.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:82a2f1e8959a417c4264a54e345f5315c6d0a3149fefa0110762183137e3c01b",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/validation-overview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 675,
+        "digest": "sha256:e073561682a52795e71abbb477d47c347b2be992445fe75b8d39f50092e7fa22",
+        "byte_size": 2119,
+        "animated": false
+      }
+    }
+  }
+}

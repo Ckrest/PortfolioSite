@@ -1,0 +1,11 @@
+.document-timeline {
+  --color-panel: var(--panel); --color-soft: var(--soft); --color-fg: var(--fg);
+  --color-surface: var(--panel); --color-surface-soft: var(--soft); --color-text: var(--fg);
+  --color-text-secondary: var(--muted); --color-border-subtle: var(--line-soft);
+  --color-muted: var(--muted); --color-accent: var(--accent); --color-bg: var(--bg);
+}
+.document-timeline-list { list-style: none; padding: 0 0 0 1.25rem; margin: 2rem 0; border-left: 1px solid var(--color-border-subtle, #394047); display: grid; gap: 1.75rem; }
+.document-timeline-list > li { min-width: 0; position: relative; }
+.document-timeline-list > li::before { content: ''; position: absolute; left: -1.55rem; top: .45rem; width: .5rem; height: .5rem; border-radius: 50%; background: var(--color-accent, #9cd4cc); }
+.document-timeline-kind { margin: 0 0 .5rem; font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+@media (max-width: 600px) { .document-timeline-list { padding-left: .85rem; } .document-timeline-list > li::before { left: -1.15rem; } }

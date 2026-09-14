@@ -1,0 +1,85 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_3a6495dd303a5286b238144d478fa5df",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Built a wallpaper service with guarded switching",
+    "summary": "Built a Wayland wallpaper daemon that switches among video, image, and solid-color renderers by starting the replacement before releasing the previous background.",
+    "date": "2025-12-22",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/wallpaper-service",
+    "preview": {
+      "description": "Desktop Appearance places the live wallpaper preview beside complete video, image, and solid-color mode controls.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/wallpaper-controls-landscape.png",
+      "width": 1672,
+      "height": 941
+    },
+    "tags": [
+      "Python",
+      "Desktop Environment",
+      "Wayland"
+    ],
+    "blocks": [
+      {
+        "body": "## Own the wallpaper process\n\nI built one long-running daemon to own the wallpaper renderer instead of making desktop controls manage `swaybg` and `mpvpaper` directly. The daemon reads the requested video, image, or solid color from a JSON configuration and resolves the active Wayland output from the desktop session.",
+        "type": "text"
+      },
+      {
+        "description": "Desktop Appearance shows the active video wallpaper with its mode selector, generic media filename, browse action, and looping control.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/wallpaper-controls-sanitized.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep the last working background\n\nOn a reload, the daemon starts the replacement renderer, waits briefly for it to initialize, and checks that it is still running before terminating the previous process. If the replacement fails, the current wallpaper remains in place. The same signal-driven loop notices renderer exits and restarts them with backoff instead of continuously polling.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Config[Video, image, or color config] --> Service[Wallpaper daemon]\n  Output[Detected Wayland output] --> Service\n  Service --> Replacement[Start replacement renderer]\n  Replacement --> Check[Check process is still running]\n  Check --> Handoff[Stop previous renderer]\n  Handoff --> Active[Replacement remains active]",
+        "description": "The daemon starts the requested renderer and checks its process before releasing the previous background.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:d38154fc54c1222e73e85d7f28fee5ace3c9f417a53cb8663551b37c419d7845",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/wallpaper-controls-landscape.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1672,
+        "height": 941,
+        "digest": "sha256:fa8b16dbbbb9f9dc42deb4260986f649e1149915d763b15dc29a7890b15a9a80",
+        "byte_size": 1310962,
+        "animated": false
+      },
+      "media/wallpaper-controls-sanitized.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1240,
+        "height": 1269,
+        "digest": "sha256:9ed8de72d58eb55e7eb5bc884e118751a7c4ade1bf3042f286b33f58bdcea000",
+        "byte_size": 1243907,
+        "animated": false
+      }
+    }
+  }
+}

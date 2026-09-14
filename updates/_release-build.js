@@ -2,9 +2,9 @@
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { DigestCache, reuseTree, treeIdentity, valueDigest, verifyCandidate, verifyMechanics } from './_artifact-io.js';
+import { DigestCache, reuseFile, reuseTree, treeIdentity, valueDigest, verifyCandidate, verifyMechanics, writeAtomic } from './_artifact-io.js';
 import { documentCollection } from '../js/document-model.js';
-import { readRetention, retentionIdentity } from './_web-assets.js';
+import { entryPage, readRetention, retentionIdentity } from './_web-assets.js';
 
 export const RELEASE_SCHEMA = 'portfolio-site/release@2';
 export const releaseIdentity = receipt => valueDigest(Object.fromEntries(['accepted_revision','snapshot_digest','site_source_digest','public_source_digest','result_digest'].map(key => [key,receipt[key]])));
@@ -81,6 +81,12 @@ export async function buildRelease(request, output) {
     }
     const { buildDist } = await import(pathToFileURL(join(mechanics, 'updates/_build-dist.js')));
     await buildDist({ root: publicSource, output: join(workspace, 'dist'), cache });
+    // Some hosts serve the publication root directly. Publish exactly the same
+    // bootstrapped entry pages there, preserving raw inputs for exact rebuilds.
+    for (const file of (await treeIdentity(join(workspace, 'dist'), { cache })).files.filter(file => entryPage(file.path))) {
+      await reuseFile(join(publicSource, file.path), join(publicSource, '.web-entry-source', file.path), cache);
+      await writeAtomic(join(publicSource, file.path), await readFile(join(workspace, 'dist', file.path)));
+    }
     // Publication carries its own archive for the next release. Build inputs
     // live separately so a public checkout can reproduce this exact dist.
     await reuseTree(join(workspace, 'dist/assets'), join(publicSource, 'assets'), cache);

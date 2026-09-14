@@ -1,0 +1,59 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_3e2b31469eb25cd6a2100944e0e261cc",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
+    "title": "Unified artifact discovery in Work Report",
+    "summary": "Moved screenshots, diagrams, data, and other evidence types into one shared registry, giving Work Report one path for discovery and capture.",
+    "date": "2026-02-15",
+    "prominence": "low",
+    "tags": [
+      "Refactoring",
+      "Architecture",
+      "Python"
+    ],
+    "blocks": [
+      {
+        "body": "## Put every evidence type in one registry\n\nWork Report defines screenshots, diagrams, videos, data, comparisons, galleries, diffs, terminal sessions, and documents in one registry. Each entry says which stored files it matches, which portfolio block it becomes, and how it should be captured.\n\nOne shared discovery path reads these definitions instead of sending each evidence type through its own handler class.",
+        "type": "text"
+      },
+      {
+        "code": "ARTIFACT_SOURCES = {\n    \"screenshot\": {\n        \"db_file_types\": [\"screenshot\", \"photo\", \"image\"],\n        \"portfolio_type\": \"image\",\n        \"capture\": \"copy\",\n        \"category\": \"visual\",\n    },\n    \"data\": {\n        \"db_file_types\": [\"data\"],\n        \"portfolio_type\": \"data\",\n        \"capture\": \"copy_with_content\",\n        \"category\": \"data\",\n    },\n}",
+        "description": "Two entries show how different evidence types share the same discovery and capture structure.",
+        "filename": "artifacts.py",
+        "language": "python",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Add sources without another handler\n\nSupporting another evidence type means adding one registry entry. Labeling, conversion, capture, and validation stay in the shared engine, so the full evidence surface is visible in one place.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:6748a5f26165af44b5f20a4e35914b83cab1376b07ee5f13af76b1d2c53abbd2",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

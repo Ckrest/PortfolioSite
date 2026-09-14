@@ -1,0 +1,3 @@
+@import url('../../css/components/update-entry.css');
+@import url('../../css/components/timeline-entry.css');
+.project-index { display: grid; gap: 1.25rem; }

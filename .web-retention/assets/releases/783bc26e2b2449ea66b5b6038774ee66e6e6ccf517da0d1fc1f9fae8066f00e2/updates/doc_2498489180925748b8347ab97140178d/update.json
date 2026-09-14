@@ -1,0 +1,70 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_2498489180925748b8347ab97140178d",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Mapped Work Report evidence into the right portfolio blocks",
+    "summary": "Made Portfolio Editor inspect structured artifact content before choosing a block, so galleries, comparisons, and charts import correctly while unknown shapes remain reviewable.",
+    "date": "2026-02-22",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "tags": [
+      "Debugging",
+      "Refactoring",
+      "Python",
+      "JavaScript"
+    ],
+    "blocks": [
+      {
+        "body": "## Read the evidence before choosing a block\n\nObvious artifacts such as images, code, and terminal transcripts already mapped directly to matching blocks. Structured `data` artifacts were ambiguous: the same kind could describe a chart, an image gallery, or a before-and-after comparison.\n\nI added shape detection so Portfolio Editor selects the presentation from the payload itself. Unknown structures fall back to a readable text block with a warning instead of producing an empty or misleading graph.",
+        "type": "text"
+      },
+      {
+        "code": "data.images[]                -> gallery block\ndata.before + data.after     -> comparison block\ndata.labels / data.datasets -> graph block\nunrecognized data           -> text fallback + warning\ndirect artifact kinds       -> existing block mapping",
+        "description": "Structured evidence is mapped by recognizable content shape; direct artifact kinds keep their established mappings.",
+        "filename": "artifact-mapping.txt",
+        "language": "text",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Trace each conversion\n\nThe report preview can return a step-by-step trace alongside its editable project candidate. It records which report fields were included, how many artifacts were examined, each detected shape, the selected block type, the output fields, and any fallback warnings.\n\nBrowser drag-and-drop and backend conversion follow equivalent rules, with parity tests protecting the two paths from drifting apart.",
+        "type": "text"
+      },
+      {
+        "body": "## Repair earlier imports safely\n\nA dry-run-first migration identifies known empty graph blocks created by the older mapping. Apply mode copies each affected settings file before replacing supported mismatches with gallery, comparison, or readable text blocks.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:f888e2c5fdab104c51d91a58212e3a8b2d80bf6126525fbf741a77d1159aa96b",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+/*
+ * Contact Section
+ * Clean, minimal contact info
+ */
+
+[data-section="contact"] {
+  .contact-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .contact-header h2 {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .contact-email {
+    margin: 0;
+  }
+
+  .contact-email a {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .contact-email a:hover {
+    color: var(--color-accent-2);
+  }
+}

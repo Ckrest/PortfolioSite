@@ -1,0 +1,107 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_ff2e48756b8f5bf5aeaee62e5142e744",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_72c295c916de4a8288ff9625925f47c6"
+      ],
+      "display_projects": [
+        "doc_72c295c916de4a8288ff9625925f47c6"
+      ]
+    },
+    "title": "Built a modular desktop settings hub",
+    "summary": "Built a GTK4 control center that discovers built-in and package settings, renders them in one adaptive interface, and writes changes through their existing backends.",
+    "date": "2025-11-26",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/settings-hub",
+    "preview": {
+      "description": "Settings Hub GPU page with sidebar navigation, VRAM and temperature gauges, and utilization history",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/screenshot_2026-02-12_00-12-41.png",
+      "width": 1202,
+      "height": 862
+    },
+    "tags": [
+      "Python",
+      "GTK",
+      "Architecture",
+      "Desktop Environment"
+    ],
+    "blocks": [
+      {
+        "body": "## Bring the Wayfire desktop settings into one place\n\nI built Settings Hub as a GTK4 and libadwaita control panel for a desktop assembled from independent tools. The Hub puts appearance controls, GPU statistics, network monitoring, and package-supplied settings behind one adaptive sidebar instead of making each capability a separate command or window.\n\n## Let modules supply the controls\n\nThe Hub discovers built-in Python modules and packages that declare a settings schema. Each module supplies its name, description, icon, category, priority, visibility requirements, and presentation mode. The loader filters unavailable modules, handles requests to merge package settings into a built-in page, sorts the results, and adds them to a shared navigation surface.\n\nIntegrated modules render their own controls. Package modules use a shared schema parser and UI builder to generate controls against the package’s existing configuration file. The module design also supports launcher pages that open a separate settings app, and hybrid pages that combine quick controls in the Hub with a button for advanced settings in that app.",
+        "type": "text"
+      },
+      {
+        "description": "Settings Hub Appearance page with sidebar navigation and controls for wallpaper, theme, icons, and font. Appearance controls share one page for wallpaper mode, interface theme, icons, and fonts.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "assets/screenshot_2026-02-12_00-12-30.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep the backends where they belong\n\nThe Hub does not replace the systems that own each value. Its dconf and xfconf adapters read and write those stores directly, and composite backends apply one visible choice—such as a GTK theme—across both when the desktop expects matching values. Package settings stay in their package configuration, with a restart prompt when a service needs to reload them.\n\nThe result is one consistent place to find and operate desktop settings while modules and packages keep responsibility for the behavior behind them.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  BuiltIn[Built-in Python modules] --> Loader[Module loader]\n  Packages[Packages with settings schemas] --> Loader\n  Loader --> Sidebar[Adaptive sidebar]\n  Loader --> Controls[Integrated and generated controls]\n  Dconf[dconf] --> Composite[Composite settings]\n  Xfconf[xfconf] --> Composite\n  Composite --> Controls\n  Controls --> Config[Package configuration files]",
+        "description": "Built-in modules and package settings flow through one loader; the Hub owns navigation while existing backends keep the values.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "description": "Settings Hub GPU page with sidebar navigation, VRAM and temperature gauges, and utilization history. The same navigation shell also carries live system modules, including GPU memory, temperature, and utilization history.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "assets/screenshot_2026-02-12_00-12-41.png",
+        "type": "image"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:4a463d926da56d331c1a1baae5bf5ca292be528cd29383ff8176838f09cf466d",
+        "byte_size": 499,
+        "animated": false
+      },
+      "assets/screenshot_2026-02-12_00-12-30.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1202,
+        "height": 862,
+        "digest": "sha256:9c59bbee89b499604b61e228cc76dd80ec1a4c3edce129808ffd6daa450c13c0",
+        "byte_size": 54140,
+        "animated": false
+      },
+      "assets/screenshot_2026-02-12_00-12-41.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1202,
+        "height": 862,
+        "digest": "sha256:e58219a4993c6c1d53e17a9e6478c4fa33886a6c2a020109c02a606f0cd97119",
+        "byte_size": 55177,
+        "animated": false
+      },
+      "media/screenshot_2026-02-12_00-12-41.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1202,
+        "height": 862,
+        "digest": "sha256:e58219a4993c6c1d53e17a9e6478c4fa33886a6c2a020109c02a606f0cd97119",
+        "byte_size": 55177,
+        "animated": false
+      }
+    }
+  }
+}

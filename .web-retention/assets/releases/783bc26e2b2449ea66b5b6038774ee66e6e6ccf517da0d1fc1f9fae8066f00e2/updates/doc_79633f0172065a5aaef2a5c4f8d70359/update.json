@@ -1,0 +1,90 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_79633f0172065a5aaef2a5c4f8d70359",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Built a local-first diagramming tool",
+    "summary": "Built a local-first visual editor where the browser and MCP tools work on the same JSON-backed diagram through one API and update the canvas in real time.",
+    "date": "2025-11-23",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/diagram-tool",
+    "preview": {
+      "description": "Reconstructed early Diagram Tool interface zoomed out with Core API selected and its node properties open",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/diagram-tool-early-architecture-selected.png",
+      "width": 1600,
+      "height": 1000
+    },
+    "tags": [
+      "Python",
+      "MCP",
+      "Frontend",
+      "JavaScript"
+    ],
+    "blocks": [
+      {
+        "body": "## Draw and automate the same diagram\n\nI built Diagram Tool so a diagram can be edited directly in the browser and manipulated by an agent without creating separate visual and machine-readable copies. The editor provides an infinite canvas, multiple node shapes, labeled connections, nested zones, property editing, multi-selection, and undo and redo.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep one shared runtime\n\nA local FastAPI service owns the active diagram. The browser and MCP tools both call its HTTP API, while WebSocket notifications refresh the open editor whenever either side changes the model. An agent can add or move a node, create an edge, or save the diagram, and the browser immediately reflects the same state.\n\nEach diagram remains ordinary JSON with stable identifiers for the diagram, nodes, and edges. Node records preserve position, dimensions, shape, color, tags, and descriptions; edges retain their endpoints and labels. Snapshot history supplies undo and redo without introducing a second representation.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep the result local and inspectable\n\nThe backend binds to loopback and does not require a hosted account. Diagrams can be opened from or saved to an explicitly chosen path, leaving each document available for inspection, copying, or version control outside the editor.",
+        "type": "text"
+      },
+      {
+        "description": "Reconstructed early Diagram Tool component bank zoomed out with a decision node selected and its properties open. A selected decision node shows reusable components and nested zones being edited in place.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/diagram-tool-early-component-bank-selected.png",
+        "type": "image"
+      },
+      {
+        "code": "flowchart LR\n  Browser[Browser editor] -->|HTTP| API[Local FastAPI service]\n  MCP[MCP tools for agents] -->|HTTP| API\n  API --> State[Active diagram state]\n  State --> Files[JSON file at a chosen path]\n  API -->|WebSocket updates| Browser",
+        "description": "Browser and MCP clients edit one model through the same local service.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:43c33aaf2c8d3c8138aeebe447cfd9b69fe99dde2af09ead5bdb88655c373d5a",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/diagram-tool-early-architecture-selected.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1600,
+        "height": 1000,
+        "digest": "sha256:28b7de320b1c61fff6229331e71c049d7821fef39186f1369859a38c42cacb2d",
+        "byte_size": 104511,
+        "animated": false
+      },
+      "media/diagram-tool-early-component-bank-selected.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1600,
+        "height": 1000,
+        "digest": "sha256:4f5b6675d7affb3e8b351c83bd746715d3675b2a550c4253ec7a7b843969ee55",
+        "byte_size": 105940,
+        "animated": false
+      }
+    }
+  }
+}

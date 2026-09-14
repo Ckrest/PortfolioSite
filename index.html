@@ -2,9 +2,147 @@
 <html lang="en" data-theme="soft-dark">
 <head>
   <meta charset="utf-8" />
+<script data-portfolio-boot="{&quot;id&quot;:&quot;783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2&quot;,&quot;siteRoot&quot;:&quot;./&quot;,&quot;entry&quot;:&quot;js/section-loader.js&quot;}">
+// Embedded before external assets so even an entry-module failure has recovery.
+(function bootstrap() {
+  const tag = document.currentScript;
+  const settings = JSON.parse(tag.dataset.portfolioBoot);
+  const siteRoot = new URL(settings.siteRoot, location.href).href;
+  const root = new URL('assets/releases/' + settings.id + '/', siteRoot).href;
+  const controller = new AbortController();
+  const context = window.__portfolioRelease = { id: settings.id, siteRoot, root, signal: controller.signal };
+  const guardKey = 'portfolio-release-recovery';
+  const positionKey = 'portfolio-release-position';
+  let failed = false, checking = false, navigating = false;
+  let wasHidden = document.hidden;
+
+  async function bounded(operation, timeout = 15000, pageSignal = controller.signal) {
+    const request = new AbortController();
+    let timer, stop;
+    const cancelled = new Promise((_, reject) => { stop = reject; });
+    const abort = () => { const error = pageSignal?.reason || new Error('Resource loading timed out'); request.abort(error); stop(error); };
+    pageSignal?.addEventListener('abort', abort, { once: true });
+    try {
+      if (pageSignal?.aborted) abort();
+      else timer = setTimeout(abort, timeout);
+      return await Promise.race([cancelled, Promise.resolve().then(() => {
+        if (request.signal.aborted) throw request.signal.reason;
+        return operation(request.signal);
+      })]);
+    } finally { clearTimeout(timer); pageSignal?.removeEventListener('abort', abort); }
+  }
+
+  async function retry(operation) {
+    try { return await bounded(signal => operation(signal, false)); }
+    catch (error) {
+      if (controller.signal.aborted) throw error;
+      return bounded(signal => operation(signal, true));
+    }
+  }
+
+  function navigate(id) {
+    if (navigating) return;
+    navigating = true;
+    try {
+      const clean = new URL(location.href);
+      clean.searchParams.delete('__portfolio_release');
+      sessionStorage.setItem(positionKey, JSON.stringify({ url: clean.href, x: scrollX, y: scrollY }));
+      sessionStorage.setItem(guardKey, JSON.stringify({ from: settings.id, to: id, path: location.pathname }));
+    } catch { /* Recovery also works without browser storage. */ }
+    const url = new URL(location.href);
+    // The entry document must be fetched even if a host cached it incorrectly.
+    url.searchParams.set('__portfolio_release', id);
+    location.replace(url.href);
+  }
+
+  async function currentRelease() {
+    const value = await bounded(async signal => {
+      const response = await fetch(new URL('site-release.json', siteRoot), { cache: 'no-store', signal });
+      if (!response.ok) throw new Error('Release check unavailable');
+      return response.json();
+    }, 5000, null);
+    if (value.schema !== 'portfolio-site/web-current@1' || !/^[a-f0-9]{64}$/.test(value.id)) throw new Error('Invalid release check');
+    return value.id;
+  }
+
+  async function check(recovery = false) {
+    if (checking || navigating || document.hidden) return;
+    checking = true;
+    try {
+      const id = await currentRelease();
+      if (id !== settings.id) {
+        let already = new URL(location.href).searchParams.has('__portfolio_release');
+        try { already ||= JSON.parse(sessionStorage.getItem(guardKey) || 'null')?.to === id; } catch { /* optional */ }
+        if (!recovery || !already) navigate(id);
+      }
+    } catch { /* Keep a working page usable when the network is unavailable. */ }
+    finally { checking = false; }
+  }
+
+  function fail(error) {
+    if (failed) return;
+    failed = true;
+    controller.abort(error);
+    clearTimeout(deadline);
+    console.error('[site] Loading failed:', error);
+    document.body?.setAttribute('data-site-state', 'error');
+    document.querySelectorAll('[aria-busy="true"]').forEach(el => el.setAttribute('aria-busy', 'false'));
+    const status = document.querySelector('.loading-placeholder, #loading-section') || document.createElement('p');
+    status.setAttribute('role', 'status');
+    status.textContent = 'Unable to finish loading the portfolio. ';
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.textContent = 'Retry';
+    retry.onclick = () => { const url = new URL(location.href); url.searchParams.set('__portfolio_release', settings.id); location.replace(url.href); };
+    status.append(retry);
+    if (!status.isConnected) (document.querySelector('main') || document.body)?.append(status);
+    void check(true);
+  }
+
+  const deadline = setTimeout(() => fail(new Error('Page loading timed out')), 30000);
+  async function start() {
+    try {
+      const manifest = await retry(async signal => {
+        const response = await fetch(new URL('manifest.json', root), { signal });
+        if (!response.ok) throw new Error('This site release is unavailable');
+        return response.json();
+      });
+      if (manifest.schema !== 'portfolio-site/web-assets@1' || manifest.id !== settings.id) throw new Error('Site release does not match the page');
+      context.media = manifest.media;
+      if (failed) return;
+      void import(new URL('js/theme-switcher.js', root).href).catch(error => console.warn('[site] Theme unavailable:', error));
+      const entry = await retry((_signal, fresh) => import(new URL(settings.entry + (fresh ? '?retry=1' : ''), root).href));
+      if (failed) return;
+      await entry[settings.entry === 'js/section-loader.js' ? 'loadSite' : 'initializeDetailPage']();
+      if (failed) return;
+      clearTimeout(deadline);
+      if (['error', 'partial'].includes(document.body.dataset.siteState)) void check(true);
+      try {
+        sessionStorage.removeItem(guardKey);
+        const position = JSON.parse(sessionStorage.getItem(positionKey) || 'null');
+        sessionStorage.removeItem(positionKey);
+        const clean = new URL(location.href);
+        clean.searchParams.delete('__portfolio_release');
+        if (position?.url === clean.href) scrollTo(position.x, position.y);
+        history.replaceState(history.state, '', clean.href);
+      } catch { /* Scroll restoration is optional. */ }
+    } catch (error) { fail(error); }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    const returning = wasHidden && !document.hidden;
+    wasHidden = document.hidden;
+    if (returning) void check();
+  });
+  addEventListener('pageshow', event => { if (event.persisted) void check(); });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else void start();
+})();
+
+</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nick Young — Portfolio</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/favicon.svg" />
   <link rel="canonical" href="https://nickyoungci.dev/" />
   <meta name="description" content="Portfolio showcasing AI integration updates and experiments." />
   <meta name="color-scheme" content="light dark" />
@@ -19,16 +157,16 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nick Young","url":"https://nickyoungci.dev/","email":"mailto:NickYoungCI@gmail.com","sameAs":["https://github.com/Ckrest"]}</script>
 
   <!-- Design Tokens + Base Styles -->
-  <link rel="stylesheet" href="css/tokens.css" />
-  <link rel="stylesheet" href="css/themes.css" />
-  <link rel="stylesheet" href="css/backgrounds.css" />
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/tokens.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/themes.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/backgrounds.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/base.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/layout.css" />
 
   <!-- Components -->
-  <link rel="stylesheet" href="css/components/update-card.css" />
-  <link rel="stylesheet" href="css/components/update-entry.css" />
-  <link rel="stylesheet" href="css/components/timeline-entry.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/components/update-card.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/components/update-entry.css" />
+  <link rel="stylesheet" href="assets/releases/783bc26e2b2449ea66b5b6038774ee66e6e6ccf517da0d1fc1f9fae8066f00e2/css/components/timeline-entry.css" />
 </head>
 <body id="page-top" class="bg-mesh" data-site-state="loading">
   <!-- Header section loads here -->
@@ -51,18 +189,9 @@
   <div id="footer-slot"></div>
 
   <!-- Theme utilities (setTheme('name') from an intentional UI or console) -->
-  <script src="js/theme-switcher.js"></script>
+  
 
   <!-- Section Loader -->
-  <script type="module">
-    import { loadSite } from './js/section-loader.js';
-
-    loadSite().catch((error) => {
-      console.error('[site] Unable to initialize:', error);
-      document.body.dataset.siteState = 'error';
-      const status = document.querySelector('.loading-placeholder');
-      if (status) status.textContent = 'Unable to load the portfolio.';
-    });
-  </script>
+  
 </body>
 </html>

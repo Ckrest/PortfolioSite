@@ -1,0 +1,4 @@
+/* Project header and navigation can evolve independently of update pages. */
+.project-masthead .hero { max-width: 980px; }
+body[data-document-kind="project"] .update-kicker { letter-spacing: .12em; }
+body[data-document-kind="project"] .document-timeline { margin-top: 4rem; }

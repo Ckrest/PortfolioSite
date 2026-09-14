@@ -107,6 +107,12 @@ test('release verification pins retention and published source reproduces the sa
   const input = { ...await request(root, [await document(root, 1)]), retained_web_assets: await retention(archive) };
   const output = join(root, 'output'), result = await buildRelease(input, output);
   assert.equal(result.state, 'ready');
+  for (const path of ['index.html', 'updates/' + input.documents[0].document_id + '/detail.html']) {
+    const published = await readFile(join(output, 'public-source', path));
+    assert.deepEqual(published, await readFile(join(output, 'dist', path)));
+    assert.match(published.toString(), /data-portfolio-boot/);
+    assert.doesNotMatch(await readFile(join(output, 'public-source/.web-entry-source', path), 'utf8'), /data-portfolio-boot/);
+  }
   assert.equal((await verifyOutput(output, undefined, input)).valid, true);
   const different = { ...input, retained_web_assets: { ...input.retained_web_assets, as_of: '2026-09-15T00:00:00Z' } };
   assert.equal((await verifyOutput(output, undefined, different)).valid, false);

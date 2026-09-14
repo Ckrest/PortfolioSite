@@ -1,0 +1,50 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_555ef83e38544439b8031643c7cfa6f3",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ],
+      "display_projects": [
+        "doc_fb4ae0f652024b0092d89206152850b4"
+      ]
+    },
+    "title": "Matched Comfy Viewer thumbnail resolution to tile size",
+    "summary": "Connected Comfy Viewer’s library-size presets to thumbnail generation and caching, letting dense grids load smaller previews while larger tiles retain more detail.",
+    "date": "2026-03-02",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/comfy-viewer",
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "Frontend",
+      "Performance"
+    ],
+    "blocks": [
+      {
+        "body": "## Load the resolution the gallery needs\n\nThe library’s four tile-size presets controlled the layout, but every card still loaded the same thumbnail resolution. I added the selected preset to each thumbnail request. Changing it refreshes the images already visible in the grid.\n\nCompact layouts load smaller WebP previews, while larger tiles request additional detail.",
+        "type": "text"
+      },
+      {
+        "body": "## Cache each size independently\n\nThe thumbnail service generates separate cached files for each resolution across both local and remote image sources. Returning to a previously used size can reuse its cached preview, while cache cleanup preserves every valid size variant.\n\nTests cover preset fallback, distinct cache entries, output dimensions, cache statistics, and cleanup behavior.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:778c2d747bb16d8c244cbd75163af32893c20b0733eda60869717dfb24baedd7",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

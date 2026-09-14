@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Mermaid source pipeline</title>
+  <desc id="desc">Authored diagrams and generated Constellation views converge on portable Mermaid source that moves through Work Report and Portfolio Editor.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#181b24"/>
+      <stop offset="1" stop-color="#202c34"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dy="16" stdDeviation="18" flood-color="#000" flood-opacity=".34"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" rx="48" fill="url(#bg)"/>
+  <text x="108" y="144" fill="#f3f5f7" font-family="Inter,Segoe UI,sans-serif" font-size="60" font-weight="720">One portable diagram path</text>
+  <text x="108" y="205" fill="#acb5bd" font-family="Inter,Segoe UI,sans-serif" font-size="28">Authored and generated views stay editable from evidence capture to portfolio page.</text>
+
+  <g font-family="Inter,Segoe UI,sans-serif" filter="url(#shadow)">
+    <rect x="100" y="302" width="350" height="160" rx="28" fill="#2d2940" stroke="#8e78c4" stroke-width="2"/>
+    <text x="275" y="366" text-anchor="middle" fill="#d8cdf2" font-size="21" font-weight="750">AUTHOR</text>
+    <text x="275" y="413" text-anchor="middle" fill="#f7f5fa" font-size="30" font-weight="680">Templates and drafts</text>
+
+    <rect x="100" y="522" width="350" height="160" rx="28" fill="#25384a" stroke="#6fa9d7" stroke-width="2"/>
+    <text x="275" y="586" text-anchor="middle" fill="#b9ddf7" font-size="21" font-weight="750">GENERATE</text>
+    <text x="275" y="633" text-anchor="middle" fill="#f4f8fb" font-size="30" font-weight="680">Constellation views</text>
+
+    <rect x="610" y="382" width="360" height="220" rx="34" fill="#263a34" stroke="#68bb98" stroke-width="3"/>
+    <text x="790" y="455" text-anchor="middle" fill="#a8e4ca" font-size="22" font-weight="750">PORTABLE SOURCE</text>
+    <text x="790" y="526" text-anchor="middle" fill="#f5f8f6" font-size="48" font-weight="760">diagram.mmd</text>
+    <text x="790" y="566" text-anchor="middle" fill="#b8c8c0" font-size="21">Structured and editable</text>
+
+    <rect x="1130" y="302" width="360" height="160" rx="28" fill="#3e3325" stroke="#c79a58" stroke-width="2"/>
+    <text x="1310" y="366" text-anchor="middle" fill="#f0c98d" font-size="21" font-weight="750">EVIDENCE</text>
+    <text x="1310" y="413" text-anchor="middle" fill="#faf7f2" font-size="30" font-weight="680">Work Report</text>
+
+    <rect x="1130" y="522" width="360" height="160" rx="28" fill="#293341" stroke="#728daf" stroke-width="2"/>
+    <text x="1310" y="586" text-anchor="middle" fill="#bdd0e7" font-size="21" font-weight="750">PRESENT</text>
+    <text x="1310" y="633" text-anchor="middle" fill="#f5f7fa" font-size="30" font-weight="680">Portfolio Editor</text>
+  </g>
+
+  <path d="M450 382H540Q580 382 610 430M450 602H540Q580 602 610 554M970 450H1050Q1090 450 1130 382M970 554H1050Q1090 554 1130 602" fill="none" stroke="#87939d" stroke-width="9" stroke-linecap="round"/>
+</svg>

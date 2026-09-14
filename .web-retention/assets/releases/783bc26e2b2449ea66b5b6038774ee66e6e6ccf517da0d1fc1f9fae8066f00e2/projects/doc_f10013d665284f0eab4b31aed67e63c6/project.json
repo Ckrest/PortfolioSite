@@ -1,0 +1,83 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_f10013d665284f0eab4b31aed67e63c6",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_400ced4c989845d69968e64360b7f762",
+        "doc_288242adad4c40b8881cd949f9543ec3",
+        "doc_a230ccdc63be48a886be340d751cad33"
+      ],
+      "items": [
+        "doc_57d88fbcb0345f9ea34a25c70cefb981",
+        "doc_8a5a62eb3d715b5faad4d314849ae7c1",
+        "doc_c84281d5fa3b56b5a063455815ed6cc8",
+        "doc_4b7ad472d2e1573e86e8faa2fd1c8e2a",
+        "doc_cec34e8034f1584fa26d7325bc9341e5"
+      ],
+      "display_projects": []
+    },
+    "title": "Docklike: Wayland Taskbar",
+    "summary": "A Wayland port of the XFCE Docklike taskbar, preserving grouped launchers and window controls while adding asynchronous live previews.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/docklike-wayland",
+    "preview": {
+      "description": "Two live window previews remain grouped beneath their application in the XFCE panel.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/docklike-live-previews.png",
+      "width": 740,
+      "height": 347
+    },
+    "tags": [
+      "C++",
+      "Wayland",
+      "XFCE",
+      "Window Capture"
+    ],
+    "blocks": [
+      {
+        "body": "## Carry a familiar taskbar workflow onto Wayland\n\nDocklike is a compact launcher and taskbar for the XFCE panel. This project is my Wayland port of the upstream xfce4-docklike-plugin by nsz32. I rebuilt window tracking and preview capture while preserving pinned applications, grouped windows, reordering, and quick switching.\n\nThe window model follows compositor events for creation, titles, application identity, state changes, and removal. Matching application identifiers to desktop entries keeps open windows under the appropriate pinned launcher. Activation, minimizing, maximizing, and closing operate through that model.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep preview capture separate from panel interaction\n\nA dedicated capture manager owns image-copy sessions, queues requests, converts compositor buffers into thumbnails, and delivers completed images to the panel menu. The panel can show several live windows for one application without waiting synchronously for each capture.\n\nLayer-shell menus stay anchored to the panel and combine previews with titles and close controls. The taskbar uses wlr-foreign-toplevel-management and ext-foreign-toplevel-list for its Wayland window integration.",
+        "type": "text"
+      },
+      {
+        "body": "## Make the handoff into a preview predictable\n\nA HoverManager coordinates the panel button, popup, and menu items through closed, opening, open, and grace-period states. Moving from the launcher into its menu keeps the interaction active; leaving it clears the hover state and closes the popup.\n\nCapture scheduling also responds to queue pressure. Under normal load each visible window can refresh. When the queue is busy, round-robin admission shares the next capture opportunities between windows, preventing one preview from monopolizing the work.",
+        "type": "text"
+      },
+      {
+        "body": "## Preserve behavior while replacing the platform layer\n\nThe central design decision was to separate application grouping, hover behavior, and capture scheduling from the compositor-facing implementation. That makes the Wayland transition visible as familiar taskbar behavior with live previews, while giving timing and capture failures a specific place to be diagnosed.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:5feb0b9d113e8ce38f275cd5b5ebd6b7adf10cf2cbad4d90bde31e718792c970",
+        "byte_size": 498,
+        "animated": false
+      },
+      "media/docklike-live-previews.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 740,
+        "height": 347,
+        "digest": "sha256:bce57eeabe523039fa52b073ff8399f6e56d83a244de504d2b621238db6961d2",
+        "byte_size": 82403,
+        "animated": false
+      }
+    }
+  }
+}

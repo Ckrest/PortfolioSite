@@ -108,7 +108,7 @@ export async function treeIdentity(directory, { cache = new DigestCache(), candi
 }
 
 function mechanicsPath(path) {
-  if (path === '.web-retention.json' || path.startsWith('.web-retention/') || path.startsWith('assets/')
+  if (path === '.web-retention.json' || path.startsWith('.web-retention/') || path.startsWith('.web-entry-source/') || path.startsWith('assets/')
     || ['site-release.json', 'web-asset-history.json'].includes(path)) return false;
   if (path === 'node_modules' || path.startsWith('node_modules/')) return false;
   if (path === 'data/documents.json' || path === 'data/connections.json' || path === 'sitemap.xml' || path.startsWith('dist/')) return false;

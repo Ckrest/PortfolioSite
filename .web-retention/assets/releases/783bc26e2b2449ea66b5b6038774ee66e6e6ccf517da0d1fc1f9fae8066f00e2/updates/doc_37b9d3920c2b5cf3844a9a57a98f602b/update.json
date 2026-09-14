@@ -1,0 +1,57 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_37b9d3920c2b5cf3844a9a57a98f602b",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ]
+    },
+    "title": "Moved Portfolio Editor into its managed worktree",
+    "summary": "Re-rooted tracked files and configuration around the package worktree, then clarified report identities in the editor interface.",
+    "date": "2026-02-17",
+    "prominence": "low",
+    "tags": [
+      "VCSH",
+      "Refactoring",
+      "Frontend"
+    ],
+    "blocks": [
+      {
+        "body": "## Make the package own its repository paths\n\nPortfolio Editor’s tracked files use paths relative to its worktree. Repository commands describe the package itself, while runtime configuration reads the shared workspace root through one boundary instead of duplicating path resolution inside the editor.",
+        "type": "text"
+      },
+      {
+        "code": "Before: tracked paths depended on a shared home-directory worktree\nAfter:  repository root contains package-relative paths\n\nApplication paths come from package configuration.\nTest imports come from declared test configuration.",
+        "description": "The migration aligned version-control identity, runtime configuration, and tests around the same package root.",
+        "filename": "repository-boundary.txt",
+        "language": "text",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      },
+      {
+        "body": "## Keep editor records easy to cross-reference\n\nReport cards show the stable ID used by report commands and logs. The sidebar, CLI, and diagnostics can point to the same record without relying on title matching.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:28057b668dc95bfaa4d159a96e3ae2b3e44933cd44d9cd8db8802c347ccdaed3",
+        "byte_size": 498,
+        "animated": false
+      }
+    }
+  }
+}

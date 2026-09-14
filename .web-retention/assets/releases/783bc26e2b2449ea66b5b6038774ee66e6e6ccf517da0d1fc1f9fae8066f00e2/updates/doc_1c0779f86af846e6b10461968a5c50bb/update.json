@@ -1,0 +1,90 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_1c0779f86af846e6b10461968a5c50bb",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Made Night Mode event-driven with manual overrides",
+    "summary": "Changed Night Mode to sleep until the next scheduled boundary and added temporary warm, normal, and automatic controls through Settings Hub.",
+    "date": "2026-01-22",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/night-mode",
+    "preview": {
+      "description": "Scheduled boundaries and manual actions wake the same display-state loop before the service returns to sleep.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/night-mode-event-preview-v2.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "Desktop Environment",
+      "Python",
+      "Event-Driven Architecture"
+    ],
+    "blocks": [
+      {
+        "body": "## Sleep until something changes\n\nI replaced repeated clock checks with an event-driven loop. Night Mode calculates the next schedule boundary, sets an alarm, and pauses until that alarm or a manual-change signal wakes it. Each wake-up reconciles the display state, then schedules the next one.",
+        "type": "text"
+      },
+      {
+        "label": "Night Mode: the overnight schedule and reminder sequence",
+        "type": "related-mini",
+        "updateId": "doc_774e6a0b184653c2917464eaeb611782"
+      },
+      {
+        "description": "Settings Hub shows the current temperature and schedule state beside temporary Warmer Now, Normal Now, and Auto actions.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/night-mode-overrides.png",
+        "type": "image"
+      },
+      {
+        "body": "## Return temporary choices to the schedule\n\nWarmer Now lasts until the next wake boundary, while Normal Now lasts until the next blue-light start. The available actions change with the current state, and Auto hands control back to the schedule without leaving a hidden permanent setting.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Config[Schedule and state] --> Next[Calculate next boundary]\n  Next --> Pause[Set alarm and pause]\n  Pause -->|alarm or manual action| Apply[Reconcile display state]\n  Apply --> Next",
+        "description": "Scheduled alarms and manual actions enter the same state-reconciliation loop.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:6a0a5d4435889a828b6d105a2d44903a9ebbdcc1a34f7f43ba2ff2b07d2d9e3a",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/night-mode-event-preview-v2.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:4b80d1b9d10e5ec7537173e9a7a376a43901ee3e5e8429620e2491ce87e06338",
+        "byte_size": 3055,
+        "animated": false
+      },
+      "media/night-mode-overrides.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1590,
+        "height": 989,
+        "digest": "sha256:67f69b62d65aa5d1f3c09962a2e3ea4dc11e86f48273aaa0dd8baaea9b0fd895",
+        "byte_size": 1067152,
+        "animated": false
+      }
+    }
+  }
+}

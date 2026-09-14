@@ -1,0 +1,67 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_e3d8e56964925c728bfa44f709213cda",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Added screen freeze controls to Wayfire",
+    "summary": "Built a Wayfire plugin that captures the final compositor frame into a GPU texture and presents it—or solid black—until an IPC unfreeze request.",
+    "date": "2025-12-06",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/screen-freeze",
+    "tags": [
+      "Wayfire",
+      "C++",
+      "Wayland"
+    ],
+    "blocks": [
+      {
+        "body": "## Hold the compositor's presented frame\n\nI built Screen Freeze as a Wayfire plugin that captures an output's final rendered frame into a GPU texture and presents that texture in place of later frames. Applications continue running underneath because the compositor freezes only what it displays. A separate black state clears the presented output to solid black, and unfreezing releases the renderer state and resumes live presentation.\n\nWayfire IPC can target one named output or every active output, while status reports each output's exact normal, frozen, or black state.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Normal[Live output] -->|freeze| Frozen[Captured GPU texture]\n  Frozen -->|unfreeze| Normal\n  Normal -->|black| Black[Solid black]\n  Black -->|unfreeze| Normal",
+        "description": "Each output moves independently between live presentation, a captured texture, and solid black.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "commands": [
+          {
+            "command": "wf-msg screen-freeze/freeze '{\"output\": \"DP-1\"}'",
+            "output": "{\"ok\":true}"
+          },
+          {
+            "command": "wf-msg screen-freeze/status",
+            "output": "{\n  \"ok\": true,\n  \"outputs\": [\n    {\"name\": \"DP-1\", \"state\": \"frozen\"},\n    {\"name\": \"HDMI-A-1\", \"state\": \"normal\"}\n  ]\n}"
+          },
+          {
+            "command": "wf-msg screen-freeze/unfreeze '{\"output\": \"DP-1\"}'",
+            "output": "{\"ok\":true}"
+          }
+        ],
+        "description": "A scoped request freezes DP-1 while the other output stays live, then releases the same output.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "terminal"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:d9957b439f4c182c16c005ef0e9255868a2939b4f283bb6facd2bd1c1c9d9863",
+        "byte_size": 500,
+        "animated": false
+      }
+    }
+  }
+}

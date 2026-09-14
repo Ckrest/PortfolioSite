@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Stable image flow through Comfy Viewer</title>
+  <desc id="desc">An ordered registration feed sends cursor pages to a thumbnail library and complete image records to a focused viewer while a live result joins the feed once.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171b22"/>
+      <stop offset="1" stop-color="#0d0f14"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#74e2dc"/>
+      <stop offset="1" stop-color="#1e7e8e"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd27a"/>
+      <stop offset="1" stop-color="#d46d32"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c3a6ff"/>
+      <stop offset="1" stop-color="#6849a8"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity=".035"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#000000" flood-opacity=".34"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1l9 5-9 5z" fill="#63d8d2"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" rx="34" fill="url(#background)"/>
+  <rect width="1600" height="900" rx="34" fill="url(#grid)"/>
+  <circle cx="800" cy="385" r="330" fill="#2dbbb2" opacity=".045"/>
+
+  <g font-family="Inter, Segoe UI, sans-serif">
+    <text x="78" y="80" fill="#7f8a99" font-size="18" font-weight="700" letter-spacing="4">COMFY VIEWER</text>
+    <text x="78" y="132" fill="#f4f7fb" font-size="42" font-weight="750">Stable image flow</text>
+    <text x="78" y="166" fill="#a8b1bf" font-size="19">one ordered feed · two synchronized views</text>
+
+    
+    <g filter="url(#shadow)">
+      <rect x="70" y="220" width="430" height="590" rx="26" fill="#171c24" stroke="#303946" stroke-width="2"/>
+    </g>
+    <circle cx="106" cy="260" r="6" fill="#63d8d2"/>
+    <text x="124" y="268" fill="#e9eef5" font-size="20" font-weight="700" letter-spacing="1.5">LIBRARY</text>
+    <rect x="96" y="299" width="378" height="1" fill="#303946"/>
+
+    <g>
+      <rect x="96" y="326" width="112" height="112" rx="14" fill="url(#amber)"/>
+      <circle cx="145" cy="366" r="22" fill="#fff" opacity=".25"/>
+      <path d="M96 411l42-38 30 26 40-47v86H96z" fill="#381d31" opacity=".58"/>
+
+      <rect x="229" y="326" width="112" height="112" rx="14" fill="url(#cyan)"/>
+      <path d="M229 405l34-42 24 21 26-34 28 33v55H229z" fill="#0c3947" opacity=".6"/>
+      <circle cx="303" cy="359" r="15" fill="#e7ffff" opacity=".52"/>
+
+      <rect x="362" y="326" width="112" height="112" rx="14" fill="url(#violet)"/>
+      <path d="M376 419c14-45 34-74 83-82-9 35-8 67 1 101h-84z" fill="#261f50" opacity=".62"/>
+
+      <rect x="96" y="459" width="112" height="112" rx="14" fill="url(#violet)"/>
+      <circle cx="152" cy="515" r="34" fill="#f1dcff" opacity=".18"/>
+      <path d="M96 547l37-35 28 20 47-44v83H96z" fill="#352366" opacity=".55"/>
+
+      <rect x="229" y="459" width="112" height="112" rx="14" fill="url(#amber)"/>
+      <path d="M229 538l31-24 22 13 35-45 24 27v62H229z" fill="#603334" opacity=".55"/>
+      <circle cx="267" cy="495" r="13" fill="#fff7d2" opacity=".55"/>
+
+      <rect x="362" y="459" width="112" height="112" rx="14" fill="url(#cyan)"/>
+      <path d="M362 545l48-57 22 31 42-42v94H362z" fill="#104357" opacity=".6"/>
+    </g>
+
+    <rect x="96" y="614" width="378" height="70" rx="15" fill="#11161d" stroke="#303946"/>
+    <text x="118" y="644" fill="#f0f4f9" font-size="16" font-weight="650">Cursor page</text>
+    <text x="118" y="669" fill="#8793a3" font-size="14">40 records · stable position</text>
+    <path d="M402 649h42" stroke="#63d8d2" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+    <rect x="96" y="717" width="150" height="44" rx="22" fill="#1d2d31" stroke="#3e7476"/>
+    <text x="171" y="745" text-anchor="middle" fill="#82e7e0" font-size="14" font-weight="700">LAZY LOADING</text>
+    <rect x="258" y="717" width="132" height="44" rx="22" fill="#2b2319" stroke="#6d5434"/>
+    <text x="324" y="745" text-anchor="middle" fill="#f5c87e" font-size="14" font-weight="700">NO DUPES</text>
+
+    
+    <g filter="url(#shadow)">
+      <rect x="600" y="220" width="400" height="590" rx="26" fill="#151a21" stroke="#3b4955" stroke-width="2"/>
+    </g>
+    <text x="630" y="267" fill="#e9eef5" font-size="20" font-weight="700" letter-spacing="1.5">ORDERED FEED</text>
+    <rect x="630" y="299" width="340" height="1" fill="#303946"/>
+
+    <rect x="650" y="326" width="300" height="74" rx="16" fill="#173033" stroke="#58c9c5" stroke-width="2"/>
+    <circle cx="682" cy="363" r="12" fill="#63d8d2"/>
+    <text x="710" y="356" fill="#e9ffff" font-size="16" font-weight="700">New result</text>
+    <text x="710" y="381" fill="#87bbb9" font-size="13">registered once</text>
+    <rect x="858" y="347" width="67" height="32" rx="16" fill="#24565a"/>
+    <text x="891.5" y="368" text-anchor="middle" fill="#a6f3ed" font-size="12" font-weight="700">LIVE</text>
+
+    <g fill="#1d232c" stroke="#303946">
+      <rect x="650" y="422" width="300" height="60" rx="14"/>
+      <rect x="650" y="494" width="300" height="60" rx="14"/>
+      <rect x="650" y="566" width="300" height="60" rx="14"/>
+      <rect x="650" y="638" width="300" height="60" rx="14"/>
+    </g>
+    <g fill="#98a4b4" font-size="13">
+      <text x="675" y="448">created_at · registration ID</text>
+      <text x="675" y="520">created_at · registration ID</text>
+      <text x="675" y="592">created_at · registration ID</text>
+      <text x="675" y="664">created_at · registration ID</text>
+    </g>
+    <g fill="#f1f5f9" font-size="16" font-weight="650">
+      <text x="904" y="456" text-anchor="end"># 1248</text>
+      <text x="904" y="528" text-anchor="end"># 1247</text>
+      <text x="904" y="600" text-anchor="end"># 1246</text>
+      <text x="904" y="672" text-anchor="end"># 1245</text>
+    </g>
+
+    <path d="M630 728h340" stroke="#d6964a" stroke-width="2" stroke-dasharray="8 9"/>
+    <rect x="690" y="710" width="220" height="36" rx="18" fill="#332718"/>
+    <text x="800" y="734" text-anchor="middle" fill="#f1bd72" font-size="13" font-weight="700">OLDER CURSOR CONTINUES</text>
+
+    
+    <g filter="url(#shadow)">
+      <rect x="1100" y="220" width="430" height="590" rx="26" fill="#171c24" stroke="#303946" stroke-width="2"/>
+    </g>
+    <circle cx="1136" cy="260" r="6" fill="#f1ad59"/>
+    <text x="1154" y="268" fill="#e9eef5" font-size="20" font-weight="700" letter-spacing="1.5">FOCUSED VIEWER</text>
+    <rect x="1126" y="299" width="378" height="1" fill="#303946"/>
+
+    <rect x="1126" y="326" width="378" height="314" rx="18" fill="url(#amber)"/>
+    <circle cx="1240" cy="420" r="58" fill="#fff6cd" opacity=".22"/>
+    <path d="M1126 570l82-88 54 46 73-96 69 86 100-116v238h-378z" fill="#2c263d" opacity=".62"/>
+    <rect x="1152" y="350" width="92" height="34" rx="17" fill="#10141a" opacity=".8"/>
+    <text x="1198" y="372" text-anchor="middle" fill="#f7cf8e" font-size="12" font-weight="700">VISIBLE</text>
+
+    <text x="1128" y="680" fill="#f1f5f9" font-size="17" font-weight="700">Preload next image</text>
+    <path d="M1308 674h64" stroke="#f1ad59" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <text x="1400" y="680" fill="#f1f5f9" font-size="17" font-weight="700">Swap</text>
+    <text x="1128" y="713" fill="#8f9aaa" font-size="14">image + title + rating + position</text>
+
+    <rect x="1126" y="740" width="194" height="44" rx="22" fill="#2b2319" stroke="#6d5434"/>
+    <text x="1223" y="768" text-anchor="middle" fill="#f5c87e" font-size="14" font-weight="700">STALE LOADS IGNORED</text>
+    <rect x="1332" y="740" width="172" height="44" rx="22" fill="#1d2d31" stroke="#3e7476"/>
+    <text x="1418" y="768" text-anchor="middle" fill="#82e7e0" font-size="14" font-weight="700">STANDALONE</text>
+
+    
+    <path d="M600 470C552 470 548 470 510 470" fill="none" stroke="#63d8d2" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <path d="M1000 470C1048 470 1052 470 1090 470" fill="none" stroke="#63d8d2" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <rect x="494" y="442" width="112" height="34" rx="17" fill="#14262a"/>
+    <text x="550" y="464" text-anchor="middle" fill="#83ddd8" font-size="12" font-weight="700">CURSOR PAGE</text>
+    <rect x="994" y="442" width="112" height="34" rx="17" fill="#14262a"/>
+    <text x="1050" y="464" text-anchor="middle" fill="#83ddd8" font-size="12" font-weight="700">IMAGE WINDOW</text>
+  </g>
+</svg>

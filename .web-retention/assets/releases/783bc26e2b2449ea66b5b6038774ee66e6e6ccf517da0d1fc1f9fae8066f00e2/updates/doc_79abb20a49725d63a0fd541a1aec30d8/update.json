@@ -1,0 +1,62 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_79abb20a49725d63a0fd541a1aec30d8",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Made Work Report artifacts durable at capture time",
+    "summary": "Copied attached files and reconstructed text artifacts into report-owned storage at capture time, so each Work Report retains the material it references.",
+    "date": "2026-01-28",
+    "prominence": "low",
+    "tags": [
+      "Infrastructure",
+      "Python",
+      "PostgreSQL"
+    ],
+    "blocks": [
+      {
+        "body": "## Copy evidence when it is attached\n\nWork Report copies artifact material into a report-owned directory as soon as it is attached. Images, videos, and documents come from their source files; code, terminal output, and structured data are written from the captured content. The stored artifact points to that owned material, so later use no longer depends on its source path.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Artifact[Typed artifact] --> Report[Create report row]\n  Report --> Material{Artifact material}\n  Material -->|Image, video, document| Copy[Copy source file]\n  Material -->|Code, terminal, data| Write[Write captured content]\n  Copy & Write --> Owned[Report-owned path]\n  Owned --> Record[Store artifact record]",
+        "description": "The report ID selects the storage directory before each artifact record is updated with its owned path.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Create the report and its material in two phases\n\nThe report ID determines the storage directory, so creation first inserts the report row, then stores each artifact and records its owned path. Evidence added to an existing report uses the same storage helper, keeping the report and its material together.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:a43aad9b3709f2ca5cd512104d8d47d2a3c4b0c62871f308386d21677e4f1a0d",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

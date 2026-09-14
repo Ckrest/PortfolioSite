@@ -1,0 +1,73 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_a529e0dc25c854d0b1921f8b2006a9f2",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Added priority-based window pinning to Wayfire",
+    "summary": "Built a Wayfire plugin that moves matched windows into a priority-ordered topmost scene, restores them when unpinned, and exposes configuration and IPC control.",
+    "date": "2026-02-22",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/wayfire-layer-plugin",
+    "preview": {
+      "description": "Namespace rules and IPC pinning feeding a priority-ordered Wayfire scene stack.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "preview.png",
+      "width": 3624,
+      "height": 2096
+    },
+    "tags": [
+      "C++",
+      "Wayfire",
+      "Wayland"
+    ],
+    "blocks": [
+      {
+        "body": "## Pin windows at the scene boundary\n\nI built Topmost Scene to keep selected Wayfire views above ordinary windows, drag overlays, and compositor effects. Configuration matches app IDs and namespaces automatically, while IPC pins a specific view on demand.\n\nEach pinned view carries a numeric priority. Reapplying the layer sorts those values before it moves the existing scene nodes to the front of Wayfire’s root scene, so the order comes from explicit data rather than focus timing or caller order.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  View[Wayfire view] --> Match{Configured namespace or IPC pin?}\n  Match -->|Yes| Preserve[Preserve original parent]\n  Preserve --> Topmost[Move to topmost scene]\n  Priority[Configured priority] --> Topmost\n  Topmost --> Restore[Restore on unpin or shutdown]",
+        "description": "Pinning remains reversible because the plugin retains each view’s original scene parent.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Return views without recreating them\n\nBefore moving a view into the root scene, the plugin saves its original scene parent. When no pin rule remains, unpinning reattaches the existing node to that parent. Disabling or unloading the plugin restores all tracked views, while view destruction removes their bookkeeping.\n\nMoving and restoring the same node preserves the compositor object, input routing, and application lifecycle instead of creating a second representation of the window.",
+        "type": "text"
+      },
+      {
+        "body": "## Control the layer at runtime\n\nTopmost Scene exposes `pin`, `unpin`, `list`, and `reapply` through IPC, while namespace and priority settings supply persistent rules. A smaller Layer Stacker companion handles compatibility cases inside an existing layer, re-raising matched views after mapping, focus requests, or geometry changes.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:0e57c99c5626814d8dac8b7e818fdf49245423c8d0865744596fb97b3f632a1d",
+        "byte_size": 500,
+        "animated": false
+      },
+      "preview.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 3624,
+        "height": 2096,
+        "digest": "sha256:d7901df449b73ef50f6d2fdc7e74803b919cd5505d9847e6eeffc2189f1f3d02",
+        "byte_size": 290250,
+        "animated": false
+      }
+    }
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_45e24fee0f645130a7d9ce1685a5af01",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Built Portfolio Editor to connect Work Reports to portfolio pages",
+    "summary": "Built Portfolio Editor to combine Work Report material, structured project fields, seven composable block types, and the Portfolio Site renderer in one split-pane authoring workflow.",
+    "date": "2026-01-27",
+    "prominence": "high",
+    "preview": {
+      "description": "Portfolio Editor block palette with colored routes connecting Text, Image, and Gallery blocks to matching sections in a live portfolio page preview",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/portfolio-editor-block-assembly-preview.png",
+      "width": 1600,
+      "height": 1000
+    },
+    "tags": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "Frontend"
+    ],
+    "blocks": [
+      {
+        "body": "## Turn portfolio site authoring into a visual workflow\n\nPortfolio Editor brings completed Work Reports, project metadata, content blocks, and the rendered detail page into one web application. Its Flask backend reads report records from PostgreSQL and manages Portfolio Site project sources, while the browser keeps those inputs visible within one editing session.\n\nThe interface is divided into Reports, Projects, Blocks, and a live preview. Project source becomes forms and composable blocks, so the page can be shaped and inspected through the same interface that holds its supporting material.",
+        "type": "text"
+      },
+      {
+        "type": "related-mini",
+        "updateId": "doc_1a3826668acb53688961faa991a157f1"
+      },
+      {
+        "code": "flowchart LR\n  Reports[Work Report records] --> Editor[Portfolio Editor session]\n  Projects[Project fields] --> Editor\n  Palette[Seven block types] --> Editor\n  Editor --> Preview[Live Site preview]\n  Editor --> Source[Structured project source]",
+        "description": "Work Report records, project fields, and seven block types meet in one editing session that drives the real page preview and structured project source.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Move Work Report material into the page\n\nOpening a completed Work Report in the Reports panel exposes its description, reasoning, metadata, and available material as separate source fields. Each field can be dragged into project metadata or the page’s block list, while the complete report can seed a new portfolio project for further editing.",
+        "type": "text"
+      },
+      {
+        "type": "related-mini",
+        "updateId": "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
+      },
+      {
+        "description": "Screenshot_2026-08-26_15-34-39_Region.png. An expanded Work Report exposes draggable content, artifacts, and metadata beside the portfolio page being assembled.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "assets/Screenshot_2026-08-26_15-34-39_Region.png",
+        "type": "image"
+      },
+      {
+        "body": "## Shape the project around that material\n\nThe Projects panel manages the fields used by timeline cards and detail pages: title, summary, date, presentation size, tags, links, icon, and preview. A controlled tag vocabulary and autocomplete keep the metadata consistent while every field remains editable.",
+        "type": "text"
+      },
+      {
+        "body": "## Compose Portfolio Site pages from seven block types\n\nThe Blocks panel offers text, image, video, gallery, README, PDF, and group blocks. A block can start empty from the palette or be filled with material brought over from a report. Groups let related blocks share one section while retaining their individual types.\n\nPage content stays as structured data rather than rendered HTML. That keeps reordering and type-specific editing straightforward while Portfolio Site remains responsible for typography, responsive layout, media behavior, and links.",
+        "type": "text"
+      },
+      {
+        "description": "The Projects and Blocks tabs keep structured metadata and seven composable block types beside the rendered page.",
+        "fit": "contain",
+        "images": [
+          {
+            "description": "Portfolio Editor Projects tab with project metadata controls beside the rendered portfolio page",
+            "kind": "image",
+            "src": "media/screenshot_2026-01-27_20-40-46.png"
+          },
+          {
+            "description": "Portfolio Editor Blocks tab with text, image, video, gallery, README, PDF, and group controls beside the rendered detail page",
+            "kind": "image",
+            "src": "media/screenshot_2026-01-27_20-40-07.png"
+          }
+        ],
+        "presentation": "wide",
+        "type": "gallery"
+      },
+      {
+        "body": "## Edit against the real renderer\n\nThe right pane loads Portfolio Site’s detail page in a same-origin iframe. An injected bridge sends the in-memory project and block state into the renderer and maps clicks in the page back to the corresponding field or block in the Editor.\n\nThe preview therefore uses the Site’s real CSS and block behavior while keeping authoring controls outside the public page. Changes can be inspected in memory before the structured project source is saved.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/Screenshot_2026-08-26_15-34-39_Region.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 527,
+        "height": 898,
+        "digest": "sha256:d8aa634354efeba80f07c5f8709c4a6c55afaf3f2e7da713fee1eddce159c415",
+        "byte_size": 111316,
+        "animated": false
+      },
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:27ed2bd6e821e04b59bac76724e0f57178e223c8025235516b87cd3fcc3582df",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/portfolio-editor-block-assembly-preview.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1600,
+        "height": 1000,
+        "digest": "sha256:35722fe907ef6e5d1f70e43112980eef7b11038bc8be96ea01a13f7bbf26e196",
+        "byte_size": 173046,
+        "animated": false
+      },
+      "media/screenshot_2026-01-27_20-40-07.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1362,
+        "height": 1327,
+        "digest": "sha256:da7bc4b4f5f34a2b18d20d02871a9127086024c5e2285c2abc2baeaffb3a5dad",
+        "byte_size": 167503,
+        "animated": false
+      },
+      "media/screenshot_2026-01-27_20-40-46.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1362,
+        "height": 1326,
+        "digest": "sha256:3b5b27ed187fffb79b1e1500123f87621a42e07e02da3b3c0f3f319d55c933c0",
+        "byte_size": 184437,
+        "animated": false
+      }
+    }
+  }
+}

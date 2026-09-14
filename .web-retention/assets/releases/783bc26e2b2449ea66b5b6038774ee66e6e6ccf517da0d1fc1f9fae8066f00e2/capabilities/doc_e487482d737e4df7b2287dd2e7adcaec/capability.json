@@ -1,0 +1,58 @@
+{
+  "schema": "portfolio-capability@7",
+  "capability": {
+    "key": "doc_e487482d737e4df7b2287dd2e7adcaec",
+    "kind": "capability",
+    "connections": {
+      "evidence": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a",
+        "doc_7ee8d3e7e97d4c6ca3acff195440fb2b",
+        "doc_0a063e0c837f46f99fdad242bca08ca7",
+        "doc_3d1230e329304fae93e2d07de1d3dad4",
+        "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+        "doc_f1ecee3798b75a698060af0d6fd26b53"
+      ],
+      "display_projects": []
+    },
+    "title": "Automate complex processes without losing human review",
+    "summary": "I automate evidence collection and draft assembly while keeping evidence selection, editing, and final acceptance under human control.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "blocks": [
+      {
+        "body": "## Make preparation repeatable and decisions visible\n\nThe Work-to-Portfolio Pipeline turns completed development work into material a reader can understand. Tools collect evidence, organize report facts, and help assemble a draft. I keep the decisions about relevance, accuracy, and public presentation available to the person reviewing that work.\n\nThat separation lets automation reduce the effort of preparing a page while preserving a clear account of what was selected and accepted.",
+        "type": "text"
+      },
+      {
+        "body": "## Choose evidence before attaching it\n\nIn Work Report System, discovery produces candidates that can be inspected before they become part of a report. I introduced a staging flow with captions, relevance scores, and explicit approval or rejection, then separated report creation from evidence curation so recording the facts could proceed independently.\n\nThe maintained workflow attaches exact selections and allows detachment without destroying the retained material. Finding a file, choosing it as evidence, and deciding to show it publicly remain separate actions.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep people and agents in the same editing history\n\nPortfolio Editor gives browser, CLI, and agent edits one revisioned document. Pending browser changes are flushed before an agent mutation, and conflict checks stop an older read from overwriting newer work. Undo, redo, and comparisons with the last accepted page keep revisions inspectable.\n\nThe generated draft remains ordinary editable content: its explanation, evidence, order, and connections can all be changed before acceptance.",
+        "type": "text"
+      },
+      {
+        "body": "## Review the result that will be accepted\n\nExact review freezes the selected page, assets, and connection changes and renders them through Portfolio Site. Acceptance applies that identified result; a later edit requires a fresh review. Publication is a separate operation.\n\nTogether, these boundaries make the pipeline useful for assisted authoring: preparation can be automated, decisions stay attributable, and the reviewer can inspect the public result before it moves forward.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:70bd6e3efcd7dafa9d7d1240cc3a1df4fef25d310d7db382725b6aedb4e155b3",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

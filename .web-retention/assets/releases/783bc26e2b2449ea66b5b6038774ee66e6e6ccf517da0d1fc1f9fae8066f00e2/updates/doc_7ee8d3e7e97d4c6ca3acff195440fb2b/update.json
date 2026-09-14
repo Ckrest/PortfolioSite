@@ -1,0 +1,100 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_7ee8d3e7e97d4c6ca3acff195440fb2b",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec",
+        "doc_4b450a10a1d94230a7b01e6ec9727489"
+      ],
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ]
+    },
+    "title": "Kept portfolio drafts editable while flagging incomplete content",
+    "summary": "Unified block rules across Portfolio Editor and Portfolio Site, allowing incomplete drafts to be saved with useful warnings while keeping rendering behavior consistent.",
+    "date": "2026-03-02",
+    "prominence": "low",
+    "preview": {
+      "description": "Draft completeness and structural validity have distinct rules.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-only",
+      "src": "media/portfolio-overview.svg",
+      "width": 1200,
+      "height": 675
+    },
+    "tags": [
+      "Python",
+      "JavaScript",
+      "Architecture",
+      "Authoring"
+    ],
+    "blocks": [
+      {
+        "body": "## Save the work while its content is taking shape\n\nA portfolio draft often begins with a block whose image, source, or link has not been chosen yet. I made those incomplete blocks saveable with warnings that explain what they still need.\n\nStructural errors, such as an unknown block type or malformed group, remain separate from missing content. The author can keep arranging the page while incomplete material stays visible for editing.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TB\n REGISTRY[\"Shared block contract\"] --> EDITOR[\"Editor fields and validation\"]\n REGISTRY --> SITE[\"Public rendering rules\"]\n EDITOR --> SHAPE{\"Valid structure?\"}\n SHAPE -->|No| ERROR[\"Explain the structural error\"]\n SHAPE -->|Yes| SAVE[\"Save the draft\"]\n SAVE --> MISSING{\"Required content present?\"}\n MISSING -->|No| WARNING[\"Show an editable placeholder and warning\"]\n MISSING -->|Yes| RENDER[\"Render the complete block\"]\n SITE --> RENDER\n WARNING --> OMIT[\"Omit incomplete block from live output\"]",
+        "description": "One contract distinguishes malformed structure from missing draft content and defines how each block appears during authoring and public rendering.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Give the editor and renderer the same rules\n\nI introduced canonical block contracts that describe required content and supported ways to fill a block. Generated definitions feed the editor and backend, reducing the chance that one surface accepts a shape another cannot interpret.\n\nThe authoring preview keeps incomplete placeholders available for selection. The live renderer omits blocks that lack their required content, using the same contract to make that decision.",
+        "type": "text"
+      },
+      {
+        "description": "A compact related-work link and a fuller card present the same target through two block layouts.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/related-work-blocks.png",
+        "type": "image"
+      },
+      {
+        "body": "## Select related work from the page collection\n\nI added a searchable picker for related-page blocks, so the author can choose an existing target instead of entering its identifier manually. Validation explains missing targets, unknown references, and self-links beside the block.\n\nTogether, these changes make drafts easier to compose while keeping the public representation tied to explicit, shared block rules.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:c39d2504341bf81b99557d0bdd9f59631464d7cf15f913040d1a54f62270b609",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/portfolio-overview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1200,
+        "height": 675,
+        "digest": "sha256:93d466a539ba639b8c3a552a8e524eb255989a2e6fb32eae170228f14bf8eec3",
+        "byte_size": 2097,
+        "animated": false
+      },
+      "media/related-work-blocks.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1140,
+        "height": 397,
+        "digest": "sha256:c54f88f04c626a794dbc02b74a6d122db8fba8c7ded3e53bb3ac5a1f14d17887",
+        "byte_size": 31204,
+        "animated": false
+      }
+    }
+  }
+}

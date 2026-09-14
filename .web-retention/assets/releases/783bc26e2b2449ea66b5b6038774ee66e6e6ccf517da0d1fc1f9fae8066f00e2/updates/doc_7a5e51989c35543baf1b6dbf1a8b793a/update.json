@@ -1,0 +1,67 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_7a5e51989c35543baf1b6dbf1a8b793a",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5"
+      ]
+    },
+    "title": "Added reliable defaults and validation to portfolio detail pages",
+    "summary": "Standardized detail-page headers, used README content when no blocks were configured, and surfaced incomplete links, placeholder copy, and empty content before publication.",
+    "date": "2026-01-27",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/PortfolioSite",
+    "tags": [
+      "Frontend",
+      "JavaScript",
+      "Validation"
+    ],
+    "blocks": [
+      {
+        "body": "## Start every detail page with usable structure\n\nDetail pages place preview media, tags, and links inside one metadata wrapper, keeping the transition into page content consistent when optional fields are absent. When a project has no explicit content blocks, the renderer looks for its README and uses it as the page body. New Portfolio Editor drafts begin with a README block so the same starting point is visible while authoring.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio detail page showing JavaScript, Frontend, and CSS tags with a GitHub link above README content headed PortfolioSite. With no explicit content blocks configured, the detail page renders the project README beneath its metadata.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/detail-readme-fallback.png",
+        "type": "image"
+      },
+      {
+        "body": "## Catch incomplete content before publication\n\nThe validation path distinguishes objective errors from editorial warnings. Missing link destinations and invalid required fields stop the save or build, while placeholder summaries and empty detail content are surfaced for review. Optional page fields remain flexible without letting incomplete source data pass silently.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:1973a53f0ce0564ff7d1d6c84a857f56d9e865f2b2fb0e991e0a2f773b05f08c",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/detail-readme-fallback.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1150,
+        "height": 830,
+        "digest": "sha256:3cb4ec4ffb60a70a26f76b513e11bb55187402f300517ee87e28ee50c8b2c2ed",
+        "byte_size": 103144,
+        "animated": false
+      }
+    }
+  }
+}

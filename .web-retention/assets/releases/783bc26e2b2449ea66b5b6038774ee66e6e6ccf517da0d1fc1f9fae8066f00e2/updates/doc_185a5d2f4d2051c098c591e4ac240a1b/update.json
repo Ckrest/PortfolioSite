@@ -1,0 +1,83 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_185a5d2f4d2051c098c591e4ac240a1b",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9dedb7f7cf754d23a4142e12dc70271d"
+      ],
+      "display_projects": [
+        "doc_9dedb7f7cf754d23a4142e12dc70271d"
+      ]
+    },
+    "title": "Queued local AI requests by priority and model",
+    "summary": "Built an Ollama gateway that turns requests into inspectable jobs, orders them by priority and model, and reports their lifecycle and resource state.",
+    "date": "2026-01-08",
+    "prominence": "medium",
+    "external_url": "https://github.com/Ckrest/model-manager",
+    "preview": {
+      "description": "Requests enter priority lanes, pass through one scheduler, and return an inspectable result state.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/model-manager-queue-preview.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "Python",
+      "AI",
+      "Ollama"
+    ],
+    "blocks": [
+      {
+        "body": "## Turn requests into inspectable jobs\n\nI built Model Manager as one coordination point for tools that needed local Ollama inference. Submissions become jobs with explicit pending, queued, running, complete, failed, and cancelled states. High, normal, and low priority queues group work by requested model before one background scheduler runs the execution plans in order.\n\nHTTP callers can submit a job and poll its result without keeping an inference request open. Direct Python callers use the same queue and can cancel work while it is still pending or queued.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  HTTP[HTTP client] --> Queue[Priority and model queues]\n  Python[Python caller] --> Queue\n  Python --> Cancel[Cancel pending or queued job]\n  Queue --> Scheduler[Background scheduler]\n  Scheduler --> Engine[Load model and run with Ollama]\n  Engine --> Result[Complete or failed]\n  Monitor[GPU and loaded-model observation] --> Status[Stats and model listing]\n  Registry[Installed model discovery] --> Status",
+        "description": "HTTP and Python callers share one job queue while resource observation remains separate from execution.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Separate resource observation from execution\n\nThe service reads total, used, and free GPU memory from `nvidia-smi`, then queries Ollama for installed and loaded models. Those readings appear in service statistics and give the scheduler a consistent view of the machine.\n\nThe scheduler groups work by model, records available memory, loads the requested model, and processes queued jobs through a single execution engine. Explicit load and unload operations use the same service boundary.",
+        "type": "text"
+      },
+      {
+        "code": "POST /api/submit\n→ { \"job_id\": \"job_42\", \"status\": \"queued\" }\n\nGET /api/job/job_42\n→ { \"status\": \"complete\", \"result\": \"…\" }",
+        "description": "Submission returns a job ID immediately; the same ID exposes its current state and eventual result.",
+        "filename": "model-manager-http-example.txt",
+        "language": "http",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "code"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:33f4fc9ded10f4137793db2b42ea6dc3943e83cee960190640ba5028416b2c3e",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/model-manager-queue-preview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:842880139147d408f181123bf444a5f93d138d283c609133086f0914269545b2",
+        "byte_size": 3699,
+        "animated": false
+      }
+    }
+  }
+}

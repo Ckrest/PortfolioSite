@@ -1,0 +1,59 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_3d1230e329304fae93e2d07de1d3dad4",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec",
+        "doc_288242adad4c40b8881cd949f9543ec3"
+      ],
+      "projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ],
+      "display_projects": [
+        "doc_0781ada08d314e838b421fd940a4158c"
+      ]
+    },
+    "title": "Routed package publishing through validation",
+    "summary": "Clarified source and publication destinations in Constellation Framework, then directed agent publishing actions through the framework’s validation step.",
+    "date": "2026-02-22",
+    "prominence": "low",
+    "tags": [
+      "Architecture",
+      "Automation",
+      "Git"
+    ],
+    "blocks": [
+      {
+        "body": "## Make source and destination explicit\n\nConstellation Framework records both where a package’s code comes from and where its maintained version is published. I clarified those roles across trait guidance, tool descriptions, and validation messages: the upstream declaration identifies the source used for fetching and merging, while the publication declaration identifies the push destination.\n\nI also aligned remote naming so the configured publication destination uses the same convention across repository types.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n P[\"Maintained<br/>package\"] --> V[\"Validate<br/>package\"]\n V --> D[\"Push to declared<br/>publication destination\"]",
+        "description": "The framework publication tool validates the maintained package before pushing to its declared destination.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Guide agent publishing through the checked path\n\nI updated the agent command hooks to reject direct Git and VCSH push commands and direct publishing through Constellation’s publication tool, which validates the package before pushing.\n\nThe guidance and error messages point to that same operation. This makes the intended publishing route explicit and keeps package checks attached to the action that distributes the code.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:4c11318f23b89615bb169b9bf87ada6ad234d48d2dfe021a616bed231f103907",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

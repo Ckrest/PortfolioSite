@@ -1,0 +1,94 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_67721ba68f9e4a97b9f7cd91b31b787a",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Made every artifact traceable from source to portfolio",
+    "summary": "Made every artifact traceable to its source, brought 711 older artifacts into the same system, and stopped unresolved images from being saved.",
+    "date": "2026-02-28",
+    "prominence": "medium",
+    "preview": {
+      "description": "Captured and historical evidence converging on an artifact record with operation, source path, and provenance version fields before Portfolio Editor",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/artifact-provenance-contract.svg",
+      "width": 1600,
+      "height": 900
+    },
+    "tags": [
+      "Python",
+      "PostgreSQL",
+      "Infrastructure",
+      "Architecture",
+      "Migration",
+      "Frontend"
+    ],
+    "blocks": [
+      {
+        "body": "## Make every artifact traceable\n\nWork Report began requiring three details for every artifact: the operation that created it, its source path, and the version of the provenance rules it followed. That makes an artifact’s origin a required part of its record instead of optional metadata.\n\nScreenshots, diagrams, diffs, and generated files can be traced back to their source, while incomplete records are stopped before moving further through the pipeline.",
+        "type": "text"
+      },
+      {
+        "label": "Operation output records: the source of evidence candidates",
+        "type": "related-mini",
+        "updateId": "doc_2b0985906a7354fba09c142012446689"
+      },
+      {
+        "code": "flowchart LR\n  CAP[\"Captured\"] --> OP[\"Producing<br/>operation\"]\n  HIST[\"Historical\"] --> BACK[\"Synthetic<br/>import\"]\n  OP --> ART[\"Artifact record<br/>operation + path + v2\"]\n  BACK --> ART\n  ART --> CHECK{\"Complete?\"}\n  CHECK -->|Yes| EDITOR[\"Portfolio Editor<br/>staged image intake\"]\n  CHECK -->|No| STOP[\"Stop save\"]",
+        "description": "Both captured and historical evidence must be traceable before Portfolio Editor can save it.",
+        "presentation": "wide",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Migrate history without discarding evidence\n\nHundreds of retained artifacts were created before those rules existed. The migration kept them by creating consistent import records and linking each older artifact to one.\n\nIt migrated 711 artifacts through 100 backfill operations with no unresolved rows left. A validation command checked the full store and kept incomplete records from returning.",
+        "type": "text"
+      },
+      {
+        "body": "## Carry the same checks into Portfolio Editor\n\nDropped images appear in the preview immediately, before the files are saved. When Save is pressed, the backend stores the images and replaces their temporary references with durable paths.\n\nIf any image cannot be resolved, the save stops. This keeps drag-and-drop responsive without letting temporary preview data enter the saved project.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:059757d6638abb7379ca22c758b82c187d5d25bdab44c710fb68271724fb71f0",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/artifact-provenance-contract.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:8c08845d79157bc78f9c1ccfe2bccb85022a63747ee0d6634d91e53efadd1fd1",
+        "byte_size": 9016,
+        "animated": false
+      }
+    }
+  }
+}

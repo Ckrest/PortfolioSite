@@ -1,0 +1,108 @@
+{
+  "schema": "portfolio-project@3",
+  "project": {
+    "key": "doc_c20a72a1aab145e281e072087258ab88",
+    "kind": "project",
+    "connections": {
+      "capabilities": [
+        "doc_e487482d737e4df7b2287dd2e7adcaec",
+        "doc_4b450a10a1d94230a7b01e6ec9727489",
+        "doc_1206d48b173c44a5a58fba6b48b0b2aa"
+      ],
+      "items": [
+        "doc_c16f94bae2aa4771a1352a7cea087bd5",
+        "doc_67721ba68f9e4a97b9f7cd91b31b787a",
+        "doc_0a063e0c837f46f99fdad242bca08ca7",
+        "doc_34a72e56c32a5cbbae2587ef72aed19d",
+        "doc_e231ba92a76357568aec5ed265dbbbc7",
+        "doc_2b0985906a7354fba09c142012446689",
+        "doc_24971e45f3cb5b5489b4d221cbcfdcef",
+        "doc_1eb2699b9ef651bd8a19c482f35276f2",
+        "doc_4dfdcbce5020516ca7a8e0ff29c542b8",
+        "doc_645434a5ee8f550b9e0b237950789066",
+        "doc_3e2b31469eb25cd6a2100944e0e261cc",
+        "doc_093c398e1d445c8da81519e03e64f233",
+        "doc_59a90972f9ea57829144e009a1b098c0",
+        "doc_aac3da2ebc5f52a485af8b51f7de2767",
+        "doc_582dd26679fb5519a5a4bf771863f5a6",
+        "doc_f1ecee3798b75a698060af0d6fd26b53",
+        "doc_0b8d60db909c54b7aad85f168788ca3f",
+        "doc_79abb20a49725d63a0fd541a1aec30d8",
+        "doc_ad539b8c8a6b4d659707514a7ade1427",
+        "doc_a67b241ca49f5f12ba0dcb4badd5ceac"
+      ],
+      "display_projects": []
+    },
+    "title": "Work Report System",
+    "summary": "A standalone CLI application for preserving completed work as searchable records with revisioned narrative, curated artifacts, and portable evidence storage.",
+    "date": "2026-09-12",
+    "prominence": "medium",
+    "preview": {
+      "description": "A documentation demonstration shows concise terminal records and a versioned JSON response for automated callers.",
+      "fit": "contain",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/work-report-cli-demonstration.png",
+      "width": 1200,
+      "height": 760
+    },
+    "tags": [
+      "Python",
+      "SQLite",
+      "CLI",
+      "Documentation",
+      "Data Pipelines"
+    ],
+    "blocks": [
+      {
+        "body": "## Preserve the explanation alongside the work\n\nWork Report records what was done, why it was done, and the evidence that supports it. A report combines narrative, timing, effort, tags, package associations, and ordered artifacts in a searchable local record.\n\nHuman and automated callers use the same installed command and application core. The terminal interface stays concise, while machine mode returns a versioned JSON envelope with structured errors and no interactive prompts.",
+        "type": "text"
+      },
+      {
+        "body": "## Retain evidence with its meaning and origin\n\nEach artifact has a stable identity, semantic kind, media type, source locator, descriptive text, review state, capture time, and content facts. Local attachments are copied into an owned corpus; external references and known-missing material keep their distinct states.\n\nRegistration can record an unassigned reference, attachment connects evidence to a report, and detachment preserves the underlying material. Candidate discovery examines explicitly supplied paths or Git worktrees, and curation mutates the store only for exact selections.",
+        "type": "text"
+      },
+      {
+        "body": "## Keep editing and organization explicit\n\nReports have increasing revisions so callers can guard changes against an earlier read. Completion describes whether the narrative is ready, while archival independently records whether a report has been dealt with. Neither operation triggers publication.\n\nThe maintained application uses SQLite with foreign keys, ordered associations, and short transactions. Artifact files are staged and moved atomically before their metadata transaction commits, with cleanup when a mutation fails.",
+        "type": "text"
+      },
+      {
+        "body": "## Make the record recoverable and reusable\n\nBackups checkpoint the database and owned corpus with a manifest. Portable exports preserve metadata, identities, and ordered links; imports restore into an empty destination with the required material. Store validation checks relationships and files, with an optional deep digest check.\n\nPortfolio Editor can browse reports and copy selected material into a public draft. That curation leaves the source report intact and keeps private details outside the public Site contract.",
+        "type": "text"
+      },
+      {
+        "label": "Work Evidence Pipeline: discovery, ownership, and reusable evidence",
+        "type": "related-mini",
+        "updateId": "doc_21878f357de740b59b064fd59ea40121"
+      },
+      {
+        "label": "Portfolio Editor: turn selected report evidence into public pages",
+        "type": "related-mini",
+        "updateId": "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:d6cf2315f99f88a731717d59ec6f1f530ebaf0d56b1b2f19c976a5bf593f0f58",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/work-report-cli-demonstration.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1200,
+        "height": 760,
+        "digest": "sha256:74c13b4a4d15b344558652e350c2c4de0f100e384811ffa16cfdb9db3098f136",
+        "byte_size": 93246,
+        "animated": false
+      }
+    }
+  }
+}

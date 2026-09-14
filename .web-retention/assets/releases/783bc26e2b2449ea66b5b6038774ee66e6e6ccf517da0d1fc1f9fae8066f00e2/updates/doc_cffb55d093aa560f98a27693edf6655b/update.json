@@ -1,0 +1,64 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_cffb55d093aa560f98a27693edf6655b",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f"
+      ]
+    },
+    "title": "Made nested blocks easier to edit",
+    "summary": "Added an always-visible child control, click-outside deselection, and drag cleanup so groups follow the same editing rules as top-level blocks.",
+    "date": "2026-01-27",
+    "prominence": "low",
+    "tags": [
+      "JavaScript",
+      "Frontend",
+      "Interaction Design"
+    ],
+    "blocks": [
+      {
+        "body": "## Add content directly inside a group\n\nEvery group ends with an always-visible **Add sub-block** control. It opens the same block picker used elsewhere and inserts the selected block at the chosen position, including when the group is empty. A stronger accent edge keeps the group boundary visible while composing the page.",
+        "type": "text"
+      },
+      {
+        "description": "Portfolio Editor preview showing two child blocks inside a purple-accented group with an always-visible Add sub-block control. The permanent control keeps the next action visible at the end of every group, including after its current children.",
+        "kind": "image",
+        "presentation": "wide",
+        "src": "media/nested-block-editing.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep the preview interaction state clean\n\nThe live preview runs inside an iframe, so direct interactions pass through a small bridge to the Editor. Its click handler yields to the injected add and insertion controls, empty-space clicks clear the current selection, and leaving the preview during a drag removes stale targets and insertion feedback.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:00fe2c1fc0cde50486cff34fc72b9c85142fa21f8569d7efffb93e2b74189599",
+        "byte_size": 499,
+        "animated": false
+      },
+      "media/nested-block-editing.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1084,
+        "height": 666,
+        "digest": "sha256:62cff9ab96c10dc4730a025fea61a1ed4d046bd1fc7791d1e934916146648ed3",
+        "byte_size": 75402,
+        "animated": false
+      }
+    }
+  }
+}

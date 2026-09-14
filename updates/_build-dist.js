@@ -35,8 +35,14 @@ async function copyExisting(source, target, cache) {
   return true;
 }
 
+async function entrySource(root, path) {
+  const original = join(root, '.web-entry-source', path);
+  try { await stat(original); return original; }
+  catch (error) { if (error.code !== 'ENOENT') throw error; return join(root, path); }
+}
+
 export async function copyRuntime(ROOT, DIST, cache = null) {
-  for (const file of ROOT_FILES) await copyExisting(join(ROOT, file), join(DIST, file), cache);
+  for (const file of ROOT_FILES) await copyExisting(file === 'index.html' ? await entrySource(ROOT, file) : join(ROOT, file), join(DIST, file), cache);
   for (const directory of ROOT_DIRS) await copyExisting(join(ROOT, directory), join(DIST, directory), cache);
   for (const path of UPDATE_RUNTIME) await copyExisting(join(ROOT, 'updates', path), join(DIST, 'updates', path), cache);
   for (const collection of ['projects', 'capabilities']) {
@@ -75,7 +81,7 @@ export async function buildDist({ root: ROOT = DEFAULT_ROOT, output = null, cach
     const target = join(DIST, entry.collection, entry.name);
     await mkdir(target, { recursive: true });
     await reuseFile(payloadPath, join(target, filename), cache);
-    await reuseFile(join(ROOT, entry.collection, entry.name, 'detail.html'), join(target, 'detail.html'), cache);
+    await reuseFile(await entrySource(ROOT, `${entry.collection}/${entry.name}/detail.html`), join(target, 'detail.html'), cache);
     for (const asset of updateAssets(updateAssetInventory, entry.name)) {
       await copyExisting(join(ROOT, entry.collection, entry.name, asset), join(target, asset), cache);
     }

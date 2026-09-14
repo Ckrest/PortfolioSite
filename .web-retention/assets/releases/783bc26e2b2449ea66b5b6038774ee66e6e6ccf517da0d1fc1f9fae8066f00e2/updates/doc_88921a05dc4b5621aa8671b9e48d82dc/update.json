@@ -1,0 +1,87 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_88921a05dc4b5621aa8671b9e48d82dc",
+    "kind": "update",
+    "connections": {
+      "capabilities": [
+        "doc_2b1d59fc95f8495e9ace806dc189f849"
+      ],
+      "display_projects": []
+    },
+    "title": "Connected local Ollama models to ComfyUI",
+    "summary": "Added ComfyUI nodes for querying local Ollama models, passing chat history between graph steps, and listing the models available on a configured endpoint.",
+    "date": "2025-12-19",
+    "prominence": "low",
+    "external_url": "https://github.com/Ckrest/comfyui-ollama-nodes",
+    "tags": [
+      "ComfyUI",
+      "Python",
+      "AI",
+      "Ollama"
+    ],
+    "blocks": [
+      {
+        "body": "## Call a local model from the graph\n\nI added Ollama Query to send a prompt and optional system prompt to a local Ollama server from inside ComfyUI. The node exposes sampling, context, reproducibility, and connection settings directly in the graph, then returns the response text, raw JSON, and token count for downstream use.",
+        "type": "text"
+      },
+      {
+        "description": "Ollama Query keeps model selection, prompts, sampling controls, endpoint settings, and response outputs visible in the ComfyUI graph.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_16-10-04-1.png",
+        "type": "image"
+      },
+      {
+        "description": "The compact Model List node exposes models from the configured Ollama endpoint for use elsewhere in the workflow.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/screenshot_2026-02-28_16-10-26.png",
+        "type": "image"
+      },
+      {
+        "body": "## Pass chat history forward\n\nOllama Chat uses the local `/api/chat` endpoint, accepts prior messages as JSON, and returns the updated history alongside the response. Connecting that output into another chat node keeps the conversation explicit in the workflow instead of storing it in a hidden global session.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  History[Prior messages JSON] --> Chat[Ollama Chat]\n  Prompt[New prompt] --> Chat\n  Chat --> Reply[Response text]\n  Chat --> Updated[Updated messages JSON]\n  Updated --> Next[Next chat node]",
+        "description": "Each chat node returns updated message history that can feed the next graph step.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:83bf9e779f3a114df3016c23ecf0f443bcfef6e43dd1d5f3217a9824fbf9a0e4",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/screenshot_2026-02-28_16-10-04-1.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 257,
+        "height": 1171,
+        "digest": "sha256:adc5dd90b4b71ad922f26eae7cfe4434c123b5b359e52a2991cf79528c973cc3",
+        "byte_size": 74988,
+        "animated": false
+      },
+      "media/screenshot_2026-02-28_16-10-26.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 257,
+        "height": 166,
+        "digest": "sha256:4128b412a2666757a36d7f82cd9068c16e1a5f16e7ba4ea13ae43e2f613b250e",
+        "byte_size": 13377,
+        "animated": false
+      }
+    }
+  }
+}

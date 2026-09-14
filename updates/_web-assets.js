@@ -13,7 +13,7 @@ export function retentionIdentity(input) {
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const json = value => JSON.stringify(value, null, 2) + '\n';
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
-const entryPage = name => name === 'index.html' || /^(updates|projects|capabilities)\/[^/]+\/detail\.html$/.test(name);
+export const entryPage = name => name === 'index.html' || /^(updates|projects|capabilities)\/[^/]+\/detail\.html$/.test(name);
 
 async function copyVerified(source, destination, digest) {
   const bytes = await readFile(source);

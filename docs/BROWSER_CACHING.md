@@ -76,7 +76,10 @@ of each release.
 The deployment carries all retained manifests, their complete runtime trees,
 and the union of referenced media. The public-source artifact also carries
 the frozen `.web-retention` build input and its descriptor, allowing the
-published checkout to reproduce the exact `dist` digest. Prepared artifacts
+published checkout to reproduce the exact `dist` digest. `.web-entry-source`
+preserves the original entry HTML for that rebuild; the publication root
+contains the same bootstrapped pages as `dist` for hosts serving it directly.
+Prepared artifacts
 and installation are verified against the request's retention identity.
 
 Use the normal complete-release publication workflow. For a rollback, rebuild
@@ -89,8 +92,8 @@ and installed-artifact checks.
 ## Hosting policy and rollout
 
 Deploy the complete verified `dist/` atomically. Build source with
-`node updates/_build-dist.js`; never serve the unbuilt public-source entry
-pages directly.
+`node updates/_build-dist.js`. Hosts serving the published repository root
+also receive the complete runtime archive and the same generated entry pages.
 
 `_headers` gives entry documents, the pointer, and legacy paths `no-cache`,
 which permits storage but requires revalidation. Immutable release and media

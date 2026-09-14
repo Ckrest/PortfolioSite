@@ -1,0 +1,102 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_34a72e56c32a5cbbae2587ef72aed19d",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ],
+      "display_projects": [
+        "doc_9f1f9fa959cb4018a7439b07ca6d241f",
+        "doc_0e5d867b381b4cccb0683a20781be5a5",
+        "doc_21878f357de740b59b064fd59ea40121",
+        "doc_c20a72a1aab145e281e072087258ab88"
+      ]
+    },
+    "title": "Built a Mermaid pipeline for authored and generated diagrams",
+    "summary": "Connected template and model-assisted authoring, generated Constellation views, and a shared `.mmd` artifact path through Work Report, Portfolio Editor, and the portfolio renderer.",
+    "date": "2026-02-22",
+    "prominence": "medium",
+    "preview": {
+      "description": "A project planning timeline rendered from portable Mermaid source.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/mermaid-diagram-2026-02-28-003644.png",
+      "width": 2702,
+      "height": 872
+    },
+    "tags": [
+      "Python",
+      "Data Visualization",
+      "MCP",
+      "Infrastructure",
+      "CLI",
+      "Frontend"
+    ],
+    "blocks": [
+      {
+        "body": "## Two paths to Mermaid source\n\nI built two focused ways to create Mermaid diagrams. Mermaid Tool supplies nine reusable templates, a guided CLI, syntax checks, and optional model-assisted drafting for authoring new diagrams.\n\nA separate visualizer turns recorded Constellation data into repeatable dependency, timeline, and flow views. Both paths produce portable `.mmd` source, so authored and generated diagrams can enter the same workflow.",
+        "type": "text"
+      },
+      {
+        "description": "Authored diagrams and generated Constellation views converge on portable Mermaid source before moving through Work Report and Portfolio Editor.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/mermaid-pipeline-preview.svg",
+        "type": "image"
+      },
+      {
+        "body": "## Carry portable source through Work Report\n\nI extended Work Report to discover `.mmd` outputs, copy their text into durable report storage, and preserve the source rather than flattening each diagram into an image.\n\nPortfolio Editor maps that artifact into a native Mermaid block with editable source and a caption. The diagram can move through review as structured evidence instead of a detached screenshot.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Author[Templates, wizard, or model-assisted draft] --> Source[Mermaid source]\n  Records[Constellation records] --> Views[Generated views]\n  Views --> Source\n  Source --> Report[Work Report artifact]\n  Report --> Editor[Portfolio Editor block]\n  Editor --> Page[Portfolio page]",
+        "description": "Authored and generated diagrams converge on one portable source and artifact path.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Render the same block on portfolio pages\n\nThe portfolio renderer turns the Mermaid block into a responsive diagram while keeping the source as the underlying artifact. Authored diagrams and generated Constellation views reach the page through one block type and one artifact path.\n\nThis keeps the visual, its caption, and the source that defines its relationships together from report intake through publication.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:fdc19214335d1e2f2a3ccaf33c8bcabb2b4092b123a9a1322e9d844f5fd130f1",
+        "byte_size": 497,
+        "animated": false
+      },
+      "media/mermaid-diagram-2026-02-28-003644.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 2702,
+        "height": 872,
+        "digest": "sha256:f160c9315a706d313dac87e28006b4a29e74894a72fa14ef78d5736c228cee11",
+        "byte_size": 138174,
+        "animated": false
+      },
+      "media/mermaid-pipeline-preview.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 1600,
+        "height": 900,
+        "digest": "sha256:d7809388ab072c27216a8fcbb0fbdc02ab006a379b23d1497708981898a29235",
+        "byte_size": 3193,
+        "animated": false
+      }
+    }
+  }
+}

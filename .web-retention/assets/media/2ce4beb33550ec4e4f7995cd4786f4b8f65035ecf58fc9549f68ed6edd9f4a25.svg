@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">One native Wallpaper Service</title>
+  <desc id="desc">A Python service handing wallpaper work to separate programs is replaced by one native service controlled through D-Bus.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#151a19"/>
+      <stop offset="1" stop-color="#17130f"/>
+    </linearGradient>
+    <linearGradient id="native" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#19322f"/>
+      <stop offset="1" stop-color="#122321"/>
+    </linearGradient>
+    <linearGradient id="wallpaper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0b45f"/>
+      <stop offset="0.55" stop-color="#cf7357"/>
+      <stop offset="1" stop-color="#5c807a"/>
+    </linearGradient>
+    <pattern id="grid" width="52" height="52" patternUnits="userSpaceOnUse">
+      <path d="M52 0H0V52" fill="none" stroke="#fff" stroke-opacity=".035"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" rx="34" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="34" fill="url(#grid)"/>
+
+  <g font-family="Inter, Segoe UI, sans-serif">
+    <text x="80" y="78" fill="#e4ac64" font-size="18" font-weight="800" letter-spacing="2.3">WALLPAPER SERVICE</text>
+    <text x="80" y="143" fill="#f7f3e9" font-size="48" font-weight="770">One service owns the wallpaper</text>
+    <text x="80" y="186" fill="#aca79c" font-size="22">Runtime changes reach the Wayland surface without replacing the renderer.</text>
+
+    <rect x="80" y="250" width="426" height="440" rx="28" fill="#1d1c1a" stroke="#68594a" stroke-width="2"/>
+    <rect x="112" y="282" width="112" height="38" rx="19" fill="#352a22" stroke="#735940"/>
+    <text x="168" y="307" text-anchor="middle" fill="#e6b373" font-size="15" font-weight="800" letter-spacing="1.4">BEFORE</text>
+    <text x="112" y="372" fill="#f2ece1" font-size="29" font-weight="730">Process handoff</text>
+
+    <rect x="112" y="414" width="362" height="72" rx="18" fill="#272420" stroke="#665646"/>
+    <circle cx="150" cy="450" r="11" fill="#e4ac64"/>
+    <text x="179" y="458" fill="#f4eee3" font-size="21" font-weight="700">Python service</text>
+
+    <path d="M293 486v34" stroke="#a08b76" stroke-width="4"/>
+    <path d="M279 520h28l-14 22z" fill="#a08b76"/>
+    <rect x="112" y="552" width="362" height="78" rx="18" fill="#28231f" stroke="#715640"/>
+    <text x="293" y="585" text-anchor="middle" fill="#f3d1a7" font-size="21" font-weight="750">swaybg · mpvpaper</text>
+    <text x="293" y="611" text-anchor="middle" fill="#9e9183" font-size="15">separate renderer processes</text>
+
+    <path d="M540 470h68" stroke="#61d9cc" stroke-width="5" stroke-linecap="round"/>
+    <path d="M608 452v36l32-18z" fill="#61d9cc"/>
+    <text x="590" y="446" text-anchor="middle" fill="#83e9df" font-size="14" font-weight="850" letter-spacing="1.4">REBUILT</text>
+
+    <rect x="670" y="250" width="850" height="440" rx="28" fill="url(#native)" stroke="#43857d" stroke-width="2"/>
+    <rect x="702" y="282" width="188" height="38" rx="19" fill="#173936" stroke="#4e9b92"/>
+    <text x="796" y="307" text-anchor="middle" fill="#94eee5" font-size="15" font-weight="800" letter-spacing="1.4">NATIVE SERVICE</text>
+    <text x="702" y="372" fill="#f2fbf8" font-size="29" font-weight="730">One long-lived process</text>
+
+    <g>
+      <rect x="702" y="414" width="218" height="86" rx="18" fill="#11201e" stroke="#3d746e"/>
+      <text x="811" y="447" text-anchor="middle" fill="#8de9df" font-size="14" font-weight="800" letter-spacing="1.2">CONTROL</text>
+      <text x="811" y="478" text-anchor="middle" fill="#f2faf7" font-size="21" font-weight="730">D-Bus</text>
+
+      <path d="M920 457h48" stroke="#61d9cc" stroke-width="4"/>
+      <path d="M968 444v26l30-13z" fill="#61d9cc"/>
+
+      <rect x="1008" y="414" width="234" height="86" rx="18" fill="#11201e" stroke="#3d746e"/>
+      <text x="1125" y="447" text-anchor="middle" fill="#8de9df" font-size="14" font-weight="800" letter-spacing="1.2">RENDER</text>
+      <text x="1125" y="478" text-anchor="middle" fill="#f2faf7" font-size="21" font-weight="730">Native engine</text>
+
+      <path d="M1242 457h48" stroke="#61d9cc" stroke-width="4"/>
+      <path d="M1290 444v26l30-13z" fill="#61d9cc"/>
+
+      <rect x="1330" y="398" width="158" height="118" rx="18" fill="url(#wallpaper)"/>
+      <circle cx="1371" cy="432" r="17" fill="#ffd58f" opacity=".85"/>
+      <path d="M1330 492l42-35 32 26 31-39 53 48v24h-158z" fill="#29413e" opacity=".78"/>
+      <rect x="1346" y="469" width="126" height="28" rx="14" fill="#171816" fill-opacity=".75"/>
+      <text x="1409" y="488" text-anchor="middle" fill="#fff6e8" font-size="12" font-weight="850">WAYLAND SURFACE</text>
+    </g>
+
+    <g>
+      <rect x="702" y="553" width="118" height="42" rx="21" fill="#2a251e" stroke="#85633b"/>
+      <circle cx="729" cy="574" r="7" fill="#efb45f"/>
+      <text x="749" y="580" fill="#f5dec0" font-size="15" font-weight="750">IMAGE</text>
+      <rect x="834" y="553" width="118" height="42" rx="21" fill="#2a251e" stroke="#85633b"/>
+      <circle cx="861" cy="574" r="7" fill="#df785c"/>
+      <text x="881" y="580" fill="#f5dec0" font-size="15" font-weight="750">VIDEO</text>
+      <rect x="966" y="553" width="118" height="42" rx="21" fill="#2a251e" stroke="#85633b"/>
+      <circle cx="993" cy="574" r="7" fill="#79aaa5"/>
+      <text x="1013" y="580" fill="#f5dec0" font-size="15" font-weight="750">COLOR</text>
+    </g>
+
+    <rect x="702" y="623" width="786" height="38" rx="19" fill="#163431" stroke="#43857d"/>
+    <text x="1095" y="648" text-anchor="middle" fill="#b6eee8" font-size="15" font-weight="800" letter-spacing="1.5">LIVE CHANGES · SAME RENDERER</text>
+
+    <text x="80" y="785" fill="#f0eadf" font-size="25" font-weight="720">Image · video · solid color · selected output</text>
+    <text x="80" y="825" fill="#99968e" font-size="18">The service keeps control, state, and rendering behind one boundary.</text>
+  </g>
+</svg>

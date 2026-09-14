@@ -1,0 +1,88 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_a67b241ca49f5f12ba0dcb4badd5ceac",
+    "kind": "update",
+    "connections": {
+      "projects": [
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ],
+      "display_projects": [
+        "doc_c20a72a1aab145e281e072087258ab88",
+        "doc_40b975bbf0a752d28c9b6ad51d28544a"
+      ]
+    },
+    "title": "Built Work Report System to preserve completed work",
+    "summary": "Created a command-line reporting tool that records what changed, why it changed, project context, commit statistics, and file or image references as searchable PostgreSQL records.",
+    "date": "2026-01-17",
+    "prominence": "high",
+    "external_url": "https://github.com/Ckrest/work-report",
+    "preview": {
+      "description": "Terminal output for Work Report #1 showing report metadata, summary, files, tags, technologies, and Git statistics.",
+      "fit": "cover",
+      "kind": "image",
+      "placement": "cards-and-detail",
+      "src": "media/work-report-cli.png",
+      "width": 1400,
+      "height": 1000
+    },
+    "tags": [
+      "Python",
+      "PostgreSQL",
+      "CLI",
+      "Documentation"
+    ],
+    "blocks": [
+      {
+        "body": "## Capture the work while it is still fresh\n\nWork Report turns a completed task into a structured record while its reasoning and evidence are still available. Each report keeps the project, title, summary, description, rationale, status, tags, technologies, and references to relevant files or images together instead of leaving that context scattered across terminal history and memory.\n\nCreating a report also records the current commit and derives its file and line statistics automatically.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart LR\n  Work[Completed work] --> Create[Create report]\n  Context[Description and reasoning] --> Create\n  Evidence[File and image references] --> Create\n  Git[Commit and diff stats] --> Create\n  Create --> History[(PostgreSQL history)]\n  History --> Recent[Recent reports]\n  History --> Search[Search by project or tag]\n  History --> Detail[Full report]",
+        "description": "Each report combines human context with repository facts, then makes the result available through recent, search, and detail commands.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Search structured work history\n\nThe command-line interface lists recent work, searches by project or validated tag, and expands one report into its full description, reasoning, evidence references, and Git statistics. A controlled vocabulary gives tags consistent names, making reports easier to find and reuse.",
+        "type": "text"
+      },
+      {
+        "description": "Terminal showing a structured Work Report with project details, description, reasoning, evidence references, tags, technologies, and Git statistics. A report detail view brings narrative, evidence references, tags, technologies, and Git statistics into one readable record.",
+        "kind": "image",
+        "presentation": "intrinsic",
+        "src": "media/work-report-cli.png",
+        "type": "image"
+      },
+      {
+        "body": "## Keep the source record separate from presentation\n\nA Work Report is the factual technical record of a task. It can preserve implementation detail and local evidence while portfolio presentation remains a separate editorial layer, keeping the source material useful without treating an internal report as finished public copy.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:b2be36d9dc346256790fd4caad5d2ae75716f6098f03037dc1bd32491d9272c6",
+        "byte_size": 500,
+        "animated": false
+      },
+      "media/work-report-cli.png": {
+        "kind": "image",
+        "media_type": "image/png",
+        "width": 1400,
+        "height": 1000,
+        "digest": "sha256:6a602c55a5e7441078816c1d7342ab09f3b93f37c0e1755d34671ad5a61511d2",
+        "byte_size": 118080,
+        "animated": false
+      }
+    }
+  }
+}

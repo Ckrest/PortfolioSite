@@ -1,0 +1,51 @@
+{
+  "schema": "portfolio-update@9",
+  "update": {
+    "key": "doc_8cfd107748445dcf8674dabc5865d0ff",
+    "kind": "update",
+    "connections": {
+      "display_projects": []
+    },
+    "title": "Reduced XFCE forks while moving to 4.20",
+    "summary": "Archived an unchanged clipboard-manager copy, rebased three focused panel patches onto XFCE 4.20, and retained the systemd-scope integration that still had no upstream equivalent.",
+    "date": "2026-01-17",
+    "prominence": "low",
+    "tags": [
+      "XFCE",
+      "Wayland",
+      "Systemd",
+      "Migration"
+    ],
+    "blocks": [
+      {
+        "body": "## Decide separately for each fork\n\nI audited three XFCE components before moving the desktop to the 4.20 line. The clipboard manager matched upstream, so I archived it. The panel still required three changes: fixed pixel sizes for individual panel items, a configurable show-desktop button width, and crash fixes for pointer events during plugin removal. I rebased those changes onto XFCE 4.20. The `libxfce4ui` fork stayed because its systemd-scoped launcher had no upstream equivalent.",
+        "type": "text"
+      },
+      {
+        "code": "flowchart TD\n  Audit[Audit each component] --> Difference{Local behavior still needed?}\n  Difference -->|No| Archive[Archive unchanged copy]\n  Difference -->|Focused patch set| Rebase[Rebase panel onto XFCE 4.20]\n  Difference -->|No upstream equivalent| Retain[Keep systemd integration fork]\n  Archive --> Verify[Verify migrated desktop session]\n  Rebase --> Verify\n  Retain --> Verify",
+        "description": "The migration disposition followed the actual delta of each component rather than one fleet-wide rule.",
+        "presentation": "content",
+        "sourceMode": "inline",
+        "type": "mermaid"
+      },
+      {
+        "body": "## Preserve the panel behavior on the new base\n\nThe custom panel loaded its complete plugin set and preserved the compact layout and 10-pixel show-desktop button after the rebase. The resulting maintenance boundary keeps only the deltas the desktop needs: three panel patches and one systemd integration fork.",
+        "type": "text"
+      }
+    ]
+  },
+  "media": {
+    "schema": "portfolio-site/media-metadata@2",
+    "items": {
+      "assets/icon.svg": {
+        "kind": "image",
+        "media_type": "image/svg+xml",
+        "width": 96,
+        "height": 96,
+        "digest": "sha256:ac82a71da9f70af1f58d1f67036d3463482f74271f420745633d70d6f4f72064",
+        "byte_size": 499,
+        "animated": false
+      }
+    }
+  }
+}

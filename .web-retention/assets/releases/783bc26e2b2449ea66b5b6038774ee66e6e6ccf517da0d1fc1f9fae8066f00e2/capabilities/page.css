@@ -1,0 +1,4 @@
+/* Capability header and navigation can evolve independently of update pages. */
+.capability-masthead .hero { max-width: 980px; }
+body[data-document-kind="capability"] .update-kicker { letter-spacing: .12em; }
+body[data-document-kind="capability"] .document-timeline { margin-top: 4rem; }
